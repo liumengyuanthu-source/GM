@@ -1,0 +1,2332 @@
+{
+  "meta": {
+    "version": "v1",
+    "scope": [
+      "General Mills",
+      "Häagen-Dazs",
+      "Wanchai Ferry"
+    ],
+    "excluded": [
+      "Blue Buffalo"
+    ],
+    "journeys": {
+      "Customer": 7,
+      "Employee": 7,
+      "Business Operation": 7
+    },
+    "persona_counts": {
+      "customer_brand_personas": 11,
+      "customer_shared_archetypes": 6,
+      "employee_roles": 11,
+      "business_process_owners": 9
+    },
+    "atomic_scenario_count": 54
+  },
+  "stage_definitions": {
+    "Customer": [
+      {
+        "stage_id": "C1",
+        "name_en": "Need / Occasion Triggered",
+        "name_zh": "需求 / 场景被触发"
+      },
+      {
+        "stage_id": "C2",
+        "name_en": "Explore & Discover",
+        "name_zh": "探索与发现"
+      },
+      {
+        "stage_id": "C3",
+        "name_en": "Consider & Compare",
+        "name_zh": "考虑与比较"
+      },
+      {
+        "stage_id": "C4",
+        "name_en": "Buy & Receive",
+        "name_zh": "购买与收货"
+      },
+      {
+        "stage_id": "C5",
+        "name_en": "Prepare / Enjoy / Experience",
+        "name_zh": "准备、享用与体验"
+      },
+      {
+        "stage_id": "C6",
+        "name_en": "Share / Feedback / Support",
+        "name_zh": "分享、反馈与支持"
+      },
+      {
+        "stage_id": "C7",
+        "name_en": "Repeat & Advocate",
+        "name_zh": "复购与推荐"
+      }
+    ],
+    "Employee": [
+      {
+        "stage_id": "E1",
+        "name_en": "Business Question Raised",
+        "name_zh": "业务问题提出"
+      },
+      {
+        "stage_id": "E2",
+        "name_en": "Data & Knowledge Search",
+        "name_zh": "数据与知识检索"
+      },
+      {
+        "stage_id": "E3",
+        "name_en": "Insight & Hypothesis Generation",
+        "name_zh": "洞察与假设生成"
+      },
+      {
+        "stage_id": "E4",
+        "name_en": "Cross-functional Review",
+        "name_zh": "跨职能评审"
+      },
+      {
+        "stage_id": "E5",
+        "name_en": "Decision & Action Planning",
+        "name_zh": "决策与行动规划"
+      },
+      {
+        "stage_id": "E6",
+        "name_en": "Execution Support",
+        "name_zh": "执行支持"
+      },
+      {
+        "stage_id": "E7",
+        "name_en": "Learning & Knowledge Reuse",
+        "name_zh": "学习与知识复用"
+      }
+    ],
+    "Business Operation": [
+      {
+        "stage_id": "B1",
+        "name_en": "Demand & Market Signal Intake",
+        "name_zh": "需求与市场信号接入"
+      },
+      {
+        "stage_id": "B2",
+        "name_en": "Planning & Forecasting",
+        "name_zh": "规划与预测"
+      },
+      {
+        "stage_id": "B3",
+        "name_en": "Product / Campaign / Supply Decision",
+        "name_zh": "产品、活动与供应决策"
+      },
+      {
+        "stage_id": "B4",
+        "name_en": "Production / Inventory / Channel Execution",
+        "name_zh": "生产、库存与渠道执行"
+      },
+      {
+        "stage_id": "B5",
+        "name_en": "Sales / Fulfillment / Service Monitoring",
+        "name_zh": "销售、履约与服务监控"
+      },
+      {
+        "stage_id": "B6",
+        "name_en": "Performance & Risk Review",
+        "name_zh": "绩效与风险评审"
+      },
+      {
+        "stage_id": "B7",
+        "name_en": "Optimization & Closed-loop Improvement",
+        "name_zh": "优化与闭环改进"
+      }
+    ]
+  },
+  "personas": [
+    {
+      "persona_id": "HD-S1",
+      "name_en": "Urban Self-treat Consumer",
+      "name_zh": "都市自我犒赏型消费者",
+      "journey": "Customer",
+      "brand": "Häagen-Dazs",
+      "persona_type": "brand_persona",
+      "jtbd_zh": "在压力、下班、周末或情绪时刻获得高品质的小奖励",
+      "jtbd_en": "Enjoy a high-quality personal reward after work, on weekends or during emotional moments.",
+      "asset_id": "M2",
+      "asset_status": "approved",
+      "asset_web_path": "images/customer_personas/web_4x5/M2.webp",
+      "asset_thumb_path": "images/customer_personas/thumb_square/M2.webp"
+    },
+    {
+      "persona_id": "HD-S2",
+      "name_en": "Couple / Date Consumer",
+      "name_zh": "情侣 / 约会型消费者",
+      "journey": "Customer",
+      "brand": "Häagen-Dazs",
+      "persona_type": "brand_persona",
+      "jtbd_zh": "为约会、纪念日和共享时刻增加轻仪式感",
+      "jtbd_en": "Add a sense of occasion to dates, anniversaries and shared moments.",
+      "asset_id": "H2",
+      "asset_status": "approved",
+      "asset_web_path": "images/customer_personas/web_4x5/H2.webp",
+      "asset_thumb_path": "images/customer_personas/thumb_square/H2.webp"
+    },
+    {
+      "persona_id": "HD-S3",
+      "name_en": "Gifting / Festival Buyer",
+      "name_zh": "礼赠 / 节庆购买者",
+      "journey": "Customer",
+      "brand": "Häagen-Dazs",
+      "persona_type": "brand_persona",
+      "jtbd_zh": "选择体面、不出错、有情绪价值的礼物",
+      "jtbd_en": "Choose a presentable, safe and emotionally meaningful gift.",
+      "asset_id": "M3",
+      "asset_status": "approved",
+      "asset_web_path": "images/customer_personas/web_4x5/M3.webp",
+      "asset_thumb_path": "images/customer_personas/thumb_square/M3.webp"
+    },
+    {
+      "persona_id": "HD-S4",
+      "name_en": "Home Dessert Family User",
+      "name_zh": "居家甜品家庭分享者",
+      "journey": "Customer",
+      "brand": "Häagen-Dazs",
+      "persona_type": "brand_persona",
+      "jtbd_zh": "把高品质甜品带入家庭分享时刻",
+      "jtbd_en": "Bring a premium dessert into family-sharing moments at home.",
+      "asset_id": "H4",
+      "asset_status": "approved_regenerated",
+      "asset_web_path": "images/customer_personas/web_4x5/H4.webp",
+      "asset_thumb_path": "images/customer_personas/thumb_square/H4.webp"
+    },
+    {
+      "persona_id": "HD-S5",
+      "name_en": "Retail / Foodservice Buyer",
+      "name_zh": "零售 / 餐饮渠道客户",
+      "journey": "Customer",
+      "brand": "Häagen-Dazs",
+      "persona_type": "channel_persona",
+      "jtbd_zh": "优化产品组合、动销、毛利、周转和渠道适配",
+      "jtbd_en": "Optimize assortment, sell-through, margin, turnover and channel fit.",
+      "asset_id": "M6",
+      "asset_status": "approved",
+      "asset_web_path": "images/customer_personas/web_4x5/M6.webp",
+      "asset_thumb_path": "images/customer_personas/thumb_square/M6.webp"
+    },
+    {
+      "persona_id": "WF-S1",
+      "name_en": "Family Dinner Decision Maker",
+      "name_zh": "家庭晚餐决策者",
+      "journey": "Customer",
+      "brand": "Wanchai Ferry",
+      "persona_type": "brand_persona",
+      "jtbd_zh": "快速、安心地解决家人愿意吃的一顿晚餐",
+      "jtbd_en": "Put a quick, trusted dinner on the table that the family will accept.",
+      "asset_id": "WF-S1",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/WF-S1.png",
+      "asset_thumb_path": "images/generated_personas/WF-S1.png"
+    },
+    {
+      "persona_id": "WF-S2",
+      "name_en": "Young Solo / Small Household",
+      "name_zh": "年轻独居 / 小家庭",
+      "journey": "Customer",
+      "brand": "Wanchai Ferry",
+      "persona_type": "brand_persona",
+      "jtbd_zh": "不做复杂烹饪，也不想用低质量外卖将就",
+      "jtbd_en": "Avoid complex cooking without settling for low-quality takeaway.",
+      "asset_id": "WF-S2",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/WF-S2.png",
+      "asset_thumb_path": "images/generated_personas/WF-S2.png"
+    },
+    {
+      "persona_id": "WF-S3",
+      "name_en": "Customized Family Meal Needs",
+      "name_zh": "定制化家庭餐食需求",
+      "journey": "Customer",
+      "brand": "Wanchai Ferry",
+      "persona_type": "brand_persona",
+      "jtbd_zh": "为不同家庭成员安排可靠、快速、可调整的早餐、加餐或正餐选择",
+      "jtbd_en": "Plan reliable, quick and adjustable meals for different family members across breakfast, snacks and everyday meals.",
+      "asset_id": "WF-S3",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/WF-S3.png",
+      "asset_thumb_path": "images/generated_personas/WF-S3.png"
+    },
+    {
+      "persona_id": "WF-S4",
+      "name_en": "Seasonal Reunion Buyer",
+      "name_zh": "节令团圆购买者",
+      "journey": "Customer",
+      "brand": "Wanchai Ferry",
+      "persona_type": "brand_persona",
+      "jtbd_zh": "在冬至、春节、元宵等节点兼顾传统、便利与团圆感",
+      "jtbd_en": "Balance tradition, convenience and togetherness during seasonal occasions.",
+      "asset_id": "M3",
+      "asset_status": "approved",
+      "asset_web_path": "images/customer_personas/web_4x5/M3.webp",
+      "asset_thumb_path": "images/customer_personas/thumb_square/M3.webp"
+    },
+    {
+      "persona_id": "WF-S5",
+      "name_en": "Quality–Price Balance User",
+      "name_zh": "品质与性价比平衡型用户",
+      "journey": "Customer",
+      "brand": "Wanchai Ferry",
+      "persona_type": "brand_persona",
+      "jtbd_zh": "在品质、安全、份量与价格之间找到“值得”",
+      "jtbd_en": "Find the right balance of quality, safety, portion and price.",
+      "asset_id": "W5",
+      "asset_status": "approved_with_note",
+      "asset_web_path": "images/customer_personas/web_4x5/W5.webp",
+      "asset_thumb_path": "images/customer_personas/thumb_square/W5.webp"
+    },
+    {
+      "persona_id": "WF-S6",
+      "name_en": "Channel Customer",
+      "name_zh": "渠道客户",
+      "journey": "Customer",
+      "brand": "Wanchai Ferry",
+      "persona_type": "channel_persona",
+      "jtbd_zh": "优化货架、冷柜、补货、周转、毛利与执行一致性",
+      "jtbd_en": "Optimize shelf, freezer, replenishment, turnover, margin and execution consistency.",
+      "asset_id": "M6",
+      "asset_status": "approved",
+      "asset_web_path": "images/customer_personas/web_4x5/M6.webp",
+      "asset_thumb_path": "images/customer_personas/thumb_square/M6.webp"
+    },
+    {
+      "persona_id": "M1",
+      "name_en": "Family Meal Decision Maker",
+      "name_zh": "家庭餐桌决策者",
+      "journey": "Customer",
+      "brand": "General Mills / Wanchai Ferry",
+      "persona_type": "shared_archetype",
+      "jtbd_zh": "在时间、营养与家庭接受度之间完成日常餐食决策",
+      "jtbd_en": "Balance time, nutrition and family acceptance in everyday meal decisions.",
+      "asset_id": "M1",
+      "mapped_personas": [
+        "WF-S1"
+      ],
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/M1.png",
+      "asset_thumb_path": "images/generated_personas/M1.png"
+    },
+    {
+      "persona_id": "M2",
+      "name_en": "Urban Self-treat Consumer",
+      "name_zh": "都市自我犒赏型消费者",
+      "journey": "Customer",
+      "brand": "General Mills / Häagen-Dazs",
+      "persona_type": "shared_archetype",
+      "jtbd_zh": "用高品质产品获得即时情绪奖励",
+      "jtbd_en": "Use a premium product as an immediate emotional reward.",
+      "asset_id": "M2",
+      "mapped_personas": [
+        "HD-S1"
+      ],
+      "asset_status": "approved",
+      "asset_web_path": "images/customer_personas/web_4x5/M2.webp",
+      "asset_thumb_path": "images/customer_personas/thumb_square/M2.webp"
+    },
+    {
+      "persona_id": "M3",
+      "name_en": "Gifting & Seasonal Buyer",
+      "name_zh": "礼赠与节令购买者",
+      "journey": "Customer",
+      "brand": "General Mills / Both",
+      "persona_type": "shared_archetype",
+      "jtbd_zh": "在节日、关系与团聚时刻选择合适产品",
+      "jtbd_en": "Choose the right product for festivals, relationships and reunion moments.",
+      "asset_id": "M3",
+      "mapped_personas": [
+        "HD-S3",
+        "WF-S4"
+      ],
+      "asset_status": "approved",
+      "asset_web_path": "images/customer_personas/web_4x5/M3.webp",
+      "asset_thumb_path": "images/customer_personas/thumb_square/M3.webp"
+    },
+    {
+      "persona_id": "M4",
+      "name_en": "Young Solo / Small Household",
+      "name_zh": "年轻独居与小家庭",
+      "journey": "Customer",
+      "brand": "General Mills / Wanchai Ferry",
+      "persona_type": "shared_archetype",
+      "jtbd_zh": "用更少准备获得不将就的便利体验",
+      "jtbd_en": "Get a convenient but non-compromised experience with minimal preparation.",
+      "asset_id": "M4",
+      "mapped_personas": [
+        "WF-S2"
+      ],
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/M4.png",
+      "asset_thumb_path": "images/generated_personas/M4.png"
+    },
+    {
+      "persona_id": "M5",
+      "name_en": "Ingredient / Health-conscious Consumer",
+      "name_zh": "成分与健康关注者",
+      "journey": "Customer",
+      "brand": "General Mills / Both",
+      "persona_type": "shared_archetype",
+      "jtbd_zh": "看懂配料、营养与健康价值后再做选择",
+      "jtbd_en": "Understand ingredients, nutrition and health value before choosing.",
+      "asset_id": "M5",
+      "mapped_personas": [
+        "HD-S1",
+        "HD-S4",
+        "WF-S1",
+        "WF-S3",
+        "WF-S5"
+      ],
+      "asset_status": "approved_regenerated",
+      "asset_web_path": "images/customer_personas/web_4x5/M5.webp",
+      "asset_thumb_path": "images/customer_personas/thumb_square/M5.webp"
+    },
+    {
+      "persona_id": "M6",
+      "name_en": "Channel / Business Customer",
+      "name_zh": "渠道与 B2B 客户",
+      "journey": "Customer",
+      "brand": "General Mills / Both",
+      "persona_type": "shared_archetype",
+      "jtbd_zh": "用数据优化组合、库存、毛利与渠道执行",
+      "jtbd_en": "Use data to optimize assortment, inventory, margin and channel execution.",
+      "asset_id": "M6",
+      "mapped_personas": [
+        "HD-S5",
+        "WF-S6"
+      ],
+      "asset_status": "approved",
+      "asset_web_path": "images/customer_personas/web_4x5/M6.webp",
+      "asset_thumb_path": "images/customer_personas/thumb_square/M6.webp"
+    },
+    {
+      "persona_id": "EP1",
+      "name_en": "General Management / Business Sponsor",
+      "name_zh": "管理层 / 业务发起人",
+      "journey": "Employee",
+      "brand": "General Mills",
+      "persona_type": "employee_role",
+      "jtbd_en": "Define business priorities, sponsor decisions and unlock resources.",
+      "jtbd_zh": "明确业务优先级、推动决策并协调资源",
+      "asset_id": "EP1",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/EP1.png",
+      "asset_thumb_path": "images/generated_personas/EP1.png"
+    },
+    {
+      "persona_id": "EP2",
+      "name_en": "Consumer Insight Manager",
+      "name_zh": "消费者洞察经理",
+      "journey": "Employee",
+      "brand": "General Mills",
+      "persona_type": "employee_role",
+      "jtbd_en": "Turn fragmented consumer and market signals into actionable insight.",
+      "jtbd_zh": "将分散的消费者与市场信号转化为可行动洞察",
+      "asset_id": "EP2",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/EP2.png",
+      "asset_thumb_path": "images/generated_personas/EP2.png"
+    },
+    {
+      "persona_id": "EP3",
+      "name_en": "Brand / Marketing Manager",
+      "name_zh": "品牌 / 市场经理",
+      "journey": "Employee",
+      "brand": "General Mills",
+      "persona_type": "employee_role",
+      "jtbd_en": "Plan brand growth, campaigns, audiences and investment choices.",
+      "jtbd_zh": "规划品牌增长、活动、受众与投资选择",
+      "asset_id": "EP3",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/EP3.png",
+      "asset_thumb_path": "images/generated_personas/EP3.png"
+    },
+    {
+      "persona_id": "EP4",
+      "name_en": "Product Innovation / R&D Manager",
+      "name_zh": "产品创新 / 研发经理",
+      "journey": "Employee",
+      "brand": "General Mills",
+      "persona_type": "employee_role",
+      "jtbd_en": "Translate insight into product, flavor, formula and packaging innovation.",
+      "jtbd_zh": "把洞察转化为产品、口味、配方与包装创新",
+      "asset_id": "EP4",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/EP4.png",
+      "asset_thumb_path": "images/generated_personas/EP4.png"
+    },
+    {
+      "persona_id": "EP5",
+      "name_en": "E-commerce / CRM / Content Manager",
+      "name_zh": "电商 / CRM / 内容运营经理",
+      "journey": "Employee",
+      "brand": "General Mills",
+      "persona_type": "employee_role",
+      "jtbd_en": "Operate digital touchpoints, content, CRM and conversion journeys.",
+      "jtbd_zh": "运营数字触点、内容、CRM 与转化旅程",
+      "asset_id": "EP5",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/EP5.png",
+      "asset_thumb_path": "images/generated_personas/EP5.png"
+    },
+    {
+      "persona_id": "EP6",
+      "name_en": "Sales / KA / Trade / Merchandising Manager",
+      "name_zh": "销售 / 大客户 / 渠道 / 店头执行经理",
+      "journey": "Employee",
+      "brand": "General Mills",
+      "persona_type": "employee_role",
+      "jtbd_en": "Drive customer plans, assortment, promotion and retail execution.",
+      "jtbd_zh": "推动客户计划、商品组合、促销与店头执行",
+      "asset_id": "EP6",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/EP6.png",
+      "asset_thumb_path": "images/generated_personas/EP6.png"
+    },
+    {
+      "persona_id": "EP7",
+      "name_en": "Demand / Supply / Procurement Planner",
+      "name_zh": "需求 / 供应 / 采购计划人员",
+      "journey": "Employee",
+      "brand": "General Mills",
+      "persona_type": "employee_role",
+      "jtbd_en": "Balance demand, supply, materials, inventory and procurement.",
+      "jtbd_zh": "平衡需求、供应、原料、库存与采购",
+      "asset_id": "EP7",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/EP7.png",
+      "asset_thumb_path": "images/generated_personas/EP7.png"
+    },
+    {
+      "persona_id": "EP8",
+      "name_en": "Manufacturing / Quality / Logistics Manager",
+      "name_zh": "制造 / 质量 / 物流经理",
+      "journey": "Employee",
+      "brand": "General Mills",
+      "persona_type": "employee_role",
+      "jtbd_en": "Deliver stable production, quality, logistics and operational reliability.",
+      "jtbd_zh": "保障生产、质量、物流与运营稳定性",
+      "asset_id": "EP8",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/EP8.png",
+      "asset_thumb_path": "images/generated_personas/EP8.png"
+    },
+    {
+      "persona_id": "EP9",
+      "name_en": "Customer Service / Customer Operations",
+      "name_zh": "客服 / 客户运营团队",
+      "journey": "Employee",
+      "brand": "General Mills",
+      "persona_type": "employee_role",
+      "jtbd_en": "Resolve consumer questions, complaints and service issues efficiently.",
+      "jtbd_zh": "高效解决消费者咨询、投诉与服务问题",
+      "asset_id": "EP9",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/EP9.png",
+      "asset_thumb_path": "images/generated_personas/EP9.png"
+    },
+    {
+      "persona_id": "EP10",
+      "name_en": "Legal / Compliance / Finance / Internal Control",
+      "name_zh": "法务 / 合规 / 财务 / 内控团队",
+      "journey": "Employee",
+      "brand": "General Mills",
+      "persona_type": "employee_role",
+      "jtbd_en": "Protect brand, regulatory, financial and operating controls.",
+      "jtbd_zh": "保障品牌、法规、财务与经营控制",
+      "asset_id": "EP10",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/EP10.png",
+      "asset_thumb_path": "images/generated_personas/EP10.png"
+    },
+    {
+      "persona_id": "EP11",
+      "name_en": "AI / Data / IT Product Lead / PMO",
+      "name_zh": "AI / 数据 / IT 产品负责人 / PMO",
+      "journey": "Employee",
+      "brand": "General Mills",
+      "persona_type": "employee_role",
+      "jtbd_en": "Build reusable data, AI, agent and governance capabilities.",
+      "jtbd_zh": "建设可复用的数据、AI、Agent 与治理能力",
+      "asset_id": "EP11",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/EP11.png",
+      "asset_thumb_path": "images/generated_personas/EP11.png"
+    },
+    {
+      "persona_id": "BP1",
+      "name_en": "Consumer Insight / Market Intelligence",
+      "name_zh": "消费者洞察 / 市场情报",
+      "journey": "Business Operation",
+      "brand": "General Mills",
+      "persona_type": "process_owner",
+      "jtbd_en": "Capture and interpret market, consumer and competitor signals.",
+      "jtbd_zh": "接入并解释市场、消费者与竞品信号",
+      "asset_id": "BP1",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/BP1.png",
+      "asset_thumb_path": "images/generated_personas/BP1.png"
+    },
+    {
+      "persona_id": "BP2",
+      "name_en": "Brand / Marketing / Finance Planning",
+      "name_zh": "品牌 / 市场 / 财务规划",
+      "journey": "Business Operation",
+      "brand": "General Mills",
+      "persona_type": "process_owner",
+      "jtbd_en": "Allocate brand, campaign and investment resources.",
+      "jtbd_zh": "配置品牌、活动与投资资源",
+      "asset_id": "BP2",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/BP2.png",
+      "asset_thumb_path": "images/generated_personas/BP2.png"
+    },
+    {
+      "persona_id": "BP3",
+      "name_en": "R&D / Product Innovation",
+      "name_zh": "研发 / 产品创新",
+      "journey": "Business Operation",
+      "brand": "General Mills",
+      "persona_type": "process_owner",
+      "jtbd_en": "Convert opportunity into validated product and portfolio decisions.",
+      "jtbd_zh": "把机会转化为经过验证的产品与组合决策",
+      "asset_id": "BP3",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/BP3.png",
+      "asset_thumb_path": "images/generated_personas/BP3.png"
+    },
+    {
+      "persona_id": "BP4",
+      "name_en": "Demand / Supply / Procurement Planning",
+      "name_zh": "需求 / 供应 / 采购计划",
+      "journey": "Business Operation",
+      "brand": "General Mills",
+      "persona_type": "process_owner",
+      "jtbd_en": "Synchronize demand, supply, procurement and capacity plans.",
+      "jtbd_zh": "同步需求、供应、采购与产能计划",
+      "asset_id": "BP4",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/BP4.png",
+      "asset_thumb_path": "images/generated_personas/BP4.png"
+    },
+    {
+      "persona_id": "BP5",
+      "name_en": "Manufacturing / Quality",
+      "name_zh": "制造 / 质量",
+      "journey": "Business Operation",
+      "brand": "General Mills",
+      "persona_type": "process_owner",
+      "jtbd_en": "Execute production and protect quality and asset reliability.",
+      "jtbd_zh": "执行生产并保障质量与设备可靠性",
+      "asset_id": "BP5",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/BP5.png",
+      "asset_thumb_path": "images/generated_personas/BP5.png"
+    },
+    {
+      "persona_id": "BP6",
+      "name_en": "Warehouse / Logistics / Customer Operations",
+      "name_zh": "仓储 / 物流 / 客户运营",
+      "journey": "Business Operation",
+      "brand": "General Mills",
+      "persona_type": "process_owner",
+      "jtbd_en": "Manage inventory, fulfillment, cold chain and customer operations.",
+      "jtbd_zh": "管理库存、履约、冷链与客户运营",
+      "asset_id": "BP6",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/BP6.png",
+      "asset_thumb_path": "images/generated_personas/BP6.png"
+    },
+    {
+      "persona_id": "BP7",
+      "name_en": "Sales / KA / Trade / Retail Execution",
+      "name_zh": "销售 / KA / 渠道 / 零售执行",
+      "journey": "Business Operation",
+      "brand": "General Mills",
+      "persona_type": "process_owner",
+      "jtbd_en": "Drive sell-in, sell-out, trade plans and in-store execution.",
+      "jtbd_zh": "推动进货、动销、Trade 计划与店头执行",
+      "asset_id": "BP7",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/BP7.png",
+      "asset_thumb_path": "images/generated_personas/BP7.png"
+    },
+    {
+      "persona_id": "BP8",
+      "name_en": "Legal / Compliance / Internal Control",
+      "name_zh": "法务 / 合规 / 内控",
+      "journey": "Business Operation",
+      "brand": "General Mills",
+      "persona_type": "process_owner",
+      "jtbd_en": "Control regulatory, quality, brand and operating risks.",
+      "jtbd_zh": "控制法规、质量、品牌与经营风险",
+      "asset_id": "BP8",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/BP8.png",
+      "asset_thumb_path": "images/generated_personas/BP8.png"
+    },
+    {
+      "persona_id": "BP9",
+      "name_en": "Management / PMO / AI Team",
+      "name_zh": "管理层 / PMO / AI 团队",
+      "journey": "Business Operation",
+      "brand": "General Mills",
+      "persona_type": "process_owner",
+      "jtbd_en": "Govern value, priorities, portfolio reuse and scaling.",
+      "jtbd_zh": "治理价值、优先级、组合复用与规模化",
+      "asset_id": "BP9",
+      "asset_status": "approved_generated",
+      "asset_web_path": "images/generated_personas/BP9.png",
+      "asset_thumb_path": "images/generated_personas/BP9.png"
+    }
+  ],
+  "matrices": {
+    "customer": [
+      {
+        "persona_id": "HD-S1",
+        "name_en": "Urban Self-treat Consumer",
+        "name_zh": "都市自我犒赏型消费者",
+        "brand": "Häagen-Dazs",
+        "asset_thumb_path": "images/customer_personas/thumb_square/M2.webp",
+        "C1": "C1-01",
+        "C2": "C2-01, C2-03",
+        "C3": "C3-01",
+        "C4": "C4-01",
+        "C5": "C5-01",
+        "C6": "C6-01, C6-02",
+        "C7": "C7-01"
+      },
+      {
+        "persona_id": "HD-S2",
+        "name_en": "Couple / Date Consumer",
+        "name_zh": "情侣 / 约会型消费者",
+        "brand": "Häagen-Dazs",
+        "asset_thumb_path": "images/customer_personas/thumb_square/H2.webp",
+        "C1": "C1-02",
+        "C2": "C2-01, C2-03",
+        "C3": "C3-01",
+        "C4": "C4-01",
+        "C5": "C5-01",
+        "C6": "C6-01, C6-02",
+        "C7": "C7-01"
+      },
+      {
+        "persona_id": "HD-S3",
+        "name_en": "Gifting / Festival Buyer",
+        "name_zh": "礼赠 / 节庆购买者",
+        "brand": "Häagen-Dazs",
+        "asset_thumb_path": "images/customer_personas/thumb_square/M3.webp",
+        "C1": "C1-02, C1-04",
+        "C2": "C2-01, C2-03",
+        "C3": "C3-01",
+        "C4": "C4-01",
+        "C5": "",
+        "C6": "C6-01",
+        "C7": "C7-01"
+      },
+      {
+        "persona_id": "HD-S4",
+        "name_en": "Home Dessert Family User",
+        "name_zh": "居家甜品家庭分享者",
+        "brand": "Häagen-Dazs",
+        "asset_thumb_path": "images/customer_personas/thumb_square/H4.webp",
+        "C1": "",
+        "C2": "C2-01, C2-03",
+        "C3": "C3-01",
+        "C4": "C4-01",
+        "C5": "C5-01",
+        "C6": "C6-01, C6-02",
+        "C7": "C7-01"
+      },
+      {
+        "persona_id": "HD-S5",
+        "name_en": "Retail / Foodservice Buyer",
+        "name_zh": "零售 / 餐饮渠道客户",
+        "brand": "Häagen-Dazs",
+        "asset_thumb_path": "images/customer_personas/thumb_square/M6.webp",
+        "C1": "",
+        "C2": "",
+        "C3": "",
+        "C4": "C4-02",
+        "C5": "",
+        "C6": "",
+        "C7": ""
+      },
+      {
+        "persona_id": "WF-S1",
+        "name_en": "Family Dinner Decision Maker",
+        "name_zh": "家庭晚餐决策者",
+        "brand": "Wanchai Ferry",
+        "asset_thumb_path": "images/generated_personas/WF-S1.png",
+        "C1": "C1-03",
+        "C2": "C2-02, C2-03",
+        "C3": "C3-02",
+        "C4": "C4-01",
+        "C5": "C5-02",
+        "C6": "C6-01, C6-02",
+        "C7": "C7-02"
+      },
+      {
+        "persona_id": "WF-S2",
+        "name_en": "Young Solo / Small Household",
+        "name_zh": "年轻独居 / 小家庭",
+        "brand": "Wanchai Ferry",
+        "asset_thumb_path": "images/generated_personas/WF-S2.png",
+        "C1": "C1-03",
+        "C2": "C2-02, C2-03",
+        "C3": "C3-02",
+        "C4": "C4-01",
+        "C5": "C5-02",
+        "C6": "C6-01, C6-02",
+        "C7": "C7-02"
+      },
+      {
+        "persona_id": "WF-S3",
+        "name_en": "Customized Family Meal Needs",
+        "name_zh": "定制化家庭餐食需求",
+        "brand": "Wanchai Ferry",
+        "asset_thumb_path": "images/generated_personas/WF-S3.png",
+        "C1": "C1-03",
+        "C2": "C2-02, C2-03",
+        "C3": "C3-02, C3-03",
+        "C4": "C4-01",
+        "C5": "C5-02",
+        "C6": "C6-01, C6-02",
+        "C7": "C7-02"
+      },
+      {
+        "persona_id": "WF-S4",
+        "name_en": "Seasonal Reunion Buyer",
+        "name_zh": "节令团圆购买者",
+        "brand": "Wanchai Ferry",
+        "asset_thumb_path": "images/customer_personas/thumb_square/M3.webp",
+        "C1": "C1-04",
+        "C2": "C2-02, C2-03",
+        "C3": "C3-02",
+        "C4": "",
+        "C5": "C5-02",
+        "C6": "C6-01, C6-02",
+        "C7": "C7-02"
+      },
+      {
+        "persona_id": "WF-S5",
+        "name_en": "Quality–Price Balance User",
+        "name_zh": "品质与性价比平衡型用户",
+        "brand": "Wanchai Ferry",
+        "asset_thumb_path": "images/customer_personas/thumb_square/W5.webp",
+        "C1": "",
+        "C2": "C2-03",
+        "C3": "C3-02, C3-03",
+        "C4": "C4-02",
+        "C5": "",
+        "C6": "C6-01",
+        "C7": "C7-02"
+      },
+      {
+        "persona_id": "WF-S6",
+        "name_en": "Channel Customer",
+        "name_zh": "渠道客户",
+        "brand": "Wanchai Ferry",
+        "asset_thumb_path": "images/customer_personas/thumb_square/M6.webp",
+        "C1": "",
+        "C2": "",
+        "C3": "",
+        "C4": "C4-02",
+        "C5": "",
+        "C6": "",
+        "C7": ""
+      },
+      {
+        "persona_id": "M1",
+        "name_en": "Family Meal Decision Maker",
+        "name_zh": "家庭餐桌决策者",
+        "brand": "General Mills / Wanchai Ferry",
+        "asset_thumb_path": "images/generated_personas/M1.png",
+        "C1": "C1-03",
+        "C2": "C2-02, C2-03",
+        "C3": "C3-02",
+        "C4": "C4-01",
+        "C5": "C5-02",
+        "C6": "C6-01, C6-02",
+        "C7": "C7-02"
+      },
+      {
+        "persona_id": "M2",
+        "name_en": "Urban Self-treat Consumer",
+        "name_zh": "都市自我犒赏型消费者",
+        "brand": "General Mills / Häagen-Dazs",
+        "asset_thumb_path": "images/customer_personas/thumb_square/M2.webp",
+        "C1": "C1-01",
+        "C2": "C2-01, C2-03",
+        "C3": "C3-01",
+        "C4": "C4-01",
+        "C5": "C5-01",
+        "C6": "C6-01, C6-02",
+        "C7": "C7-01"
+      },
+      {
+        "persona_id": "M3",
+        "name_en": "Gifting & Seasonal Buyer",
+        "name_zh": "礼赠与节令购买者",
+        "brand": "General Mills / Both",
+        "asset_thumb_path": "images/customer_personas/thumb_square/M3.webp",
+        "C1": "C1-02, C1-04",
+        "C2": "C2-01, C2-02, C2-03",
+        "C3": "C3-01, C3-02",
+        "C4": "C4-01",
+        "C5": "C5-02",
+        "C6": "C6-01, C6-02",
+        "C7": "C7-01, C7-02"
+      },
+      {
+        "persona_id": "M4",
+        "name_en": "Young Solo / Small Household",
+        "name_zh": "年轻独居与小家庭",
+        "brand": "General Mills / Wanchai Ferry",
+        "asset_thumb_path": "images/generated_personas/M4.png",
+        "C1": "C1-03",
+        "C2": "C2-02, C2-03",
+        "C3": "C3-02",
+        "C4": "C4-01",
+        "C5": "C5-02",
+        "C6": "C6-01, C6-02",
+        "C7": "C7-02"
+      },
+      {
+        "persona_id": "M5",
+        "name_en": "Ingredient / Health-conscious Consumer",
+        "name_zh": "成分与健康关注者",
+        "brand": "General Mills / Both",
+        "asset_thumb_path": "images/customer_personas/thumb_square/M5.webp",
+        "C1": "C1-01, C1-03",
+        "C2": "C2-01, C2-02, C2-03",
+        "C3": "C3-01, C3-02, C3-03",
+        "C4": "C4-01, C4-02",
+        "C5": "C5-01, C5-02",
+        "C6": "C6-01, C6-02",
+        "C7": "C7-01, C7-02"
+      },
+      {
+        "persona_id": "M6",
+        "name_en": "Channel / Business Customer",
+        "name_zh": "渠道与 B2B 客户",
+        "brand": "General Mills / Both",
+        "asset_thumb_path": "images/customer_personas/thumb_square/M6.webp",
+        "C1": "",
+        "C2": "",
+        "C3": "",
+        "C4": "C4-02",
+        "C5": "",
+        "C6": "",
+        "C7": ""
+      }
+    ],
+    "employee": [
+      {
+        "persona_id": "EP1",
+        "name_en": "General Management / Business Sponsor",
+        "name_zh": "管理层 / 业务发起人",
+        "brand": "General Mills",
+        "asset_thumb_path": "images/generated_personas/EP1.png",
+        "E1": "E1-01",
+        "E2": "",
+        "E3": "",
+        "E4": "E4-01",
+        "E5": "",
+        "E6": "",
+        "E7": "E7-02"
+      },
+      {
+        "persona_id": "EP2",
+        "name_en": "Consumer Insight Manager",
+        "name_zh": "消费者洞察经理",
+        "brand": "General Mills",
+        "asset_thumb_path": "images/generated_personas/EP2.png",
+        "E1": "E1-02",
+        "E2": "E2-03",
+        "E3": "E3-01",
+        "E4": "E4-01",
+        "E5": "",
+        "E6": "",
+        "E7": "E7-01"
+      },
+      {
+        "persona_id": "EP3",
+        "name_en": "Brand / Marketing Manager",
+        "name_zh": "品牌 / 市场经理",
+        "brand": "General Mills",
+        "asset_thumb_path": "images/generated_personas/EP3.png",
+        "E1": "E1-01",
+        "E2": "E2-01",
+        "E3": "E3-02",
+        "E4": "E4-01, E4-02",
+        "E5": "E5-01",
+        "E6": "E6-01",
+        "E7": "E7-01"
+      },
+      {
+        "persona_id": "EP4",
+        "name_en": "Product Innovation / R&D Manager",
+        "name_zh": "产品创新 / 研发经理",
+        "brand": "General Mills",
+        "asset_thumb_path": "images/generated_personas/EP4.png",
+        "E1": "E1-02",
+        "E2": "E2-03",
+        "E3": "",
+        "E4": "E4-01, E4-02",
+        "E5": "",
+        "E6": "",
+        "E7": "E7-01"
+      },
+      {
+        "persona_id": "EP5",
+        "name_en": "E-commerce / CRM / Content Manager",
+        "name_zh": "电商 / CRM / 内容运营经理",
+        "brand": "General Mills",
+        "asset_thumb_path": "images/generated_personas/EP5.png",
+        "E1": "",
+        "E2": "E2-01",
+        "E3": "E3-02",
+        "E4": "",
+        "E5": "E5-01",
+        "E6": "E6-01",
+        "E7": "E7-01"
+      },
+      {
+        "persona_id": "EP6",
+        "name_en": "Sales / KA / Trade / Merchandising Manager",
+        "name_zh": "销售 / 大客户 / 渠道 / 店头执行经理",
+        "brand": "General Mills",
+        "asset_thumb_path": "images/generated_personas/EP6.png",
+        "E1": "E1-01",
+        "E2": "E2-02",
+        "E3": "",
+        "E4": "E4-01",
+        "E5": "E5-02",
+        "E6": "E6-02",
+        "E7": "E7-01"
+      },
+      {
+        "persona_id": "EP7",
+        "name_en": "Demand / Supply / Procurement Planner",
+        "name_zh": "需求 / 供应 / 采购计划人员",
+        "brand": "General Mills",
+        "asset_thumb_path": "images/generated_personas/EP7.png",
+        "E1": "E1-01",
+        "E2": "E2-02",
+        "E3": "E3-03",
+        "E4": "E4-01",
+        "E5": "E5-03",
+        "E6": "",
+        "E7": "E7-01"
+      },
+      {
+        "persona_id": "EP8",
+        "name_en": "Manufacturing / Quality / Logistics Manager",
+        "name_zh": "制造 / 质量 / 物流经理",
+        "brand": "General Mills",
+        "asset_thumb_path": "images/generated_personas/EP8.png",
+        "E1": "",
+        "E2": "",
+        "E3": "",
+        "E4": "E4-02",
+        "E5": "E5-03",
+        "E6": "E6-02",
+        "E7": "E7-01"
+      },
+      {
+        "persona_id": "EP9",
+        "name_en": "Customer Service / Customer Operations",
+        "name_zh": "客服 / 客户运营团队",
+        "brand": "General Mills",
+        "asset_thumb_path": "images/generated_personas/EP9.png",
+        "E1": "",
+        "E2": "",
+        "E3": "",
+        "E4": "",
+        "E5": "",
+        "E6": "E6-03",
+        "E7": ""
+      },
+      {
+        "persona_id": "EP10",
+        "name_en": "Legal / Compliance / Finance / Internal Control",
+        "name_zh": "法务 / 合规 / 财务 / 内控团队",
+        "brand": "General Mills",
+        "asset_thumb_path": "images/generated_personas/EP10.png",
+        "E1": "",
+        "E2": "",
+        "E3": "",
+        "E4": "E4-01, E4-02",
+        "E5": "E5-02",
+        "E6": "E6-01",
+        "E7": "E7-02"
+      },
+      {
+        "persona_id": "EP11",
+        "name_en": "AI / Data / IT Product Lead / PMO",
+        "name_zh": "AI / 数据 / IT 产品负责人 / PMO",
+        "brand": "General Mills",
+        "asset_thumb_path": "images/generated_personas/EP11.png",
+        "E1": "",
+        "E2": "E2-03",
+        "E3": "E3-03",
+        "E4": "",
+        "E5": "",
+        "E6": "",
+        "E7": "E7-01, E7-02"
+      }
+    ],
+    "business_operation": [
+      {
+        "persona_id": "BP1",
+        "name_en": "Consumer Insight / Market Intelligence",
+        "name_zh": "消费者洞察 / 市场情报",
+        "brand": "General Mills",
+        "asset_thumb_path": "images/generated_personas/BP1.png",
+        "B1": "B1-01",
+        "B2": "",
+        "B3": "B3-01",
+        "B4": "",
+        "B5": "",
+        "B6": "",
+        "B7": "B7-01"
+      },
+      {
+        "persona_id": "BP2",
+        "name_en": "Brand / Marketing / Finance Planning",
+        "name_zh": "品牌 / 市场 / 财务规划",
+        "brand": "General Mills",
+        "asset_thumb_path": "images/generated_personas/BP2.png",
+        "B1": "B1-01",
+        "B2": "B2-02",
+        "B3": "B3-02",
+        "B4": "",
+        "B5": "",
+        "B6": "B6-01, B6-03",
+        "B7": "B7-01"
+      },
+      {
+        "persona_id": "BP3",
+        "name_en": "R&D / Product Innovation",
+        "name_zh": "研发 / 产品创新",
+        "brand": "General Mills",
+        "asset_thumb_path": "images/generated_personas/BP3.png",
+        "B1": "",
+        "B2": "",
+        "B3": "B3-01",
+        "B4": "",
+        "B5": "",
+        "B6": "",
+        "B7": "B7-01"
+      },
+      {
+        "persona_id": "BP4",
+        "name_en": "Demand / Supply / Procurement Planning",
+        "name_zh": "需求 / 供应 / 采购计划",
+        "brand": "General Mills",
+        "asset_thumb_path": "images/generated_personas/BP4.png",
+        "B1": "",
+        "B2": "B2-01, B2-03",
+        "B3": "B3-03",
+        "B4": "B4-02",
+        "B5": "B5-02",
+        "B6": "B6-03",
+        "B7": "B7-01"
+      },
+      {
+        "persona_id": "BP5",
+        "name_en": "Manufacturing / Quality",
+        "name_zh": "制造 / 质量",
+        "brand": "General Mills",
+        "asset_thumb_path": "images/generated_personas/BP5.png",
+        "B1": "",
+        "B2": "B2-03",
+        "B3": "",
+        "B4": "B4-01",
+        "B5": "",
+        "B6": "B6-02",
+        "B7": "B7-01"
+      },
+      {
+        "persona_id": "BP6",
+        "name_en": "Warehouse / Logistics / Customer Operations",
+        "name_zh": "仓储 / 物流 / 客户运营",
+        "brand": "General Mills",
+        "asset_thumb_path": "images/generated_personas/BP6.png",
+        "B1": "",
+        "B2": "",
+        "B3": "",
+        "B4": "B4-02",
+        "B5": "B5-02",
+        "B6": "",
+        "B7": "B7-01"
+      },
+      {
+        "persona_id": "BP7",
+        "name_en": "Sales / KA / Trade / Retail Execution",
+        "name_zh": "销售 / KA / 渠道 / 零售执行",
+        "brand": "General Mills",
+        "asset_thumb_path": "images/generated_personas/BP7.png",
+        "B1": "B1-02",
+        "B2": "",
+        "B3": "B3-02, B3-03",
+        "B4": "B4-03",
+        "B5": "B5-01",
+        "B6": "B6-01",
+        "B7": "B7-01"
+      },
+      {
+        "persona_id": "BP8",
+        "name_en": "Legal / Compliance / Internal Control",
+        "name_zh": "法务 / 合规 / 内控",
+        "brand": "General Mills",
+        "asset_thumb_path": "images/generated_personas/BP8.png",
+        "B1": "",
+        "B2": "",
+        "B3": "",
+        "B4": "",
+        "B5": "",
+        "B6": "B6-02",
+        "B7": "B7-01"
+      },
+      {
+        "persona_id": "BP9",
+        "name_en": "Management / PMO / AI Team",
+        "name_zh": "管理层 / PMO / AI 团队",
+        "brand": "General Mills",
+        "asset_thumb_path": "images/generated_personas/BP9.png",
+        "B1": "",
+        "B2": "B2-02",
+        "B3": "",
+        "B4": "",
+        "B5": "B5-01",
+        "B6": "B6-01",
+        "B7": "B7-01, B7-02"
+      }
+    ]
+  },
+  "scenario_catalog": [
+    {
+      "scenario_id": "C1-01",
+      "journey": "Customer",
+      "stage_id": "C1",
+      "stage_name_en": "Need / Occasion Triggered",
+      "stage_name_zh": "需求 / 场景被触发",
+      "persona_ids": [
+        "HD-S1"
+      ],
+      "brand": "Häagen-Dazs",
+      "description_zh": "下班后、周末或压力时刻的哈根达斯自我犒赏需求",
+      "description_en": "After-work, weekend or stress moments trigger a Häagen-Dazs self-treat need."
+    },
+    {
+      "scenario_id": "C1-02",
+      "journey": "Customer",
+      "stage_id": "C1",
+      "stage_name_en": "Need / Occasion Triggered",
+      "stage_name_zh": "需求 / 场景被触发",
+      "persona_ids": [
+        "HD-S2",
+        "HD-S3"
+      ],
+      "brand": "Häagen-Dazs",
+      "description_zh": "生日、节日、纪念日、约会或拜访带来的礼赠 / 仪式需求",
+      "description_en": "Birthdays, festivals, anniversaries, dates or visits trigger gifting and occasion needs."
+    },
+    {
+      "scenario_id": "C1-03",
+      "journey": "Customer",
+      "stage_id": "C1",
+      "stage_name_en": "Need / Occasion Triggered",
+      "stage_name_zh": "需求 / 场景被触发",
+      "persona_ids": [
+        "WF-S1",
+        "WF-S2",
+        "WF-S3"
+      ],
+      "brand": "Wanchai Ferry",
+      "description_zh": "17:00 下班前后出现的家庭晚餐、快手餐或定制化家庭餐需求",
+      "description_en": "Around 5 pm, family dinner, quick-meal or customized family-meal needs emerge."
+    },
+    {
+      "scenario_id": "C1-04",
+      "journey": "Customer",
+      "stage_id": "C1",
+      "stage_name_en": "Need / Occasion Triggered",
+      "stage_name_zh": "需求 / 场景被触发",
+      "persona_ids": [
+        "HD-S3",
+        "WF-S4"
+      ],
+      "brand": "Both",
+      "description_zh": "冬至、春节、元宵、寒潮、节气等造成的季节性需求波峰",
+      "description_en": "Seasonal occasions and cold weather create demand peaks."
+    },
+    {
+      "scenario_id": "C2-01",
+      "journey": "Customer",
+      "stage_id": "C2",
+      "stage_name_en": "Explore & Discover",
+      "stage_name_zh": "探索与发现",
+      "persona_ids": [
+        "HD-S1",
+        "HD-S2",
+        "HD-S3",
+        "HD-S4"
+      ],
+      "brand": "Häagen-Dazs",
+      "description_zh": "探索口味、新品、限定、礼盒和家庭分享组合",
+      "description_en": "Explore flavors, new launches, limited editions, gift boxes and sharing combinations."
+    },
+    {
+      "scenario_id": "C2-02",
+      "journey": "Customer",
+      "stage_id": "C2",
+      "stage_name_en": "Explore & Discover",
+      "stage_name_zh": "探索与发现",
+      "persona_ids": [
+        "WF-S1",
+        "WF-S2",
+        "WF-S3",
+        "WF-S4"
+      ],
+      "brand": "Wanchai Ferry",
+      "description_zh": "寻找快手晚餐、早餐、夜宵、定制化家庭餐和节令菜单灵感",
+      "description_en": "Find quick dinner, breakfast, late-night, customized family-meal and seasonal menu inspiration."
+    },
+    {
+      "scenario_id": "C2-03",
+      "journey": "Customer",
+      "stage_id": "C2",
+      "stage_name_en": "Explore & Discover",
+      "stage_name_zh": "探索与发现",
+      "persona_ids": [
+        "HD-S1",
+        "HD-S2",
+        "HD-S3",
+        "HD-S4",
+        "WF-S1",
+        "WF-S2",
+        "WF-S3",
+        "WF-S4",
+        "WF-S5",
+        "M5"
+      ],
+      "brand": "Both",
+      "description_zh": "通过社媒、电商、搜索、AI 搜索和门店陈列发现品牌与产品内容",
+      "description_en": "Discover products through social, commerce, search, AI search and retail content."
+    },
+    {
+      "scenario_id": "C3-01",
+      "journey": "Customer",
+      "stage_id": "C3",
+      "stage_name_en": "Consider & Compare",
+      "stage_name_zh": "考虑与比较",
+      "persona_ids": [
+        "HD-S1",
+        "HD-S2",
+        "HD-S3",
+        "HD-S4"
+      ],
+      "brand": "Häagen-Dazs",
+      "description_zh": "比较礼盒、口味、规格、价格、场合适配与收礼对象偏好",
+      "description_en": "Compare gift boxes, flavors, sizes, price, occasion fit and recipient preference."
+    },
+    {
+      "scenario_id": "C3-02",
+      "journey": "Customer",
+      "stage_id": "C3",
+      "stage_name_en": "Consider & Compare",
+      "stage_name_zh": "考虑与比较",
+      "persona_ids": [
+        "WF-S1",
+        "WF-S2",
+        "WF-S3",
+        "WF-S4",
+        "WF-S5"
+      ],
+      "brand": "Wanchai Ferry",
+      "description_zh": "比较一人食、家庭装、定制化家庭餐、节令装的份量、价格和适用方式",
+      "description_en": "Compare solo, family, customized family and seasonal packs by portion, price and usage."
+    },
+    {
+      "scenario_id": "C3-03",
+      "journey": "Customer",
+      "stage_id": "C3",
+      "stage_name_en": "Consider & Compare",
+      "stage_name_zh": "考虑与比较",
+      "persona_ids": [
+        "M5",
+        "WF-S3",
+        "WF-S5"
+      ],
+      "brand": "Both",
+      "description_zh": "判断食材、糖、盐、营养、配料、过敏原与健康价值",
+      "description_en": "Assess ingredients, sugar, salt, nutrition, allergens and health value."
+    },
+    {
+      "scenario_id": "C4-01",
+      "journey": "Customer",
+      "stage_id": "C4",
+      "stage_name_en": "Buy & Receive",
+      "stage_name_zh": "购买与收货",
+      "persona_ids": [
+        "HD-S1",
+        "HD-S2",
+        "HD-S3",
+        "HD-S4",
+        "WF-S1",
+        "WF-S2",
+        "WF-S3"
+      ],
+      "brand": "Both",
+      "description_zh": "通过 O2O、电商或小程序即时购买、支付并完成配送 / 自提",
+      "description_en": "Purchase, pay and receive via O2O, e-commerce, mini-program, delivery or pickup."
+    },
+    {
+      "scenario_id": "C4-02",
+      "journey": "Customer",
+      "stage_id": "C4",
+      "stage_name_en": "Buy & Receive",
+      "stage_name_zh": "购买与收货",
+      "persona_ids": [
+        "HD-S5",
+        "WF-S5",
+        "WF-S6",
+        "M6"
+      ],
+      "brand": "Both",
+      "description_zh": "在商超、会员店、便利店、电商和餐饮渠道完成 SKU、价格与促销选择",
+      "description_en": "Choose SKU, price, promotion and inventory across retail and foodservice channels."
+    },
+    {
+      "scenario_id": "C5-01",
+      "journey": "Customer",
+      "stage_id": "C5",
+      "stage_name_en": "Prepare / Enjoy / Experience",
+      "stage_name_zh": "准备、享用与体验",
+      "persona_ids": [
+        "HD-S1",
+        "HD-S2",
+        "HD-S4"
+      ],
+      "brand": "Häagen-Dazs",
+      "description_zh": "家庭甜品、约会、自我犒赏、开盒与第一口的 premium experience",
+      "description_en": "Experience self-treat, date, home dessert sharing, unboxing and the first bite."
+    },
+    {
+      "scenario_id": "C5-02",
+      "journey": "Customer",
+      "stage_id": "C5",
+      "stage_name_en": "Prepare / Enjoy / Experience",
+      "stage_name_zh": "准备、享用与体验",
+      "persona_ids": [
+        "WF-S1",
+        "WF-S2",
+        "WF-S3",
+        "WF-S4"
+      ],
+      "brand": "Wanchai Ferry",
+      "description_zh": "水饺、馄饨、汤圆等煮、煎、蒸、空气炸锅的烹饪与食用体验",
+      "description_en": "Prepare and enjoy dumplings, wontons and tangyuan by boiling, frying, steaming or air-frying."
+    },
+    {
+      "scenario_id": "C6-01",
+      "journey": "Customer",
+      "stage_id": "C6",
+      "stage_name_en": "Share / Feedback / Support",
+      "stage_name_zh": "分享、反馈与支持",
+      "persona_ids": [
+        "HD-S1",
+        "HD-S2",
+        "HD-S3",
+        "HD-S4",
+        "WF-S1",
+        "WF-S2",
+        "WF-S3",
+        "WF-S4",
+        "WF-S5"
+      ],
+      "brand": "Both",
+      "description_zh": "通过社媒、电商评价、客服、投诉、门店反馈表达体验或寻求支持",
+      "description_en": "Express experience or seek support through reviews, service, complaints and store feedback."
+    },
+    {
+      "scenario_id": "C6-02",
+      "journey": "Customer",
+      "stage_id": "C6",
+      "stage_name_en": "Share / Feedback / Support",
+      "stage_name_zh": "分享、反馈与支持",
+      "persona_ids": [
+        "HD-S1",
+        "HD-S2",
+        "HD-S4",
+        "WF-S1",
+        "WF-S2",
+        "WF-S3",
+        "WF-S4"
+      ],
+      "brand": "Both",
+      "description_zh": "分享 UGC、甜品时刻、菜谱、烹饪方式和生活方式内容",
+      "description_en": "Share UGC, dessert moments, recipes, cooking methods and lifestyle content."
+    },
+    {
+      "scenario_id": "C7-01",
+      "journey": "Customer",
+      "stage_id": "C7",
+      "stage_name_en": "Repeat & Advocate",
+      "stage_name_zh": "复购与推荐",
+      "persona_ids": [
+        "HD-S1",
+        "HD-S2",
+        "HD-S3",
+        "HD-S4"
+      ],
+      "brand": "Häagen-Dazs",
+      "description_zh": "围绕下一个约会、节日、礼赠、聚会或自我犒赏进行场合型复购",
+      "description_en": "Repurchase around the next date, festival, gift, gathering or self-treat occasion."
+    },
+    {
+      "scenario_id": "C7-02",
+      "journey": "Customer",
+      "stage_id": "C7",
+      "stage_name_en": "Repeat & Advocate",
+      "stage_name_zh": "复购与推荐",
+      "persona_ids": [
+        "WF-S1",
+        "WF-S2",
+        "WF-S3",
+        "WF-S4",
+        "WF-S5"
+      ],
+      "brand": "Wanchai Ferry",
+      "description_zh": "围绕家庭消耗周期进行常备、补货、囤货、会员复购和推荐",
+      "description_en": "Replenish, stock up, repurchase and recommend around household consumption cycles."
+    },
+    {
+      "scenario_id": "E1-01",
+      "journey": "Employee",
+      "stage_id": "E1",
+      "stage_name_en": "Business Question Raised",
+      "stage_name_zh": "业务问题提出",
+      "persona_ids": [
+        "EP1",
+        "EP3",
+        "EP6",
+        "EP7"
+      ],
+      "brand": "General Mills",
+      "description_zh": "将增长、渠道、供应或风险问题从会议、邮件和报表中结构化",
+      "description_en": "Structure growth, channel, supply or risk questions from meetings, emails and reports."
+    },
+    {
+      "scenario_id": "E1-02",
+      "journey": "Employee",
+      "stage_id": "E1",
+      "stage_name_en": "Business Question Raised",
+      "stage_name_zh": "业务问题提出",
+      "persona_ids": [
+        "EP2",
+        "EP4"
+      ],
+      "brand": "General Mills",
+      "description_zh": "将新趋势、新需求和新反馈转化为统一的机会 intake 与 owner",
+      "description_en": "Turn trends, needs and feedback into a consistent opportunity intake with ownership."
+    },
+    {
+      "scenario_id": "E2-01",
+      "journey": "Employee",
+      "stage_id": "E2",
+      "stage_name_en": "Data & Knowledge Search",
+      "stage_name_zh": "数据与知识检索",
+      "persona_ids": [
+        "EP3",
+        "EP5"
+      ],
+      "brand": "General Mills",
+      "description_zh": "搜索历史 campaign、素材、效果、品牌规范和经验",
+      "description_en": "Search historical campaigns, assets, results, brand rules and lessons."
+    },
+    {
+      "scenario_id": "E2-02",
+      "journey": "Employee",
+      "stage_id": "E2",
+      "stage_name_en": "Data & Knowledge Search",
+      "stage_name_zh": "数据与知识检索",
+      "persona_ids": [
+        "EP6",
+        "EP7"
+      ],
+      "brand": "General Mills",
+      "description_zh": "汇集零售商、SKU、促销、库存、价格和渠道信息",
+      "description_en": "Gather retailer, SKU, promotion, inventory, price and channel information."
+    },
+    {
+      "scenario_id": "E2-03",
+      "journey": "Employee",
+      "stage_id": "E2",
+      "stage_name_en": "Data & Knowledge Search",
+      "stage_name_zh": "数据与知识检索",
+      "persona_ids": [
+        "EP2",
+        "EP4",
+        "EP11"
+      ],
+      "brand": "General Mills",
+      "description_zh": "统一查询研究、评论、消费者证据和概念测试结果",
+      "description_en": "Query research, reviews, consumer evidence and concept-test results in one place."
+    },
+    {
+      "scenario_id": "E3-01",
+      "journey": "Employee",
+      "stage_id": "E3",
+      "stage_name_en": "Insight & Hypothesis Generation",
+      "stage_name_zh": "洞察与假设生成",
+      "persona_ids": [
+        "EP2"
+      ],
+      "brand": "General Mills",
+      "description_zh": "汇总评论、社媒、调研和定量数据形成消费者洞察",
+      "description_en": "Synthesize reviews, social, research and quantitative data into insight."
+    },
+    {
+      "scenario_id": "E3-02",
+      "journey": "Employee",
+      "stage_id": "E3",
+      "stage_name_en": "Insight & Hypothesis Generation",
+      "stage_name_zh": "洞察与假设生成",
+      "persona_ids": [
+        "EP3",
+        "EP5"
+      ],
+      "brand": "General Mills",
+      "description_zh": "基于市场信号生成 campaign、内容和场景假设",
+      "description_en": "Generate campaign, content and occasion hypotheses from market signals."
+    },
+    {
+      "scenario_id": "E3-03",
+      "journey": "Employee",
+      "stage_id": "E3",
+      "stage_name_en": "Insight & Hypothesis Generation",
+      "stage_name_zh": "洞察与假设生成",
+      "persona_ids": [
+        "EP7",
+        "EP11"
+      ],
+      "brand": "General Mills",
+      "description_zh": "解释销量波动、预测偏差、缺货或积压原因",
+      "description_en": "Explain sales shifts, forecast error, stock-outs and excess inventory."
+    },
+    {
+      "scenario_id": "E4-01",
+      "journey": "Employee",
+      "stage_id": "E4",
+      "stage_name_en": "Cross-functional Review",
+      "stage_name_zh": "跨职能评审",
+      "persona_ids": [
+        "EP1",
+        "EP2",
+        "EP3",
+        "EP4",
+        "EP6",
+        "EP7",
+        "EP10"
+      ],
+      "brand": "General Mills",
+      "description_zh": "使用统一数据和指标完成跨职能联合评审",
+      "description_en": "Run cross-functional review with common data and metrics."
+    },
+    {
+      "scenario_id": "E4-02",
+      "journey": "Employee",
+      "stage_id": "E4",
+      "stage_name_en": "Cross-functional Review",
+      "stage_name_zh": "跨职能评审",
+      "persona_ids": [
+        "EP3",
+        "EP4",
+        "EP8",
+        "EP10"
+      ],
+      "brand": "General Mills",
+      "description_zh": "审核内容、产品声明、配方、包装、法规与品牌风险",
+      "description_en": "Review content, product claims, formulas, packaging, regulation and brand risk."
+    },
+    {
+      "scenario_id": "E5-01",
+      "journey": "Employee",
+      "stage_id": "E5",
+      "stage_name_en": "Decision & Action Planning",
+      "stage_name_zh": "决策与行动规划",
+      "persona_ids": [
+        "EP3",
+        "EP5"
+      ],
+      "brand": "General Mills",
+      "description_zh": "将决策拆解为 campaign、受众、内容、渠道和排期计划",
+      "description_en": "Translate decisions into campaign, audience, content, channel and schedule plans."
+    },
+    {
+      "scenario_id": "E5-02",
+      "journey": "Employee",
+      "stage_id": "E5",
+      "stage_name_en": "Decision & Action Planning",
+      "stage_name_zh": "决策与行动规划",
+      "persona_ids": [
+        "EP6",
+        "EP10"
+      ],
+      "brand": "General Mills",
+      "description_zh": "形成渠道策略、SKU 组合、促销、价格和客户行动计划",
+      "description_en": "Create channel strategy, SKU mix, promotion, pricing and customer action plans."
+    },
+    {
+      "scenario_id": "E5-03",
+      "journey": "Employee",
+      "stage_id": "E5",
+      "stage_name_en": "Decision & Action Planning",
+      "stage_name_zh": "决策与行动规划",
+      "persona_ids": [
+        "EP7",
+        "EP8"
+      ],
+      "brand": "General Mills",
+      "description_zh": "将预测转化为排产、采购、库存和补货动作",
+      "description_en": "Turn forecasts into production, procurement, inventory and replenishment actions."
+    },
+    {
+      "scenario_id": "E6-01",
+      "journey": "Employee",
+      "stage_id": "E6",
+      "stage_name_en": "Execution Support",
+      "stage_name_zh": "执行支持",
+      "persona_ids": [
+        "EP3",
+        "EP5",
+        "EP10"
+      ],
+      "brand": "General Mills",
+      "description_zh": "规模化生成和本地化内容，同时确保品牌与合规一致性",
+      "description_en": "Generate and localize content at scale while preserving brand and compliance."
+    },
+    {
+      "scenario_id": "E6-02",
+      "journey": "Employee",
+      "stage_id": "E6",
+      "stage_name_en": "Execution Support",
+      "stage_name_zh": "执行支持",
+      "persona_ids": [
+        "EP6",
+        "EP8"
+      ],
+      "brand": "General Mills",
+      "description_zh": "识别店头货架、陈列、缺货、价格和促销问题并整改",
+      "description_en": "Detect and correct shelf, display, stock-out, price and promotion issues."
+    },
+    {
+      "scenario_id": "E6-03",
+      "journey": "Employee",
+      "stage_id": "E6",
+      "stage_name_en": "Execution Support",
+      "stage_name_zh": "执行支持",
+      "persona_ids": [
+        "EP9"
+      ],
+      "brand": "General Mills",
+      "description_zh": "自动回答重复咨询、分类反馈并辅助客服处理",
+      "description_en": "Automate common answers, classify feedback and assist customer service."
+    },
+    {
+      "scenario_id": "E7-01",
+      "journey": "Employee",
+      "stage_id": "E7",
+      "stage_name_en": "Learning & Knowledge Reuse",
+      "stage_name_zh": "学习与知识复用",
+      "persona_ids": [
+        "EP2",
+        "EP3",
+        "EP4",
+        "EP5",
+        "EP6",
+        "EP7",
+        "EP8",
+        "EP11"
+      ],
+      "brand": "General Mills",
+      "description_zh": "将项目、campaign、预测和运营经验沉淀为知识与 Agent",
+      "description_en": "Convert project, campaign, forecast and operating lessons into reusable knowledge and agents."
+    },
+    {
+      "scenario_id": "E7-02",
+      "journey": "Employee",
+      "stage_id": "E7",
+      "stage_name_en": "Learning & Knowledge Reuse",
+      "stage_name_zh": "学习与知识复用",
+      "persona_ids": [
+        "EP1",
+        "EP10",
+        "EP11"
+      ],
+      "brand": "General Mills",
+      "description_zh": "统一管理 AI 用例的价值、风险、成熟度、资源与规模化状态",
+      "description_en": "Govern AI use-case value, risk, maturity, resources and scaling status."
+    },
+    {
+      "scenario_id": "B1-01",
+      "journey": "Business Operation",
+      "stage_id": "B1",
+      "stage_name_en": "Demand & Market Signal Intake",
+      "stage_name_zh": "需求与市场信号接入",
+      "persona_ids": [
+        "BP1",
+        "BP2"
+      ],
+      "brand": "General Mills",
+      "description_zh": "汇集社媒、电商、POS、天气、节日、竞品和消费者信号",
+      "description_en": "Ingest social, commerce, POS, weather, festival, competitor and consumer signals."
+    },
+    {
+      "scenario_id": "B1-02",
+      "journey": "Business Operation",
+      "stage_id": "B1",
+      "stage_name_en": "Demand & Market Signal Intake",
+      "stage_name_zh": "需求与市场信号接入",
+      "persona_ids": [
+        "BP7"
+      ],
+      "brand": "General Mills",
+      "description_zh": "接入零售商 sell-out、店头反馈、促销、库存与渠道信号",
+      "description_en": "Ingest retailer sell-out, store feedback, promotion, inventory and channel signals."
+    },
+    {
+      "scenario_id": "B2-01",
+      "journey": "Business Operation",
+      "stage_id": "B2",
+      "stage_name_en": "Planning & Forecasting",
+      "stage_name_zh": "规划与预测",
+      "persona_ids": [
+        "BP4"
+      ],
+      "brand": "General Mills",
+      "description_zh": "将节令、天气、促销和区域差异纳入需求预测",
+      "description_en": "Include seasonality, weather, promotion and regional differences in demand forecasting."
+    },
+    {
+      "scenario_id": "B2-02",
+      "journey": "Business Operation",
+      "stage_id": "B2",
+      "stage_name_en": "Planning & Forecasting",
+      "stage_name_zh": "规划与预测",
+      "persona_ids": [
+        "BP2",
+        "BP9"
+      ],
+      "brand": "General Mills",
+      "description_zh": "模拟活动预算、品牌投资和渠道资源分配方案",
+      "description_en": "Simulate campaign budget, brand investment and channel resource options."
+    },
+    {
+      "scenario_id": "B2-03",
+      "journey": "Business Operation",
+      "stage_id": "B2",
+      "stage_name_en": "Planning & Forecasting",
+      "stage_name_zh": "规划与预测",
+      "persona_ids": [
+        "BP4",
+        "BP5"
+      ],
+      "brand": "General Mills",
+      "description_zh": "联动需求、原料、采购、产能与生产计划",
+      "description_en": "Synchronize demand, materials, procurement, capacity and production planning."
+    },
+    {
+      "scenario_id": "B3-01",
+      "journey": "Business Operation",
+      "stage_id": "B3",
+      "stage_name_en": "Product / Campaign / Supply Decision",
+      "stage_name_zh": "产品、活动与供应决策",
+      "persona_ids": [
+        "BP3",
+        "BP1"
+      ],
+      "brand": "General Mills",
+      "description_zh": "进行新品、口味、包装和概念的 AI 消费者测试",
+      "description_en": "Run AI-enabled consumer testing for products, flavors, packaging and concepts."
+    },
+    {
+      "scenario_id": "B3-02",
+      "journey": "Business Operation",
+      "stage_id": "B3",
+      "stage_name_en": "Product / Campaign / Supply Decision",
+      "stage_name_zh": "产品、活动与供应决策",
+      "persona_ids": [
+        "BP2",
+        "BP7"
+      ],
+      "brand": "General Mills",
+      "description_zh": "比较活动、内容、受众、渠道和上市方案",
+      "description_en": "Compare campaign, content, audience, channel and launch options."
+    },
+    {
+      "scenario_id": "B3-03",
+      "journey": "Business Operation",
+      "stage_id": "B3",
+      "stage_name_en": "Product / Campaign / Supply Decision",
+      "stage_name_zh": "产品、活动与供应决策",
+      "persona_ids": [
+        "BP4",
+        "BP7"
+      ],
+      "brand": "General Mills",
+      "description_zh": "优化 SKU × 区域 × 渠道的供应与库存分配",
+      "description_en": "Optimize supply and inventory allocation by SKU, region and channel."
+    },
+    {
+      "scenario_id": "B4-01",
+      "journey": "Business Operation",
+      "stage_id": "B4",
+      "stage_name_en": "Production / Inventory / Channel Execution",
+      "stage_name_zh": "生产、库存与渠道执行",
+      "persona_ids": [
+        "BP5"
+      ],
+      "brand": "General Mills",
+      "description_zh": "用计算机视觉进行生产质量检测和异常识别",
+      "description_en": "Use computer vision for quality inspection and anomaly detection."
+    },
+    {
+      "scenario_id": "B4-02",
+      "journey": "Business Operation",
+      "stage_id": "B4",
+      "stage_name_en": "Production / Inventory / Channel Execution",
+      "stage_name_zh": "生产、库存与渠道执行",
+      "persona_ids": [
+        "BP4",
+        "BP6"
+      ],
+      "brand": "General Mills",
+      "description_zh": "根据需求、库存和节令变化生成补货与调拨建议",
+      "description_en": "Generate replenishment and transfer recommendations from demand, inventory and seasonality."
+    },
+    {
+      "scenario_id": "B4-03",
+      "journey": "Business Operation",
+      "stage_id": "B4",
+      "stage_name_en": "Production / Inventory / Channel Execution",
+      "stage_name_zh": "生产、库存与渠道执行",
+      "persona_ids": [
+        "BP7"
+      ],
+      "brand": "General Mills",
+      "description_zh": "监测货架、冷柜、陈列、价格和促销执行并整改",
+      "description_en": "Monitor shelf, freezer, display, price and promotion execution and close the loop."
+    },
+    {
+      "scenario_id": "B5-01",
+      "journey": "Business Operation",
+      "stage_id": "B5",
+      "stage_name_en": "Sales / Fulfillment / Service Monitoring",
+      "stage_name_zh": "销售、履约与服务监控",
+      "persona_ids": [
+        "BP7",
+        "BP9"
+      ],
+      "brand": "General Mills",
+      "description_zh": "实时发现销量、转化、渠道或区域异常并触发行动",
+      "description_en": "Detect sales, conversion, channel or regional anomalies and trigger action."
+    },
+    {
+      "scenario_id": "B5-02",
+      "journey": "Business Operation",
+      "stage_id": "B5",
+      "stage_name_en": "Sales / Fulfillment / Service Monitoring",
+      "stage_name_zh": "销售、履约与服务监控",
+      "persona_ids": [
+        "BP6",
+        "BP4"
+      ],
+      "brand": "General Mills",
+      "description_zh": "监控订单、配送、冷链、缺货、取消和履约异常",
+      "description_en": "Monitor orders, delivery, cold chain, stock-outs, cancellations and fulfillment issues."
+    },
+    {
+      "scenario_id": "B6-01",
+      "journey": "Business Operation",
+      "stage_id": "B6",
+      "stage_name_en": "Performance & Risk Review",
+      "stage_name_zh": "绩效与风险评审",
+      "persona_ids": [
+        "BP2",
+        "BP7",
+        "BP9"
+      ],
+      "brand": "General Mills",
+      "description_zh": "统一营销归因、活动 ROI、渠道投资和经营结果评审",
+      "description_en": "Align attribution, campaign ROI, channel investment and business result review."
+    },
+    {
+      "scenario_id": "B6-02",
+      "journey": "Business Operation",
+      "stage_id": "B6",
+      "stage_name_en": "Performance & Risk Review",
+      "stage_name_zh": "绩效与风险评审",
+      "persona_ids": [
+        "BP5",
+        "BP8"
+      ],
+      "brand": "General Mills",
+      "description_zh": "评审质量、内容、法规、品牌和经营风险",
+      "description_en": "Review quality, content, regulatory, brand and operating risks."
+    },
+    {
+      "scenario_id": "B6-03",
+      "journey": "Business Operation",
+      "stage_id": "B6",
+      "stage_name_en": "Performance & Risk Review",
+      "stage_name_zh": "绩效与风险评审",
+      "persona_ids": [
+        "BP4",
+        "BP2"
+      ],
+      "brand": "General Mills",
+      "description_zh": "分析原料价格、采购成本、供应商与供应风险",
+      "description_en": "Analyze material price, procurement cost, supplier and supply risks."
+    },
+    {
+      "scenario_id": "B7-01",
+      "journey": "Business Operation",
+      "stage_id": "B7",
+      "stage_name_en": "Optimization & Closed-loop Improvement",
+      "stage_name_zh": "优化与闭环改进",
+      "persona_ids": [
+        "BP1",
+        "BP2",
+        "BP3",
+        "BP4",
+        "BP5",
+        "BP6",
+        "BP7",
+        "BP8",
+        "BP9"
+      ],
+      "brand": "General Mills",
+      "description_zh": "将复盘结论回写模型、规则、流程、知识与下一轮计划",
+      "description_en": "Write lessons back into models, rules, processes, knowledge and the next plan."
+    },
+    {
+      "scenario_id": "B7-02",
+      "journey": "Business Operation",
+      "stage_id": "B7",
+      "stage_name_en": "Optimization & Closed-loop Improvement",
+      "stage_name_zh": "优化与闭环改进",
+      "persona_ids": [
+        "BP9"
+      ],
+      "brand": "General Mills",
+      "description_zh": "从点状 PoC 转向跨品牌 AI 组合、平台复用与规模化治理",
+      "description_en": "Move from isolated PoCs to cross-brand AI portfolios, platform reuse and scaled governance."
+    }
+  ],
+  "asset_manifest": [
+    {
+      "asset_id": "M1",
+      "asset_type": "approved_customer_photo",
+      "status": "approved",
+      "original_path": "images/customer_personas/original_png/M1_cozy_kitchen_moments_with_family.png",
+      "web_path": "images/customer_personas/web_4x5/M1.webp",
+      "thumb_path": "images/customer_personas/thumb_square/M1.webp",
+      "recommended_aspect_ratio": "4:5",
+      "notes": "Use object-fit: cover; use square thumbnail in persona strip and 4:5 image in workbench."
+    },
+    {
+      "asset_id": "M2",
+      "asset_type": "approved_customer_photo",
+      "status": "approved",
+      "original_path": "images/customer_personas/original_png/M2_relaxing_moment_by_the_window.png",
+      "web_path": "images/customer_personas/web_4x5/M2.webp",
+      "thumb_path": "images/customer_personas/thumb_square/M2.webp",
+      "recommended_aspect_ratio": "4:5",
+      "notes": "Use object-fit: cover; use square thumbnail in persona strip and 4:5 image in workbench."
+    },
+    {
+      "asset_id": "M3",
+      "asset_type": "approved_customer_photo",
+      "status": "approved",
+      "original_path": "images/customer_personas/original_png/M3_serene_holiday_gift_moment.png",
+      "web_path": "images/customer_personas/web_4x5/M3.webp",
+      "thumb_path": "images/customer_personas/thumb_square/M3.webp",
+      "recommended_aspect_ratio": "4:5",
+      "notes": "Use object-fit: cover; use square thumbnail in persona strip and 4:5 image in workbench."
+    },
+    {
+      "asset_id": "M4",
+      "asset_type": "approved_customer_photo",
+      "status": "temporary_approved",
+      "original_path": "images/customer_personas/original_png/M4_cozy_kitchen_with_salad_prep.png",
+      "web_path": "images/customer_personas/web_4x5/M4.webp",
+      "thumb_path": "images/customer_personas/thumb_square/M4.webp",
+      "recommended_aspect_ratio": "4:5",
+      "notes": "Use object-fit: cover; use square thumbnail in persona strip and 4:5 image in workbench."
+    },
+    {
+      "asset_id": "M5",
+      "asset_type": "approved_customer_photo",
+      "status": "approved_regenerated",
+      "original_path": "images/customer_personas/original_png/M5_healthy_choices_in_a_modern_kitchen.png",
+      "web_path": "images/customer_personas/web_4x5/M5.webp",
+      "thumb_path": "images/customer_personas/thumb_square/M5.webp",
+      "recommended_aspect_ratio": "4:5",
+      "notes": "Use object-fit: cover; use square thumbnail in persona strip and 4:5 image in workbench."
+    },
+    {
+      "asset_id": "M6",
+      "asset_type": "approved_customer_photo",
+      "status": "approved",
+      "original_path": "images/customer_personas/original_png/M6_modern_retail_professional_with_tablet.png",
+      "web_path": "images/customer_personas/web_4x5/M6.webp",
+      "thumb_path": "images/customer_personas/thumb_square/M6.webp",
+      "recommended_aspect_ratio": "4:5",
+      "notes": "Use object-fit: cover; use square thumbnail in persona strip and 4:5 image in workbench."
+    },
+    {
+      "asset_id": "H2",
+      "asset_type": "approved_customer_photo",
+      "status": "approved",
+      "original_path": "images/customer_personas/original_png/H2_cozy_evening_dessert_date.png",
+      "web_path": "images/customer_personas/web_4x5/H2.webp",
+      "thumb_path": "images/customer_personas/thumb_square/H2.webp",
+      "recommended_aspect_ratio": "4:5",
+      "notes": "Use object-fit: cover; use square thumbnail in persona strip and 4:5 image in workbench."
+    },
+    {
+      "asset_id": "H4",
+      "asset_type": "approved_customer_photo",
+      "status": "approved_regenerated",
+      "original_path": "images/customer_personas/original_png/H4_cozy_family_dessert_moment_at_home.png",
+      "web_path": "images/customer_personas/web_4x5/H4.webp",
+      "thumb_path": "images/customer_personas/thumb_square/H4.webp",
+      "recommended_aspect_ratio": "4:5",
+      "notes": "Use object-fit: cover; use square thumbnail in persona strip and 4:5 image in workbench."
+    },
+    {
+      "asset_id": "W3",
+      "asset_type": "approved_customer_photo",
+      "status": "approved",
+      "original_path": "images/customer_personas/original_png/W3_cozy_family_meal_at_the_table.png",
+      "web_path": "images/customer_personas/web_4x5/W3.webp",
+      "thumb_path": "images/customer_personas/thumb_square/W3.webp",
+      "recommended_aspect_ratio": "4:5",
+      "notes": "Use object-fit: cover; use square thumbnail in persona strip and 4:5 image in workbench."
+    },
+    {
+      "asset_id": "W5",
+      "asset_type": "approved_customer_photo",
+      "status": "approved_with_note",
+      "original_path": "images/customer_personas/original_png/W5_shopping_in_the_frozen_aisle.png",
+      "web_path": "images/customer_personas/web_4x5/W5.webp",
+      "thumb_path": "images/customer_personas/thumb_square/W5.webp",
+      "recommended_aspect_ratio": "4:5",
+      "notes": "Use object-fit: cover; use square thumbnail in persona strip and 4:5 image in workbench."
+    },
+    {
+      "asset_id": "EP1",
+      "asset_type": "employee_role_placeholder",
+      "status": "placeholder_ready",
+      "original_path": "images/employee_role_placeholders/EP1.png",
+      "web_path": "images/employee_role_placeholders/EP1.png",
+      "thumb_path": "images/employee_role_placeholders/EP1.png",
+      "recommended_aspect_ratio": "1:1",
+      "notes": "Temporary frosted role visual. Replace with final generated role/persona asset when available."
+    },
+    {
+      "asset_id": "EP2",
+      "asset_type": "employee_role_placeholder",
+      "status": "placeholder_ready",
+      "original_path": "images/employee_role_placeholders/EP2.png",
+      "web_path": "images/employee_role_placeholders/EP2.png",
+      "thumb_path": "images/employee_role_placeholders/EP2.png",
+      "recommended_aspect_ratio": "1:1",
+      "notes": "Temporary frosted role visual. Replace with final generated role/persona asset when available."
+    },
+    {
+      "asset_id": "EP3",
+      "asset_type": "employee_role_placeholder",
+      "status": "placeholder_ready",
+      "original_path": "images/employee_role_placeholders/EP3.png",
+      "web_path": "images/employee_role_placeholders/EP3.png",
+      "thumb_path": "images/employee_role_placeholders/EP3.png",
+      "recommended_aspect_ratio": "1:1",
+      "notes": "Temporary frosted role visual. Replace with final generated role/persona asset when available."
+    },
+    {
+      "asset_id": "EP4",
+      "asset_type": "employee_role_placeholder",
+      "status": "placeholder_ready",
+      "original_path": "images/employee_role_placeholders/EP4.png",
+      "web_path": "images/employee_role_placeholders/EP4.png",
+      "thumb_path": "images/employee_role_placeholders/EP4.png",
+      "recommended_aspect_ratio": "1:1",
+      "notes": "Temporary frosted role visual. Replace with final generated role/persona asset when available."
+    },
+    {
+      "asset_id": "EP5",
+      "asset_type": "employee_role_placeholder",
+      "status": "placeholder_ready",
+      "original_path": "images/employee_role_placeholders/EP5.png",
+      "web_path": "images/employee_role_placeholders/EP5.png",
+      "thumb_path": "images/employee_role_placeholders/EP5.png",
+      "recommended_aspect_ratio": "1:1",
+      "notes": "Temporary frosted role visual. Replace with final generated role/persona asset when available."
+    },
+    {
+      "asset_id": "EP6",
+      "asset_type": "employee_role_placeholder",
+      "status": "placeholder_ready",
+      "original_path": "images/employee_role_placeholders/EP6.png",
+      "web_path": "images/employee_role_placeholders/EP6.png",
+      "thumb_path": "images/employee_role_placeholders/EP6.png",
+      "recommended_aspect_ratio": "1:1",
+      "notes": "Temporary frosted role visual. Replace with final generated role/persona asset when available."
+    },
+    {
+      "asset_id": "EP7",
+      "asset_type": "employee_role_placeholder",
+      "status": "placeholder_ready",
+      "original_path": "images/employee_role_placeholders/EP7.png",
+      "web_path": "images/employee_role_placeholders/EP7.png",
+      "thumb_path": "images/employee_role_placeholders/EP7.png",
+      "recommended_aspect_ratio": "1:1",
+      "notes": "Temporary frosted role visual. Replace with final generated role/persona asset when available."
+    },
+    {
+      "asset_id": "EP8",
+      "asset_type": "employee_role_placeholder",
+      "status": "placeholder_ready",
+      "original_path": "images/employee_role_placeholders/EP8.png",
+      "web_path": "images/employee_role_placeholders/EP8.png",
+      "thumb_path": "images/employee_role_placeholders/EP8.png",
+      "recommended_aspect_ratio": "1:1",
+      "notes": "Temporary frosted role visual. Replace with final generated role/persona asset when available."
+    },
+    {
+      "asset_id": "EP9",
+      "asset_type": "employee_role_placeholder",
+      "status": "placeholder_ready",
+      "original_path": "images/employee_role_placeholders/EP9.png",
+      "web_path": "images/employee_role_placeholders/EP9.png",
+      "thumb_path": "images/employee_role_placeholders/EP9.png",
+      "recommended_aspect_ratio": "1:1",
+      "notes": "Temporary frosted role visual. Replace with final generated role/persona asset when available."
+    },
+    {
+      "asset_id": "EP10",
+      "asset_type": "employee_role_placeholder",
+      "status": "placeholder_ready",
+      "original_path": "images/employee_role_placeholders/EP10.png",
+      "web_path": "images/employee_role_placeholders/EP10.png",
+      "thumb_path": "images/employee_role_placeholders/EP10.png",
+      "recommended_aspect_ratio": "1:1",
+      "notes": "Temporary frosted role visual. Replace with final generated role/persona asset when available."
+    },
+    {
+      "asset_id": "EP11",
+      "asset_type": "employee_role_placeholder",
+      "status": "placeholder_ready",
+      "original_path": "images/employee_role_placeholders/EP11.png",
+      "web_path": "images/employee_role_placeholders/EP11.png",
+      "thumb_path": "images/employee_role_placeholders/EP11.png",
+      "recommended_aspect_ratio": "1:1",
+      "notes": "Temporary frosted role visual. Replace with final generated role/persona asset when available."
+    },
+    {
+      "asset_id": "BP1",
+      "asset_type": "business_owner_placeholder",
+      "status": "placeholder_ready",
+      "original_path": "images/business_owner_placeholders/BP1.png",
+      "web_path": "images/business_owner_placeholders/BP1.png",
+      "thumb_path": "images/business_owner_placeholders/BP1.png",
+      "recommended_aspect_ratio": "1:1",
+      "notes": "Temporary frosted process-owner visual. Replace with final generated role/persona asset when available."
+    },
+    {
+      "asset_id": "BP2",
+      "asset_type": "business_owner_placeholder",
+      "status": "placeholder_ready",
+      "original_path": "images/business_owner_placeholders/BP2.png",
+      "web_path": "images/business_owner_placeholders/BP2.png",
+      "thumb_path": "images/business_owner_placeholders/BP2.png",
+      "recommended_aspect_ratio": "1:1",
+      "notes": "Temporary frosted process-owner visual. Replace with final generated role/persona asset when available."
+    },
+    {
+      "asset_id": "BP3",
+      "asset_type": "business_owner_placeholder",
+      "status": "placeholder_ready",
+      "original_path": "images/business_owner_placeholders/BP3.png",
+      "web_path": "images/business_owner_placeholders/BP3.png",
+      "thumb_path": "images/business_owner_placeholders/BP3.png",
+      "recommended_aspect_ratio": "1:1",
+      "notes": "Temporary frosted process-owner visual. Replace with final generated role/persona asset when available."
+    },
+    {
+      "asset_id": "BP4",
+      "asset_type": "business_owner_placeholder",
+      "status": "placeholder_ready",
+      "original_path": "images/business_owner_placeholders/BP4.png",
+      "web_path": "images/business_owner_placeholders/BP4.png",
+      "thumb_path": "images/business_owner_placeholders/BP4.png",
+      "recommended_aspect_ratio": "1:1",
+      "notes": "Temporary frosted process-owner visual. Replace with final generated role/persona asset when available."
+    },
+    {
+      "asset_id": "BP5",
+      "asset_type": "business_owner_placeholder",
+      "status": "placeholder_ready",
+      "original_path": "images/business_owner_placeholders/BP5.png",
+      "web_path": "images/business_owner_placeholders/BP5.png",
+      "thumb_path": "images/business_owner_placeholders/BP5.png",
+      "recommended_aspect_ratio": "1:1",
+      "notes": "Temporary frosted process-owner visual. Replace with final generated role/persona asset when available."
+    },
+    {
+      "asset_id": "BP6",
+      "asset_type": "business_owner_placeholder",
+      "status": "placeholder_ready",
+      "original_path": "images/business_owner_placeholders/BP6.png",
+      "web_path": "images/business_owner_placeholders/BP6.png",
+      "thumb_path": "images/business_owner_placeholders/BP6.png",
+      "recommended_aspect_ratio": "1:1",
+      "notes": "Temporary frosted process-owner visual. Replace with final generated role/persona asset when available."
+    },
+    {
+      "asset_id": "BP7",
+      "asset_type": "business_owner_placeholder",
+      "status": "placeholder_ready",
+      "original_path": "images/business_owner_placeholders/BP7.png",
+      "web_path": "images/business_owner_placeholders/BP7.png",
+      "thumb_path": "images/business_owner_placeholders/BP7.png",
+      "recommended_aspect_ratio": "1:1",
+      "notes": "Temporary frosted process-owner visual. Replace with final generated role/persona asset when available."
+    },
+    {
+      "asset_id": "BP8",
+      "asset_type": "business_owner_placeholder",
+      "status": "placeholder_ready",
+      "original_path": "images/business_owner_placeholders/BP8.png",
+      "web_path": "images/business_owner_placeholders/BP8.png",
+      "thumb_path": "images/business_owner_placeholders/BP8.png",
+      "recommended_aspect_ratio": "1:1",
+      "notes": "Temporary frosted process-owner visual. Replace with final generated role/persona asset when available."
+    },
+    {
+      "asset_id": "BP9",
+      "asset_type": "business_owner_placeholder",
+      "status": "placeholder_ready",
+      "original_path": "images/business_owner_placeholders/BP9.png",
+      "web_path": "images/business_owner_placeholders/BP9.png",
+      "thumb_path": "images/business_owner_placeholders/BP9.png",
+      "recommended_aspect_ratio": "1:1",
+      "notes": "Temporary frosted process-owner visual. Replace with final generated role/persona asset when available."
+    }
+  ]
+}

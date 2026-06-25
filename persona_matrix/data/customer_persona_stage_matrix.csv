@@ -1,0 +1,18 @@
+﻿persona_id,name_en,name_zh,brand,asset_thumb_path,C1,C2,C3,C4,C5,C6,C7
+HD-S1,Urban Self-treat Consumer,都市自我犒赏型消费者,Häagen-Dazs,images/customer_personas/thumb_square/M2.webp,C1-01,"C2-01, C2-03",C3-01,C4-01,C5-01,"C6-01, C6-02",C7-01
+HD-S2,Couple / Date Consumer,情侣 / 约会型消费者,Häagen-Dazs,images/customer_personas/thumb_square/H2.webp,C1-02,"C2-01, C2-03",C3-01,C4-01,C5-01,"C6-01, C6-02",C7-01
+HD-S3,Gifting / Festival Buyer,礼赠 / 节庆购买者,Häagen-Dazs,images/customer_personas/thumb_square/M3.webp,"C1-02, C1-04","C2-01, C2-03",C3-01,C4-01,,C6-01,C7-01
+HD-S4,Home Dessert Family User,居家甜品家庭分享者,Häagen-Dazs,images/customer_personas/thumb_square/H4.webp,,"C2-01, C2-03",C3-01,C4-01,C5-01,"C6-01, C6-02",C7-01
+HD-S5,Retail / Foodservice Buyer,零售 / 餐饮渠道客户,Häagen-Dazs,images/customer_personas/thumb_square/M6.webp,,,,C4-02,,,
+WF-S1,Family Dinner Decision Maker,家庭晚餐决策者,Wanchai Ferry,images/customer_personas/thumb_square/M1.webp,C1-03,"C2-02, C2-03",C3-02,C4-01,C5-02,"C6-01, C6-02",C7-02
+WF-S2,Young Solo / Small Household,年轻独居 / 小家庭,Wanchai Ferry,images/customer_personas/thumb_square/M4.webp,C1-03,"C2-02, C2-03",C3-02,C4-01,C5-02,"C6-01, C6-02",C7-02
+WF-S3,Families with Children,有儿童的家庭,Wanchai Ferry,images/customer_personas/thumb_square/W3.webp,C1-03,"C2-02, C2-03","C3-02, C3-03",C4-01,C5-02,"C6-01, C6-02",C7-02
+WF-S4,Seasonal Reunion Buyer,节令团圆购买者,Wanchai Ferry,images/customer_personas/thumb_square/M3.webp,C1-04,"C2-02, C2-03",C3-02,,C5-02,"C6-01, C6-02",C7-02
+WF-S5,Quality–Price Balance User,品质与性价比平衡型用户,Wanchai Ferry,images/customer_personas/thumb_square/W5.webp,,C2-03,"C3-02, C3-03",C4-02,,C6-01,C7-02
+WF-S6,Channel Customer,渠道客户,Wanchai Ferry,images/customer_personas/thumb_square/M6.webp,,,,C4-02,,,
+M1,Family Meal Decision Maker,家庭餐桌决策者,General Mills / Wanchai Ferry,images/customer_personas/thumb_square/M1.webp,C1-03,"C2-02, C2-03",C3-02,C4-01,C5-02,"C6-01, C6-02",C7-02
+M2,Urban Self-treat Consumer,都市自我犒赏型消费者,General Mills / Häagen-Dazs,images/customer_personas/thumb_square/M2.webp,C1-01,"C2-01, C2-03",C3-01,C4-01,C5-01,"C6-01, C6-02",C7-01
+M3,Gifting & Seasonal Buyer,礼赠与节令购买者,General Mills / Both,images/customer_personas/thumb_square/M3.webp,"C1-02, C1-04","C2-01, C2-02, C2-03","C3-01, C3-02",C4-01,C5-02,"C6-01, C6-02","C7-01, C7-02"
+M4,Young Solo / Small Household,年轻独居与小家庭,General Mills / Wanchai Ferry,images/customer_personas/thumb_square/M4.webp,C1-03,"C2-02, C2-03",C3-02,C4-01,C5-02,"C6-01, C6-02",C7-02
+M5,Ingredient / Health-conscious Consumer,成分与健康关注者,General Mills / Both,images/customer_personas/thumb_square/M5.webp,"C1-01, C1-03","C2-01, C2-02, C2-03","C3-01, C3-02, C3-03","C4-01, C4-02","C5-01, C5-02","C6-01, C6-02","C7-01, C7-02"
+M6,Channel / Business Customer,渠道与 B2B 客户,General Mills / Both,images/customer_personas/thumb_square/M6.webp,,,,C4-02,,,

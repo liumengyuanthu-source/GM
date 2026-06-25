@@ -1,0 +1,67 @@
+{
+  "personaCard": {
+    "required_fields": [
+      "persona_id",
+      "name_zh",
+      "name_en",
+      "journey",
+      "brand",
+      "jtbd_zh",
+      "asset_thumb_path"
+    ],
+    "recommended_layout": "image | persona id | bilingual name | brand/journey tag | one-line JTBD",
+    "customer_image_ratio": "4:5",
+    "employee_business_placeholder_ratio": "1:1"
+  },
+  "personaMatrix": {
+    "row_key": "persona_id",
+    "stage_columns": {
+      "Customer": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6",
+        "C7"
+      ],
+      "Employee": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7"
+      ],
+      "Business Operation": [
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5",
+        "B6",
+        "B7"
+      ]
+    },
+    "cell_content": "comma-separated scenario IDs",
+    "cell_click": "filter persona_scenario_long_mapping.csv by persona_id + stage_id"
+  },
+  "assetFallback": {
+    "priority": [
+      "asset_web_path",
+      "asset_thumb_path",
+      "CSS gradient initials"
+    ],
+    "show_status_badge_in_client_ui": false,
+    "lazy_load": true,
+    "avoid_base64": true
+  },
+  "filters": [
+    "journey",
+    "brand",
+    "persona_type",
+    "stage_id",
+    "scenario_id"
+  ]
+}

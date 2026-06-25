@@ -1,0 +1,12 @@
+﻿persona_id,name_en,name_zh,brand,asset_thumb_path,E1,E2,E3,E4,E5,E6,E7
+EP1,General Management / Business Sponsor,管理层 / 业务发起人,General Mills,images/employee_role_placeholders/EP1.png,E1-01,,,E4-01,,,E7-02
+EP2,Consumer Insight Manager,消费者洞察经理,General Mills,images/employee_role_placeholders/EP2.png,E1-02,E2-03,E3-01,E4-01,,,E7-01
+EP3,Brand / Marketing Manager,品牌 / 市场经理,General Mills,images/employee_role_placeholders/EP3.png,E1-01,E2-01,E3-02,"E4-01, E4-02",E5-01,E6-01,E7-01
+EP4,Product Innovation / R&D Manager,产品创新 / 研发经理,General Mills,images/employee_role_placeholders/EP4.png,E1-02,E2-03,,"E4-01, E4-02",,,E7-01
+EP5,E-commerce / CRM / Content Manager,电商 / CRM / 内容运营经理,General Mills,images/employee_role_placeholders/EP5.png,,E2-01,E3-02,,E5-01,E6-01,E7-01
+EP6,Sales / KA / Trade / Merchandising Manager,销售 / 大客户 / 渠道 / 店头执行经理,General Mills,images/employee_role_placeholders/EP6.png,E1-01,E2-02,,E4-01,E5-02,E6-02,E7-01
+EP7,Demand / Supply / Procurement Planner,需求 / 供应 / 采购计划人员,General Mills,images/employee_role_placeholders/EP7.png,E1-01,E2-02,E3-03,E4-01,E5-03,,E7-01
+EP8,Manufacturing / Quality / Logistics Manager,制造 / 质量 / 物流经理,General Mills,images/employee_role_placeholders/EP8.png,,,,E4-02,E5-03,E6-02,E7-01
+EP9,Customer Service / Customer Operations,客服 / 客户运营团队,General Mills,images/employee_role_placeholders/EP9.png,,,,,,E6-03,
+EP10,Legal / Compliance / Finance / Internal Control,法务 / 合规 / 财务 / 内控团队,General Mills,images/employee_role_placeholders/EP10.png,,,,"E4-01, E4-02",E5-02,E6-01,E7-02
+EP11,AI / Data / IT Product Lead / PMO,AI / 数据 / IT 产品负责人 / PMO,General Mills,images/employee_role_placeholders/EP11.png,,E2-03,E3-03,,,,"E7-01, E7-02"

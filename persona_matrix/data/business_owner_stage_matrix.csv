@@ -1,0 +1,10 @@
+﻿persona_id,name_en,name_zh,brand,asset_thumb_path,B1,B2,B3,B4,B5,B6,B7
+BP1,Consumer Insight / Market Intelligence,消费者洞察 / 市场情报,General Mills,images/business_owner_placeholders/BP1.png,B1-01,,B3-01,,,,B7-01
+BP2,Brand / Marketing / Finance Planning,品牌 / 市场 / 财务规划,General Mills,images/business_owner_placeholders/BP2.png,B1-01,B2-02,B3-02,,,"B6-01, B6-03",B7-01
+BP3,R&D / Product Innovation,研发 / 产品创新,General Mills,images/business_owner_placeholders/BP3.png,,,B3-01,,,,B7-01
+BP4,Demand / Supply / Procurement Planning,需求 / 供应 / 采购计划,General Mills,images/business_owner_placeholders/BP4.png,,"B2-01, B2-03",B3-03,B4-02,B5-02,B6-03,B7-01
+BP5,Manufacturing / Quality,制造 / 质量,General Mills,images/business_owner_placeholders/BP5.png,,B2-03,,B4-01,,B6-02,B7-01
+BP6,Warehouse / Logistics / Customer Operations,仓储 / 物流 / 客户运营,General Mills,images/business_owner_placeholders/BP6.png,,,,B4-02,B5-02,,B7-01
+BP7,Sales / KA / Trade / Retail Execution,销售 / KA / 渠道 / 零售执行,General Mills,images/business_owner_placeholders/BP7.png,B1-02,,"B3-02, B3-03",B4-03,B5-01,B6-01,B7-01
+BP8,Legal / Compliance / Internal Control,法务 / 合规 / 内控,General Mills,images/business_owner_placeholders/BP8.png,,,,,,B6-02,B7-01
+BP9,Management / PMO / AI Team,管理层 / PMO / AI 团队,General Mills,images/business_owner_placeholders/BP9.png,,B2-02,,,B5-01,B6-01,"B7-01, B7-02"

@@ -1,0 +1,369 @@
+{
+  "source_html_zip": "/Users/christinaliu/Documents/GeneralMill/Progress/GM 0625 0900/Three_Journey_Navigator_full.zip",
+  "source_image_zip": "/Users/christinaliu/Documents/GeneralMill/Progress/归档 2.zip",
+  "cases_total": 44,
+  "case_images_written": 44,
+  "persona_images_written": 10,
+  "case_map": {
+    "GM-J8-001": {
+      "source_file": "jimeng-2026-06-25-9094-A corporate partnership visualization sh....png",
+      "source_prompt_prefix": "A corporate partnership visualization sh",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/GM-J8-001.jpg"
+    },
+    "GM-J8-002": {
+      "source_file": "jimeng-2026-06-25-6987-An abstract enterprise AI assistant chat....png",
+      "source_prompt_prefix": "An abstract enterprise AI assistant chat",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/GM-J8-002.jpg"
+    },
+    "GM-J8-003": {
+      "source_file": "jimeng-2026-06-25-2351-A demand forecasting dashboard with seas....png",
+      "source_prompt_prefix": "A demand forecasting dashboard with seas",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/GM-J8-003.jpg"
+    },
+    "HD-J4-004": {
+      "source_file": "jimeng-2026-06-25-8056-A premium ice cream retail and instant-d....png",
+      "source_prompt_prefix": "A premium ice cream retail and instant-d",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/HD-J4-004.jpg"
+    },
+    "HD-J2-005": {
+      "source_file": "jimeng-2026-06-25-2223-A new-product sales feedback dashboard w....png",
+      "source_prompt_prefix": "A new-product sales feedback dashboard w",
+      "score": 0.807,
+      "reason": "prompt match",
+      "target": "assets/cases/HD-J2-005.jpg"
+    },
+    "HD-J2-006": {
+      "source_file": "jimeng-2026-06-25-4778-A conversational AI gifting advisor inte....png",
+      "source_prompt_prefix": "A conversational AI gifting advisor inte",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/HD-J2-006.jpg"
+    },
+    "HD-J2-007": {
+      "source_file": "jimeng-2026-06-25-9532-A personalized recommendation and loyalt....png",
+      "source_prompt_prefix": "A personalized recommendation and loyalt",
+      "score": 0.79,
+      "reason": "prompt match",
+      "target": "assets/cases/HD-J2-007.jpg"
+    },
+    "WF-J4-008": {
+      "source_file": "jimeng-2026-06-25-7533-A warm modern Chinese family kitchen wit....png",
+      "source_prompt_prefix": "A warm modern Chinese family kitchen wit",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/WF-J4-008.jpg"
+    },
+    "WF-J7-009": {
+      "source_file": "jimeng-2026-06-25-8159-A frozen food market share comparison ch....png",
+      "source_prompt_prefix": "A frozen food market share comparison ch",
+      "score": 0.841,
+      "reason": "prompt match",
+      "target": "assets/cases/WF-J7-009.jpg"
+    },
+    "WF-J4-010": {
+      "source_file": "jimeng-2026-06-25-9994-A membership warehouse store aisle with ....png",
+      "source_prompt_prefix": "A membership warehouse store aisle with ",
+      "score": 0.776,
+      "reason": "prompt match",
+      "target": "assets/cases/WF-J4-010.jpg"
+    },
+    "GM-J1-011": {
+      "source_file": "jimeng-2026-06-25-7220-An instant-retail ecosystem diagram show....png",
+      "source_prompt_prefix": "An instant-retail ecosystem diagram show",
+      "score": 0.787,
+      "reason": "prompt match",
+      "target": "assets/cases/GM-J1-011.jpg"
+    },
+    "GM-J8-012": {
+      "source_file": "jimeng-2026-06-25-7015-A consumer trend radar with product conc....png",
+      "source_prompt_prefix": "A consumer trend radar with product conc",
+      "score": 0.787,
+      "reason": "prompt match",
+      "target": "assets/cases/GM-J8-012.jpg"
+    },
+    "GM-J3-013": {
+      "source_file": "jimeng-2026-06-25-7762-A retail shelf image-recognition view ne....png",
+      "source_prompt_prefix": "A retail shelf image-recognition view ne",
+      "score": 0.832,
+      "reason": "prompt match",
+      "target": "assets/cases/GM-J3-013.jpg"
+    },
+    "GM-J8-014": {
+      "source_file": "jimeng-2026-06-25-3043-An AI use-case prioritization matrix wit....png",
+      "source_prompt_prefix": "An AI use-case prioritization matrix wit",
+      "score": 0.821,
+      "reason": "prompt match",
+      "target": "assets/cases/GM-J8-014.jpg"
+    },
+    "HD-J5-016": {
+      "source_file": "jimeng-2026-06-25-6724-A context-aware recommendation concept s....png",
+      "source_prompt_prefix": "A context-aware recommendation concept s",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/HD-J5-016.jpg"
+    },
+    "HD-J3-017": {
+      "source_file": "jimeng-2026-06-25-2532-A premium ice cream multi-occasion colla....png",
+      "source_prompt_prefix": "A premium ice cream multi-occasion colla",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/HD-J3-017.jpg"
+    },
+    "WF-J3-018": {
+      "source_file": "jimeng-2026-06-25-5604-Chinese parent and child sharing a quick....png",
+      "source_prompt_prefix": "Chinese parent and child sharing a quick",
+      "score": 1.0,
+      "reason": "manual persona-corrected match",
+      "target": "assets/cases/WF-J3-018.jpg"
+    },
+    "WF-J1-019": {
+      "source_file": "jimeng-2026-06-25-5820-An AI dinner-planner UI with a 20-minute....png",
+      "source_prompt_prefix": "An AI dinner-planner UI with a 20-minute",
+      "score": 0.815,
+      "reason": "prompt match",
+      "target": "assets/cases/WF-J1-019.jpg"
+    },
+    "GM-J6-020": {
+      "source_file": "jimeng-2026-06-25-2434-A social-listening trend radar with flav....png",
+      "source_prompt_prefix": "A social-listening trend radar with flav",
+      "score": 0.93,
+      "reason": "prompt match",
+      "target": "assets/cases/GM-J6-020.jpg"
+    },
+    "HD-J3-021": {
+      "source_file": "jimeng-2026-06-25-9785-An AI gifting advisor UI with premium gi....png",
+      "source_prompt_prefix": "An AI gifting advisor UI with premium gi",
+      "score": 0.832,
+      "reason": "prompt match",
+      "target": "assets/cases/HD-J3-021.jpg"
+    },
+    "GM-J8-022": {
+      "source_file": "jimeng-2026-06-25-1000-An AI Center-of-Excellence operating mod....png",
+      "source_prompt_prefix": "An AI Center-of-Excellence operating mod",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/GM-J8-022.jpg"
+    },
+    "HD-J4-023": {
+      "source_file": "jimeng-2026-06-25-8838-A China localized cloud foundation archi....png",
+      "source_prompt_prefix": "A China localized cloud foundation archi",
+      "score": 0.832,
+      "reason": "prompt match",
+      "target": "assets/cases/HD-J4-023.jpg"
+    },
+    "WF-J7-024": {
+      "source_file": "jimeng-2026-06-25-4983-A festive family reunion table with dump....png",
+      "source_prompt_prefix": "A festive family reunion table with dump",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/WF-J7-024.jpg"
+    },
+    "GM-J8-025": {
+      "source_file": "jimeng-2026-06-25-2197-An enterprise generative-AI platform arc....png",
+      "source_prompt_prefix": "An enterprise generative-AI platform arc",
+      "score": 0.818,
+      "reason": "prompt match",
+      "target": "assets/cases/GM-J8-025.jpg"
+    },
+    "HD-J7-026": {
+      "source_file": "jimeng-2026-06-25-2411-A content-to-repurchase growth flywheel ....png",
+      "source_prompt_prefix": "A content-to-repurchase growth flywheel ",
+      "score": 0.809,
+      "reason": "prompt match",
+      "target": "assets/cases/HD-J7-026.jpg"
+    },
+    "WF-J8-027": {
+      "source_file": "jimeng-2026-06-25-1037-A cold-chain monitoring and traceability....png",
+      "source_prompt_prefix": "A cold-chain monitoring and traceability",
+      "score": 0.856,
+      "reason": "prompt match",
+      "target": "assets/cases/WF-J8-027.jpg"
+    },
+    "GM-J8-028": {
+      "source_file": "jimeng-2026-06-25-7427-An R&D foundation-model and unified cust....png",
+      "source_prompt_prefix": "An R&D foundation-model and unified cust",
+      "score": 0.812,
+      "reason": "prompt match",
+      "target": "assets/cases/GM-J8-028.jpg"
+    },
+    "GM-J3-029": {
+      "source_file": "jimeng-2026-06-25-6658-A retail super-agents diagram with shopp....png",
+      "source_prompt_prefix": "A retail super-agents diagram with shopp",
+      "score": 0.812,
+      "reason": "prompt match",
+      "target": "assets/cases/GM-J3-029.jpg"
+    },
+    "HD-J6-030": {
+      "source_file": "jimeng-2026-06-25-2954-A social sentiment (NSR) monitoring dash....png",
+      "source_prompt_prefix": "A social sentiment (NSR) monitoring dash",
+      "score": 0.819,
+      "reason": "prompt match",
+      "target": "assets/cases/HD-J6-030.jpg"
+    },
+    "WF-J4-031": {
+      "source_file": "jimeng-2026-06-25-9833-A forward-warehouse and 30-minute instan....png",
+      "source_prompt_prefix": "A forward-warehouse and 30-minute instan",
+      "score": 0.797,
+      "reason": "prompt match",
+      "target": "assets/cases/WF-J4-031.jpg"
+    },
+    "GM-J8-032": {
+      "source_file": "jimeng-2026-06-25-1895-A measurable AI use-case value dashboard....png",
+      "source_prompt_prefix": "A measurable AI use-case value dashboard",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/GM-J8-032.jpg"
+    },
+    "ADD-HD-002": {
+      "source_file": "jimeng-2026-06-25-5574-A modern Chinese family kitchen scene wi....png",
+      "source_prompt_prefix": "A modern Chinese family kitchen scene wi",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/ADD-HD-002.jpg"
+    },
+    "GMX-J2-NESTLE-OUTSET": {
+      "source_file": "jimeng-2026-06-25-5292-A clean AI research dashboard showing co....png",
+      "source_prompt_prefix": "A clean AI research dashboard showing co",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/GMX-J2-NESTLE-OUTSET.jpg"
+    },
+    "ADD-HD-004": {
+      "source_file": "jimeng-2026-06-25-6478-An abstract visualization of AI analyzin....png",
+      "source_prompt_prefix": "An abstract visualization of AI analyzin",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/ADD-HD-004.jpg"
+    },
+    "ADD-HD-005": {
+      "source_file": "jimeng-2026-06-25-9529-A futuristic Coca-Cola themed AI art ins....png",
+      "source_prompt_prefix": "A futuristic Coca-Cola themed AI art ins",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/ADD-HD-005.jpg"
+    },
+    "ADD-WF-001": {
+      "source_file": "jimeng-2026-06-25-8519-A modern food manufacturing facility wit....png",
+      "source_prompt_prefix": "A modern food manufacturing facility wit",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/ADD-WF-001.jpg"
+    },
+    "ADD-WF-003": {
+      "source_file": "jimeng-2026-06-25-9980-A user journey flowchart showing private....png",
+      "source_prompt_prefix": "A user journey flowchart showing private",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/ADD-WF-003.jpg"
+    },
+    "ADD-WF-004": {
+      "source_file": "jimeng-2026-06-25-8001-A corporate AI demand forecasting dashbo....png",
+      "source_prompt_prefix": "A corporate AI demand forecasting dashbo",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/ADD-WF-004.jpg"
+    },
+    "ADD-WF-005": {
+      "source_file": "jimeng-2026-06-25-8646-A supply chain collaboration diagram sho....png",
+      "source_prompt_prefix": "A supply chain collaboration diagram sho",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/ADD-WF-005.jpg"
+    },
+    "ADD-GM-003": {
+      "source_file": "jimeng-2026-06-25-7208-A corporate executive dashboard showing ....png",
+      "source_prompt_prefix": "A corporate executive dashboard showing ",
+      "score": 0.763,
+      "reason": "prompt match",
+      "target": "assets/cases/ADD-GM-003.jpg"
+    },
+    "ADD-GM-004": {
+      "source_file": "jimeng-2026-06-25-3997-A futuristic 3D digital twin of a food m....png",
+      "source_prompt_prefix": "A futuristic 3D digital twin of a food m",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/ADD-GM-004.jpg"
+    },
+    "ADD-GM-005": {
+      "source_file": "jimeng-2026-06-25-5703-A modern manufacturing facility with AI-....png",
+      "source_prompt_prefix": "A modern manufacturing facility with AI-",
+      "score": 0.763,
+      "reason": "prompt match",
+      "target": "assets/cases/ADD-GM-005.jpg"
+    },
+    "ADD-GM-006": {
+      "source_file": "jimeng-2026-06-25-4337-A corporate AI governance flowchart show....png",
+      "source_prompt_prefix": "A corporate AI governance flowchart show",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/ADD-GM-006.jpg"
+    },
+    "WF-J4-SYNEAR-MEITUAN": {
+      "source_file": "jimeng-2026-06-25-6532-A modern instant retail delivery scene w....png",
+      "source_prompt_prefix": "A modern instant retail delivery scene w",
+      "score": 0.771,
+      "reason": "prompt match",
+      "target": "assets/cases/WF-J4-SYNEAR-MEITUAN.jpg"
+    }
+  },
+  "persona_map": {
+    "relaxing_moment_by_the_window": {
+      "source_file": "jimeng-2026-06-25-1271-Young urban Chinese professional woman e....png",
+      "source_prompt_prefix": "Young urban Chinese professional woman e",
+      "target": "assets/relaxing_moment_by_the_window.jpg"
+    },
+    "cozy_evening_dessert_date": {
+      "source_file": "jimeng-2026-06-25-7438-Chinese couple sharing a small dessert d....png",
+      "source_prompt_prefix": "Chinese couple sharing a small dessert d",
+      "target": "assets/cozy_evening_dessert_date.jpg"
+    },
+    "serene_holiday_gift_moment": {
+      "source_file": "jimeng-2026-06-25-7172-Chinese consumer preparing a tasteful ge....png",
+      "source_prompt_prefix": "Chinese consumer preparing a tasteful ge",
+      "target": "assets/serene_holiday_gift_moment.jpg"
+    },
+    "cozy_family_dessert_moment_at_home": {
+      "source_file": "jimeng-2026-06-25-1032-Chinese family sharing dessert cups at h....png",
+      "source_prompt_prefix": "Chinese family sharing dessert cups at h",
+      "target": "assets/cozy_family_dessert_moment_at_home.jpg"
+    },
+    "cozy_kitchen_moments_with_family": {
+      "source_file": "jimeng-2026-06-25-1536-Busy Chinese parent serving a quick warm....png",
+      "source_prompt_prefix": "Busy Chinese parent serving a quick warm",
+      "target": "assets/cozy_kitchen_moments_with_family.jpg"
+    },
+    "cozy_kitchen_with_salad_prep": {
+      "source_file": "jimeng-2026-06-25-6739-Young Chinese adult eating a simple warm....png",
+      "source_prompt_prefix": "Young Chinese adult eating a simple warm",
+      "target": "assets/cozy_kitchen_with_salad_prep.jpg"
+    },
+    "cozy_family_meal_at_the_table": {
+      "source_file": "jimeng-2026-06-25-5604-Chinese parent and child sharing a quick....png",
+      "source_prompt_prefix": "Chinese parent and child sharing a quick",
+      "target": "assets/cozy_family_meal_at_the_table.jpg"
+    },
+    "healthy_choices_in_a_modern_kitchen": {
+      "source_file": "jimeng-2026-06-25-5574-A modern Chinese family kitchen scene wi....png",
+      "source_prompt_prefix": "A modern Chinese family kitchen scene wi",
+      "target": "assets/healthy_choices_in_a_modern_kitchen.jpg"
+    },
+    "shopping_in_the_frozen_aisle": {
+      "source_file": "jimeng-2026-06-25-9994-A membership warehouse store aisle with ....png",
+      "source_prompt_prefix": "A membership warehouse store aisle with ",
+      "target": "assets/shopping_in_the_frozen_aisle.jpg"
+    },
+    "seasonal_reunion_family_meal": {
+      "source_file": "jimeng-2026-06-25-8407-Multi-generation Chinese family gatherin....png",
+      "source_prompt_prefix": "Multi-generation Chinese family gatherin",
+      "target": "assets/seasonal_reunion_family_meal.jpg"
+    }
+  }
+}
