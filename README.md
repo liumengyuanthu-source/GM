@@ -4,13 +4,14 @@ This repository contains the static HTML demo for the General Mills AI scenario 
 
 ## Current Build
 
-- Version: v5 persona matrix build
+- Version: fixed3_3 interaction build with complete images
 - Entry file: `index.html`
 - Format: static HTML/CSS/JavaScript with local image assets
 
 ## What Is Included
 
 - Customer Journey, Employee Journey, and Business Operation Journey navigation
+- Journey map with zoom-focus drill-down interaction
 - Persona segment matrix with scenario detail panels
 - Benchmark case cards and NTT DATA capability references
 - Bilingual Chinese / English presentation experience
