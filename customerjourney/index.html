@@ -80,10 +80,11 @@ body{font-family:'Inter','Noto Sans SC',sans-serif;color:var(--ink);
 /* ===== JOURNEY RIBBON ===== */
 .journey{position:relative;padding:74px 0 50px}
 .ribbon{position:absolute;left:0;top:0;height:100%;width:100%;transform:none;
-  pointer-events:none;z-index:0}
+  pointer-events:none;z-index:4}
 .ribbon path{fill:none;stroke-width:3;stroke-linecap:round}
 .ribbon .track{stroke:rgba(110,90,140,.16);stroke-dasharray:4 14;opacity:.78}
 .ribbon .lit{stroke:url(#flow);stroke-width:4;stroke-dasharray:0 1;stroke-dashoffset:0;opacity:1;filter:drop-shadow(0 2px 9px rgba(150,120,190,.42));transition:stroke-dashoffset .08s linear}
+.ribbon .reveal-mask-path{display:none}
 .ribbon.inline-open .track{opacity:.36}
 .ribbon.inline-open .lit{opacity:1}
 
@@ -596,7 +597,7 @@ body.journey-zoom-mode .inline-drill .drill-panel-bench:not([hidden]){animation:
 <main class="journey">
   <svg class="ribbon" id="ribbon" preserveAspectRatio="none" aria-hidden="true">
     <defs>
-      <linearGradient id="flow" x1="0" y1="0" x2="0" y2="1"></linearGradient>
+      <linearGradient id="flow" x1="0" y1="0" x2="0" y2="1" gradientUnits="userSpaceOnUse"></linearGradient>
     </defs>
     <path class="track" id="track"/>
     <path class="lit" id="lit"/>
@@ -718,11 +719,18 @@ function renderStations(){
     inline.setAttribute('aria-live','polite');
     host.appendChild(inline);
   });
-  document.querySelectorAll('.station').forEach(s=>io.observe(s));
-  host.querySelectorAll('img').forEach(img=>{
-    if(!img.complete)img.addEventListener('load',()=>setTimeout(drawRibbon,30),{once:true});
+  document.querySelectorAll('.station').forEach(s=>{
+    io.observe(s);
+    s.addEventListener('transitionend',e=>{
+      if(e.propertyName==='transform')scheduleRibbonRefresh(0);
+    },{once:true});
   });
-  requestAnimationFrame(()=>{drawRibbon();});
+  host.querySelectorAll('img').forEach(img=>{
+    if(!img.complete)img.addEventListener('load',()=>scheduleRibbonRefresh(30),{once:true});
+  });
+  scheduleRibbonRefresh(0);
+  scheduleRibbonRefresh(120);
+  scheduleRibbonRefresh(320);
 }
 
 /* ---- DETAIL (fullscreen) ---- */
@@ -1263,11 +1271,17 @@ function setLang(l){LANG=l;
   render();}
 
 /* ---- RENDER ALL ---- */
-function render(){document.body.classList.remove('journey-zoom-mode');applyTheme(CUR);buildTabs();renderHero();renderNav();renderStations();}
+function render(){document.body.classList.remove('journey-zoom-mode');forceRibbonOnNextScroll=true;applyTheme(CUR);buildTabs();renderHero();renderNav();renderStations();}
 
 /* ---- scroll reveal + ribbon ---- */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.16});
 const host=()=>document.getElementById('stations');
+let forceRibbonOnNextScroll=true;
+function scheduleRibbonRefresh(delay=0){
+  setTimeout(()=>{
+    requestAnimationFrame(()=>requestAnimationFrame(drawRibbon));
+  },delay);
+}
 function getSvgPoint(el, svgRoot){
   const r=el.getBoundingClientRect();
   const sr=svgRoot.getBoundingClientRect();
@@ -1292,28 +1306,34 @@ function ribbonLengthAtY(path,y,total){
   }
   return Math.min(total,Math.max(0,(lo+hi)/2));
 }
-function drawRibbon(){
+function drawRibbon(applyScroll=true){
   const secs=[...document.querySelectorAll('.station')];if(!secs.length)return;
   const journeyEl=document.querySelector('.journey');
   const svg=document.getElementById('ribbon');
   const H=Math.max(1,host().offsetTop+host().offsetHeight+120);
   const W=Math.max(1,journeyEl.clientWidth);
   svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.style.height=H+'px';svg.style.width='100%';
+  const grad=document.getElementById('flow');
+  if(grad){grad.setAttribute('x1','0');grad.setAttribute('y1','0');grad.setAttribute('x2','0');grad.setAttribute('y2',String(H));}
 
   const anchors=secs.map(s=>s.querySelector('.path-anchor')||s.querySelector('.glasscard')||s);
   const pts=anchors.map(anchor=>getSvgPoint(anchor,journeyEl));
   svg.classList.toggle('inline-open',!!document.querySelector('.inline-drill.open'));
   const d=smoothConnectorPath(pts);
-  document.getElementById('track').setAttribute('d',d);
+
+  const track=document.getElementById('track');
   const lit=document.getElementById('lit');
+  track.setAttribute('d',d);
   lit.setAttribute('d',d);
+
   const len=lit.getTotalLength();
   lit._len=len;
   lit._anchorLengths=pts.map(p=>ribbonLengthAtY(lit,p[1],len));
   lit.style.strokeDasharray=`${len} ${len}`;
   lit.style.strokeDashoffset=len;
   lit.style.opacity='1';
-  onScroll();
+
+  if(applyScroll)updateRibbonReveal(secs);
 }
 function updateInlineFlow(){
   const active=document.querySelector('.inline-drill.open');
@@ -1330,16 +1350,18 @@ function updateInlineFlow(){
   });
 }
 
-function onScroll(){
-  const secs=[...document.querySelectorAll('.station')];if(!secs.length)return;
+function updateRibbonReveal(secs){
+  secs=secs&&secs.length?secs:[...document.querySelectorAll('.station')];
+  if(!secs.length)return;
   let cur=0;secs.forEach((s,i)=>{if(s.getBoundingClientRect().top<window.innerHeight*0.45)cur=i;});
   document.querySelectorAll('.stagenav a').forEach((a,i)=>a.classList.toggle('active',i===cur));
+
   const lit=document.getElementById('lit');
   if(lit&&lit._len){
     let targetLen=0;
     if(document.body.classList.contains('journey-zoom-mode')){
-      const jr=document.querySelector('.journey').getBoundingClientRect();
-      const revealY=window.innerHeight*.72-jr.top;
+      const journeyRect=document.querySelector('.journey').getBoundingClientRect();
+      const revealY=window.innerHeight*.72-journeyRect.top;
       targetLen=ribbonLengthAtY(lit,revealY,lit._len);
     }else{
       const anchors=lit._anchorLengths||[];
@@ -1352,7 +1374,8 @@ function onScroll(){
         const top=secs[cur].getBoundingClientRect().top;
         const nextTop=secs[next].getBoundingClientRect().top;
         const marker=window.innerHeight*.56;
-        const p=Math.min(1,Math.max(0,(marker-top)/Math.max(1,nextTop-top)));
+        let p=Math.min(1,Math.max(0,(marker-top)/Math.max(1,nextTop-top)));
+        if(cur===0)p=Math.max(p,.35);
         targetLen=a+(b-a)*p;
       }
     }
@@ -1360,9 +1383,18 @@ function onScroll(){
   }
   updateInlineFlow();
 }
+let ribbonTicking=false;
+function onScroll(){
+  if(ribbonTicking)return;
+  ribbonTicking=true;
+  requestAnimationFrame(()=>{
+    if(forceRibbonOnNextScroll){forceRibbonOnNextScroll=false;drawRibbon(true);}else{updateRibbonReveal([...document.querySelectorAll('.station')]);}
+    ribbonTicking=false;
+  });
+}
 window.addEventListener('scroll',onScroll,{passive:true});
-window.addEventListener('resize',()=>setTimeout(drawRibbon,150));
-window.addEventListener('load',()=>{render();setTimeout(()=>{drawRibbon();},200);});
+window.addEventListener('resize',()=>scheduleRibbonRefresh(150));
+window.addEventListener('load',()=>{render();scheduleRibbonRefresh(200);scheduleRibbonRefresh(520);});
 </script>
 </body>
 </html>

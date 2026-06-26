@@ -13,6 +13,7 @@
 - Keeps the journey map, zoom-focus drill-down, stage detail panel, benchmark case layer, NTT DATA capability layer, and persona workbench.
 - Adds the full image asset folder required by the interaction.
 - Adds the full persona matrix data and image folder required by the persona workbench.
+- Latest update: applies the newest `index.html` ribbon stability fixes, including deferred redraw after image load, scroll throttling, gradient coordinate correction, and more reliable initial journey-line reveal.
 
 ## Image Audit
 
