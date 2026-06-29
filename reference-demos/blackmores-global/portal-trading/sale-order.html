@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Orders | BLACKMORES® Partner Portal</title>
+    <style>
+        :root {
+            --teal-900: #08312e;
+            --teal-700: #0d524c;
+            --teal-600: #0f6b62;
+            --teal-500: #14857a;
+            --teal-400: #1ba99a;
+            --teal-100: #d6ebe8;
+            --teal-50: #eef6f5;
+            --ink: #16201e;
+            --slate: #5d6b68;
+            --muted: #8d9d99;
+            --line: #e4ebe9;
+            --paper: #ffffff;
+            --bg: #f5f7f6;
+            --amber: #d98a1f;
+            --amber-bg: #fdf3e2;
+            --rose: #c0463f;
+            --rose-bg: #fbece9;
+            --green: #2f8a5b;
+            --green-bg: #e7f3ec;
+            --blue: #2d6cdf;
+            --blue-bg: #e8f0fe;
+            --purple: #7c3aed;
+            --purple-bg: #ede9fe;
+            --gray: #94a3b8;
+            --gray-bg: #f1f5f9;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow2: 0 1px 2px rgba(8,49,46,.04), 0 8px 24px -12px rgba(8,49,46,.14);
+            --shadow-lg: 0 2px 4px rgba(8,49,46,.05), 0 24px 48px -20px rgba(8,49,46,.22);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.5;
+        }
+
+        /* ===== Top Nav ===== */
+        .top-nav {
+            background: var(--paper); border-bottom: 1px solid var(--line);
+            padding: 0 48px; height: 64px;
+            display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 100;
+        }
+        .nav-left { display: flex; align-items: center; gap: 48px; }
+        .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo-brand { font-size: 20px; font-weight: 800; color: var(--ink); letter-spacing: 0.5px; font-family: Georgia, 'Times New Roman', serif; }
+        .logo-brand sup { font-size: 10px; font-weight: 400; margin-left: 2px; }
+        .logo-sub { font-size: 12px; color: var(--teal-500); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-left: 12px; padding-left: 12px; border-left: 1px solid var(--line); }
+        .nav-menu { display: flex; gap: 32px; align-items: center; }
+        .nav-menu a { text-decoration: none; color: var(--slate); font-size: 14px; font-weight: 500; transition: color 0.2s; position: relative; white-space: nowrap; }
+        .nav-menu a:hover, .nav-menu a.active { color: var(--teal-700); }
+        .nav-menu a.active::after { content: ''; position: absolute; bottom: -21px; left: 0; right: 0; height: 3px; background: var(--teal-500); border-radius: 2px; }
+        .nav-right { display: flex; align-items: center; gap: 16px; }
+        .icon-btn {
+            width: 40px; height: 40px; border-radius: var(--radius-sm); border: none;
+            background: var(--bg); cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; position: relative; color: var(--slate); text-decoration: none;
+        }
+        .icon-btn:hover { background: var(--teal-50); color: var(--teal-700); }
+        .badge {
+            position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px;
+            background: var(--rose); color: white; border-radius: 50%; font-size: 10px; font-weight: 700;
+            display: flex; align-items: center; justify-content: center; border: 2px solid white; padding: 0 4px;
+        }
+        .user-menu { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 6px 12px; border-radius: var(--radius-sm); transition: background 0.2s; }
+        .user-menu:hover { background: var(--bg); }
+        .user-avatar { width: 36px; height: 36px; border-radius: 50%; overflow: hidden; border: 2px solid var(--line); flex-shrink: 0; }
+        .user-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+        .user-info { display: flex; flex-direction: column; }
+        .user-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+        .user-role { font-size: 11px; color: var(--muted); }
+
+        /* ===== App Layout ===== */
+        .app-layout { display: flex; margin-top: 0; min-height: calc(100vh - 64px); }
+        .sidebar {
+            width: 264px; background: var(--paper); border-right: 1px solid var(--line);
+            position: fixed; top: 64px; bottom: 0; left: 0; overflow-y: auto; z-index: 50;
+            padding: 26px 16px;
+        }
+        .sidebar-section { margin-bottom: 22px; }
+        .sidebar-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 12px 10px; cursor: pointer; transition: .15s;
+        }
+        .sidebar-header:hover .sidebar-title { color: var(--primary-dark); }
+        .sidebar-header.active { background: transparent; color: inherit; }
+        .sidebar-header.active .sidebar-icon-main { color: var(--primary); }
+        .sidebar-header.active .sidebar-title { color: var(--primary); }
+        .sidebar-header.active .sidebar-chevron { color: var(--teal-700); }
+        .sidebar-header-left { display: flex; align-items: center; gap: 10px; }
+        .sidebar-icon-main { width: 18px; height: 18px; color: var(--muted); flex-shrink: 0; }
+        .sidebar-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); }
+        .sidebar-chevron { width: 14px; height: 14px; color: var(--muted); transition: transform 0.25s ease; flex-shrink: 0; }
+        .sidebar-chevron.open { transform: rotate(180deg); }
+        .sidebar-submenu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+        .sidebar-submenu.open { max-height: 500px; }
+        .sidebar-link {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 12px; color: var(--slate); text-decoration: none;
+            font-size: 14.5px; font-weight: 500; transition: all 0.15s;
+            border-radius: var(--radius-sm); margin-bottom: 2px;
+        }
+        .sidebar-link:hover { background: var(--primary-light); color: var(--primary-dark); }
+        .sidebar-link.active { background: var(--primary); color: var(--paper); font-weight: 600; }
+        .sidebar-link-icon { width: 18px; height: 18px; color: currentColor; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .main-content { flex: 1; margin-left: 264px; padding: 0; max-width: calc(100vw - 264px); }
+
+        /* ===== Page Header ===== */
+        .page-header { padding: 32px 40px 0; margin-bottom: 24px; }
+        .page-header h1 { font-size: 26px; font-weight: 600; letter-spacing: -.5px; color: var(--teal-900); }
+        .page-header p { font-size: 15.5px; color: var(--slate); margin-top: 4px; }
+        .content-body { padding: 0 40px 40px; }
+
+        /* ===== Channel Summary Strip ===== */
+        .channel-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 28px; }
+        .channel-card {
+            background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+            padding: 20px; box-shadow: var(--shadow2); transition: all 0.2s; cursor: pointer;
+        }
+        .channel-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .channel-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .channel-name { font-size: 14px; font-weight: 700; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+        .channel-icon { font-size: 20px; }
+        .channel-health {
+            font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+        }
+        .channel-health.good { background: var(--green-bg); color: var(--green); }
+        .channel-health.warn { background: var(--amber-bg); color: var(--amber); }
+        .channel-health.bad { background: var(--rose-bg); color: var(--rose); }
+        .channel-stats { display: flex; gap: 16px; }
+        .channel-stat { flex: 1; }
+        .channel-stat-value { font-size: 22px; font-weight: 800; color: var(--ink); }
+        .channel-stat-label { font-size: 11px; color: var(--muted); font-weight: 500; margin-top: 2px; }
+
+        /* ===== Filter Bar ===== */
+        .filter-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+        .filter-chip {
+            padding: 7px 16px; border: 1px solid var(--line); border-radius: 20px;
+            font-size: 13px; color: var(--slate); cursor: pointer; background: var(--paper);
+            transition: all 0.2s; font-weight: 500;
+        }
+        .filter-chip:hover { border-color: var(--teal-500); color: var(--teal-700); }
+        .filter-chip.active { background: var(--teal-700); color: var(--paper); border-color: var(--teal-700); }
+        .filter-search { padding: 7px 16px; border: 1px solid var(--line); border-radius: 20px; font-size: 13px; width: 220px; outline: none; }
+        .filter-search:focus { border-color: var(--teal-500); }
+
+        /* ===== Batch Bar ===== */
+        .batch-bar {
+            display: none; align-items: center; gap: 12px;
+            background: var(--teal-50); border: 1px solid var(--teal-100);
+            border-radius: var(--radius-sm); padding: 12px 20px; margin-bottom: 16px;
+        }
+        .batch-bar.show { display: flex; }
+        .batch-count { font-size: 14px; font-weight: 700; color: var(--teal-700); }
+        .batch-btn {
+            padding: 7px 16px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600;
+            cursor: pointer; border: none; transition: all 0.2s;
+        }
+        .batch-btn.primary { background: var(--teal-700); color: white; }
+        .batch-btn.primary:hover { background: var(--teal-900); }
+        .batch-btn.ghost { background: var(--paper); color: var(--teal-700); border: 1px solid var(--teal-100); }
+        .batch-btn.ghost:hover { background: var(--teal-50); }
+
+        /* ===== Orders Table ===== */
+        .orders-table-wrap { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow2); overflow: hidden; }
+        .orders-table { width: 100%; border-collapse: collapse; }
+        .orders-table th {
+            text-align: left; padding: 14px 16px; font-size: 12px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted);
+            background: var(--bg); border-bottom: 1px solid var(--line);
+        }
+        .orders-table td { padding: 14px 16px; font-size: 14px; color: var(--ink); border-bottom: 1px solid var(--line); }
+        .orders-table tr:last-child td { border-bottom: none; }
+        .orders-table tr:hover td { background: var(--teal-50); }
+        .orders-table .checkbox { width: 18px; height: 18px; cursor: pointer; }
+
+        .platform-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700;
+        }
+        .platform-badge.tmall { background: var(--rose-bg); color: var(--rose); }
+        .platform-badge.shopee { background: var(--amber-bg); color: var(--amber); }
+        .platform-badge.lazada { background: var(--blue-bg); color: var(--blue); }
+        .platform-badge.shopify { background: var(--green-bg); color: var(--green); }
+        .platform-badge.pos { background: var(--gray-bg); color: var(--gray); }
+
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700;
+        }
+        .status-badge.pending { background: var(--amber-bg); color: var(--amber); }
+        .status-badge.confirmed { background: var(--teal-100); color: var(--teal-700); }
+        .status-badge.shipped { background: var(--blue-bg); color: var(--blue); }
+        .status-badge.delivered { background: var(--green-bg); color: var(--green); }
+        .status-badge.completed { background: var(--gray-bg); color: var(--gray); }
+
+        .ai-tag {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 600;
+        }
+        .ai-tag.normal { background: var(--gray-bg); color: var(--gray); }
+        .ai-tag.high { background: var(--purple-bg); color: var(--purple); }
+        .ai-tag.alert { background: var(--rose-bg); color: var(--rose); }
+
+        .btn-ghost {
+            padding: 7px 14px; background: var(--paper); border: 1px solid var(--line);
+            border-radius: var(--radius-sm); font-size: 13px; font-weight: 600;
+            cursor: pointer; color: var(--slate); transition: all 0.2s;
+        }
+        .btn-ghost:hover { border-color: var(--teal-500); color: var(--teal-700); }
+        .btn-primary {
+            padding: 10px 20px; background: var(--teal-700); color: white;
+            border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600;
+            cursor: pointer; transition: background 0.2s;
+        }
+        .btn-primary:hover { background: var(--teal-900); }
+        .btn-danger {
+            padding: 7px 14px; background: transparent; border: 1px solid var(--rose);
+            border-radius: var(--radius-sm); font-size: 13px; font-weight: 600;
+            cursor: pointer; color: var(--rose); transition: all 0.2s;
+        }
+        .btn-danger:hover { background: var(--rose-bg); }
+
+        /* ===== Pagination ===== */
+        .pagination { display: flex; gap: 8px; margin-top: 24px; justify-content: center; }
+        .page-btn {
+            padding: 8px 14px; border: 1px solid var(--line); background: var(--paper);
+            border-radius: var(--radius-sm); cursor: pointer; font-size: 13px; font-weight: 500;
+            color: var(--slate);
+        }
+        .page-btn:hover { border-color: var(--teal-500); color: var(--teal-700); }
+        .page-btn.active { background: var(--teal-700); color: var(--paper); border-color: var(--teal-700); }
+
+        /* ===== Order Detail Drawer ===== */
+        .drawer-overlay {
+            position: fixed; inset: 0; background: rgba(8,49,46,0.3); z-index: 200;
+            display: none; opacity: 0; transition: opacity 0.3s;
+        }
+        .drawer-overlay.show { display: block; opacity: 1; }
+        .order-drawer {
+            position: fixed; top: 64px; right: 0; width: 60%; min-width: 560px;
+            height: calc(100vh - 64px); background: var(--paper); z-index: 210;
+            transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            border-left: 1px solid var(--line); overflow-y: auto;
+            display: flex; flex-direction: column;
+        }
+        .order-drawer.open { transform: translateX(0); }
+        .drawer-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 24px 32px; border-bottom: 1px solid var(--line); flex-shrink: 0;
+        }
+        .drawer-title { font-size: 20px; font-weight: 700; color: var(--teal-900); }
+        .drawer-close {
+            width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line);
+            background: var(--bg); cursor: pointer; display: flex; align-items: center; justify-content: center;
+            color: var(--slate); transition: all 0.2s;
+        }
+        .drawer-close:hover { background: var(--rose-bg); color: var(--rose); border-color: var(--rose); }
+        .drawer-body { padding: 24px 32px; flex: 1; overflow-y: auto; }
+
+        .drawer-section { margin-bottom: 28px; }
+        .drawer-section-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 16px; }
+
+        .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .info-item { display: flex; flex-direction: column; gap: 4px; }
+        .info-label { font-size: 12px; color: var(--muted); font-weight: 500; }
+        .info-value { font-size: 14px; font-weight: 600; color: var(--ink); }
+        .info-value.mono { font-family: 'SF Mono', monospace; font-size: 13px; background: var(--bg); padding: 4px 10px; border-radius: 6px; display: inline-block; }
+
+        .product-line { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+        .product-line:last-child { border-bottom: none; }
+        .product-thumb {
+            width: 56px; height: 56px; border-radius: var(--radius-sm);
+            background: var(--teal-50); display: flex; align-items: center; justify-content: center;
+            font-size: 22px; flex-shrink: 0;
+        }
+        .product-line-info { flex: 1; }
+        .product-line-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+        .product-line-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+        .product-line-price { font-size: 14px; font-weight: 700; color: var(--ink); text-align: right; min-width: 80px; }
+
+        .payment-summary { background: var(--bg); border-radius: var(--radius-sm); padding: 16px; }
+        .payment-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; }
+        .payment-row.total { border-top: 1px solid var(--line); padding-top: 12px; margin-top: 6px; font-weight: 700; font-size: 16px; color: var(--teal-900); }
+
+        .ai-insight {
+            background: var(--teal-50); border: 1px solid var(--teal-100); border-radius: var(--radius-sm);
+            padding: 16px; display: flex; align-items: flex-start; gap: 12px;
+        }
+        .ai-insight-icon { font-size: 20px; flex-shrink: 0; }
+        .ai-insight-text { font-size: 13px; color: var(--teal-700); line-height: 1.6; }
+
+        .platform-specific { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+        .platform-tab-bar { display: flex; gap: 8px; margin-bottom: 16px; }
+        .platform-tab {
+            padding: 8px 16px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600;
+            cursor: pointer; border: 1px solid var(--line); background: var(--paper); color: var(--slate);
+            transition: all 0.2s;
+        }
+        .platform-tab:hover { border-color: var(--teal-500); color: var(--teal-700); }
+        .platform-tab.active { background: var(--teal-700); color: var(--paper); border-color: var(--teal-700); }
+
+        .drawer-actions {
+            display: flex; gap: 10px; padding: 20px 32px;
+            border-top: 1px solid var(--line); flex-shrink: 0; background: var(--paper);
+        }
+
+        /* ===== Channel Management ===== */
+        .channel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 28px; }
+        .channel-mgmt-card {
+            background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+            padding: 24px; box-shadow: var(--shadow2); transition: all 0.2s;
+        }
+        .channel-mgmt-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .channel-mgmt-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .channel-mgmt-icon { font-size: 32px; }
+        .channel-status-dot { width: 8px; height: 8px; border-radius: 50%; }
+        .channel-status-dot.connected { background: var(--green); box-shadow: 0 0 0 3px var(--green-bg); }
+        .channel-status-dot.delayed { background: var(--amber); box-shadow: 0 0 0 3px var(--amber-bg); }
+        .channel-mgmt-name { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+        .channel-mgmt-status { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+        .channel-mgmt-stats { display: flex; gap: 16px; margin-bottom: 16px; }
+        .channel-mgmt-stat { flex: 1; }
+        .channel-mgmt-stat-value { font-size: 20px; font-weight: 800; color: var(--ink); }
+        .channel-mgmt-stat-label { font-size: 11px; color: var(--muted); }
+        .channel-mgmt-actions { display: flex; gap: 8px; }
+
+        .allocation-section { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; margin-bottom: 24px; box-shadow: var(--shadow2); }
+        .allocation-title { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 20px; }
+        .allocation-row { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+        .allocation-label { width: 80px; font-size: 13px; font-weight: 600; color: var(--slate); }
+        .allocation-bar-bg { flex: 1; height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+        .allocation-bar-fill { height: 100%; border-radius: 4px; }
+        .allocation-value { width: 50px; font-size: 13px; font-weight: 700; color: var(--ink); text-align: right; }
+        .allocation-suggestion {
+            background: var(--amber-bg); border: 1px solid var(--teal-100); border-radius: var(--radius-sm);
+            padding: 12px 16px; font-size: 13px; color: var(--amber); font-weight: 600; margin-top: 16px;
+        }
+
+        .price-monitor { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow2); }
+        .price-monitor th, .price-monitor td { padding: 14px 16px; font-size: 13px; text-align: left; border-bottom: 1px solid var(--line); }
+        .price-monitor th { background: var(--bg); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); }
+        .price-monitor td { color: var(--ink); }
+        .price-monitor tr:last-child td { border-bottom: none; }
+        .price-cell { font-weight: 600; }
+        .price-status {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700;
+        }
+        .price-status.ok { background: var(--green-bg); color: var(--green); }
+        .price-status.warn { background: var(--amber-bg); color: var(--amber); }
+        .price-status.error { background: var(--rose-bg); color: var(--rose); }
+
+        /* ===== AI Widget ===== */
+        .ai-float-btn {
+            position: fixed; bottom: 28px; right: 28px; width: 56px; height: 56px;
+            border-radius: 50%; background: var(--teal-700); color: white;
+            border: none; cursor: pointer; font-size: 24px; z-index: 300;
+            box-shadow: var(--shadow-lg); display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s;
+        }
+        .ai-float-btn:hover { transform: scale(1.05); background: var(--teal-900); }
+        .ai-widget {
+            position: fixed; bottom: 92px; right: 28px; width: 360px; height: 520px;
+            background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+            box-shadow: var(--shadow-lg); z-index: 300; display: none; flex-direction: column;
+            overflow: hidden;
+        }
+        .ai-widget.open { display: flex; }
+        .ai-widget-header {
+            padding: 20px; border-bottom: 1px solid var(--line);
+            background: var(--teal-50);
+        }
+        .ai-widget-title { font-size: 16px; font-weight: 700; color: var(--teal-900); }
+        .ai-widget-subtitle { font-size: 12px; color: var(--slate); margin-top: 2px; }
+        .ai-widget-body { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+        .ai-msg-bubble {
+            max-width: 85%; padding: 12px 14px; border-radius: 14px; font-size: 13px; line-height: 1.5;
+        }
+        .ai-msg-bubble.bot { background: var(--teal-50); color: var(--teal-700); align-self: flex-start; border-bottom-left-radius: 4px; }
+        .ai-msg-bubble.user { background: var(--teal-700); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .ai-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+        .ai-chip {
+            padding: 6px 12px; border: 1px solid var(--teal-100); border-radius: 20px;
+            font-size: 12px; color: var(--teal-700); cursor: pointer; background: var(--paper);
+            transition: all 0.2s;
+        }
+        .ai-chip:hover { background: var(--teal-50); border-color: var(--teal-500); }
+        .ai-widget-footer {
+            padding: 12px 16px; border-top: 1px solid var(--line);
+            display: flex; gap: 8px; align-items: center;
+        }
+        .ai-widget-input {
+            flex: 1; padding: 10px 14px; border: 1px solid var(--line); border-radius: 20px;
+            font-size: 13px; outline: none;
+        }
+        .ai-widget-input:focus { border-color: var(--teal-500); }
+        .ai-widget-send {
+            width: 36px; height: 36px; border-radius: 50%; background: var(--teal-700);
+            color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s;
+        }
+        .ai-widget-send:hover { background: var(--teal-900); }
+
+        /* ===== Tab Bar for Page Switching ===== */
+        .page-tabs { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 1px solid var(--line); }
+        .page-tab {
+            padding: 12px 20px; font-size: 14px; font-weight: 600; color: var(--slate);
+            cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none;
+        }
+        .page-tab:hover { color: var(--teal-700); }
+        .page-tab.active { color: var(--teal-700); border-bottom-color: var(--teal-500); }
+
+        @media (max-width: 1100px) {
+            .channel-strip { grid-template-columns: repeat(3, 1fr); }
+            .channel-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 900px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; max-width: 100%; }
+            .order-drawer { width: 100%; min-width: auto; }
+            .channel-strip { grid-template-columns: repeat(2, 1fr); }
+            .channel-grid { grid-template-columns: 1fr; }
+            .info-grid { grid-template-columns: 1fr; }
+        }
+    
+
+        /* Studio embed shell: keep the outer Studio header, remove the copied portal chrome. */
+        .page-tabs { display: none !important; }
+        .top-nav, .sidebar { display: none !important; }
+        .main-content { margin-left: 0 !important; max-width: 100% !important; width: 100% !important; padding: 0 !important; }
+        .studio-intro { max-width: 1180px; margin: 0 auto 18px; padding: 28px 40px 0; }
+        .studio-eyebrow { color: var(--primary, var(--teal-700, #008f9a)); font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 8px; }
+        .studio-title { color: var(--ink, var(--text, #1f2a2a)); font-size: clamp(28px, 4vw, 44px); line-height: 1.04; font-weight: 800; margin: 0 0 10px; letter-spacing: 0; }
+        .studio-lead { color: var(--slate, var(--text-secondary, #6d7775)); font-size: 15px; line-height: 1.65; max-width: 880px; margin: 0; }
+        .studio-nav { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 18px; }
+        .studio-nav a, .studio-nav button { appearance: none; border: 1px solid var(--line, #e5e7eb); background: var(--paper, #fff); color: var(--ink, #233); border-radius: 8px; padding: 9px 14px; font: inherit; font-size: 12.5px; font-weight: 800; text-decoration: none; cursor: pointer; box-shadow: none; }
+        .studio-nav a:hover, .studio-nav button:hover, .studio-nav .active { border-color: var(--primary, var(--teal-700, #008f9a)); color: var(--primary, var(--teal-700, #008f9a)); background: var(--primary-light, var(--teal-50, #ecfeff)); }
+        .content-section, .content-body, .pagehead, .page-header { max-width: 1180px; margin-left: auto !important; margin-right: auto !important; }
+        .page-header { padding: 18px 40px 0; }
+        .content-body { padding: 0 40px 40px; }
+        .page-section { max-width: none; margin-left: 0 !important; margin-right: 0 !important; }
+        .channel-strip { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+        .channel-card { min-width: 0; }
+        .channel-stats { min-width: 0; }
+        .channel-stat-value { overflow-wrap: anywhere; }
+        @media (max-width: 760px) {
+            .studio-intro { padding: 22px 20px 0; }
+            .studio-title { font-size: 30px; }
+            .studio-nav a, .studio-nav button { flex: 1 1 auto; text-align: center; }
+            .page-header, .content-body { padding-left: 20px; padding-right: 20px; }
+            .channel-strip { grid-template-columns: 1fr; }
+        }
+
+    </style>
+    <script src="../i18n.js"></script>
+</head>
+<body data-module="trading">
+
+    <!-- ===== TOP NAV ===== -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <a href="../index.html" class="logo">
+                <span class="logo-brand">BLACKMORES<sup>®</sup></span>
+                <span class="logo-sub" data-i18n="Partner Portal">Partner Portal</span>
+            </a>
+            <div class="nav-menu">
+                <a href="../index.html" data-i18n="Home">Home</a>
+                <a href="trading-hub.html" class="active" data-i18n="Trading">Trading</a>
+                <a href="../index.html" data-i18n="Marketing">Marketing</a>
+                <a href="../index.html" data-i18n="Operations">Operations</a>
+                <a href="../index.html" data-i18n="Analytics">Analytics</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <button class="icon-btn" title="Language" id="langSwitcher">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </button>
+            <a href="../index.html" class="icon-btn" title="Search">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            </a>
+            <a href="../index.html" class="icon-btn" title="Notification">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                <span class="badge">3</span>
+            </a>
+            <a href="../index.html" class="user-menu" style="text-decoration:none;">
+                <div class="user-avatar"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=GuardianKL&amp;backgroundColor=ffffff" alt="Avatar"></div>
+                <div class="user-info">
+                    <span class="user-name" data-i18n="Guardian KL">Guardian KL</span>
+                    <span class="user-role" data-i18n="Platinum Partner">Platinum Partner</span>
+                </div>
+            </a>
+        </div>
+    </nav>
+
+    <div class="app-layout">
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <!-- Purchase Orders -->
+            <div class="sidebar-section" id="sidebar-purchase">
+                <div class="sidebar-header" onclick="toggleSection('purchase')" id="header-purchase">
+                    <div class="sidebar-header-left">
+                        <svg class="sidebar-icon-main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                        <span class="sidebar-title" data-i18n="Purchase Orders">Purchase Orders</span>
+                    </div>
+                    <svg class="sidebar-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="chevron-purchase"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <ul class="sidebar-submenu" id="submenu-purchase">
+                    <li><a href="purchase-order.html" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg></span><span data-i18n="Purchase Orders">Purchase Orders</span></a></li>
+                    <li><a href="purchase-order.html#ai-recommend" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="11" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></span><span data-i18n="AI Recommendation">AI Recommendation</span></a></li>
+                    <li><a href="purchase-order.html#inventory" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></span><span data-i18n="Inventory">Inventory</span></a></li>
+                    <li><a href="purchase-order.html#invoices" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span><span data-i18n="Invoices">Invoices</span></a></li>
+                </ul>
+            </div>
+
+            <!-- Product -->
+            <div class="sidebar-section" id="sidebar-product">
+                <div class="sidebar-header" onclick="toggleSection('product')" id="header-product">
+                    <div class="sidebar-header-left">
+                        <svg class="sidebar-icon-main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                        <span class="sidebar-title" data-i18n="Product">Product</span>
+                    </div>
+                    <svg class="sidebar-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="chevron-product"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <ul class="sidebar-submenu" id="submenu-product">
+                    <li><a href="product-center.html" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span><span data-i18n="Product Catalog">Product Catalog</span></a></li>
+                    <li><a href="product-center.html#cart" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span><span data-i18n="Shopping Cart">Shopping Cart</span></a></li>
+                    <li><a href="favorites.html" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span data-i18n="My Favorites">My Favorites</span></a></li>
+                    <li><a href="bundle-management.html" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></span><span data-i18n="Bundle Management">Bundle Management</span></a></li>
+                </ul>
+            </div>
+
+            <!-- Sales Orders -->
+            <div class="sidebar-section" id="sidebar-sales">
+                <div class="sidebar-header active" onclick="toggleSection('sales')" id="header-sales">
+                    <div class="sidebar-header-left">
+                        <svg class="sidebar-icon-main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                        <span class="sidebar-title" data-i18n="Sales Orders">Sales Orders</span>
+                    </div>
+                    <svg class="sidebar-chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="chevron-sales"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <ul class="sidebar-submenu open" id="submenu-sales">
+                    <li><a href="sale-order.html" class="sidebar-link active"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span><span data-i18n="Sales Orders">Sales Orders</span></a></li>
+                    <li><a href="sale-order.html#channel" onclick="showPage('channel-mgmt', this); return false;" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></span><span data-i18n="Channel Management">Channel Management</span></a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="main-content" id="mainContent">
+            <section class="studio-intro">
+                <div class="studio-eyebrow">Marketplace Order & Channel Operations</div>
+                <h1 class="studio-title">Unify orders and channel operations across Tmall, Taobao, Lazada, Shopee, Shopify and POS.</h1>
+                <p class="studio-lead">This demo separates marketplace consumer orders from partner procurement, then adds channel health, inventory allocation and price monitoring for platform operations.</p>
+                <div class="studio-nav">
+                    <button type="button" class="active" data-page="orders-list" onclick="showPage('orders-list', this)">Marketplace orders</button>
+                    <button type="button" data-page="channel-mgmt" onclick="showPage('channel-mgmt', this)">Channel health</button>
+                </div>
+            </section>
+
+            <div class="page-header">
+                <h1 data-i18n="Sales Orders">Sales Orders</h1>
+                <p data-i18n="Multi-channel order management — Tmall, Shopee, Lazada, Shopify & POS in one view.">Multi-channel order management — Tmall, Shopee, Lazada, Shopify & POS in one view.</p>
+            </div>
+
+            <div class="content-body">
+                <!-- Page Tabs -->
+                <div class="page-tabs">
+                    <button class="page-tab active" onclick="showPage('orders-list', this)" data-i18n="Orders List">Orders List</button>
+                    <button class="page-tab" onclick="showPage('channel-mgmt', this)" data-i18n="Channel Management">Channel Management</button>
+                </div>
+
+                <!-- ========== ORDERS LIST PAGE ========== -->
+                <div id="page-orders-list" class="page-section">
+                    <!-- Channel Summary Strip -->
+                    <div class="channel-strip">
+                        <div class="channel-card" onclick="filterByPlatform('tmall')">
+                            <div class="channel-top">
+                                <span class="channel-name"><span class="channel-icon">🛒</span>Tmall</span>
+                                <span class="channel-health good">92%</span>
+                            </div>
+                            <div class="channel-stats">
+                                <div class="channel-stat"><div class="channel-stat-value">48</div><div class="channel-stat-label" data-i18n="Orders">Orders</div></div>
+                                <div class="channel-stat"><div class="channel-stat-value">RM 8,640</div><div class="channel-stat-label" data-i18n="Revenue">Revenue</div></div>
+                            </div>
+                        </div>
+                        <div class="channel-card" onclick="filterByPlatform('shopee')">
+                            <div class="channel-top">
+                                <span class="channel-name"><span class="channel-icon">🍤</span>Shopee</span>
+                                <span class="channel-health good">85%</span>
+                            </div>
+                            <div class="channel-stats">
+                                <div class="channel-stat"><div class="channel-stat-value">67</div><div class="channel-stat-label" data-i18n="Orders">Orders</div></div>
+                                <div class="channel-stat"><div class="channel-stat-value">RM 12,450</div><div class="channel-stat-label" data-i18n="Revenue">Revenue</div></div>
+                            </div>
+                        </div>
+                        <div class="channel-card" onclick="filterByPlatform('lazada')">
+                            <div class="channel-top">
+                                <span class="channel-name"><span class="channel-icon">🛍️</span>Lazada</span>
+                                <span class="channel-health warn">67%</span>
+                            </div>
+                            <div class="channel-stats">
+                                <div class="channel-stat"><div class="channel-stat-value">12</div><div class="channel-stat-label" data-i18n="Orders">Orders</div></div>
+                                <div class="channel-stat"><div class="channel-stat-value">RM 2,180</div><div class="channel-stat-label" data-i18n="Revenue">Revenue</div></div>
+                            </div>
+                        </div>
+                        <div class="channel-card" onclick="filterByPlatform('shopify')">
+                            <div class="channel-top">
+                                <span class="channel-name"><span class="channel-icon">🛒</span>Shopify</span>
+                                <span class="channel-health good">78%</span>
+                            </div>
+                            <div class="channel-stats">
+                                <div class="channel-stat"><div class="channel-stat-value">23</div><div class="channel-stat-label" data-i18n="Orders">Orders</div></div>
+                                <div class="channel-stat"><div class="channel-stat-value">RM 4,560</div><div class="channel-stat-label" data-i18n="Revenue">Revenue</div></div>
+                            </div>
+                        </div>
+                        <div class="channel-card" onclick="filterByPlatform('pos')">
+                            <div class="channel-top">
+                                <span class="channel-name"><span class="channel-icon">🏪</span>POS</span>
+                                <span class="channel-health good">88%</span>
+                            </div>
+                            <div class="channel-stats">
+                                <div class="channel-stat"><div class="channel-stat-value">34</div><div class="channel-stat-label" data-i18n="Orders">Orders</div></div>
+                                <div class="channel-stat"><div class="channel-stat-value">RM 3,240</div><div class="channel-stat-label" data-i18n="Revenue">Revenue</div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filter Bar -->
+                    <div class="filter-bar">
+                        <span class="filter-chip active" onclick="filterOrders(this, 'all')" data-i18n="All">All</span>
+                        <span class="filter-chip" onclick="filterOrders(this, 'tmall')" data-i18n="Tmall">Tmall</span>
+                        <span class="filter-chip" onclick="filterOrders(this, 'shopee')" data-i18n="Shopee">Shopee</span>
+                        <span class="filter-chip" onclick="filterOrders(this, 'lazada')" data-i18n="Lazada">Lazada</span>
+                        <span class="filter-chip" onclick="filterOrders(this, 'shopify')" data-i18n="Shopify">Shopify</span>
+                        <span class="filter-chip" onclick="filterOrders(this, 'pos')" data-i18n="POS">POS</span>
+                        <span style="width:1px;height:20px;background:var(--line);margin:0 4px;"></span>
+                        <span class="filter-chip" onclick="filterOrders(this, 'pending')" data-i18n="Pending">Pending</span>
+                        <span class="filter-chip" onclick="filterOrders(this, 'confirmed')" data-i18n="Confirmed">Confirmed</span>
+                        <span class="filter-chip" onclick="filterOrders(this, 'shipped')" data-i18n="Shipped">Shipped</span>
+                        <span class="filter-chip" onclick="filterOrders(this, 'delivered')" data-i18n="Delivered">Delivered</span>
+                        <span class="filter-chip" onclick="filterOrders(this, 'completed')" data-i18n="Completed">Completed</span>
+                        <input type="text" class="filter-search" placeholder="Search orders, customers, products..." data-i18n="Search orders, customers, products...">
+                    </div>
+
+                    <!-- Batch Operations Bar -->
+                    <div class="batch-bar" id="batchBar">
+                        <span class="batch-count"><span id="batchCount">0</span> <span data-i18n="selected">selected</span></span>
+                        <button class="batch-btn primary" data-i18n="Batch Print Labels">Batch Print Labels</button>
+                        <button class="batch-btn ghost" data-i18n="Batch Mark Shipped">Batch Mark Shipped</button>
+                        <button class="batch-btn ghost" data-i18n="Batch Export">Batch Export</button>
+                        <button class="batch-btn ghost" data-i18n="Batch Add Note">Batch Add Note</button>
+                        <button class="batch-btn ghost" style="margin-left:auto;" onclick="clearSelection()" data-i18n="Clear">Clear</button>
+                    </div>
+
+                    <!-- Orders Table -->
+                    <div class="orders-table-wrap">
+                        <table class="orders-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:40px"><input type="checkbox" class="checkbox" id="selectAll" onchange="toggleSelectAll(this)"></th>
+                                    <th data-i18n="Order ID">Order ID</th>
+                                    <th data-i18n="Platform">Platform</th>
+                                    <th data-i18n="Customer">Customer</th>
+                                    <th data-i18n="Date">Date</th>
+                                    <th data-i18n="Items">Items</th>
+                                    <th data-i18n="Total">Total</th>
+                                    <th data-i18n="Status">Status</th>
+                                    <th data-i18n="AI">AI</th>
+                                    <th style="width:100px" data-i18n="Actions">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTableBody">
+                                <tr data-platform="shopee" data-status="confirmed">
+                                    <td><input type="checkbox" class="checkbox row-check" onchange="updateBatch()"></td>
+                                    <td><span class="info-value mono">SO-2026-0101</span></td>
+                                    <td><span class="platform-badge shopee">🍤 Shopee</span></td>
+                                    <td>Lim Wei Chen</td>
+                                    <td>May 28, 2026</td>
+                                    <td>3 items</td>
+                                    <td>RM 128.50</td>
+                                    <td><span class="status-badge confirmed">Confirmed</span></td>
+                                    <td><span class="ai-tag high">High Value</span></td>
+                                    <td><button class="btn-ghost" onclick="openDrawer('shopee')">View</button></td>
+                                </tr>
+                                <tr data-platform="tmall" data-status="pending">
+                                    <td><input type="checkbox" class="checkbox row-check" onchange="updateBatch()"></td>
+                                    <td><span class="info-value mono">SO-2026-0100</span></td>
+                                    <td><span class="platform-badge tmall">🛒 Tmall</span></td>
+                                    <td>Zhang Li Mei</td>
+                                    <td>May 28, 2026</td>
+                                    <td>2 items</td>
+                                    <td>RM 245.00</td>
+                                    <td><span class="status-badge pending">Pending</span></td>
+                                    <td><span class="ai-tag alert">Return Alert</span></td>
+                                    <td><button class="btn-ghost" onclick="openDrawer('tmall')">View</button></td>
+                                </tr>
+                                <tr data-platform="lazada" data-status="shipped">
+                                    <td><input type="checkbox" class="checkbox row-check" onchange="updateBatch()"></td>
+                                    <td><span class="info-value mono">SO-2026-0098</span></td>
+                                    <td><span class="platform-badge lazada">🛍️ Lazada</span></td>
+                                    <td>Ahmad bin Ismail</td>
+                                    <td>May 27, 2026</td>
+                                    <td>1 item</td>
+                                    <td>RM 89.90</td>
+                                    <td><span class="status-badge shipped">Shipped</span></td>
+                                    <td><span class="ai-tag normal">Normal</span></td>
+                                    <td><button class="btn-ghost" onclick="openDrawer('lazada')">View</button></td>
+                                </tr>
+                                <tr data-platform="shopify" data-status="delivered">
+                                    <td><input type="checkbox" class="checkbox row-check" onchange="updateBatch()"></td>
+                                    <td><span class="info-value mono">SO-2026-0095</span></td>
+                                    <td><span class="platform-badge shopify">🛒 Shopify</span></td>
+                                    <td>Sarah Tan</td>
+                                    <td>May 26, 2026</td>
+                                    <td>4 items</td>
+                                    <td>RM 312.00</td>
+                                    <td><span class="status-badge delivered">Delivered</span></td>
+                                    <td><span class="ai-tag normal">Normal</span></td>
+                                    <td><button class="btn-ghost" onclick="openDrawer('shopify')">View</button></td>
+                                </tr>
+                                <tr data-platform="pos" data-status="completed">
+                                    <td><input type="checkbox" class="checkbox row-check" onchange="updateBatch()"></td>
+                                    <td><span class="info-value mono">SO-2026-0092</span></td>
+                                    <td><span class="platform-badge pos">🏪 POS</span></td>
+                                    <td>Walk-in #KLC-042</td>
+                                    <td>May 25, 2026</td>
+                                    <td>2 items</td>
+                                    <td>RM 156.00</td>
+                                    <td><span class="status-badge completed">Completed</span></td>
+                                    <td><span class="ai-tag normal">Normal</span></td>
+                                    <td><button class="btn-ghost" onclick="openDrawer('pos')">View</button></td>
+                                </tr>
+                                <tr data-platform="shopee" data-status="pending">
+                                    <td><input type="checkbox" class="checkbox row-check" onchange="updateBatch()"></td>
+                                    <td><span class="info-value mono">SO-2026-0090</span></td>
+                                    <td><span class="platform-badge shopee">🍤 Shopee</span></td>
+                                    <td>Tan Mei Ling</td>
+                                    <td>May 24, 2026</td>
+                                    <td>1 item</td>
+                                    <td>RM 45.50</td>
+                                    <td><span class="status-badge pending">Pending</span></td>
+                                    <td><span class="ai-tag normal">Normal</span></td>
+                                    <td><button class="btn-ghost" onclick="openDrawer('shopee')">View</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination">
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <button class="page-btn">→</button>
+                    </div>
+                </div>
+
+                <!-- ========== CHANNEL MANAGEMENT PAGE ========== -->
+                <div id="page-channel-mgmt" class="page-section" style="display:none;">
+                    <div class="channel-grid">
+                        <div class="channel-mgmt-card">
+                            <div class="channel-mgmt-top">
+                                <span class="channel-mgmt-icon">🛒</span>
+                                <span class="channel-status-dot connected"></span>
+                            </div>
+                            <div class="channel-mgmt-name">Tmall</div>
+                            <div class="channel-mgmt-status" data-i18n="Connected · Synced 5 min ago">Connected · Synced 5 min ago</div>
+                            <div class="channel-mgmt-stats">
+                                <div class="channel-mgmt-stat"><div class="channel-mgmt-stat-value">48</div><div class="channel-mgmt-stat-label" data-i18n="Orders this month">Orders this month</div></div>
+                                <div class="channel-mgmt-stat"><div class="channel-mgmt-stat-value">RM 8,640</div><div class="channel-mgmt-stat-label" data-i18n="Revenue">Revenue</div></div>
+                            </div>
+                            <div class="channel-mgmt-actions">
+                                <button class="btn-ghost" data-i18n="Settings">Settings</button>
+                                <button class="btn-ghost" data-i18n="Sync Now">Sync Now</button>
+                            </div>
+                        </div>
+                        <div class="channel-mgmt-card">
+                            <div class="channel-mgmt-top">
+                                <span class="channel-mgmt-icon">🍤</span>
+                                <span class="channel-status-dot connected"></span>
+                            </div>
+                            <div class="channel-mgmt-name">Shopee</div>
+                            <div class="channel-mgmt-status" data-i18n="Connected · Synced 2 min ago">Connected · Synced 2 min ago</div>
+                            <div class="channel-mgmt-stats">
+                                <div class="channel-mgmt-stat"><div class="channel-mgmt-stat-value">67</div><div class="channel-mgmt-stat-label" data-i18n="Orders this month">Orders this month</div></div>
+                                <div class="channel-mgmt-stat"><div class="channel-mgmt-stat-value">RM 12,450</div><div class="channel-mgmt-stat-label" data-i18n="Revenue">Revenue</div></div>
+                            </div>
+                            <div class="channel-mgmt-actions">
+                                <button class="btn-ghost" data-i18n="Settings">Settings</button>
+                                <button class="btn-ghost" data-i18n="Sync Now">Sync Now</button>
+                            </div>
+                        </div>
+                        <div class="channel-mgmt-card">
+                            <div class="channel-mgmt-top">
+                                <span class="channel-mgmt-icon">🛍️</span>
+                                <span class="channel-status-dot delayed"></span>
+                            </div>
+                            <div class="channel-mgmt-name">Lazada</div>
+                            <div class="channel-mgmt-status" data-i18n="Warning · Sync delayed 3h">Warning · Sync delayed 3h</div>
+                            <div class="channel-mgmt-stats">
+                                <div class="channel-mgmt-stat"><div class="channel-mgmt-stat-value">12</div><div class="channel-mgmt-stat-label" data-i18n="Orders this month">Orders this month</div></div>
+                                <div class="channel-mgmt-stat"><div class="channel-mgmt-stat-value">RM 2,180</div><div class="channel-mgmt-stat-label" data-i18n="Revenue">Revenue</div></div>
+                            </div>
+                            <div class="channel-mgmt-actions">
+                                <button class="btn-ghost" data-i18n="Settings">Settings</button>
+                                <button class="btn-primary" data-i18n="Sync Now">Sync Now</button>
+                            </div>
+                        </div>
+                        <div class="channel-mgmt-card">
+                            <div class="channel-mgmt-top">
+                                <span class="channel-mgmt-icon">🛒</span>
+                                <span class="channel-status-dot connected"></span>
+                            </div>
+                            <div class="channel-mgmt-name">Shopify</div>
+                            <div class="channel-mgmt-status" data-i18n="Connected · Synced 10 min ago">Connected · Synced 10 min ago</div>
+                            <div class="channel-mgmt-stats">
+                                <div class="channel-mgmt-stat"><div class="channel-mgmt-stat-value">23</div><div class="channel-mgmt-stat-label" data-i18n="Orders this month">Orders this month</div></div>
+                                <div class="channel-mgmt-stat"><div class="channel-mgmt-stat-value">RM 4,560</div><div class="channel-mgmt-stat-label" data-i18n="Revenue">Revenue</div></div>
+                            </div>
+                            <div class="channel-mgmt-actions">
+                                <button class="btn-ghost" data-i18n="Settings">Settings</button>
+                                <button class="btn-ghost" data-i18n="Sync Now">Sync Now</button>
+                            </div>
+                        </div>
+                        <div class="channel-mgmt-card">
+                            <div class="channel-mgmt-top">
+                                <span class="channel-mgmt-icon">🏪</span>
+                                <span class="channel-status-dot connected"></span>
+                            </div>
+                            <div class="channel-mgmt-name">POS</div>
+                            <div class="channel-mgmt-status" data-i18n="Connected · Synced 1 min ago">Connected · Synced 1 min ago</div>
+                            <div class="channel-mgmt-stats">
+                                <div class="channel-mgmt-stat"><div class="channel-mgmt-stat-value">34</div><div class="channel-mgmt-stat-label" data-i18n="Orders this month">Orders this month</div></div>
+                                <div class="channel-mgmt-stat"><div class="channel-mgmt-stat-value">RM 3,240</div><div class="channel-mgmt-stat-label" data-i18n="Revenue">Revenue</div></div>
+                            </div>
+                            <div class="channel-mgmt-actions">
+                                <button class="btn-ghost" data-i18n="Settings">Settings</button>
+                                <button class="btn-ghost" data-i18n="Sync Now">Sync Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inventory Allocation -->
+                    <div class="allocation-section">
+                        <div class="allocation-title" data-i18n="Inventory Allocation Across Channels">Inventory Allocation Across Channels</div>
+                        <div class="allocation-row">
+                            <div class="allocation-label">Tmall</div>
+                            <div class="allocation-bar-bg"><div class="allocation-bar-fill" style="width:50%;background:var(--teal-500)"></div></div>
+                            <div class="allocation-value">50%</div>
+                        </div>
+                        <div class="allocation-row">
+                            <div class="allocation-label">Shopee</div>
+                            <div class="allocation-bar-bg"><div class="allocation-bar-fill" style="width:30%;background:var(--amber)"></div></div>
+                            <div class="allocation-value">30%</div>
+                        </div>
+                        <div class="allocation-row">
+                            <div class="allocation-label">Lazada</div>
+                            <div class="allocation-bar-bg"><div class="allocation-bar-fill" style="width:10%;background:var(--rose)"></div></div>
+                            <div class="allocation-value">10%</div>
+                        </div>
+                        <div class="allocation-row">
+                            <div class="allocation-label">Shopify</div>
+                            <div class="allocation-bar-bg"><div class="allocation-bar-fill" style="width:5%;background:var(--blue)"></div></div>
+                            <div class="allocation-value">5%</div>
+                        </div>
+                        <div class="allocation-row">
+                            <div class="allocation-label">POS</div>
+                            <div class="allocation-bar-bg"><div class="allocation-bar-fill" style="width:5%;background:var(--gray)"></div></div>
+                            <div class="allocation-value">5%</div>
+                        </div>
+                        <div class="allocation-suggestion">
+                            💡 <span data-i18n="AI Suggestion: Increase Lazada allocation to 15% during next week's flash sale.">AI Suggestion: Increase Lazada allocation to 15% during next week's flash sale.</span>
+                        </div>
+                    </div>
+
+                    <!-- Price Monitor -->
+                    <div class="price-monitor">
+                        <table style="width:100%;border-collapse:collapse;">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="Product">Product</th>
+                                    <th>Tmall</th>
+                                    <th>Shopee</th>
+                                    <th>Lazada</th>
+                                    <th>Shopify</th>
+                                    <th>POS</th>
+                                    <th data-i18n="Status">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="font-weight:600">Fish Oil 1000mg</td>
+                                    <td class="price-cell">RM 36.90</td>
+                                    <td class="price-cell">RM 36.90</td>
+                                    <td class="price-cell">RM 36.90</td>
+                                    <td class="price-cell">RM 36.90</td>
+                                    <td class="price-cell">RM 36.90</td>
+                                    <td><span class="price-status ok">Consistent</span></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:600">Bio C 500mg</td>
+                                    <td class="price-cell">RM 22.99</td>
+                                    <td class="price-cell">RM 22.99</td>
+                                    <td class="price-cell" style="color:var(--rose);font-weight:700">RM 12.99</td>
+                                    <td class="price-cell">RM 22.99</td>
+                                    <td class="price-cell">RM 22.99</td>
+                                    <td><span class="price-status error">Error — Auto-paused</span></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:600">Immune Support</td>
+                                    <td class="price-cell" style="color:var(--amber);font-weight:700">RM 45.00</td>
+                                    <td class="price-cell">RM 42.00</td>
+                                    <td class="price-cell">RM 42.00</td>
+                                    <td class="price-cell">RM 42.00</td>
+                                    <td class="price-cell">RM 42.00</td>
+                                    <td><span class="price-status warn">Differs</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ===== ORDER DETAIL DRAWER ===== -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+    <div class="order-drawer" id="orderDrawer">
+        <div class="drawer-header">
+            <div class="drawer-title" data-i18n="Order Details">Order Details</div>
+            <button class="drawer-close" onclick="closeDrawer()">✕</button>
+        </div>
+        <div class="drawer-body">
+            <!-- Unified Info -->
+            <div class="drawer-section">
+                <div class="drawer-section-title" data-i18n="Order Information">Order Information</div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label" data-i18n="Portal Order ID">Portal Order ID</div>
+                        <div class="info-value mono">SO-2026-0101</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label" data-i18n="Platform">Platform</div>
+                        <div class="info-value"><span class="platform-badge shopee" id="drawerPlatformBadge">🍤 Shopee</span></div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label" data-i18n="Order Date">Order Date</div>
+                        <div class="info-value">May 28, 2026 · 14:32</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label" data-i18n="Status">Status</div>
+                        <div class="info-value"><span class="status-badge confirmed">Confirmed</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customer -->
+            <div class="drawer-section">
+                <div class="drawer-section-title" data-i18n="Customer">Customer</div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label" data-i18n="Name">Name</div>
+                        <div class="info-value">Lim Wei Chen</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label" data-i18n="Phone">Phone</div>
+                        <div class="info-value">+60 12-345-6789</div>
+                    </div>
+                    <div class="info-item" style="grid-column: 1 / -1;">
+                        <div class="info-label" data-i18n="Address">Address</div>
+                        <div class="info-value">42, Jalan SS15/4G, Subang Jaya, 47500 Selangor, Malaysia</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products -->
+            <div class="drawer-section">
+                <div class="drawer-section-title" data-i18n="Products">Products</div>
+                <div class="product-line">
+                    <div class="product-thumb">🐟</div>
+                    <div class="product-line-info">
+                        <div class="product-line-name">Fish Oil 1000mg</div>
+                        <div class="product-line-meta">SKU: BM-FO1000 · Qty: 2</div>
+                    </div>
+                    <div class="product-line-price">RM 73.80</div>
+                </div>
+                <div class="product-line">
+                    <div class="product-thumb">🍊</div>
+                    <div class="product-line-info">
+                        <div class="product-line-name">Bio C 1000mg</div>
+                        <div class="product-line-meta">SKU: BM-BC1000 · Qty: 1</div>
+                    </div>
+                    <div class="product-line-price">RM 31.50</div>
+                </div>
+                <div class="product-line">
+                    <div class="product-thumb">🛡️</div>
+                    <div class="product-line-info">
+                        <div class="product-line-name">Immune Defence Ultra</div>
+                        <div class="product-line-meta">SKU: BM-IDU90 · Qty: 1</div>
+                    </div>
+                    <div class="product-line-price">RM 23.20</div>
+                </div>
+            </div>
+
+            <!-- Payment Summary -->
+            <div class="drawer-section">
+                <div class="drawer-section-title" data-i18n="Payment Summary">Payment Summary</div>
+                <div class="payment-summary">
+                    <div class="payment-row"><span data-i18n="Subtotal">Subtotal</span><span>RM 128.50</span></div>
+                    <div class="payment-row"><span data-i18n="Shipping">Shipping</span><span>RM 8.00</span></div>
+                    <div class="payment-row"><span data-i18n="Discount">Discount</span><span style="color:var(--green)">-RM 12.50</span></div>
+                    <div class="payment-row total"><span data-i18n="Total">Total</span><span>RM 124.00</span></div>
+                </div>
+            </div>
+
+            <!-- AI Insight -->
+            <div class="drawer-section">
+                <div class="ai-insight">
+                    <div class="ai-insight-icon">💡</div>
+                    <div class="ai-insight-text" data-i18n="This order is 2.3× the customer's average. Consider offering a loyalty discount on their next purchase.">This order is 2.3× the customer's average. Consider offering a loyalty discount on their next purchase.</div>
+                </div>
+            </div>
+
+            <!-- Platform Specific -->
+            <div class="drawer-section">
+                <div class="drawer-section-title" data-i18n="Platform Details">Platform Details</div>
+                <div class="platform-tab-bar">
+                    <button class="platform-tab active" onclick="switchPlatformTab(this, 'shopee')">Shopee</button>
+                    <button class="platform-tab" onclick="switchPlatformTab(this, 'tmall')">Tmall</button>
+                </div>
+                <div class="platform-specific" id="platformContent">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Shopee Order ID</div>
+                            <div class="info-value mono">250528ABC123</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Buyer Rating</div>
+                            <div class="info-value">⭐⭐⭐⭐⭐ (5 stars)</div>
+                        </div>
+                        <div class="info-item" style="grid-column: 1 / -1;">
+                            <div class="info-label">Buyer Message</div>
+                            <div class="info-value" style="font-style:italic;color:var(--slate)">"Please pack carefully, gift for mom."</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Shopee Voucher</div>
+                            <div class="info-value" style="color:var(--green);font-weight:700">-RM 12.50</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Shopee Logistics</div>
+                            <div class="info-value">Shopee Xpress · SPX123456789</div>
+                        </div>
+                        <div class="info-item" style="grid-column: 1 / -1;">
+                            <div class="info-label">Shipping Status</div>
+                            <div class="info-value"><span class="status-badge confirmed">Pickup arranged</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="drawer-actions">
+            <button class="btn-primary" data-i18n="Arrange Pickup">Arrange Pickup</button>
+            <button class="btn-ghost" data-i18n="Shopee Chat">Shopee Chat</button>
+            <button class="btn-ghost" data-i18n="Print Label">Print Label</button>
+            <button class="btn-ghost" data-i18n="Add Note">Add Note</button>
+            <button class="btn-danger" style="margin-left:auto;" data-i18n="Refund / Return →">Refund / Return →</button>
+        </div>
+    </div>
+
+    <!-- ===== AI WIDGET ===== -->
+    <button class="ai-float-btn" onclick="toggleAI()" title="B.More AI">✨</button>
+    <div class="ai-widget" id="aiWidget">
+        <div class="ai-widget-header">
+            <div class="ai-widget-title">B.More AI</div>
+            <div class="ai-widget-subtitle" data-i18n="Your Sales Assistant">Your Sales Assistant</div>
+        </div>
+        <div class="ai-widget-body" id="aiBody">
+            <div class="ai-msg-bubble bot">
+                <span data-i18n="Hi! I can help you track orders across all channels, check channel health, or optimize inventory allocation. What do you need?">Hi! I can help you track orders across all channels, check channel health, or optimize inventory allocation. What do you need?</span>
+            </div>
+            <div class="ai-chips">
+                <span class="ai-chip" onclick="aiAsk('Track Order')">Track Order</span>
+                <span class="ai-chip" onclick="aiAsk('Channel Health')">Channel Health</span>
+                <span class="ai-chip" onclick="aiAsk('Inventory Advice')">Inventory Advice</span>
+                <span class="ai-chip" onclick="aiAsk('Compare Channels')">Compare Channels</span>
+            </div>
+        </div>
+        <div class="ai-widget-footer">
+            <input type="text" class="ai-widget-input" id="aiInput" placeholder="Ask about orders, channels, inventory..." data-i18n="Ask about orders, channels, inventory..." onkeydown="if(event.key==='Enter')sendAI()">
+            <button class="ai-widget-send" onclick="sendAI()">➤</button>
+        </div>
+    </div>
+
+    <script>
+    // ===== SIDEBAR =====
+    window.toggleSection = function(id) {
+        var chev = document.getElementById('chevron-' + id);
+        var sub = document.getElementById('submenu-' + id);
+        if (chev && sub) {
+            var isOpen = chev.classList.toggle('open');
+            sub.classList.toggle('open', isOpen);
+            var mod = document.body.dataset.module || 'home';
+            var state = JSON.parse(localStorage.getItem('sidebarState') || '{}');
+            state[mod + '-sidebar-' + id] = isOpen;
+            localStorage.setItem('sidebarState', JSON.stringify(state));
+        }
+    };
+
+    window.toggleMenu = function(header) {
+        var sec = header.closest('.sidebar-section'); if (!sec) return;
+        var sub = sec.querySelector('.sidebar-submenu');
+        var chev = sec.querySelector('.sidebar-chevron');
+        if (sub && chev) {
+            var isOpen = sub.classList.toggle('open');
+            chev.classList.toggle('open', isOpen);
+            var mod = document.body.dataset.module || 'home';
+            var state = JSON.parse(localStorage.getItem('sidebarState') || '{}');
+            state[mod + '-' + sec.id] = isOpen;
+            localStorage.setItem('sidebarState', JSON.stringify(state));
+        }
+    };
+
+    function highlightCurrentPage() {
+        var current = window.location.pathname.split('/').pop() || 'index.html';
+        document.querySelectorAll('.sidebar-link').forEach(function(link) {
+            var href = link.getAttribute('href');
+            if (!href) return;
+            var hrefClean = href.split('#')[0].split('?')[0];
+            if (hrefClean === current) {
+                link.classList.add('active');
+                var sub = link.closest('.sidebar-submenu');
+                if (sub) sub.classList.add('open');
+            }
+        });
+    }
+    function restoreSidebarState() {
+        var mod = document.body.dataset.module || 'home';
+        var state = JSON.parse(localStorage.getItem('sidebarState') || '{}');
+        var isLanding = window.location.pathname.split('/').pop().includes('hub');
+        document.querySelectorAll('.sidebar-section').forEach(function(sec) {
+            var id = sec.id; if (!id) return;
+            var key = mod + '-' + id;
+            var isOpen = state[key];
+            if (isLanding && isOpen === undefined) {
+                var idx = Array.from(document.querySelectorAll('.sidebar-section[id]')).indexOf(sec);
+                isOpen = idx < 2;
+            }
+            if (isOpen !== undefined) {
+                var chev = sec.querySelector('.sidebar-chevron');
+                var sub = sec.querySelector('.sidebar-submenu');
+                if (isOpen) { if (chev) chev.classList.add('open'); if (sub) sub.classList.add('open'); }
+                else { if (chev) chev.classList.remove('open'); if (sub) sub.classList.remove('open'); }
+            }
+        });
+    }
+
+    // ===== PAGE SWITCHING =====
+    window.showPage = function(pageId, el) {
+        document.querySelectorAll('.page-section').forEach(function(s) { s.style.display = 'none'; });
+        var target = document.getElementById('page-' + pageId);
+        if (target) target.style.display = 'block';
+        if (el) {
+            document.querySelectorAll('.page-tab').forEach(function(t) { t.classList.remove('active'); });
+            var studioCurrent = document.querySelector('.studio-nav [data-page="' + pageId + '"]');
+            if (studioCurrent || (el && el.closest && el.closest('.studio-nav'))) {
+                document.querySelectorAll('.studio-nav button, .studio-nav a').forEach(function(item) { item.classList.remove('active'); });
+                (studioCurrent || el).classList.add('active');
+            }
+        }
+    };
+
+    // ===== FILTER =====
+    window.filterOrders = function(el, filter) {
+        document.querySelectorAll('.filter-chip').forEach(function(c) { c.classList.remove('active'); });
+        el.classList.add('active');
+        var rows = document.querySelectorAll('#ordersTableBody tr');
+        rows.forEach(function(row) {
+            var show = true;
+            if (['tmall','shopee','lazada','shopify','pos'].indexOf(filter) !== -1) {
+                show = row.dataset.platform === filter;
+            } else if (['pending','confirmed','shipped','delivered','completed'].indexOf(filter) !== -1) {
+                show = row.dataset.status === filter;
+            }
+            row.style.display = show ? '' : 'none';
+        });
+    };
+
+    window.filterByPlatform = function(platform) {
+        var chips = document.querySelectorAll('.filter-chip');
+        chips.forEach(function(c) {
+            if (c.textContent.toLowerCase().includes(platform) || c.dataset.i18n === platform) {
+                c.click();
+            }
+        });
+    };
+
+    // ===== BATCH OPERATIONS =====
+    window.toggleSelectAll = function(master) {
+        document.querySelectorAll('.row-check').forEach(function(c) { c.checked = master.checked; });
+        updateBatch();
+    };
+
+    window.updateBatch = function() {
+        var checked = document.querySelectorAll('.row-check:checked');
+        var count = checked.length;
+        var bar = document.getElementById('batchBar');
+        var countEl = document.getElementById('batchCount');
+        if (count > 0) { bar.classList.add('show'); countEl.textContent = count; }
+        else { bar.classList.remove('show'); }
+    };
+
+    window.clearSelection = function() {
+        document.querySelectorAll('.row-check, #selectAll').forEach(function(c) { c.checked = false; });
+        updateBatch();
+    };
+
+    // ===== DRAWER =====
+    window.openDrawer = function(platform) {
+        var badge = document.getElementById('drawerPlatformBadge');
+        if (badge) {
+            badge.className = 'platform-badge ' + platform;
+            var names = {tmall:'🛒 Tmall', shopee:'🍤 Shopee', lazada:'🛍️ Lazada', shopify:'🛒 Shopify', pos:'🏪 POS'};
+            badge.textContent = names[platform] || platform;
+        }
+        document.getElementById('drawerOverlay').classList.add('show');
+        document.getElementById('orderDrawer').classList.add('open');
+    };
+
+    window.closeDrawer = function() {
+        document.getElementById('drawerOverlay').classList.remove('show');
+        document.getElementById('orderDrawer').classList.remove('open');
+    };
+
+    window.switchPlatformTab = function(el, platform) {
+        document.querySelectorAll('.platform-tab').forEach(function(t) { t.classList.remove('active'); });
+        el.classList.add('active');
+        var content = document.getElementById('platformContent');
+        var templates = {
+            shopee: '<div class="info-grid"><div class="info-item"><div class="info-label">Shopee Order ID</div><div class="info-value mono">250528ABC123</div></div><div class="info-item"><div class="info-label">Buyer Rating</div><div class="info-value">⭐⭐⭐⭐⭐ (5 stars)</div></div><div class="info-item" style="grid-column:1/-1"><div class="info-label">Buyer Message</div><div class="info-value" style="font-style:italic;color:var(--slate)">"Please pack carefully, gift for mom."</div></div><div class="info-item"><div class="info-label">Shopee Voucher</div><div class="info-value" style="color:var(--green);font-weight:700">-RM 12.50</div></div><div class="info-item"><div class="info-label">Shopee Logistics</div><div class="info-value">Shopee Xpress · SPX123456789</div></div><div class="info-item" style="grid-column:1/-1"><div class="info-label">Shipping Status</div><div class="info-value"><span class="status-badge confirmed">Pickup arranged</span></div></div></div>',
+            tmall: '<div class="info-grid"><div class="info-item"><div class="info-label">天猫订单号</div><div class="info-value mono">TM20260528001</div></div><div class="info-item"><div class="info-label">店铺名</div><div class="info-value">BLACKMORES旗舰店</div></div><div class="info-item"><div class="info-label">买家昵称</div><div class="info-value">健康达人_88</div></div><div class="info-item"><div class="info-label">天猫积分抵扣</div><div class="info-value" style="color:var(--green);font-weight:700">-RM 8.00</div></div><div class="info-item" style="grid-column:1/-1"><div class="info-label">物流</div><div class="info-value">菜鸟物流 · 已揽收</div></div></div>'
+        };
+        content.innerHTML = templates[platform] || templates.shopee;
+    };
+
+    // ===== AI WIDGET =====
+    window.toggleAI = function() {
+        document.getElementById('aiWidget').classList.toggle('open');
+    };
+
+    window.aiAsk = function(text) {
+        var body = document.getElementById('aiBody');
+        var userMsg = document.createElement('div');
+        userMsg.className = 'ai-msg-bubble user';
+        userMsg.textContent = text;
+        body.appendChild(userMsg);
+        var replies = {
+            'Track Order': '🔍 I found 6 orders across all channels. 2 are pending action on Shopee, 1 has a return alert on Tmall.',
+            'Channel Health': '📊 All channels are healthy except Lazada — sync delayed 3h. I recommend triggering a manual sync.',
+            'Inventory Advice': '📦 Your top seller Fish Oil 1000mg is running low on Shopee (12 units left). Would you like me to suggest a reorder?',
+            'Compare Channels': '📈 Shopee is your top channel this month (67 orders, RM 12,450). Lazada is underperforming — only 12 orders. Consider a flash sale?'
+        };
+        setTimeout(function() {
+            var botMsg = document.createElement('div');
+            botMsg.className = 'ai-msg-bubble bot';
+            botMsg.textContent = replies[text] || "I'm analyzing your sales data. One moment... ✨";
+            body.appendChild(botMsg);
+            body.scrollTop = body.scrollHeight;
+        }, 600);
+        body.scrollTop = body.scrollHeight;
+    };
+
+    window.sendAI = function() {
+        var input = document.getElementById('aiInput');
+        if (!input.value.trim()) return;
+        aiAsk(input.value);
+        input.value = '';
+    };
+
+    // ===== INIT =====
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            var hash = window.location.hash.substring(1);
+            var map = {'channel': 'channel-mgmt'};
+            var pageId = map[hash] || 'orders-list';
+            var selector = hash ? 'a[href="sale-order.html#' + hash + '"]' : 'a[href="sale-order.html"]';
+            var link = document.querySelector(selector);
+            showPage(pageId, link);
+            highlightCurrentPage();
+            restoreSidebarState();
+        });
+    } else {
+        highlightCurrentPage();
+        restoreSidebarState();
+    }
+    </script>
+</body>
+</html>

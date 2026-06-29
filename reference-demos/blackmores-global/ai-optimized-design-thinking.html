@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI-Optimized Design Thinking — Blackmores Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
+    --ink:#1b1d1a; --muted:#6d716a; --canvas:#ffffff; --card:#ffffff; --line:#e8e6df;
+    --display:Georgia,'Times New Roman','Songti SC','Noto Serif CJK SC',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans','Microsoft YaHei',sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--body);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+  header{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--line)}
+  .bar{display:flex;align-items:center;gap:16px;max-width:1080px;margin:0 auto;padding:11px 28px}
+  .back{font-size:13px;font-weight:800;color:var(--brand-d);text-decoration:none;border:1px solid var(--line);padding:8px 14px;border-radius:999px;transition:.18s}
+  .back:hover{border-color:var(--brand);background:var(--soft)}
+  .ptitle{font-family:var(--display);font-size:21px;font-weight:600;letter-spacing:-.01em}
+  .spacer{flex:1}
+  .langsw{display:flex;gap:4px;background:#f4f2ec;border:1px solid var(--line);border-radius:999px;padding:3px}
+  .langsw button{border:0;background:transparent;font:inherit;font-size:12px;font-weight:800;color:var(--muted);padding:5px 11px;border-radius:999px;cursor:pointer;transition:.15s}
+  .langsw button.on{background:#fff;color:var(--brand-d);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+  .hero{background:linear-gradient(135deg,#e6f6f5 0%,#f7f5ef 60%);border-bottom:1px solid var(--line)}
+  .hero-in{padding:40px 0 36px}
+  .kick{font-size:11px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--brand);margin-bottom:14px}
+  .hero h1{font-family:var(--display);font-size:clamp(30px,4.6vw,46px);font-weight:600;letter-spacing:-.02em;margin:0;line-height:1.08}
+  .hero .lead{font-size:15.5px;color:var(--muted);max-width:740px;margin-top:14px}
+  section{padding:42px 0}
+  section + section{border-top:1px solid var(--line)}
+  .sec-kick{font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--brand);margin-bottom:10px}
+  .sec-h{font-family:var(--display);font-size:28px;font-weight:600;letter-spacing:-.01em;margin:0 0 8px}
+  .sec-sub{font-size:15px;color:var(--muted);max-width:780px;margin:0 0 24px}
+  .stages{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  @media(max-width:820px){.stages{grid-template-columns:1fr}}
+  .stage{padding:18px;border-right:1px solid var(--line)}
+  .stage:last-child{border-right:0}
+  .stage .n{font-size:12px;font-weight:900;color:var(--brand-d)}
+  .stage h4{font-family:var(--display);font-size:16px;font-weight:600;margin:6px 0 5px}
+  .stage p{font-size:12.5px;color:var(--muted);margin:0}
+  .stage .ai{display:inline-block;margin-top:8px;font-size:11px;font-weight:800;color:var(--brand-d);background:var(--soft);border:1px solid #cfe7e7;border-radius:6px;padding:2px 7px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:760px){.grid3{grid-template-columns:1fr}}
+  .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}
+  .card h3{font-family:var(--display);font-size:18px;font-weight:600;margin:0 0 8px;display:flex;align-items:center;gap:9px}
+  .card h3 .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--soft);color:var(--brand-d);font-size:16px;flex:0 0 auto}
+  .card p{font-size:13px;color:var(--muted);margin:0}
+  .flow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .flow .node{background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 14px;font-size:13.5px;font-weight:800}
+  .flow .arr{color:var(--muted);font-weight:800}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  @media(max-width:760px){.twocol{grid-template-columns:1fr}}
+  .twocol > div{padding:22px}
+  .twocol .a{background:#fff}.twocol .b{background:var(--soft)}
+  .twocol h4{font-family:var(--display);font-size:17px;font-weight:600;margin:0 0 8px}
+  .twocol ul{margin:0;padding-left:18px;font-size:13.5px;color:var(--muted)}
+  .twocol li{margin:5px 0}
+  footer{border-top:1px solid var(--line);padding:26px 0 50px}
+  .note{font-size:13px;color:var(--muted);background:#faf9f5;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <a class="back" href="index.html" data-i18n="back">← Back to studio</a>
+    <span class="ptitle" data-i18n="ptitle">AI-Optimized Design Thinking</span>
+    <span class="spacer"></span>
+    <div class="langsw" id="langsw">
+      <button data-lang="en" class="on">EN</button>
+      <button data-lang="zh">中文</button>
+      <button data-lang="ja">日本語</button>
+      <button data-lang="th">ไทย</button>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap hero-in">
+    <div class="kick" data-i18n="kick">Method</div>
+    <h1 data-i18n="h1">Design thinking, accelerated by AI.</h1>
+    <p class="lead" data-i18n="lead">We keep the rigour of human-centred design — empathise, define, ideate, prototype, test — but use AI to compress each loop from weeks to days. The result for Blackmores: faster, evidence-led experiences that stay compliant and on-brand.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s1k">01 · The thinking</div>
+    <h2 class="sec-h" data-i18n="s1h">The five stages — and where AI lifts each</h2>
+    <p class="sec-sub" data-i18n="s1s">Same discipline, faster cycles. AI does the heavy lifting; humans keep judgement, taste and compliance.</p>
+    <div class="stages">
+      <div class="stage"><div class="n">01</div><h4 data-i18n="g1h">Empathise</h4><p data-i18n="g1p">Understand the shopper, the partner, the daily health routine.</p><span class="ai" data-i18n="g1a">AI · research synthesis</span></div>
+      <div class="stage"><div class="n">02</div><h4 data-i18n="g2h">Define</h4><p data-i18n="g2p">Frame the real problem &amp; the white space.</p><span class="ai" data-i18n="g2a">AI · insight clustering</span></div>
+      <div class="stage"><div class="n">03</div><h4 data-i18n="g3h">Ideate</h4><p data-i18n="g3p">Generate and pressure-test concepts.</p><span class="ai" data-i18n="g3a">AI · concept variants</span></div>
+      <div class="stage"><div class="n">04</div><h4 data-i18n="g4h">Prototype</h4><p data-i18n="g4p">Stand up clickable demos fast.</p><span class="ai" data-i18n="g4a">AI · rapid build</span></div>
+      <div class="stage"><div class="n">05</div><h4 data-i18n="g5h">Test</h4><p data-i18n="g5p">Validate with users &amp; evidence.</p><span class="ai" data-i18n="g5a">AI · feedback analysis</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s2k">02 · The tools</div>
+    <h2 class="sec-h" data-i18n="s2h">Where AI accelerates the work</h2>
+    <div class="grid3">
+      <div class="card"><h3><span class="ic">🔎</span><span data-i18n="k1h">Research &amp; insight</span></h3><p data-i18n="k1p">Synthesise market scans, reviews and VOC into clear insights and personas in hours, not weeks.</p></div>
+      <div class="card"><h3><span class="ic">✏️</span><span data-i18n="k2h">Content &amp; concepts</span></h3><p data-i18n="k2p">Generate on-brand, compliant copy and creative variants — TGA-safe, no health claims, PGC only.</p></div>
+      <div class="card"><h3><span class="ic">⚡</span><span data-i18n="k3h">Rapid prototyping</span></h3><p data-i18n="k3p">Turn a concept into a clickable demo the same day — exactly like the demos in this studio.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s3k">03 · The workflow</div>
+    <h2 class="sec-h" data-i18n="s3h">A tighter loop</h2>
+    <p class="sec-sub" data-i18n="s3s">Each pass is shorter, so we run more of them — and decisions are backed by evidence, not opinion.</p>
+    <div class="flow">
+      <span class="node" data-i18n="f1">Brief</span><span class="arr">→</span>
+      <span class="node" data-i18n="f2">AI research</span><span class="arr">→</span>
+      <span class="node" data-i18n="f3">Concept</span><span class="arr">→</span>
+      <span class="node" data-i18n="f4">Prototype</span><span class="arr">→</span>
+      <span class="node" data-i18n="f5">Test</span><span class="arr">↺</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s4k">04 · The delivery</div>
+    <h2 class="sec-h" data-i18n="s4h">What changes for Blackmores</h2>
+    <div class="twocol">
+      <div class="a">
+        <h4 data-i18n="bh">Before</h4>
+        <ul>
+          <li data-i18n="b1">Weeks per design loop; decks over working demos</li>
+          <li data-i18n="b2">Opinion-led debates, slow validation</li>
+          <li data-i18n="b3">Compliance bolted on at the end</li>
+        </ul>
+      </div>
+      <div class="b">
+        <h4 data-i18n="ah">After</h4>
+        <ul>
+          <li data-i18n="a1">Days per loop; clickable demos to react to</li>
+          <li data-i18n="a2">Evidence-led, more options explored</li>
+          <li data-i18n="a3">Brand &amp; compliance guardrails built into the AI from the start</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="note" data-i18n="note">
+      <b>Draft for review.</b> Original Blackmores adaptation of the AI-optimized design-thinking method (re-authored for retail/health — no auto content reused). Source of truth: <b>MARKET_POSITIONING.md</b>.
+    </div>
+  </div>
+</footer>
+<script>
+(function(){
+  var I18N={
+    zh:{
+      back:"← 返回工作室", ptitle:"AI 优化的设计思维", kick:"方法论", h1:"由 AI 加速的设计思维。",
+      lead:"我们保留以人为本设计的严谨——共情、定义、构思、原型、测试——但借助 AI 把每一轮循环从数周压缩到数天。对 Blackmores 而言：更快、以证据为依据，且始终合规、贴合品牌的体验。",
+      s1k:"01 · 思维方法", s1h:"五个阶段——以及 AI 如何赋能每一步", s1s:"同样的纪律，更快的循环。AI 承担繁重的工作；人来把握判断、品味与合规。",
+      g1h:"共情", g1p:"理解消费者、合作伙伴，以及日常的健康习惯。", g1a:"AI · 研究综合",
+      g2h:"定义", g2p:"界定真正的问题与市场空白。", g2a:"AI · 洞察聚类",
+      g3h:"构思", g3p:"生成并压力测试创意概念。", g3a:"AI · 概念变体",
+      g4h:"原型", g4p:"快速搭建可点击的演示。", g4a:"AI · 快速搭建",
+      g5h:"测试", g5p:"以用户与证据进行验证。", g5a:"AI · 反馈分析",
+      s2k:"02 · 工具", s2h:"AI 在哪些环节加速工作",
+      k1h:"研究与洞察", k1p:"将市场扫描、评论与消费者之声综合为清晰的洞察与人群画像——以小时计，而非数周。",
+      k2h:"内容与概念", k2p:"生成贴合品牌、合规的文案与创意变体——符合 TGA、无疗效宣称、仅限 PGC。",
+      k3h:"快速原型", k3p:"当天就把概念变成可点击的演示——正如本工作室中的各个 Demo。",
+      s3k:"03 · 工作流", s3h:"更紧凑的循环", s3s:"每一轮更短，因此我们能跑更多轮——而决策由证据支撑，而非主观意见。",
+      f1:"简报", f2:"AI 研究", f3:"概念", f4:"原型", f5:"测试",
+      s4k:"04 · 交付", s4h:"对 Blackmores 而言有何改变",
+      bh:"过去",
+      b1:"每轮设计循环耗时数周；用幻灯片代替可用的演示",
+      b2:"以观点主导的争论，验证缓慢",
+      b3:"合规在最后才被勉强加上",
+      ah:"现在",
+      a1:"每轮以天计；用可点击的演示来获取反馈",
+      a2:"以证据为依据，探索更多方案",
+      a3:"品牌与合规护栏从一开始就内建于 AI 之中",
+      note:"<b>评审草稿。</b>Blackmores 对 AI 优化设计思维方法的原创改编（为零售/健康场景重新撰写——未复用任何自动生成内容）。事实依据：<b>MARKET_POSITIONING.md</b>。"
+    },
+    ja:{
+      back:"← スタジオに戻る", ptitle:"AI 最適化デザイン思考", kick:"メソッド", h1:"AI で加速するデザイン思考。",
+      lead:"人間中心デザインの厳密さ——共感・定義・発想・プロトタイプ・テスト——を保ちつつ、AI で各ループを数週間から数日へ圧縮します。Blackmores にとっての成果は、より速く、エビデンス主導で、コンプライアンスとブランドを守る体験です。",
+      s1k:"01 · 考え方", s1h:"5つのステージ — と AI が各段階を引き上げるところ", s1s:"同じ規律で、より速いサイクル。AI が重い作業を担い、人が判断・センス・コンプライアンスを保つ。",
+      g1h:"共感", g1p:"買い物客、パートナー、日々の健康習慣を理解する。", g1a:"AI · リサーチ統合",
+      g2h:"定義", g2p:"本当の課題とホワイトスペースを定める。", g2a:"AI · インサイト・クラスタリング",
+      g3h:"発想", g3p:"コンセプトを生成し、検証する。", g3a:"AI · コンセプト・バリエーション",
+      g4h:"プロトタイプ", g4p:"クリック可能なデモを素早く立ち上げる。", g4a:"AI · 高速ビルド",
+      g5h:"テスト", g5p:"ユーザーとエビデンスで検証する。", g5a:"AI · フィードバック分析",
+      s2k:"02 · ツール", s2h:"AI が作業を加速する領域",
+      k1h:"リサーチとインサイト", k1p:"市場スキャン・レビュー・VOC を、明確なインサイトとペルソナに統合——数週間ではなく数時間で。",
+      k2h:"コンテンツとコンセプト", k2p:"ブランドに沿った、コンプライアンス準拠のコピーとクリエイティブのバリエーションを生成——TGA 準拠、効能訴求なし、PGC のみ。",
+      k3h:"高速プロトタイピング", k3p:"コンセプトをその日のうちにクリック可能なデモへ——このスタジオのデモとまったく同じように。",
+      s3k:"03 · ワークフロー", s3h:"より引き締まったループ", s3s:"各パスが短いので回数を増やせる——そして意思決定は意見ではなくエビデンスに支えられる。",
+      f1:"ブリーフ", f2:"AI リサーチ", f3:"コンセプト", f4:"プロトタイプ", f5:"テスト",
+      s4k:"04 · デリバリー", s4h:"Blackmores にとって何が変わるか",
+      bh:"以前",
+      b1:"設計ループに数週間。動くデモよりも資料",
+      b2:"意見主導の議論、遅い検証",
+      b3:"コンプライアンスは最後に後付け",
+      ah:"以後",
+      a1:"ループは数日。反応を得られるクリック可能なデモ",
+      a2:"エビデンス主導で、より多くの選択肢を検討",
+      a3:"ブランドとコンプライアンスのガードレールを最初から AI に組み込み",
+      note:"<b>レビュー用ドラフト。</b>AI 最適化デザイン思考メソッドの Blackmores による独自アダプテーション（リテール／ヘルス向けに再執筆——自動生成コンテンツの流用なし）。出典：<b>MARKET_POSITIONING.md</b>。"
+    },
+    th:{
+      back:"← กลับสู่สตูดิโอ", ptitle:"การคิดเชิงออกแบบที่เพิ่มประสิทธิภาพด้วย AI", kick:"วิธีการ", h1:"การคิดเชิงออกแบบ เร่งความเร็วด้วย AI",
+      lead:"เรารักษาความเข้มงวดของการออกแบบที่ยึดมนุษย์เป็นศูนย์กลาง — เข้าใจ กำหนด ระดมไอเดีย สร้างต้นแบบ ทดสอบ — แต่ใช้ AI ย่นแต่ละรอบจากหลายสัปดาห์เหลือไม่กี่วัน ผลลัพธ์สำหรับ Blackmores: ประสบการณ์ที่เร็วขึ้น นำด้วยหลักฐาน และยังคงสอดคล้องกฎและตรงกับแบรนด์",
+      s1k:"01 · แนวคิด", s1h:"ห้าขั้นตอน — และจุดที่ AI ยกระดับแต่ละขั้น", s1s:"วินัยเดิม แต่รอบเร็วขึ้น AI รับงานหนัก ส่วนมนุษย์รักษาการตัดสินใจ รสนิยม และการกำกับ",
+      g1h:"เข้าใจ (Empathise)", g1p:"เข้าใจผู้ซื้อ พาร์ทเนอร์ และกิจวัตรสุขภาพประจำวัน", g1a:"AI · สังเคราะห์งานวิจัย",
+      g2h:"กำหนด (Define)", g2p:"ตีกรอบปัญหาที่แท้จริงและช่องว่างในตลาด", g2a:"AI · จัดกลุ่มอินไซต์",
+      g3h:"ระดมไอเดีย (Ideate)", g3p:"สร้างและทดสอบความแข็งแกร่งของคอนเซ็ปต์", g3a:"AI · คอนเซ็ปต์หลายรูปแบบ",
+      g4h:"สร้างต้นแบบ (Prototype)", g4p:"สร้างเดโมแบบคลิกได้อย่างรวดเร็ว", g4a:"AI · สร้างเร็ว",
+      g5h:"ทดสอบ (Test)", g5p:"ตรวจสอบกับผู้ใช้และหลักฐาน", g5a:"AI · วิเคราะห์ฟีดแบ็ก",
+      s2k:"02 · เครื่องมือ", s2h:"จุดที่ AI เร่งงาน",
+      k1h:"วิจัยและอินไซต์", k1p:"สังเคราะห์การสำรวจตลาด รีวิว และ VOC เป็นอินไซต์และเพอร์โซนาที่ชัดเจนภายในไม่กี่ชั่วโมง ไม่ใช่หลายสัปดาห์",
+      k2h:"คอนเทนต์และคอนเซ็ปต์", k2p:"สร้างคอปปี้ที่ตรงแบรนด์และสอดคล้องกฎ พร้อมครีเอทีฟหลายรูปแบบ — ปลอดภัยตาม TGA ไม่อ้างสรรพคุณ ใช้เฉพาะ PGC",
+      k3h:"สร้างต้นแบบอย่างรวดเร็ว", k3p:"เปลี่ยนคอนเซ็ปต์เป็นเดโมแบบคลิกได้ภายในวันเดียว — เหมือนกับเดโมในสตูดิโอนี้",
+      s3k:"03 · เวิร์กโฟลว์", s3h:"ลูปที่กระชับขึ้น", s3s:"แต่ละรอบสั้นลง เราจึงทำได้มากขึ้น — และการตัดสินใจมีหลักฐานหนุน ไม่ใช่ความเห็น",
+      f1:"บรีฟ", f2:"วิจัยด้วย AI", f3:"คอนเซ็ปต์", f4:"ต้นแบบ", f5:"ทดสอบ",
+      s4k:"04 · การส่งมอบ", s4h:"อะไรเปลี่ยนไปสำหรับ Blackmores",
+      bh:"ก่อนหน้า",
+      b1:"หลายสัปดาห์ต่อหนึ่งลูปออกแบบ สไลด์มากกว่าเดโมที่ใช้งานได้",
+      b2:"ถกเถียงด้วยความเห็น ตรวจสอบช้า",
+      b3:"การกำกับถูกเพิ่มเข้ามาตอนท้าย",
+      ah:"หลังจากนี้",
+      a1:"ไม่กี่วันต่อลูป เดโมแบบคลิกได้ให้ตอบสนอง",
+      a2:"นำด้วยหลักฐาน สำรวจทางเลือกได้มากขึ้น",
+      a3:"กรอบกำกับแบรนด์และคอมไพลแอนซ์ถูกฝังใน AI ตั้งแต่ต้น",
+      note:"<b>ฉบับร่างเพื่อทบทวน</b> การปรับใช้วิธีการคิดเชิงออกแบบที่เพิ่มประสิทธิภาพด้วย AI ฉบับต้นฉบับของ Blackmores (เขียนใหม่สำหรับรีเทล/สุขภาพ — ไม่ได้นำคอนเทนต์อัตโนมัติมาใช้ซ้ำ) แหล่งอ้างอิง: <b>MARKET_POSITIONING.md</b>"
+    }
+  };
+  var LANGS=['en','zh','ja','th'];
+  var state={lang:'en'};
+  try{var _l=new URLSearchParams(location.search).get('lang');if(_l&&LANGS.indexOf(_l)>=0)state.lang=_l;}catch(e){}
+  function apply(){
+    var d=I18N[state.lang]||null;
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k=el.getAttribute('data-i18n');
+      if(!el.hasAttribute('data-en'))el.setAttribute('data-en',el.innerHTML);
+      if(d&&d[k]!=null)el.innerHTML=d[k];
+      else el.innerHTML=el.getAttribute('data-en');
+    });
+    document.documentElement.lang=state.lang;
+    document.querySelectorAll('#langsw button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-lang')===state.lang);});
+  }
+  document.querySelectorAll('#langsw button').forEach(function(b){b.addEventListener('click',function(){state.lang=b.getAttribute('data-lang');apply();});});
+  window.addEventListener('message',function(e){try{if(e.data&&e.data.t==='es'&&e.data.lang&&LANGS.indexOf(e.data.lang)>=0){state.lang=e.data.lang;apply();}}catch(err){}});
+  apply();
+})();
+// hide own header when embedded in the studio viewer
+(function(){try{if(window.self!==window.top){var s=document.createElement("style");s.textContent="header{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();
+</script>
+</body>
+</html>

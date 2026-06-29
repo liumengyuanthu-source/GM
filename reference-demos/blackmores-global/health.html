@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blackmores · Health Twin · Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --bio:#E91E63; --bio-br:#00CB5D; --bio-d:#14521D;
+    --ink:#16201f; --muted:#6a7472; --bg:#eef3f8; --card:#fff; --line:#e6ecf2; --gold:#e8a33d;
+    --display:Georgia,'Times New Roman','Hiragino Mincho ProN',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','PingFang SC','Microsoft YaHei','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  button{font-family:inherit;cursor:pointer}
+  header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  .nav{display:flex;align-items:center;gap:10px;max-width:460px;margin:0 auto;padding:11px 16px}
+  .brand{font-family:var(--display);font-weight:700;font-size:18px}.brand sup{font-size:9px;color:var(--bio)}
+  .subt{font-size:11px;color:var(--muted);border-left:1px solid var(--line);padding-left:10px}.sp{flex:1}
+  .linebadge{display:inline-flex;align-items:center;gap:4px;background:#06c755;color:#fff;font-size:10px;font-weight:700;padding:3px 7px;border-radius:6px}
+  .chip{display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:12px;font-weight:600;cursor:pointer;position:relative}
+  .menu{position:absolute;top:38px;right:0;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:5px;min-width:104px;box-shadow:0 12px 30px rgba(0,0,0,.12);display:none;z-index:50}
+  .menu.open{display:block}.menu button{display:block;width:100%;border:0;background:0;font:inherit;font-size:13px;padding:7px 9px;border-radius:7px;cursor:pointer;text-align:left;color:var(--ink)}.menu button:hover{background:var(--soft)}
+  .langs{display:flex;gap:3px}
+  .langs button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;font-weight:600;color:var(--muted);min-width:32px;height:30px;border-radius:8px;cursor:pointer;transition:.2s;padding:0 6px}
+  .langs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .frame{max-width:460px;margin:0 auto;padding:18px 16px 50px;min-height:80vh}
+
+  /* progress dots */
+  .dots{display:flex;gap:6px;justify-content:center;margin:6px 0 18px}
+  .dots i{width:7px;height:7px;border-radius:50%;background:var(--line)}.dots i.on{background:var(--brand)}.dots i.done{background:var(--bio)}
+
+  /* onboarding */
+  .ob{animation:fin .35s ease}@keyframes fin{from{opacity:0;transform:translateY(10px)}}
+  .ob .step{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--bio);text-transform:uppercase}
+  .ob h2{font-family:var(--display);font-weight:400;font-size:21px;margin:8px 0 5px;line-height:1.3}
+  .ob .hint{font-size:12.5px;color:var(--muted);margin-bottom:18px}
+  .opts{display:flex;flex-direction:column;gap:10px}
+  .opt{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:15px 16px;font-size:15px;font-weight:600;text-align:left;display:flex;align-items:center;gap:12px;transition:.15s}
+  .opt:hover{border-color:var(--brand);background:var(--soft)}
+  .opt .oe{font-size:22px}
+  .scoreform{text-align:center;margin:8px 0 14px}
+  .scoreform .sn{font-family:var(--display);font-size:30px;font-weight:500;color:var(--brand)}
+  .scoreform .sl{font-size:11px;color:var(--muted)}
+
+  /* Health Twin mascot */
+  .mascot{display:grid;place-items:center;margin:6px auto}
+  .growbar{height:8px;background:var(--soft);border-radius:999px;overflow:hidden;margin:10px auto 2px;max-width:240px}
+  .growbar i{display:block;height:100%;background:linear-gradient(90deg,var(--bio),var(--bio-br));transition:width .5s}
+  .growlab{font-size:11px;color:var(--muted);text-align:center}
+
+  /* result */
+  .scorebig{text-align:center;padding:18px 0 6px}
+  .scorebig .ring{width:128px;height:128px;margin:0 auto;border-radius:50%;display:grid;place-items:center;
+    background:conic-gradient(var(--bio) calc(var(--p)*1%),var(--soft) 0);position:relative}
+  .scorebig .ring::after{content:'';position:absolute;inset:11px;border-radius:50%;background:var(--card)}
+  .scorebig .ring .v{position:relative;z-index:1;font-family:var(--display);font-size:34px;font-weight:500;color:var(--brand-d)}
+  .scorebig .ring .v small{font-size:13px;color:var(--muted)}
+  .scorebig .band{font-size:13px;font-weight:700;margin-top:9px}
+  .advice{background:var(--soft);border-radius:14px;padding:14px;font-size:13px;line-height:1.6;margin:14px 0}
+  .advice b{color:var(--brand-d)}
+  .reccard{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:13px;margin-bottom:14px}
+  .reccard img{width:46px;height:46px}
+  .reccard .rn{font-weight:700;font-size:14px}.reccard .rw{font-size:11.5px;color:var(--muted);margin-top:2px}
+
+  /* home */
+  .home{animation:fin .35s ease}
+  .hero{background:radial-gradient(120% 100% at 50% 0%,#0f6fb4,#009BA4 55%,#007A82);border-radius:20px;padding:16px 14px 14px;color:#fff;text-align:center;position:relative;overflow:hidden}
+  .hero .sky{position:absolute;inset:0;background:radial-gradient(50% 38% at 80% 12%,rgba(255,255,255,.35),transparent 60%)}
+  .hero>*{position:relative}
+  .hero .tt{font-size:11px;font-weight:700;opacity:.9;letter-spacing:.04em}
+  .hero .nm{font-family:var(--display);font-size:16px;margin-top:2px}
+  .hero .st{font-size:11.5px;opacity:.92;margin-top:3px}.hero .st b{font-weight:800}
+  .hero .scorepill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.16);border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700;margin-top:8px}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:12px}
+  .tile{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:13px;cursor:pointer;transition:.15s}
+  .tile:active{transform:scale(.98)}
+  .tile.scan{background:linear-gradient(135deg,#eafaf0,#fff);border-color:#bfe9cf}
+  .tile .ti{font-size:24px}.tile .th{font-weight:700;font-size:13.5px;margin-top:6px}.tile .ts{font-size:11px;color:var(--muted);margin-top:2px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:14px;margin-top:12px}
+  .ch{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13.5px}.ch .streak{margin-left:auto;font-size:11px;font-weight:800;color:var(--gold)}
+  .days{display:flex;gap:4px;margin:11px 0}
+  .days i{flex:1;height:26px;border-radius:6px;background:var(--soft);display:grid;place-items:center;font-size:9.5px;color:var(--brand);font-weight:700}
+  .days i.done{background:var(--bio);color:#fff}.days i.today{outline:2px solid var(--brand);outline-offset:-2px}
+  .ckbtn{width:100%;border:0;border-radius:12px;padding:13px;font-size:14px;font-weight:800;color:#fff;background:var(--brand);margin-top:4px}
+  .ckbtn.done{background:var(--bio)}
+  .sec{font-size:13px;font-weight:700;margin:16px 2px 8px}
+  .fold{background:var(--card);border:1px solid var(--line);border-radius:13px;margin-top:9px;overflow:hidden}
+  .fold .fh{display:flex;align-items:center;gap:10px;padding:13px;cursor:pointer;font-weight:700;font-size:13.5px}
+  .fold .fi{width:34px;height:34px;border-radius:10px;background:var(--soft);display:grid;place-items:center;font-size:17px}
+  .fold .fa{margin-left:auto;color:var(--muted);transition:.2s}.fold.open .fa{transform:rotate(180deg)}
+  .fold .fb{display:none;padding:0 13px 13px}.fold.open .fb{display:block}
+  .trend{display:flex;align-items:flex-end;gap:5px;height:46px;margin-top:4px}
+  .trend i{flex:1;background:var(--soft);border-radius:4px 4px 0 0}.trend i.up{background:linear-gradient(180deg,var(--bio-br),var(--bio))}
+  .prow{display:flex;font-size:12.5px;padding:7px 0;border-bottom:1px solid var(--line)}.prow:last-child{border-bottom:0}.prow .pk{color:var(--muted);width:120px;flex-shrink:0}.prow .pv{font-weight:600}
+  .nutri{display:flex;gap:10px;align-items:center}.nutri .ni{width:40px;height:40px;border-radius:50%;background:#06c755;color:#fff;display:grid;place-items:center;font-size:18px}
+  .nutri .nb{flex:1}.nutri .nt{font-weight:700;font-size:13px}.nutri .ns{font-size:11px;color:var(--muted)}
+
+  /* AR scan overlay */
+  .scan-mask{position:fixed;inset:0;z-index:60;background:rgba(8,16,28,.92);display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;color:#fff}
+  .scan-mask.open{display:flex}
+  .viewf{width:230px;height:230px;border-radius:24px;position:relative;display:grid;place-items:center;margin-bottom:18px}
+  .viewf .corner{position:absolute;width:30px;height:30px;border:3px solid var(--bio-br)}
+  .viewf .c1{top:0;left:0;border-right:0;border-bottom:0;border-radius:12px 0 0 0}
+  .viewf .c2{top:0;right:0;border-left:0;border-bottom:0;border-radius:0 12px 0 0}
+  .viewf .c3{bottom:0;left:0;border-right:0;border-top:0;border-radius:0 0 0 12px}
+  .viewf .c4{bottom:0;right:0;border-left:0;border-top:0;border-radius:0 0 12px 0}
+  .viewf .line{position:absolute;left:14px;right:14px;height:2px;background:var(--bio-br);box-shadow:0 0 12px var(--bio-br);top:14px;animation:scanline 1.4s ease-in-out infinite}
+  @keyframes scanline{0%,100%{top:18px}50%{top:208px}}
+  .viewf .obj{font-size:74px}
+  .scan-tt{font-size:15px;font-weight:700}.scan-ts{font-size:12.5px;opacity:.8;margin-top:6px}
+  .scan-done{animation:fin .4s}
+  .scan-close{margin-top:20px;border:1px solid rgba(255,255,255,.3);background:0;color:#fff;font:inherit;font-weight:700;font-size:14px;padding:11px 22px;border-radius:12px}
+
+  .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:rgba(22,32,31,.95);color:#fff;font-size:13px;font-weight:600;padding:11px 17px;border-radius:11px;z-index:80;opacity:0;transition:.25s;max-width:88%}
+  .toast.show{opacity:1;transform:translateX(-50%)}
+  .proof{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px;margin-top:18px}
+  .proof .ph{font-size:10.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+  .proof .pi{display:flex;gap:9px;font-size:12px;padding:6px 0;line-height:1.5}.proof .pe{flex-shrink:0}
+  .points-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.16);border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700;margin-top:8px;margin-left:6px}
+  .actrow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+  .act{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 5px;text-align:center;cursor:pointer;transition:.15s}
+  .act:active{transform:scale(.96)}.act .ai{font-size:21px}.act .al{font-size:10.5px;font-weight:700;margin-top:5px;line-height:1.2}
+  .know-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;margin-top:4px}
+  .know-card{flex:0 0 150px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px;cursor:pointer;transition:.15s}
+  .know-card:active{transform:scale(.98)}.know-card .ki{font-size:24px}.know-card .kt{font-weight:700;font-size:13px;margin:7px 0 8px;line-height:1.35;min-height:35px}
+  .know-card .kr{font-size:11px;font-weight:700;color:var(--brand)}
+  .comm{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:14px;margin-top:9px}
+  .comm .cjoin{font-size:11.5px;color:var(--muted);margin-bottom:8px}
+  .mate{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}.mate:last-child{border-bottom:0}
+  .mate .ma{width:34px;height:34px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:18px;flex-shrink:0}
+  .mate.you .ma{background:var(--brand);color:#fff}
+  .mate .mn{font-weight:700;font-size:13px}.mate .md{font-size:11px;color:var(--muted)}
+  .mate .cheerb{margin-left:auto;border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:6px 12px;font-size:11.5px;font-weight:700;color:var(--brand);cursor:pointer;flex-shrink:0}
+  .mate .cheerb:hover{background:var(--soft)}
+  .sheet-mask{position:fixed;inset:0;z-index:70;background:rgba(8,16,28,.45);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:.2s}
+  .sheet-mask.open{opacity:1;pointer-events:auto}
+  .sheet{background:var(--card);width:100%;max-width:460px;border-radius:20px 20px 0 0;padding:18px 18px 26px;transform:translateY(100%);transition:.28s;max-height:80vh;overflow:auto}
+  .sheet-mask.open .sheet{transform:none}
+  .sheet h3{font-family:var(--display);font-weight:500;font-size:19px;margin:6px 0 10px}
+  .sheet .sb{font-size:13.5px;line-height:1.7;color:var(--ink)}
+  .sheet .sx{float:right;border:0;background:var(--soft);width:30px;height:30px;border-radius:9px;font-size:15px;cursor:pointer}
+  .sheet .sok{width:100%;border:0;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:14px;padding:12px;border-radius:12px;margin-top:16px}
+  .qopt{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:12px 14px;font-size:14px;font-weight:600;margin-top:9px;cursor:pointer;text-align:left;width:100%}
+  .qopt:hover{border-color:var(--brand);background:var(--soft)}
+</style>
+</head>
+<body>
+<header><div class="nav">
+  <span class="brand">Blackmores <span style="color:var(--bio)">Health Twin</span></span>
+  <span class="subt" id="subt">Health Twin</span>
+  <span class="linebadge">WeChat</span><span class="sp"></span>
+  <div class="langs" id="langs"></div>
+</div></header>
+<div class="frame" id="app"></div>
+<div class="scan-mask" id="scanMask"></div>
+<div class="sheet-mask" id="sheetMask"><div class="sheet" id="sheet"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const T={
+  subt:{ja:"ヘルスツイン",en:"Health Twin",zh:"数字健康分身"},
+  obStep:{ja:"ナチュロパス式ウェルネス診断",en:"Naturopath-style assessment",zh:"自然疗法式健康评估"},
+  obIntro:{ja:"5つの質問で、いまのウェルネスをスコア化します。",en:"5 questions to score your wellness.",zh:"5 个问题，给你的健康状态打分。"},
+  obStart:{ja:"チェックを始める",en:"Start the check",zh:"开始自测"},
+  qn:{ja:"質問",en:"Question",zh:"问题"},
+  goalStep:{ja:"ステップ A · 目標を選ぶ",en:"Step A · Pick your goal",zh:"第一步 · 选择目标"},
+  goalH:{ja:"いちばん叶えたい健康目標は？",en:"What's the one health goal you'd love to support?",zh:"你最想支持的健康目标是？"},
+  goalHint:{ja:"いっしょに考える専属ナチュロパスとして、あなたに合うプランを組み立てます。",en:"Think of me as your naturopath-friend — I'll build a plan that fits you.",zh:"把我当作你的自然疗法好友，我会为你定制专属方案。"},
+  qStepB:{ja:"ステップ B · あなたのこと",en:"Step B · A little about you",zh:"第二步 · 关于你"},
+  buildPlan:{ja:"あなたのプランを作成中…",en:"Building your plan…",zh:"正在生成方案…"},
+  scoreTitle:{ja:"あなたのウェルネススコア",en:"Your wellness score",zh:"你的健康分数"},
+  planStep:{ja:"ステップ C · あなたのパーソナルプラン",en:"Step C · Your personalised plan",zh:"第三步 · 你的专属方案"},
+  planFor:{ja:"目標：",en:"Goal: ",zh:"目标："},
+  coreLabel:{ja:"コアサプリ",en:"Core supplements",zh:"核心补剂"},
+  bundleLabel:{ja:"おすすめバンドル",en:"Matched bundle",zh:"推荐套装"},
+  bundleSave:{ja:"セットでお得",en:"Better value together",zh:"组合更划算"},
+  doseLabel:{ja:"デイリープラン",en:"Your daily plan",zh:"每日计划"},
+  contentLabel:{ja:"あなた向けの読みもの",en:"Reading for your goal",zh:"为你精选的内容"},
+  twinFeed:{ja:"このプランをヘルスツインが毎日トラッキングします",en:"Your Health Twin will track this plan every day",zh:"健康分身将每天追踪此方案"},
+  bandLow:{ja:"少しお疲れぎみ",en:"A bit run-down",zh:"略显疲惫"},bandMid:{ja:"ふつう",en:"Doing okay",zh:"还不错"},bandHigh:{ja:"good 好調",en:"Great shape",zh:"状态很好"},
+  recFor:{ja:"あなたへのおすすめ",en:"Recommended for you",zh:"为你推荐"},
+  startChallenge:{ja:"14日チャレンジを始める →",en:"Start the 14-day challenge →",zh:"开始 14 天挑战 →"},
+  heroTt:{ja:"あなたのヘルスツイン",en:"Your Health Twin",zh:"你的数字健康分身"},
+  vitality:{ja:"ウェルネススコア",en:"Wellness score",zh:"健康分数"},streak:{ja:"連続",en:"streak",zh:"连续"},day:{ja:"日目",en:"day",zh:"天"},
+  scanT:{ja:"サプリをスキャン",en:"Scan a supplement",zh:"扫描补剂"},scanS:{ja:"ヘルスツインを育てる",en:"Grow your Twin",zh:"喂养分身"},
+  logT:{ja:"今日の記録",en:"Today's log",zh:"今日记录"},logS:{ja:"1問でOK",en:"1 question",zh:"1 个问题"},
+  challengeT:{ja:"14日チャレンジ",en:"14-day challenge",zh:"14 天挑战"},
+  ckTodayQ:{ja:"今日、サプリを飲みましたか？",en:"Did you take your supplement today?",zh:"今天吃补剂了吗？"},
+  ckYes:{ja:"はい、飲んだ → +5pt",en:"Yes → +5pt",zh:"吃了 → +5分"},ckDone:{ja:"✓ 今日は記録ずみ",en:"✓ Logged today",zh:"✓ 今天已记录"},
+  growEgg:{ja:"ヘルスツインはまだ目覚めたばかり。チェックインで育てよう",en:"Your Twin is just waking up — check in to grow",zh:"分身刚苏醒，签到喂养长大"},
+  growCrack:{ja:"元気が出てきた！もう少し",en:"It's getting brighter! keep going",zh:"渐渐有活力了！再加把劲"},
+  growHatch:{ja:"ヘルスツインが目覚めた！",en:"Your Twin has come alive!",zh:"健康分身苏醒了！"},
+  growGrown:{ja:"ヘルスツインはすっかり元気！",en:"Your Twin is thriving!",zh:"健康分身精神满满！"},
+  foldTrend:{ja:"ウェルネストレンド（7日）",en:"Wellness trend (7 days)",zh:"健康趋势（7天）"},
+  foldProfile:{ja:"健康プロフィール",en:"Health profile",zh:"健康档案"},
+  foldNutri:{ja:"WeChat で栄養士に相談",en:"Ask a nutritionist on WeChat",zh:"在微信咨询营养师"},
+  trendNote:{ja:"↗ 活力リズムが安定してきています",en:"↗ your vitality is stabilising",zh:"↗ 活力节奏在变稳"},
+  nutriT:{ja:"栄養士 1on1",en:"Nutritionist 1:1",zh:"营养师 1对1"},nutriS:{ja:"プレミアム会員は無料 · WeChat で",en:"Free for premium · on WeChat",zh:"高级会员免费 · 微信"},
+  pkBasics:{ja:"プロフィール",en:"Profile",zh:"档案"},pkGoal:{ja:"目標",en:"Goal",zh:"目标"},pkBowel:{ja:"活力",en:"Vitality",zh:"活力"},pkFeed:{ja:"サプリ習慣",en:"Supplement habit",zh:"补剂习惯"},
+  scanIns:{ja:"サプリのボトルにかざしてください",en:"Hold over your supplement bottle",zh:"对准补剂瓶身"},
+  scanning:{ja:"スキャン中…",en:"Scanning…",zh:"扫描中…"},
+  scanOk:{ja:"ヘルスツインに栄養をあげました！",en:"You nourished your Twin!",zh:"你喂养了健康分身！"},
+  scanReward:{ja:"+10pt · 成長 +1 · 記録に反映",en:"+10pt · growth +1 · logged",zh:"+10分 · 成长+1 · 已记录"},
+  scanClose:{ja:"とじる",en:"Close",zh:"关闭"},
+  proofH:{ja:"なぜ効くのか",en:"Why this works",zh:"为什么有效"},
+  proof1:{ja:"<b>ヘルスツイン（WeChat ミニプログラム）として実装可能</b> — Blackmores × リテール。ダウンロード不要、WeChat 内で完結。",en:"<b>Ships as Health Twin (WeChat Mini Program)</b> — Blackmores retail. No download, all inside WeChat.",zh:"<b>可作为数字健康分身（微信小程序）落地</b> — Blackmores 零售，无需下载，微信内完成。"},
+  proof2:{ja:"<b>スキャンで毎日の習慣に</b> — サプリを飲んでスキャン→ヘルスツインが育つ。ゲーミフィケーションで継続率を高める。",en:"<b>Scan turns it into a daily habit</b> — take a supplement, scan, your Twin grows. Gamification drives retention.",zh:"<b>扫描养成每日习惯</b> — 吃补剂扫描，健康分身长大，游戏化提升留存。"},
+  proof3:{ja:"<b>目標ベースのナチュロパス式診断</b> — 目標を選び、的を絞った質問に答えると、製品＋バンドル＋デイリープランが生成され、ヘルスツインが毎日トラッキング。",en:"<b>Goal-based naturopath-style assessment</b> — pick a goal, answer targeted questions, and get a product + bundle + daily plan that the Health Twin tracks every day.",zh:"<b>目标导向的自然疗法式评估</b> — 选目标、答精准问题，生成产品＋套装＋每日计划，健康分身每天追踪。"}
+};
+/* ---- product catalogue (line-art svgs) ---- */
+const PRODUCTS={
+  fishoil:{img:"images/blackmores/fish-oil.svg",nm:{ja:"無腥味深海魚油 1000",en:"Odourless Fish Oil 1000",zh:"无腥味深海鱼油"},w:{ja:"オメガ3(EPA・DHA)で心血管と活力の維持をサポート",en:"Omega-3 EPA & DHA to help maintain heart health & vitality",zh:"欧米伽3(EPA·DHA)支持心血管与活力"}},
+  glucosamine:{img:"images/blackmores/glucosamine.svg",nm:{ja:"維骨力 関節サポート",en:"Glucosamine Joint Care",zh:"维骨力关节灵"},w:{ja:"関節の動きと軟骨の健康維持をサポート",en:"Supports joint mobility & cartilage health",zh:"支持关节灵活与软骨健康"}},
+  probiotics:{img:"images/blackmores/probiotics.svg",nm:{ja:"益生菌 デイリーヘルス",en:"Probiotics+ Daily Health",zh:"益生菌每日健康"},w:{ja:"生きた善玉菌でお腹の調子と消化をサポート",en:"Live cultures to support gut balance & digestion",zh:"活性益生菌支持肠道平衡与消化"}},
+  multi:{img:"images/blackmores/multivitamin.svg",nm:{ja:"複合ビタミン デイリー",en:"Multivitamin Daily",zh:"复合维生素"},w:{ja:"毎日の栄養の隙間を埋め、全身の健康維持をサポート",en:"Fills daily nutrient gaps to support all-round health",zh:"补足每日营养缺口，支持整体健康"}},
+  vitc:{img:"images/blackmores/vitamin-c.svg",nm:{ja:"ビタミンC 1000",en:"Vitamin C 1000",zh:"维生素C 1000"},w:{ja:"免疫の維持と抗酸化をサポート",en:"Supports immune defence & antioxidant activity",zh:"支持免疫力与抗氧化"}},
+  pregnancy:{img:"images/blackmores/pregnancy-gold.svg",nm:{ja:"プレグナンシー ゴールド",en:"Pregnancy & Breastfeeding Gold",zh:"孕妇黄金营养素"},w:{ja:"葉酸・鉄・DHA で妊娠期の母子の健康維持をサポート",en:"Folate, iron & DHA to support mum & baby through pregnancy",zh:"叶酸·铁·DHA 支持孕期母婴健康"}},
+  lutein:{img:"images/blackmores/lutein.svg",nm:{ja:"ルテイン 目の健康",en:"Lutein Eye Health",zh:"叶黄素护眼"},w:{ja:"ルテインで黄斑と目の健康維持をサポート",en:"Lutein to help maintain macular & eye health",zh:"叶黄素支持黄斑与眼睛健康"}},
+  execb:{img:"images/blackmores/vitamin-b.svg",nm:{ja:"エグゼクティブB ストレス",en:"Executive B Stress Formula",zh:"复合维生素B"},w:{ja:"ビタミンB群でエネルギー産生とストレス時の体調維持をサポート",en:"B-vitamins to support energy & the body in times of stress",zh:"B族维生素支持能量代谢与压力期健康"}},
+  sleep:{img:"images/blackmores/sleep.svg",nm:{ja:"スリープサポート",en:"Sleep Support",zh:"睡眠支持"},w:{ja:"ハーブで自然な寝つきと睡眠の質をサポート",en:"Herbs to support falling asleep & restful sleep",zh:"草本支持入睡与安稳睡眠"}},
+  epo:{img:"images/blackmores/evening-primrose.svg",nm:{ja:"月見草油",en:"Evening Primrose Oil",zh:"月见草油"},w:{ja:"GLA で肌の健康と女性の月のリズムをサポート",en:"GLA to support skin health & monthly hormonal balance",zh:"GLA 支持皮肤健康与女性月度平衡"}},
+  coq10:{img:"images/blackmores/coq10.svg",nm:{ja:"コエンザイムQ10",en:"CoQ10 150",zh:"辅酶Q10"},w:{ja:"心臓のエネルギー産生と細胞の活力維持をサポート",en:"Supports heart energy production & cellular vitality",zh:"支持心脏能量代谢与细胞活力"}},
+  kids:{img:"images/blackmores/kids-multi.svg",nm:{ja:"キッズ 複合ビタミン",en:"Kids Multivitamin",zh:"儿童复合维生素"},w:{ja:"成長期のお子さまの毎日の栄養維持をサポート",en:"Supports children's daily nutrition through growth",zh:"支持成长期儿童每日营养"}}
+};
+/* ---- bundles ---- */
+const BUNDLES={
+  immunity:{nm:{ja:"ファミリー免疫バンドル",en:"Family Immunity Bundle",zh:"家庭免疫套装"},items:["multi","vitc","probiotics","kids"],w:{ja:"家族みんなの免疫と毎日の健康維持を一括で",en:"Whole-family immune & daily-health support in one pack",zh:"全家免疫与每日健康一站搞定"}},
+  sleepstress:{nm:{ja:"睡眠＆ストレス バンドル",en:"Sleep & Stress Bundle",zh:"睡眠减压套装"},items:["sleep","execb"],w:{ja:"夜の安眠と日中のストレス対応をペアでサポート",en:"Pairs restful nights with daytime stress support",zh:"夜间安眠搭配日间抗压"}},
+  jointheart:{nm:{ja:"関節＆ハート ケアパック",en:"Joint & Heart Care Pack",zh:"关节心脏护理包"},items:["glucosamine","fishoil","coq10"],w:{ja:"関節の動きと心血管の健康維持をまとめてサポート",en:"Supports joint mobility & cardiovascular health together",zh:"同时支持关节灵活与心血管健康"}},
+  ageing:{nm:{ja:"ヘルシーエイジング バンドル",en:"Healthy Ageing Bundle",zh:"健康抗老套装"},items:["coq10","fishoil","multi","lutein"],w:{ja:"心臓・脳・目・全身のエイジングケアを総合サポート",en:"All-round support for heart, brain, eyes & vitality as you age",zh:"全面支持心脑眼与全身抗老"}},
+  pregnancy:{nm:{ja:"プレグナンシー＆ベビー バンドル",en:"Pregnancy & Baby Bundle",zh:"孕产婴儿套装"},items:["pregnancy","probiotics","vitc"],w:{ja:"妊娠期から授乳期まで母子の健康維持をサポート",en:"Supports mum & baby from pregnancy through breastfeeding",zh:"从孕期到哺乳期支持母婴健康"}}
+};
+/* ---- 10 health goals · each with Step-B questions, plan, bundle, content ---- */
+const GOALS=[
+  {id:"immunity",ic:"🛡️",t:{ja:"免疫",en:"Immunity",zh:"免疫力"},
+   sub:{ja:"季節に負けない体に",en:"Stay strong through the seasons",zh:"换季也不掉队"},
+   core:["vitc","multi"],extra:{probiotics:["probiotics"]},bundle:"immunity",content:[2],
+   dose:[{ja:"朝：ビタミンC 1錠＋複合ビタミン 1錠を朝食と",en:"Morning: 1 Vitamin C + 1 Multivitamin with breakfast",zh:"早晨：维生素C 1粒＋复合维生素 1粒，随早餐"},
+         {ja:"日中：こまめに水分を、野菜と果物を意識",en:"Daytime: stay hydrated, lean into veg & fruit",zh:"白天：勤补水，多吃蔬果"}],
+   qs:[
+    {q:{ja:"季節の変わり目に体調を崩しやすい？",en:"Do you tend to get run-down at season changes?",zh:"换季时容易不适吗？"},opts:[{e:"🛡️",v:2,t:{ja:"めったにない",en:"Rarely",zh:"很少"}},{e:"😪",v:1,t:{ja:"ときどき",en:"Sometimes",zh:"偶尔"}},{e:"😵",v:0,t:{ja:"よくある",en:"Often",zh:"经常"}}]},
+    {q:{ja:"野菜・果物は毎日とれている？",en:"Do you get veg & fruit most days?",zh:"每天能吃到蔬果吗？"},opts:[{e:"🥗",v:2,t:{ja:"しっかり",en:"Plenty",zh:"很充足"}},{e:"🍎",v:1,t:{ja:"そこそこ",en:"Some",zh:"还行"}},{e:"🍟",v:0,t:{ja:"少なめ",en:"Not much",zh:"较少"}}]},
+    {q:{ja:"家族やお子さまと暮らしている？",en:"Sharing a home with family or kids?",zh:"和家人或孩子同住吗？"},opts:[{e:"👨‍👩‍👧",v:1,key:"family",t:{ja:"はい（子どもあり）",en:"Yes — with kids",zh:"是，有孩子"}},{e:"👫",v:1,t:{ja:"パートナーと",en:"With a partner",zh:"和伴侣"}},{e:"🧍",v:1,t:{ja:"ひとり暮らし",en:"On my own",zh:"独居"}}]},
+    {q:{ja:"睡眠とストレスの状態は？",en:"How are sleep & stress lately?",zh:"近期睡眠与压力？"},opts:[{e:"😌",v:2,t:{ja:"落ち着いている",en:"Settled",zh:"平稳"}},{e:"😐",v:1,t:{ja:"ふつう",en:"Okay",zh:"一般"}},{e:"😣",v:0,t:{ja:"乱れぎみ",en:"A bit off",zh:"有点乱"}}]},
+    {q:{ja:"お腹の調子は安定している？",en:"Is your gut/digestion settled?",zh:"肠胃稳定吗？"},opts:[{e:"🌿",v:2,key:"probiotics",t:{ja:"いまいち（整えたい）",en:"Could be better",zh:"想调理一下"}},{e:"🙂",v:2,t:{ja:"だいたい良い",en:"Mostly fine",zh:"基本良好"}},{e:"👍",v:2,t:{ja:"とても良い",en:"Great",zh:"很好"}}]}
+  ]},
+  {id:"energy",ic:"⚡",t:{ja:"エネルギー＆ストレス",en:"Energy & Stress",zh:"精力与压力"},
+   sub:{ja:"忙しい毎日に活力を",en:"Power through busy days",zh:"应对忙碌日常"},
+   core:["execb","multi"],extra:{tired:["coq10"]},bundle:"sleepstress",content:[1],
+   dose:[{ja:"朝：エグゼクティブB 1錠を朝食と（夜は避ける）",en:"Morning: 1 Executive B with breakfast (avoid at night)",zh:"早晨：复合维生素B 1粒随早餐（避免晚上）"},
+         {ja:"昼：複合ビタミン 1錠、しっかり水分補給",en:"Midday: 1 Multivitamin, keep hydrated",zh:"中午：复合维生素 1粒，注意补水"}],
+   qs:[
+    {q:{ja:"午後に疲れやだるさを感じる？",en:"Do you hit an afternoon slump?",zh:"下午会疲乏吗？"},opts:[{e:"😀",v:2,t:{ja:"めったにない",en:"Rarely",zh:"很少"}},{e:"🙂",v:1,t:{ja:"ときどき",en:"Sometimes",zh:"偶尔"}},{e:"😩",v:0,key:"tired",t:{ja:"ほぼ毎日",en:"Most days",zh:"几乎每天"}}]},
+    {q:{ja:"仕事や生活のストレスレベルは？",en:"How's your stress load right now?",zh:"当前压力水平？"},opts:[{e:"😌",v:2,t:{ja:"低め",en:"Low",zh:"较低"}},{e:"😐",v:1,t:{ja:"そこそこ",en:"Moderate",zh:"中等"}},{e:"😖",v:0,t:{ja:"高め",en:"High",zh:"较高"}}]},
+    {q:{ja:"カフェインに頼りがち？",en:"Do you lean on caffeine to get through?",zh:"靠咖啡因撑过去吗？"},opts:[{e:"🍵",v:2,t:{ja:"あまり",en:"Not really",zh:"不太"}},{e:"☕",v:1,t:{ja:"1〜2杯",en:"1–2 cups",zh:"1-2杯"}},{e:"☕☕",v:0,t:{ja:"何杯も",en:"Several",zh:"好几杯"}}]},
+    {q:{ja:"運動・体を動かす習慣は？",en:"How active are you?",zh:"运动习惯？"},opts:[{e:"🏃",v:2,t:{ja:"よく動く",en:"Quite active",zh:"挺活跃"}},{e:"🚶",v:1,t:{ja:"ときどき",en:"Sometimes",zh:"偶尔"}},{e:"🛋️",v:0,t:{ja:"あまり",en:"Not much",zh:"较少"}}]},
+    {q:{ja:"朝、すっきり起きられる？",en:"Do you wake up feeling refreshed?",zh:"早晨起来精神吗？"},opts:[{e:"🌅",v:2,t:{ja:"だいたい",en:"Usually",zh:"通常"}},{e:"😶",v:1,t:{ja:"ときどき",en:"Sometimes",zh:"偶尔"}},{e:"😴",v:0,t:{ja:"つらい",en:"Struggle",zh:"很困难"}}]}
+  ]},
+  {id:"sleep",ic:"😴",t:{ja:"睡眠",en:"Sleep",zh:"睡眠"},
+   sub:{ja:"夜の休息を取り戻す",en:"Win back restful nights",zh:"找回安稳夜晚"},
+   core:["sleep"],extra:{stress:["execb"]},bundle:"sleepstress",content:[3],
+   dose:[{ja:"就寝1時間前：スリープサポート 1錠を水で",en:"1 hr before bed: 1 Sleep Support with water",zh:"睡前1小时：睡眠支持 1粒，温水送服"},
+         {ja:"夜：就寝前のスクリーンを控え、照明を落とす",en:"Evening: cut screen time, dim the lights",zh:"晚间：减少看屏，调暗灯光"}],
+   qs:[
+    {q:{ja:"寝つきはどう？",en:"How easily do you fall asleep?",zh:"入睡容易吗？"},opts:[{e:"😌",v:2,t:{ja:"すぐ眠れる",en:"Quickly",zh:"很快"}},{e:"😐",v:1,t:{ja:"少し時間がかかる",en:"Takes a while",zh:"要点时间"}},{e:"😣",v:0,t:{ja:"なかなか眠れない",en:"Hard",zh:"很难"}}]},
+    {q:{ja:"夜中に目が覚める？",en:"Do you wake during the night?",zh:"夜里会醒吗？"},opts:[{e:"🌙",v:2,t:{ja:"ほぼない",en:"Rarely",zh:"很少"}},{e:"🌗",v:1,t:{ja:"ときどき",en:"Sometimes",zh:"偶尔"}},{e:"🌑",v:0,t:{ja:"よく覚める",en:"Often",zh:"经常"}}]},
+    {q:{ja:"日中の集中や気分への影響は？",en:"Does poor sleep affect your day?",zh:"睡不好影响白天吗？"},opts:[{e:"🙂",v:2,t:{ja:"あまりない",en:"Not much",zh:"不太"}},{e:"😐",v:1,t:{ja:"少し",en:"A little",zh:"一点"}},{e:"😵",v:0,key:"stress",t:{ja:"かなりある",en:"Quite a lot",zh:"比较大"}}]},
+    {q:{ja:"寝る前にストレスや考えごとが多い？",en:"Is a busy mind keeping you up?",zh:"睡前思绪多吗？"},opts:[{e:"😌",v:2,t:{ja:"あまり",en:"Not really",zh:"不太"}},{e:"😶",v:1,t:{ja:"ときどき",en:"Sometimes",zh:"偶尔"}},{e:"🌀",v:0,key:"stress",t:{ja:"よくある",en:"Often",zh:"经常"}}]},
+    {q:{ja:"就寝・起床の時間は規則的？",en:"Are your sleep times regular?",zh:"作息规律吗？"},opts:[{e:"⏰",v:2,t:{ja:"だいたい一定",en:"Pretty regular",zh:"较规律"}},{e:"🕗",v:1,t:{ja:"ばらつく",en:"Variable",zh:"不太稳"}},{e:"🌃",v:0,t:{ja:"夜型・不規則",en:"Irregular",zh:"不规律"}}]}
+  ]},
+  {id:"joint",ic:"🦴",t:{ja:"関節＆骨",en:"Joint & Bones",zh:"关节与骨骼"},
+   sub:{ja:"動きをなめらかに",en:"Keep moving comfortably",zh:"行动更顺畅"},
+   core:["glucosamine","fishoil"],extra:{heart:["coq10"]},bundle:"jointheart",content:[0],
+   dose:[{ja:"朝：維骨力 1錠＋深海魚油 1錠を食事と",en:"Morning: 1 Glucosamine + 1 Fish Oil with food",zh:"早晨：维骨力 1粒＋深海鱼油 1粒，随餐"},
+         {ja:"日々：適度に体を動かし、関節を温める",en:"Daily: gentle movement, keep joints warm",zh:"每日：适度活动，注意关节保暖"}],
+   qs:[
+    {q:{ja:"関節のこわばりや違和感はある？",en:"Any joint stiffness or discomfort?",zh:"关节僵硬或不适吗？"},opts:[{e:"💪",v:2,t:{ja:"ほぼない",en:"Rarely",zh:"很少"}},{e:"😐",v:1,t:{ja:"ときどき",en:"Sometimes",zh:"偶尔"}},{e:"😣",v:0,t:{ja:"よくある",en:"Often",zh:"经常"}}]},
+    {q:{ja:"よく動かす関節は？",en:"Which area bothers you most?",zh:"最在意哪个部位？"},opts:[{e:"🦵",v:1,t:{ja:"膝",en:"Knees",zh:"膝盖"}},{e:"🤲",v:1,t:{ja:"手・指",en:"Hands",zh:"手指"}},{e:"🧎",v:1,t:{ja:"腰・背中",en:"Back",zh:"腰背"}}]},
+    {q:{ja:"運動やスポーツの習慣は？",en:"Do you exercise or play sport?",zh:"运动习惯？"},opts:[{e:"🏃",v:2,t:{ja:"よくする",en:"Regularly",zh:"经常"}},{e:"🚶",v:1,t:{ja:"ときどき",en:"Sometimes",zh:"偶尔"}},{e:"🛋️",v:1,t:{ja:"あまり",en:"Rarely",zh:"较少"}}]},
+    {q:{ja:"年齢・ライフステージは？",en:"Your life stage?",zh:"年龄阶段？"},opts:[{e:"🌱",v:2,t:{ja:"〜39歳",en:"Under 40",zh:"40岁以下"}},{e:"🌿",v:1,t:{ja:"40〜59歳",en:"40–59",zh:"40-59岁"}},{e:"🌳",v:1,key:"heart",t:{ja:"60歳〜",en:"60+",zh:"60岁以上"}}]},
+    {q:{ja:"心血管の健康も気にしている？",en:"Also mindful of heart health?",zh:"也关注心血管吗？"},opts:[{e:"❤️",v:1,key:"heart",t:{ja:"はい",en:"Yes",zh:"是"}},{e:"🤔",v:1,t:{ja:"少し",en:"A little",zh:"有点"}},{e:"🙂",v:2,t:{ja:"いまは関節中心",en:"Joints for now",zh:"先关注关节"}}]}
+  ]},
+  {id:"heart",ic:"❤️",t:{ja:"ハート",en:"Heart",zh:"心血管"},
+   sub:{ja:"心臓と血管をいたわる",en:"Care for your heart",zh:"呵护心血管"},
+   core:["fishoil","coq10"],extra:{},bundle:"jointheart",content:[0],
+   dose:[{ja:"朝：深海魚油 1錠＋コエンザイムQ10 1錠を食事と",en:"Morning: 1 Fish Oil + 1 CoQ10 with food",zh:"早晨：深海鱼油 1粒＋辅酶Q10 1粒，随餐"},
+         {ja:"日々：塩分を控えめに、こまめに歩く",en:"Daily: go easy on salt, take regular walks",zh:"每日：少盐，常散步"}],
+   qs:[
+    {q:{ja:"魚を食べる頻度は？",en:"How often do you eat oily fish?",zh:"吃深海鱼频率？"},opts:[{e:"🐟",v:2,t:{ja:"週2回以上",en:"2+ a week",zh:"每周2次+"}},{e:"🍣",v:1,t:{ja:"ときどき",en:"Sometimes",zh:"偶尔"}},{e:"🥩",v:0,t:{ja:"ほとんど食べない",en:"Rarely",zh:"很少"}}]},
+    {q:{ja:"年齢・ライフステージは？",en:"Your life stage?",zh:"年龄阶段？"},opts:[{e:"🌱",v:2,t:{ja:"〜39歳",en:"Under 40",zh:"40岁以下"}},{e:"🌿",v:1,t:{ja:"40〜59歳",en:"40–59",zh:"40-59岁"}},{e:"🌳",v:1,t:{ja:"60歳〜",en:"60+",zh:"60岁以上"}}]},
+    {q:{ja:"体を動かす習慣は？",en:"How active are you?",zh:"运动习惯？"},opts:[{e:"🏃",v:2,t:{ja:"よく動く",en:"Active",zh:"活跃"}},{e:"🚶",v:1,t:{ja:"ときどき",en:"Sometimes",zh:"偶尔"}},{e:"🛋️",v:0,t:{ja:"あまり",en:"Not much",zh:"较少"}}]},
+    {q:{ja:"ストレスは多いほう？",en:"Carrying a lot of stress?",zh:"压力大吗？"},opts:[{e:"😌",v:2,t:{ja:"低め",en:"Low",zh:"较低"}},{e:"😐",v:1,t:{ja:"そこそこ",en:"Moderate",zh:"中等"}},{e:"😖",v:0,t:{ja:"高め",en:"High",zh:"较高"}}]},
+    {q:{ja:"心臓のエネルギー維持も意識したい？",en:"Want to support heart energy too?",zh:"想支持心脏能量吗？"},opts:[{e:"⚡",v:1,t:{ja:"はい",en:"Yes please",zh:"想"}},{e:"🤔",v:1,t:{ja:"おまかせ",en:"Up to you",zh:"听你的"}},{e:"🙂",v:2,t:{ja:"基本だけで",en:"Keep it simple",zh:"基础就好"}}]}
+  ]},
+  {id:"gut",ic:"🌿",t:{ja:"腸",en:"Gut",zh:"肠道"},
+   sub:{ja:"お腹から整える",en:"Balance from the inside",zh:"由内而外调理"},
+   core:["probiotics"],extra:{run:["multi"]},bundle:"immunity",content:[1],
+   dose:[{ja:"朝：益生菌 1錠を空腹時または朝食と",en:"Morning: 1 Probiotic on an empty stomach or with breakfast",zh:"早晨：益生菌 1粒，空腹或随早餐"},
+         {ja:"日々：食物繊維と発酵食品、水分をたっぷり",en:"Daily: plenty of fibre, fermented foods & water",zh:"每日：多纤维、发酵食物与水"}],
+   qs:[
+    {q:{ja:"お腹の張りや不快感はある？",en:"Bloating or tummy discomfort?",zh:"腹胀或不适吗？"},opts:[{e:"🙂",v:2,t:{ja:"ほぼない",en:"Rarely",zh:"很少"}},{e:"😐",v:1,t:{ja:"ときどき",en:"Sometimes",zh:"偶尔"}},{e:"😣",v:0,t:{ja:"よくある",en:"Often",zh:"经常"}}]},
+    {q:{ja:"お通じは規則的？",en:"Are your bowels regular?",zh:"排便规律吗？"},opts:[{e:"✅",v:2,t:{ja:"規則的",en:"Regular",zh:"规律"}},{e:"〰️",v:1,t:{ja:"ばらつく",en:"Variable",zh:"不太稳"}},{e:"⚠️",v:0,t:{ja:"乱れがち",en:"Irregular",zh:"不规律"}}]},
+    {q:{ja:"食物繊維はとれている？",en:"Getting enough fibre?",zh:"纤维摄入够吗？"},opts:[{e:"🥦",v:2,t:{ja:"しっかり",en:"Plenty",zh:"充足"}},{e:"🍞",v:1,t:{ja:"そこそこ",en:"Some",zh:"还行"}},{e:"🍔",v:0,key:"run",t:{ja:"少なめ",en:"Low",zh:"较少"}}]},
+    {q:{ja:"最近、抗生物質などを使った？",en:"Recently taken antibiotics?",zh:"近期用过抗生素吗？"},opts:[{e:"🙅",v:2,t:{ja:"いいえ",en:"No",zh:"没有"}},{e:"🤔",v:1,t:{ja:"少し前に",en:"A while ago",zh:"不久前"}},{e:"💊",v:1,t:{ja:"最近",en:"Recently",zh:"最近"}}]},
+    {q:{ja:"全身の栄養バランスも整えたい？",en:"Want all-round nutrition too?",zh:"也想补全营养吗？"},opts:[{e:"🌟",v:1,key:"run",t:{ja:"はい",en:"Yes",zh:"想"}},{e:"🙂",v:2,t:{ja:"いまは腸中心",en:"Gut first",zh:"先调肠道"}},{e:"👍",v:2,t:{ja:"おまかせ",en:"Up to you",zh:"听你的"}}]}
+  ]},
+  {id:"pregnancy",ic:"🤰",t:{ja:"妊娠期",en:"Pregnancy",zh:"孕期"},
+   sub:{ja:"母子の健康をいっしょに",en:"Support for mum & baby",zh:"陪伴母婴健康"},
+   core:["pregnancy"],extra:{gut:["probiotics"]},bundle:"pregnancy",content:[1],
+   dose:[{ja:"朝：プレグナンシーゴールド 表示量を食事と",en:"Morning: Pregnancy Gold as directed, with food",zh:"早晨：孕妇黄金营养素 按标示，随餐"},
+         {ja:"日々：水分と休息を十分に、担当医にも相談を",en:"Daily: rest, hydrate, and check in with your doctor",zh:"每日：多休息补水，并咨询医生"}],
+   qs:[
+    {q:{ja:"いまのステージは？",en:"Where are you in your journey?",zh:"目前阶段？"},opts:[{e:"🌷",v:1,t:{ja:"妊活中",en:"Trying to conceive",zh:"备孕中"}},{e:"🤰",v:1,t:{ja:"妊娠中",en:"Pregnant",zh:"孕期"}},{e:"🍼",v:1,t:{ja:"授乳中",en:"Breastfeeding",zh:"哺乳期"}}]},
+    {q:{ja:"つわりや食欲の状態は？",en:"How's your appetite / nausea?",zh:"食欲/孕吐情况？"},opts:[{e:"🙂",v:2,t:{ja:"安定",en:"Settled",zh:"平稳"}},{e:"😐",v:1,t:{ja:"ときどきつらい",en:"On & off",zh:"时好时坏"}},{e:"🤢",v:0,t:{ja:"つわりが強い",en:"Strong nausea",zh:"孕吐明显"}}]},
+    {q:{ja:"食事から栄養はとれている？",en:"Getting nutrients from food?",zh:"饮食营养够吗？"},opts:[{e:"🥗",v:2,t:{ja:"しっかり",en:"Pretty well",zh:"较好"}},{e:"🍚",v:1,t:{ja:"そこそこ",en:"So-so",zh:"一般"}},{e:"🍪",v:0,t:{ja:"偏りがち",en:"A bit limited",zh:"较单一"}}]},
+    {q:{ja:"お腹の調子・お通じは？",en:"How's digestion / regularity?",zh:"消化与排便？"},opts:[{e:"🌿",v:2,key:"gut",t:{ja:"整えたい",en:"Could be better",zh:"想调理"}},{e:"🙂",v:2,t:{ja:"だいたい良い",en:"Mostly fine",zh:"基本良好"}},{e:"👍",v:2,t:{ja:"良い",en:"Good",zh:"良好"}}]},
+    {q:{ja:"睡眠と休息はとれている？",en:"Getting enough rest?",zh:"休息充足吗？"},opts:[{e:"😌",v:2,t:{ja:"はい",en:"Yes",zh:"是"}},{e:"😐",v:1,t:{ja:"ときどき不足",en:"Sometimes short",zh:"偶尔不足"}},{e:"😴",v:0,t:{ja:"不足ぎみ",en:"Often short",zh:"经常不足"}}]}
+  ]},
+  {id:"ageing",ic:"🌳",t:{ja:"ヘルシーエイジング",en:"Healthy Ageing",zh:"健康抗老"},
+   sub:{ja:"いつまでも自分らしく",en:"Age well, stay you",zh:"优雅地老去"},
+   core:["coq10","fishoil","multi"],extra:{eyes:["lutein"]},bundle:"ageing",content:[0],
+   dose:[{ja:"朝：コエンザイムQ10＋深海魚油＋複合ビタミンを食事と",en:"Morning: CoQ10 + Fish Oil + Multivitamin with food",zh:"早晨：辅酶Q10＋深海鱼油＋复合维生素，随餐"},
+         {ja:"日々：歩く・つながる・よく眠る — 続けることが力に",en:"Daily: move, connect, sleep well — consistency is the medicine",zh:"每日：多走动、多社交、睡好觉 — 坚持是关键"}],
+   qs:[
+    {q:{ja:"年齢・ライフステージは？",en:"Your life stage?",zh:"年龄阶段？"},opts:[{e:"🌿",v:2,t:{ja:"50代",en:"50s",zh:"50多岁"}},{e:"🌳",v:1,t:{ja:"60代",en:"60s",zh:"60多岁"}},{e:"🌲",v:1,t:{ja:"70代〜",en:"70+",zh:"70岁以上"}}]},
+    {q:{ja:"いちばん保ちたいのは？",en:"What matters most to keep?",zh:"最想保持的是？"},opts:[{e:"❤️",v:1,t:{ja:"心臓の元気",en:"Heart vitality",zh:"心脏活力"}},{e:"🧠",v:1,t:{ja:"頭の冴え",en:"Mental sharpness",zh:"头脑清晰"}},{e:"👁️",v:1,key:"eyes",t:{ja:"目の健康",en:"Eye health",zh:"眼睛健康"}}]},
+    {q:{ja:"体を動かす習慣は？",en:"How active are you?",zh:"运动习惯？"},opts:[{e:"🚶",v:2,t:{ja:"よく歩く",en:"Walk often",zh:"常走动"}},{e:"🧘",v:1,t:{ja:"ときどき",en:"Sometimes",zh:"偶尔"}},{e:"🪑",v:0,t:{ja:"あまり",en:"Not much",zh:"较少"}}]},
+    {q:{ja:"画面を見る時間は長い？",en:"Lots of screen time?",zh:"看屏时间长吗？"},opts:[{e:"👁️",v:1,key:"eyes",t:{ja:"長い",en:"Quite a lot",zh:"挺长"}},{e:"🙂",v:2,t:{ja:"ふつう",en:"Moderate",zh:"一般"}},{e:"🌿",v:2,t:{ja:"短い",en:"Not much",zh:"较短"}}]},
+    {q:{ja:"食事から栄養はとれている？",en:"Getting good nutrition from food?",zh:"饮食营养够吗？"},opts:[{e:"🥗",v:2,t:{ja:"しっかり",en:"Pretty well",zh:"较好"}},{e:"🍚",v:1,t:{ja:"そこそこ",en:"So-so",zh:"一般"}},{e:"🍞",v:0,t:{ja:"偏りがち",en:"A bit limited",zh:"较单一"}}]}
+  ]},
+  {id:"skin",ic:"✨",t:{ja:"スキン",en:"Skin",zh:"皮肤"},
+   sub:{ja:"内側からうるおいを",en:"Nourish skin from within",zh:"由内养肤"},
+   core:["epo","fishoil"],extra:{},bundle:"ageing",content:[0],
+   dose:[{ja:"朝：月見草油 1錠＋深海魚油 1錠を食事と",en:"Morning: 1 Evening Primrose + 1 Fish Oil with food",zh:"早晨：月见草油 1粒＋深海鱼油 1粒，随餐"},
+         {ja:"日々：水分をしっかり、日焼け対策を忘れずに",en:"Daily: hydrate well, don't skip sun protection",zh:"每日：多补水，做好防晒"}],
+   qs:[
+    {q:{ja:"肌の悩みは？",en:"What's your main skin concern?",zh:"主要肌肤困扰？"},opts:[{e:"🏜️",v:1,t:{ja:"乾燥",en:"Dryness",zh:"干燥"}},{e:"😣",v:1,t:{ja:"敏感・赤み",en:"Sensitivity",zh:"敏感泛红"}},{e:"⌛",v:1,t:{ja:"ハリ・弾力",en:"Firmness",zh:"紧致弹性"}}]},
+    {q:{ja:"水分はしっかりとれている？",en:"Do you drink enough water?",zh:"喝水够吗？"},opts:[{e:"💧",v:2,t:{ja:"しっかり",en:"Plenty",zh:"充足"}},{e:"🥤",v:1,t:{ja:"そこそこ",en:"Some",zh:"一般"}},{e:"🏜️",v:0,t:{ja:"少なめ",en:"Not much",zh:"较少"}}]},
+    {q:{ja:"良質な脂質（魚・ナッツ）はとれている？",en:"Getting healthy fats (fish, nuts)?",zh:"摄入优质脂肪吗？"},opts:[{e:"🐟",v:2,t:{ja:"よく食べる",en:"Often",zh:"经常"}},{e:"🥜",v:1,t:{ja:"ときどき",en:"Sometimes",zh:"偶尔"}},{e:"🍟",v:0,t:{ja:"あまり",en:"Rarely",zh:"较少"}}]},
+    {q:{ja:"月のリズムで肌が揺らぐ？",en:"Does skin shift with your cycle?",zh:"肌肤随月经波动吗？"},opts:[{e:"🌸",v:1,t:{ja:"はい",en:"Yes",zh:"是"}},{e:"🤔",v:1,t:{ja:"少し",en:"A little",zh:"有点"}},{e:"🙂",v:2,t:{ja:"あまり / 該当なし",en:"Not really",zh:"不太/不适用"}}]},
+    {q:{ja:"睡眠とストレスの状態は？",en:"How are sleep & stress?",zh:"睡眠与压力？"},opts:[{e:"😌",v:2,t:{ja:"落ち着いている",en:"Settled",zh:"平稳"}},{e:"😐",v:1,t:{ja:"ふつう",en:"Okay",zh:"一般"}},{e:"😣",v:0,t:{ja:"乱れぎみ",en:"A bit off",zh:"有点乱"}}]}
+  ]},
+  {id:"eye",ic:"👁️",t:{ja:"目",en:"Eye",zh:"眼睛"},
+   sub:{ja:"見る毎日をクリアに",en:"Keep your vision sharp",zh:"守护清晰视界"},
+   core:["lutein"],extra:{screen:["fishoil"]},bundle:"ageing",content:[0],
+   dose:[{ja:"朝：ルテイン 1錠を食事と（脂質と一緒に吸収アップ）",en:"Morning: 1 Lutein with food (absorbs better with fats)",zh:"早晨：叶黄素 1粒随餐（与脂肪同服更易吸收）"},
+         {ja:"日々：20分ごとに遠くを見て目を休める",en:"Daily: every 20 min, look far away to rest your eyes",zh:"每日：每20分钟远眺，让眼睛休息"}],
+   qs:[
+    {q:{ja:"1日のスクリーン時間は？",en:"How much daily screen time?",zh:"每天看屏时间？"},opts:[{e:"🙂",v:2,t:{ja:"4時間未満",en:"Under 4 hrs",zh:"4小时以下"}},{e:"💻",v:1,t:{ja:"4〜8時間",en:"4–8 hrs",zh:"4-8小时"}},{e:"🖥️",v:0,key:"screen",t:{ja:"8時間以上",en:"8+ hrs",zh:"8小时以上"}}]},
+    {q:{ja:"目の疲れや乾きを感じる？",en:"Tired or dry eyes?",zh:"眼睛疲劳或干涩吗？"},opts:[{e:"👁️",v:2,t:{ja:"あまり",en:"Rarely",zh:"很少"}},{e:"😐",v:1,t:{ja:"ときどき",en:"Sometimes",zh:"偶尔"}},{e:"😵",v:0,key:"screen",t:{ja:"よく感じる",en:"Often",zh:"经常"}}]},
+    {q:{ja:"年齢・ライフステージは？",en:"Your life stage?",zh:"年龄阶段？"},opts:[{e:"🌱",v:2,t:{ja:"〜39歳",en:"Under 40",zh:"40岁以下"}},{e:"🌿",v:1,t:{ja:"40〜59歳",en:"40–59",zh:"40-59岁"}},{e:"🌳",v:1,t:{ja:"60歳〜",en:"60+",zh:"60岁以上"}}]},
+    {q:{ja:"緑黄色野菜は食べている？",en:"Do you eat leafy greens?",zh:"吃深色蔬菜吗？"},opts:[{e:"🥬",v:2,t:{ja:"よく食べる",en:"Often",zh:"经常"}},{e:"🥗",v:1,t:{ja:"ときどき",en:"Sometimes",zh:"偶尔"}},{e:"🍟",v:0,t:{ja:"あまり",en:"Rarely",zh:"较少"}}]},
+    {q:{ja:"屋外での日差し対策は？",en:"Do you protect eyes from glare?",zh:"户外护眼吗？"},opts:[{e:"🕶️",v:2,t:{ja:"する",en:"Usually",zh:"通常会"}},{e:"🤔",v:1,t:{ja:"ときどき",en:"Sometimes",zh:"偶尔"}},{e:"☀️",v:1,t:{ja:"あまり",en:"Not really",zh:"不太"}}]}
+  ]}
+];
+const EXT={
+  points:{ja:"ポイント",en:"Points",zh:"积分"},reCheck:{ja:"再診断",en:"Re-check",zh:"再测"},quiz:{ja:"ウェルネスクイズ",en:"Wellness quiz",zh:"健康问答"},
+  knowT:{ja:"ウェルネス 知識スポット",en:"Wellness knowledge",zh:"健康知识专区"},read:{ja:"読む",en:"Read",zh:"阅读"},readReward:{ja:"読了 +3pt",en:"Read · +3pt",zh:"读完 +3分"},close:{ja:"とじる",en:"Close",zh:"关闭"},
+  commT:{ja:"みんなのウェルネス",en:"Community",zh:"大家的健康打卡"},commJoin:{ja:"今週 1,240人 がチャレンジ中",en:"1,240 people in this week's challenge",zh:"本周 1,240 人参与挑战"},you:{ja:"あなた",en:"You",zh:"你"},cheered:{ja:"応援しました 👏",en:"Cheered 👏",zh:"已应援 👏"},
+  quizQ:{ja:"フィッシュオイルのオメガ3は何をサポート？",en:"What does fish-oil omega-3 support?",zh:"鱼油中的欧米伽3支持什么？"},
+  quizOpts:[{t:{ja:"心血管と活力",en:"Heart & vitality",zh:"心血管与活力"},ok:1},{t:{ja:"歯を白くする",en:"Whitens teeth",zh:"美白牙齿"},ok:0},{t:{ja:"高カフェイン",en:"High caffeine",zh:"高咖啡因"},ok:0}],
+  quizOk:{ja:"正解！+5pt",en:"Correct! +5pt",zh:"答对！+5分"},quizNg:{ja:"惜しい！正解は「心血管と活力」",en:"Close! It supports heart & vitality",zh:"差一点！正确是「心血管与活力」"}};
+const KNOW=[
+  {ic:"🐟",t:{ja:"オメガ3ってなに？",en:"What is Omega-3?",zh:"什么是欧米伽3？"},b:{ja:"Blackmores の無腥味深海魚油に含まれる EPA・DHA は、心血管の健康や日々の活力の維持をサポートします。毎日続けることが大切です。",en:"The EPA & DHA in Blackmores Odourless Fish Oil help support heart health and everyday vitality. Daily intake is key.",zh:"Blackmores 无腥味深海鱼油中的 EPA、DHA 有助于支持心血管健康与日常活力。每天坚持很重要。"}},
+  {ic:"🌅",t:{ja:"朝のサプリ習慣",en:"Morning supplement routine",zh:"早晨补剂习惯"},b:{ja:"起きたらコップ1杯の水、朝食と一緒にマルチビタミンを1錠。決まった時間に飲むと続けやすくなります。",en:"A glass of water on waking, one multivitamin with breakfast. Taking it at a regular time makes it easier to keep up.",zh:"起床喝1杯水，早餐时吃1粒复合维生素。固定时间服用更容易坚持。"}},
+  {ic:"🛡️",t:{ja:"免疫とビタミンC",en:"Immunity & Vitamin C",zh:"免疫与维生素C"},b:{ja:"ビタミンC は免疫の維持をサポートします。季節の変わり目には、野菜・果物に加えて Blackmores ビタミンC を組み合わせると安心です。",en:"Vitamin C helps support immune defence. At season changes, pair fruit and vegetables with Blackmores Vitamin C.",zh:"维生素C 有助于支持免疫力。换季时，蔬果搭配 Blackmores 维生素C 更安心。"}},
+  {ic:"😴",t:{ja:"睡眠と日々の回復",en:"Sleep & daily recovery",zh:"睡眠与日常恢复"},b:{ja:"質の良い睡眠は回復のカギ。就寝前のスマホを控え、こまめな水分補給と Blackmores スリープサポートで自然な眠りへ。",en:"Quality sleep is key to recovery. Cut screen time before bed, stay hydrated, and ease into rest with Blackmores Sleep Support.",zh:"优质睡眠是恢复的关键。睡前少看手机、勤补水，搭配 Blackmores 睡眠支持轻松入眠。"}}];
+const MATES=[{n:"Mia",e:"🙂",d:18,cheers:12},{n:"Liam",e:"😄",d:11,cheers:8},{n:"Ava",e:"😊",d:25,cheers:21}];
+let state={lang:"en",screen:"onboard",stage:"goal",goal:null,q:0,ans:[],flags:{},score:0,plan:null,day:1,fed:0,points:0,checkedToday:false,streak:0,folds:{},read:{}};
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const L=o=>o[state.lang]||o.ja||o.en;
+
+/* ---- Health Twin mascot by growth stage 0..3 ---- */
+function be80(stage,size){const s=size||120;let inner='';
+  if(stage===0){ // egg
+    inner=`<ellipse cx="50" cy="58" rx="27" ry="33" fill="#00CB5D"/><ellipse cx="50" cy="58" rx="27" ry="33" fill="none" stroke="#14521D" stroke-width="3"/>
+      <ellipse cx="40" cy="46" rx="6" ry="4" fill="#fff" opacity=".45"/>`;
+  }else if(stage===1){ // cracking
+    inner=`<ellipse cx="50" cy="58" rx="27" ry="33" fill="#00CB5D"/><ellipse cx="50" cy="58" rx="27" ry="33" fill="none" stroke="#14521D" stroke-width="3"/>
+      <polyline points="30,55 40,50 36,60 48,55 44,64 60,58" fill="none" stroke="#14521D" stroke-width="2.4" stroke-linejoin="round"/>
+      <ellipse cx="40" cy="46" rx="6" ry="4" fill="#fff" opacity=".45"/>`;
+  }else if(stage===2){ // hatched small
+    inner=`<path d="M27 70 q23 14 46 0 l-3 -8 q-20 9 -40 0 Z" fill="#fff" stroke="#14521D" stroke-width="2.2"/>
+      <ellipse cx="50" cy="48" rx="22" ry="22" fill="#00CB5D"/><ellipse cx="50" cy="48" rx="22" ry="22" fill="none" stroke="#14521D" stroke-width="3"/>
+      <circle cx="43" cy="47" r="2.6" fill="#14521D"/><circle cx="57" cy="47" r="2.6" fill="#14521D"/>
+      <path d="M45 54 q5 4 10 0" fill="none" stroke="#14521D" stroke-width="2" stroke-linecap="round"/>
+      <path d="M50 26 l2.4 4.2 l-4.8 0 Z" fill="#00CB5D" stroke="#14521D" stroke-width="1.6" stroke-linejoin="round"/>`;
+  }else{ // grown
+    inner=`<ellipse cx="50" cy="56" rx="28" ry="31" fill="#00CB5D"/><ellipse cx="50" cy="56" rx="28" ry="31" fill="none" stroke="#14521D" stroke-width="3"/>
+      <path d="M34 52 q16 -8 32 0" fill="none" stroke="#14521D" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+      <circle cx="42" cy="56" r="3.2" fill="#14521D"/><circle cx="58" cy="56" r="3.2" fill="#14521D"/>
+      <circle cx="42.8" cy="55" r="1" fill="#fff"/><circle cx="58.8" cy="55" r="1" fill="#fff"/>
+      <path d="M43 64 q7 5 14 0" fill="none" stroke="#14521D" stroke-width="2.2" stroke-linecap="round"/>
+      <ellipse cx="36" cy="62" rx="3" ry="2" fill="#fff" opacity=".4"/><ellipse cx="64" cy="62" rx="3" ry="2" fill="#fff" opacity=".4"/>
+      <path d="M50 22 l3 5 l-6 0 Z" fill="#00CB5D" stroke="#14521D" stroke-width="1.7" stroke-linejoin="round"/>
+      <text x="79" y="26" font-size="13">✨</text><text x="10" y="40" font-size="11">✨</text>`;
+  }
+  return `<svg width="${s}" height="${s}" viewBox="0 0 100 100">${inner}</svg>`;}
+function growStage(){return state.fed>=11?3:state.fed>=7?2:state.fed>=3?1:0;}
+function growLabel(){const k=['growEgg','growCrack','growHatch','growGrown'][growStage()];return L(T[k]);}
+
+/* ---- ONBOARDING (goal-based naturopath assessment) ---- */
+function goalDef(){return GOALS.find(g=>g.id===state.goal);}
+function renderOnboard(){
+  if(state.stage==="goal")return renderGoalPick();
+  return renderGoalQuestions();
+}
+/* Step A — pick a health goal */
+function renderGoalPick(){
+  const tiles=GOALS.map(g=>`<button class="opt" data-g="${g.id}"><span class="oe">${g.ic}</span><span><span style="display:block">${L(g.t)}</span><span style="display:block;font-size:11.5px;color:var(--muted);font-weight:500">${L(g.sub)}</span></span></button>`).join('');
+  $('#app').innerHTML=`<div class="ob">
+    <div class="dots"><i class="on"></i><i></i><i></i></div>
+    <div class="step">${L(T.goalStep)}</div>
+    <h2>${L(T.goalH)}</h2>
+    <div class="hint">${L(T.goalHint)}</div>
+    <div class="opts">${tiles}</div>
+  </div>`;
+  $$('.opt').forEach(b=>b.onclick=()=>{state.goal=b.dataset.g;state.stage="qs";state.q=0;state.ans=[];state.flags={};renderOnboard();});
+}
+/* Step B — targeted questions for the chosen goal */
+function renderGoalQuestions(){
+  const def=goalDef();if(!def){state.stage="goal";return renderGoalPick();}
+  const qs=def.qs;
+  if(state.q>=qs.length)return reveal();
+  const item=qs[state.q],step=state.q+1;
+  const dots=qs.map((_,i)=>`<i class="${i<state.q?'done':i===state.q?'on':''}"></i>`).join('');
+  const sf=state.q>0?`<div class="scoreform"><div class="sn" id="sfNum">${runningScore()}</div><div class="sl">${L(T.vitality)}</div></div>`:'';
+  $('#app').innerHTML=`<div class="ob">
+    <div class="dots"><i class="done"></i><i class="on"></i><i></i></div>
+    <div class="step">${L(T.qStepB)} · ${def.ic} ${L(def.t)} · ${L(T.qn)} ${step}/${qs.length}</div>
+    <h2>${L(item.q)}</h2>
+    ${sf}
+    <div class="opts">${item.opts.map((o,i)=>`<button class="opt" data-i="${i}"><span class="oe">${o.e}</span>${L(o.t)}</button>`).join('')}</div>
+  </div>`;
+  $$('.opt').forEach(b=>b.onclick=()=>{const o=item.opts[+b.dataset.i];state.ans[state.q]={v:o.v};if(o.key)state.flags[o.key]=1;state.q++;renderOnboard();});
+}
+function runningScore(){const sum=state.ans.reduce((a,x)=>a+(x?x.v:0),0);const n=Math.max(1,(goalDef()?goalDef().qs.length:5));return Math.round(40+Math.min(sum,n*2)/(n*2)*55);}
+/* Step C — build the personalised plan */
+function buildPlan(){
+  const def=goalDef();
+  const items=[...def.core];
+  Object.keys(def.extra||{}).forEach(flag=>{if(state.flags[flag])def.extra[flag].forEach(p=>{if(!items.includes(p))items.push(p);});});
+  return {goal:def.id,products:items,bundle:def.bundle,content:def.content,dose:def.dose};
+}
+function reveal(){
+  const def=goalDef();
+  const sum=state.ans.reduce((a,x)=>a+(x?x.v:0),0),n=def.qs.length;
+  state.score=Math.round(40+Math.min(sum,n*2)/(n*2)*55);
+  state.plan=buildPlan();
+  state.screen="result";renderApp();
+}
+
+/* ---- RESULT — Step C personalised plan ---- */
+function renderResult(){
+  const def=goalDef(),plan=state.plan||buildPlan();
+  const sc=state.score,band=sc<55?T.bandLow:sc<75?T.bandMid:T.bandHigh;
+  const adv=sc<55?{ja:"この目標には伸びしろがあります。<b>1日1回のチェックイン</b>から、専属ナチュロパスのように無理なくいっしょに整えていきましょう。",en:"There's good room to support this goal. Like your naturopath-friend, I'll keep it gentle — start with <b>one check-in a day</b>.",zh:"这个目标有不小提升空间。像你的自然疗法好友一样，我们从<b>每天签到一次</b>慢慢来。"}
+    :sc<75?{ja:"いい土台ができています。<b>14日チャレンジ</b>でこのプランを習慣にすれば、さらに安定します。",en:"You've got a solid base. The <b>14-day challenge</b> will help this plan stick.",zh:"基础不错。用 <b>14天挑战</b> 把这套方案养成习惯会更稳。"}
+    :{ja:"とても good な状態！<b>ヘルスツインを育てながら</b>この調子をキープしましょう。",en:"Great shape! Keep it up while <b>growing your Health Twin</b>.",zh:"状态很好！<b>边养健康分身</b>边保持。"};
+  const core=plan.products.map(id=>{const p=PRODUCTS[id];return `<div class="reccard"><img src="${p.img}" alt=""><div><div class="rn">${L(p.nm)}</div><div class="rw">${L(p.w)}</div></div></div>`;}).join('');
+  const bd=BUNDLES[plan.bundle];
+  const bimgs=bd.items.map(id=>`<img src="${PRODUCTS[id].img}" alt="" style="width:38px;height:38px;margin-right:-8px;border:1px solid var(--line);border-radius:8px;background:var(--card)">`).join('');
+  const bundle=`<div class="reccard" style="background:var(--soft);border-color:#bfe9cf">
+    <div style="display:flex;align-items:center;padding-left:8px">${bimgs}</div>
+    <div style="margin-left:8px"><div class="rn">${L(bd.nm)} <span style="font-size:10px;color:var(--bio);font-weight:800">· ${L(T.bundleSave)}</span></div><div class="rw">${L(bd.w)}</div></div></div>`;
+  const dose=plan.dose.map(d=>`<div class="prow"><div class="pv" style="width:100%">✔ ${L(d)}</div></div>`).join('');
+  const content=plan.content.map(i=>{const k=KNOW[i];return `<div class="know-card" data-art="${i}" style="flex:0 0 auto;min-width:160px"><div class="ki">${k.ic}</div><div class="kt">${L(k.t)}</div><div class="kr">${L(EXT.read)} ›</div></div>`;}).join('');
+  $('#app').innerHTML=`<div class="ob">
+    <div class="step" style="text-align:center">${L(T.planStep)}</div>
+    <h2 style="text-align:center;font-size:18px">${L(T.planFor)}${def.ic} ${L(def.t)}</h2>
+    <div class="scorebig"><div class="ring" style="--p:${sc}"><span class="v">${sc}<small>/100</small></span></div>
+      <div class="band" style="color:${sc<55?'var(--gold)':'var(--bio)'}">${L(band)}</div></div>
+    <div class="advice">🧠 ${L(adv)}</div>
+    <div class="step" style="margin-bottom:8px">${L(T.coreLabel)}</div>
+    ${core}
+    <div class="step" style="margin-bottom:8px">${L(T.bundleLabel)}</div>
+    ${bundle}
+    <div class="step" style="margin-bottom:8px">${L(T.doseLabel)}</div>
+    <div class="card" style="margin-top:0;padding:6px 14px">${dose}</div>
+    <div class="step" style="margin:16px 0 8px">${L(T.contentLabel)}</div>
+    <div class="know-scroll">${content}</div>
+    <div class="mascot" style="margin-top:14px">${be80(0,110)}</div>
+    <div class="growlab">${L(T.twinFeed)}</div>
+    <button class="ckbtn" id="startCh" style="margin-top:16px">${L(T.startChallenge)}</button>
+  </div>`;
+  $$('[data-art]').forEach(c=>c.onclick=()=>openArticle(+c.dataset.art));
+  $('#startCh').onclick=()=>{state.screen="home";renderApp();};
+}
+
+/* ---- HOME ---- */
+function renderHome(){
+  const stage=growStage();
+  let days='';for(let i=1;i<=14;i++){const done=i<state.day;const today=i===state.day;days+=`<i class="${done?'done':''}${today?' today':''}">${done?'✓':i}</i>`;}
+  const know=KNOW.map((k,i)=>`<div class="know-card" data-art="${i}"><div class="ki">${k.ic}</div><div class="kt">${L(k.t)}</div><div class="kr">${state.read[i]?'✓ ':''}${L(EXT.read)} ›</div></div>`).join('');
+  const ranked=[{you:1,n:L(EXT.you),e:"😊",d:state.day-1+state.fed},...MATES.map(m=>({n:m.n,e:m.e,d:m.d}))].sort((a,b)=>b.d-a.d);
+  const mates=ranked.map((m,idx)=>{const mi=MATES.findIndex(x=>x.n===m.n);return `<div class="mate${m.you?' you':''}"><div class="ma">${m.e}</div><div><div class="mn">${idx+1}. ${m.n}</div><div class="md">${L(T.streak)} ${m.d}${L(T.day)}</div></div>${m.you?'':`<button class="cheerb" data-cheer="${mi}">👏 ${MATES[mi].cheers}</button>`}</div>`;}).join('');
+  $('#app').innerHTML=`<div class="home">
+    <div class="hero"><div class="sky"></div>
+      <div class="tt">${L(T.heroTt)}</div>
+      <div class="mascot">${be80(stage,128)}</div>
+      <div class="growbar"><i style="width:${Math.round(state.fed/14*100)}%"></i></div>
+      <div class="growlab" style="color:rgba(255,255,255,.9)">${growLabel()} · ${state.fed}/14</div>
+      <div><span class="scorepill">💪 ${L(T.vitality)} <b>${state.score}</b></span><span class="points-pill">⭐ <b>${state.points}</b> ${L(EXT.points)}</span></div>
+    </div>
+    <div class="actrow">
+      <div class="act" id="aScan"><div class="ai">📷</div><div class="al">${L(T.scanT)}</div></div>
+      <div class="act" id="aLog"><div class="ai">📝</div><div class="al">${L(T.logT)}</div></div>
+      <div class="act" id="aQuiz"><div class="ai">❓</div><div class="al">${L(EXT.quiz)}</div></div>
+      <div class="act" id="aRe"><div class="ai">🩺</div><div class="al">${L(EXT.reCheck)}</div></div>
+    </div>
+    <div class="card">
+      <div class="ch">📅 ${L(T.challengeT)} <span class="streak">🔥 ${state.day-1}/14</span></div>
+      <div class="days">${days}</div>
+      <button class="ckbtn ${state.checkedToday?'done':''}" id="ckBtn">${state.checkedToday?L(T.ckDone):L(T.ckTodayQ)}</button>
+    </div>
+    <div class="sec">${L(EXT.knowT)}</div>
+    <div class="know-scroll">${know}</div>
+    <div class="sec">${L(EXT.commT)}</div>
+    <div class="comm"><div class="cjoin">👥 ${L(EXT.commJoin)}</div>${mates}</div>
+  </div>`;
+  $('#aScan').onclick=openScan;$('#aLog').onclick=doCheck;$('#aQuiz').onclick=openQuiz;$('#aRe').onclick=reCheck;$('#ckBtn').onclick=doCheck;
+  $$('[data-art]').forEach(c=>c.onclick=()=>openArticle(+c.dataset.art));
+  $$('[data-cheer]').forEach(b=>b.onclick=()=>{MATES[+b.dataset.cheer].cheers++;renderHome();toast('👏 '+L(EXT.cheered));});
+}
+function openSheet(html){$('#sheet').innerHTML=html;$('#sheetMask').classList.add('open');}
+function closeSheet(){$('#sheetMask').classList.remove('open');}
+function openArticle(i){const k=KNOW[i],fresh=!state.read[i];
+  openSheet(`<button class="sx" id="shX">✕</button><div style="font-size:30px">${k.ic}</div><h3>${L(k.t)}</h3><div class="sb">${L(k.b)}</div><button class="sok" id="shOk">${fresh?L(EXT.readReward):L(EXT.close)}</button>`);
+  $('#shX').onclick=closeSheet;
+  $('#shOk').onclick=()=>{if(fresh){state.read[i]=1;state.points+=3;toast('📚 '+L(EXT.readReward));}closeSheet();renderHome();};}
+function openQuiz(){
+  openSheet(`<button class="sx" id="shX">✕</button><h3>❓ ${L(EXT.quiz)}</h3><div class="sb" style="font-weight:700">${L(EXT.quizQ)}</div><div id="qopts">${EXT.quizOpts.map((o,i)=>`<button class="qopt" data-qo="${i}">${L(o.t)}</button>`).join('')}</div>`);
+  $('#shX').onclick=closeSheet;
+  $$('#qopts .qopt').forEach(b=>b.onclick=()=>{const o=EXT.quizOpts[+b.dataset.qo];if(o.ok){state.points+=5;toast('🎉 '+L(EXT.quizOk));}else toast(L(EXT.quizNg));closeSheet();renderHome();});}
+function reCheck(){state.stage='goal';state.goal=null;state.q=0;state.ans=[];state.flags={};state.plan=null;state.screen='onboard';renderApp();}
+function doCheck(){if(state.checkedToday){toast(L({ja:"今日はもう記録ずみ 🙂",en:"Already logged today 🙂",zh:"今天已记录 🙂"}));return;}
+  state.checkedToday=true;state.points+=5;state.score=Math.min(100,state.score+1);state.streak+=1;renderHome();
+  toast('📝 +5pt · '+L({ja:"記録しました",en:"Logged",zh:"已记录"}));}
+
+/* ---- AR SCAN ---- */
+function openScan(){const m=$('#scanMask');m.classList.add('open');
+  m.innerHTML=`<div class="viewf"><span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span><span class="line"></span><span class="obj">💊</span></div>
+    <div class="scan-tt">${L(T.scanning)}</div><div class="scan-ts">${L(T.scanIns)}</div>`;
+  setTimeout(()=>{
+    if(state.fed<14)state.fed+=1;if(state.day<14)state.day+=1;state.points+=10;state.score=Math.min(100,state.score+1);
+    const st=growStage();
+    m.innerHTML=`<div class="scan-done"><div class="mascot">${be80(st,150)}</div>
+      <div class="scan-tt" style="margin-top:8px">${L(T.scanOk)}</div>
+      <div class="scan-ts">${L(T.scanReward)}</div>
+      <div class="scan-ts" style="color:var(--bio-br);margin-top:8px">${growLabel()}</div>
+      <button class="scan-close" id="scanClose">${L(T.scanClose)}</button></div>`;
+    $('#scanClose').onclick=()=>{m.classList.remove('open');renderHome();};
+  },1500);
+}
+
+/* ---- dispatch / lang ---- */
+function renderApp(){if(state.screen==='onboard')renderOnboard();else if(state.screen==='result')renderResult();else renderHome();}
+function applyText(){$('#subt').textContent=L(T.subt);document.documentElement.lang=state.lang;renderApp();}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),1900);}
+const LANGS=[['en','EN'],['zh','中'],['ja','日'],['th','ไท']];
+function renderLangs(){const box=$('#langs');box.innerHTML='';LANGS.forEach(([k,lab])=>{const b=document.createElement('button');b.textContent=lab;if(k===state.lang)b.className='on';b.onclick=()=>{state.lang=k;renderLangs();applyText();};box.appendChild(b);});}
+renderLangs();
+$('#sheetMask').onclick=e=>{if(e.target===$('#sheetMask'))closeSheet();};
+try{var _l=new URLSearchParams(location.search).get("lang");if(_l&&["ja","en","zh","th"].indexOf(_l)>=0)state.lang=_l;}catch(e){}
+applyText();renderLangs();
+(function(){var _p="";setInterval(function(){try{if(window.parent&&window.parent!==window){if(state.lang!==_p){_p=state.lang;window.parent.postMessage({t:"es",lang:state.lang},"*");}}}catch(e){}},400);})();
+</script>
+</body>
+</html>

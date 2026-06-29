@@ -29,3 +29,23 @@
 - No case-only duplicate path conflict found.
 - Output folder size is about 120MB.
 - Do not add the generated zip file to GitHub if this folder is later compressed for sharing.
+
+## 2026-06-29 Case Catalog Restructure
+
+- Added `case-catalog.html` as the full-page case and demo catalog.
+- Kept the existing journey, accordion, persona, and scenario interactions in `index.html`.
+- Changed benchmark case and NTT DATA capability clicks to open the catalog detail view instead of using the side drawer.
+- Added a top navigation and hero entry for `案例与 Demo 库 / Case & Demo Catalog`.
+- Added three content layers:
+  - Industry & business cases.
+  - NTT DATA capabilities and reusable demo assets.
+  - Reusable retail/channel modules adapted from the Blackmores catalog.
+- Copied Blackmores reference demo pages into `reference-demos/blackmores-global/`.
+- Marked Blackmores-derived demos as reusable reference demos, not General Mills delivery cases.
+- Demo files that are referenced in NTT data but not present in the Blackmores package are shown as pending connection instead of broken links.
+- Stage-level catalog links support `?stage=` filtering.
+- Audit checks completed:
+  - Inline script syntax passed for `index.html`, `Three_Journey_Navigator.html`, `customerjourney/index.html`, and `case-catalog.html`.
+  - No `.DS_Store`, `__MACOSX`, `._*`, `.fuse_hidden*`, or nested zip files found under `reference-demos`.
+  - No file over 90MB found.
+  - No `Jacky`, `五人`, `5 人`, `mother`, or deprecated NTT capability title copy found in the publish HTML files.

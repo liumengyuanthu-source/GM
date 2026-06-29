@@ -1,0 +1,7 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Danone BIO Strawberry yogurt">
+  <path d="M17 25 L47 25 L43.5 54 Q43.3 56.5 40.8 56.5 L23.2 56.5 Q20.7 56.5 20.5 54 Z" fill="#ffffff" stroke="#005B96" stroke-width="2.6" stroke-linejoin="round"/>
+  <rect x="15" y="17.5" width="34" height="10" rx="3.2" fill="#e85d75" stroke="#005B96" stroke-width="2.6"/>
+  <path d="M32 35 q5 0 5 4.5 q0 4.5 -5 7.5 q-5 -3 -5 -7.5 q0 -4.5 5 -4.5 Z" fill="#e85d75"/>
+  <path d="M30 34.5 q2 -2 4 0" fill="none" stroke="#00CB5D" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="30.5" cy="40" r=".8" fill="#fff"/><circle cx="33.5" cy="41.5" r=".8" fill="#fff"/><circle cx="32" cy="44" r=".8" fill="#fff"/>
+</svg>

@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic Commerce · Blackmores · Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
+    --line-green:#06c755;
+    --ink:#16201f; --muted:#6a7472; --bg:#f4f7fb; --card:#fff; --line:#e6ecf2;
+    --display:Georgia,'Times New Roman','Songti SC','Hiragino Mincho ProN',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans','Microsoft YaHei','Thonburi','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  .nav{display:flex;align-items:center;gap:12px;max-width:640px;margin:0 auto;padding:13px 18px}
+  .brand{font-family:var(--display);font-weight:700;font-size:19px}.brand sup{font-size:9px;color:var(--brand)}
+  .subt{font-size:11px;color:var(--muted);border-left:1px solid var(--line);padding-left:12px}.sp{flex:1}
+  .linebadge{display:inline-flex;align-items:center;gap:5px;background:var(--line-green);color:#fff;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:7px;letter-spacing:.02em}
+  .chip{display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:12px;font-weight:600;cursor:pointer;position:relative}
+  .menu{position:absolute;top:40px;right:0;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:6px;min-width:120px;box-shadow:0 12px 30px rgba(0,0,0,.12);display:none;z-index:50}
+  .menu.open{display:block}.menu button{display:block;width:100%;border:0;background:0;font:inherit;font-size:13px;padding:8px 9px;border-radius:7px;cursor:pointer;text-align:left;color:var(--ink)}.menu button:hover{background:var(--soft)}
+  .langs{display:flex;gap:3px}
+  .langs button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;font-weight:600;color:var(--muted);min-width:32px;height:30px;border-radius:8px;cursor:pointer;transition:.2s;padding:0 6px}
+  .langs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .wrap{max-width:640px;margin:0 auto;padding:22px 18px 80px}
+
+  /* proactive agent card */
+  .nudge{background:linear-gradient(135deg,#0a52a0,#073b73);color:#fff;border-radius:16px;padding:14px 15px;margin-bottom:18px;position:relative;overflow:hidden;animation:fin .4s}
+  .nudge .nh{font-size:11px;font-weight:700;letter-spacing:.03em;opacity:.9;display:flex;align-items:center;gap:6px;margin-bottom:6px}
+  .nudge .nb{font-size:14px;font-weight:600;line-height:1.35}
+  .nudge .src{font-size:11px;opacity:.78;margin-top:5px}
+  .nudge .nbtns{display:flex;gap:8px;margin-top:12px}
+  .nudge .nbtns button{border:0;border-radius:10px;padding:9px 12px;font-size:12.5px;font-weight:700;cursor:pointer}
+  .nudge .yes{background:#fff;color:var(--brand-d);flex:1}
+  .nudge .later{background:rgba(255,255,255,.18);color:#fff}
+
+  .tagline{text-align:center;font-family:var(--display);font-size:clamp(20px,5vw,28px);font-weight:500;line-height:1.15;letter-spacing:-.01em}
+  .tagline em{font-style:italic;color:var(--brand)}
+  .micwrap{display:flex;flex-direction:column;align-items:center;margin:22px 0 6px}
+  .mic{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand-d));color:#fff;
+    border:0;font-size:34px;cursor:pointer;display:grid;place-items:center;box-shadow:0 12px 30px rgba(10,82,160,.3);transition:.2s;position:relative}
+  .mic:hover{transform:scale(1.04)}
+  .mic.live::after,.mic.live::before{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--brand);animation:rip 1.4s infinite}
+  .mic.live::before{animation-delay:.6s}
+  @keyframes rip{from{transform:scale(1);opacity:.6}to{transform:scale(1.7);opacity:0}}
+  .michint{font-size:12.5px;color:var(--muted);margin-top:12px;text-align:center}
+
+  .inbar{display:flex;gap:8px;margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px 6px 6px 15px}
+  .inbar input{flex:1;border:0;outline:0;font:inherit;font-size:14px;background:0}
+  .inbar button{border:0;background:var(--brand);color:#fff;width:40px;height:40px;border-radius:10px;font-size:17px;cursor:pointer}
+  .cmds{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+  .cmd{border:1px solid var(--line);background:var(--card);border-radius:13px;padding:12px 15px;font-size:14px;cursor:pointer;display:flex;gap:10px;align-items:center;transition:.15s}
+  .cmd:hover{border-color:var(--brand);background:var(--soft)}.cmd .q{font-size:17px;color:var(--brand)}
+
+  .said{display:flex;justify-content:flex-end;margin:14px 0}
+  .said .b{background:var(--brand);color:#fff;border-radius:15px 4px 15px 15px;padding:11px 15px;font-size:14px;max-width:84%}
+  .agent{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:4px}
+  .agent .ttl{font-size:12px;font-weight:700;color:var(--brand);display:flex;gap:7px;align-items:center;margin-bottom:12px}
+  .step{padding:7px 0;color:var(--muted);opacity:.4;transition:.3s}
+  .step.on{opacity:1;color:var(--ink)}
+  .step .ln{display:flex;gap:11px;align-items:center;font-size:13.5px}
+  .step .ic{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:12px;flex-shrink:0}
+  .step.on .ic{border-color:var(--brand);background:var(--brand);color:#fff}
+  .step.work .ic{border-color:var(--brand);border-top-color:transparent;animation:sp .7s linear infinite;background:0;color:transparent}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .step .det{font-size:11.5px;color:var(--muted);margin:2px 0 0 33px;display:none}
+  .step.on .det{display:block}
+
+  .clar{margin-top:12px;animation:fin .3s}.clar .qq{font-size:13.5px;margin-bottom:9px}
+  .qr{display:flex;gap:8px;flex-wrap:wrap}
+  .qrb{border:1px solid var(--brand);background:var(--soft);color:var(--brand);border-radius:999px;padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer}
+  .qrb:hover{background:var(--brand);color:#fff}
+
+  .result{margin-top:13px;display:none}.result.show{display:block;animation:fin .4s}@keyframes fin{from{opacity:0;transform:translateY(8px)}}
+  .summary{background:var(--soft);border-radius:12px;padding:12px 14px;font-size:13.5px;margin-bottom:10px}.summary b{color:var(--brand)}
+  .bundlebanner{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,var(--brand),var(--brand-d));color:#fff;border-radius:14px;padding:13px 15px;margin-bottom:10px}
+  .bundlebanner .bb-ic{font-size:24px;flex-shrink:0}
+  .bundlebanner .bb-tag{font-size:10.5px;font-weight:800;letter-spacing:.04em;background:rgba(255,255,255,.22);padding:2px 8px;border-radius:6px;display:inline-block;margin-bottom:4px}
+  .bundlebanner .bb-nm{font-size:15px;font-weight:800;font-family:var(--display)}
+  .bundlebanner .bb-comp{font-size:11.5px;opacity:.9;margin-top:2px;line-height:1.35}
+  .bundlebanner .bb-save{margin-left:auto;text-align:right;flex-shrink:0}
+  .bundlebanner .bb-save .bb-pct{font-size:16px;font-weight:800;font-family:var(--display);line-height:1}
+  .bundlebanner .bb-save .bb-lbl{font-size:10px;opacity:.85;margin-top:2px}
+  .item{display:flex;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+  .item .em{font-size:25px;width:30px;text-align:center}.item .nm{font-weight:700;font-size:14px}.item .wy{font-size:11.5px;color:var(--muted)}
+  .item .fresh{font-size:10.5px;color:var(--accent);font-weight:700;margin-top:1px}
+  .item .ctrls{display:flex;align-items:center;gap:8px;margin-left:auto}
+  .qbtn{width:26px;height:26px;border-radius:8px;border:1px solid var(--line);background:var(--bg);font:inherit;font-size:15px;cursor:pointer;line-height:1}
+  .qn{width:18px;text-align:center;font-weight:700}
+  .ip{width:64px;text-align:right;font-weight:800;color:var(--brand)}
+  .rm{border:0;background:0;color:var(--muted);font-size:15px;cursor:pointer}
+
+  .blk-t{font-size:11px;font-weight:800;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;margin:15px 0 8px}
+  .slots{display:flex;gap:8px}
+  .slot{flex:1;border:1px solid var(--line);border-radius:11px;padding:9px 6px;text-align:center;cursor:pointer;font-size:12px;transition:.15s}
+  .slot .sd{font-weight:700}.slot .st{font-size:10.5px;color:var(--muted);margin-top:2px}
+  .slot.on{border-color:var(--brand);background:var(--soft);color:var(--brand-d)}
+  .slot.on .st{color:var(--brand)}
+  .coldnote{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--muted);margin-top:8px}
+
+  .pricerow{display:flex;justify-content:space-between;font-size:13px;margin:8px 0;color:var(--muted)}
+  .pricerow.tot{color:var(--ink);font-weight:800;font-size:16px;font-family:var(--display);margin-top:10px}
+  .pricerow .disc{color:var(--line-green);font-weight:700}
+  .pricerow .pts{color:var(--accent);font-weight:700}
+  .guardnote{background:#fdf2e2;color:#b5731a;border-radius:11px;padding:11px 13px;font-size:12.5px;margin:10px 0}
+
+  .auto{margin:14px 0 6px}
+  .autoseg{display:flex;gap:8px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:5px}
+  .autoseg button{flex:1;border:0;background:0;font:inherit;font-size:12.5px;font-weight:700;color:var(--muted);padding:9px 6px;border-radius:9px;cursor:pointer;line-height:1.25}
+  .autoseg button.on{background:var(--card);color:var(--brand-d);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+  .autonote{font-size:11.5px;color:var(--brand);background:var(--soft);border-radius:10px;padding:9px 12px;margin-top:8px;display:flex;gap:7px;align-items:flex-start}
+
+  .confirm{width:100%;border:0;background:var(--line-green);color:#fff;font:inherit;font-weight:800;font-size:15px;padding:14px;border-radius:12px;cursor:pointer;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px}
+  .confirm:disabled{opacity:.7}
+  .conf{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:6px;text-align:center;animation:fin .4s}
+  .conf .big{font-size:40px}.conf h3{font-family:var(--display);font-size:20px;margin:6px 0}
+  .conf .line{font-size:13px;color:var(--muted);margin:3px 0}.conf .loop{background:var(--soft);border-radius:11px;padding:11px;font-size:12.5px;margin-top:12px;color:var(--ink);text-align:left;display:flex;gap:8px;align-items:flex-start}
+
+  /* post-order agent timeline */
+  .post{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:12px;animation:fin .4s}
+  .post .ttl{font-size:12px;font-weight:700;color:var(--brand);display:flex;gap:7px;align-items:center;margin-bottom:10px}
+  .pstep{display:flex;gap:11px;align-items:flex-start;padding:7px 0;opacity:.35;transition:.4s}
+  .pstep.on{opacity:1}
+  .pstep .pic{width:22px;height:22px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:12px;flex-shrink:0}
+  .pstep.alert .pic{background:#fdf2e2}
+  .pstep .pt{font-size:13px;font-weight:600}.pstep .ps{font-size:11.5px;color:var(--muted);margin-top:1px}
+  .reschedule{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:8px 13px;font-size:12.5px;font-weight:700;color:var(--brand);cursor:pointer;margin-top:10px}
+  .rs-panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 13px 13px;margin-top:8px}
+  .rs-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+  .rs-row:last-of-type{border-bottom:0}
+  .rs-row span{font-size:12.5px;color:var(--muted)}
+  .rs-row input[type=date],.rs-row select{font:inherit;font-size:14px;font-weight:600;padding:8px 11px;border:1px solid var(--brand);border-radius:10px;color:var(--brand-d);background:var(--soft);cursor:pointer}
+  /* date-time picker modal */
+  .dtp-mask{position:fixed;inset:0;z-index:90;background:rgba(11,19,32,.45);display:flex;align-items:center;justify-content:center;padding:18px;opacity:0;pointer-events:none;transition:.2s}
+  .dtp-mask.open{opacity:1;pointer-events:auto}
+  .dtp{background:var(--card);border-radius:18px;width:100%;max-width:540px;box-shadow:0 24px 60px rgba(0,0,0,.28);transform:translateY(10px);transition:.25s;overflow:hidden}
+  .dtp-mask.open .dtp{transform:none}
+  .dtp-h{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line)}
+  .dtp-h .t{font-weight:700;font-size:15px}.dtp-h .x{margin-left:auto;border:0;background:var(--soft);width:30px;height:30px;border-radius:9px;font-size:15px;color:var(--ink);cursor:pointer}
+  .dtp-body{display:flex}
+  @media(max-width:560px){.dtp-body{flex-direction:column}}
+  .dtp-cal{flex:1.25;padding:14px 16px;border-right:1px solid var(--line)}
+  @media(max-width:560px){.dtp-cal{border-right:0;border-bottom:1px solid var(--line)}}
+  .dtp-slots{flex:1;padding:14px 16px;max-height:296px;overflow:auto}
+  .cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .cal-nav button{border:0;background:var(--soft);width:28px;height:28px;border-radius:8px;cursor:pointer;color:var(--brand-d);font-size:16px;line-height:1}
+  .cal-nav .my{font-weight:700;font-size:13.5px}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+  .cal-grid .wd{font-size:10.5px;color:var(--muted);text-align:center;padding:3px 0;font-weight:700}
+  .cal-d{aspect-ratio:1;display:grid;place-items:center;font-size:13px;border-radius:9px;cursor:pointer;color:var(--ink)}
+  .cal-d:hover{background:var(--soft)}.cal-d.off{pointer-events:none}.cal-d.dis{color:var(--line);pointer-events:none}
+  .cal-d.sel{background:var(--brand);color:#fff;font-weight:700}
+  .dtp-slabel{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:9px}
+  .slotc{display:flex;flex-direction:column;gap:7px}
+  .slotc button{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:9px 11px;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink);text-align:left}
+  .slotc button:hover{border-color:var(--brand)}.slotc button.on{border-color:var(--brand);background:var(--soft);color:var(--brand-d);font-weight:700}
+  .dtp-f{padding:12px 18px;border-top:1px solid var(--line);display:flex;gap:10px;align-items:center}
+  .dtp-f .sum{font-size:12.5px;color:var(--brand-d);font-weight:600;flex:1}
+  .dtp-f .ok{border:0;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:14px;padding:10px 18px;border-radius:11px;cursor:pointer}
+  .dtp-f .ok:disabled{opacity:.45;cursor:default}
+
+  .reset{display:block;margin:16px auto 0;border:0;background:0;color:var(--muted);font:inherit;font-size:13px;cursor:pointer;text-decoration:underline}
+  .guard{background:#fdf2e2;color:#b5731a;border-radius:12px;padding:13px 15px;font-size:13.5px;margin-top:6px}
+  .fab{position:fixed;right:18px;bottom:18px;width:50px;height:50px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:20px;box-shadow:0 8px 22px rgba(0,0,0,.2);cursor:pointer;z-index:40}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(50px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:11px;font-size:14px;font-weight:600;z-index:80;opacity:0;transition:.3s}
+  .toast.show{transform:translateX(-50%);opacity:1}
+
+  /* consultative / discovery */
+  .ask{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:4px}
+  .ask .ttl{font-size:12px;font-weight:700;color:var(--brand);display:flex;gap:7px;align-items:center;margin-bottom:6px}
+  .cqq{font-size:13.5px;font-weight:600;margin:6px 0 9px}
+  .cmp{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px}
+  .cmp th,.cmp td{padding:8px 8px;border-bottom:1px solid var(--line);text-align:center;vertical-align:middle}
+  .cmp td:first-child,.cmp th:first-child{text-align:left;color:var(--muted);font-weight:600;width:84px}
+  .cmp thead th{padding-bottom:6px}
+  .cmp .prodhead{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;font-weight:700;line-height:1.2}
+  .cmp .prodhead img{width:34px;height:34px}
+  .cmp td.rec{background:var(--soft)}
+  .cmp .best{color:var(--accent);font-weight:800}
+  .cmp .reccol{border-top:2px solid var(--brand)}
+  .acttabs{display:flex;gap:8px;margin:14px 0 10px}
+  .acttab{flex:1;border:1px solid var(--line);border-radius:11px;padding:10px;text-align:center;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted)}
+  .acttab.on{border-color:var(--brand);background:var(--soft);color:var(--brand-d)}
+  .store{display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:12px;padding:11px;margin-bottom:9px}
+  .store .pin{width:30px;height:30px;border-radius:8px;background:var(--soft);display:grid;place-items:center;font-size:15px;flex-shrink:0}
+  .store .snm{font-weight:700;font-size:13px}.store .smeta{font-size:11.5px;color:var(--muted);margin-top:1px}
+  .store .sact{margin-left:auto;text-align:right;flex-shrink:0}
+  .store .sprice{font-weight:800;color:var(--brand);font-size:14px}
+  .store .sresv{border:1px solid var(--brand);background:0;color:var(--brand);border-radius:8px;padding:5px 10px;font-size:11.5px;font-weight:700;cursor:pointer;margin-top:4px}
+  .store .sresv:hover{background:var(--soft)}
+  .coupon{display:flex;gap:11px;align-items:center;background:#eafaf0;border:1px dashed var(--accent);border-radius:12px;padding:11px 13px;margin:10px 0;font-size:12.5px}
+  .coupon .cv{font-weight:800;color:var(--accent);font-size:16px;line-height:1}
+
+  /* cross-sell / budget / gift */
+  .scorecard{display:flex;align-items:center;gap:14px;background:var(--soft);border-radius:14px;padding:13px 14px;margin:6px 0 12px}
+  .scorecard .sc-n{font-size:30px;font-weight:800;color:var(--brand);font-family:var(--display);line-height:1;flex-shrink:0}
+  .scorecard .sc-n span{font-size:13px;color:var(--muted)}
+  .budgetbar{height:10px;border-radius:6px;background:var(--line);overflow:hidden;margin:12px 0 6px}
+  .budgetbar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent))}
+  .giftsum{background:var(--soft);border-radius:12px;padding:6px 14px;font-size:13px;margin:10px 0}
+  .giftsum .gr{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--line)}
+  .giftsum .gr:last-child{border-bottom:0}.giftsum .gr span{color:var(--muted)}.giftsum .gr b{text-align:right}
+  .reminder{border:1px dashed var(--brand);border-radius:13px;padding:13px;margin-top:12px;background:var(--card)}
+  .reminder .rh{font-size:12px;font-weight:700;color:var(--brand);margin-bottom:6px}
+  .qb-row{display:flex;margin:8px 0}
+  .qb{background:var(--soft);color:var(--brand-d);border-radius:4px 14px 14px 14px;padding:10px 13px;font-size:13.5px;line-height:1.45;max-width:86%}
+  .datepick{display:flex;gap:8px;align-items:center;margin-top:2px}
+  .datepick input[type=date]{font:inherit;font-size:14px;font-weight:600;padding:10px 12px;border:1px solid var(--brand);border-radius:11px;color:var(--brand-d);background:var(--soft);cursor:pointer}
+
+  /* ===== Partner (B2B) mode ===== */
+  .modebar{max-width:640px;margin:0 auto;padding:12px 18px 0}
+  .modeseg{display:flex;gap:6px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:5px}
+  .modeseg button{flex:1;border:0;background:0;font:inherit;font-size:13px;font-weight:700;color:var(--muted);padding:9px 6px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+  .modeseg button.on{background:var(--card);color:var(--brand-d);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+  .pcontext{display:flex;align-items:center;gap:11px;background:var(--soft);border-radius:12px;padding:10px 13px;margin-bottom:14px;font-size:12.5px}
+  .pcontext .pav{width:34px;height:34px;border-radius:9px;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:16px;flex-shrink:0}
+  .pcontext b{color:var(--brand-d)}
+  .health{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:14px}
+  .hrow{display:flex;align-items:center;gap:11px;padding:11px 13px;border-bottom:1px solid var(--line)}
+  .hrow:last-child{border-bottom:0}
+  .hrow img{width:30px;height:30px;flex-shrink:0}
+  .hrow .hn{font-weight:700;font-size:13px}
+  .hrow .hm{font-size:11px;color:var(--muted);margin-top:2px}
+  .hrow .hstat{margin-left:auto;flex-shrink:0}
+  .pill{display:inline-block;font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;white-space:nowrap}
+  .pill.low{background:#fdecea;color:#c0563f}.pill.ok{background:#eafaf0;color:#E91E63}.pill.high{background:#fdf2e2;color:#b5731a}
+  .trend{font-size:11px;font-weight:800;margin-left:4px}.trend.up{color:#E91E63}.trend.dn{color:#c0563f}
+  .reasonchip{display:inline-block;font-size:10.5px;font-weight:700;color:var(--brand-d);background:var(--soft);border-radius:7px;padding:3px 8px;margin-top:5px;line-height:1.35}
+  .rej{border:0;background:0;color:var(--muted);font-size:12px;cursor:pointer;text-decoration:underline}
+  .skipnote{font-size:11.5px;color:var(--muted);background:var(--bg);border:1px dashed var(--line);border-radius:10px;padding:10px 12px;margin-top:10px;line-height:1.5}.skipnote b{color:var(--brand-d)}
+  /* opportunities */
+  .oppcard{border:1px solid var(--line);border-radius:13px;padding:13px;margin-bottom:10px}
+  .opptop{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .oppic{font-size:18px}.opptype{font-size:10.5px;font-weight:800;letter-spacing:.04em;background:var(--soft);color:var(--brand-d);padding:3px 8px;border-radius:6px}
+  .opplift{margin-left:auto;font-size:12px;font-weight:800;color:var(--accent)}
+  .opph{font-weight:700;font-size:14px;margin-bottom:3px}.oppr{font-size:12.5px;color:var(--muted);line-height:1.5}
+  .oppskus{display:flex;align-items:center;gap:6px;margin-top:10px}
+  .oppadd{margin-left:auto;border:1px solid var(--brand);background:var(--soft);color:var(--brand-d);font:inherit;font-weight:700;font-size:12px;padding:7px 12px;border-radius:9px}
+  .oppadd:hover{background:var(--brand);color:#fff}
+  /* historical */
+  .histbtn{display:inline-block;margin-top:5px;border:0;background:0;color:var(--brand);font:inherit;font-size:11.5px;font-weight:700;text-decoration:underline;cursor:pointer;padding:0}
+  .histbox{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:11px;margin:0 0 9px}
+  .histgrid{display:flex;gap:10px}
+  .histcell{flex:1;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 11px;text-align:center}
+  .histlab{font-size:10.5px;color:var(--muted);font-weight:700}.histnum{font-family:var(--display);font-size:22px;font-weight:600;color:var(--ink)}.histnum.up{color:var(--accent)}.histnum small{font-size:11px;color:var(--muted);margin-left:2px}
+  .histhint{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.45}
+  /* contract + coupon */
+  .ctrseg{display:flex;gap:7px;flex-wrap:wrap}
+  .ctrbtn{flex:1;min-width:108px;border:1px solid var(--line);background:var(--card);border-radius:11px;padding:9px 8px;cursor:pointer;text-align:left;line-height:1.3}
+  .ctrbtn.on{border-color:var(--brand);background:var(--soft)}
+  .ctrbtn b{display:block;font-size:12.5px;color:var(--ink)}.ctrbtn small{font-size:10.5px;color:var(--muted)}
+  .ctrbtn.on b{color:var(--brand-d)}
+  .coupChk{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:11px;padding:9px 12px;margin-bottom:7px;cursor:pointer}
+  .coupChk.on{border-color:var(--accent);background:#eafaf0}
+  .coupChk.dis{opacity:.5;cursor:not-allowed}
+  .coupChk .cx{width:20px;height:20px;border-radius:6px;border:2px solid var(--line);display:grid;place-items:center;font-size:12px;color:#fff;flex-shrink:0}
+  .coupChk.on .cx{border-color:var(--accent);background:var(--accent)}
+  .coupChk .cn{font-weight:700;font-size:12.5px}.coupChk .cdis{font-size:10.5px;color:var(--warn)}
+  .coupChk .cv{margin-left:auto;font-weight:800;color:var(--accent);font-size:13px}
+  /* compare */
+  .cmppick{display:flex;flex-direction:column;gap:7px;margin-bottom:6px}
+  .cmpitem{display:flex;align-items:center;gap:9px;border:1px solid var(--line);background:var(--card);border-radius:11px;padding:9px 12px;font:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;text-align:left}
+  .cmpitem:hover{border-color:var(--brand);background:var(--soft)}
+  .cmpdetail{margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
+  .cmphead{display:flex;align-items:center;gap:11px;margin-bottom:4px}
+  .aijudge{font-size:12.5px;color:var(--brand-d);background:var(--soft);border-radius:10px;padding:10px 12px;margin-top:10px;line-height:1.5}
+  /* orders */
+  .ordcard{border:1px solid var(--line);border-radius:13px;padding:12px 13px;margin-bottom:10px}
+  .ordtop{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px}
+  .ordno{font-weight:800;font-size:12.5px;font-family:var(--display)}
+  .orditems{font-size:12.5px;color:var(--muted);margin-bottom:9px}
+  .track{display:flex;align-items:center;margin:6px 0 9px}
+  .tstep{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;color:var(--muted);font-weight:700}
+  .tstep .tdot{width:13px;height:13px;border-radius:50%;border:2px solid var(--line);background:var(--card)}
+  .tstep.on{color:var(--brand-d)}.tstep.on .tdot{border-color:var(--brand);background:var(--brand)}
+  .tline{flex:1;height:2px;background:var(--line);margin:0 2px;margin-bottom:14px}
+  .ordeta{font-size:12px;color:var(--ink);font-weight:600}
+  .invbtns{display:flex;gap:8px;flex-wrap:wrap}
+  .invb{border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:700;font-size:12px;padding:8px 12px;border-radius:9px}
+  .invb.prim{border-color:var(--brand);background:var(--soft);color:var(--brand-d)}
+  .invb:hover{border-color:var(--brand)}
+</style>
+</head>
+<body>
+<header><div class="nav">
+  <div class="brand" id="brand">BLACKMORES</div>
+  <div class="subt" id="sub">Agentic Commerce</div>
+  <span class="linebadge" id="lineBadge">Chat</span><div class="sp"></div>
+  <div class="langs" id="langs"></div>
+</div></header>
+<div class="modebar"><div class="modeseg" id="modeseg">
+  <button data-aud="consumer" class="on">🛍 <span id="modeC">Consumer</span></button>
+  <button data-aud="partner">🏪 <span id="modeP">Partner · B2B</span></button>
+</div></div>
+<div class="wrap" id="main"></div>
+<div class="toast" id="toast"></div>
+<div class="fab" id="fab" title="Switch brand">🎨</div>
+
+<script>
+const BRANDS={
+  blackmores:{logo:"BLACKMORES",sup:"®",name:"Blackmores",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  lumiere:{logo:"LUMIÈRE",sup:"",name:"Lumière",c:["#a8456b","#7d2f4e","#f6e7ee","#c98a8a"]},
+  harvest:{logo:"HARVEST & CO",sup:"",name:"Harvest & Co",c:["#b5611f","#8a4715","#f6ebe0","#3d7a4f"]}};
+
+/* 5 autonomous steps — Blackmores health-advisor flavoured */
+const STEPS=[
+  {ja:"リクエストを理解",en:"Understanding your health need",zh:"理解你的健康需求"},
+  {ja:"履歴・健康プロフィールを参照",en:"Recalling history & health profile",zh:"调取历史与健康档案"},
+  {ja:"在庫・有効期限を確認（近隣店舗 / EC）",en:"Checking stock & expiry",zh:"确认库存与有效期"},
+  {ja:"最適プランを構築",en:"Building your best plan",zh:"构建最优方案"},
+  {ja:"クーポン・ポイントを適用",en:"Applying coupons & points",zh:"套用优惠券与积分"}];
+
+/* prices are legacy ¥-scaled integers; yen() normalises to AUD base then formats for the active market */
+const SCN=[
+ {key:"reorder",
+  cmd:{ja:"いつもの免疫サポートをまた注文して",en:"Re-order my usual immunity set",zh:"把我常买的免疫套装再来一份"},
+  recall:{ja:"過去3件 · 平均30日周期",en:"3 past orders · avg 30-day cycle",zh:"找到 3 笔历史单 · 平均 30 天周期"},
+  stock:{ja:"近隣2店に在庫 · 最短今日",en:"In stock at 2 nearby stores · today",zh:"附近 2 家门店有货 · 最快今天"},
+  plan:{ja:"定番セットを再構成 · 有効期限の長いロットを選択",en:"Rebuilt your usual set · longest-dated lot",zh:"重建常用套装 · 选有效期最长批次"},
+  promo:{ja:"健康サポートクーポン -{c} + ポイント2倍",en:"Health-care coupon -{c} + 2× points",zh:"健康券 -{c} + 双倍积分"},
+  sum:{ja:"直近3件から免疫サポートの定番セットを再構成しました。有効期限の長いロットを確保済み。",en:"Rebuilt your usual immunity set from the last 3 orders — longest-dated lots secured.",zh:"调取最近 3 单，重建了免疫常用套装，已锁定有效期最长批次。"},
+  cold:true,coupon:120,pts:84,
+  items:[{img:"images/blackmores/vitamin-c.svg",nm:{ja:"ビタミンC 1000",en:"Vitamin C 1000",zh:"维生素C"},q:2,p:1690,fresh:{ja:"有効期限 18か月",en:"18 mo to expiry",zh:"有效期 18 个月"},wy:{ja:"毎日の免疫サポート",en:"Daily immune support",zh:"日常免疫支持"}},
+    {img:"images/blackmores/probiotics.svg",nm:{ja:"益生菌每日健康",en:"Probiotics Daily Health",zh:"益生菌每日健康"},q:1,p:2490,fresh:{ja:"有効期限 16か月",en:"16 mo to expiry",zh:"有效期 16 个月"},wy:{ja:"腸内環境のサポート",en:"Gut & immune balance",zh:"肠道与免疫平衡"}},
+    {img:"images/blackmores/multivitamin.svg",nm:{ja:"复合维生素",en:"Multivitamin",zh:"复合维生素"},q:1,p:2990,fresh:{ja:"有効期限 22か月",en:"22 mo to expiry",zh:"有效期 22 个月"},wy:{ja:"補充時期",en:"Due for a refill",zh:"该补货了"}}]},
+
+ {key:"water",clar:"house",
+  cmd:{ja:"毎日の魚油サブスクを組んで",en:"Set up a daily Fish Oil subscription",zh:"帮我组个每日鱼油定期便"},
+  recall:{ja:"世帯の消費ペースを推定",en:"Estimating household pace",zh:"按家庭消耗速度推算"},
+  stock:{ja:"常温保管 · 倉庫在庫から定期手配",en:"Shelf-stable · scheduled from DC",zh:"常温 · 从仓库定期发货"},
+  plan:{ja:"配送間隔と本数を最適化 · 飲み忘れリマインド付き",en:"Optimised cadence + intake reminders",zh:"优化配送频率与数量 + 服用提醒"},
+  promo:{ja:"定期便割 5% + ポイント",en:"Subscription 5% off + points",zh:"定期便 5% 折 + 积分"},
+  sum:{ja:"世帯ペースに合わせた魚油の定期便を設計しました。飲み忘れリマインドを毎回お送りします。",en:"Designed a Fish Oil subscription matched to your household — intake reminders each cycle.",zh:"按你家消耗节奏设计了鱼油定期便，每次随附服用提醒。"},
+  cold:false,coupon:0,subPct:5,pts:96,
+  items:[{img:"images/blackmores/fish-oil.svg",nm:{ja:"无腥味深海鱼油 400粒",en:"Odourless Fish Oil ×400",zh:"无腥味深海鱼油 400粒"},q:2,p:3290,fresh:{ja:"定期 · 8週ごと",en:"Every 8 weeks",zh:"每 8 周一次"},wy:{ja:"心臓・関節の健康",en:"Heart & joint health",zh:"心脏与关节健康"}},
+    {img:"images/blackmores/multivitamin.svg",nm:{ja:"复合维生素 200粒",en:"Multivitamin ×200",zh:"复合维生素 200粒"},q:1,p:2990,fresh:{ja:"定期 · 8週ごと",en:"Every 8 weeks",zh:"每 8 周一次"},wy:{ja:"日々の栄養の土台",en:"Everyday nutrition base",zh:"日常营养基础"}}]},
+
+ {key:"family",clar:"pregnancy",bundle:"family",
+  cmd:{ja:"家族みんなの健康サプリをまとめて",en:"Bundle health supplements for the family",zh:"把全家的健康补充剂一起搞定"},
+  recall:{ja:"家族4人 · 子ども2人を考慮",en:"Family of 4 · 2 kids",zh:"一家4口 · 2个孩子"},
+  stock:{ja:"近隣店舗に在庫 · 明日午前可",en:"In stock nearby · tomorrow AM",zh:"附近门店有货 · 明天上午"},
+  plan:{ja:"《家族免疫バンドル》を構成 — 大人・お子さままで免疫を横断サポート",en:"Building the Family Immunity Bundle — cross-category immune support for everyone",zh:"组《全家免疫组合》— 跨品类支持全家免疫"},
+  promo:{ja:"バンドル割 約15%OFF + ポイント",en:"Bundle ~15% off + points",zh:"组合约15%折 + 积分"},
+  sum:{ja:"《家族免疫バンドル》をご用意しました — 复合维生素・ビタミンC・益生菌・子ども用マルチで、大人からお子さままで免疫を横断サポート。単品で買うよりお得です。",en:"Here's the Family Immunity Bundle — Multivitamin, Vitamin C, Probiotics and Kids Multi: immune support for the whole family across categories, better value than buying separately.",zh:"为你备好《全家免疫组合》— 复合维生素、维生素C、益生菌、儿童复合维生素，跨品类支持全家免疫，比单买更划算。"},
+  cold:true,coupon:200,pts:128,
+  items:[{img:"images/blackmores/multivitamin.svg",nm:{ja:"复合维生素",en:"Multivitamin",zh:"复合维生素"},q:1,p:2990,fresh:{ja:"有効期限 20か月",en:"20 mo to expiry",zh:"有效期 20 个月"},wy:{ja:"大人の毎日の栄養",en:"Adults' daily nutrition",zh:"大人日常营养"}},
+    {img:"images/blackmores/vitamin-c.svg",nm:{ja:"ビタミンC 1000 × 2",en:"Vitamin C 1000 (×2)",zh:"维生素C（×2）"},q:2,p:1690,fresh:{ja:"有効期限 18か月",en:"18 mo to expiry",zh:"有效期 18 个月"},wy:{ja:"家族の免疫サポート",en:"Immune support for all",zh:"全家免疫支持"}},
+    {img:"images/blackmores/probiotics.svg",nm:{ja:"益生菌每日健康",en:"Probiotics Daily Health",zh:"益生菌每日健康"},q:1,p:2490,fresh:{ja:"有効期限 16か月",en:"16 mo to expiry",zh:"有效期 16 个月"},wy:{ja:"腸内・免疫のバランス",en:"Gut & immune balance",zh:"肠道与免疫平衡"}},
+    {img:"images/blackmores/kids-multi.svg",nm:{ja:"子ども用マルチビタミン",en:"Kids Multivitamin",zh:"儿童复合维生素"},q:1,p:2190,fresh:{ja:"有効期限 19か月",en:"19 mo to expiry",zh:"有效期 19 个月"},wy:{ja:"お子さまの免疫・栄養",en:"Kids' immunity & nutrition",zh:"孩子的免疫与营养"}}]}];
+
+/* ===== Named family/health BUNDLES — components, bundle price vs sum-of-singles, save % ===== */
+const BUNDLES={
+  family:{nm:{ja:"家族免疫バンドル",en:"Family Immunity Bundle",zh:"全家免疫组合",th:"Family Immunity Bundle"},
+    price:8900,save:15,
+    comp:{ja:"复合维生素 ＋ ビタミンC ＋ 益生菌 ＋ 子ども用マルチ",en:"Multivitamin + Vitamin C + Probiotics + Kids Multi",zh:"复合维生素 + 维生素C + 益生菌 + 儿童复合维生素",th:"Multivitamin + Vitamin C + Probiotics + Kids Multi"},
+    note:{ja:"大人からお子さままで免疫を横断サポート。単品で揃えるよりお得です。",en:"Immune support for the whole family — better value than buying separately.",zh:"跨品类支持全家免疫，比单买更划算。",th:"Immune support for the whole family — better value than buying separately."}},
+  heart:{nm:{ja:"心臓ヘルス・エッセンシャル",en:"Heart Health Essentials",zh:"心脏健康基础组合",th:"Heart Health Essentials"},
+    price:5500,save:12,
+    comp:{ja:"魚油 ＋ CoQ10",en:"Fish Oil + CoQ10",zh:"鱼油 + 辅酶Q10",th:"Fish Oil + CoQ10"},
+    note:{ja:"心臓の健康を毎日サポートする定番の組み合わせ。",en:"A daily pairing to support heart health.",zh:"日常支持心脏健康的经典搭配。",th:"A daily pairing to support heart health."}},
+  joint:{nm:{ja:"関節＆心臓ケアパック",en:"Joint & Heart Care Pack",zh:"关节与心脏呵护组合",th:"Joint & Heart Care Pack"},
+    price:9500,save:14,
+    comp:{ja:"维骨力关节灵 ＋ 魚油 ＋ CoQ10",en:"Glucosamine + Fish Oil + CoQ10",zh:"维骨力关节灵 + 鱼油 + 辅酶Q10",th:"Glucosamine + Fish Oil + CoQ10"},
+    note:{ja:"関節の動きと心臓の健康を同時にサポート。",en:"Supports joint mobility and heart health together.",zh:"同时支持关节灵活与心脏健康。",th:"Supports joint mobility and heart health together."}},
+  pregnancy:{nm:{ja:"妊娠＆ベビー バンドル",en:"Pregnancy & Baby Bundle",zh:"孕期与宝宝组合",th:"Pregnancy & Baby Bundle"},
+    price:5800,save:13,
+    comp:{ja:"孕妇黄金营养素 ＋ 益生菌",en:"Pregnancy Gold + Probiotics",zh:"孕妇黄金营养素 + 益生菌",th:"Pregnancy Gold + Probiotics"},
+    note:{ja:"妊娠中・授乳期の栄養と腸内バランスをサポート。ご利用前に医師にご相談ください。",en:"Supports nutrition and gut balance through pregnancy and breastfeeding. Consult your doctor before use.",zh:"支持孕期与哺乳期的营养与肠道平衡。服用前请咨询医生。",th:"Supports nutrition and gut balance through pregnancy and breastfeeding. Consult your doctor before use."}},
+  ageing:{nm:{ja:"ヘルシーエイジング バンドル",en:"Healthy Ageing Bundle",zh:"健康年龄组合",th:"Healthy Ageing Bundle"},
+    price:12000,save:16,
+    comp:{ja:"复合维生素 ＋ 维骨力关节灵 ＋ CoQ10 ＋ 叶黄素",en:"Multivitamin + Glucosamine + CoQ10 + Lutein",zh:"复合维生素 + 维骨力关节灵 + 辅酶Q10 + 叶黄素",th:"Multivitamin + Glucosamine + CoQ10 + Lutein"},
+    note:{ja:"毎日の栄養・関節・心臓・目の健康を一つの組み合わせでサポート。",en:"Supports everyday nutrition, joints, heart and eye health in one pack.",zh:"以一个组合支持日常营养、关节、心脏与眼睛健康。",th:"Supports everyday nutrition, joints, heart and eye health in one pack."}},
+  sleep:{nm:{ja:"睡眠＆ストレス バンドル",en:"Sleep & Stress Bundle",zh:"睡眠与压力组合",th:"Sleep & Stress Bundle"},
+    price:4200,save:11,
+    comp:{ja:"睡眠支持 ＋ 复合维生素B",en:"Sleep Support + Executive B",zh:"睡眠支持 + 复合维生素B",th:"Sleep Support + Executive B"},
+    note:{ja:"安らかな睡眠と忙しい日々の栄養を同時にサポート。",en:"Supports restful sleep and nutrition for busy days.",zh:"同时支持安稳睡眠与忙碌时的营养。",th:"Supports restful sleep and nutrition for busy days."}}};
+
+const UI={
+  ja:{sub:"エージェント型コマース",
+    tag:"一言で、<br>AI エージェントが <em>買い物</em>を。",
+    tagSub:"チャットの中で一言。健康アドバイザーが在庫・有効期限・クーポンまで確認して用意します。",
+    mic:"タップして話す — または入力 / コマンドを選択",ph:"健康の悩みやリクエストを入力…",
+    nudgeH:"アドバイザーからの提案",nudgeB:"いつものビタミンCが、あと2日分です。今すぐ再注文しますか？",nudgeSrc:"出典：服用リマインダーの記録",nudgeYes:"はい、おまかせ",nudgeLater:"あとで",
+    working:"アドバイザーが作業中",ready:"準備完了 — 確認してください",
+    bundleBadge:"バンドル",bundleSaveLbl:"単品合計より",bundleOff:n=>`約${n}%お得`,
+    sub2:"小計",coupon:"クーポン",sub5:"定期便割引",total:"合計",earn:"獲得ポイント",
+    deliv:"配送枠",ship:"配送",cold:"翌日配送 · 追跡可能",ambient:"常温 · 定期便",
+    slotsT:"配送枠を選択",
+    autoT:"自動化レベル",autoAsk:"🔔 毎回確認する",autoStand:"🤖 サプリを切らさない（常駐指示）",
+    autoNote:"在庫が切れる前に、アドバイザーが自動で再注文します。毎回チャットに確認が届きます。",
+    confirm:"購入を確定",placed:"注文完了",items:n=>`${n}点`,eta:"明日午前に到着予定",
+    loopStand:"🤖 常駐指示を設定しました。次回は在庫が切れる前にアドバイザーが自動手配します。",
+    loopAsk:"🤖 いつでも一言で再注文できます。",
+    postT:"注文後もアドバイザーが対応",
+    p1t:"配送追跡を開始",p1s:"明日午前 · 翌日配送",
+    p2t:"在庫切れを検知 → 近隣店舗に自動振替",p2s:"A店が品切れ → B店の同ロットを確保",
+    p3t:"代替を確保 · 予定どおり",p3s:"有効期限・価格は据え置き。チャットに通知済み。",
+    reschedule:"配送日時を変更",rescheduled:"配送日時を更新しました",rsDate:"日付",rsSlot:"時間帯（1時間）",rsConfirm:"変更を確定",
+    reset:"↺ 別のリクエスト",
+    clarHouseQ:"確認 — ご家族の人数は？",ch1:"一人暮らし",ch2:"2〜3人",ch3:"4人以上",
+    clarAllergyQ:"確認 — 妊娠中・授乳中のご家族はいますか？",ca1:"いいえ",ca2:"はい",
+    allergyNote:"⚠ 妊娠中・授乳中の方ありとのこと — 専用の孕妇黄金营养素を併記しました。ご利用前に医師にご相談ください。",
+    guardCmd:"妊娠中だけど、このサプリは飲んで大丈夫？",
+    guard:"妊娠中・授乳中の栄養に関わるご質問ですね。妊娠中・授乳中向けの製品をご案内できますが、ご利用前には必ず医師にご相談ください。成分表示を準備します 💚"},
+  en:{sub:"Agentic Commerce",
+    tag:"One sentence.<br>Your AI health advisor does the <em>shopping</em>.",
+    tagSub:"One sentence in chat — your advisor understands the need, checks stock, expiry and coupons, then has it ready.",
+    mic:"Tap to speak — or type / pick a command",ph:"Describe a health need or request…",
+    nudgeH:"Advisor suggestion",nudgeB:"You're ~2 days from running out of your usual Vitamin C. Re-order now?",nudgeSrc:"Source: your intake reminder log",nudgeYes:"Yes, handle it",nudgeLater:"Later",
+    working:"Your advisor is working",ready:"Ready — review & confirm",
+    bundleBadge:"Bundle",bundleSaveLbl:"vs buying singles",bundleOff:n=>`save ~${n}%`,
+    sub2:"Subtotal",coupon:"Coupon",sub5:"Subscription discount",total:"Total",earn:"Points earned",
+    deliv:"Delivery",ship:"Delivery",cold:"Next-day delivery · tracked",ambient:"Shelf-stable · subscription",
+    slotsT:"Pick a delivery slot",
+    autoT:"Autonomy level",autoAsk:"🔔 Ask me each time",autoStand:"🤖 Never run out (standing order)",
+    autoNote:"The advisor re-orders automatically before you run out. You still get a chat heads-up each time.",
+    confirm:"Confirm & pay",placed:"Order placed",items:n=>`${n} items`,eta:"Arrives tomorrow morning",
+    loopStand:"🤖 Standing order set. Next time the advisor arranges it before you run out.",
+    loopAsk:"🤖 Ask your advisor any time to reorder in one sentence.",
+    postT:"The advisor keeps working after checkout",
+    p1t:"Delivery tracking started",p1s:"Tomorrow AM · next-day",
+    p2t:"Out-of-stock detected → auto-switched to nearby store",p2s:"Store A sold out → secured same lot at store B",
+    p3t:"Substitute secured · on schedule",p3s:"Same expiry & price. You've been notified in chat.",
+    reschedule:"Reschedule delivery",rescheduled:"Delivery time updated",rsDate:"Date",rsSlot:"Time slot (1 hr)",rsConfirm:"Confirm change",
+    reset:"↺ Try another request",
+    clarHouseQ:"Quick check — household size?",ch1:"Just me",ch2:"2–3 people",ch3:"4 or more",
+    clarAllergyQ:"Quick check — anyone pregnant or breastfeeding in the family?",ca1:"No",ca2:"Yes",
+    allergyNote:"⚠ Pregnancy/breastfeeding noted — added the dedicated Pregnancy & Breastfeeding Gold. Please consult your doctor before use.",
+    guardCmd:"I'm pregnant — are these supplements safe to take?",
+    guard:"That's a pregnancy-nutrition question. I can recommend pregnancy & breastfeeding products, but please confirm with your doctor before use. I'll prepare the ingredient labels 💚"},
+  zh:{sub:"Agentic 商务",
+    tag:"一句话，<br>AI 健康顾问替你<em>选购</em>。",
+    tagSub:"在聊天里一句话——顾问帮你理解需求、查库存、看有效期、套优惠券，备好。",
+    mic:"点击说话——或输入 / 选指令",ph:"说说你的健康需求…",
+    nudgeH:"来自健康顾问的提议",nudgeB:"你常买的维生素C还剩约 2 天。现在续订吗？",nudgeSrc:"来源：你的服用提醒记录",nudgeYes:"好，交给你",nudgeLater:"稍后",
+    working:"你的健康顾问正在执行",ready:"已就绪——核对并确认",
+    bundleBadge:"组合",bundleSaveLbl:"比单买",bundleOff:n=>`约省${n}%`,
+    sub2:"小计",coupon:"优惠券",sub5:"定期便折扣",total:"合计",earn:"获得积分",
+    deliv:"配送",ship:"配送",cold:"次日达 · 全程可追踪",ambient:"常温 · 定期便",
+    slotsT:"选择配送时段",
+    autoT:"自动化级别",autoAsk:"🔔 每次都问我",autoStand:"🤖 别让常备品断货（常驻指令）",
+    autoNote:"在断货前顾问自动续订，每次仍会在聊天里提醒你。",
+    confirm:"确认并支付",placed:"已下单",items:n=>`${n} 件`,eta:"预计明天上午送达",
+    loopStand:"🤖 已设常驻指令。下次会在断货前自动安排。",
+    loopAsk:"🤖 随时一句话让顾问帮你续订。",
+    postT:"下单后顾问继续处理",
+    p1t:"开始配送追踪",p1s:"明天上午 · 次日达",
+    p2t:"检测到缺货 → 自动改派附近门店",p2s:"A店售罄 → 在B店锁定同批次",
+    p3t:"已锁定替代 · 按时送达",p3s:"有效期与价格不变，已在聊天里通知你。",
+    reschedule:"修改配送时间",rescheduled:"已更新配送时间",rsDate:"日期",rsSlot:"时间段（1小时）",rsConfirm:"确认修改",
+    reset:"↺ 换个需求",
+    clarHouseQ:"确认一下——家里几口人？",ch1:"一个人",ch2:"2–3 人",ch3:"4 人以上",
+    clarAllergyQ:"确认一下——家里有孕期或哺乳期的成员吗？",ca1:"没有",ca2:"有",
+    allergyNote:"⚠ 已记录孕期/哺乳期需求——已加入专用的孕妇黄金营养素。服用前请咨询医生。",
+    guardCmd:"我在孕期，这些补充剂能吃吗？",
+    guard:"这是孕期营养相关的问题。我可以为你推荐孕期与哺乳期专用产品，但服用前请务必咨询医生。我把成分表整理给你 💚"}};
+UI.th=UI.en;
+
+const SLOTS=[
+  {ja:["明日 午前","8–12時"],en:["Tomorrow AM","8–12"],zh:["明天上午","8–12点"]},
+  {ja:["明日 夜","18–21時"],en:["Tomorrow PM","18–21"],zh:["明天晚上","18–21点"]},
+  {ja:["明後日 午前","8–12時"],en:["Day after AM","8–12"],zh:["后天上午","8–12点"]}];
+
+let state={lang:"en",brand:"blackmores",market:"ANZ",running:false,basket:[],auto:"ask",sc:null,allergy:false,slot:0,audience:"consumer",pqty:{},prej:{},pauto:"ask",pcontract:"std",pcoupons:{},planBase:[],planSaid:"",planSummary:""};
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const U=()=>UI[state.lang]||UI.en,T=o=>o[state.lang]||o.en;
+/* ===== Market-driven currency — base AUD, single formatter =====
+   Source data prices are legacy ¥-scaled integers; AUD base = value ÷ 4.8.
+   toAUD() normalises any raw data figure to AUD base; money() formats AUD for the active market. */
+const CURRENCY={ANZ:{sym:'A$',rate:1},CN:{sym:'¥',rate:4.8},SEA:{sym:'฿',rate:23},JP:{sym:'¥',rate:100}};
+const toAUD=v=>v/100;
+function money(aud){const c=CURRENCY[state.market]||CURRENCY.ANZ;return c.sym+Math.round(aud*c.rate).toLocaleString();}
+/* yen() retained as the single price formatter — takes a raw data figure, returns market-formatted price */
+const yen=p=>money(toAUD(p));
+
+function home(showNudge){const u=U();state.allergy=false;state.auto="ask";state.slot=0;
+  $('#main').innerHTML=`
+  ${showNudge!==false?`<div class="nudge" id="nudge">
+    <div class="nh">✦ ${u.nudgeH}</div>
+    <div class="nb">${u.nudgeB}</div>
+    <div class="src">${u.nudgeSrc}</div>
+    <div class="nbtns"><button class="yes" id="nudgeYes">${u.nudgeYes}</button><button class="later" id="nudgeLater">${u.nudgeLater}</button></div>
+  </div>`:''}
+  <div class="tagline">${u.tag}</div>
+  <div style="text-align:center;color:var(--muted);font-size:13px;margin-top:8px;margin-bottom:4px">${u.tagSub}</div>
+  <div class="micwrap"><button class="mic" id="mic">🎙️</button><div class="michint">${u.mic}</div></div>
+  <div class="inbar"><input id="inp" placeholder="${u.ph}" autocomplete="off"><button id="go">↑</button></div>
+  <div class="cmds">
+    <div class="cmd" data-cross="1"><span class="q">“</span>${T(CROSS.cmd)}</div>
+    <div class="cmd" data-consult="1"><span class="q">“</span>${T(CONSULT.cmd)}</div>
+    <div class="cmd" data-s="0"><span class="q">“</span>${T(SCN[0].cmd)}</div>
+    <div class="cmd" data-gift="1"><span class="q">“</span>${T(GIFT.cmd)}</div>
+    <div class="cmd" data-budget="1"><span class="q">“</span>${T(BUDGET.cmd)}</div>
+    <div class="cmd" data-nearby="1"><span class="q">“</span>${T(NEARBY.cmd)}</div>
+    <div class="cmd" data-guard="1"><span class="q">“</span>${u.guardCmd}</div></div>`;
+  const ny=$('#nudgeYes');if(ny)ny.onclick=()=>runScenario(0,null,true);
+  const nl=$('#nudgeLater');if(nl)nl.onclick=()=>{const n=$('#nudge');if(n)n.remove();};
+  $('#mic').onclick=()=>{const m=$('#mic');m.classList.add('live');
+    transcribe(T(SCN[0].cmd),()=>{m.classList.remove('live');runScenario(0);});};
+  $('#go').onclick=()=>route($('#inp').value);
+  $('#inp').addEventListener('keydown',e=>{if(e.key==='Enter')route($('#inp').value);});
+  $$('.cmd').forEach(c=>c.onclick=()=>{
+    if(c.dataset.guard)return guard(u.guardCmd);
+    if(c.dataset.cross)return runCross();
+    if(c.dataset.consult)return runConsult();
+    if(c.dataset.gift)return runGift();
+    if(c.dataset.budget)return runBudget();
+    if(c.dataset.nearby)return runNearby();
+    runScenario(+c.dataset.s);});}
+
+function transcribe(text,cb){const inp=$('#inp');if(!inp){cb();return;}inp.value='';let i=0;
+  (function t(){if(i<=text.length){inp.value=text.slice(0,i);i++;setTimeout(t,24);}else setTimeout(cb,300);})();}
+
+function route(v){v=(v||'').trim();if(!v)return;const low=v.toLowerCase();
+  if(/pregnan|妊娠|授乳|孕|哺乳|allerg|アレルギ|过敏|過敏/.test(low))return guard(U().guardCmd);
+  if(/近く|どこで|店舗|nearby|store|附近|哪里买|哪裡買/.test(low))return runNearby();
+  if(/ギフト|両親|実家|送りたい|親に|gift|父母|寄给|定期で送/.test(low))return runGift();
+  if(/予算|円で|円以内|以内|budget|预算/.test(low))return runBudget();
+  if(/スコア|健康スコア|cross|交叉|加购|加購/.test(low))return runCross();
+  if(/おすすめ|変え|変わ|調子|相談|recommend|switch|换成|推荐|推薦/.test(low))return runConsult();
+  let i=0;
+  if(/fish|oil|魚油|鱼油|サブスク|定期|subscription/.test(low))i=1;
+  else if(/family|家族|家里|子ども|kids/.test(low))i=2;
+  runScenario(i,v);}
+
+function guard(said){const u=U();$('#main').innerHTML=`<div class="said"><div class="b">${said}</div></div>
+  <div class="guard">⚠ ${u.guard}</div><button class="reset" id="rs">${u.reset}</button>`;$('#rs').onclick=()=>home();}
+
+function runScenario(i,saidText,proactive){if(state.running)return;state.running=true;const u=U(),s=SCN[i];state.sc=i;state.allergy=false;
+  $('#main').innerHTML=`<div class="said"><div class="b">${saidText||(proactive?u.nudgeYes:T(s.cmd))}</div></div>
+    <div class="agent"><div class="ttl">✦ ${u.working}</div><div id="steps">
+      ${STEPS.map((st,k)=>`<div class="step" data-k="${k}"><div class="ln"><div class="ic">${k+1}</div>${T(st)}</div><div class="det" id="det${k}"></div></div>`).join('')}
+    </div><div id="clar"></div><div class="result" id="result"></div></div>
+    <button class="reset" id="rs" style="display:none">${u.reset}</button>`;
+  $('#rs').onclick=()=>home();
+  const els=$$('.step');let k=0;
+  function done(j){els[j].classList.remove('work');els[j].classList.add('on');els[j].querySelector('.ic').textContent='✓';}
+  function run(){
+    if(k>0)done(k-1);
+    if(k===2)$('#det1').textContent=T(s.recall);
+    if(k===3)$('#det2').textContent=T(s.stock);
+    if(k===4)$('#det3').textContent=T(s.plan);
+    if(s.clar&&k===2&&!state.clarDone){askClarify(i);return;}
+    if(k>=els.length){$('#det4').textContent=T(s.promo).replace('{c}',yen(s.coupon||120));finish(i);return;}
+    els[k].classList.add('on','work');k++;setTimeout(run,720);
+  }
+  state.clarDone=false;run();
+  state._resume=function(){state.clarDone=true;run();};
+}
+
+function askClarify(i){const u=U(),s=SCN[i];let q,opts;
+  if(s.clar==='house'){q=u.clarHouseQ;opts=[[u.ch1,'1'],[u.ch2,'2'],[u.ch3,'4']];}
+  else{q=u.clarAllergyQ;opts=[[u.ca1,'0'],[u.ca2,'1']];}
+  $('#clar').innerHTML=`<div class="clar"><div class="qq">🤖 ${q}</div>
+    <div class="qr">${opts.map(o=>`<button class="qrb" data-v="${o[1]}">${o[0]}</button>`).join('')}</div></div>`;
+  $$('.qrb').forEach(b=>b.onclick=()=>{
+    if(s.clar==='pregnancy')state.allergy=b.dataset.v==='1';
+    if(s.clar==='house'){const h=+b.dataset.v;state._house=h;}
+    $('#clar').innerHTML=`<div class="said" style="margin:8px 0"><div class="b">${b.textContent}</div></div>`;
+    state._resume();});}
+
+function finish(i){const s=SCN[i];state.basket=s.items.map(it=>({img:it.img,nm:it.nm,q:it.q,p:it.p,wy:it.wy,fresh:it.fresh}));
+  // household scaling for water scenario
+  if(s.clar==='house'&&state._house){const f=state._house>=4?2:state._house>=2?1:1;state.basket.forEach(it=>it.q=Math.max(1,Math.round(it.q*(state._house>=4?1.5:1))));}
+  state.running=false;renderResult();}
+
+function renderResult(){const u=U(),s=SCN[state.sc];
+  const sub=state.basket.reduce((a,it)=>a+it.p*it.q,0);
+  const coupon=s.coupon||0;
+  const subDisc=s.subPct?Math.round(sub*s.subPct/100):0;
+  const disc=coupon+subDisc;const tot=sub-disc;
+  let h=`<div class="ttl" style="color:var(--brand);margin:12px 0 8px">✅ ${u.ready}</div>
+    <div class="summary">🧠 ${T(s.sum)}</div>`;
+  if(s.bundle&&BUNDLES[s.bundle]){const bn=BUNDLES[s.bundle];
+    h+=`<div class="bundlebanner"><span class="bb-ic">🎁</span>
+      <div style="min-width:0"><span class="bb-tag">${u.bundleBadge}</span>
+        <div class="bb-nm">${T(bn.nm)}</div><div class="bb-comp">${T(bn.comp)}</div></div>
+      <div class="bb-save"><div class="bb-pct">${u.bundleOff(bn.save)}</div><div class="bb-lbl">${u.bundleSaveLbl}</div></div></div>`;}
+  h+=state.basket.map((it,idx)=>`<div class="item"><div class="em"><img src="${it.img}" width="30" height="30" alt=""></div>
+    <div style="min-width:0"><div class="nm">${T(it.nm)}</div><div class="fresh">❄ ${T(it.fresh)}</div><div class="wy">${T(it.wy)}</div></div>
+    <div class="ctrls"><button class="qbtn" data-d="-1" data-i="${idx}">−</button><span class="qn">${it.q}</span>
+      <button class="qbtn" data-d="1" data-i="${idx}">+</button><span class="ip">${yen(it.p*it.q)}</span>
+      <button class="rm" data-rm="${idx}">✕</button></div></div>`).join('');
+  if(state.allergy)h+=`<div class="guardnote">${u.allergyNote}</div>`;
+  // delivery
+  if(s.cold){
+    h+=`<div class="blk-t">${u.slotsT}</div><div class="slots">${SLOTS.map((sl,j)=>`<div class="slot ${j===state.slot?'on':''}" data-slot="${j}"><div class="sd">${T(sl)[0]}</div><div class="st">${T(sl)[1]}</div></div>`).join('')}</div>
+      <div class="coldnote">❄ ${u.cold}</div>`;
+  }else{
+    h+=`<div class="coldnote" style="margin-top:14px">🔁 ${u.ambient}</div>`;
+  }
+  // price
+  h+=`<div class="pricerow" style="margin-top:14px"><span>${u.sub2}</span><span>${yen(sub)}</span></div>`;
+  if(coupon)h+=`<div class="pricerow"><span>${u.coupon}</span><span class="disc">− ${yen(coupon)}</span></div>`;
+  if(subDisc)h+=`<div class="pricerow"><span>${u.sub5}</span><span class="disc">− ${yen(subDisc)}</span></div>`;
+  h+=`<div class="pricerow tot"><span>${u.total}</span><span>${yen(tot)}</span></div>
+    <div class="pricerow"><span>${u.earn}</span><span class="pts">+${s.pts} pt</span></div>`;
+  // autonomy
+  h+=`<div class="auto"><div class="blk-t">${u.autoT}</div>
+    <div class="autoseg"><button data-auto="ask" class="${state.auto==='ask'?'on':''}">${u.autoAsk}</button>
+      <button data-auto="stand" class="${state.auto==='stand'?'on':''}">${u.autoStand}</button></div>
+    ${state.auto==='stand'?`<div class="autonote">🤖 ${u.autoNote}</div>`:''}</div>`;
+  h+=`<button class="confirm" id="cf"><span class="linebadge" style="background:rgba(255,255,255,.25)">Pay</span> ${u.confirm}</button>`;
+  const r=$('#result');r.innerHTML=h;r.classList.add('show');$('#rs').style.display='block';
+  $$('[data-d]').forEach(b=>b.onclick=()=>{const idx=+b.dataset.i;state.basket[idx].q=Math.max(1,state.basket[idx].q+(+b.dataset.d));renderResult();});
+  $$('[data-rm]').forEach(b=>b.onclick=()=>{state.basket.splice(+b.dataset.rm,1);if(!state.basket.length){home();return;}renderResult();});
+  $$('[data-slot]').forEach(b=>b.onclick=()=>{state.slot=+b.dataset.slot;renderResult();});
+  $$('[data-auto]').forEach(b=>b.onclick=()=>{state.auto=b.dataset.auto;renderResult();});
+  $('#cf').onclick=()=>confirmOrder(tot);}
+
+function confirmOrder(tot){const u=U(),s=SCN[state.sc];const n=state.basket.reduce((a,it)=>a+it.q,0);
+  const eta=s.cold?T(SLOTS[state.slot])[0]+' '+T(SLOTS[state.slot])[1]:u.eta;
+  $('#result').innerHTML=`<div class="conf"><div class="big">🎉</div><h3>${u.placed}</h3>
+    <div class="line">${u.items(n)} · ${yen(tot)} · +${s.pts} pt</div>
+    <div class="line">📦 ${eta}</div>
+    <div class="loop">${state.auto==='stand'?u.loopStand:u.loopAsk}</div></div>
+    <div class="post" id="post"><div class="ttl">🤖 ${u.postT}</div>
+      <div class="pstep" data-p="0"><div class="pic">📦</div><div><div class="pt">${u.p1t}</div><div class="ps">${u.p1s}</div></div></div>
+      <div class="pstep alert" data-p="1"><div class="pic">⚠</div><div><div class="pt">${u.p2t}</div><div class="ps">${u.p2s}</div></div></div>
+      <div class="pstep" data-p="2"><div class="pic">✓</div><div><div class="pt">${u.p3t}</div><div class="ps">${u.p3s}</div></div></div>
+      <div id="resWrap"></div>
+    </div>`;
+  toast('🎉 '+u.placed);
+  // reveal post-order steps one by one
+  const ps=$$('#post .pstep');let j=0;(function rev(){if(j<ps.length){ps[j].classList.add('on');j++;setTimeout(rev,820);}
+    else{$('#resWrap').innerHTML=`<button class="reschedule" id="resched">🗓 ${u.reschedule}</button>`;
+      $('#resched').onclick=openReschedule;}})();}
+function openReschedule(){const u=U();openDateTimePicker({title:u.reschedule,withTime:true,onConfirm:(dt,sl)=>{
+  $('#resWrap').innerHTML=`<div class="autonote" style="margin-top:6px">✅ ${u.rescheduled} · ${dt?fmtGiftDate(dt):''} ${sl||''}</div>`;toast('✅ '+u.rescheduled);}});}
+let dtpState={};
+function openDateTimePicker(opts){const u=U();dtpState={month:new Date(),date:null,slot:null,withTime:!!opts.withTime,onConfirm:opts.onConfirm};dtpState.month.setDate(1);
+  let mask=document.getElementById('dtpMask');if(!mask){mask=document.createElement('div');mask.id='dtpMask';mask.className='dtp-mask';document.body.appendChild(mask);}
+  mask.innerHTML=`<div class="dtp"><div class="dtp-h"><span class="t">${opts.title}</span><button class="x" id="dtpX">✕</button></div>
+    <div class="dtp-body"><div class="dtp-cal"><div class="cal-nav"><button id="calPrev">‹</button><span class="my" id="calMY"></span><button id="calNext">›</button></div><div class="cal-grid" id="calGrid"></div></div>
+    ${opts.withTime?`<div class="dtp-slots"><div class="dtp-slabel">${u.rsSlot}</div><div class="slotc" id="slotc"></div></div>`:''}</div>
+    <div class="dtp-f"><span class="sum" id="dtpSum"></span><button class="ok" id="dtpOk" disabled>${u.rsConfirm}</button></div></div>`;
+  mask.classList.add('open');
+  $('#dtpX').onclick=closeDtp;mask.onclick=e=>{if(e.target===mask)closeDtp();};
+  $('#calPrev').onclick=()=>{dtpState.month.setMonth(dtpState.month.getMonth()-1);renderCal();};
+  $('#calNext').onclick=()=>{dtpState.month.setMonth(dtpState.month.getMonth()+1);renderCal();};
+  if(opts.withTime)renderDtpSlots();renderCal();
+  $('#dtpOk').onclick=()=>{const cb=dtpState.onConfirm,dt=dtpState.date,sl=dtpState.slot;closeDtp();if(cb)cb(dt,sl);};}
+function closeDtp(){const m=document.getElementById('dtpMask');if(m)m.classList.remove('open');}
+function renderCal(){const m=dtpState.month,y=m.getFullYear(),mo=m.getMonth();
+  const first=new Date(y,mo,1).getDay(),days=new Date(y,mo+1,0).getDate(),todayISO=new Date().toISOString().slice(0,10);
+  const wd=state.lang==='en'?['Su','Mo','Tu','We','Th','Fr','Sa']:['日','月','火','水','木','金','土'];
+  const my=state.lang==='en'?(['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][mo]+' '+y):`${y}年${mo+1}月`;
+  $('#calMY').textContent=my;
+  let h=wd.map(w=>`<div class="wd">${w}</div>`).join('');
+  for(let i=0;i<first;i++)h+=`<div class="cal-d off"></div>`;
+  for(let dd=1;dd<=days;dd++){const iso=`${y}-${String(mo+1).padStart(2,'0')}-${String(dd).padStart(2,'0')}`,dis=iso<=todayISO,sel=dtpState.date===iso;
+    h+=`<div class="cal-d${dis?' dis':''}${sel?' sel':''}" data-iso="${iso}">${dd}</div>`;}
+  $('#calGrid').innerHTML=h;
+  $$('#calGrid .cal-d[data-iso]').forEach(c=>{if(c.classList.contains('dis'))return;c.onclick=()=>{dtpState.date=c.dataset.iso;renderCal();updateDtpFoot();};});
+  updateDtpFoot();}
+function renderDtpSlots(){let h='';for(let k=10;k<=20;k++){const s=`${k}:00–${k+1}:00`;h+=`<button data-slot="${s}" class="${dtpState.slot===s?'on':''}">${s}</button>`;}
+  $('#slotc').innerHTML=h;$$('#slotc button').forEach(b=>b.onclick=()=>{dtpState.slot=b.dataset.slot;renderDtpSlots();updateDtpFoot();});}
+function updateDtpFoot(){const ok=$('#dtpOk');if(!ok)return;const need=dtpState.withTime?(dtpState.date&&dtpState.slot):dtpState.date;ok.disabled=!need;
+  const s=$('#dtpSum');if(s)s.textContent=(dtpState.date?fmtGiftDate(dtpState.date):'')+(dtpState.withTime&&dtpState.slot?' · '+dtpState.slot:'');}
+
+/* ===== CONSULTATIVE / DISCOVERY + NEARBY (O2O) ===== */
+const CONSULT={
+  cmd:{ja:"最近、調子が気になる…何かいい？",en:"I've not been feeling my best lately — any ideas?",zh:"最近状态不太好…有什么推荐？"},
+  intro:{ja:"いくつか伺って、あなたに合う一品をご提案します。",en:"A few quick questions, then I'll suggest the right fit.",zh:"问几个小问题，给你更合适的推荐。"},
+  qs:[
+    {q:{ja:"気になるのは？",en:"What's bugging you?",zh:"主要困扰？"},
+     opts:[{v:"joint",t:{ja:"関節のこわばり",en:"Joint stiffness",zh:"关节僵硬"}},
+           {v:"sleep",t:{ja:"寝つき・睡眠の質",en:"Sleep quality",zh:"睡眠质量"}},
+           {v:"eye",t:{ja:"目の疲れ",en:"Eye strain",zh:"眼睛疲劳"}},
+           {v:"stress",t:{ja:"ストレス・お疲れ",en:"Stress / fatigue",zh:"压力 / 疲劳"}},
+           {v:"skin",t:{ja:"肌のコンディション",en:"Skin condition",zh:"皮肤状态"}},
+           {v:"immune",t:{ja:"免疫サポート",en:"Immune support",zh:"免疫支持"}}]},
+    {q:{ja:"いつ飲むことが多い？",en:"When do you usually take it?",zh:"一般什么时候服用？"},
+     opts:[{v:"am",t:{ja:"朝",en:"Morning",zh:"早上"}},{v:"pm",t:{ja:"夜",en:"Night",zh:"晚上"}},{v:"any",t:{ja:"不定期",en:"Irregular",zh:"不固定"}}]},
+    {q:{ja:"今飲んでいるのは？",en:"What are you taking now?",zh:"现在吃的是？"},
+     opts:[{v:"multi",t:{ja:"複合ビタミン",en:"Multivitamin",zh:"复合维生素"}},{v:"other",t:{ja:"別のサプリ",en:"Another supplement",zh:"别的补充剂"}},{v:"none",t:{ja:"特に飲んでいない",en:"Nothing regular",zh:"没固定吃"}}]}]};
+const CURRENT={img:"images/blackmores/multivitamin.svg",nm:{ja:"复合维生素（今）",en:"Multivitamin (now)",zh:"复合维生素（现在）"},
+  spec:{work:{ja:"日々の栄養の土台",en:"Everyday nutrition base",zh:"日常营养基础"},strain:{ja:"23種の栄養素",en:"23 nutrients",zh:"23种营养素"},sugar:"—",protein:"—",kcal:"1/日",price:1690}};
+const RECP={
+  joint:{img:"images/blackmores/glucosamine.svg",bundle:"joint",nm:{ja:"维骨力关节灵 1500",en:"Glucosamine 1500",zh:"维骨力关节灵 1500"},
+    spec:{work:{ja:"関節の動きをサポート",en:"Joint mobility support",zh:"支持关节灵活"},strain:{ja:"グルコサミン1500mg",en:"Glucosamine 1500mg",zh:"氨糖1500mg"},sugar:"—",protein:"—",kcal:"1/日",price:2890}},
+  sleep:{img:"images/blackmores/sleep.svg",bundle:"sleep",nm:{ja:"睡眠支持",en:"Sleep Support",zh:"睡眠支持"},
+    spec:{work:{ja:"健やかな睡眠をサポート",en:"Supports restful sleep",zh:"支持安稳睡眠"},strain:{ja:"バレリアン＋マグネシウム",en:"Valerian + magnesium",zh:"缬草+镁"},sugar:"—",protein:"—",kcal:"1/晚",price:2390}},
+  eye:{img:"images/blackmores/lutein.svg",bundle:"ageing",nm:{ja:"叶黄素护眼",en:"Lutein Vision",zh:"叶黄素护眼"},
+    spec:{work:{ja:"目の健康をサポート",en:"Eye health support",zh:"支持眼睛健康"},strain:{ja:"ルテイン＋ゼアキサンチン",en:"Lutein + zeaxanthin",zh:"叶黄素+玉米黄质"},sugar:"—",protein:"—",kcal:"1/日",price:2790}},
+  stress:{img:"images/blackmores/vitamin-b.svg",bundle:"sleep",nm:{ja:"复合维生素B",en:"Executive B",zh:"复合维生素B"},
+    spec:{work:{ja:"ストレス時の栄養補給",en:"Nutrition for busy days",zh:"忙碌时的营养补给"},strain:{ja:"高単位ビタミンB群",en:"High-strength B complex",zh:"高效维生素B群"},sugar:"—",protein:"—",kcal:"1/日",price:3190}},
+  skin:{img:"images/blackmores/evening-primrose.svg",nm:{ja:"月见草油",en:"Evening Primrose",zh:"月见草油"},
+    spec:{work:{ja:"肌の健康をサポート",en:"Skin health support",zh:"支持皮肤健康"},strain:{ja:"月見草油＋ビタミンE",en:"Evening primrose + Vit E",zh:"月见草油+维E"},sugar:"—",protein:"—",kcal:"1/日",price:2590}},
+  immune:{img:"images/blackmores/vitamin-c.svg",nm:{ja:"ビタミンC 1000",en:"Vitamin C 1000",zh:"维生素C 1000"},
+    spec:{work:{ja:"免疫サポート",en:"Immune support",zh:"免疫支持"},strain:{ja:"ビタミンC 1000mg",en:"Vitamin C 1000mg",zh:"维生素C 1000mg"},sugar:"—",protein:"—",kcal:"1/日",price:1690}}};
+const STORES=[
+  {nm:{ja:"ブラックモアズ シティ薬局",en:"Blackmores City Pharmacy",zh:"Blackmores 城市药房"},dist:{ja:"徒歩3分",en:"3 min walk",zh:"步行3分"},stock:{ja:"在庫4",en:"4 in stock",zh:"库存4"},price:2890,reserve:true},
+  {nm:{ja:"ヘルス＆ウェルネス 駅前店",en:"Health & Wellness Station",zh:"健康药妆 站前店"},dist:{ja:"徒歩6分",en:"6 min walk",zh:"步行6分"},stock:{ja:"在庫7",en:"7 in stock",zh:"库存7"},price:2950,reserve:true},
+  {nm:{ja:"ファーマシー モール店",en:"Pharmacy Mall",zh:"药房 购物中心店"},dist:{ja:"徒歩12分",en:"12 min walk",zh:"步行12分"},stock:{ja:"在庫あり",en:"In stock",zh:"有货"},price:2790,reserve:false}];
+const NEARBY={cmd:{ja:"近くで今すぐ買いたい",en:"I want it now, nearby",zh:"想现在就近买到"}};
+const MORE={
+  ja:{consultThinking:"あなたに合う一品を選んでいます…",recTitle:"おすすめが変わりました",recAdvice:"今より目的に合う一品が見つかりました。下の比較をご覧ください。",
+    rowWork:"主な働き",rowStrain:"主要成分",rowSugar:"形状",rowProtein:"目安量",rowKcal:"摂取目安",rowPrice:"価格",per:"本",
+    pickRec:"こっちにする",pickKeep:"今のままでいい",keptMsg:"承知しました。今の一品を続けましょう。いつでも切り替えできます。",
+    actOnline:"オンラインで購入",actNearby:"近くの店舗",couponBody:"健康サポートクーポンを適用できます",couponStore:"店頭でクーポンを提示できます",
+    buyOnline:"購入を確定",reserve:"ルート案内",reserved:"地図を開きます",
+    nbStep1:"現在地と近隣店舗を確認",nbStep2:"在庫・価格を照合",nbSum:"近くで今すぐ買える店舗が見つかりました。",
+    bundleSuggest:"よりお得なバンドルもあります",bundleAdd:"バンドルにする",bundleAdded:"バンドルに切り替えました",bundleOffM:n=>`約${n}%お得`},
+  en:{consultThinking:"Finding the best fit for you…",recTitle:"Your best match has changed",recAdvice:"Found a better fit for your goal — see the comparison below.",
+    rowWork:"Main benefit",rowStrain:"Key ingredient",rowSugar:"Form",rowProtein:"Dose",rowKcal:"Intake",rowPrice:"Price",per:"ea",
+    pickRec:"Switch to this",pickKeep:"Keep current",keptMsg:"Got it — we'll keep your current pick. You can switch any time.",
+    actOnline:"Buy online",actNearby:"Nearby stores",couponBody:"Health-care coupon available",couponStore:"Show your coupon in-store",
+    buyOnline:"Confirm purchase",reserve:"Directions",reserved:"Opening map",
+    nbStep1:"Checking your location & nearby stores",nbStep2:"Matching stock & price",nbSum:"Found stores nearby where you can buy right now.",
+    bundleSuggest:"There's a better-value bundle for this",bundleAdd:"Make it a bundle",bundleAdded:"Switched to the bundle",bundleOffM:n=>`save ~${n}%`},
+  zh:{consultThinking:"正在为你挑最合适的一款…",recTitle:"更合适的推荐变了",recAdvice:"找到更贴合你目标的一款，看下面的对比。",
+    rowWork:"主要作用",rowStrain:"核心成分",rowSugar:"剂型",rowProtein:"建议量",rowKcal:"服用建议",rowPrice:"价格",per:"瓶",
+    pickRec:"换成这个",pickKeep:"保持现在的",keptMsg:"好的，继续用现在这款，随时可以换。",
+    actOnline:"在线购买",actNearby:"附近门店",couponBody:"可用健康优惠券",couponStore:"在门店出示优惠券",
+    buyOnline:"确认购买",reserve:"导航",reserved:"打开地图",
+    nbStep1:"确认你的位置与附近门店",nbStep2:"比对库存与价格",nbSum:"找到附近现在就能买到的门店。",
+    bundleSuggest:"有更划算的组合可选",bundleAdd:"换成组合装",bundleAdded:"已换成组合装",bundleOffM:n=>`约省${n}%`}};
+MORE.th=MORE.en;
+const M=()=>MORE[state.lang]||MORE.en;
+let cstate={ans:[],rec:null};
+
+function runConsult(){if(state.running)return;const u=U();cstate={ans:[],rec:null};
+  $('#main').innerHTML=`<div class="said"><div class="b">${T(CONSULT.cmd)}</div></div>
+    <div class="agent"><div class="ttl">✦ ${u.working}</div>
+      <div class="qb-row"><div class="qb">🧠 ${T(CONSULT.intro)}</div></div>
+      <div id="clog"></div><div id="qzone"></div></div>
+    <button class="reset" id="rs">${u.reset}</button>`;
+  $('#rs').onclick=()=>home();consultAsk(0);}
+function consultAsk(step){const q=CONSULT.qs[step];
+  $('#clog').insertAdjacentHTML('beforeend',`<div class="qb-row"><div class="qb">🤖 ${T(q.q)} <span style="opacity:.55">(${step+1}/3)</span></div></div>`);
+  $('#qzone').innerHTML=`<div class="qr">${q.opts.map(o=>`<button class="qrb" data-v="${o.v}">${T(o.t)}</button>`).join('')}</div>`;
+  $$('#qzone .qrb').forEach(b=>b.onclick=()=>{cstate.ans[step]=b.dataset.v;
+    $('#clog').insertAdjacentHTML('beforeend',`<div class="said" style="margin:6px 0"><div class="b">${b.textContent}</div></div>`);
+    $('#qzone').innerHTML='';
+    if(step<2)consultAsk(step+1);else consultRecommend();});}
+function consultRecommend(){const m=M();
+  $('#qzone').innerHTML=`<div style="font-size:12.5px;color:var(--muted)">⏳ ${m.consultThinking}</div>`;
+  setTimeout(()=>{const rec=RECP[cstate.ans[0]]||RECP.gut;cstate.rec=rec;renderCompare(rec);},850);}
+function renderCompare(rec){const u=U(),m=M();
+  const rows=[['rowWork','work'],['rowStrain','strain'],['rowSugar','sugar'],['rowProtein','protein'],['rowKcal','kcal'],['rowPrice','price']];
+  const cell=(p,key)=>key==='price'?(yen(p.spec.price)+'/'+m.per):(typeof p.spec[key]==='object'?T(p.spec[key]):p.spec[key]);
+  let tbl=`<table class="cmp"><thead><tr><th></th>
+    <th><div class="prodhead"><img src="${CURRENT.img}" alt=""><span>${T(CURRENT.nm)}</span></div></th>
+    <th class="reccol"><div class="prodhead"><img src="${rec.img}" alt=""><span style="color:var(--brand-d)">${T(rec.nm)}</span></div></th></tr></thead><tbody>`;
+  rows.forEach(([lab,key])=>{tbl+=`<tr><td>${m[lab]}</td><td>${cell(CURRENT,key)}</td><td class="rec"><span class="best">${cell(rec,key)}</span></td></tr>`;});
+  tbl+=`</tbody></table>`;
+  $('#main').innerHTML=`<div class="agent"><div class="ttl">✦ ${m.recTitle}</div>
+    <div class="summary">🧠 ${m.recAdvice}</div>${tbl}
+    <div class="qr" style="margin-top:14px"><button class="qrb" id="pickRec">${m.pickRec}</button>
+      <button class="qrb" id="pickKeep" style="border-color:var(--line);color:var(--muted);background:var(--bg)">${m.pickKeep}</button></div>
+    <div id="actzone"></div></div>
+    <button class="reset" id="rs">${u.reset}</button>`;
+  $('#rs').onclick=()=>home();
+  $('#pickRec').onclick=()=>{$('#actzone').innerHTML='';renderAction('online');};
+  $('#pickKeep').onclick=()=>{$('#actzone').innerHTML='';renderAction('online',m.keptMsg);};}
+function renderAction(mode,note){const u=U(),m=M();const onlineOn=mode==='online';let body;
+  if(onlineOn){body=`<div class="coupon"><span style="font-size:20px">🎟️</span><div><span class="cv">−${yen(120)}</span> · ${m.couponBody}</div></div>
+    <button class="confirm" id="buy"><span class="linebadge" style="background:rgba(255,255,255,.25)">Pay</span> ${m.buyOnline}</button>`;}
+  else{body=STORES.map((s,i)=>`<div class="store"><div class="pin">📍</div>
+    <div style="min-width:0"><div class="snm">${T(s.nm)}</div><div class="smeta">${T(s.dist)} · ${T(s.stock)}</div></div>
+    <div class="sact"><div class="sprice">${yen(s.price)}</div><button class="sresv" data-r="${i}">🗺 ${m.reserve}</button></div></div>`).join('')
+    +`<div class="coldnote" style="margin-top:4px">🎟️ ${m.couponStore}</div>`;}
+  const bn=(cstate.rec&&cstate.rec.bundle)?BUNDLES[cstate.rec.bundle]:null;
+  const bbanner=bn?`<div class="bundlebanner" id="cbundle" style="margin-bottom:10px;cursor:pointer"><span class="bb-ic">🎁</span>
+    <div style="min-width:0"><span class="bb-tag">${m.bundleSuggest}</span>
+      <div class="bb-nm">${T(bn.nm)}</div><div class="bb-comp">${T(bn.comp)} · ${T(bn.note)}</div></div>
+    <div class="bb-save"><div class="bb-pct">${m.bundleOffM(bn.save)}</div><div class="bb-lbl">${m.bundleAdd}</div></div></div>`:'';
+  $('#actzone').innerHTML=`${note?`<div class="autonote" style="margin:0 0 10px">👍 ${note}</div>`:''}${bbanner}<div class="acttabs"><div class="acttab ${onlineOn?'on':''}" data-m="online">🛒 ${m.actOnline}</div>
+    <div class="acttab ${onlineOn?'':'on'}" data-m="nearby">📍 ${m.actNearby}</div></div>${body}`;
+  $$('#actzone .acttab').forEach(t=>t.onclick=()=>renderAction(t.dataset.m,note));
+  const cb=$('#cbundle');if(cb)cb.onclick=()=>toast('🎁 '+m.bundleAdded);
+  const buy=$('#buy');if(buy)buy.onclick=()=>toast('🎉 '+u.placed);
+  $$('#actzone .sresv').forEach(b=>b.onclick=()=>toast('✅ '+m.reserved));}
+function runNearby(){if(state.running)return;const u=U(),m=M();cstate.rec=CURRENT;
+  $('#main').innerHTML=`<div class="said"><div class="b">${T(NEARBY.cmd)}</div></div>
+    <div class="agent"><div class="ttl">✦ ${u.working}</div>
+      <div class="step on"><div class="ln"><div class="ic">✓</div>${m.nbStep1}</div></div>
+      <div class="step on"><div class="ln"><div class="ic">✓</div>${m.nbStep2}</div></div>
+      <div id="nbres"></div></div>
+    <button class="reset" id="rs">${u.reset}</button>`;
+  $('#rs').onclick=()=>home();
+  setTimeout(()=>{$('#nbres').innerHTML=`<div class="summary" style="margin-top:12px">🧠 ${m.nbSum}</div><div id="actzone"></div>`;renderAction('nearby');},760);}
+
+/* ===== CROSS-SELL · BUDGET · GIFT ===== */
+const PROD={
+  multivit:{img:"images/blackmores/multivitamin.svg",nm:{ja:"复合维生素",en:"Multivitamin",zh:"复合维生素"},p:2990},
+  vitc:{img:"images/blackmores/vitamin-c.svg",nm:{ja:"ビタミンC 1000",en:"Vitamin C 1000",zh:"维生素C 1000"},p:1690},
+  probiotics:{img:"images/blackmores/probiotics.svg",nm:{ja:"益生菌每日健康",en:"Probiotics Daily Health",zh:"益生菌每日健康"},p:2490},
+  fishoil:{img:"images/blackmores/fish-oil.svg",nm:{ja:"无腥味深海鱼油",en:"Odourless Fish Oil",zh:"无腥味深海鱼油"},p:3290},
+  vitc500:{img:"images/blackmores/vitamin-c.svg",nm:{ja:"ビタミンC 1000",en:"Vitamin C 1000",zh:"维生素C 1000"},p:1690},
+  multi200:{img:"images/blackmores/multivitamin.svg",nm:{ja:"复合维生素 200粒",en:"Multivitamin ×200",zh:"复合维生素 200粒"},p:2990},
+  execb:{img:"images/blackmores/vitamin-b.svg",nm:{ja:"复合维生素B",en:"Executive B",zh:"复合维生素B"},p:3190},
+  glucosamine:{img:"images/blackmores/glucosamine.svg",nm:{ja:"维骨力关节灵 1500",en:"Glucosamine 1500",zh:"维骨力关节灵 1500"},p:2890},
+  lutein:{img:"images/blackmores/lutein.svg",nm:{ja:"叶黄素护眼",en:"Lutein Vision",zh:"叶黄素护眼"},p:2790},
+  sleep:{img:"images/blackmores/sleep.svg",nm:{ja:"睡眠支持",en:"Sleep Support",zh:"睡眠支持"},p:2390}};
+const CROSS={cmd:{ja:"健康スコアに合わせて選んで",en:"Pick based on my wellness score",zh:"按我的健康分数推荐"},score:68,
+  read:{ja:"スコアは68。免疫・関節・睡眠のケアがやや不足傾向です。",en:"Score 68 — immunity, joints & sleep care trending low.",zh:"分数 68，免疫、关节和睡眠的关注略不足。"},
+  items:[{...PROD.vitc,q:1,why:{ja:"免疫をサポート",en:"Immune support",zh:"免疫支持"}},{...PROD.fishoil,q:1,why:{ja:"心臓・関節をサポート",en:"Heart & joint support",zh:"心脏与关节支持"}},{...PROD.sleep,q:1,why:{ja:"健やかな睡眠に",en:"For restful sleep",zh:"助安稳睡眠"}}]};
+const BUDGET={cmd:{ja:"予算8,000円でおまかせ",en:"$80 budget — surprise me",zh:"预算8000日元，看你搭"},tiers:[5000,8000,15000],
+  baskets:{5000:[["vitc",1],["multivit",1]],8000:[["vitc",1],["multivit",1],["probiotics",1]],15000:[["vitc",2],["multivit",1],["probiotics",1],["fishoil",1],["sleep",1]]}};
+const GIFT={cmd:{ja:"両親（60代）に定期で送りたい（ネットが苦手）",en:"Send supplements to my parents (60s) on a schedule",zh:"父母60多岁不会网购，想定期寄健康补充剂给他们"},
+  reason:{ja:"ご両親お二人分ですね。复合维生素と维骨力关节灵の組み合わせで、1日1錠×2名。1回は約1ヶ月分が最適です。",en:"For both parents — a Multivitamin & Glucosamine set, 1 tablet/day each. ~1 month per shipment is best.",zh:"两位长辈，复合维生素与维骨力关节灵的组合，每天各1粒。每次约1个月的量最合适。"},
+  cycles:[{v:"w1",per:14,t:{ja:"2週に1回（30錠ずつ）",en:"Fortnightly (30 each)",zh:"每2周1次（每次30粒）"}},{v:"m2",per:30,t:{ja:"月1回（60錠ずつ）",en:"Monthly (60 each)",zh:"每月1次（每次60粒）"}},{v:"m1",per:60,t:{ja:"2ヶ月に1回（120錠）",en:"Every 2 months (120)",zh:"每2月1次（120粒）"}}],
+  starts:[{v:"weekend",t:{ja:"今週末",en:"This weekend",zh:"本周末"}},{v:"next",t:{ja:"来週",en:"Next week",zh:"下周"}},{v:"date",t:{ja:"日付を指定",en:"Pick a date",zh:"指定日期"}}],
+  durs:[{v:1,t:{ja:"1ヶ月分",en:"1 month",zh:"1个月"}},{v:3,t:{ja:"3ヶ月分",en:"3 months",zh:"3个月"}},{v:6,t:{ja:"6ヶ月分",en:"6 months",zh:"6个月"}}]};
+const GL={
+  ja:{gutScore:"健康スコア（服用記録と連携）",crossSum:"スコアに合わせて、不足を補う3品をおすすめします。",addToNext:"次回のお届けに追加",addedMsg:"次回のお届けに追加しました。スコアの変化も追跡します。",crossLoop:"🤖 スコアが下がると、アドバイザーが先回りで提案します。",
+    budgetQ:"ご予算はどれくらい？",budgetTitle:"予算内で最適に組みました",budgetSum:"ご予算内で目的バランス良く構成。残り {rem}。",budgetUsed:"予算消化",budgetUpsell:"あと {rem} で、もう1品追加できます。",budgetDone:"合計 {t} で確定しました。",
+    giftCycleQ:"お届けの頻度はどれにしますか？",giftStartQ:"開始はいつにしますか？",giftDateQ:"開始日を選んでください",giftPickDate:"カレンダーを開く",giftDurQ:"何ヶ月分のお届けにしますか？",giftTo:"お届け先",giftParents:"ご実家（ご両親）",giftContents:"内容",giftContentsVal:"复合维生素＋维骨力关节灵 セット",giftCycle:"頻度",giftStart:"開始",giftPeriod:"期間",giftShips:"全{n}回",giftNoshi:"ギフト包装",giftNoshiYes:"あり（メッセージ付き）",giftPer:"1回あたり",giftPrepay:"前払い合計",giftConfirm:"前払いを確定",
+    giftPlaced:"定期ギフトを設定しました",giftPrepaid:"前払い {t} ・ ご実家へ自動配送",giftRemindH:"発送3日前のお知らせ（プレビュー）",giftRemindB:"次回発送の3日前にチャットでお知らせします。住所や日付の変更もここから。",giftChAddr:"住所を変更",giftChDate:"日付を変更",giftKeep:"このままでOK",giftKept:"このまま発送します",giftChDone:"変更画面を開きます"},
+  en:{gutScore:"Wellness score (linked to intake log)",crossSum:"Based on your score, here are 3 add-ons to fill the gaps.",addToNext:"Add to next delivery",addedMsg:"Added to your next delivery — we'll track your score too.",crossLoop:"🤖 If your score dips, the advisor suggests proactively.",
+    budgetQ:"What's your budget?",budgetTitle:"Optimised within your budget",budgetSum:"A balanced mix within budget. {rem} left.",budgetUsed:"Budget used",budgetUpsell:"Add one more item for {rem}.",budgetDone:"Confirmed at {t}.",
+    giftCycleQ:"How often should we deliver?",giftStartQ:"When should it start?",giftDateQ:"Pick a start date",giftPickDate:"Open calendar",giftDurQ:"For how many months?",giftTo:"Deliver to",giftParents:"Parents' home",giftContents:"Contents",giftContentsVal:"Multivitamin + Glucosamine set",giftCycle:"Frequency",giftStart:"Start",giftPeriod:"Period",giftShips:"{n} shipments",giftNoshi:"Gift wrap",giftNoshiYes:"Yes (with message)",giftPer:"Per shipment",giftPrepay:"Prepaid total",giftConfirm:"Prepay now",
+    giftPlaced:"Recurring gift set up",giftPrepaid:"Prepaid {t} · auto-delivered to parents",giftRemindH:"3-days-before reminder (preview)",giftRemindB:"We'll notify you in chat 3 days before each shipment. Change address or date here.",giftChAddr:"Change address",giftChDate:"Change date",giftKeep:"Keep as is",giftKept:"Shipping as scheduled",giftChDone:"Opening change screen"},
+  zh:{gutScore:"健康分数（接服用记录）",crossSum:"根据分数，推荐 3 件补足缺口。",addToNext:"加入下次配送",addedMsg:"已加入下次配送，会持续追踪你的分数。",crossLoop:"🤖 分数下降时，顾问会主动提议。",
+    budgetQ:"你的预算大概多少？",budgetTitle:"在预算内组了最优篮",budgetSum:"在预算内做了目标均衡搭配。剩余 {rem}。",budgetUsed:"预算使用",budgetUpsell:"再加 {rem} 可多加一件。",budgetDone:"已按 {t} 确认。",
+    giftCycleQ:"多久配送一次？",giftStartQ:"什么时候开始？",giftDateQ:"选择开始日期",giftPickDate:"打开日历",giftDurQ:"配送几个月？",giftTo:"收货",giftParents:"父母家",giftContents:"内容",giftContentsVal:"复合维生素 + 维骨力关节灵 组合",giftCycle:"频率",giftStart:"开始",giftPeriod:"周期",giftShips:"共{n}次",giftNoshi:"礼品包装",giftNoshiYes:"有（附留言卡）",giftPer:"每次",giftPrepay:"预付合计",giftConfirm:"预付确认",
+    giftPlaced:"已设定定期礼赠",giftPrepaid:"预付 {t}・自动寄到父母家",giftRemindH:"发货前3天提醒（预览）",giftRemindB:"每次发货前3天在聊天里提醒你，可在此改地址或日期。",giftChAddr:"修改地址",giftChDate:"修改日期",giftKeep:"保持不变",giftKept:"按原计划发货",giftChDone:"打开修改页"}};
+GL.th=GL.en;
+const GG=()=>GL[state.lang]||GL.en;
+let gstate={};
+
+function simpleConfirm(host,title,lines,loop){host.innerHTML=`<div class="conf"><div class="big">🎉</div><h3>${title}</h3>${lines.map(l=>`<div class="line">${l}</div>`).join('')}${loop?`<div class="loop">${loop}</div>`:''}</div>`;}
+
+function runCross(){if(state.running)return;const u=U(),g=GG(),c=CROSS;const sub=c.items.reduce((a,it)=>a+it.p*it.q,0);
+  $('#main').innerHTML=`<div class="said"><div class="b">${T(c.cmd)}</div></div>
+   <div class="agent"><div class="ttl">✦ ${u.working}</div>
+     <div class="scorecard"><div class="sc-n">${c.score}<span>/100</span></div><div style="font-size:12.5px"><b>${g.gutScore}</b><br><span style="color:var(--muted)">${T(c.read)}</span></div></div>
+     <div class="summary">🧠 ${g.crossSum}</div>
+     ${c.items.map(it=>`<div class="item"><div class="em"><img src="${it.img}" width="30" height="30" alt=""></div><div style="min-width:0"><div class="nm">${T(it.nm)}</div><div class="wy">${T(it.why)}</div></div><div class="ctrls"><span class="ip">${yen(it.p*it.q)}</span></div></div>`).join('')}
+     <div class="pricerow tot" style="margin-top:10px"><span>${u.total}</span><span>${yen(sub)}</span></div>
+     <button class="confirm" id="cf"><span class="linebadge" style="background:rgba(255,255,255,.25)">Pay</span> ${g.addToNext}</button><div id="cdone"></div></div>
+   <button class="reset" id="rs">${u.reset}</button>`;
+  $('#rs').onclick=()=>home();
+  $('#cf').onclick=()=>{simpleConfirm($('#cdone'),u.placed,[g.addedMsg],g.crossLoop);$('#cf').style.display='none';toast('🎉 '+u.placed);};}
+
+function runBudget(){if(state.running)return;const u=U(),g=GG();
+  $('#main').innerHTML=`<div class="said"><div class="b">${T(BUDGET.cmd)}</div></div>
+   <div class="ask"><div class="ttl">✦ ${u.working}</div><div class="cqq">🤖 ${g.budgetQ}</div>
+     <div class="qr">${BUDGET.tiers.map(t=>`<button class="qrb" data-bud="${t}">${yen(t)}</button>`).join('')}</div></div>
+   <button class="reset" id="rs">${u.reset}</button>`;
+  $('#rs').onclick=()=>home();
+  $$('.qrb[data-bud]').forEach(b=>b.onclick=()=>budgetBuild(+b.dataset.bud));}
+function budgetBuild(bud){const u=U(),g=GG();const list=BUDGET.baskets[bud].map(([k,q])=>({...PROD[k],q}));
+  const sub=list.reduce((a,it)=>a+it.p*it.q,0),rem=bud-sub,pct=Math.min(100,Math.round(sub/bud*100));
+  $('#main').innerHTML=`<div class="said"><div class="b">${yen(bud)}</div></div>
+   <div class="agent"><div class="ttl">✦ ${g.budgetTitle}</div>
+     <div class="summary">🧠 ${g.budgetSum.replace('{rem}',yen(rem))}</div>
+     ${list.map(it=>`<div class="item"><div class="em"><img src="${it.img}" width="30" height="30" alt=""></div><div style="min-width:0"><div class="nm">${T(it.nm)}</div></div><div class="ctrls"><span class="qn">×${it.q}</span><span class="ip">${yen(it.p*it.q)}</span></div></div>`).join('')}
+     <div class="budgetbar"><i style="width:${pct}%"></i></div>
+     <div class="pricerow"><span>${g.budgetUsed} ${pct}%</span><span>${yen(sub)} / ${yen(bud)}</span></div>
+     <div class="coldnote">💡 ${g.budgetUpsell.replace('{rem}',yen(rem))}</div>
+     <button class="confirm" id="cf"><span class="linebadge" style="background:rgba(255,255,255,.25)">Pay</span> ${u.confirm}</button><div id="bdone"></div></div>
+   <button class="reset" id="rs">${u.reset}</button>`;
+  $('#rs').onclick=()=>home();
+  $('#cf').onclick=()=>{simpleConfirm($('#bdone'),u.placed,[g.budgetDone.replace('{t}',yen(sub))],null);$('#cf').style.display='none';toast('🎉 '+u.placed);};}
+
+function fmtGiftDate(iso){const dt=new Date(iso+'T00:00:00'),m=dt.getMonth()+1,d=dt.getDate(),wd=['日','月','火','水','木','金','土'][dt.getDay()];
+  if(state.lang==='en'){const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return M[m-1]+' '+d;}
+  if(state.lang==='ja')return `${m}月${d}日(${wd})`;
+  return `${m}月${d}日`;}
+function runGift(){if(state.running)return;gstate={step:0};renderGift();}
+function renderGift(){const u=U(),g=GG(),gs=gstate;
+  const cyc=GIFT.cycles.find(c=>c.v===gs.cycle),st=GIFT.starts.find(s=>s.v===gs.start),dur=GIFT.durs.find(d=>d.v===gs.dur);
+  const startLabel=(gs.startDate!=null)?fmtGiftDate(gs.startDate):(st?T(st.t):null);
+  const qa=(q,a)=>`<div class="qb-row"><div class="qb">🤖 ${q}</div></div><div class="said" style="margin:6px 0"><div class="b">${a}</div></div>`;
+  const askq=(q,chips)=>`<div class="qb-row"><div class="qb">🤖 ${q}</div></div><div class="qr">${chips}</div>`;
+  let logc='';
+  if(gs.step>=1&&cyc)logc+=qa(g.giftCycleQ,T(cyc.t));
+  if(gs.step>=2)logc+=qa(g.giftStartQ,startLabel);
+  if(gs.step>=3&&dur)logc+=qa(g.giftDurQ,T(dur.t));
+  let body='';
+  if(gs.step===0)body=askq(g.giftCycleQ,GIFT.cycles.map(c=>`<button class="qrb" data-gv="cycle:${c.v}">${T(c.t)}</button>`).join(''));
+  else if(gs.step===1){
+    if(gs.start==='date'&&gs.startDate==null){
+      body=qa(g.giftStartQ,T(GIFT.starts.find(s=>s.v==='date').t))
+        +`<div class="qb-row"><div class="qb">🤖 ${g.giftDateQ}</div></div>`
+        +`<div class="qr"><button class="qrb" id="gdatebtn">📅 ${g.giftPickDate}</button></div>`;
+    }else body=askq(g.giftStartQ,GIFT.starts.map(s=>`<button class="qrb" data-gv="start:${s.v}">${T(s.t)}</button>`).join(''));}
+  else if(gs.step===2)body=askq(g.giftDurQ,GIFT.durs.map(d=>`<button class="qrb" data-gv="dur:${d.v}">${T(d.t)}</button>`).join(''));
+  else if(gs.step===3){const ships=dur.v*(cyc.v==='w1'?4:cyc.v==='m2'?2:1),pricePer=cyc.per*40,total=pricePer*ships;gstate._total=total;
+    body=`<div class="giftsum">
+      <div class="gr"><span>${g.giftTo}</span><b>${g.giftParents}</b></div>
+      <div class="gr"><span>${g.giftContents}</span><b>${g.giftContentsVal}</b></div>
+      <div class="gr"><span>${g.giftCycle}</span><b>${T(cyc.t)}</b></div>
+      <div class="gr"><span>${g.giftStart}</span><b>${startLabel}</b></div>
+      <div class="gr"><span>${g.giftPeriod}</span><b>${T(dur.t)} · ${g.giftShips.replace('{n}',ships)}</b></div>
+      <div class="gr"><span>${g.giftNoshi}</span><b>${g.giftNoshiYes}</b></div>
+      <div class="gr"><span>${g.giftPer}</span><b>${yen(pricePer)}</b></div>
+      <div class="gr"><span>${g.giftPrepay}</span><b style="color:var(--brand)">${yen(total)}</b></div></div>
+      <button class="confirm" id="gcf"><span class="linebadge" style="background:rgba(255,255,255,.25)">Pay</span> ${g.giftConfirm}</button>`;}
+  else if(gs.step===4){body=`<div class="conf"><div class="big">🎁</div><h3>${g.giftPlaced}</h3>
+      <div class="line">${g.giftParents} · ${T(cyc.t)} · ${startLabel}〜</div><div class="line">${g.giftPrepaid.replace('{t}',yen(gstate._total))}</div></div>
+      <div class="reminder"><div class="rh">🔔 ${g.giftRemindH}</div>
+        <div style="font-size:12.5px;color:var(--muted);margin-bottom:9px">${g.giftRemindB}</div>
+        <div class="qr"><button class="qrb" data-grem="addr">${g.giftChAddr}</button><button class="qrb" data-grem="date">${g.giftChDate}</button><button class="qrb" data-grem="ok" style="border-color:var(--line);color:var(--muted);background:var(--bg)">${g.giftKeep}</button></div></div>`;}
+  $('#main').innerHTML=`<div class="said"><div class="b">${T(GIFT.cmd)}</div></div>
+    <div class="agent"><div class="ttl">✦ ${u.working}</div><div class="qb-row"><div class="qb">🧠 ${T(GIFT.reason)}</div></div>${logc}${body}</div>
+    <button class="reset" id="rs">${u.reset}</button>`;
+  $('#rs').onclick=()=>home();
+  $$('.qrb[data-gv]').forEach(b=>b.onclick=()=>{const p=b.dataset.gv.split(':');
+    if(p[0]==='start'&&p[1]==='date'){gstate.start='date';gstate.startDate=null;renderGift();return;}
+    gstate[p[0]]=(p[0]==='dur')?+p[1]:p[1];gstate.step++;renderGift();});
+  const gdb=$('#gdatebtn');if(gdb)gdb.onclick=()=>openDateTimePicker({title:GG().giftDateQ,withTime:false,onConfirm:dt=>{if(dt){gstate.startDate=dt;gstate.step++;renderGift();}}});
+  const gcf=$('#gcf');if(gcf)gcf.onclick=()=>{gstate.step=4;renderGift();toast('🎁 '+GG().giftPlaced);};
+  $$('.qrb[data-grem]').forEach(b=>b.onclick=()=>toast('✅ '+(b.dataset.grem==='ok'?GG().giftKept:GG().giftChDone)));}
+
+/* ===== PARTNER (B2B) — smart replenishment ===== */
+const PSKU=[
+ {img:"images/blackmores/vitamin-c.svg",nm:{ja:"ビタミンC 1000 ×100",en:"Vitamin C 1000 ×100",zh:"维生素C 1000 ×100"},stock:12,rop:20,sold:28,trend:38,wpc:9600,rec:30,
+   reason:{ja:"発注点割れ・季節の免疫需要 +38%",en:"Below reorder point · seasonal immune demand +38%",zh:"低于补货点 · 季节免疫需求 +38%"}},
+ {img:"images/blackmores/glucosamine.svg",nm:{ja:"维骨力关节灵 1500 ×180",en:"Glucosamine 1500 ×180",zh:"维骨力关节灵 1500 ×180"},stock:8,rop:15,sold:18,trend:25,wpc:14400,rec:24,
+   reason:{ja:"発注点割れ・関節ケア需要が上昇 +25%",en:"Below reorder point · joint-care demand rising +25%",zh:"低于补货点 · 关节呵护需求上升 +25%"}},
+ {img:"images/blackmores/fish-oil.svg",nm:{ja:"无腥味深海鱼油 ×400",en:"Odourless Fish Oil ×400",zh:"无腥味深海鱼油 ×400"},stock:5,rop:12,sold:22,trend:22,wpc:18000,rec:30,
+   reason:{ja:"販売 +22% 継続・残り5ケースのみ",en:"Sales +22% sustained · only 5 cases left",zh:"销售 +22% 持续 · 仅剩5箱"}},
+ {img:"images/blackmores/multivitamin.svg",nm:{ja:"复合维生素 ×200",en:"Multivitamin ×200",zh:"复合维生素 ×200"},stock:18,rop:25,sold:30,trend:40,wpc:16800,rec:36,
+   reason:{ja:"定番・新年の健康習慣で需要 +40%",en:"Staple · new-year wellness habits +40%",zh:"畅销 · 新年健康习惯需求 +40%"}},
+ {img:"images/blackmores/probiotics.svg",nm:{ja:"益生菌每日健康 ×90",en:"Probiotics Daily Health ×90",zh:"益生菌每日健康 ×90"},stock:6,rop:14,sold:16,trend:30,wpc:13200,rec:24,
+   reason:{ja:"発注点割れ・腸内ケア需要が拡大 +30%",en:"Below reorder point · gut-care demand +30%",zh:"低于补货点 · 肠道呵护需求扩大 +30%"}},
+ {img:"images/blackmores/pregnancy-gold.svg",nm:{ja:"孕妇黄金营养素 ×180",en:"Pregnancy & Breastfeeding Gold ×180",zh:"孕妇黄金营养素 ×180"},stock:10,rop:12,sold:11,trend:14,wpc:19200,rec:18,
+   reason:{ja:"発注点割れ間近・妊娠期向け安定需要 +14%",en:"Near reorder point · steady prenatal demand +14%",zh:"接近补货点 · 孕期需求稳定 +14%"}},
+ {img:"images/blackmores/lutein.svg",nm:{ja:"叶黄素护眼 ×60",en:"Lutein Vision ×60",zh:"叶黄素护眼 ×60"},stock:30,rop:20,sold:9,trend:-12,wpc:11000,rec:0,
+   reason:{ja:"在庫潤沢・販売 -12% → 発注見送りを推奨",en:"Well stocked · sales -12% → recommend skipping",zh:"库存充足 · 销售 -12% → 建议暂不补"}}];
+function pstatus(s){if(s.stock<s.rop)return 'low';if(s.stock>Math.round(s.rop*1.25)&&s.trend<0)return 'high';return 'ok';}
+const PB={
+ ja:{modeC:"消費者",modeP:"Partner · B2B",pctx:'シドニー首都圏 · <b>10店舗</b> · バイヤー / 発注担当',
+   partnerTag:"発注を、<br>AI が <em>先回り</em>で組む。",partnerSub:"在庫・販売・需要シグナルを横断して、いま打つべき発注をアドバイザーが用意します。",
+   nudgeH:"アドバイザーからの提案",nudgeB:"複数 SKU が発注点割れ（ビタミンC・维骨力关节灵・魚油・益生菌 ほか）。ビタミンCは季節の免疫需要で +38%。補発注プランを用意しますか？",nudgeSrc:"出典：店舗在庫 + POS + 需要シグナル",nudgeYes:"はい、プランを見る",nudgeLater:"あとで",
+   healthT:"在庫健全度（10店舗 + DC）",lbStock:"在庫 ",lbRop:"発注点 ",lbSold:"7日販売 ",caseU:"ケース",
+   statLow:"要発注",statOk:"適正",statHigh:"過剰",
+   cmdRestock:"発注点割れを今すぐ補発注",working:"アドバイザーが発注を最適化中",
+   steps:["店舗 + DC の在庫を照合","直近7日の販売トレンドを分析","季節・需要シグナルを反映","発注点・MOQ・卸価格を適用","補発注プランを算出"],
+   planT:"補発注プラン",planSum:"発注点割れの {n} SKU を補発注。過剰在庫の1 SKU は見送り。卸価格・ケース単位で算出済み。",
+   reject:"却下",rejected:"却下しました。次回から提案しません。",skipTitle:"発注見送り（AI 判断）",
+   whole:"卸 合計",moq:"卸価格・ケース単位・MOQ 適用済み",
+   autoT:"自動化レベル",autoAsk:"🔔 毎回承認する",autoStand:"🤖 {thr} 未満は自動発注",autoNote:"発注点割れを検知したら、{thr} 未満は自動で発注します。明細は毎回 チャット/メールで通知。",
+   confirm:"発注を確定",placed:"発注完了",eta:"卸配送 2〜3 営業日 · DC 出荷",loop:"🤖 在庫を常時監視し、発注点割れを先回りで提案します。",reset:"↺ 別の操作"},
+ en:{modeC:"Consumer",modeP:"Partner · B2B",pctx:'Sydney metro · <b>10 stores</b> · Buyer / Ordering',
+   partnerTag:"Ordering, <br>composed by AI <em>ahead of time</em>.",partnerSub:"Across stock, sales and demand signals, the advisor prepares the orders you should place now.",
+   nudgeH:"Advisor suggestion",nudgeB:"Several SKUs are below reorder point (Vitamin C, Glucosamine, Fish Oil, Probiotics & more). Vitamin C demand is +38% on seasonal immunity. Prepare a replenishment plan?",nudgeSrc:"Source: store stock + POS + demand signal",nudgeYes:"Yes, show the plan",nudgeLater:"Later",
+   healthT:"Stock health (10 stores + DC)",lbStock:"Stock ",lbRop:"ROP ",lbSold:"7-day ",caseU:"cases",
+   statLow:"Reorder",statOk:"Healthy",statHigh:"Overstock",
+   cmdRestock:"Replenish below-ROP items now",working:"Advisor is optimising your order",
+   steps:["Reconcile stock across stores + DC","Analyse last 7 days of sales trend","Apply seasonal & demand signals","Apply reorder point, MOQ & wholesale price","Compute the replenishment plan"],
+   planT:"Replenishment plan",planSum:"Replenishing {n} below-ROP SKUs. Skipping 1 overstocked SKU. Priced per case at wholesale.",
+   reject:"Reject",rejected:"Rejected — won't suggest this again.",skipTitle:"Skipped by the agent",
+   whole:"Wholesale total",moq:"Wholesale · per case · MOQ applied",
+   autoT:"Autonomy level",autoAsk:"🔔 Approve each time",autoStand:"🤖 Auto-order under {thr}",autoNote:"When a below-ROP event is detected, orders under {thr} are placed automatically. You're notified each time via chat/email.",
+   confirm:"Confirm order",placed:"Order placed",eta:"Wholesale delivery 2–3 business days · ships from DC",loop:"🤖 The advisor watches stock continuously and proposes replenishment ahead of time.",reset:"↺ Another action"},
+ zh:{modeC:"消费者",modeP:"Partner · B2B",pctx:'悉尼都会区 · <b>10 家门店</b> · 采购 / 订货负责人',
+   partnerTag:"订货，<br>AI <em>先一步</em>替你组好。",partnerSub:"横跨库存、销售与需求信号，顾问把现在该下的订单备好。",
+   nudgeH:"来自顾问的提议",nudgeB:"多个 SKU 低于补货点（维生素C、维骨力关节灵、鱼油、益生菌 等）。维生素C 因季节免疫需求 +38%。要不要先备一份补货方案？",nudgeSrc:"来源：门店库存 + POS + 需求信号",nudgeYes:"好，看方案",nudgeLater:"稍后",
+   healthT:"库存健康度（10 店 + DC）",lbStock:"库存 ",lbRop:"补货点 ",lbSold:"7日销 ",caseU:"箱",
+   statLow:"待补货",statOk:"正常",statHigh:"过剩",
+   cmdRestock:"立即补货低于补货点的商品",working:"顾问正在优化订单",
+   steps:["比对门店 + DC 库存","分析最近7天销售趋势","代入季节与需求信号","套用补货点、MOQ、批发价","算出补货方案"],
+   planT:"补货方案",planSum:"补货 {n} 个低于补货点的 SKU。跳过 1 个过剩 SKU。已按批发价、整箱算好。",
+   reject:"拒绝",rejected:"已拒绝——下次不再推荐。",skipTitle:"AI 判断暂不补货",
+   whole:"批发合计",moq:"批发价 · 整箱 · 已套用 MOQ",
+   autoT:"自动化级别",autoAsk:"🔔 每次都审批",autoStand:"🤖 {thr} 以下自动下单",autoNote:"检测到低于补货点时，{thr} 以下自动下单，每次都会在 聊天/邮件通知明细。",
+   confirm:"确认下单",placed:"已下单",eta:"批发配送 2–3 个工作日 · 从 DC 出货",loop:"🤖 顾问持续盯库存，低于补货点时先一步提议。",reset:"↺ 换个操作"}};
+PB.th=PB.en;const PBL=()=>PB[state.lang]||PB.en;
+
+/* historical sales (cases) per PSKU index — last-year same month & next-month projection */
+const HISTMAP={0:{same:26,next:24},1:{same:15,next:18},2:{same:16,next:19},3:{same:22,next:41},4:{same:12,next:17},5:{same:10,next:12},6:{same:12,next:10}};
+const ALT={0:1,1:0,2:4,3:4,4:2,5:6,6:5};
+const CONTRACTS=[
+ {id:"std",mult:1.0,nm:{ja:"標準卸価格",en:"Standard wholesale",zh:"标准批发价"},note:{ja:"通常単価",en:"List price",zh:"常规单价"}},
+ {id:"annual",mult:0.94,nm:{ja:"特約店 年間契約A",en:"Annual contract A",zh:"特约店年契A"},note:{ja:"−6% · 年間数量コミット",en:"−6% · annual volume commit",zh:"−6% · 年度量承诺"}},
+ {id:"promo",mult:0.90,nm:{ja:"期間販促契約",en:"Promo-period contract",zh:"促销期合同"},note:{ja:"−10% · 対象期間・対象SKU",en:"−10% · within promo window",zh:"−10% · 限期限SKU"}}];
+const PCOUPONS=[
+ {id:"first",amt:3000,nm:{ja:"四半期 初回発注クーポン",en:"Quarter first-order coupon",zh:"季度首单券"}},
+ {id:"bulk",pct:5,min:10,nm:{ja:"まとめ買い 5%（10ケース以上）",en:"Bulk 5% (10+ cases)",zh:"批量5%（≥10箱）"}},
+ {id:"newprod",amt:2000,nm:{ja:"新商品導入クーポン",en:"New-product intro coupon",zh:"新品导入券"}}];
+const OPP=[
+ {icon:"🤧",type:{ja:"季節",en:"Seasonal",zh:"季节"},title:{ja:"冬の免疫需要ピーク",en:"Winter immunity peak",zh:"冬季免疫高峰"},
+   reason:{ja:"昨年6–8月、ビタミンCは平月比 +52%。寒さでさらに前倒しの見込み。",en:"Last Jun–Aug, Vitamin C ran +52% vs average; the cold is pulling it earlier.",zh:"去年6–8月 维生素C 比平月 +52%，转冷会更提前。"},sku:[0],lift:"+52%"},
+ {icon:"🎁",type:{ja:"行事",en:"Event",zh:"节日"},title:{ja:"ホリデー ギフト需要",en:"Holiday gift demand",zh:"节日礼盒需求"},
+   reason:{ja:"年末のギフト期。复合维生素＆魚油のギフトセットは昨年 +120%。早期確保を推奨。",en:"End-of-year gifting; Multivitamin & Fish Oil gift sets were +120% last year. Secure early.",zh:"年末送礼季，复合维生素＆鱼油礼盒去年同期 +120%，建议提前备货。"},sku:[0,3],lift:"+120%"},
+ {icon:"📈",type:{ja:"トレンド",en:"Trend",zh:"趋势"},title:{ja:"オメガ3・魚油需要",en:"Omega-3 fish-oil demand",zh:"欧米伽3 鱼油需求"},
+   reason:{ja:"心臓・関節ケア需要で直近4週 +22% 継続。欠品リスク高。",en:"Heart & joint care demand: +22% over 4 weeks; stockout risk is high.",zh:"心脏与关节呵护需求带动近4周 +22%，断货风险高。"},sku:[2],lift:"+22%"},
+ {icon:"🦠",type:{ja:"トレンド",en:"Trend",zh:"趋势"},title:{ja:"益生菌の需要拡大",en:"Probiotics rising",zh:"益生菌需求上升"},
+   reason:{ja:"腸内・免疫ケアで益生菌が直近4週 +30%。棚を確保。",en:"Gut & immune care: Probiotics +30% over 4 weeks. Lock in shelf space.",zh:"肠道与免疫呵护带动 益生菌 近4周 +30%，建议锁定货架。"},sku:[4],lift:"+30%"},
+ {icon:"🤰",type:{ja:"行事",en:"Event",zh:"节日"},title:{ja:"マタニティフェア・妊娠期需要",en:"Maternity fair · prenatal demand",zh:"孕产展·孕期需求"},
+   reason:{ja:"地域のマタニティフェアで孕妇黄金营养素＆叶黄素护眼の引き合いが増加 +18%。",en:"Local maternity fair lifting Pregnancy Gold & Lutein Vision inquiries +18%.",zh:"本地孕产展带动孕妇黄金营养素与叶黄素护眼咨询 +18%。"},sku:[5,6],lift:"+18%"},
+ {icon:"🎁",type:{ja:"バンドル",en:"Bundle",zh:"组合"},title:{ja:"《家族免疫バンドル》トップセラー",en:"Family Immunity Bundle · top seller",zh:"《全家免疫组合》畅销款"},
+   reason:{ja:"复合维生素＋ビタミンC＋益生菌＋子ども用マルチの家族向けバンドルが直近の売れ筋。構成SKUをまとめて補充すれば、1棚で家族需要を取り込めます。",en:"The family bundle — Multivitamin + Vitamin C + Probiotics + Kids Multi — is a current top seller. Stock the component SKUs together to capture whole-family demand from one shelf.",zh:"家庭组合（复合维生素＋维生素C＋益生菌＋儿童复合维生素）近期畅销。把组件SKU一起备货，用一个货架承接全家需求。"},sku:[3,0,4],lift:"top seller"}];
+const PORDERS=[
+ {no:"PO-260612-018",when:"06/12",items:{ja:"ビタミンC×30, 魚油×24",en:"Vitamin C×30, Fish Oil×24",zh:"维生素C×30, 鱼油×24"},status:"transit",step:2,eta:{ja:"06/19 着予定",en:"ETA 06/19",zh:"预计 06/19"}},
+ {no:"PO-260608-004",when:"06/08",items:{ja:"复合维生素×36, 睡眠支持×18",en:"Multivitamin×36, Sleep Support×18",zh:"复合维生素×36, 睡眠支持×18"},status:"delivered",step:3,eta:{ja:"06/11 納品済",en:"Delivered 06/11",zh:"06/11 已交付"}},
+ {no:"PO-260605-051",when:"06/05",items:{ja:"维骨力关节灵×24, 益生菌×18",en:"Glucosamine×24, Probiotics×18",zh:"维骨力关节灵×24, 益生菌×18"},status:"invoicing",step:3,eta:{ja:"請求書 発行待ち",en:"Awaiting invoice",zh:"等待开票"}}];
+const PB2={
+ ja:{askPh:"発注・在庫・注文について質問…",
+   cOpp:"季節・トレンドの発注機会",cCompare:"商品を比較・相談",cOrders:"注文状況を確認",cInvoice:"請求書・適格請求書を依頼",
+   oppT:"発注機会（季節 · 行事 · トレンド）",oppLift:"昨年リフト",oppAdd:"この機会を発注に組む",working:"エージェントが分析中",
+   histBtn:"📊 昨年実績で判断",histSame:"昨年同月",histNext:"翌月予測",histUnit:"ケース",histHint:"昨年同月の実績と翌月予測から、発注量を判断できます。",
+   contractT:"契約価格フレーム（結算時に選択）",couponT:"利用可能なクーポン",
+   rowSub:"卸 小計",rowContract:"契約割引",rowCoupon:"クーポン",rowTotal:"合計",bulkNeed:"10ケース以上で適用できます",
+   cmpT:"商品を比較・相談",cmpPick:"商品を選んでください",dStock:"在庫",dSold:"7日販売",dWpc:"卸単価",dTrend:"トレンド",
+   aiJudge:"AI の発注提案",cmpVs:"代替候補と比較",rWpc:"卸単価",rSold:"7日販売",rTrend:"トレンド",rHistN:"翌月予測",addToPlan:"発注に追加",another:"別の商品",
+   ordT:"注文状況",ordEta:"予定",stProcessing:"処理中",stTransit:"配送中",stDelivered:"納品済",stInvoicing:"請求処理中",
+   trackSteps:["受注","出荷","配送中","納品"],
+   invT:"請求書・適格請求書",invReg:"登録番号 T2-3010-0011-2233",reqInvoiceBtn:"📄 適格請求書を発行",reqReceiptBtn:"領収書を依頼",invIssued:"適格請求書を発行しました",invNo:"請求書番号"},
+ en:{askPh:"Ask about ordering, stock, invoices…",
+   cOpp:"Seasonal & trend ordering",cCompare:"Compare & consult products",cOrders:"Check order status",cInvoice:"Request invoice / tax invoice",
+   oppT:"Ordering opportunities (season · event · trend)",oppLift:"Last-year lift",oppAdd:"Build an order from this",working:"Agent is analysing",
+   histBtn:"📊 Judge by last-year data",histSame:"Last yr, same mo.",histNext:"Next-mo. forecast",histUnit:"cases",histHint:"Use last-year same-month actuals and the next-month forecast to size the order.",
+   contractT:"Contract price frame (choose at checkout)",couponT:"Available coupons",
+   rowSub:"Wholesale subtotal",rowContract:"Contract discount",rowCoupon:"Coupon",rowTotal:"Total",bulkNeed:"Applies at 10+ cases",
+   cmpT:"Compare & consult products",cmpPick:"Pick a product",dStock:"Stock",dSold:"7-day",dWpc:"Unit",dTrend:"Trend",
+   aiJudge:"AI ordering suggestion",cmpVs:"Compare with alternative",rWpc:"Unit",rSold:"7-day",rTrend:"Trend",rHistN:"Next-mo.",addToPlan:"Add to order",another:"Another product",
+   ordT:"Order status",ordEta:"ETA",stProcessing:"Processing",stTransit:"In transit",stDelivered:"Delivered",stInvoicing:"Invoicing",
+   trackSteps:["Received","Shipped","In transit","Delivered"],
+   invT:"Invoice / tax invoice",invReg:"Reg. no. T2-3010-0011-2233",reqInvoiceBtn:"📄 Issue tax invoice",reqReceiptBtn:"Request receipt",invIssued:"Tax invoice issued",invNo:"Invoice no."},
+ zh:{askPh:"问发注、库存、订单…",
+   cOpp:"季节·趋势补货机会",cCompare:"商品比较·咨询",cOrders:"查询订单状态",cInvoice:"索要发票/合规发票",
+   oppT:"补货机会（季节 · 节日 · 趋势）",oppLift:"去年涨幅",oppAdd:"把这个机会组成订单",working:"agent 分析中",
+   histBtn:"📊 用去年数据判断",histSame:"去年同月",histNext:"次月预测",histUnit:"箱",histHint:"用去年同月实绩和次月预测来定补货量。",
+   contractT:"合同价格框架（结算时选）",couponT:"可用优惠券",
+   rowSub:"批发小计",rowContract:"合同折扣",rowCoupon:"优惠券",rowTotal:"合计",bulkNeed:"满10箱可用",
+   cmpT:"商品比较·咨询",cmpPick:"选一个商品",dStock:"库存",dSold:"7日销",dWpc:"批发单价",dTrend:"趋势",
+   aiJudge:"AI 补货建议",cmpVs:"与替代品比较",rWpc:"批发单价",rSold:"7日销",rTrend:"趋势",rHistN:"次月预测",addToPlan:"加入订单",another:"换个商品",
+   ordT:"订单状态",ordEta:"预计",stProcessing:"处理中",stTransit:"配送中",stDelivered:"已交付",stInvoicing:"开票中",
+   trackSteps:["受理","出货","配送中","交付"],
+   invT:"发票/合规发票",invReg:"登记号 T2-3010-0011-2233",reqInvoiceBtn:"📄 开具合规发票",reqReceiptBtn:"索要收据",invIssued:"已开具合规发票",invNo:"发票号"}};
+PB2.th=PB2.en;const P2=()=>PB2[state.lang]||PB2.en;
+
+function renderApp(){
+  $$('#modeseg button').forEach(b=>b.classList.toggle('on',b.dataset.aud===state.audience));
+  const p=PBL();const mc=$('#modeC'),mp=$('#modeP');if(mc)mc.textContent=p.modeC;if(mp)mp.textContent=p.modeP;
+  $('#lineBadge').style.display=(state.brand==='blackmores'&&state.audience==='consumer')?'inline-flex':'none';
+  if(state.audience==='partner')partnerHome();else home();
+}
+function partnerHome(showNudge){const p=PBL(),p2=P2();state.running=false;state.prej={};state.pauto='ask';state.pcontract='std';state.pcoupons={};
+  $('#main').innerHTML=`
+   ${showNudge!==false?`<div class="nudge" id="pnudge"><div class="nh">✦ ${p.nudgeH}</div><div class="nb">${p.nudgeB}</div><div class="src">${p.nudgeSrc}</div>
+     <div class="nbtns"><button class="yes" id="pnYes">${p.nudgeYes}</button><button class="later" id="pnLater">${p.nudgeLater}</button></div></div>`:''}
+   <div class="pcontext"><div class="pav">🏪</div><div>${p.pctx}</div></div>
+   <div class="tagline">${p.partnerTag}</div>
+   <div style="text-align:center;color:var(--muted);font-size:13px;margin-top:8px;margin-bottom:12px">${p.partnerSub}</div>
+   <div class="inbar"><input id="pinp" placeholder="${p2.askPh}" autocomplete="off"><button id="pgo">↑</button></div>
+   <div class="cmds">
+     <div class="cmd" data-pc="restock"><span class="q">✦</span>${p.cmdRestock}</div>
+     <div class="cmd" data-pc="opp"><span class="q">📈</span>${p2.cOpp}</div>
+     <div class="cmd" data-pc="compare"><span class="q">🔎</span>${p2.cCompare}</div>
+     <div class="cmd" data-pc="orders"><span class="q">📦</span>${p2.cOrders}</div>
+     <div class="cmd" data-pc="invoice"><span class="q">🧾</span>${p2.cInvoice}</div></div>
+   <div class="blk-t" style="margin-top:16px">${p.healthT}</div>
+   <div class="health">${PSKU.map(s=>{const st=pstatus(s);return `<div class="hrow"><img src="${s.img}" alt="">
+     <div style="min-width:0"><div class="hn">${T(s.nm)}</div><div class="hm">${p.lbStock}${s.stock} · ${p.lbRop}${s.rop} · ${p.lbSold}${s.sold}<span class="trend ${s.trend>=0?'up':'dn'}">${s.trend>=0?'▲':'▼'}${Math.abs(s.trend)}%</span></div></div>
+     <div class="hstat"><span class="pill ${st}">${st==='low'?p.statLow:st==='ok'?p.statOk:p.statHigh}</span></div></div>`;}).join('')}</div>`;
+  const ny=$('#pnYes');if(ny)ny.onclick=()=>runRestock();
+  const nl=$('#pnLater');if(nl)nl.onclick=()=>{const n=$('#pnudge');if(n)n.remove();};
+  $('#pgo').onclick=()=>proute($('#pinp').value);
+  $('#pinp').addEventListener('keydown',e=>{if(e.key==='Enter')proute($('#pinp').value);});
+  $$('.cmd[data-pc]').forEach(c=>c.onclick=()=>pdispatch(c.dataset.pc));}
+function pdispatch(k){if(k==='restock')return runRestock();if(k==='opp')return runOpportunity();if(k==='compare')return runCompare();if(k==='orders')return runOrders();if(k==='invoice')return runInvoice();}
+function proute(v){v=(v||'').trim();if(!v)return;const low=v.toLowerCase();
+  if(/請求|発票|発票|invoice|领收|領収|发票|インボイス/.test(low))return runInvoice();
+  if(/注文状況|配送|追跡|order|status|订单|物流/.test(low))return runOrders();
+  if(/比較|相談|詳細|去年|販売実績|compare|consult|sales|比较|咨询|销量/.test(low))return runCompare();
+  if(/季節|夏|お中元|行事|トレンド|機会|season|trend|节日|趋势/.test(low))return runOpportunity();
+  runRestock();}
+
+function pAgentRun(saidText,onDone){const p=PBL();state.running=true;
+  $('#main').innerHTML=`<div class="said"><div class="b">${saidText}</div></div>
+    <div class="agent"><div class="ttl">✦ ${p.working}</div><div id="psteps">
+    ${p.steps.map((st,k)=>`<div class="step" data-k="${k}"><div class="ln"><div class="ic">${k+1}</div>${st}</div></div>`).join('')}
+    </div></div><button class="reset" id="rs" style="display:none">${p.reset}</button>`;
+  $('#rs').onclick=()=>{state.running=false;partnerHome(false);};
+  const els=$$('#psteps .step');let k=0;
+  (function run(){if(k>0){els[k-1].classList.remove('work');els[k-1].classList.add('on');els[k-1].querySelector('.ic').textContent='✓';}
+    if(k>=els.length){state.running=false;onDone();return;}els[k].classList.add('on','work');k++;setTimeout(run,560);})();}
+
+function runRestock(){if(state.running)return;const p=PBL();state.prej={};state.pqty={};state.pcontract='std';state.pcoupons={};
+  state.planBase=PSKU.map((s,i)=>i).filter(i=>pstatus(PSKU[i])==='low');
+  state.planBase.forEach(i=>state.pqty[i]=PSKU[i].rec||12);
+  state.planSaid=p.cmdRestock;state.planSummary=p.planSum.replace('{n}',state.planBase.length);state.planSkip=true;
+  pAgentRun(p.cmdRestock,renderPlan);}
+
+function runOpportunity(){if(state.running)return;const p2=P2();
+  let h=`<div class="said"><div class="b">${p2.cOpp}</div></div><div class="agent"><div class="ttl">📈 ${p2.oppT}</div>`;
+  h+=OPP.map((o,i)=>`<div class="oppcard" data-opp="${i}"><div class="opptop"><span class="oppic">${o.icon}</span>
+    <span class="opptype">${T(o.type)}</span><span class="opplift">${p2.oppLift} ${o.lift}</span></div>
+    <div class="opph">${T(o.title)}</div><div class="oppr">${T(o.reason)}</div>
+    <div class="oppskus">${o.sku.map(si=>`<img src="${PSKU[si].img}" width="26" height="26" alt="">`).join('')}
+      <button class="oppadd" data-opp="${i}">＋ ${p2.oppAdd}</button></div></div>`).join('');
+  h+=`</div><button class="reset" id="rs">${PBL().reset}</button>`;
+  $('#main').innerHTML=h;$('#rs').onclick=()=>partnerHome(false);
+  $$('.oppadd').forEach(b=>b.onclick=()=>oppToPlan(+b.dataset.opp));}
+function oppToPlan(i){const o=OPP[i],p2=P2();state.prej={};state.pqty={};state.pcontract='std';state.pcoupons={};
+  state.planBase=o.sku.slice();state.planBase.forEach(si=>state.pqty[si]=PSKU[si].rec||18);
+  state.planSaid=`${o.icon} ${T(o.title)}`;state.planSummary=T(o.reason);state.planSkip=false;
+  pAgentRun(`${o.icon} ${T(o.title)} — ${p2.oppAdd}`,renderPlan);}
+
+function histRow(i){const p2=P2(),hm=HISTMAP[i];if(!hm)return '';
+  return `<div class="histbox" id="hist-${i}" style="display:none"><div class="histgrid">
+    <div class="histcell"><div class="histlab">${p2.histSame}</div><div class="histnum">${hm.same}<small>${p2.histUnit}</small></div></div>
+    <div class="histcell"><div class="histlab">${p2.histNext}</div><div class="histnum up">${hm.next}<small>${p2.histUnit}</small></div></div></div>
+    <div class="histhint">${p2.histHint}</div></div>`;}
+
+function renderPlan(){const p=PBL(),p2=P2();
+  const incl=state.planBase.filter(i=>!state.prej[i]);
+  const highs=state.planSkip?PSKU.filter(s=>pstatus(s)==='high'):[];
+  const sub=incl.reduce((a,i)=>a+PSKU[i].wpc*(state.pqty[i]||0),0);
+  const cases=incl.reduce((a,i)=>a+(state.pqty[i]||0),0);
+  const ct=CONTRACTS.find(c=>c.id===state.pcontract)||CONTRACTS[0];
+  const afterContract=Math.round(sub*ct.mult);const contractDisc=sub-afterContract;
+  let couponDisc=0;PCOUPONS.forEach(c=>{if(!state.pcoupons[c.id])return;if(c.min&&cases<c.min)return;couponDisc+=c.amt?c.amt:Math.round(afterContract*c.pct/100);});
+  const total=Math.max(0,afterContract-couponDisc);
+  let h=`<div class="ttl" style="color:var(--brand);margin:0 0 8px">✅ ${p.planT}</div><div class="summary">🧠 ${state.planSummary}</div>`;
+  h+=incl.map(i=>{const s=PSKU[i],q=state.pqty[i]||0;return `<div class="item"><div class="em"><img src="${s.img}" width="30" height="30" alt=""></div>
+    <div style="min-width:0"><div class="nm">${T(s.nm)}</div><div class="reasonchip">✦ ${T(s.reason)}</div>
+      <button class="histbtn" data-phist="${i}">${p2.histBtn}</button></div>
+    <div class="ctrls"><button class="qbtn" data-pd="-1" data-i="${i}">−</button><span class="qn">${q}</span><button class="qbtn" data-pd="1" data-i="${i}">+</button><span class="ip">${yen(s.wpc*q)}</span><button class="rej" data-prej="${i}">${p.reject}</button></div></div>${histRow(i)}`;}).join('');
+  if(highs.length)h+=`<div class="skipnote">⏸ <b>${p.skipTitle}</b><br>${highs.map(s=>T(s.nm)+' — '+T(s.reason)).join('<br>')}</div>`;
+  // contract frame
+  h+=`<div class="blk-t" style="margin-top:16px">${p2.contractT}</div><div class="ctrseg">`;
+  h+=CONTRACTS.map(c=>`<button class="ctrbtn ${state.pcontract===c.id?'on':''}" data-ctr="${c.id}"><b>${T(c.nm)}</b><small>${T(c.note)}</small></button>`).join('')+`</div>`;
+  // coupons
+  h+=`<div class="blk-t" style="margin-top:14px">${p2.couponT}</div>`;
+  h+=PCOUPONS.map(c=>{const on=state.pcoupons[c.id],dis=c.min&&cases<c.min;
+    return `<div class="coupChk ${on?'on':''} ${dis?'dis':''}" data-coup="${c.id}"><div class="cx">${on?'✓':''}</div>
+      <div style="min-width:0"><div class="cn">${T(c.nm)}</div>${dis?`<div class="cdis">${p2.bulkNeed}</div>`:''}</div>
+      <div class="cv">${c.amt?('−'+yen(c.amt)):('−'+c.pct+'%')}</div></div>`;}).join('');
+  // totals
+  h+=`<div class="pricerow" style="margin-top:14px"><span>${p2.rowSub}</span><span>${yen(sub)}</span></div>`;
+  if(contractDisc>0)h+=`<div class="pricerow"><span>${p2.rowContract} · ${T(ct.nm)}</span><span class="disc">− ${yen(contractDisc)}</span></div>`;
+  if(couponDisc>0)h+=`<div class="pricerow"><span>${p2.rowCoupon}</span><span class="disc">− ${yen(couponDisc)}</span></div>`;
+  h+=`<div class="pricerow tot"><span>${p2.rowTotal}</span><span>${yen(total)}</span></div><div class="coldnote">📦 ${p.moq}</div>`;
+  // autonomy
+  h+=`<div class="auto"><div class="blk-t">${p.autoT}</div><div class="autoseg">
+    <button data-pauto="ask" class="${state.pauto==='ask'?'on':''}">${p.autoAsk}</button>
+    <button data-pauto="stand" class="${state.pauto==='stand'?'on':''}">${p.autoStand.replace('{thr}',yen(2400))}</button></div>
+    ${state.pauto==='stand'?`<div class="autonote">🤖 ${p.autoNote.replace('{thr}',yen(2400))}</div>`:''}</div>`;
+  h+=`<button class="confirm" id="pcf" style="background:var(--brand)">📦 ${p.confirm} · ${yen(total)}</button>`;
+  $('#main').innerHTML=`<div class="said"><div class="b">${state.planSaid}</div></div><div class="agent">${h}</div><button class="reset" id="rs">${p.reset}</button>`;
+  $('#rs').onclick=()=>partnerHome(false);
+  $$('[data-pd]').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;state.pqty[i]=Math.max(1,(state.pqty[i]||0)+(+b.dataset.pd));renderPlan();});
+  $$('[data-prej]').forEach(b=>b.onclick=()=>{if(incl.length<=1)return;state.prej[+b.dataset.prej]=true;toast('🚫 '+p.rejected);renderPlan();});
+  $$('[data-phist]').forEach(b=>b.onclick=()=>{const el=$('#hist-'+b.dataset.phist);if(el)el.style.display=el.style.display==='none'?'block':'none';});
+  $$('[data-ctr]').forEach(b=>b.onclick=()=>{state.pcontract=b.dataset.ctr;renderPlan();});
+  $$('[data-coup]').forEach(b=>b.onclick=()=>{const id=b.dataset.coup,c=PCOUPONS.find(x=>x.id===id);if(c.min&&cases<c.min){toast('⚠ '+p2.bulkNeed);return;}state.pcoupons[id]=!state.pcoupons[id];renderPlan();});
+  $$('[data-pauto]').forEach(b=>b.onclick=()=>{state.pauto=b.dataset.pauto;renderPlan();});
+  $('#pcf').onclick=()=>confirmRestock(total,cases);}
+function confirmRestock(total,cases){const p=PBL();
+  $('#main').innerHTML=`<div class="conf"><div class="big">📦</div><h3>${p.placed}</h3>
+    <div class="line">${cases} ${p.caseU} · ${yen(total)}</div><div class="line">🚚 ${p.eta}</div>
+    <div class="loop">${p.loop}</div></div><button class="reset" id="rs">${p.reset}</button>`;
+  $('#rs').onclick=()=>partnerHome(false);toast('📦 '+p.placed);}
+
+function runCompare(){if(state.running)return;const p=PBL(),p2=P2();
+  let h=`<div class="said"><div class="b">${p2.cmpT}</div></div><div class="agent"><div class="ttl">🔎 ${p2.cmpPick}</div>
+    <div class="cmppick">${PSKU.map((s,i)=>`<button class="cmpitem" data-cmp="${i}"><img src="${s.img}" width="26" height="26" alt="">${T(s.nm)}</button>`).join('')}</div>
+    <div id="cmpzone"></div></div><button class="reset" id="rs">${p.reset}</button>`;
+  $('#main').innerHTML=h;$('#rs').onclick=()=>partnerHome(false);
+  $$('[data-cmp]').forEach(b=>b.onclick=()=>compareDetail(+b.dataset.cmp));}
+function compareDetail(i){const p2=P2();const s=PSKU[i],alt=PSKU[ALT[i]],hm=HISTMAP[i];
+  const rec=Math.max(6,(hm?hm.next:s.sold)-s.stock);
+  const row=(lab,a,b)=>`<tr><td>${lab}</td><td>${a}</td><td class="rec">${b}</td></tr>`;
+  const z=$('#cmpzone');z.innerHTML=`
+    <div class="cmpdetail"><div class="cmphead"><img src="${s.img}" width="34" height="34" alt=""><div><div class="nm">${T(s.nm)}</div>
+      <div style="font-size:11.5px;color:var(--muted)">${p2.dWpc} ${yen(s.wpc)} · ${p2.dStock} ${s.stock} · ${p2.dSold} ${s.sold}<span class="trend ${s.trend>=0?'up':'dn'}"> ${s.trend>=0?'▲':'▼'}${Math.abs(s.trend)}%</span></div></div></div>
+    ${hm?`<div class="histgrid" style="margin:10px 0"><div class="histcell"><div class="histlab">${p2.histSame}</div><div class="histnum">${hm.same}<small>${p2.histUnit}</small></div></div>
+      <div class="histcell"><div class="histlab">${p2.histNext}</div><div class="histnum up">${hm.next}<small>${p2.histUnit}</small></div></div></div>`:''}
+    <div class="aijudge">🧠 <b>${p2.aiJudge}:</b> ${rec} ${p2.histUnit}（${p2.histNext} ${hm?hm.next:'-'} − ${p2.dStock} ${s.stock}）</div>
+    <div class="blk-t" style="margin-top:12px">${p2.cmpVs}</div>
+    <table class="cmp"><thead><tr><th></th><th>${T(s.nm)}</th><th class="reccol">${T(alt.nm)}</th></tr></thead><tbody>
+      ${row(p2.rWpc,yen(s.wpc),yen(alt.wpc))}
+      ${row(p2.rSold,s.sold,alt.sold)}
+      ${row(p2.rTrend,(s.trend>=0?'+':'')+s.trend+'%',(alt.trend>=0?'+':'')+alt.trend+'%')}
+      ${row(p2.rHistN,(HISTMAP[i]?HISTMAP[i].next:'-'),(HISTMAP[ALT[i]]?HISTMAP[ALT[i]].next:'-'))}
+    </tbody></table>
+    <button class="confirm" id="cmpAdd" style="background:var(--brand);margin-top:12px">＋ ${p2.addToPlan}</button></div>`;
+  $('#cmpAdd').onclick=()=>{state.prej={};state.pqty={};state.pcontract='std';state.pcoupons={};state.planBase=[i];state.pqty[i]=rec;
+    state.planSaid=`${T(s.nm)} — ${p2.addToPlan}`;state.planSummary=`🧠 ${p2.aiJudge}: ${rec} ${p2.histUnit}`;state.planSkip=false;pAgentRun(state.planSaid,renderPlan);};}
+
+function runOrders(){if(state.running)return;const p=PBL(),p2=P2();
+  const stMap={processing:p2.stProcessing,transit:p2.stTransit,delivered:p2.stDelivered,invoicing:p2.stInvoicing};
+  const stCls={processing:'high',transit:'low',delivered:'ok',invoicing:'high'};
+  let h=`<div class="said"><div class="b">${p2.cOrders}</div></div><div class="agent"><div class="ttl">📦 ${p2.ordT}</div>`;
+  h+=PORDERS.map((o,i)=>`<div class="ordcard"><div class="ordtop"><span class="ordno">${o.no}</span><span class="pill ${stCls[o.status]}">${stMap[o.status]}</span></div>
+    <div class="orditems">${T(o.items)}</div>
+    <div class="track">${p2.trackSteps.map((ts,k)=>`<div class="tstep ${k<=o.step?'on':''}"><div class="tdot"></div><span>${ts}</span></div>`).join('<div class="tline"></div>')}</div>
+    <div class="ordeta">🚚 ${p2.ordEta}: ${T(o.eta)}</div></div>`).join('');
+  h+=`</div><button class="reset" id="rs">${p.reset}</button>`;
+  $('#main').innerHTML=h;$('#rs').onclick=()=>partnerHome(false);}
+
+function runInvoice(){if(state.running)return;const p=PBL(),p2=P2();
+  let h=`<div class="said"><div class="b">${p2.cInvoice}</div></div><div class="agent"><div class="ttl">🧾 ${p2.invT}</div>
+    <div class="coldnote" style="margin-bottom:8px">${p2.invReg}</div>`;
+  h+=PORDERS.map((o,i)=>`<div class="ordcard"><div class="ordtop"><span class="ordno">${o.no}</span><span style="font-size:11.5px;color:var(--muted)">${o.when}</span></div>
+    <div class="orditems">${T(o.items)}</div>
+    <div class="invbtns"><button class="invb prim" data-inv="${i}">${p2.reqInvoiceBtn}</button><button class="invb" data-rec="${i}">${p2.reqReceiptBtn}</button></div>
+    <div class="invdone" id="invdone-${i}"></div></div>`).join('');
+  h+=`</div><button class="reset" id="rs">${p.reset}</button>`;
+  $('#main').innerHTML=h;$('#rs').onclick=()=>partnerHome(false);
+  $$('[data-inv]').forEach(b=>b.onclick=()=>{const i=+b.dataset.inv;const no='INV-'+PORDERS[i].no.slice(3);
+    $('#invdone-'+i).innerHTML=`<div class="autonote" style="margin-top:8px">✅ ${p2.invIssued} · ${p2.invNo} ${no}</div>`;toast('🧾 '+p2.invIssued);});
+  $$('[data-rec]').forEach(b=>b.onclick=()=>{const i=+b.dataset.rec;$('#invdone-'+i).innerHTML=`<div class="autonote" style="margin-top:8px">✅ ${p2.invIssued}</div>`;toast('✅');});}
+
+function applyBrand(){const b=BRANDS[state.brand],r=document.documentElement.style;
+  r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
+  $('#brand').innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');
+  $('#lineBadge').style.display=state.brand==='blackmores'?'inline-flex':'none';}
+function applyText(){$('#sub').textContent=U().sub;
+  document.documentElement.lang=state.lang;state.running=false;renderApp();}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+
+$('#fab').onclick=()=>{const k=Object.keys(BRANDS);const i=k.indexOf(state.brand);state.brand=k[(i+1)%k.length];applyBrand();renderApp();toast('🎨 '+BRANDS[state.brand].name);};
+$$('#modeseg button').forEach(b=>b.onclick=()=>{if(state.audience===b.dataset.aud)return;state.audience=b.dataset.aud;state.running=false;renderApp();});
+const LANGS=[['en','EN'],['zh','中'],['ja','日'],['th','ไท']];
+function renderLangs(){const box=$('#langs');box.innerHTML='';LANGS.forEach(([k,lab])=>{const b=document.createElement('button');b.textContent=lab;if(k===state.lang)b.className='on';b.onclick=()=>{state.lang=k;renderLangs();applyText();};box.appendChild(b);});}
+renderLangs();
+
+const MARKETS=["ANZ","CN","SEA","JP"];
+try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_l=_p.get("lang"),_m=_p.get("market");
+  if(_b&&BRANDS[_b])state.brand=_b;if(_l&&["en","zh","ja","th"].indexOf(_l)>=0)state.lang=_l;
+  state.market=(_m&&MARKETS.indexOf(_m)>=0)?_m:"ANZ";}catch(e){state.market="ANZ";}
+/* inbound market sync from the Studio shell → re-render with new currency */
+window.addEventListener("message",function(e){try{var d=e.data;if(!d||d.t!=="es")return;var changed=false;if(d.market&&MARKETS.indexOf(d.market)>=0&&d.market!==state.market){state.market=d.market;changed=true;}if(d.lang&&["en","zh","ja","th"].indexOf(d.lang)>=0&&d.lang!==state.lang){state.lang=d.lang;changed=true;}if(d.brand&&BRANDS[d.brand]&&d.brand!==state.brand){state.brand=d.brand;changed=true;}if(changed){state.running=false;renderApp();}}catch(err){}});
+applyBrand();applyText();renderLangs();
+(function(){var _l="";setInterval(function(){try{if(typeof state==="undefined")return;var c=(state.brand||"")+"|"+(state.lang||"")+"|"+(state.market||"");if(c!==_l){_l=c;if(window.parent&&window.parent!==window)window.parent.postMessage({t:"es",brand:state.brand||null,lang:state.lang||null,market:state.market||null},"*");}}catch(e){}},400);})();
+</script>
+</body>
+</html>

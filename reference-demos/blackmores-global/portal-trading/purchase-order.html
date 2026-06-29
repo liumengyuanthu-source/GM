@@ -1,0 +1,1599 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="Purchase Orders | BLACKMORES® Partner Portal">Purchase Orders | BLACKMORES® Partner Portal</title>
+    <script src="../i18n.js"></script>
+    <style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+        }
+        :root {
+            --primary: #009BA4;
+            --primary-dark: #007A82;
+            --primary-light: rgba(0, 155, 164, 0.08);
+            --accent: #E91E63;
+            --accent-light: rgba(233, 30, 99, 0.12);
+            --white: #FFFFFF;
+            --bg: #F5F7FA;
+            --text: #1A1A1A;
+            --text-secondary: #666666;
+            --text-tertiary: #999999;
+            --border: #E8ECF0;
+            --shadow: 0 2px 12px rgba(0,0,0,0.06);
+            --shadow-hover: 0 8px 24px rgba(0,0,0,0.10);
+            --success: #2ECC71;
+            --success-light: rgba(46, 204, 113, 0.10);
+            --warning: #F5A623;
+            --warning-light: rgba(245, 166, 35, 0.10);
+            --danger: #E74C3C;
+            --danger-light: rgba(231, 76, 60, 0.10);
+            --info: #3498db;
+            --info-light: rgba(52, 152, 219, 0.10);
+            /* Reference palette — trading-hub.html style */
+            --teal-900: #08312e;
+            --teal-700: #0d524c;
+            --teal-600: #0f6b62;
+            --teal-500: #14857a;
+            --teal-100: #d6ebe8;
+            --teal-50: #eef6f5;
+            --ink: #16201e;
+            --slate: #5d6b68;
+            --line: #e4ebe9;
+            --paper: #ffffff;
+            --amber: #d98a1f;
+            --amber-bg: #fdf3e2;
+            --rose: #c0463f;
+            --rose-bg: #fbece9;
+            --green: #2f8a5b;
+            --green-bg: #e7f3ec;
+            --radius: 16px;
+            --shadow2: 0 1px 2px rgba(8,49,46,.04), 0 8px 24px -12px rgba(8,49,46,.14);
+            --shadow-lg: 0 2px 4px rgba(8,49,46,.05), 0 24px 48px -20px rgba(8,49,46,.22);
+        }
+
+        /* ===== Top Nav ===== */
+        .top-nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 0 48px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-left { display: flex; align-items: center; gap: 48px; }
+        .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo-brand { font-size: 20px; font-weight: 800; color: var(--text); letter-spacing: 0.5px; font-family: Georgia, 'Times New Roman', serif; }
+        .logo-brand sup { font-size: 10px; font-weight: 400; margin-left: 2px; }
+        .logo-sub { font-size: 12px; color: var(--primary); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-left: 12px; padding-left: 12px; border-left: 1px solid var(--border); }
+        .nav-menu { display: flex; gap: 32px; align-items: center; }
+        .nav-menu a { text-decoration: none; color: var(--text-secondary); font-size: 14px; font-weight: 500; transition: color 0.2s; position: relative; white-space: nowrap; }
+        .nav-menu a:hover, .nav-menu a.active { color: var(--primary); }
+        .nav-menu a.active::after { content: ''; position: absolute; bottom: -21px; left: 0; right: 0; height: 3px; background: linear-gradient(135deg, #009DAC 0%, #007A82 100%); border-radius: 2px; }
+        .nav-right { display: flex; align-items: center; gap: 16px; }
+        .icon-btn { width: 40px; height: 40px; border-radius: 10px; border: none; background: var(--bg); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; position: relative; color: var(--text-secondary); text-decoration: none; }
+        .icon-btn:hover { background: var(--primary-light); color: var(--primary); }
+        .badge { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; background: var(--danger); color: white; border-radius: 50%; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 2px solid white; padding: 0 4px; }
+        .user-menu { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 6px 12px; border-radius: 10px; transition: background 0.2s; }
+        .user-menu:hover { background: var(--bg); }
+        .user-avatar { width: 36px; height: 36px; border-radius: 50%; overflow: hidden; border: 2px solid var(--border); flex-shrink: 0; }
+        .user-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+        .user-info { display: flex; flex-direction: column; }
+        .user-name { font-size: 13px; font-weight: 600; color: var(--text); }
+        .user-role { font-size: 11px; color: var(--text-tertiary); }
+
+        /* ===== App Layout ===== */
+        .app-layout { display: flex; margin-top: 0; min-height: calc(100vh - 64px); }
+        .sidebar { width: 264px; background: var(--paper); border-right: 1px solid var(--line); position: fixed; top: 64px; bottom: 0; left: 0; overflow-y: auto; z-index: 50; padding: 26px 16px; }
+        .sidebar-section { margin-bottom: 22px; }
+        .sidebar-header { display: flex; align-items: center; justify-content: space-between; padding: 0 12px 10px; cursor: pointer; transition: .15s; }
+        .sidebar-header:hover .sidebar-title { color: var(--primary-dark); }
+        .sidebar-header.active { background: transparent; color: inherit; }
+        .sidebar-header.active .sidebar-icon-main { color: var(--primary); }
+        .sidebar-header.active .sidebar-title { color: var(--primary); }
+        .sidebar-header.active .sidebar-chevron { color: var(--slate); }
+        .sidebar-header-left { display: flex; align-items: center; gap: 12px; }
+        .sidebar-icon-main { width: 16px; height: 16px; color: var(--primary); flex-shrink: 0; }
+        .sidebar-icon-main svg { width: 16px; height: 16px; }
+        .sidebar-title { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--primary); transition: color .15s; }
+        .sidebar-chevron { width: 16px; height: 16px; color: var(--slate); transition: transform 0.2s; flex-shrink: 0; }
+        .sidebar-chevron.open { transform: rotate(180deg); }
+        .sidebar-submenu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; padding: 0 12px; }
+        .sidebar-submenu.open { max-height: 500px; padding: 0 12px 8px; }
+        .sidebar-item { position: relative; list-style: none; }
+        .sidebar-link {
+            display: flex; align-items: center; gap: 12px;
+            text-decoration: none; color: var(--slate); font-size: 14.5px; font-weight: 500;
+            padding: 10px 12px; border-radius: 10px; transition: .15s;
+        }
+        .sidebar-link:hover { background: var(--primary-light); color: var(--primary-dark); }
+        .sidebar-link.active { background: var(--primary); color: #fff; font-weight: 600; }
+        .sidebar-link-icon { width: 18px; height: 18px; color: currentColor; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .sidebar-link-icon svg { width: 16px; height: 16px; }
+        .main-content { flex: 1; margin-left: 264px; padding: 0; max-width: calc(100vw - 264px); }
+        /* ===== Hero Banner removed — clean header ===== */
+        .page-header { padding: 20px 40px 0; margin-bottom: 20px; }
+        .page-header h1 { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+        .page-header p { color: var(--text-secondary); font-size: 14px; }
+        .content-body { padding: 0 40px 32px; }
+
+        /* ===== Cards ===== */
+        .cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        .module-card {
+            background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 32px;
+            cursor: pointer; text-decoration: none; color: inherit; display: block;
+            position: relative;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #009DAC 0%, #007A82 100%);
+            border-radius: 16px 16px 0 0;
+        }
+        .card-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+        .card-icon {
+            width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-size: 24px; flex-shrink: 0;
+        }
+        .card-icon.catalog { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .card-icon.cart { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .card-icon.favorites { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .card-icon.purchase { background: linear-gradient(135deg, #009BA4 0%, #007A82 100%); }
+        .card-icon.sales { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .card-icon.ai { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .card-icon.bundle { background: linear-gradient(135deg, #2ECC71 0%, #1ABC9C 100%); }
+        .card-title { font-size: 20px; font-weight: 700; color: var(--text); }
+        .card-goal {
+            font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px; padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .card-features-title { font-size: 12px; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+        .card-features { display: flex; flex-wrap: wrap; gap: 8px; }
+        .feature-tag {
+            font-size: 13px; color: var(--primary); background: white;
+            padding: 5px 12px; border-radius: 20px; font-weight: 500;
+            display: inline-flex; align-items: center; gap: 6px;
+            border: 1px solid transparent;
+            background-image: linear-gradient(white, white), linear-gradient(135deg, #009DAC 0%, #007A82 100%);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+        .card-footer { display: none; }
+        .card-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: #F5A623;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        .card-badge.alert { background: #E74C3C; }
+        .card-badge.warn { background: #E91E63; }
+
+        /* ===== Order Stats (Hero Band bottom) ===== */
+        .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.16); border-radius: 16px; padding: 4px; margin-top: 26px; position: relative; z-index: 2; backdrop-filter: blur(6px); }
+        .stat-box { padding: 15px 20px; position: relative; }
+        .stat-box + .stat-box::before { content: ""; position: absolute; left: 0; top: 18%; height: 64%; width: 1px; background: rgba(255,255,255,.18); }
+        .stat-box-label { font-size: 12.5px; color: rgba(255,255,255,.72); margin-top: 7px; font-weight: 500; }
+        .stat-box-value { font-size: 27px; font-weight: 600; color: #fff; line-height: 1; }
+        .stat-box-change { font-size: 12.5px; font-weight: 600; }
+        .stat-box-change.up { color: #a8ede0; }
+        .stat-box-change.down { color: #ffc9a3; }
+
+        /* ===== Order List (Reference style) ===== */
+        .order-card { background: var(--white); border-radius: 16px; border: 1px solid var(--border); margin-bottom: 16px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px -12px rgba(0,0,0,0.14); transition: .2s; }
+        .order-card:hover { box-shadow: 0 2px 6px rgba(0,0,0,0.06), 0 18px 40px -18px rgba(0,0,0,0.28); transform: translateY(-2px); border-color: var(--primary-light); }
+        .order-header { display: flex; align-items: flex-start; justify-content: space-between; padding: 20px 24px 16px; gap: 16px; }
+        .order-id { font-size: 18px; font-weight: 600; color: var(--text); }
+        .order-date { color: var(--text-tertiary); font-size: 13.5px; margin-top: 3px; display: flex; align-items: center; gap: 6px; }
+        .order-status { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; padding: 7px 14px; border-radius: 30px; white-space: nowrap; }
+        .order-status .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+        .order-status.confirmed { background: var(--primary-light); color: var(--primary-dark); } .order-status.confirmed .dot{ background: var(--primary); }
+        .order-status.pending { background: #fdf4e3; color: #9a6612; } .order-status.pending .dot{ background: var(--warning); }
+        .order-status.processing { background: #e9f1fb; color: #2c5fa3; } .order-status.processing .dot{ background: var(--info); }
+        .order-status.urgent { background: #fce8ee; color: #a82d52; } .order-status.urgent .dot{ background: var(--danger); }
+        .order-status.shipped { background: var(--primary-light); color: var(--primary-dark); } .order-status.shipped .dot{ background: var(--primary); }
+        .order-status.delivered { background: #e6f4ec; color: var(--success); } .order-status.delivered .dot{ background: var(--success); }
+        .order-status.cancelled { background: #fce8ee; color: #a82d52; } .order-status.cancelled .dot{ background: var(--danger); }
+        .order-products { padding: 4px 24px 6px; }
+        .order-product { display: flex; align-items: center; gap: 15px; padding: 12px 0; border-bottom: 1px dashed var(--border); }
+        .order-product:last-child { border-bottom: none; margin-bottom: 0; }
+        .order-product-img { width: 52px; height: 52px; border-radius: 13px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04); }
+        .order-product-info { flex: 1; }
+        .order-product-name { font-weight: 600; font-size: 15px; color: var(--text); }
+        .order-product-qty { color: var(--text-tertiary); font-size: 13px; margin-top: 2px; }
+        .order-product-price { font-weight: 600; font-size: 15px; color: var(--primary-dark); }
+        .order-footer { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; background: linear-gradient(180deg, #fafcfb, #f4f8f7); border-top: 1px solid var(--border); }
+        .order-total { display: flex; align-items: baseline; gap: 9px; }
+        .order-total .lbl { color: var(--text-secondary); font-size: 13px; font-weight: 500; }
+        .order-total .val { font-size: 22px; font-weight: 700; color: var(--primary-dark); }
+        .order-actions { display: flex; gap: 10px; }
+
+        /* ===== Timeline ===== */
+        .timeline { display: flex; align-items: center; gap: 0; margin: 20px 0; }
+        .timeline-step { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; position: relative; }
+        .timeline-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--text-tertiary); z-index: 2; }
+        .timeline-dot.active { background: var(--primary); border-color: var(--primary); color: white; }
+        .timeline-dot.completed { background: var(--success); border-color: var(--success); color: white; }
+        .timeline-line { flex: 1; height: 2px; background: var(--border); position: relative; top: -14px; z-index: 1; }
+        .timeline-line.completed { background: var(--success); }
+        .timeline-label { font-size: 11px; color: var(--text-tertiary); font-weight: 500; }
+
+        /* ===== Buttons ===== */
+        .btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; }
+        .btn-outline { padding: 8px 16px; background: var(--white); border: 1.5px solid var(--border); border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text); transition: all 0.2s; }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-primary { padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .page-btn { padding: 8px 14px; border: 1px solid var(--border); background: var(--white); border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; }
+        .page-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .page-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* ===== Filters ===== */
+        .filter-bar { display: flex; align-items: center; gap: 10px; margin: 26px 0 18px; flex-wrap: wrap; }
+        .filter-chip { border: 1px solid var(--border); background: var(--white); color: var(--text-secondary); font-weight: 600; font-size: 13.5px; padding: 9px 17px; border-radius: 30px; cursor: pointer; transition: .15s; }
+        .filter-chip:hover { border-color: var(--primary-light); color: var(--primary); }
+        .filter-chip.active { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; border-color: transparent; box-shadow: 0 8px 16px -8px rgba(0,155,164,.7); }
+        .filter-chip .cnt { opacity: .7; margin-left: 5px; font-weight: 600; }
+
+        /* ===== Hero Band (reference style) ===== */
+        .ph-hero { background: linear-gradient(125deg, var(--primary-dark) 0%, var(--primary) 55%, #14a5b3 100%); border-radius: 22px; padding: 30px 34px; position: relative; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.06), 0 18px 40px -18px rgba(0,0,0,0.28); margin-bottom: 4px; }
+        .ph-hero::before { content: ""; position: absolute; right: -40px; top: -80px; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(111,201,210,.45), transparent 70%); }
+        .ph-hero::after { content: ""; position: absolute; right: 120px; bottom: -120px; width: 240px; height: 240px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,.08), transparent 70%); }
+        .ph-hero-top { display: flex; align-items: flex-start; justify-content: space-between; position: relative; z-index: 2; gap: 20px; }
+        .ph-hero .eyebrow { display: inline-flex; align-items: center; gap: 7px; background: rgba(255,255,255,.14); color: #fff; font-size: 12.5px; font-weight: 600; letter-spacing: .3px; padding: 6px 13px; border-radius: 30px; backdrop-filter: blur(4px); margin-bottom: 14px; }
+        .ph-hero h1 { color: #fff; font-size: 34px; font-weight: 600; letter-spacing: -.5px; line-height: 1.1; }
+        .ph-hero p { color: rgba(255,255,255,.82); font-size: 15px; margin-top: 8px; max-width: 440px; }
+        .ph-hero-actions { display: flex; gap: 11px; flex-shrink: 0; margin-top: 4px; }
+        .btn-ph { border: none; cursor: pointer; font-family: inherit; font-weight: 600; font-size: 14.5px; border-radius: 12px; padding: 13px 22px; display: inline-flex; align-items: center; gap: 9px; transition: .18s; white-space: nowrap; }
+        .btn-ph-white { background: #fff; color: var(--primary-dark); box-shadow: 0 8px 20px -8px rgba(0,0,0,.3); }
+        .btn-ph-white:hover { transform: translateY(-2px); box-shadow: 0 12px 26px -8px rgba(0,0,0,.4); }
+        .btn-ph-glass { background: rgba(255,255,255,.14); color: #fff; border: 1px solid rgba(255,255,255,.28); backdrop-filter: blur(4px); }
+        .btn-ph-glass:hover { background: rgba(255,255,255,.22); }
+
+        /* ===== Buttons (reference style) ===== */
+        .btn-ph-sm { font-size: 13.5px; padding: 10px 18px; border-radius: 10px; font-weight: 600; cursor: pointer; font-family: inherit; transition: .15s; display: inline-flex; align-items: center; gap: 7px; border: none; }
+        .btn-ph-outline { background: #fff; border: 1px solid var(--border); color: var(--primary); }
+        .btn-ph-outline:hover { border-color: var(--primary); }
+        .btn-ph-fill { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; box-shadow: 0 8px 16px -8px rgba(0,155,164,.7); }
+        .btn-ph-fill:hover { transform: translateY(-1px); }
+
+        /* ===== AI Flag ===== */
+        .ai-flag { display: flex; align-items: center; gap: 9px; margin: 0 24px 16px; padding: 11px 15px; background: linear-gradient(100deg, #fce8ee, #fff); border: 1px solid #f6d2dd; border-radius: 12px; font-size: 13.5px; color: #a82d52; }
+
+        /* ===== Search mini ===== */
+        .search-mini { display: flex; align-items: center; gap: 8px; border: 1px solid var(--border); background: var(--white); border-radius: 11px; padding: 9px 14px; color: var(--text-tertiary); font-size: 14px; min-width: 210px; }
+
+        /* ===== Content Cards ===== */
+        .content-card { background: var(--white); border-radius: 16px; border: 1px solid var(--border); padding: 24px; margin-bottom: 20px; }
+        .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+        .page-section { margin-bottom: 24px; }
+
+        @media (max-width: 900px) {
+            .cards-grid { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 24px; max-width: 100%; }
+        }
+
+        /* ===== AI Widget ===== */
+        .ai-float-btn {
+            position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px;
+            border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 16px rgba(0, 155, 164, 0.4); transition: all 0.2s; z-index: 999; font-size: 24px;
+        }
+        .ai-float-btn:hover { transform: scale(1.05); box-shadow: 0 6px 24px rgba(0, 155, 164, 0.5); }
+        .ai-widget {
+            position: fixed; bottom: 90px; right: 24px; width: 360px; background: var(--white);
+            border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); border: 1px solid var(--border);
+            overflow: hidden; z-index: 1000; display: none;
+        }
+        .ai-widget.open { display: block; }
+        .ai-widget-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white;
+            padding: 16px 20px; display: flex; align-items: center; gap: 12px;
+        }
+        .ai-avatar {
+            width: 36px; height: 36px; border-radius: 50%; background: white; color: var(--primary);
+            display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px;
+        }
+        .ai-title { font-weight: 700; font-size: 15px; }
+        .ai-subtitle { font-size: 12px; opacity: 0.8; margin-top: 2px; }
+        .ai-messages { padding: 20px; max-height: 300px; overflow-y: auto; }
+        .ai-msg-bubble {
+            background: var(--bg); border-radius: 12px; padding: 14px 16px; font-size: 14px;
+            color: var(--text-secondary); line-height: 1.5;
+        }
+        .ai-chips { padding: 0 20px 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+        .ai-chip {
+            background: var(--white); border: 1px solid var(--border); border-radius: 10px;
+            padding: 8px 12px; font-size: 12px; color: var(--text-secondary); cursor: pointer; transition: all 0.2s;
+        }
+        .ai-chip:hover { border-color: var(--primary); background: var(--primary-light); color: var(--text); }
+        .ai-input-area { padding: 12px 20px; border-top: 1px solid var(--border); display: flex; gap: 10px; }
+        .ai-input {
+            flex: 1; border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px;
+            font-size: 14px; outline: none; font-family: inherit;
+        }
+        .ai-input:focus { border-color: var(--primary); }
+        .ai-send {
+            width: 40px; height: 40px; border-radius: 10px; background: var(--primary); color: white;
+            border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+    
+
+        /* Studio embed shell: keep the outer Studio header, remove the copied portal chrome. */
+        .top-nav, .sidebar { display: none !important; }
+        .main-content { margin-left: 0 !important; max-width: 100% !important; width: 100% !important; padding: 0 !important; }
+        .studio-intro { max-width: 1180px; margin: 0 auto 18px; padding: 28px 40px 0; }
+        .studio-eyebrow { color: var(--primary, var(--teal-700, #008f9a)); font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 8px; }
+        .studio-title { color: var(--ink, var(--text, #1f2a2a)); font-size: clamp(28px, 4vw, 44px); line-height: 1.04; font-weight: 800; margin: 0 0 10px; letter-spacing: 0; }
+        .studio-lead { color: var(--slate, var(--text-secondary, #6d7775)); font-size: 15px; line-height: 1.65; max-width: 880px; margin: 0; }
+        .studio-nav { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 18px; }
+        .studio-nav a, .studio-nav button { appearance: none; border: 1px solid var(--line, #e5e7eb); background: var(--paper, #fff); color: var(--ink, #233); border-radius: 8px; padding: 9px 14px; font: inherit; font-size: 12.5px; font-weight: 800; text-decoration: none; cursor: pointer; box-shadow: none; }
+        .studio-nav a:hover, .studio-nav button:hover, .studio-nav .active { border-color: var(--primary, var(--teal-700, #008f9a)); color: var(--primary, var(--teal-700, #008f9a)); background: var(--primary-light, var(--teal-50, #ecfeff)); }
+        .content-section, .content-body, .pagehead, .page-section { max-width: 1180px; margin-left: auto !important; margin-right: auto !important; }
+        @media (max-width: 760px) {
+            .studio-intro { padding: 22px 20px 0; }
+            .studio-title { font-size: 30px; }
+            .studio-nav a, .studio-nav button { flex: 1 1 auto; text-align: center; }
+        }
+
+    </style>
+    <script src="../i18n.js"></script>
+</head>
+<body data-module="trading">
+    <!-- Top Nav (same as index.html) -->
+        <nav class="top-nav">
+        <div class="nav-left">
+            <a href="../index.html" class="logo">
+                <span class="logo-brand">BLACKMORES<sup>®</sup></span>
+            </a>
+            <div class="nav-menu">
+            <a href="../index.html" data-i18n="Home">Home</a>
+            <a href="trading-hub.html" class="active" data-i18n="Trading">Trading</a>
+            <a href="../index.html" data-i18n="Marketing">Marketing</a>
+            <a href="../index.html" data-i18n="Operations">Operations</a>
+            <a href="../index.html" data-i18n="Analytics">Analytics</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <button class="icon-btn" title="Language" id="langSwitcher"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button>
+            <a href="../index.html" class="icon-btn" title="Search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></a>
+            <a href="../index.html" class="icon-btn" title="Notification"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="badge">3</span></a>
+            <a href="../index.html" class="user-menu" style="text-decoration:none;">
+                <div class="user-avatar"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=GuardianKL&amp;backgroundColor=ffffff" alt="Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
+                <div class="user-info">
+                    <span class="user-name" data-i18n="Guardian KL">Guardian KL</span>
+                    <span class="user-role" data-i18n="Platinum Partner">Platinum Partner</span>
+                </div>
+            </a>
+        </div>
+    </nav>
+
+    <div class="app-layout">
+        <!-- Sidebar -->
+        
+        <aside class="sidebar" id="sidebar">
+
+    <!-- Purchase Orders Section -->
+    <div class="sidebar-section" id="sidebar-purchase">
+        <div class="sidebar-header" onclick="toggleSection('purchase')" id="header-purchase">
+            <div class="sidebar-header-left">
+                <svg class="sidebar-icon-main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+                <span class="sidebar-title" data-i18n="Purchase Orders">Purchase Orders</span>
+            </div>
+            <svg class="sidebar-chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="chevron-purchase"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <ul class="sidebar-submenu open" id="submenu-purchase">
+            <li class="sidebar-item"><a href="purchase-order.html" onclick="showPage('orders-list', this); return false;" class="sidebar-link active"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span data-i18n="Purchase Orders">Purchase Orders</span></a></li>
+            <li class="sidebar-item"><a href="purchase-order.html#ai-recommend" onclick="showPage('ai-replenish', this); return false;" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="11" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></span><span data-i18n="AI Recommendation">AI Recommendation</span></a></li>
+            <li class="sidebar-item"><a href="purchase-order.html#inventory" onclick="showPage('inventory-dashboard', this); return false;" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></span><span data-i18n="Inventory">Inventory</span></a></li>
+            <li class="sidebar-item"><a href="purchase-order.html#invoices" onclick="showPage('orders-list', this); return false;" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span data-i18n="Invoices">Invoices</span></a></li>
+        </ul>
+    </div>
+
+    <!-- Product Section -->
+    <div class="sidebar-section" id="sidebar-product">
+        <div class="sidebar-header" onclick="toggleSection('product')" id="header-product">
+            <div class="sidebar-header-left">
+                <svg class="sidebar-icon-main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                <span class="sidebar-title" data-i18n="Product">Product</span>
+            </div>
+            <svg class="sidebar-chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="chevron-product"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <ul class="sidebar-submenu open" id="submenu-product">
+            <li class="sidebar-item"><a href="product-center.html" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span><span data-i18n="Product Catalog">Product Catalog</span></a></li>
+            <li class="sidebar-item"><a href="product-center.html#cart" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span><span data-i18n="Shopping Cart">Shopping Cart</span></a></li>
+            <li class="sidebar-item"><a href="product-center.html#favorites" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span data-i18n="My Favorites">My Favorites</span></a></li>
+            <li class="sidebar-item"><a href="product-center.html#bundle" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></span><span data-i18n="Bundle Management">Bundle Management</span></a></li>
+        </ul>
+    </div>
+
+    <!-- Sales Orders Section -->
+    <div class="sidebar-section" id="sidebar-sales">
+        <div class="sidebar-header" onclick="toggleSection('sales')" id="header-sales">
+            <div class="sidebar-header-left">
+                <svg class="sidebar-icon-main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                <span class="sidebar-title" data-i18n="Sales Orders">Sales Orders</span>
+            </div>
+            <svg class="sidebar-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="chevron-sales"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <ul class="sidebar-submenu" id="submenu-sales">
+            <li class="sidebar-item"><a href="sale-order.html#sales" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span><span data-i18n="Sales Orders">Sales Orders</span></a></li>
+            <li class="sidebar-item"><a href="sale-order.html#channel" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></span><span data-i18n="Channel Management">Channel Management</span></a></li>
+        </ul>
+    </div>
+</aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <section class="studio-intro">
+                <div class="studio-eyebrow">Partner Procurement, Replenishment & Invoices</div>
+                <h1 class="studio-title">Manage partner purchase orders, replenishment, invoices and rebate visibility.</h1>
+                <p class="studio-lead">This demo follows the post-checkout B2B procurement lifecycle: purchase orders, delivery tracking, inventory health, AI replenishment, bundle recommendations and rebate calculation.</p>
+                <div class="studio-nav">
+                    <button type="button" class="active" data-page="orders-list" onclick="showPage('orders-list', this)">Purchase orders</button>
+                    <button type="button" data-page="inventory-dashboard" onclick="showPage('inventory-dashboard', this)">Inventory health</button>
+                    <button type="button" data-page="ai-replenish" onclick="showPage('ai-replenish', this)">AI replenishment</button>
+                    <button type="button" data-page="bundle-rec" onclick="showPage('bundle-rec', this)">Bundle recommendations</button>
+                    <button type="button" data-page="rebate-calc" onclick="showPage('rebate-calc', this)">Invoices & rebate</button>
+                </div>
+            </section>
+
+            
+            <!-- ========== ORDERS LIST ========== -->
+            <div id="page-orders-list" class="page-section" style="display:block;">
+    <div class="content-body">
+        <!-- Hero Band -->
+        <section class="ph-hero">
+            <div class="ph-hero-top">
+                <div>
+                    <span class="eyebrow" data-i18n="📦 B2B Procurement">📦 B2B Procurement</span>
+                    <h1 data-i18n="My Orders">My Orders</h1>
+                    <p data-i18n="Track, reorder, and manage all your BLACKMORES purchase orders in one place.">Track, reorder, and manage all your BLACKMORES purchase orders in one place.</p>
+                </div>
+                <div class="ph-hero-actions">
+                    <button class="btn-ph btn-ph-glass" onclick="aiAsk()" data-i18n="AI Reorder">AI Reorder</button>
+                    <button class="btn-ph btn-ph-white" onclick="showPage('order-detail')" data-i18n="New Order">New Order</button>
+                </div>
+            </div>
+            <div class="stats-row">
+                <div class="stat-box"><div class="stat-box-value">42</div><div class="stat-box-label" data-i18n="Total Orders · vs last quarter">Total Orders · vs last quarter</div></div>
+                <div class="stat-box"><div class="stat-box-value">3</div><div class="stat-box-label" data-i18n="Pending · from last week">Pending · from last week</div></div>
+                <div class="stat-box"><div class="stat-box-value" data-i18n="RM 12,450">RM 12,450</div><div class="stat-box-label" data-i18n="This Month Spend · vs last month">This Month Spend · vs last month</div></div>
+                <div class="stat-box"><div class="stat-box-value" data-i18n="RM 2,100">RM 2,100</div><div class="stat-box-label" data-i18n="Partner Savings · this month">Partner Savings · this month</div></div>
+            </div>
+        </section>
+
+        <!-- Toolbar -->
+        <div class="filter-bar">
+            <span class="filter-chip active" onclick="filterOrders(this, 'all')" data-i18n="All">All <span class="cnt">42</span></span>
+            <span class="filter-chip" onclick="filterOrders(this, 'pending')" data-i18n="Pending">Pending <span class="cnt">3</span></span>
+            <span class="filter-chip" onclick="filterOrders(this, 'processing')" data-i18n="Processing">Processing <span class="cnt">5</span></span>
+            <span class="filter-chip" onclick="filterOrders(this, 'confirmed')" data-i18n="Confirmed">Confirmed <span class="cnt">12</span></span>
+            <span class="filter-chip" onclick="filterOrders(this, 'completed')" data-i18n="Completed">Completed <span class="cnt">21</span></span>
+            <span class="filter-chip" onclick="filterOrders(this, 'urgent')" data-i18n="Action Required">Action Required <span class="cnt">1</span></span>
+            <div style="margin-left:auto;display:flex;gap:10px;">
+                <div class="search-mini"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><span data-i18n="Search orders…">Search orders…</span></div>
+            </div>
+        </div>
+
+        <!-- Orders -->
+        <div id="ordersList">
+            <!-- Order 1 -->
+            <div class="order-card" data-status="confirmed">
+                <div class="order-header">
+                    <div>
+                        <div class="order-id" data-i18n="Order #BM-2026-0042">Order #BM-2026-0042</div>
+                        <div class="order-date" data-i18n="Placed May 18, 2026 · 14:32">Placed May 18, 2026 · 14:32</div>
+                    </div>
+                    <span class="order-status confirmed"><span class="dot"></span><span data-i18n="Confirmed">Confirmed</span></span>
+                </div>
+                <div class="order-products">
+                    <div class="order-product">
+                        <div class="order-product-img" style="background: linear-gradient(135deg,#dff0fb,#b9def5);" data-i18n="🐟">🐟</div>
+                        <div class="order-product-info">
+                            <div class="order-product-name" data-i18n="Fish Oil 1000mg">Fish Oil 1000mg</div>
+                            <div class="order-product-qty" data-i18n="Qty 12 · RM 36.90 / bottle">Qty 12 · RM 36.90 / bottle</div>
+                        </div>
+                        <div class="order-product-price" data-i18n="RM 442.80">RM 442.80</div>
+                    </div>
+                    <div class="order-product">
+                        <div class="order-product-img" style="background: linear-gradient(135deg,#fde4ec,#f8c4d7);" data-i18n="🍊">🍊</div>
+                        <div class="order-product-info">
+                            <div class="order-product-name" data-i18n="Bio C 1000mg">Bio C 1000mg</div>
+                            <div class="order-product-qty" data-i18n="Qty 12 · RM 31.50 / bottle">Qty 12 · RM 31.50 / bottle</div>
+                        </div>
+                        <div class="order-product-price" data-i18n="RM 378.00">RM 378.00</div>
+                    </div>
+                </div>
+                <div class="order-footer">
+                    <div class="order-total"><span class="lbl" data-i18n="Order total">Order total</span><span class="val" data-i18n="RM 1,008.00">RM 1,008.00</span></div>
+                    <div class="order-actions">
+                        <button class="btn-ph-sm btn-ph-outline" onclick="showPage('order-detail')" data-i18n="View Details">View Details</button>
+                        <button class="btn-ph-sm btn-ph-outline" data-i18n="Invoice">Invoice</button>
+                        <button class="btn-ph-sm btn-ph-fill" data-i18n="Reorder">Reorder</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order 2 -->
+            <div class="order-card" data-status="urgent">
+                <div class="order-header">
+                    <div>
+                        <div class="order-id" data-i18n="Order #BM-2026-0038">Order #BM-2026-0038</div>
+                        <div class="order-date" data-i18n="Placed May 10, 2026 · 16:45">Placed May 10, 2026 · 16:45</div>
+                    </div>
+                    <span class="order-status urgent"><span class="dot"></span><span data-i18n="Action Required">Action Required</span></span>
+                </div>
+                <div class="ai-flag">
+                    <span>✨</span>
+                    <span data-i18n="AI alert: Payment approval pending — this order is on hold until payment is verified. Tap to review or contact your account manager.">AI alert: Payment approval pending — this order is on hold until payment is verified. Tap to review or contact your account manager.</span>
+                </div>
+                <div class="order-products">
+                    <div class="order-product">
+                        <div class="order-product-img" style="background: linear-gradient(135deg,#dff0ee,#bfe3dd);" data-i18n="🌿">🌿</div>
+                        <div class="order-product-info">
+                            <div class="order-product-name" data-i18n="Immune Defence Ultra">Immune Defence Ultra</div>
+                            <div class="order-product-qty" data-i18n="Qty 8 · RM 47.00 / bottle">Qty 8 · RM 47.00 / bottle</div>
+                        </div>
+                        <div class="order-product-price" data-i18n="RM 376.00">RM 376.00</div>
+                    </div>
+                    <div class="order-product">
+                        <div class="order-product-img" style="background: linear-gradient(135deg,#fff3da,#ffe2ad);" data-i18n="🧬">🧬</div>
+                        <div class="order-product-info">
+                            <div class="order-product-name" data-i18n="Probiotics+ 90 caps">Probiotics+ 90 caps</div>
+                            <div class="order-product-qty" data-i18n="Qty 8 · RM 42.00 / bottle">Qty 8 · RM 42.00 / bottle</div>
+                        </div>
+                        <div class="order-product-price" data-i18n="RM 336.00">RM 336.00</div>
+                    </div>
+                </div>
+                <div class="order-footer">
+                    <div class="order-total"><span class="lbl" data-i18n="Order total">Order total</span><span class="val" data-i18n="RM 712.00">RM 712.00</span></div>
+                    <div class="order-actions">
+                        <button class="btn-ph-sm btn-ph-outline" data-i18n="View Details">View Details</button>
+                        <button class="btn-ph-sm btn-ph-fill" data-i18n="Approve">Approve</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order 3 -->
+            <div class="order-card" data-status="processing">
+                <div class="order-header">
+                    <div>
+                        <div class="order-id" data-i18n="Order #BM-2026-0041">Order #BM-2026-0041</div>
+                        <div class="order-date" data-i18n="Placed May 15, 2026 · 09:15">Placed May 15, 2026 · 09:15</div>
+                    </div>
+                    <span class="order-status processing"><span class="dot"></span><span data-i18n="Processing">Processing</span></span>
+                </div>
+                <div class="order-products">
+                    <div class="order-product">
+                        <div class="order-product-img" style="background: linear-gradient(135deg,#fff3da,#ffe2ad);" data-i18n="🤰">🤰</div>
+                        <div class="order-product-info">
+                            <div class="order-product-name" data-i18n="Pregnancy & Breast-Feeding Gold">Pregnancy & Breast-Feeding Gold</div>
+                            <div class="order-product-qty" data-i18n="Qty 6 · RM 58.90 / bottle">Qty 6 · RM 58.90 / bottle</div>
+                        </div>
+                        <div class="order-product-price" data-i18n="RM 353.40">RM 353.40</div>
+                    </div>
+                </div>
+                <div class="order-footer">
+                    <div class="order-total"><span class="lbl" data-i18n="Order total">Order total</span><span class="val" data-i18n="RM 353.40">RM 353.40</span></div>
+                    <div class="order-actions">
+                        <button class="btn-ph-sm btn-ph-outline" onclick="showPage('order-tracking')" data-i18n="Track">Track</button>
+                        <button class="btn-ph-sm btn-ph-outline" data-i18n="View Details">View Details</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order 4 -->
+            <div class="order-card" data-status="completed">
+                <div class="order-header">
+                    <div>
+                        <div class="order-id" data-i18n="Order #BM-2026-0035">Order #BM-2026-0035</div>
+                        <div class="order-date" data-i18n="Placed May 5, 2026 · 11:20">Placed May 5, 2026 · 11:20</div>
+                    </div>
+                    <span class="order-status delivered"><span class="dot"></span><span data-i18n="Completed">Completed</span></span>
+                </div>
+                <div class="order-products">
+                    <div class="order-product">
+                        <div class="order-product-img" style="background: linear-gradient(135deg,#dff0fb,#b9def5);" data-i18n="🐟">🐟</div>
+                        <div class="order-product-info">
+                            <div class="order-product-name" data-i18n="Fish Oil 1000mg">Fish Oil 1000mg</div>
+                            <div class="order-product-qty" data-i18n="Qty 24 · RM 36.90 / bottle">Qty 24 · RM 36.90 / bottle</div>
+                        </div>
+                        <div class="order-product-price" data-i18n="RM 885.60">RM 885.60</div>
+                    </div>
+                    <div class="order-product">
+                        <div class="order-product-img" style="background: linear-gradient(135deg,#fde4ec,#f8c4d7);" data-i18n="🍊">🍊</div>
+                        <div class="order-product-info">
+                            <div class="order-product-name" data-i18n="Bio C 1000mg">Bio C 1000mg</div>
+                            <div class="order-product-qty" data-i18n="Qty 24 · RM 31.50 / bottle">Qty 24 · RM 31.50 / bottle</div>
+                        </div>
+                        <div class="order-product-price" data-i18n="RM 756.00">RM 756.00</div>
+                    </div>
+                    <div class="order-product">
+                        <div class="order-product-img" style="background: linear-gradient(135deg,#e6f4ec,#bfe3dd);" data-i18n="💊">💊</div>
+                        <div class="order-product-info">
+                            <div class="order-product-name" data-i18n="Multivitamins + Minerals">Multivitamins + Minerals</div>
+                            <div class="order-product-qty" data-i18n="Qty 12 · RM 34.50 / bottle">Qty 12 · RM 34.50 / bottle</div>
+                        </div>
+                        <div class="order-product-price" data-i18n="RM 414.00">RM 414.00</div>
+                    </div>
+                </div>
+                <div class="order-footer">
+                    <div class="order-total"><span class="lbl" data-i18n="Order total">Order total</span><span class="val" data-i18n="RM 2,055.60">RM 2,055.60</span></div>
+                    <div class="order-actions">
+                        <button class="btn-ph-sm btn-ph-outline" data-i18n="View Details">View Details</button>
+                        <button class="btn-ph-sm btn-ph-outline" data-i18n="Invoice">Invoice</button>
+                        <button class="btn-ph-sm btn-ph-fill" data-i18n="Reorder">Reorder</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pagination">
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn">→</button>
+        </div>
+    </div>
+</div>
+
+            
+            <!-- ========== ORDER DETAIL ========== -->
+            <div id="page-order-detail" class="page-section" style="display:none;">
+                <div style="margin-bottom: 20px;">
+                    <a href="javascript:void(0)" onclick="showPage('orders-list')" style="color: var(--primary); font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                        Back to Orders
+                    </a>
+                </div>
+                
+                <div class="content-card">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                        <div>
+                            <div style="font-size: 24px; font-weight: 700; color: var(--text);" data-i18n="Order #BM-2026-0042">Order #BM-2026-0042</div>
+                            <div style="font-size: 14px; color: var(--text-secondary); margin-top: 4px;" data-i18n="Placed on May 18, 2026 · 14:32 · Guardian KL">Placed on May 18, 2026 · 14:32 · Guardian KL</div>
+                        </div>
+                        <span class="order-status status-confirmed" data-i18n="Confirmed">Confirmed</span>
+                    </div>
+                    
+                    <div style="margin-bottom: 24px;">
+                        <div style="font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 12px;" data-i18n="Order Timeline">Order Timeline</div>
+                        <div class="timeline">
+                            <div class="timeline-step">
+                                <div class="timeline-dot completed">✓</div>
+                                <div class="timeline-label" data-i18n="Placed">Placed</div>
+                            </div>
+                            <div class="timeline-line completed"></div>
+                            <div class="timeline-step">
+                                <div class="timeline-dot completed">✓</div>
+                                <div class="timeline-label" data-i18n="Confirmed">Confirmed</div>
+                            </div>
+                            <div class="timeline-line completed"></div>
+                            <div class="timeline-step">
+                                <div class="timeline-dot active">●</div>
+                                <div class="timeline-label" data-i18n="Processing">Processing</div>
+                            </div>
+                            <div class="timeline-line"></div>
+                            <div class="timeline-step">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-label" data-i18n="Shipped">Shipped</div>
+                            </div>
+                            <div class="timeline-line"></div>
+                            <div class="timeline-step">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-label" data-i18n="Delivered">Delivered</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+                        <div>
+                            <div style="font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 16px;" data-i18n="Order Items">Order Items</div>
+                            
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--bg); border-radius: 12px;">
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <div style="width: 48px; height: 48px; border-radius: 8px; background: var(--primary); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;" data-i18n="FO">FO</div>
+                                        <div>
+                                            <div style="font-size: 15px; font-weight: 600; color: var(--text);" data-i18n="Fish Oil 1000mg">Fish Oil 1000mg</div>
+                                            <div style="font-size: 13px; color: var(--text-secondary);" data-i18n="SKU: BM-FO1000-001">SKU: BM-FO1000-001</div>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <div style="font-size: 14px; color: var(--text-secondary);" data-i18n="12 × RM 36.90">12 × RM 36.90</div>
+                                        <div style="font-size: 16px; font-weight: 700; color: var(--text);" data-i18n="RM 442.80">RM 442.80</div>
+                                    </div>
+                                </div>
+                                
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--bg); border-radius: 12px;">
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <div style="width: 48px; height: 48px; border-radius: 8px; background: var(--accent); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;" data-i18n="BC">BC</div>
+                                        <div>
+                                            <div style="font-size: 15px; font-weight: 600; color: var(--text);" data-i18n="Bio C 1000mg">Bio C 1000mg</div>
+                                            <div style="font-size: 13px; color: var(--text-secondary);" data-i18n="SKU: BM-BC1000-002">SKU: BM-BC1000-002</div>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <div style="font-size: 14px; color: var(--text-secondary);" data-i18n="12 × RM 31.50">12 × RM 31.50</div>
+                                        <div style="font-size: 16px; font-weight: 700; color: var(--text);" data-i18n="RM 378.00">RM 378.00</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);">
+                                <div style="display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px;">
+                                    <span style="color: var(--text-secondary);" data-i18n="Subtotal">Subtotal</span>
+                                    <span data-i18n="RM 820.80">RM 820.80</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px;">
+                                    <span style="color: var(--text-secondary);" data-i18n="Partner Discount">Partner Discount</span>
+                                    <span style="color: var(--success);" data-i18n="− RM 164.16">− RM 164.16</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px;">
+                                    <span style="color: var(--text-secondary);" data-i18n="Shipping">Shipping</span>
+                                    <span style="color: var(--success);" data-i18n="Free">Free</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px;">
+                                    <span style="color: var(--text-secondary);" data-i18n="GST (9%)">GST (9%)</span>
+                                    <span data-i18n="RM 74.43">RM 74.43</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 12px 0; font-size: 18px; font-weight: 700; border-top: 1px solid var(--border); margin-top: 8px;">
+                                    <span data-i18n="Total">Total</span>
+                                    <span data-i18n="RM 1,008.00">RM 1,008.00</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div style="font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 16px;" data-i18n="Delivery Information">Delivery Information</div>
+                            <div style="background: var(--bg); padding: 16px; border-radius: 12px; margin-bottom: 16px;">
+                                <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;" data-i18n="Delivery Address">Delivery Address</div>
+                                <div style="font-size: 14px; color: var(--text); font-weight: 500;" data-i18n="Guardian KL Store #12">Guardian KL Store #12</div>
+                                <div style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;" data-i18n="123 Jalan Bukit Bintang, 50200 Kuala Lumpur, Malaysia">123 Jalan Bukit Bintang, 50200 Kuala Lumpur, Malaysia</div>
+                            </div>
+                            
+                            <div style="background: var(--bg); padding: 16px; border-radius: 12px; margin-bottom: 16px;">
+                                <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;" data-i18n="Tracking Number">Tracking Number</div>
+                                <div style="font-size: 14px; color: var(--primary); font-weight: 600;" data-i18n="DHL-7894561230">DHL-7894561230</div>
+                            </div>
+                            
+                            <div style="background: var(--bg); padding: 16px; border-radius: 12px;">
+                                <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;" data-i18n="Estimated Delivery">Estimated Delivery</div>
+                                <div style="font-size: 14px; color: var(--text); font-weight: 500;" data-i18n="May 25, 2026 · 14:00–18:00">May 25, 2026 · 14:00–18:00</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ========== ORDER TRACKING ========== -->
+            <div id="page-order-tracking" class="page-section" style="display:none;">
+                <div style="margin-bottom: 20px;">
+                    <a href="javascript:void(0)" onclick="showPage('orders-list')" style="color: var(--primary); font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                        Back to Orders
+                    </a>
+                </div>
+                
+                <div class="content-card">
+                    <div style="font-size: 24px; font-weight: 700; color: var(--text); margin-bottom: 8px;" data-i18n="Order #BM-2026-0041">Order #BM-2026-0041</div>
+                    <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 24px;" data-i18n="Pregnancy & Breast-Feeding Gold × 6 · RM 353.40">Pregnancy & Breast-Feeding Gold × 6 · RM 353.40</div>
+                    
+                    <div style="font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 16px;" data-i18n="Tracking Progress">Tracking Progress</div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 24px;">
+                        <div style="display: flex; gap: 16px; align-items: flex-start;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--success); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; flex-shrink: 0;">✓</div>
+                            <div>
+                                <div style="font-size: 15px; font-weight: 600; color: var(--text);" data-i18n="Order Placed">Order Placed</div>
+                                <div style="font-size: 13px; color: var(--text-secondary);" data-i18n="May 15, 2026 · 09:15 · Order confirmed by system">May 15, 2026 · 09:15 · Order confirmed by system</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 16px; align-items: flex-start;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--success); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; flex-shrink: 0;">✓</div>
+                            <div>
+                                <div style="font-size: 15px; font-weight: 600; color: var(--text);" data-i18n="Processing">Processing</div>
+                                <div style="font-size: 13px; color: var(--text-secondary);" data-i18n="May 16, 2026 · 08:30 · Items picked and packed at warehouse">May 16, 2026 · 08:30 · Items picked and packed at warehouse</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 16px; align-items: flex-start;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; flex-shrink: 0;">●</div>
+                            <div>
+                                <div style="font-size: 15px; font-weight: 600; color: var(--text);" data-i18n="Shipped">Shipped</div>
+                                <div style="font-size: 13px; color: var(--text-secondary);" data-i18n="May 17, 2026 · 14:22 · Handed to DHL Express · Tracking: DHL-7894561230">May 17, 2026 · 14:22 · Handed to DHL Express · Tracking: DHL-7894561230</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 16px; align-items: flex-start; opacity: 0.5;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--bg); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-tertiary); font-weight: 700; flex-shrink: 0;"></div>
+                            <div>
+                                <div style="font-size: 15px; font-weight: 600; color: var(--text);" data-i18n="In Transit">In Transit</div>
+                                <div style="font-size: 13px; color: var(--text-secondary);" data-i18n="Expected May 20, 2026 · Currently at Kuala Lumpur Distribution Center">Expected May 20, 2026 · Currently at Kuala Lumpur Distribution Center</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 16px; align-items: flex-start; opacity: 0.5;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--bg); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-tertiary); font-weight: 700; flex-shrink: 0;"></div>
+                            <div>
+                                <div style="font-size: 15px; font-weight: 600; color: var(--text);" data-i18n="Delivered">Delivered</div>
+                                <div style="font-size: 13px; color: var(--text-secondary);" data-i18n="Expected May 20, 2026 · 14:00–18:00">Expected May 20, 2026 · 14:00–18:00</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ========== INVENTORY DASHBOARD ========== -->
+            <div id="page-inventory-dashboard" class="page-section" style="display:none;">
+                <div class="page-header">
+                    <h1 data-i18n="📦 Inventory Dashboard">📦 Inventory Dashboard</h1>
+                    <p data-i18n="Real-time stock synced from ERP/WMS. Monitor levels, set alerts, never miss a restock.">Real-time stock synced from ERP/WMS. Monitor levels, set alerts, never miss a restock.</p>
+                </div>
+                
+                <!-- Sync Status Banner -->
+                <div style="background: linear-gradient(90deg, var(--success-light), rgba(46,204,113,0.04)); border: 1px solid rgba(46,204,113,0.3); border-radius: 12px; padding: 14px 20px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--success); animation: pulse 2s infinite;"></div>
+                        <div>
+                            <div style="font-size: 14px; font-weight: 600; color: var(--text);" data-i18n="ERP/WMS Real-Time Sync — Active">ERP/WMS Real-Time Sync — Active</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);" data-i18n="Last sync: 2 minutes ago · SAP S/4HANA + Oracle WMS">Last sync: 2 minutes ago · SAP S/4HANA + Oracle WMS</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <span style="padding: 4px 10px; background: var(--success-light); color: var(--success); border-radius: 6px; font-size: 11px; font-weight: 600;" data-i18n="✓ SAP Online">✓ SAP Online</span>
+                        <span style="padding: 4px 10px; background: var(--success-light); color: var(--success); border-radius: 6px; font-size: 11px; font-weight: 600;" data-i18n="✓ WMS Online">✓ WMS Online</span>
+                    </div>
+                </div>
+
+                <!-- KPI Cards -->
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px;">
+                    <div class="content-card" style="border-left: 4px solid var(--success);">
+                        <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px;" data-i18n="Total SKUs in Stock">Total SKUs in Stock</div>
+                        <div style="font-size: 28px; font-weight: 700; color: var(--text);">247</div>
+                        <div style="font-size: 12px; color: var(--success); font-weight: 600;" data-i18n="↑ 12 from last week">↑ 12 from last week</div>
+                    </div>
+                    <div class="content-card" style="border-left: 4px solid var(--warning);">
+                        <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px;" data-i18n="Low Stock Alert">Low Stock Alert</div>
+                        <div style="font-size: 28px; font-weight: 700; color: var(--text);">18</div>
+                        <div style="font-size: 12px; color: var(--warning); font-weight: 600;" data-i18n="⚠ Below safety line">⚠ Below safety line</div>
+                    </div>
+                    <div class="content-card" style="border-left: 4px solid var(--danger);">
+                        <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px;" data-i18n="Out of Stock">Out of Stock</div>
+                        <div style="font-size: 28px; font-weight: 700; color: var(--text);">6</div>
+                        <div style="font-size: 12px; color: var(--danger); font-weight: 600;" data-i18n="🔴 Need urgent restock">🔴 Need urgent restock</div>
+                    </div>
+                    <div class="content-card" style="border-left: 4px solid var(--primary);">
+                        <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px;" data-i18n="Inventory Value">Inventory Value</div>
+                        <div style="font-size: 28px; font-weight: 700; color: var(--text);" data-i18n="$1.24M">$1.24M</div>
+                        <div style="font-size: 12px; color: var(--primary); font-weight: 600;" data-i18n="↑ 3.2% MoM">↑ 3.2% MoM</div>
+                    </div>
+                </div>
+
+                <!-- Filter Bar -->
+                <div style="background: white; border-radius: 12px; border: 1px solid var(--border); padding: 14px 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                    <input type="text" placeholder="Search SKU or product name..." style="flex: 1; min-width: 200px; padding: 8px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px;">
+                    <select style="padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; background: white;">
+                        <option>All Warehouses</option><option>Sydney DC</option><option>KL Hub</option><option>Singapore Hub</option><option>Bangkok DC</option>
+                    </select>
+                    <select style="padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; background: white;">
+                        <option>All Categories</option><option>Supplements</option><option>Skin Care</option><option>Mother & Baby</option><option>Sports</option>
+                    </select>
+                    <select style="padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; background: white;">
+                        <option>All Status</option><option>✅ Healthy</option><option>⚠️ Low Stock</option><option>🔴 Out of Stock</option>
+                    </select>
+                    <button class="btn-primary" style="padding: 8px 18px; font-size: 13px;" data-i18n="Refresh">Refresh</button>
+                </div>
+
+                <!-- Inventory Table -->
+                <div class="content-card" style="padding: 0; overflow: hidden;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                        <thead>
+                            <tr style="background: var(--bg);">
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: var(--text-secondary); font-size: 12px;" data-i18n="SKU">SKU</th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: var(--text-secondary); font-size: 12px;" data-i18n="Product">Product</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: var(--text-secondary); font-size: 12px;" data-i18n="Warehouse">Warehouse</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: var(--text-secondary); font-size: 12px;" data-i18n="On Hand">On Hand</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: var(--text-secondary); font-size: 12px;" data-i18n="Reserved">Reserved</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: var(--text-secondary); font-size: 12px;" data-i18n="Available">Available</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: var(--text-secondary); font-size: 12px;" data-i18n="Safety Stock">Safety Stock</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: var(--text-secondary); font-size: 12px;" data-i18n="Status">Status</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: var(--text-secondary); font-size: 12px;" data-i18n="Last Sync">Last Sync</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 12px 16px; font-family: monospace; color: var(--primary); font-weight: 600;" data-i18n="BM-FO-1000">BM-FO-1000</td>
+                                <td style="padding: 12px 16px;">
+                                    <div style="font-weight: 600;" data-i18n="Fish Oil 1000mg">Fish Oil 1000mg</div>
+                                    <div style="font-size: 11px; color: var(--text-tertiary);" data-i18n="Supplements · 400 capsules">Supplements · 400 capsules</div>
+                                </td>
+                                <td style="padding: 12px 16px; text-align: center;" data-i18n="Sydney DC">Sydney DC</td>
+                                <td style="padding: 12px 16px; text-align: center; font-weight: 700;">8,420</td>
+                                <td style="padding: 12px 16px; text-align: center; color: var(--text-secondary);">1,200</td>
+                                <td style="padding: 12px 16px; text-align: center; font-weight: 700; color: var(--success);">7,220</td>
+                                <td style="padding: 12px 16px; text-align: center;">5,000</td>
+                                <td style="padding: 12px 16px; text-align: center;"><span style="padding: 3px 10px; background: var(--success-light); color: var(--success); border-radius: 12px; font-size: 11px; font-weight: 600;" data-i18n="✅ Healthy">✅ Healthy</span></td>
+                                <td style="padding: 12px 16px; text-align: center; font-size: 11px; color: var(--text-tertiary);" data-i18n="2 min ago">2 min ago</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 12px 16px; font-family: monospace; color: var(--primary); font-weight: 600;" data-i18n="BM-PG-60">BM-PG-60</td>
+                                <td style="padding: 12px 16px;">
+                                    <div style="font-weight: 600;" data-i18n="Pregnancy Gold">Pregnancy Gold</div>
+                                    <div style="font-size: 11px; color: var(--text-tertiary);" data-i18n="Mother & Baby · 60 capsules">Mother & Baby · 60 capsules</div>
+                                </td>
+                                <td style="padding: 12px 16px; text-align: center;" data-i18n="KL Hub">KL Hub</td>
+                                <td style="padding: 12px 16px; text-align: center; font-weight: 700;">1,850</td>
+                                <td style="padding: 12px 16px; text-align: center; color: var(--text-secondary);">890</td>
+                                <td style="padding: 12px 16px; text-align: center; font-weight: 700; color: var(--warning);">960</td>
+                                <td style="padding: 12px 16px; text-align: center;">1,000</td>
+                                <td style="padding: 12px 16px; text-align: center;"><span style="padding: 3px 10px; background: var(--warning-light); color: var(--warning); border-radius: 12px; font-size: 11px; font-weight: 600;" data-i18n="⚠️ Low">⚠️ Low</span></td>
+                                <td style="padding: 12px 16px; text-align: center; font-size: 11px; color: var(--text-tertiary);" data-i18n="2 min ago">2 min ago</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 12px 16px; font-family: monospace; color: var(--primary); font-weight: 600;" data-i18n="BM-IB-60">BM-IB-60</td>
+                                <td style="padding: 12px 16px;">
+                                    <div style="font-weight: 600;" data-i18n="Immunity Boost">Immunity Boost</div>
+                                    <div style="font-size: 11px; color: var(--text-tertiary);" data-i18n="Supplements · 60 tablets">Supplements · 60 tablets</div>
+                                </td>
+                                <td style="padding: 12px 16px; text-align: center;" data-i18n="Singapore Hub">Singapore Hub</td>
+                                <td style="padding: 12px 16px; text-align: center; font-weight: 700;">0</td>
+                                <td style="padding: 12px 16px; text-align: center; color: var(--text-secondary);">0</td>
+                                <td style="padding: 12px 16px; text-align: center; font-weight: 700; color: var(--danger);">0</td>
+                                <td style="padding: 12px 16px; text-align: center;">2,000</td>
+                                <td style="padding: 12px 16px; text-align: center;"><span style="padding: 3px 10px; background: var(--danger-light); color: var(--danger); border-radius: 12px; font-size: 11px; font-weight: 600;" data-i18n="🔴 Out">🔴 Out</span></td>
+                                <td style="padding: 12px 16px; text-align: center; font-size: 11px; color: var(--text-tertiary);" data-i18n="2 min ago">2 min ago</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 12px 16px; font-family: monospace; color: var(--primary); font-weight: 600;" data-i18n="BM-ML-30">BM-ML-30</td>
+                                <td style="padding: 12px 16px;">
+                                    <div style="font-weight: 600;" data-i18n="Marine Collagen +">Marine Collagen +</div>
+                                    <div style="font-size: 11px; color: var(--text-tertiary);" data-i18n="Skin Care · 30 sachets">Skin Care · 30 sachets</div>
+                                </td>
+                                <td style="padding: 12px 16px; text-align: center;" data-i18n="Bangkok DC">Bangkok DC</td>
+                                <td style="padding: 12px 16px; text-align: center; font-weight: 700;">4,120</td>
+                                <td style="padding: 12px 16px; text-align: center; color: var(--text-secondary);">350</td>
+                                <td style="padding: 12px 16px; text-align: center; font-weight: 700; color: var(--success);">3,770</td>
+                                <td style="padding: 12px 16px; text-align: center;">3,000</td>
+                                <td style="padding: 12px 16px; text-align: center;"><span style="padding: 3px 10px; background: var(--success-light); color: var(--success); border-radius: 12px; font-size: 11px; font-weight: 600;" data-i18n="✅ Healthy">✅ Healthy</span></td>
+                                <td style="padding: 12px 16px; text-align: center; font-size: 11px; color: var(--text-tertiary);" data-i18n="2 min ago">2 min ago</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 12px 16px; font-family: monospace; color: var(--primary); font-weight: 600;" data-i18n="BM-WP-500">BM-WP-500</td>
+                                <td style="padding: 12px 16px;">
+                                    <div style="font-weight: 600;" data-i18n="Whey Protein Isolate">Whey Protein Isolate</div>
+                                    <div style="font-size: 11px; color: var(--text-tertiary);" data-i18n="Sports · 500g powder">Sports · 500g powder</div>
+                                </td>
+                                <td style="padding: 12px 16px; text-align: center;" data-i18n="Sydney DC">Sydney DC</td>
+                                <td style="padding: 12px 16px; text-align: center; font-weight: 700;">2,100</td>
+                                <td style="padding: 12px 16px; text-align: center; color: var(--text-secondary);">400</td>
+                                <td style="padding: 12px 16px; text-align: center; font-weight: 700; color: var(--warning);">1,700</td>
+                                <td style="padding: 12px 16px; text-align: center;">2,000</td>
+                                <td style="padding: 12px 16px; text-align: center;"><span style="padding: 3px 10px; background: var(--warning-light); color: var(--warning); border-radius: 12px; font-size: 11px; font-weight: 600;" data-i18n="⚠️ Low">⚠️ Low</span></td>
+                                <td style="padding: 12px 16px; text-align: center; font-size: 11px; color: var(--text-tertiary);" data-i18n="2 min ago">2 min ago</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ========== AI REPLENISHMENT ========== -->
+            <div id="page-ai-replenish" class="page-section" style="display:none;">
+                <div class="page-header">
+                    <h1 data-i18n="🤖 AI Replenishment">🤖 AI Replenishment</h1>
+                    <p data-i18n="Smart restock recommendations powered by sales history, seasonality, and market trends.">Smart restock recommendations powered by sales history, seasonality, and market trends.</p>
+                </div>
+
+                <!-- AI Model Config Banner -->
+                <div style="background: linear-gradient(135deg, var(--primary-light), rgba(0,155,164,0.02)); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 24px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 44px; height: 44px; border-radius: 12px; background: var(--primary); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;">🧠</div>
+                            <div>
+                                <div style="font-size: 14px; font-weight: 700; color: var(--text);" data-i18n="AI Forecast Engine v2.4">AI Forecast Engine v2.4</div>
+                                <div style="font-size: 12px; color: var(--text-secondary);" data-i18n="Trained on 24 months of sales · 94.7% accuracy · Updated daily">Trained on 24 months of sales · 94.7% accuracy · Updated daily</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <div style="text-align: center; padding: 8px 16px; background: white; border-radius: 10px; border: 1px solid var(--border);">
+                                <div style="font-size: 18px; font-weight: 700; color: var(--primary);">14</div>
+                                <div style="font-size: 11px; color: var(--text-secondary);" data-i18n="Items to Restock">Items to Restock</div>
+                            </div>
+                            <div style="text-align: center; padding: 8px 16px; background: white; border-radius: 10px; border: 1px solid var(--border);">
+                                <div style="font-size: 18px; font-weight: 700; color: var(--success);" data-i18n="$89K">$89K</div>
+                                <div style="font-size: 11px; color: var(--text-secondary);" data-i18n="Est. Investment">Est. Investment</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommendation Cards -->
+                <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px;">
+                    <!-- Card 1 -->
+                    <div style="background: white; border-radius: 16px; border: 1px solid var(--border); padding: 20px; display: grid; grid-template-columns: 60px 1fr auto; gap: 20px; align-items: center;">
+                        <div style="width: 56px; height: 56px; border-radius: 12px; background: linear-gradient(135deg, #E8F5E9, #C8E6C9); display: flex; align-items: center; justify-content: center; font-size: 28px;">💊</div>
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                                <span style="font-size: 15px; font-weight: 700; color: var(--text);" data-i18n="Pregnancy Gold · 60 capsules">Pregnancy Gold · 60 capsules</span>
+                                <span style="padding: 3px 8px; background: var(--danger-light); color: var(--danger); border-radius: 6px; font-size: 11px; font-weight: 600;" data-i18n="🔴 Out of Stock">🔴 Out of Stock</span>
+                            </div>
+                            <div style="display: flex; gap: 20px; font-size: 12px; color: var(--text-secondary);">
+                                <span>📉 Current: <b>0</b> units</span>
+                                <span>📈 AI Forecast (30d): <b style="color: var(--primary);">2,400</b> units</span>
+                                <span>🎯 Safety Buffer: <b>1,000</b></span>
+                                <span>💰 Unit Cost: <b>$18.50</b></span>
+                            </div>
+                            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary);">
+                                <b>Why:</b> Demand surged 35% in Q2 (prenatal season). Mother's Day campaign drove 2.1× normal velocity.
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-end;">
+                            <div style="font-size: 20px; font-weight: 700; color: var(--text);">3,400</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);" data-i18n="units recommended">units recommended</div>
+                            <button class="btn-primary" style="padding: 8px 20px; font-size: 13px;" data-i18n="✓ Approve">✓ Approve</button>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div style="background: white; border-radius: 16px; border: 1px solid var(--border); padding: 20px; display: grid; grid-template-columns: 60px 1fr auto; gap: 20px; align-items: center;">
+                        <div style="width: 56px; height: 56px; border-radius: 12px; background: linear-gradient(135deg, #FFF3E0, #FFE0B2); display: flex; align-items: center; justify-content: center; font-size: 28px;">🐟</div>
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                                <span style="font-size: 15px; font-weight: 700; color: var(--text);" data-i18n="Fish Oil 1000mg · 400 capsules">Fish Oil 1000mg · 400 capsules</span>
+                                <span style="padding: 3px 8px; background: var(--warning-light); color: var(--warning); border-radius: 6px; font-size: 11px; font-weight: 600;" data-i18n="⚠️ Low Stock">⚠️ Low Stock</span>
+                            </div>
+                            <div style="display: flex; gap: 20px; font-size: 12px; color: var(--text-secondary);">
+                                <span>📉 Current: <b>960</b> units</span>
+                                <span>📈 AI Forecast (30d): <b style="color: var(--primary);">5,800</b> units</span>
+                                <span>🎯 Safety Buffer: <b>2,000</b></span>
+                                <span>💰 Unit Cost: <b>$12.80</b></span>
+                            </div>
+                            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary);">
+                                <b>Why:</b> Winter flu season starting. Historical data shows Fish Oil sales increase 28% June–August. Supplier lead time is 3 weeks.
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-end;">
+                            <div style="font-size: 20px; font-weight: 700; color: var(--text);">6,840</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);" data-i18n="units recommended">units recommended</div>
+                            <button class="btn-primary" style="padding: 8px 20px; font-size: 13px;" data-i18n="✓ Approve">✓ Approve</button>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div style="background: white; border-radius: 16px; border: 1px solid var(--border); padding: 20px; display: grid; grid-template-columns: 60px 1fr auto; gap: 20px; align-items: center;">
+                        <div style="width: 56px; height: 56px; border-radius: 12px; background: linear-gradient(135deg, #F3E5F5, #E1BEE7); display: flex; align-items: center; justify-content: center; font-size: 28px;">✨</div>
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                                <span style="font-size: 15px; font-weight: 700; color: var(--text);" data-i18n="Marine Collagen + · 30 sachets">Marine Collagen + · 30 sachets</span>
+                                <span style="padding: 3px 8px; background: var(--warning-light); color: var(--warning); border-radius: 6px; font-size: 11px; font-weight: 600;" data-i18n="⚠️ Low Stock">⚠️ Low Stock</span>
+                            </div>
+                            <div style="display: flex; gap: 20px; font-size: 12px; color: var(--text-secondary);">
+                                <span>📉 Current: <b>1,700</b> units</span>
+                                <span>📈 AI Forecast (30d): <b style="color: var(--primary);">3,200</b> units</span>
+                                <span>🎯 Safety Buffer: <b>1,500</b></span>
+                                <span>💰 Unit Cost: <b>$24.00</b></span>
+                            </div>
+                            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary);">
+                                <b>Why:</b> Beauty trend spike on TikTok/Instagram. "Glow-up" hashtag driving 40% uplift in collagen category. Thailand market especially hot.
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-end;">
+                            <div style="font-size: 20px; font-weight: 700; color: var(--text);">3,000</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);" data-i18n="units recommended">units recommended</div>
+                            <button class="btn-primary" style="padding: 8px 20px; font-size: 13px;" data-i18n="✓ Approve">✓ Approve</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seasonal Forecast Chart -->
+                <div style="background: white; border-radius: 16px; border: 1px solid var(--border); padding: 24px;">
+                    <div style="font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 16px;" data-i18n="Seasonal Demand Forecast — Next 90 Days">Seasonal Demand Forecast — Next 90 Days</div>
+                    <svg viewBox="0 0 600 180" style="width: 100%; height: 180px;">
+                        <!-- Grid -->
+                        <line x1="50" y1="20" x2="580" y2="20" stroke="#F0F0F0" stroke-width="1"/>
+                        <line x1="50" y1="60" x2="580" y2="60" stroke="#F0F0F0" stroke-width="1"/>
+                        <line x1="50" y1="100" x2="580" y2="100" stroke="#F0F0F0" stroke-width="1"/>
+                        <line x1="50" y1="140" x2="580" y2="140" stroke="#F0F0F0" stroke-width="1"/>
+                        <!-- Y labels -->
+                        <text x="40" y="145" text-anchor="end" font-size="10" fill="#999">2K</text>
+                        <text x="40" y="105" text-anchor="end" font-size="10" fill="#999">4K</text>
+                        <text x="40" y="65" text-anchor="end" font-size="10" fill="#999">6K</text>
+                        <text x="40" y="25" text-anchor="end" font-size="10" fill="#999">8K</text>
+                        <!-- X labels -->
+                        <text x="50" y="165" text-anchor="middle" font-size="10" fill="#999">Jun W1</text>
+                        <text x="135" y="165" text-anchor="middle" font-size="10" fill="#999">Jun W2</text>
+                        <text x="220" y="165" text-anchor="middle" font-size="10" fill="#999">Jun W3</text>
+                        <text x="305" y="165" text-anchor="middle" font-size="10" fill="#999">Jun W4</text>
+                        <text x="390" y="165" text-anchor="middle" font-size="10" fill="#999">Jul W1</text>
+                        <text x="475" y="165" text-anchor="middle" font-size="10" fill="#999">Jul W2</text>
+                        <text x="560" y="165" text-anchor="middle" font-size="10" fill="#999">Jul W3</text>
+                        <!-- Historical (solid) -->
+                        <polyline points="50,120 135,110 220,100 305,95 390,105 475,115 560,130" fill="none" stroke="#4A90D9" stroke-width="2"/>
+                        <!-- Forecast (dashed) -->
+                        <polyline points="305,95 390,80 475,65 560,55" fill="none" stroke="#F5A623" stroke-width="2" stroke-dasharray="5,3"/>
+                        <!-- Legend -->
+                        <text x="400" y="35" font-size="11" fill="#4A90D9">— Historical Sales</text>
+                        <text x="490" y="35" font-size="11" fill="#F5A623">- - AI Forecast</text>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- ========== BUNDLE RECOMMENDATIONS ========== -->
+            <div id="page-bundle-rec" class="page-section" style="display:none;">
+                <div class="page-header">
+                    <h1 data-i18n="🔗 Bundle Recommendations">🔗 Bundle Recommendations</h1>
+                    <p data-i18n="AI-powered basket analysis — find high-margin combos and best-selling pairings.">AI-powered basket analysis — find high-margin combos and best-selling pairings.</p>
+                </div>
+
+                <!-- Insights Banner -->
+                <div style="background: linear-gradient(135deg, #FFF8E1, rgba(245,166,35,0.05)); border: 1px solid #FFE0B2; border-radius: 16px; padding: 20px; margin-bottom: 24px;">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <div style="width: 48px; height: 48px; border-radius: 12px; background: var(--warning); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">💡</div>
+                        <div>
+                            <div style="font-size: 14px; font-weight: 700; color: var(--text);" data-i18n="AI Insight: &quot;Immunity + Fish Oil&quot; bundle has 3.2× higher margin than individual sales">AI Insight: "Immunity + Fish Oil" bundle has 3.2× higher margin than individual sales</div>
+                            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;" data-i18n="Based on 18,400 transactions · Updated weekly · Top 15% of all bundles by profitability">Based on 18,400 transactions · Updated weekly · Top 15% of all bundles by profitability</div>
+                        </div>
+                        <button class="btn-primary" style="margin-left: auto; padding: 8px 18px; font-size: 13px;" data-i18n="Apply to Store">Apply to Store</button>
+                    </div>
+                </div>
+
+                <!-- Two-column layout -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
+                    <!-- High-Margin Bundles -->
+                    <div class="content-card">
+                        <div style="font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 16px;" data-i18n="🏆 High-Margin Bundles">🏆 High-Margin Bundles</div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 14px;">
+                            <!-- Bundle 1 -->
+                            <div style="display: flex; gap: 12px; padding: 14px; background: var(--bg); border-radius: 12px;">
+                                <div style="display: flex; gap: -8px;">
+                                    <div style="width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #E8F5E9, #C8E6C9); display: flex; align-items: center; justify-content: center; font-size: 18px; z-index: 2; border: 2px solid white;">💊</div>
+                                    <div style="width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #FFF3E0, #FFE0B2); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-left: -12px; z-index: 1; border: 2px solid white;">🐟</div>
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 14px; font-weight: 600;" data-i18n="Immunity Boost + Fish Oil 1000mg">Immunity Boost + Fish Oil 1000mg</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">Combo price: <b style="color: var(--primary);">$28.90</b> · Margin: <b style="color: var(--success);">42%</b></div>
+                                    <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 4px;" data-i18n="1,240 orders this month · AOV uplift +$8.40">1,240 orders this month · AOV uplift +$8.40</div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-size: 18px; font-weight: 700; color: var(--success);" data-i18n="+$12K">+$12K</div>
+                                    <div style="font-size: 11px; color: var(--text-tertiary);" data-i18n="extra margin/mo">extra margin/mo</div>
+                                </div>
+                            </div>
+
+                            <!-- Bundle 2 -->
+                            <div style="display: flex; gap: 12px; padding: 14px; background: var(--bg); border-radius: 12px;">
+                                <div style="display: flex; gap: -8px;">
+                                    <div style="width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #F3E5F5, #E1BEE7); display: flex; align-items: center; justify-content: center; font-size: 18px; z-index: 2; border: 2px solid white;">✨</div>
+                                    <div style="width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #E3F2FD, #BBDEFB); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-left: -12px; z-index: 1; border: 2px solid white;">🧴</div>
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 14px; font-weight: 600;" data-i18n="Marine Collagen + Vitamin E Cream">Marine Collagen + Vitamin E Cream</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">Combo price: <b style="color: var(--primary);">$42.00</b> · Margin: <b style="color: var(--success);">38%</b></div>
+                                    <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 4px;" data-i18n="890 orders this month · AOV uplift +$15.20">890 orders this month · AOV uplift +$15.20</div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-size: 18px; font-weight: 700; color: var(--success);" data-i18n="+$9.8K">+$9.8K</div>
+                                    <div style="font-size: 11px; color: var(--text-tertiary;" data-i18n="extra margin/mo">extra margin/mo</div>
+                                </div>
+                            </div>
+
+                            <!-- Bundle 3 -->
+                            <div style="display: flex; gap: 12px; padding: 14px; background: var(--bg); border-radius: 12px;">
+                                <div style="display: flex; gap: -8px;">
+                                    <div style="width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #E8F5E9, #C8E6C9); display: flex; align-items: center; justify-content: center; font-size: 18px; z-index: 2; border: 2px solid white;">💊</div>
+                                    <div style="width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #FFF8E1, #FFECB3); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-left: -12px; z-index: 1; border: 2px solid white;">🍯</div>
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 14px; font-weight: 600;" data-i18n="Pregnancy Gold + Manuka Honey">Pregnancy Gold + Manuka Honey</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">Combo price: <b style="color: var(--primary);">$35.50</b> · Margin: <b style="color: var(--success);">36%</b></div>
+                                    <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 4px;" data-i18n="650 orders this month · AOV uplift +$11.00">650 orders this month · AOV uplift +$11.00</div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-size: 18px; font-weight: 700; color: var(--success);" data-i18n="+$6.5K">+$6.5K</div>
+                                    <div style="font-size: 11px; color: var(--text-tertiary);" data-i18n="extra margin/mo">extra margin/mo</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- High-Volume Bundles -->
+                    <div class="content-card">
+                        <div style="font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 16px;" data-i18n="📈 High-Volume Bundles">📈 High-Volume Bundles</div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 14px;">
+                            <!-- Bundle 1 -->
+                            <div style="display: flex; gap: 12px; padding: 14px; background: var(--bg); border-radius: 12px;">
+                                <div style="display: flex; gap: -8px;">
+                                    <div style="width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #FFF3E0, #FFE0B2); display: flex; align-items: center; justify-content: center; font-size: 18px; z-index: 2; border: 2px solid white;">🐟</div>
+                                    <div style="width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #E3F2FD, #BBDEFB); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-left: -12px; z-index: 1; border: 2px solid white;">🦴</div>
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 14px; font-weight: 600;" data-i18n="Fish Oil + Glucosamine Joint Pack">Fish Oil + Glucosamine Joint Pack</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">Combo price: <b style="color: var(--primary);">$32.00</b> · Sold: <b style="color: var(--primary);">3,420</b> units/mo</div>
+                                    <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 4px;" data-i18n="#1 best seller · Repeat purchase rate 68%">#1 best seller · Repeat purchase rate 68%</div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-size: 18px; font-weight: 700; color: var(--primary);" data-i18n="$109K">$109K</div>
+                                    <div style="font-size: 11px; color: var(--text-tertiary);" data-i18n="monthly revenue">monthly revenue</div>
+                                </div>
+                            </div>
+
+                            <!-- Bundle 2 -->
+                            <div style="display: flex; gap: 12px; padding: 14px; background: var(--bg); border-radius: 12px;">
+                                <div style="display: flex; gap: -8px;">
+                                    <div style="width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #E8F5E9, #C8E6C9); display: flex; align-items: center; justify-content: center; font-size: 18px; z-index: 2; border: 2px solid white;">💊</div>
+                                    <div style="width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #F3E5F5, #E1BEE7); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-left: -12px; z-index: 1; border: 2px solid white;">✨</div>
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 14px; font-weight: 600;" data-i18n="Immunity + Collagen Beauty Pack">Immunity + Collagen Beauty Pack</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">Combo price: <b style="color: var(--primary);">$38.90</b> · Sold: <b style="color: var(--primary);">2,180</b> units/mo</div>
+                                    <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 4px;" data-i18n="#2 best seller · 45% new customer conversion">#2 best seller · 45% new customer conversion</div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-size: 18px; font-weight: 700; color: var(--primary);" data-i18n="$85K">$85K</div>
+                                    <div style="font-size: 11px; color: var(--text-tertiary);" data-i18n="monthly revenue">monthly revenue</div>
+                                </div>
+                            </div>
+
+                            <!-- Bundle 3 -->
+                            <div style="display: flex; gap: 12px; padding: 14px; background: var(--bg); border-radius: 12px;">
+                                <div style="display: flex; gap: -8px;">
+                                    <div style="width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #FFF8E1, #FFECB3); display: flex; align-items: center; justify-content: center; font-size: 18px; z-index: 2; border: 2px solid white;">🍯</div>
+                                    <div style="width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #E8F5E9, #C8E6C9); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-left: -12px; z-index: 1; border: 2px solid white;">🌿</div>
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 14px; font-weight: 600;" data-i18n="Manuka Honey + Spirulina">Manuka Honey + Spirulina</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">Combo price: <b style="color: var(--primary);">$29.90</b> · Sold: <b style="color: var(--primary);">1,890</b> units/mo</div>
+                                    <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 4px;" data-i18n="#3 best seller · Strong in ANZ market">#3 best seller · Strong in ANZ market</div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-size: 18px; font-weight: 700; color: var(--primary);" data-i18n="$56K">$56K</div>
+                                    <div style="font-size: 11px; color: var(--text-tertiary);" data-i18n="monthly revenue">monthly revenue</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Market Heatmap -->
+                <div style="background: white; border-radius: 16px; border: 1px solid var(--border); padding: 24px;">
+                    <div style="font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 16px;" data-i18n="🌍 Bundle Performance by Market">🌍 Bundle Performance by Market</div>
+                    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;">
+                        <div style="text-align: center; padding: 16px; background: linear-gradient(135deg, #E8F5E9, #C8E6C9); border-radius: 12px;">
+                            <div style="font-size: 20px; font-weight: 700; color: #2E7D32;" data-i18n="Australia">Australia</div>
+                            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;" data-i18n="$142K/mo">$142K/mo</div>
+                            <div style="font-size: 11px; color: var(--success); font-weight: 600; margin-top: 2px;" data-i18n="↑ 18% vs last month">↑ 18% vs last month</div>
+                        </div>
+                        <div style="text-align: center; padding: 16px; background: linear-gradient(135deg, #FFF3E0, #FFE0B2); border-radius: 12px;">
+                            <div style="font-size: 20px; font-weight: 700; color: #E65100;" data-i18n="Malaysia">Malaysia</div>
+                            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;" data-i18n="$98K/mo">$98K/mo</div>
+                            <div style="font-size: 11px; color: var(--success); font-weight: 600; margin-top: 2px;" data-i18n="↑ 24% vs last month">↑ 24% vs last month</div>
+                        </div>
+                        <div style="text-align: center; padding: 16px; background: linear-gradient(135deg, #E3F2FD, #BBDEFB); border-radius: 12px;">
+                            <div style="font-size: 20px; font-weight: 700; color: #1565C0;" data-i18n="Singapore">Singapore</div>
+                            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;" data-i18n="$76K/mo">$76K/mo</div>
+                            <div style="font-size: 11px; color: var(--success); font-weight: 600; margin-top: 2px;" data-i18n="↑ 12% vs last month">↑ 12% vs last month</div>
+                        </div>
+                        <div style="text-align: center; padding: 16px; background: linear-gradient(135deg, #F3E5F5, #E1BEE7); border-radius: 12px;">
+                            <div style="font-size: 20px; font-weight: 700; color: #6A1B9A;" data-i18n="Thailand">Thailand</div>
+                            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;" data-i18n="$54K/mo">$54K/mo</div>
+                            <div style="font-size: 11px; color: var(--success); font-weight: 600; margin-top: 2px;" data-i18n="↑ 31% vs last month">↑ 31% vs last month</div>
+                        </div>
+                        <div style="text-align: center; padding: 16px; background: linear-gradient(135deg, #E0F7FA, #B2EBF2); border-radius: 12px;">
+                            <div style="font-size: 20px; font-weight: 700; color: #00838F;" data-i18n="New Zealand">New Zealand</div>
+                            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;" data-i18n="$38K/mo">$38K/mo</div>
+                            <div style="font-size: 11px; color: var(--warning); font-weight: 600; margin-top: 2px;" data-i18n="→ Flat vs last month">→ Flat vs last month</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== REBATE CALCULATOR ========== -->
+            <div id="page-rebate-calc" class="page-section" style="display:none;">
+                <div class="page-header">
+                    <h1 data-i18n="💰 Rebate Calculator">💰 Rebate Calculator</h1>
+                    <p data-i18n="Every order counts. See your rebate accumulate in real time — transparent, instant, no surprises.">Every order counts. See your rebate accumulate in real time — transparent, instant, no surprises.</p>
+                </div>
+
+                <!-- Rebate Status Cards -->
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px;">
+                    <div class="content-card" style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white;">
+                        <div style="font-size: 12px; opacity: 0.9; margin-bottom: 4px;" data-i18n="Q2 2026 Rebate Earned">Q2 2026 Rebate Earned</div>
+                        <div style="font-size: 32px; font-weight: 700;">$8,420</div>
+                        <div style="font-size: 12px; opacity: 0.8; margin-top: 4px;" data-i18n="Target: $15,000 · 56% achieved">Target: $15,000 · 56% achieved</div>
+                    </div>
+                    <div class="content-card">
+                        <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px;" data-i18n="Current Tier">Current Tier</div>
+                        <div style="font-size: 28px; font-weight: 700; color: var(--text);" data-i18n="🥈 Silver">🥈 Silver</div>
+                        <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;" data-i18n="3% base rebate rate">3% base rebate rate</div>
+                    </div>
+                    <div class="content-card">
+                        <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px;" data-i18n="Next Tier (Gold)">Next Tier (Gold)</div>
+                        <div style="font-size: 28px; font-weight: 700; color: var(--warning);">$6,580</div>
+                        <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;" data-i18n="more to unlock 5% rate">more to unlock 5% rate</div>
+                    </div>
+                    <div class="content-card">
+                        <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px;" data-i18n="YTD Total Rebate">YTD Total Rebate</div>
+                        <div style="font-size: 28px; font-weight: 700; color: var(--success);">$14,200</div>
+                        <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;" data-i18n="Across 186 orders">Across 186 orders</div>
+                    </div>
+                </div>
+
+                <!-- Progress to Next Tier -->
+                <div style="background: white; border-radius: 16px; border: 1px solid var(--border); padding: 24px; margin-bottom: 24px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                        <div style="font-size: 16px; font-weight: 700; color: var(--text);" data-i18n="Tier Progress — Silver → Gold">Tier Progress — Silver → Gold</div>
+                        <div style="font-size: 13px; color: var(--text-secondary);">$8,420 / $15,000</div>
+                    </div>
+                    <div style="height: 12px; background: var(--bg); border-radius: 6px; overflow: hidden; margin-bottom: 12px;">
+                        <div style="width: 56%; height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-dark)); border-radius: 6px; transition: width 0.5s;"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary);">
+                        <span data-i18n="🥉 Bronze (1%)">🥉 Bronze (1%)</span>
+                        <span style="font-weight: 600; color: var(--primary);" data-i18n="🥈 Silver (3%) · You are here">🥈 Silver (3%) · You are here</span>
+                        <span data-i18n="🥇 Gold (5%)">🥇 Gold (5%)</span>
+                        <span data-i18n="💎 Platinum (7%)">💎 Platinum (7%)</span>
+                    </div>
+                </div>
+
+                <!-- Order-by-Order Rebate Table -->
+                <div class="content-card" style="padding: 0; overflow: hidden;">
+                    <div style="padding: 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between;">
+                        <div style="font-size: 16px; font-weight: 700; color: var(--text);" data-i18n="Order-Level Rebate Breakdown">Order-Level Rebate Breakdown</div>
+                        <div style="display: flex; gap: 10px;">
+                            <select style="padding: 6px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; background: white;">
+                                <option>Q2 2026</option><option>Q1 2026</option><option>2025 FY</option>
+                            </select>
+                            <button class="btn-primary" style="padding: 6px 16px; font-size: 13px;" data-i18n="📥 Export CSV">📥 Export CSV</button>
+                        </div>
+                    </div>
+                    <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                        <thead>
+                            <tr style="background: var(--bg);">
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: var(--text-secondary); font-size: 12px;" data-i18n="Order #">Order #</th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: var(--text-secondary); font-size: 12px;" data-i18n="Date">Date</th>
+                                <th style="padding: 12px 16px; text-align: right; font-weight: 600; color: var(--text-secondary); font-size: 12px;" data-i18n="Order Value">Order Value</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: var(--text-secondary); font-size: 12px;" data-i18n="Tier Rate">Tier Rate</th>
+                                <th style="padding: 12px 16px; text-align: right; font-weight: 600; color: var(--text-secondary); font-size: 12px;" data-i18n="Rebate Earned">Rebate Earned</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: var(--text-secondary); font-size: 12px;" data-i18n="Status">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 12px 16px; font-family: monospace; color: var(--primary); font-weight: 600;" data-i18n="BM-2026-0042">BM-2026-0042</td>
+                                <td style="padding: 12px 16px;" data-i18n="May 24, 2026">May 24, 2026</td>
+                                <td style="padding: 12px 16px; text-align: right; font-weight: 600;">$3,240.00</td>
+                                <td style="padding: 12px 16px; text-align: center;"><span style="padding: 3px 10px; background: var(--primary-light); color: var(--primary); border-radius: 12px; font-size: 11px; font-weight: 600;" data-i18n="Silver 3%">Silver 3%</span></td>
+                                <td style="padding: 12px 16px; text-align: right; font-weight: 700; color: var(--success);" data-i18n="+$97.20">+$97.20</td>
+                                <td style="padding: 12px 16px; text-align: center;"><span style="padding: 3px 10px; background: var(--success-light); color: var(--success); border-radius: 12px; font-size: 11px; font-weight: 600;" data-i18n="✓ Confirmed">✓ Confirmed</span></td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 12px 16px; font-family: monospace; color: var(--primary); font-weight: 600;" data-i18n="BM-2026-0041">BM-2026-0041</td>
+                                <td style="padding: 12px 16px;" data-i18n="May 20, 2026">May 20, 2026</td>
+                                <td style="padding: 12px 16px; text-align: right; font-weight: 600;">$2,890.50</td>
+                                <td style="padding: 12px 16px; text-align: center;"><span style="padding: 3px 10px; background: var(--primary-light); color: var(--primary); border-radius: 12px; font-size: 11px; font-weight: 600;" data-i18n="Silver 3%">Silver 3%</span></td>
+                                <td style="padding: 12px 16px; text-align: right; font-weight: 700; color: var(--success);" data-i18n="+$86.72">+$86.72</td>
+                                <td style="padding: 12px 16px; text-align: center;"><span style="padding: 3px 10px; background: var(--success-light); color: var(--success); border-radius: 12px; font-size: 11px; font-weight: 600;" data-i18n="✓ Confirmed">✓ Confirmed</span></td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 12px 16px; font-family: monospace; color: var(--primary); font-weight: 600;" data-i18n="BM-2026-0040">BM-2026-0040</td>
+                                <td style="padding: 12px 16px;" data-i18n="May 18, 2026">May 18, 2026</td>
+                                <td style="padding: 12px 16px; text-align: right; font-weight: 600;">$5,120.00</td>
+                                <td style="padding: 12px 16px; text-align: center;"><span style="padding: 3px 10px; background: var(--primary-light); color: var(--primary); border-radius: 12px; font-size: 11px; font-weight: 600;" data-i18n="Silver 3%">Silver 3%</span></td>
+                                <td style="padding: 12px 16px; text-align: right; font-weight: 700; color: var(--success);" data-i18n="+$153.60">+$153.60</td>
+                                <td style="padding: 12px 16px; text-align: center;"><span style="padding: 3px 10px; background: var(--warning-light); color: var(--warning); border-radius: 12px; font-size: 11px; font-weight: 600;" data-i18n="⏳ Pending">⏳ Pending</span></td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 12px 16px; font-family: monospace; color: var(--primary); font-weight: 600;" data-i18n="BM-2026-0038">BM-2026-0038</td>
+                                <td style="padding: 12px 16px;" data-i18n="May 15, 2026">May 15, 2026</td>
+                                <td style="padding: 12px 16px; text-align: right; font-weight: 600;">$1,450.00</td>
+                                <td style="padding: 12px 16px; text-align: center;"><span style="padding: 3px 10px; background: var(--primary-light); color: var(--primary); border-radius: 12px; font-size: 11px; font-weight: 600;" data-i18n="Silver 3%">Silver 3%</span></td>
+                                <td style="padding: 12px 16px; text-align: right; font-weight: 700; color: var(--success);" data-i18n="+$43.50">+$43.50</td>
+                                <td style="padding: 12px 16px; text-align: center;"><span style="padding: 3px 10px; background: var(--success-light); color: var(--success); border-radius: 12px; font-size: 11px; font-weight: 600;" data-i18n="✓ Confirmed">✓ Confirmed</span></td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 12px 16px; font-family: monospace; color: var(--primary); font-weight: 600;" data-i18n="BM-2026-0035">BM-2026-0035</td>
+                                <td style="padding: 12px 16px;" data-i18n="May 10, 2026">May 10, 2026</td>
+                                <td style="padding: 12px 16px; text-align: right; font-weight: 600;">$4,680.00</td>
+                                <td style="padding: 12px 16px; text-align: center;"><span style="padding: 3px 10px; background: var(--primary-light); color: var(--primary); border-radius: 12px; font-size: 11px; font-weight: 600;" data-i18n="Silver 3%">Silver 3%</span></td>
+                                <td style="padding: 12px 16px; text-align: right; font-weight: 700; color: var(--success);" data-i18n="+$140.40">+$140.40</td>
+                                <td style="padding: 12px 16px; text-align: center;"><span style="padding: 3px 10px; background: var(--success-light); color: var(--success); border-radius: 12px; font-size: 11px; font-weight: 600;" data-i18n="✓ Confirmed">✓ Confirmed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="padding: 14px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--text-secondary);">
+                        <span data-i18n="Showing 5 of 186 orders">Showing 5 of 186 orders</span>
+                        <div style="display: flex; gap: 6px;">
+                            <span style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 6px; background: white; border: 1px solid var(--border); cursor: pointer;">◀</span>
+                            <span style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 6px; background: var(--primary); color: white; font-weight: 600;">1</span>
+                            <span style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 6px; background: white; border: 1px solid var(--border); color: var(--text-secondary); cursor: pointer;">2</span>
+                            <span style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 6px; background: white; border: 1px solid var(--border); color: var(--text-secondary); cursor: pointer;">3</span>
+                            <span style="width: 28px; height: 28px; display: flex: align-items: center; justify-content: center; border-radius: 6px; background: white; border: 1px solid var(--border); cursor: pointer;">▶</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    
+    <!-- AI Widget -->
+    <button class="ai-float-btn" onclick="toggleAI()">✨</button>
+    <div class="ai-widget" id="aiWidget">
+        <div class="ai-widget-header">
+            <div class="ai-avatar">B</div>
+            <div>
+                <div class="ai-title" data-i18n="B.More AI">B.More AI</div>
+                <div class="ai-subtitle" data-i18n="Your Order Assistant">Your Order Assistant</div>
+            </div>
+        </div>
+        <div class="ai-messages">
+            <div class="ai-msg-bubble" data-i18n="Hi! I can help you track orders, check delivery status, or find invoice history. What do you need?">Hi! I can help you track orders, check delivery status, or find invoice history. What do you need?</div>
+        </div>
+        <div class="ai-chips">
+            <span class="ai-chip" onclick="aiAsk('Track my latest order')" data-i18n="Track Order">Track Order</span>
+            <span class="ai-chip" onclick="aiAsk('Download invoice for BM-2026-0042')" data-i18n="Get Invoice">Get Invoice</span>
+            <span class="ai-chip" onclick="aiAsk('When will my order arrive?')" data-i18n="Delivery Status">Delivery Status</span>
+            <span class="ai-chip" onclick="aiAsk('Reorder my last items')" data-i18n="Quick Reorder">Quick Reorder</span>
+        </div>
+        <div class="ai-input-area">
+            <input type="text" class="ai-input" id="aiInput" placeholder="Ask me anything...">
+            <button class="ai-send" onclick="sendAI()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg>
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        function showPage(pageId, el) {
+            document.querySelectorAll('.page-section').forEach(page => {
+                page.style.display = 'none';
+            });
+            const target = document.getElementById('page-' + pageId);
+            if (target) {
+                target.style.display = 'block';
+                window.scrollTo(0, 0);
+            }
+            
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            var studioCurrent = document.querySelector('.studio-nav [data-page="' + pageId + '"]');
+            if (studioCurrent || (el && el.closest && el.closest('.studio-nav'))) {
+                document.querySelectorAll('.studio-nav button, .studio-nav a').forEach(function(item) { item.classList.remove('active'); });
+                (studioCurrent || el).classList.add('active');
+            }
+            
+            window.location.hash = pageId;
+        }
+        
+        // Initialize: show page based on hash or default
+        document.addEventListener('DOMContentLoaded', function() {
+            var hash = window.location.hash.substring(1);
+            var map = {'ai-recommend': 'ai-replenish', 'inventory': 'inventory-dashboard', 'invoices': 'orders-list'};
+            var pageId = map[hash] || 'orders-list';
+            var selector = hash ? 'a[href="purchase-order.html#' + hash + '"]' : 'a[href="purchase-order.html"]';
+            var link = document.querySelector(selector);
+            showPage(pageId, link);
+        });
+        
+        function toggleAI() {
+            document.getElementById('aiWidget').classList.toggle('open');
+        }
+        
+        function filterOrders(chip, status) {
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            
+            const cards = document.querySelectorAll('.order-card');
+            cards.forEach(card => {
+                if (status === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = card.dataset.status === status ? 'block' : 'none';
+                }
+            });
+        }
+        
+        function aiAsk(text) {
+            const msgArea = document.querySelector('.ai-messages');
+            msgArea.innerHTML += '<div style="margin-top:12px; text-align:right;"><div style="display:inline-block; background:var(--primary); color:white; padding:10px 14px; border-radius:16px; font-size:13px;" data-i18n="' + text + '">' + text + '</div></div>';
+            setTimeout(() => {
+                msgArea.innerHTML += '<div class="ai-msg-bubble" style="margin-top:12px;" data-i18n="I\'ll help you with that! Let me check our order system and get back to you with the details.">I\'ll help you with that! Let me check our order system and get back to you with the details.</div>';
+                msgArea.scrollTop = msgArea.scrollHeight;
+            }, 800);
+        }
+        
+        function sendAI() {
+            const input = document.getElementById('aiInput');
+            if (!input.value.trim()) return;
+            aiAsk(input.value);
+            input.value = '';
+        }
+    </script>
+
+<script>
+(function(){
+    function highlightCurrentPage() {
+        var current = window.location.pathname.split('/').pop() || 'index.html';
+        document.querySelectorAll('.sidebar-link').forEach(function(link) {
+            var href = link.getAttribute('href');
+            if (!href) return;
+            var hrefClean = href.split('#')[0].split('?')[0];
+            if (hrefClean === current) {
+                link.classList.add('active');
+                var sub = link.closest('.sidebar-submenu');
+                if (sub) sub.classList.add('open');
+            }
+        });
+    }
+    function restoreSidebarState() {
+        var mod = document.body.dataset.module || 'home';
+        var state = JSON.parse(localStorage.getItem('sidebarState') || '{}');
+        document.querySelectorAll('.sidebar-section').forEach(function(sec) {
+            var id = sec.id; if (!id) return;
+            var key = mod + '-' + id;
+            var isOpen = state[key];
+            if (isOpen !== undefined) {
+                var chev = sec.querySelector('.sidebar-chevron');
+                var sub = sec.querySelector('.sidebar-submenu');
+                if (isOpen) { if (chev) chev.classList.add('open'); if (sub) sub.classList.add('open'); }
+                else { if (chev) chev.classList.remove('open'); if (sub) sub.classList.remove('open'); }
+            }
+        });
+    }
+    window.toggleSection = function(id) {
+        var chev = document.getElementById('chevron-' + id);
+        var sub = document.getElementById('submenu-' + id);
+        if (chev && sub) {
+            var isOpen = chev.classList.toggle('open');
+            sub.classList.toggle('open', isOpen);
+            var mod = document.body.dataset.module || 'home';
+            var state = JSON.parse(localStorage.getItem('sidebarState') || '{}');
+            state[mod + '-sidebar-' + id] = isOpen;
+            localStorage.setItem('sidebarState', JSON.stringify(state));
+        }
+    };
+    window.toggleMenu = function(header) {
+        var sec = header.closest('.sidebar-section'); if (!sec) return;
+        var sub = sec.querySelector('.sidebar-submenu');
+        var chev = sec.querySelector('.sidebar-chevron');
+        if (sub && chev) {
+            var isOpen = sub.classList.toggle('open');
+            chev.classList.toggle('open', isOpen);
+            var mod = document.body.dataset.module || 'home';
+            var state = JSON.parse(localStorage.getItem('sidebarState') || '{}');
+            state[mod + '-' + sec.id] = isOpen;
+            localStorage.setItem('sidebarState', JSON.stringify(state));
+        }
+    };
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() { highlightCurrentPage(); restoreSidebarState(); });
+    } else { highlightCurrentPage(); restoreSidebarState(); }
+})();
+</script>
+</body>
+</html>

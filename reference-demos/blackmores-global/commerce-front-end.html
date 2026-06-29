@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blackmores Partner Platform · Experience Studio</title>
+<style>
+  :root{
+    --brand:#0a9499; --brand-d:#076e72; --soft:#e0f0f0; --accent:#e07a45;
+    --ink:#16201f; --muted:#6a7472; --bg:#f4f7f7; --card:#ffffff; --line:#e6ecec;
+    --display:Georgia,'Times New Roman','Songti SC','Hiragino Mincho ProN',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans','Microsoft YaHei','Thonburi','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+
+  header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  .nav{display:flex;align-items:center;gap:26px;max-width:1180px;margin:0 auto;padding:14px 22px}
+  .brand{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:.02em;color:var(--ink)}
+  .brand sup{font-size:10px;color:var(--brand)}
+  .tabs{display:flex;gap:22px}
+  .tabs a{font-size:14px;font-weight:600;color:var(--muted);text-decoration:none;padding:6px 0;cursor:pointer;
+    border-bottom:2px solid transparent;transition:.2s}
+  .tabs a.on{color:var(--brand);border-color:var(--brand)}
+  .tabs a:hover{color:var(--ink)}
+  .navsp{flex:1}
+  .ntool{display:flex;align-items:center;gap:14px}
+  .chip-en{display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;
+    font-size:12.5px;font-weight:600;cursor:pointer;position:relative}
+  .langs{display:flex;gap:3px}
+  .langs button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;font-weight:600;color:var(--muted);min-width:32px;height:30px;border-radius:8px;cursor:pointer;transition:.2s;padding:0 6px}
+  .langs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .ic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:var(--bg);cursor:pointer;position:relative}
+  .badge{position:absolute;top:-4px;right:-4px;background:#e0564a;color:#fff;font-size:10px;font-weight:700;
+    width:16px;height:16px;border-radius:50%;display:grid;place-items:center}
+  .me{display:flex;align-items:center;gap:9px;cursor:pointer}
+  .ava{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#f0a890);
+    display:grid;place-items:center;font-size:17px}
+  .me b{font-size:13px;display:block} .me small{font-size:11px;color:var(--muted)}
+  .menu{position:absolute;top:42px;right:0;background:var(--card);border:1px solid var(--line);border-radius:11px;
+    padding:6px;min-width:150px;box-shadow:0 12px 30px rgba(0,0,0,.12);display:none;z-index:50}
+  .menu.open{display:block} .menu button{display:flex;width:100%;gap:8px;align-items:center;border:0;background:0;
+    font:inherit;font-size:13px;font-weight:500;padding:8px 9px;border-radius:7px;cursor:pointer;text-align:left;color:var(--ink)}
+  .menu button:hover{background:var(--soft)} .dot{width:11px;height:11px;border-radius:50%}
+
+  /* hero */
+  .hero{background:linear-gradient(135deg,var(--brand),var(--brand-d));color:#fff;position:relative;overflow:hidden}
+  .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;padding:54px 22px 92px;align-items:center}
+  .pill{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);
+    border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:600;margin-bottom:20px}
+  .hero h1{font-family:var(--display);font-weight:700;font-size:clamp(34px,5.2vw,56px);line-height:1.04;letter-spacing:-.01em}
+  .hero p{margin:18px 0 26px;font-size:15.5px;max-width:46ch;color:rgba(255,255,255,.9)}
+  .cta{display:flex;gap:13px;flex-wrap:wrap}
+  .btn{border:0;font:inherit;font-size:14px;font-weight:700;padding:14px 22px;border-radius:12px;cursor:pointer;
+    display:inline-flex;align-items:center;gap:9px;transition:.2s}
+  .btn.w{background:#fff;color:var(--brand)} .btn.w:hover{transform:translateY(-2px)}
+  .btn.o{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.4)} .btn.o:hover{background:rgba(255,255,255,.18)}
+  .cards{position:relative;height:300px}
+  .pcard{position:absolute;background:#fff;color:var(--ink);border-radius:18px;padding:18px;width:210px;
+    box-shadow:0 18px 44px rgba(0,0,0,.18)}
+  .pcard .em{font-size:30px} .pcard .tg{display:inline-block;background:var(--soft);color:var(--brand);font-size:9.5px;
+    font-weight:700;letter-spacing:.06em;padding:3px 8px;border-radius:6px;margin:8px 0 6px}
+  .pcard h4{font-size:15px;font-family:var(--display)} .pcard .ds{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.35}
+  .pcard .pr{font-size:20px;font-weight:800;color:var(--brand);margin-top:9px} .pcard .pr span{font-size:11px;font-weight:500;color:var(--muted)}
+  .c1{top:0;right:30px;transform:rotate(3deg);z-index:3}
+  .c2{top:40px;right:0;transform:rotate(-5deg);z-index:1;opacity:.96}
+  .c3{top:150px;right:54px;transform:rotate(-2deg);z-index:2}
+  .wave{position:absolute;bottom:-1px;left:0;width:100%;line-height:0}
+
+  /* stats */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin:-40px auto 0;position:relative;z-index:5}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;gap:13px;align-items:center;
+    box-shadow:0 8px 22px rgba(0,0,0,.04)}
+  .stat .si{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;font-size:19px}
+  .stat b{font-size:20px;font-family:var(--display)} .stat small{font-size:11.5px;color:var(--muted);display:block}
+
+  /* sections */
+  section{padding:40px 0}
+  .shead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px}
+  .shead h2{font-family:var(--display);font-size:25px;font-weight:700} .shead a{color:var(--brand);font-size:13px;font-weight:700;cursor:pointer}
+  .qa{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .qac{background:linear-gradient(150deg,var(--brand),var(--brand-d));color:#fff;border-radius:18px;padding:22px;cursor:pointer;
+    position:relative;overflow:hidden;transition:.22s}
+  .qac:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.16)}
+  .qac .em{font-size:30px} .qac h3{font-family:var(--display);font-size:20px;margin:14px 0 8px}
+  .qac p{font-size:13px;color:rgba(255,255,255,.88);line-height:1.5} .qac .go{margin-top:16px;font-size:13px;font-weight:700}
+  .qac .arr{position:absolute;right:18px;bottom:18px;width:42px;height:42px;border-radius:50%;
+    background:rgba(255,255,255,.16);display:grid;place-items:center;font-size:17px}
+  .qac::after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.06);right:-40px;top:-40px}
+
+  .grid3{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+  .prod{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:6px}
+  .prod .em{font-size:26px} .prod h4{font-family:var(--display);font-size:16px} .prod .ds{font-size:12px;color:var(--muted)}
+  .prod .pr{font-weight:800;color:var(--brand);font-size:17px;margin-top:2px}
+  .add{margin-top:8px;border:1px solid var(--brand);background:var(--soft);color:var(--brand);font:inherit;font-weight:700;
+    font-size:12.5px;padding:8px;border-radius:9px;cursor:pointer} .add:hover{background:var(--brand);color:#fff}
+
+  /* bundles */
+  .bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+  .bcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:7px;position:relative}
+  .bcard .em{font-size:26px} .bcard h4{font-family:var(--display);font-size:16px}
+  .bcard .save{position:absolute;top:14px;right:14px;background:var(--accent);color:#fff;font-size:11px;font-weight:800;border-radius:7px;padding:3px 8px}
+  .bchips{display:flex;gap:6px;flex-wrap:wrap;margin:2px 0 4px}
+  .bchip{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);background:var(--bg);border-radius:7px;padding:3px 8px;font-size:11px;font-weight:600;color:var(--muted)}
+  .bprice{display:flex;align-items:baseline;gap:8px;margin-top:2px}
+  .bprice .now{font-weight:800;color:var(--brand);font-size:19px} .bprice .was{font-size:12.5px;color:var(--muted);text-decoration:line-through}
+  .bfeat{grid-column:1/-1;background:linear-gradient(135deg,var(--brand),var(--brand-d));color:#fff;border:0;border-radius:18px;padding:22px;display:flex;gap:20px;align-items:center;flex-wrap:wrap;position:relative;overflow:hidden}
+  .bfeat .bfl{flex:1;min-width:240px} .bfeat .tagf{display:inline-block;background:rgba(255,255,255,.18);font-size:10.5px;font-weight:800;letter-spacing:.06em;padding:3px 9px;border-radius:6px;margin-bottom:9px}
+  .bfeat h3{font-family:var(--display);font-size:23px;margin-bottom:7px} .bfeat .bfd{font-size:13px;color:rgba(255,255,255,.9);line-height:1.5}
+  .bfeat .bchip{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:#fff}
+  .bfeat .bfr{text-align:right;min-width:160px} .bfeat .now{font-size:30px;font-weight:800;font-family:var(--display)}
+  .bfeat .was{text-decoration:line-through;color:rgba(255,255,255,.7);font-size:14px;margin-left:6px}
+  .bfeat .addf{margin-top:10px;border:0;background:#fff;color:var(--brand);font:inherit;font-weight:800;font-size:13.5px;padding:11px 20px;border-radius:11px;cursor:pointer}
+  .bfeat .addf:hover{transform:translateY(-2px)} .bfeat::after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.06);right:-50px;bottom:-60px}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
+  .field{width:100%;border:1px solid var(--line);border-radius:11px;padding:12px;font:inherit;font-size:14px;margin-top:8px;resize:vertical}
+  .pchips{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+  .pc{border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:8px 13px;font-size:12.5px;font-weight:600;cursor:pointer}
+  .pc.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+  .kc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .kc b{font-size:28px;font-family:var(--display);color:var(--brand)} .kc small{display:block;font-size:12px;color:var(--muted);margin-top:3px}
+  .bars{display:flex;align-items:flex-end;gap:12px;height:160px;padding:14px;background:var(--card);border:1px solid var(--line);border-radius:14px}
+  .bar{flex:1;background:linear-gradient(var(--brand),var(--soft));border-radius:7px 7px 0 0;position:relative;transition:height .6s ease}
+  .bar span{position:absolute;bottom:-20px;left:0;right:0;text-align:center;font-size:11px;color:var(--muted)}
+  .rows .row{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+  .tagw{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:6px}
+
+  /* toast + modal */
+  .ov{position:fixed;inset:0;background:rgba(15,25,24,.45);z-index:60;display:none;align-items:center;justify-content:center;padding:20px}
+  .ov.open{display:flex} .modal{background:var(--card);border-radius:20px;max-width:460px;width:100%;padding:26px;max-height:88vh;overflow:auto}
+  .modal h3{font-family:var(--display);font-size:23px;margin-bottom:6px} .modal .x{float:right;border:0;background:var(--soft);
+    width:32px;height:32px;border-radius:9px;cursor:pointer;font-size:15px}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;
+    padding:13px 20px;border-radius:12px;font-size:14px;font-weight:600;z-index:80;opacity:0;transition:.3s}
+  .toast.show{transform:translateX(-50%);opacity:1}
+  .fab{position:fixed;right:22px;bottom:22px;width:54px;height:54px;border-radius:50%;background:var(--brand);color:#fff;
+    display:grid;place-items:center;font-size:22px;box-shadow:0 10px 26px rgba(0,0,0,.2);cursor:pointer;z-index:40}
+  @media(max-width:820px){.hero .wrap{grid-template-columns:1fr}.cards{display:none}.stats{grid-template-columns:repeat(2,1fr)}
+    .qa{grid-template-columns:1fr}.tabs{display:none}.kpi{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <div class="brand" id="brand">BLACKMORES<sup>®</sup></div>
+    <div class="tabs" id="tabs">
+      <a data-tab="home" class="on" data-i="home">Home</a>
+      <a data-tab="trading" data-i="trading">Trading</a>
+      <a data-tab="marketing" data-i="marketing">Marketing</a>
+      <a data-tab="operations" data-i="operations">Operations</a>
+      <a data-tab="analytics" data-i="analytics">Analytics</a>
+    </div>
+    <div class="navsp"></div>
+    <div class="ntool">
+      <div class="langs" id="langs"></div>
+      <div class="ic">🔎</div>
+      <div class="ic">🔔<span class="badge">3</span></div>
+      <div class="me" id="meChip"><div class="ava">🧑🏽</div><div><b id="partner">AEON</b><small data-i="tier">Platinum Partner</small></div>
+        <div class="menu" id="mktMenu"></div></div>
+    </div>
+  </div>
+</header>
+
+<div id="main"></div>
+
+<div class="ov" id="ov"><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast"></div>
+<div class="fab" id="fab" title="Switch brand / market">🎨</div>
+
+<script>
+const BRANDS={
+  blackmores:{logo:"Blackmores",sup:"®",name:"Blackmores",vertical:"health",
+    c:{brand:"#009BA4",brandD:"#007A82",soft:"#e0f2f3",accent:"#E91E63"},
+    products:[
+      {em:"🐟",tag:"BEST SELLER",h:"Odourless Fish Oil",d:"Omega-3 for heart & joint health · 400 caps",p:32.95,u:"bottle"},
+      {em:"🦴",tag:"POPULAR",h:"Glucosamine 1500",d:"Supports joint mobility & comfort · 180 tabs",p:39.95,u:"bottle"},
+      {em:"🦠",tag:"DAILY",h:"Probiotics Daily Health",d:"Supports digestive balance · 90 caps",p:29.95,u:"bottle"},
+      {em:"💊",tag:"FAMILY",h:"Multivitamin",d:"Daily nutritional support · 100 tabs",p:24.95,u:"bottle"},
+      {em:"🍊",tag:"IMMUNITY",h:"Vitamin C 1000",d:"Supports immune function · 150 tabs",p:18.95,u:"bottle"},
+      {em:"🤰",tag:"PREGNANCY",h:"Pregnancy & Breastfeeding Gold",d:"Folate, iron & omega-3 · 60 caps",p:34.95,u:"pack"},
+      {em:"👁️",tag:"VISION",h:"Lutein Vision",d:"Supports eye health & macular care · 60 caps",p:27.95,u:"bottle"},
+      {em:"💧",tag:"",h:"Vitamin E Cream",d:"Natural moisturising face cream · 50g",p:14.95,u:"tube"}],
+    reorder:"restock 30 cases Odourless Fish Oil + 24 cases Glucosamine 1500 + 18 cases Vitamin C 1000"},
+  lumiere:{logo:"LUMIÈRE",sup:"",name:"Lumière",vertical:"beauty",
+    c:{brand:"#a8456b",brandD:"#7d2f4e",soft:"#f6e7ee",accent:"#c98a8a"},
+    products:[
+      {em:"💧",tag:"BEST SELLER",h:"Glow Serum",d:"Vitamin C brightening",p:32.00,u:"bottle"},
+      {em:"🧴",tag:"COMBO",h:"Hydra Duo",d:"Cleanser + moisturiser",p:54.00,u:"set"},
+      {em:"💄",tag:"NEW",h:"Velvet Lip",d:"Long-wear matte",p:21.00,u:"each"},
+      {em:"✨",tag:"",h:"Night Repair",d:"Retinol renewal",p:46.00,u:"bottle"}],
+    reorder:"restock 200 Glow Serum + 120 Hydra Duo sets"},
+  harvest:{logo:"HARVEST & CO",sup:"",name:"Harvest & Co",vertical:"fnb",
+    c:{brand:"#b5611f",brandD:"#8a4715",soft:"#f6ebe0",accent:"#3d7a4f"},
+    products:[
+      {em:"🍯",tag:"BEST SELLER",h:"Manuka Honey",d:"MGO 400+ raw honey",p:28.00,u:"jar"},
+      {em:"🥣",tag:"COMBO",h:"Breakfast Box",d:"Granola + oat trio",p:36.00,u:"set"},
+      {em:"🫖",tag:"NEW",h:"Herbal Tea",d:"Calm blend, caffeine-free",p:14.00,u:"pack"},
+      {em:"🥜",tag:"",h:"Nut Butter",d:"No added sugar",p:12.50,u:"jar"}],
+    reorder:"restock 150 Manuka Honey + 80 Breakfast Boxes"}
+};
+const MARKETS={
+  SEA:{partner:"FairPrice",chat:"WhatsApp",langs:"Malay, English & Chinese",defLang:"en"},
+  ANZ:{partner:"Woolworths",chat:"WhatsApp",langs:"English",defLang:"en"},
+  CN:{partner:"Tmall Global",chat:"WeChat",langs:"中文",defLang:"zh"},
+  JP:{partner:"AEON",chat:"LINE",langs:"日本語",defLang:"ja"}
+};
+const I18N={
+  en:{home:"Home",trading:"Trading",marketing:"Marketing",operations:"Operations",analytics:"Analytics",tier:"Platinum Partner",
+    pill:"AI-Powered Partner Platform",h1:"Empower Your Health Business",
+    sub:"Everything you need to grow — from smart ordering and AI-generated marketing assets to real-time insights and next best actions.",
+    quick:"Quick Order",explore:"Explore Analytics",qa:"Quick Actions",viewall:"View All →",
+    s1:"Orders",s1s:"Awaiting confirmation",s2:"Alerts",s2s:"Stock below safety level",s3:"New",s3s:"Marketing assets available",s4:"Course",s4s:"To reach Platinum tier",
+    a1:"AI Smart Reorder",a1d:"Based on your sales velocity, we recommend the optimal restock for best margin.",a1c:"Review & Order →",
+    a2:"Generate Campaign Assets",a2d:"Create promotional materials with one click using our AIGC platform.",a2c:"Create Now →",
+    a3:"Join Gut Health Month",a3d:"A global campaign in June. Confirm participation to unlock exclusive rebates.",a3c:"Confirm Join →",
+    rec:"Recommended for you",add:"Add to order",confirm:"Confirm Order",done:"Done",
+    reorderT:"AI Smart Reorder",reorderB:"Based on your sales velocity, AI recommends:",margin:"Projected margin +14% · ships in 3 days",
+    campT:"Generate Campaign Assets",desc:"Describe what you want",gen:"Generate",genned:"AI generated · ready to publish across channels",
+    immT:"Gut Health Month — June",immB:"Confirm participation to unlock exclusive partner rebates and co-funded marketing.",
+    ana:"Performance",kp1:"Sales MoM",kp2:"Reorder rate",kp3:"NPS",ops:"Stock & Alerts",mar:"Campaign Studio",
+    reorderEdu:"Unlike static reorder points, AI factors in seasonality, promotions, and real-time demand signals.",
+    anaEdu:"AI continuously learns from your sales patterns to surface actionable insights — not just historical reports."},
+  zh:{home:"首页",trading:"采购",marketing:"营销",operations:"运营",analytics:"分析",tier:"白金合作伙伴",
+    pill:"AI 驱动的合作伙伴平台",h1:"赋能你的健康生意",
+    sub:"从智能下单、AI 生成营销素材，到实时洞察与次优行动，增长所需一应俱全。",
+    quick:"快速下单",explore:"查看分析",qa:"快捷操作",viewall:"查看全部 →",
+    s1:"订单",s1s:"待确认",s2:"预警",s2s:"库存低于安全线",s3:"新素材",s3s:"营销素材可用",s4:"课程",s4s:"距白金等级",
+    a1:"AI 智能补货",a1d:"基于你的动销速度，AI 推荐最佳补货组合以优化毛利。",a1c:"查看并下单 →",
+    a2:"生成营销素材",a2d:"用我们的 AIGC 平台一键生成推广物料。",a2c:"立即生成 →",
+    a3:"加入肠活月活动",a3d:"6 月全球活动。确认参与解锁专属返点。",a3c:"确认参加 →",
+    rec:"为你推荐",add:"加入订单",confirm:"确认下单",done:"完成",
+    reorderT:"AI 智能补货",reorderB:"基于动销速度，AI 推荐：",margin:"预计毛利 +14% · 3 天内发货",
+    campT:"生成营销素材",desc:"描述你想要的内容",gen:"生成",genned:"AI 已生成 · 可一键多渠道发布",
+    immT:"肠活月 — 六月",immB:"确认参与，解锁专属合作伙伴返点与共投营销。",
+    ana:"业绩",kp1:"销售环比",kp2:"复购率",kp3:"NPS",ops:"库存与预警",mar:"营销工作室",
+    reorderEdu:"与传统固定补货点不同，AI 会综合考虑季节性、促销活动与实时需求信号。",
+    anaEdu:"AI 持续从你的销售模式中学习，提供可执行的洞察——而非仅仅历史报表。"},
+  ja:{home:"ホーム",trading:"発注",marketing:"マーケ",operations:"運用",analytics:"分析",tier:"プラチナパートナー",
+    pill:"AI搭載パートナープラットフォーム",h1:"あなたのヘルスビジネスを強化",
+    sub:"スマート発注、AI生成のマーケ素材から、リアルタイム洞察と次の最適行動まで。",
+    quick:"クイック注文",explore:"分析を見る",qa:"クイック操作",viewall:"すべて →",
+    s1:"注文",s1s:"確認待ち",s2:"アラート",s2s:"在庫が安全水準以下",s3:"新着",s3s:"マーケ素材",s4:"コース",s4s:"プラチナまで",
+    a1:"AIスマート発注",a1d:"販売速度に基づき最適な補充をAIが推奨。",a1c:"確認して発注 →",
+    a2:"キャンペーン素材生成",a2d:"AIGCでワンクリック生成。",a2c:"今すぐ作成 →",
+    a3:"腸活月間に参加",a3d:"6月のグローバル施策。参加で限定リベート。",a3c:"参加する →",
+    rec:"おすすめ",add:"注文に追加",confirm:"発注確定",done:"完了",
+    reorderT:"AIスマート発注",reorderB:"AIの推奨：",margin:"想定粗利 +14% · 3日で出荷",
+    campT:"キャンペーン素材生成",desc:"作りたい内容を記述",gen:"生成",genned:"AI生成済 · 各チャネルへ配信可",
+    immT:"腸活月間 — 6月",immB:"参加を確認して限定リベートを解放。",
+    ana:"パフォーマンス",kp1:"売上前月比",kp2:"再発注率",kp3:"NPS",ops:"在庫とアラート",mar:"キャンペーン",
+    reorderEdu:"固定された発注点とは異なり、AIは季節性、プロモーション、リアルタイム需要を考慮します。",
+    anaEdu:"AIは売上パターンから継続的に学び、履歴レポートだけでなく実行可能な洞察を提供します。"},
+  th:{home:"หน้าแรก",trading:"สั่งซื้อ",marketing:"การตลาด",operations:"ปฏิบัติการ",analytics:"วิเคราะห์",tier:"พาร์ทเนอร์แพลทินัม",
+    pill:"แพลตฟอร์มพาร์ทเนอร์ขับเคลื่อนด้วย AI",h1:"เสริมพลังธุรกิจสุขภาพของคุณ",
+    sub:"ครบทุกอย่างเพื่อเติบโต ตั้งแต่สั่งซื้ออัจฉริยะ สื่อการตลาดจาก AI ไปจนถึงข้อมูลเชิงลึกเรียลไทม์",
+    quick:"สั่งด่วน",explore:"ดูการวิเคราะห์",qa:"การทำงานด่วน",viewall:"ดูทั้งหมด →",
+    s1:"คำสั่งซื้อ",s1s:"รอยืนยัน",s2:"แจ้งเตือน",s2s:"สต็อกต่ำกว่าระดับ",s3:"ใหม่",s3s:"สื่อการตลาด",s4:"คอร์ส",s4s:"สู่ระดับแพลทินัม",
+    a1:"สั่งซื้อซ้ำอัจฉริยะ",a1d:"AI แนะนำการเติมสต็อกที่ดีที่สุดตามความเร็วการขาย",a1c:"ตรวจ & สั่ง →",
+    a2:"สร้างสื่อแคมเปญ",a2d:"สร้างสื่อโปรโมตด้วย AIGC คลิกเดียว",a2c:"สร้างเลย →",
+    a3:"ร่วมเดือนสุขภาพลำไส้",a3d:"แคมเปญทั่วโลกเดือนมิ.ย. ยืนยันเพื่อปลดล็อกส่วนลด",a3c:"ยืนยันเข้าร่วม →",
+    rec:"แนะนำสำหรับคุณ",add:"เพิ่มในออเดอร์",confirm:"ยืนยันคำสั่งซื้อ",done:"เสร็จ",
+    reorderT:"สั่งซื้อซ้ำอัจฉริยะ",reorderB:"AI แนะนำ:",margin:"กำไรคาด +14% · ส่งใน 3 วัน",
+    campT:"สร้างสื่อแคมเปญ",desc:"อธิบายสิ่งที่ต้องการ",gen:"สร้าง",genned:"AI สร้างแล้ว · พร้อมเผยแพร่ทุกช่อง",
+    immT:"เดือนสุขภาพลำไส้ — มิ.ย.",immB:"ยืนยันเข้าร่วมเพื่อปลดล็อกส่วนลดพาร์ทเนอร์",
+    ana:"ประสิทธิภาพ",kp1:"ยอดขาย MoM",kp2:"อัตราสั่งซ้ำ",kp3:"NPS",ops:"สต็อกและแจ้งเตือน",mar:"สตูดิโอแคมเปญ",
+    reorderEdu:"ไม่เหมือนจุดสั่งซื้อคงที่ AI จะพิจารณาฤดูกาล โปรโมชัน และสัญญาณความต้องการแบบเรียลไทม์",
+    anaEdu:"AI เรียนรู้อย่างต่อเนื่องจากรูปแบบการขายของคุณ เพื่อนำเสนอข้อมูลเชิงลึกที่ดำเนินการได้ — ไม่ใช่แค่รายงานย้อนหลัง"}
+};
+
+let state={brand:"blackmores",market:"ANZ",lang:"en",tab:"home",cart:0};
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const D=()=>I18N[state.lang], B=()=>BRANDS[state.brand], M=()=>MARKETS[state.market];
+// ── Currency: all base values are AUD; render in the active market's currency ──
+const CURRENCY={ANZ:{sym:'A$',rate:1},CN:{sym:'¥',rate:4.8},SEA:{sym:'฿',rate:23},JP:{sym:'¥',rate:100}};
+function money(aud){const c=CURRENCY[state.market]||CURRENCY.ANZ;return c.sym+Math.round(aud*c.rate).toLocaleString();}
+const bl=o=>o[state.lang]||o.en;
+// ── Bundles · cross-category combos · now = bundle price, was = sum of components (strikethrough) ──
+const BUNDLES_T={
+  hdr:{en:"Bundles",zh:"套装组合",ja:"バンドル",th:"ชุดบันเดิล"},
+  hdrSub:{en:"Save more with curated wellness combos",zh:"精选健康组合，买得更划算",ja:"厳選ウェルネス組合でもっとお得に",th:"ประหยัดกว่าด้วยชุดสุขภาพคัดสรร"},
+  feat:{en:"FEATURED BUNDLE",zh:"重点推荐套装",ja:"おすすめバンドル",th:"ชุดแนะนำ"},
+  save:{en:"Save",zh:"立省",ja:"お得",th:"ประหยัด"},
+  add:{en:"Add bundle to cart",zh:"加入套装",ja:"バンドルを追加",th:"เพิ่มชุดลงตะกร้า"}
+};
+const BUNDLES=[
+  {feat:true,em:"🛡️",save:15,now:89,was:105,
+    nm:{en:"Family Immunity Bundle",zh:"全家免疫组合",ja:"ファミリー免疫バンドル",th:"ชุดภูมิคุ้มกันทั้งครอบครัว"},
+    dd:{en:"Everyday immune support for the whole family — adults and kids.",zh:"全家每日免疫支持——大人小孩都适用。",ja:"家族みんなの毎日の免疫サポート — 大人も子どもも。",th:"ดูแลภูมิคุ้มกันประจำวันทั้งครอบครัว ทั้งผู้ใหญ่และเด็ก"},
+    comp:[{em:"💊",nm:{en:"Multivitamin",zh:"复合维生素",ja:"マルチビタミン",th:"มัลติวิตามิน"}},{em:"🍊",nm:{en:"Vitamin C",zh:"维生素C",ja:"ビタミンC",th:"วิตามินซี"}},{em:"🦠",nm:{en:"Probiotics",zh:"益生菌",ja:"プロバイオティクス",th:"โพรไบโอติกส์"}},{em:"🧒",nm:{en:"Kids Multi",zh:"儿童复合维生素",ja:"キッズマルチ",th:"คิดส์มัลติ"}}]},
+  {em:"❤️",save:12,now:55,was:63,
+    nm:{en:"Heart Health Essentials",zh:"心血管基础",ja:"心血管ベーシック",th:"ชุดดูแลหัวใจพื้นฐาน"},
+    comp:[{em:"🐟",nm:{en:"Fish Oil",zh:"深海鱼油",ja:"フィッシュオイル",th:"น้ำมันปลา"}},{em:"💛",nm:{en:"CoQ10",zh:"辅酶Q10",ja:"コエンザイムQ10",th:"โคเอนไซม์คิวเทน"}}]},
+  {em:"🦴",save:15,now:95,was:112,
+    nm:{en:"Joint & Heart Care Pack",zh:"关节·心血管",ja:"関節・心血管ケアパック",th:"แพ็กดูแลข้อต่อและหัวใจ"},
+    comp:[{em:"🦴",nm:{en:"Glucosamine",zh:"维骨力关节灵",ja:"グルコサミン",th:"กลูโคซามีน"}},{em:"🐟",nm:{en:"Fish Oil",zh:"深海鱼油",ja:"フィッシュオイル",th:"น้ำมันปลา"}},{em:"💛",nm:{en:"CoQ10",zh:"辅酶Q10",ja:"コエンザイムQ10",th:"โคเอนไซม์คิวเทน"}}]},
+  {em:"🤰",save:10,now:58,was:64,
+    nm:{en:"Pregnancy & Baby Bundle",zh:"孕产组合",ja:"妊娠・ベビーバンドル",th:"ชุดคุณแม่และลูกน้อย"},
+    comp:[{em:"🤰",nm:{en:"Pregnancy Gold",zh:"孕妇黄金营养素",ja:"妊娠・授乳ゴールド",th:"พรีกแนนซี โกลด์"}},{em:"🦠",nm:{en:"Probiotics",zh:"益生菌",ja:"プロバイオティクス",th:"โพรไบโอติกส์"}}]},
+  {em:"🌿",save:18,now:120,was:146,
+    nm:{en:"Healthy Ageing Bundle",zh:"健康老龄组合",ja:"健康エイジングバンドル",th:"ชุดสูงวัยอย่างมีสุขภาพดี"},
+    comp:[{em:"💊",nm:{en:"Multivitamin",zh:"复合维生素",ja:"マルチビタミン",th:"มัลติวิตามิน"}},{em:"🦴",nm:{en:"Glucosamine",zh:"维骨力关节灵",ja:"グルコサミン",th:"กลูโคซามีน"}},{em:"💛",nm:{en:"CoQ10",zh:"辅酶Q10",ja:"コエンザイムQ10",th:"โคเอนไซม์คิวเทน"}},{em:"👁️",nm:{en:"Lutein",zh:"叶黄素",ja:"ルテイン",th:"ลูทีน"}}]},
+  {em:"✨",save:12,now:65,was:74,
+    nm:{en:"Wellness Starter Pack",zh:"健康入门套装",ja:"ウェルネススターターパック",th:"ชุดเริ่มต้นสุขภาพดี"},
+    comp:[{em:"💊",nm:{en:"Multivitamin",zh:"复合维生素",ja:"マルチビタミン",th:"มัลติวิตามิน"}},{em:"🍊",nm:{en:"Vitamin C",zh:"维生素C",ja:"ビタミンC",th:"วิตามินซี"}},{em:"🐟",nm:{en:"Fish Oil",zh:"深海鱼油",ja:"フィッシュオイル",th:"น้ำมันปลา"}}]},
+  {em:"😴",save:12,now:42,was:48,
+    nm:{en:"Sleep & Stress Bundle",zh:"睡眠减压组合",ja:"睡眠・ストレスバンドル",th:"ชุดนอนหลับและคลายเครียด"},
+    comp:[{em:"😴",nm:{en:"Sleep Support",zh:"睡眠支持",ja:"スリープサポート",th:"สลีปซัพพอร์ต"}},{em:"⚡",nm:{en:"Executive B",zh:"复合维生素B 抗压",ja:"エグゼクティブ B",th:"เอ็กเซกคิวทีฟ บี"}}]}
+];
+function bundleChip(c){return `<span class="bchip">${c.em} ${bl(c.nm)}</span>`;}
+function bundlesHTML(){const t=BUNDLES_T,feat=BUNDLES.find(b=>b.feat),rest=BUNDLES.filter(b=>!b.feat);
+  return `<section style="padding-top:6px"><div class="shead"><h2>🎁 ${bl(t.hdr)}</h2>
+      <span style="color:var(--muted);font-size:12.5px">${bl(t.hdrSub)}</span></div>
+    <div class="bgrid">
+      <div class="bfeat">
+        <div class="bfl"><span class="tagf">${bl(t.feat)}</span>
+          <h3>${feat.em} ${bl(feat.nm)}</h3><div class="bfd">${bl(feat.dd)}</div>
+          <div class="bchips">${feat.comp.map(bundleChip).join('')}</div></div>
+        <div class="bfr"><span style="font-size:11px;font-weight:700;letter-spacing:.05em;opacity:.85">${bl(t.save)} ${feat.save}%</span>
+          <div><span class="now">${money(feat.now)}</span><span class="was">${money(feat.was)}</span></div>
+          <button class="addf" data-bdl="${BUNDLES.indexOf(feat)}">🛒 ${bl(t.add)}</button></div></div>
+      ${rest.map(b=>`<div class="bcard"><span class="save">−${b.save}%</span><div class="em">${b.em}</div>
+        <h4>${bl(b.nm)}</h4>
+        <div class="bchips">${b.comp.map(bundleChip).join('')}</div>
+        <div class="bprice"><span class="now">${money(b.now)}</span><span class="was">${money(b.was)}</span></div>
+        <button class="add" data-bdl="${BUNDLES.indexOf(b)}">🛒 ${bl(t.add)}</button></div>`).join('')}
+    </div></section>`;}
+function wireBundles(){$$('[data-bdl]').forEach(btn=>btn.onclick=()=>{state.cart++;const b=BUNDLES[+btn.dataset.bdl];
+  const cv=$('#cartv');if(cv)cv.textContent='🛒 '+state.cart;toast('🛒 '+bl(b.nm));});}
+
+function applyBrand(){const b=B(),r=document.documentElement.style;
+  r.setProperty('--brand',b.c.brand);r.setProperty('--brand-d',b.c.brandD);
+  r.setProperty('--soft',b.c.soft);r.setProperty('--accent',b.c.accent);
+  $('#brand').innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');}
+function applyText(){const d=D();$$('[data-i]').forEach(e=>{const k=e.getAttribute('data-i');if(d[k])e.textContent=d[k];});
+  $('#partner').textContent=M().partner;
+  document.documentElement.lang=state.lang;}
+
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+function openM(html){$('#modal').innerHTML='<button class="x" id="mx">✕</button>'+html;$('#ov').classList.add('open');$('#mx').onclick=closeM;}
+function closeM(){$('#ov').classList.remove('open');}
+$('#ov').onclick=e=>{if(e.target.id==='ov')closeM();};
+
+function render(){const d=D(),b=B();
+  if(state.tab==='home')renderHome();
+  else if(state.tab==='trading')renderTrading();
+  else if(state.tab==='marketing')renderMarketing();
+  else if(state.tab==='analytics')renderAnalytics();
+  else renderOps();
+  $$('#tabs a').forEach(a=>a.classList.toggle('on',a.dataset.tab===state.tab));}
+
+function prodCardHTML(p){return `<div class="pcard"><div class="em">${p.em}</div>
+  ${p.tag?`<span class="tg">${p.tag}</span>`:''}<h4>${p.h}</h4><div class="ds">${p.d}</div>
+  <div class="pr">${money(p.p)} <span>/ ${p.u}</span></div></div>`;}
+
+function renderHome(){const d=D(),b=B();const ps=b.products;
+  $('#main').innerHTML=`
+  <div class="hero"><div class="wrap">
+    <div>
+      <span class="pill">🤖 ${d.pill}</span>
+      <h1>${d.h1}</h1><p>${d.sub}</p>
+      <div class="cta"><button class="btn w" id="bQuick">🛍️ ${d.quick}</button>
+        <button class="btn o" id="bExplore">👁️ ${d.explore}</button></div>
+    </div>
+    <div class="cards">
+      <div class="c1">${prodCardHTML(ps[0])}</div>
+      <div class="c2">${prodCardHTML(ps[1])}</div>
+      <div class="c3">${prodCardHTML(ps[2])}</div>
+    </div>
+  </div>
+    <svg class="wave" viewBox="0 0 1440 70" preserveAspectRatio="none"><path d="M0,40 C360,90 1080,-10 1440,40 L1440,70 L0,70 Z" fill="var(--bg)"></path></svg>
+  </div>
+  <div class="wrap">
+    <div class="stats">
+      ${stat('🛍️','#e6f4ea','3',d.s1,d.s1s)}${stat('⚠️','#eaf1f8','2',d.s2,d.s2s)}
+      ${stat('🖼️','#f8e9f0','12',d.s3,d.s3s)}${stat('▶️','#fdf2e2','1',d.s4,d.s4s)}
+    </div>
+    <section>
+      <div class="shead"><h2>${d.qa}</h2><a id="viewAll">${d.viewall}</a></div>
+      <div class="qa">
+        ${qac('🤖',d.a1,d.a1d,d.a1c,'reorder')}
+        ${qac('🎨',d.a2,d.a2d,d.a2c,'camp')}
+        ${qac('🏆',d.a3,d.a3d,d.a3c,'imm')}
+      </div>
+    </section>
+    <section style="padding-top:6px">
+      <div class="shead"><h2>${d.rec}</h2></div>
+      <div class="grid3">${ps.map((p,i)=>`<div class="prod"><div class="em">${p.em}</div><h4>${p.h}</h4>
+        <div class="ds">${p.d}</div><div class="pr">${money(p.p)}</div>
+        <button class="add" data-add="${i}">${d.add}</button></div>`).join('')}</div>
+    </section>
+  </div>`;
+  $('#bQuick').onclick=()=>{state.tab='trading';render();};
+  $('#bExplore').onclick=()=>{state.tab='analytics';render();};
+  $('#viewAll').onclick=()=>toast(d.qa);
+  $$('.qac').forEach(c=>c.onclick=()=>qaAction(c.dataset.act));
+  $$('[data-add]').forEach(btn=>btn.onclick=()=>{state.cart++;toast('🛒 '+B().products[btn.dataset.add].h);});
+}
+function stat(em,bg,n,t,s){return `<div class="stat"><div class="si" style="background:${bg}">${em}</div>
+  <div><b>${n} ${t}</b><small>${s}</small></div></div>`;}
+function qac(em,h,p,c,act){return `<div class="qac" data-act="${act}"><div class="em">${em}</div>
+  <h3>${h}</h3><p>${p}</p><div class="go">${c}</div><div class="arr">→</div></div>`;}
+
+function qaAction(a){const d=D(),b=B();
+  if(a==='reorder')openM(`<h3>🤖 ${d.reorderT}</h3><p style="color:var(--muted);font-size:14px">${d.reorderB}</p>
+    <p style="color:var(--brand);font-size:13px;margin:-8px 0 12px;font-weight:600">💡 ${d.reorderEdu}</p>
+    <div style="background:var(--soft);border-radius:12px;padding:16px;margin:14px 0">
+      <b style="font-family:var(--display);font-size:17px">${b.reorder}</b>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px">${d.margin}</div></div>
+    <button class="btn w" style="background:var(--brand);color:#fff;width:100%;justify-content:center" id="ok">${d.confirm}</button>`);
+  else if(a==='camp')openM(`<h3>🎨 ${d.campT}</h3>
+    <textarea class="field" id="cd" placeholder="${d.desc}…">Everyday wellness for the whole family — Odourless Fish Oil, Glucosamine 1500, Probiotics Daily Health, Vitamin C 1000, Multivitamin, ${M().langs}</textarea>
+    <div class="pchips">${['Instagram','TikTok','Facebook','WeChat','WhatsApp'].map(p=>`<span class="pc">${p}</span>`).join('')}</div>
+    <button class="btn w" style="background:var(--brand);color:#fff;width:100%;justify-content:center" id="genb">✨ ${d.gen}</button>
+    <div id="genout"></div>`);
+  else openM(`<h3>🏆 ${d.immT}</h3><p style="color:var(--muted);font-size:14px;margin:8px 0 16px">${d.immB}</p>
+    <button class="btn w" style="background:var(--brand);color:#fff;width:100%;justify-content:center" id="ok">${d.a3c.replace(' →','')}</button>`);
+  const ok=$('#ok');if(ok)ok.onclick=()=>{closeM();toast('✅ '+d.done);};
+  const gb=$('#genb');if(gb)gb.onclick=()=>{$$('.pc').forEach(x=>x);
+    $('#genout').innerHTML=`<div style="background:var(--soft);border-radius:12px;padding:15px;margin-top:14px;font-size:13.5px;line-height:1.6">
+      🐟 <b>Everyday wellness for the whole family — ${B().name}</b><br>Australian-made, TGA-certified supplements: Odourless Fish Oil for heart health, Glucosamine for joints, Probiotics for digestive balance.<br>
+      <span style="color:var(--brand);font-size:12px">#Blackmores #FishOil #Glucosamine #Probiotics</span>
+      <div style="margin-top:10px;color:var(--muted);font-size:12px">🖼️ ${d.genned}</div></div>`;};
+  $$('.pc').forEach(c=>c.onclick=()=>c.classList.toggle('on'));
+}
+
+function renderTrading(){const d=D(),b=B();
+  $('#main').innerHTML=`<div class="wrap"><section><div class="shead"><h2>${d.quick}</h2>
+    <a id="cartv">🛒 ${state.cart}</a></div>
+    <div class="grid3">${b.products.map((p,i)=>`<div class="prod"><div class="em">${p.em}</div><h4>${p.h}</h4>
+      <div class="ds">${p.d}</div><div class="pr">${money(p.p)} <span style="font-size:11px;color:var(--muted)">/ ${p.u}</span></div>
+      <button class="add" data-add="${i}">${d.add}</button></div>`).join('')}</div></section>
+    ${bundlesHTML()}</div>`;
+  $$('[data-add]').forEach(btn=>btn.onclick=()=>{state.cart++;$('#cartv').textContent='🛒 '+state.cart;toast('🛒 '+b.products[btn.dataset.add].h);});
+  wireBundles();
+}
+function renderMarketing(){const d=D();
+  $('#main').innerHTML=`<div class="wrap"><section><div class="shead"><h2>${d.mar}</h2></div>
+    <div class="panel"><b style="font-family:var(--display);font-size:17px">🎨 ${d.campT}</b>
+    <textarea class="field" id="cd" placeholder="${d.desc}…">Everyday wellness for the whole family — Odourless Fish Oil, Glucosamine 1500, Probiotics Daily Health, Vitamin C 1000, Multivitamin, Lutein Vision, ${M().langs}</textarea>
+    <div class="pchips">${['Instagram','TikTok','Facebook','WeChat','WhatsApp','RedNote'].map(p=>`<span class="pc">${p}</span>`).join('')}</div>
+    <button class="btn w" style="background:var(--brand);color:#fff;justify-content:center" id="genb">✨ ${d.gen}</button>
+    <div id="genout"></div></div></section></div>`;
+  $$('.pc').forEach(c=>c.onclick=()=>c.classList.toggle('on'));
+  $('#genb').onclick=()=>{$('#genout').innerHTML=`<div style="background:var(--soft);border-radius:12px;padding:16px;margin-top:14px;line-height:1.6">
+    🐟 <b>Everyday wellness for the whole family — ${B().name}</b><br>Australian-made, TGA-certified: Odourless Fish Oil for the heart, Glucosamine for joints, Probiotics for digestion, Lutein for vision.<br>
+    <span style="color:var(--brand);font-size:12px">#Blackmores #FishOil #Glucosamine #Probiotics #Lutein #${M().partner.replace(/\s/g,'')}</span>
+    <div style="margin-top:10px;color:var(--muted);font-size:12px">🖼️ ${d.genned}</div></div>`;};
+}
+function renderAnalytics(){const d=D();const bars=[62,70,58,80,74,90];
+  $('#main').innerHTML=`<div class="wrap"><section><div class="shead"><h2>${d.ana}</h2></div>
+    <p style="color:var(--brand);font-size:13px;font-weight:600;margin-bottom:14px">💡 ${d.anaEdu}</p>
+    <div class="kpi"><div class="kc"><b>+18%</b><small>${d.kp1}</small></div>
+      <div class="kc"><b>64%</b><small>${d.kp2}</small></div><div class="kc"><b>+47</b><small>${d.kp3}</small></div></div>
+    <div class="bars">${bars.map((h,i)=>`<div class="bar" style="height:${h}%"><span>${['Jan','Feb','Mar','Apr','May','Jun'][i]}</span></div>`).join('')}</div>
+    </section></div>`;
+}
+function renderOps(){const d=D();const rows=[
+  ['⚠️','#fdeceb','#e0564a','Odourless Fish Oil','Stock below safety level · 42 left'],
+  ['⚠️','#fdf2e2','#c98a2b','Glucosamine 1500','Reorder point reached · 18 left'],
+  ['✅','#e6f4ea','#1f9d57','Vitamin C 1000','Healthy · 230 in stock'],
+  ['📦','#eaf1f8','#3a6ea5','Order #4821','Awaiting confirmation']];
+  $('#main').innerHTML=`<div class="wrap"><section><div class="shead"><h2>${d.ops}</h2></div>
+    <div class="panel rows">${rows.map(r=>`<div class="row"><div class="si" style="width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:${r[1]}">${r[0]}</div>
+      <div style="flex:1"><b style="font-family:var(--display)">${r[3]}</b><div style="font-size:12.5px;color:var(--muted)">${r[4]}</div></div>
+      <span class="tagw" style="background:${r[1]};color:${r[2]}">●</span></div>`).join('')}</div></section></div>`;
+}
+
+// menus
+function buildMenu(menuEl,items,onPick){menuEl.innerHTML='';items.forEach(it=>{const b=document.createElement('button');
+  b.innerHTML=it.html;b.onclick=e=>{e.stopPropagation();onPick(it.key);menuEl.classList.remove('open');};menuEl.appendChild(b);});}
+$('#meChip').onclick=e=>{e.stopPropagation();$('#mktMenu').classList.toggle('open');};
+document.addEventListener('click',()=>$$('.menu').forEach(m=>m.classList.remove('open')));
+const LANGS=[['en','EN'],['zh','中'],['ja','日'],['th','ไท']];
+function renderLangs(){const box=document.querySelector('#langs');box.innerHTML='';LANGS.forEach(([k,lab])=>{const b=document.createElement('button');b.textContent=lab;if(k===state.lang)b.className='on';b.onclick=()=>{state.lang=k;renderLangs();applyText();render();};box.appendChild(b);});}
+renderLangs();
+buildMenu($('#mktMenu'),Object.keys(MARKETS).map(k=>({key:k,html:`🌐 ${k} · ${MARKETS[k].partner}`})),
+  k=>{state.market=k;state.lang=MARKETS[k].defLang;renderLangs();applyText();render();});
+
+// fab = brand switch (the white-label wow)
+$('#fab').onclick=()=>{const keys=Object.keys(BRANDS);const i=keys.indexOf(state.brand);
+  state.brand=keys[(i+1)%keys.length];applyBrand();render();toast('🎨 '+B().name);};
+
+$('#tabs').addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;state.tab=a.dataset.tab;render();});
+
+try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_m=_p.get("market"),_l=_p.get("lang");if(_b&&typeof BRANDS!=="undefined"&&BRANDS[_b])state.brand=_b;if(_l&&["en","zh","ja","th"].indexOf(_l)>=0)state.lang=_l;if(["ANZ","CN","SEA","JP"].indexOf(_m)>=0)state.market=_m;else if(!CURRENCY[state.market])state.market="ANZ";}catch(e){}
+// inbound market sync from the studio: {t:"es",market}
+window.addEventListener("message",function(e){try{var m=e.data;if(m&&m.t==="es"&&["ANZ","CN","SEA","JP"].indexOf(m.market)>=0&&m.market!==state.market){state.market=m.market;applyText();render();}}catch(_){}});
+applyBrand();applyText();render();
+(function(){var _l="";setInterval(function(){try{if(typeof state==="undefined")return;var c=(state.brand||"")+"|"+(state.lang||"")+"|"+(state.market||"");if(c!==_l){_l=c;if(window.parent&&window.parent!==window)window.parent.postMessage({t:"es",brand:state.brand||null,lang:state.lang||null,market:state.market||null},"*");}}catch(e){}},400);})();
+</script>
+</body>
+</html>

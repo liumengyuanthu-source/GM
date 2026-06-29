@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Store Lifecycle · Blackmores · Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
+    --ink:#16201f; --muted:#6a7472; --bg:#f4f7fb; --card:#fff; --line:#e6ecf2;
+    --neg:#c0563f; --warn:#b5731a; --black:#0b1320;
+    --display:Georgia,'Times New Roman','Hiragino Mincho ProN','Songti SC',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','PingFang SC','Microsoft YaHei','Thonburi','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  button{font-family:inherit;cursor:pointer}
+  header{background:var(--black);position:sticky;top:0;z-index:30}
+  .nav{display:flex;align-items:center;gap:12px;max-width:1080px;margin:0 auto;padding:13px 18px}
+  .brand{font-family:var(--display);font-weight:700;font-size:19px;color:#fff;letter-spacing:.02em}.brand sup{font-size:9px;color:#7fb2dc}
+  .sub{font-size:11px;color:#9fb4c8;border-left:1px solid #2a3647;padding-left:12px;letter-spacing:.04em}.sp{flex:1}
+  .langs{display:flex;gap:3px;background:rgba(255,255,255,.06);border:1px solid #2a3647;border-radius:9px;padding:3px}
+  .langs button{border:0;background:0;font:inherit;font-size:12px;font-weight:700;color:#9fb4c8;min-width:30px;padding:5px 8px;border-radius:6px;transition:.15s}
+  .langs button.on{background:#fff;color:var(--brand-d)}
+  .wrap{max-width:1080px;margin:0 auto;padding:22px 18px 70px}
+  .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:700}
+  h1.h{font-family:var(--display);font-weight:400;font-size:clamp(21px,4vw,28px);margin:8px 0 5px;line-height:1.18}
+  .lead{color:var(--muted);font-size:13.5px;max-width:70ch}
+  .proof{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .proof .pc{font-size:11px;font-weight:700;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--brand-d)}
+  .proof .pc b{color:var(--accent)}
+
+  .tabs{display:flex;gap:4px;margin:20px 0 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tabs button{border:0;background:0;font:inherit;font-size:13.5px;font-weight:700;color:var(--muted);padding:11px 14px;border-bottom:2px solid transparent;display:flex;gap:7px;align-items:center}
+  .tabs button.on{color:var(--brand);border-color:var(--brand)}
+  .tabs .cnt{font-size:11px;background:var(--soft);color:var(--brand-d);border-radius:999px;padding:1px 8px;font-weight:800}
+
+  /* mode + filter row */
+  .toolrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+  .seg{display:flex;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:4px}
+  .seg button{border:0;background:0;font:inherit;font-size:12.5px;font-weight:700;color:var(--muted);padding:7px 13px;border-radius:8px}
+  .seg button.on{background:var(--brand);color:#fff}
+  .chipf{display:flex;gap:6px;flex-wrap:wrap}
+  .chipf button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;font-weight:700;color:var(--muted);padding:6px 11px;border-radius:999px}
+  .chipf button.on{border-color:var(--brand);background:var(--soft);color:var(--brand-d)}
+
+  /* kanban */
+  .kan{display:grid;gap:11px;grid-auto-flow:column;grid-auto-columns:minmax(190px,1fr);overflow-x:auto;padding-bottom:8px}
+  .col{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px;min-height:120px}
+  .col h4{font-size:12px;font-weight:800;display:flex;align-items:center;gap:7px;margin-bottom:10px;color:var(--ink)}
+  .col h4 .n{width:20px;height:20px;border-radius:50%;background:var(--soft);color:var(--brand-d);display:grid;place-items:center;font-size:10px}
+  .col h4 .c{margin-left:auto;font-size:10.5px;color:var(--muted);font-weight:700}
+  .pcard{border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:10px;padding:10px;margin-bottom:8px;cursor:pointer;transition:.15s;background:var(--card)}
+  .pcard:hover{box-shadow:0 6px 16px rgba(0,60,110,.1);transform:translateY(-1px)}
+  .pcard:last-child{margin-bottom:0}
+  .pcard.delay{border-left-color:var(--neg)}
+  .pcard.done{border-left-color:var(--accent)}
+  .pcard .tp{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--brand-d);background:var(--soft);border-radius:5px;padding:2px 6px;display:inline-block}
+  .pcard.delay .tp{color:var(--neg);background:#fdecea}
+  .pcard .nm{font-weight:700;font-size:12.5px;margin:6px 0 3px;line-height:1.3}
+  .pcard .mt{font-size:10.5px;color:var(--muted)}
+  .pcard .bar{height:5px;border-radius:99px;background:var(--soft);margin-top:8px;overflow:hidden}
+  .pcard .bar i{display:block;height:100%;background:var(--brand);border-radius:99px}
+  .pcard.delay .bar i{background:var(--neg)}.pcard.done .bar i{background:var(--accent)}
+  .pcard .ft{display:flex;justify-content:space-between;align-items:center;margin-top:7px;font-size:10px;color:var(--muted)}
+  .pcard .st{font-weight:800}.st.ok{color:var(--accent)}.st.dl{color:var(--neg)}.st.done{color:var(--accent)}
+
+  /* alerts */
+  .stat3{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+  .sb{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px;text-align:center}
+  .sb b{font-family:var(--display);font-size:23px;display:block;line-height:1}
+  .sb.r b{color:var(--neg)}.sb.w b{color:var(--warn)}.sb.g b{color:var(--accent)}.sb.b b{color:var(--brand)}
+  .sb span{font-size:10.5px;color:var(--muted);display:block;margin-top:5px}
+  .alist{display:flex;flex-direction:column;gap:8px}
+  .arow{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:11px;padding:11px 13px}
+  .arow.hi{border-left-color:var(--neg)}.arow.ok{border-left-color:var(--accent);opacity:.6}
+  .arow .ai{width:34px;height:34px;border-radius:9px;background:var(--soft);display:grid;place-items:center;font-size:16px;flex-shrink:0}
+  .arow .ab{flex:1;min-width:0}
+  .arow .at{font-weight:700;font-size:13px}
+  .arow .as{font-size:11.5px;color:var(--muted);margin-top:2px}
+  .arow .cd{text-align:right;flex-shrink:0}
+  .arow .cd b{font-family:var(--display);font-size:19px;line-height:1}
+  .arow.hi .cd b{color:var(--neg)}.arow.w .cd b{color:var(--warn)}
+  .arow .cd span{font-size:9.5px;color:var(--muted);display:block}
+  .arow .rb{border:1px solid var(--accent);background:#eafaf0;color:#077a3c;font:inherit;font-weight:700;font-size:11.5px;padding:7px 12px;border-radius:9px;flex-shrink:0}
+  .arow .rb:hover{background:var(--accent);color:#fff}
+  .arow.ok .rb{border-color:var(--line);background:var(--soft);color:var(--muted)}
+
+  /* site selection */
+  .site{display:grid;grid-template-columns:300px 1fr;gap:16px}
+  @media(max-width:740px){.site{grid-template-columns:1fr}.stat3{grid-template-columns:1fr 1fr}}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px}
+  .layerlab{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:4px 0 9px}
+  .cand{border:1px solid var(--line);border-radius:11px;padding:11px 12px;margin-bottom:8px;cursor:pointer;transition:.15s}
+  .cand:hover{border-color:var(--brand)}
+  .cand.on{border-color:var(--brand);background:var(--soft)}
+  .cand .cn{font-weight:700;font-size:13px}
+  .cand .cl{font-size:11px;color:var(--muted);margin-top:2px}
+  .cand .sc{float:right;font-family:var(--display);font-size:18px;font-weight:600}
+  .sc.hi{color:var(--accent)}.sc.mid{color:var(--warn)}.sc.lo{color:var(--neg)}
+  .factor{margin-bottom:12px}
+  .factor .fl{display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:4px}
+  .factor .fl span:last-child{color:var(--muted)}
+  .ftrack{height:8px;border-radius:99px;background:var(--soft);overflow:hidden}
+  .ftrack i{display:block;height:100%;border-radius:99px;background:var(--brand)}
+  .verdict{margin-top:12px;border-radius:11px;padding:12px;font-size:13px;font-weight:600}
+  .verdict.go{background:#eafaf0;color:#077a3c}.verdict.cau{background:#fdf2e2;color:var(--warn)}.verdict.no{background:#fdecea;color:var(--neg)}
+  .scorebig{font-family:var(--display);font-size:40px;font-weight:600;line-height:1}
+
+  /* modal */
+  .modal{position:fixed;inset:0;z-index:80;display:none}
+  .modal.show{display:block}
+  .mback{position:absolute;inset:0;background:rgba(11,19,32,.55)}
+  .mcard{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(560px,93vw);max-height:88vh;overflow:auto;background:var(--card);border-radius:16px;padding:20px;box-shadow:0 30px 70px rgba(0,0,0,.3)}
+  .mx{position:absolute;top:13px;right:14px;border:0;background:var(--soft);width:30px;height:30px;border-radius:50%;font-size:14px;color:var(--ink)}
+  .mh{font-family:var(--display);font-size:18px}
+  .msub{font-size:12px;color:var(--muted);margin:2px 0 14px}
+  .steps{position:relative;margin-left:8px}
+  .step{display:flex;gap:12px;padding-bottom:14px;position:relative}
+  .step:before{content:"";position:absolute;left:8px;top:18px;bottom:-4px;width:2px;background:var(--line)}
+  .step:last-child:before{display:none}
+  .step .dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);background:var(--card);flex-shrink:0;z-index:2;display:grid;place-items:center;font-size:9px;color:#fff}
+  .step.done .dot{background:var(--accent);border-color:var(--accent)}
+  .step.cur .dot{border-color:var(--brand);background:var(--brand)}
+  .step .sb2{flex:1}
+  .step .stt{font-weight:700;font-size:13px}
+  .step.todo .stt{color:var(--muted)}
+  .step .smeta{font-size:11px;color:var(--muted);margin-top:2px;display:flex;gap:10px;flex-wrap:wrap}
+  .step .role{background:var(--soft);color:var(--brand-d);border-radius:5px;padding:1px 7px;font-weight:700}
+  .step .dl{color:var(--neg);font-weight:700}
+  .madv{display:flex;gap:9px;margin-top:8px}
+  .btn{border:0;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:13px;padding:11px 16px;border-radius:11px}
+  .btn.o{background:var(--soft);color:var(--brand)}
+  .btn:disabled{opacity:.5}
+
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(50px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:11px;font-size:14px;font-weight:600;z-index:90;opacity:0;transition:.3s}
+  .toast.show{transform:translateX(-50%);opacity:1}
+  .fab{position:fixed;right:18px;bottom:18px;width:50px;height:50px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:20px;box-shadow:0 8px 22px rgba(0,0,0,.2);z-index:40}
+  .pane{display:none}.pane.on{display:block;animation:fin .3s ease}
+  @keyframes fin{from{opacity:0;transform:translateY(6px)}}
+</style>
+</head>
+<body>
+<header><div class="nav">
+  <div class="brand" id="brand">Blackmores<sup>®</sup></div>
+  <div class="sub" id="sub">Store Lifecycle</div><div class="sp"></div>
+  <div class="langs" id="langs"></div>
+</div></header>
+
+<div class="wrap">
+  <div class="eyebrow" id="eye">Dealer & Channel · Store Network Lifecycle</div>
+  <h1 class="h" id="title"></h1>
+  <div class="lead" id="lead"></div>
+  <div class="proof" id="proofRow"></div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <!-- Pipeline -->
+  <div class="pane on" id="pane-pipe">
+    <div class="toolrow">
+      <div class="seg" id="modeSeg"></div>
+      <div class="chipf" id="typeFilter"></div>
+    </div>
+    <div class="kan" id="kan"></div>
+  </div>
+
+  <!-- Alerts -->
+  <div class="pane" id="pane-alert">
+    <div class="stat3" id="alertStats"></div>
+    <div class="alist" id="alist"></div>
+  </div>
+
+  <!-- Site -->
+  <div class="pane" id="pane-site">
+    <div class="site">
+      <div class="panel">
+        <div class="layerlab" id="siteLayerLab"></div>
+        <div id="candList"></div>
+      </div>
+      <div class="panel" id="siteDetail"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal"></div>
+<div class="toast" id="toast"></div>
+<div class="fab" id="fab" title="brand">🎨</div>
+
+<script>
+const BRANDS={blackmores:{logo:"Blackmores",sup:"®",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  bioceuticals:{logo:"BioCeuticals",sup:"",c:["#1b3a5c","#10243a","#e7edf3","#c9a24a"]},
+  kids:{logo:"Blackmores Kids",sup:"",c:["#d63a2f","#a82a22","#fbe7e5","#1f9d57"]}};
+const L=o=>o[state.lang]||o.ja||o.en;
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+
+const T={
+ sub:{ja:"店舗ライフサイクル",en:"Store Lifecycle",zh:"店铺生命周期",th:"วงจรชีวิตร้าน"},
+ eye:{ja:"ディーラー・チャネル · 店舗ネットワーク・ライフサイクル",en:"Dealer & Channel · Store Network Lifecycle",zh:"经销商与渠道 · 店铺网络生命周期",th:"ดีลเลอร์ · วงจรชีวิตเครือข่ายร้าน"},
+ title:{ja:"出店候補から退店まで、店舗・売場ネットワークを一つのパイプラインで。",en:"From site candidate to closure — the whole store & touchpoint network in one pipeline.",zh:"从选址候补到退店——整个门店与售点网络，一条 pipeline 管到底。",th:"จากทำเลถึงปิดร้าน — เครือข่ายร้านและจุดขายในไปป์ไลน์เดียว"},
+ lead:{ja:"新規出店・改装・移設・退店（O/U/C/T）と、POP・什器・契約・授権書の期限まで。各売場はフォーマット別に異なる進捗パスを辿り、マイルストーン・担当・計画/実績日を一元管理します。Blackmores では薬局チェーンへのブランドカウンター導入や、ヘルスストアでの新規上市〜撤去にそのまま適用できます。",
+   en:"New opening, refit, transfer and closure (O/U/C/T), plus the expiry of POP, fixtures, contracts and authorization letters. Each store follows a format-specific path with milestones, owners and planned-vs-actual dates — managed in one place. For Blackmores it maps directly to onboarding a brand counter at a pharmacy partner, or standing up and tearing down a health-store pop-up.",
+   zh:"新开、改装、移设、退店（O/U/C/T），再加 POP、器架、合同、授权信的到期管理。每个售点按业态走不同的进度路径，里程碑、责任人、计划/实际日期统一管控。对 Blackmores 来说，可直接套用到在药房伙伴上新品牌专柜，或健康门店快闪的搭建与撤场。",
+   th:"เปิด ปรับปรุง ย้าย ปิด (O/U/C/T) พร้อมการหมดอายุของ POP ชั้นวาง สัญญา และหนังสือมอบอำนาจ แต่ละร้านเดินตามเส้นทางตามฟอร์แมต พร้อมไมล์สโตน ผู้รับผิดชอบ และวันแผน/จริง"},
+ proof:{ja:["健康小売チェーンで<b>実証</b>","ブランドカウンター SLM","複数デバイス・多言語・自動リマインド"],en:["Proven across <b>health retail chains</b>","Brand-counter SLM","Multi-device · multilingual · auto-reminders"],zh:["健康零售连锁<b>已验证</b>","品牌专柜 SLM","多设备·多语言·自动提醒"],th:["ใช้จริงในเครือ<b>ร้านสุขภาพ</b>","SLM เคาน์เตอร์แบรนด์","หลายอุปกรณ์·หลายภาษา"]},
+ t_pipe:{ja:"パイプライン",en:"Pipeline",zh:"项目看板",th:"ไปป์ไลน์"},
+ t_alert:{ja:"期限アラート",en:"Expiry Alerts",zh:"到期预警",th:"แจ้งเตือนหมดอายุ"},
+ t_site:{ja:"出店選定",en:"Site Selection",zh:"选址",th:"เลือกทำเล"},
+ modeBuild:{ja:"新規・改装",en:"Open / Refit",zh:"新开·改装",th:"เปิด/ปรับปรุง"},
+ modeExit:{ja:"退店・移設",en:"Close / Transfer",zh:"退店·移设",th:"ปิด/ย้าย"},
+ fAll:{ja:"すべて",en:"All",zh:"全部",th:"ทั้งหมด"},
+ advance:{ja:"次のステップへ ▶",en:"Advance to next ▶",zh:"推进到下一步 ▶",zh2:"",th:"ไปขั้นถัดไป ▶"},
+ doneAll:{ja:"✓ 全工程 完了",en:"✓ All steps complete",zh:"✓ 全部完成",th:"✓ เสร็จทุกขั้น"},
+ advanced:{ja:"ステップを進めました",en:"Advanced one step",zh:"已推进一步",th:"ไปอีกขั้น"},
+ plan:{ja:"計画",en:"Plan",zh:"计划",th:"แผน"},
+ actual:{ja:"実績",en:"Actual",zh:"实际",th:"จริง"},
+ owner:{ja:"担当",en:"Owner",zh:"责任",th:"ผู้ดูแล"},
+ delayed:{ja:"遅延",en:"Delayed",zh:"延期",th:"ล่าช้า"},
+ ontrack:{ja:"順調",en:"On track",zh:"正常",th:"ปกติ"},
+ doneL:{ja:"完了",en:"Done",zh:"完成",th:"เสร็จ"},
+ stepsLab:{ja:"マイルストーン（フォーマット別パス）",en:"Milestones (format-specific path)",zh:"里程碑（按业态的路径）",th:"ไมล์สโตน"},
+ renew:{ja:"更新",en:"Renew",zh:"续期",th:"ต่ออายุ"},
+ renewed:{ja:"更新を申請しました",en:"Renewal requested",zh:"已申请续期",th:"ขอต่ออายุแล้ว"},
+ within30:{ja:"30日以内",en:"≤30 days",zh:"30天内",th:"≤30 วัน"},within60:{ja:"60日以内",en:"≤60 days",zh:"60天内",th:"≤60 วัน"},within90:{ja:"90日以内",en:"≤90 days",zh:"90天内",th:"≤90 วัน"},okCnt:{ja:"対応済み",en:"Handled",zh:"已处理",th:"จัดการแล้ว"},
+ days:{ja:"日",en:"days",zh:"天",th:"วัน"},
+ siteLayer:{ja:"出店候補 ・ 市場→都市→商圏",en:"Candidates · market → city → trade area",zh:"候补点 · 市场→都市→商圈",th:"ตัวเลือก · ตลาด→เมือง→ทำเล"},
+ score:{ja:"適合スコア",en:"Fit score",zh:"契合分",th:"คะแนน"},
+ pickHint:{ja:"左の候補を選ぶと、AI が立地適合をスコアリングします。",en:"Pick a candidate — AI scores the location fit.",zh:"选左侧候补点，AI 给立地契合评分。",th:"เลือกตัวเลือก — AI ให้คะแนนทำเล"},
+ vGo:{ja:"出店推奨",en:"Recommended",zh:"建议出店",th:"แนะนำ"},vCau:{ja:"条件付き",en:"Conditional",zh:"有条件",th:"มีเงื่อนไข"},vNo:{ja:"非推奨",en:"Not recommended",zh:"不建议",th:"ไม่แนะนำ"}
+};
+// owners/roles
+const ROLE={sp:{ja:"スペースプランナー",en:"Space Planner",zh:"空间规划",th:"นักวางพื้นที่"},vm:{ja:"VM",en:"VM",zh:"VM",th:"VM"},sales:{ja:"営業",en:"Sales",zh:"销售",th:"ขาย"},legal:{ja:"法務",en:"Legal",zh:"法务",th:"กฎหมาย"},rd:{ja:"リテール開発",en:"Retail Dev",zh:"零售开发",th:"พัฒนาร้าน"},fin:{ja:"財務",en:"Finance",zh:"财务",th:"การเงิน"}};
+// build pipeline stages
+const ST_BUILD=[
+ {k:"cand",ja:"候補",en:"Candidate",zh:"候补",th:"ตัวเลือก"},
+ {k:"site",ja:"立地確定",en:"Site Locked",zh:"选址确定",th:"ล็อกทำเล"},
+ {k:"contract",ja:"契約",en:"Contract",zh:"签约",th:"สัญญา"},
+ {k:"design",ja:"設計",en:"Design",zh:"设计",th:"ออกแบบ"},
+ {k:"build",ja:"施工",en:"Build",zh:"施工",th:"ก่อสร้าง"},
+ {k:"open",ja:"開業",en:"Open",zh:"开业",th:"เปิด"}];
+const ST_EXIT=[
+ {k:"apply",ja:"申請",en:"Apply",zh:"申请",th:"ยื่น"},
+ {k:"approve",ja:"承認",en:"Approve",zh:"审批",th:"อนุมัติ"},
+ {k:"legal",ja:"法務・資産処理",en:"Legal & Assets",zh:"法务·资产",th:"กฎหมาย·สินทรัพย์"},
+ {k:"done",ja:"完了",en:"Done",zh:"完成",th:"เสร็จ"}];
+// milestone label helper
+function MS(ja,en,zh,role,plan){return{t:{ja,en,zh,th:en},role,plan};}
+// cards
+const CARDS=[
+ {id:1,mode:"build",type:{ja:"新規",en:"New",zh:"新开",th:"ใหม่"},store:{ja:"Chemist Warehouse シドニーCBD / ブランドカウンター",en:"Chemist Warehouse Sydney CBD / brand counter",zh:"Chemist Warehouse 悉尼CBD / 品牌专柜",th:"Chemist Warehouse Sydney / เคาน์เตอร์"},stage:3,delay:false,
+  ms:[MS("出店申請","Counter request","进场申请","sales"),MS("立地適合確認","Site fit check","选址契合确认","rd"),MS("棚割・契約","Planogram & contract","棚割·签约","legal"),MS("什器・POP 設計","Fixture & POP design","器架·POP 设计","sp"),MS("施工・設置","Install","施工·设置","vm"),MS("開業・VM 確認","Open & VM check","开业·VM 确认","vm")]},
+ {id:2,mode:"build",type:{ja:"改装",en:"Refit",zh:"改装",th:"ปรับ"},store:{ja:"Priceline メルボルン / 棚拡張",en:"Priceline Melbourne / shelf expansion",zh:"Priceline 墨尔本 / 货架扩张",th:"Priceline Melbourne / ขยายชั้น"},stage:4,delay:true,
+  ms:[MS("改装申請","Refit request","改装申请","sales"),MS("現地調査","Site survey","现地调查","rd"),MS("契約更新","Contract renew","合同续签","legal"),MS("レイアウト設計","Layout design","布局设计","sp"),MS("施工","Construction","施工","vm"),MS("再開業","Re-open","重新开业","vm")]},
+ {id:3,mode:"build",type:{ja:"新規",en:"New",zh:"新开",th:"ใหม่"},store:{ja:"ポップアップ 上海環球港 / 越境ヘルス",en:"Pop-up Shanghai L'Avenue / cross-border health",zh:"快闪 上海环球港 / 跨境健康",th:"Pop-up Shanghai / cross-border"},stage:1,delay:false,
+  ms:[MS("企画申請","Plan request","企划申请","sales"),MS("区画選定","Space pick","区位选定","rd"),MS("短期契約","Short lease","短租签约","legal"),MS("空間設計","Space design","空间设计","sp"),MS("施工","Build","搭建","vm"),MS("オープン","Open","开张","vm")]},
+ {id:4,mode:"build",type:{ja:"新規",en:"New",zh:"新开",th:"ใหม่"},store:{ja:"Watsons シンガポール / 新規上市",en:"Watsons Singapore / new listing",zh:"屈臣氏 新加坡 / 新导入",th:"Watsons Singapore / สินค้าใหม่"},stage:5,delay:false,
+  ms:[MS("導入申請","Listing request","导入申请","sales"),MS("立地確認","Site check","选址确认","rd"),MS("取引契約","Trade contract","交易合同","legal"),MS("棚割設計","Planogram","棚割设计","sp"),MS("納品・陳列","Stock & display","铺货陈列","vm"),MS("導入完了","Live","导入完成","vm")]},
+ {id:5,mode:"build",type:{ja:"改装",en:"Refit",zh:"改装",th:"ปรับ"},store:{ja:"マツモトキヨシ 新宿 / 棚替え",en:"Matsumoto Kiyoshi Shinjuku / reset",zh:"松本清 新宿 / 棚替",th:"Matsumoto Kiyoshi / reset"},stage:2,delay:false,
+  ms:[MS("棚替え申請","Reset request","棚替申请","sales"),MS("現状確認","As-is check","现状确认","rd"),MS("契約条件","Terms","条件确认","legal"),MS("新棚割設計","New planogram","新棚割","sp"),MS("施工","Reset","施工","vm"),MS("完了確認","Confirm","完成确认","vm")]},
+ // exit mode
+ {id:6,mode:"exit",type:{ja:"退店",en:"Close",zh:"退店",th:"ปิด"},store:{ja:"旧専柜 広州 / 不採算 退店",en:"Guangzhou counter / unprofitable closure",zh:"旧专柜 广州 / 不盈利退店",th:"Guangzhou / ปิด"},stage:2,delay:false,
+  ms:[MS("退店申請","Closure request","退店申请","sales"),MS("地域承認","Regional approval","区域审批","fin"),MS("法務・什器回収","Legal & fixture recovery","法务·器架回收","legal"),MS("退店完了・主データ更新","Closed & master update","退店完成·主数据更新","rd")]},
+ {id:7,mode:"exit",type:{ja:"移設",en:"Transfer",zh:"移设",th:"ย้าย"},store:{ja:"ブランドカウンター ブリスベン / 別店舗へ移設",en:"Brisbane counter / transfer",zh:"品牌专柜 布里斯班 / 移设他店",th:"Brisbane counter / ย้าย"},stage:1,delay:true,
+  ms:[MS("移設申請","Transfer request","移设申请","sales"),MS("承認","Approval","审批","fin"),MS("什器移管・授権書更新","Fixture & auth transfer","器架移管·授权更新","legal"),MS("移設完了","Transferred","移设完成","rd")]}
+];
+// alerts
+const ALERTS=[
+ {id:1,kind:"lease",icon:"📄",t:{ja:"Priceline メルボルン / 賃貸契約",en:"Priceline Melbourne / lease",zh:"Priceline 墨尔本 / 租约",th:"Priceline / สัญญาเช่า"},s:{ja:"カウンター契約満了が近づいています",en:"Counter lease expiring soon",zh:"专柜租约即将到期",th:"สัญญาใกล้หมด"},days:18,done:false},
+ {id:2,kind:"auth",icon:"📜",t:{ja:"Chemist Warehouse シドニー / 授権書",en:"Chemist Warehouse Sydney / authorization",zh:"Chemist Warehouse 悉尼 / 授权信",th:"Chemist Warehouse / มอบอำนาจ"},s:{ja:"ブランドカウンターの授権書更新が必要",en:"Brand-counter authorization renewal due",zh:"品牌专柜授权信需续期",th:"ต่ออายุมอบอำนาจ"},days:34,done:false},
+ {id:3,kind:"pop",icon:"🪧",t:{ja:"ポップアップ 上海 / POP",en:"Pop-up Shanghai / POP",zh:"快闪 上海 / POP",th:"Pop-up Shanghai / POP"},s:{ja:"季節 POP の差し替え期限",en:"Seasonal POP swap deadline",zh:"季节 POP 更换期限",th:"เปลี่ยน POP ตามฤดู"},days:9,done:false},
+ {id:4,kind:"fixture",icon:"🧴",t:{ja:"マツモトキヨシ 新宿 / 什器",en:"Matsumoto Kiyoshi / fixture",zh:"松本清 / 器架",th:"Matsumoto Kiyoshi / ชั้นวาง"},s:{ja:"什器・サンプリング什器の保守時期",en:"Display & sampling fixture maintenance due",zh:"陈列/试用器架维护期",th:"บำรุงชั้นวาง"},days:52,done:false},
+ {id:5,kind:"contract",icon:"📑",t:{ja:"Watsons シンガポール / 取引契約",en:"Watsons Singapore / trade contract",zh:"屈臣氏 新加坡 / 交易合同",th:"Watsons / สัญญา"},s:{ja:"年間取引契約の更新",en:"Annual trade contract renewal",zh:"年度交易合同续签",th:"ต่อสัญญาประจำปี"},days:76,done:false}
+];
+// site candidates
+const SITES=[
+ {id:1,nm:{ja:"シドニー CBD 薬局密集区",en:"Sydney CBD pharmacy cluster",zh:"悉尼 CBD 药房密集区",th:"Sydney CBD"},loc:{ja:"豪 / 都心 / 駅前",en:"AU / urban / station",zh:"澳/都心/站前",th:"ออสเตรเลีย"},score:88,f:{traffic:90,demo:86,compete:72,transit:95,rent:78}},
+ {id:2,nm:{ja:"メルボルン郊外 SC",en:"Melbourne suburban mall",zh:"墨尔本郊外 购物中心",th:"Melbourne mall"},loc:{ja:"豪 / 郊外 / SC内",en:"AU / suburb / mall",zh:"澳/郊外/商场",th:"ชานเมือง"},score:74,f:{traffic:70,demo:80,compete:64,transit:58,rent:88}},
+ {id:3,nm:{ja:"上海 地下鉄直結モール",en:"Shanghai metro mall",zh:"上海 地铁直连商场",th:"Shanghai mall"},loc:{ja:"中 / 都心 / 地下直結",en:"CN / urban / metro-linked",zh:"中国/都心/地铁直连",th:"เซี่ยงไฮ้"},score:81,f:{traffic:92,demo:74,compete:55,transit:90,rent:62}},
+ {id:4,nm:{ja:"郊外 単独旧立地",en:"Suburban legacy spot",zh:"郊外 旧立地",th:"ชานเมือง"},loc:{ja:"豪 / 郊外 / 単独",en:"AU / suburb / standalone",zh:"澳/郊外/独立",th:"ชานเมือง"},score:48,f:{traffic:42,demo:55,compete:50,transit:38,rent:70}}
+];
+const FLAB={traffic:{ja:"人流",en:"Foot traffic",zh:"人流",th:"คนเดิน"},demo:{ja:"健康客層適合",en:"Health-shopper fit",zh:"健康客层契合",th:"กลุ่มลูกค้าสุขภาพ"},compete:{ja:"競合余地",en:"Competition room",zh:"竞争余地",th:"คู่แข่ง"},transit:{ja:"交通利便",en:"Transit access",zh:"交通便利",th:"การเดินทาง"},rent:{ja:"賃料効率",en:"Rent efficiency",zh:"租金效率",th:"ค่าเช่า"}};
+
+let state={lang:"en",brand:"blackmores",tab:"pipe",mode:"build",typeF:"all",site:1};
+
+function renderProof(){$('#proofRow').innerHTML=L(T.proof).map(p=>`<span class="pc">${p}</span>`).join('');}
+function tabsBar(){
+  const counts={pipe:CARDS.length,alert:ALERTS.filter(a=>!a.done).length,site:SITES.length};
+  $('#tabs').innerHTML=[["pipe",L(T.t_pipe)],["alert",L(T.t_alert)],["site",L(T.t_site)]]
+   .map(([k,l])=>`<button data-t="${k}" class="${state.tab===k?'on':''}">${l}<span class="cnt">${counts[k]}</span></button>`).join('');
+  $$('#tabs button').forEach(b=>b.onclick=()=>{state.tab=b.dataset.t;sync();});
+}
+function sync(){
+  document.documentElement.lang=state.lang;
+  $('#sub').textContent=L(T.sub);$('#eye').textContent=L(T.eye);$('#title').textContent=L(T.title);$('#lead').textContent=L(T.lead);
+  renderProof();tabsBar();
+  $$('.pane').forEach(p=>p.classList.remove('on'));$('#pane-'+state.tab).classList.add('on');
+  if(state.tab==='pipe')renderPipe();
+  if(state.tab==='alert')renderAlerts();
+  if(state.tab==='site')renderSite();
+}
+
+function curStages(){return state.mode==='build'?ST_BUILD:ST_EXIT;}
+function renderPipe(){
+  $('#modeSeg').innerHTML=[["build",L(T.modeBuild)],["exit",L(T.modeExit)]]
+   .map(([k,l])=>`<button data-m="${k}" class="${state.mode===k?'on':''}">${l}</button>`).join('');
+  $$('#modeSeg button').forEach(b=>b.onclick=()=>{state.mode=b.dataset.m;state.typeF='all';renderPipe();});
+  // type filter from cards in this mode
+  const types=[...new Set(CARDS.filter(c=>c.mode===state.mode).map(c=>JSON.stringify(c.type)))].map(s=>JSON.parse(s));
+  $('#typeFilter').innerHTML=`<button data-f="all" class="${state.typeF==='all'?'on':''}">${L(T.fAll)}</button>`+
+    types.map(t=>`<button data-f='${L(t)}' class="${state.typeF===L(t)?'on':''}">${L(t)}</button>`).join('');
+  $$('#typeFilter button').forEach(b=>b.onclick=()=>{state.typeF=b.dataset.f;renderPipe();});
+  const stages=curStages();
+  const cards=CARDS.filter(c=>c.mode===state.mode&&(state.typeF==='all'||L(c.type)===state.typeF));
+  $('#kan').innerHTML=stages.map((s,si)=>{
+    const inCol=cards.filter(c=>c.stage===si);
+    return `<div class="col"><h4><span class="n">${si+1}</span>${L(s)}<span class="c">${inCol.length}</span></h4>
+      ${inCol.map(c=>cardHtml(c)).join('')}</div>`;
+  }).join('');
+  $$('.pcard').forEach(el=>el.onclick=()=>openCard(+el.dataset.id));
+}
+function cardHtml(c){
+  const stages=curStages();const done=c.stage>=stages.length-1;
+  const pct=Math.round(c.stage/(stages.length-1)*100);
+  const cls=done?'done':(c.delay?'delay':'');
+  const st=done?`<span class="st done">${L(T.doneL)}</span>`:(c.delay?`<span class="st dl">${L(T.delayed)}</span>`:`<span class="st ok">${L(T.ontrack)}</span>`);
+  return `<div class="pcard ${cls}" data-id="${c.id}">
+    <span class="tp">${L(c.type)}</span>
+    <div class="nm">${L(c.store)}</div>
+    <div class="mt">${c.stage+1}/${stages.length} · ${L(stages[c.stage])}</div>
+    <div class="bar"><i style="width:${pct}%"></i></div>
+    <div class="ft"><span>${pct}%</span>${st}</div></div>`;
+}
+function openCard(id){
+  const c=CARDS.find(x=>x.id===id);const stages=curStages();
+  const m=$('#modal');
+  const stepsHtml=c.ms.map((s,i)=>{
+    const done=i<c.stage, cur=i===c.stage;
+    const cls=done?'done':(cur?'cur':'todo');
+    const dl=(cur&&c.delay)?`<span class="dl">▲ ${L(T.delayed)}</span>`:'';
+    const act=done?`<span>${L(T.actual)}: ✓</span>`:'';
+    return `<div class="step ${cls}"><div class="dot">${done?'✓':''}</div>
+      <div class="sb2"><div class="stt">${L(s.t)}</div>
+      <div class="smeta"><span class="role">${L(ROLE[s.role])}</span><span>${L(T.plan)}: +${s.plan!=null?s.plan:i+1}d</span>${act}${dl}</div></div></div>`;
+  }).join('');
+  const atLast=c.stage>=stages.length-1;
+  m.innerHTML=`<div class="mback" id="mb"></div><div class="mcard"><button class="mx" id="mx">✕</button>
+    <div class="mh">${L(c.store)}</div>
+    <div class="msub">${L(c.type)} · ${state.mode==='build'?L(T.modeBuild):L(T.modeExit)} · ${c.stage+1}/${stages.length} ${L(stages[c.stage])}</div>
+    <div class="layerlab">${L(T.stepsLab)}</div>
+    <div class="steps">${stepsHtml}</div>
+    <div class="madv">${atLast?`<button class="btn" disabled>${L(T.doneAll)}</button>`:`<button class="btn" id="adv">${L(T.advance)}</button>`}
+      <button class="btn o" id="cl">✕</button></div></div>`;
+  m.classList.add('show');
+  $('#mb').onclick=$('#mx').onclick=$('#cl').onclick=()=>m.classList.remove('show');
+  const a=$('#adv');if(a)a.onclick=()=>{c.stage++;if(c.stage>=stages.length-1)c.delay=false;m.classList.remove('show');renderPipe();toast(L(T.advanced));};
+}
+
+function renderAlerts(){
+  const act=ALERTS.filter(a=>!a.done);
+  const c30=act.filter(a=>a.days<=30).length,c60=act.filter(a=>a.days>30&&a.days<=60).length,c90=act.filter(a=>a.days>60&&a.days<=90).length,ok=ALERTS.filter(a=>a.done).length;
+  $('#alertStats').innerHTML=`
+   <div class="sb r"><b>${c30}</b><span>🔴 ${L(T.within30)}</span></div>
+   <div class="sb w"><b>${c60}</b><span>🟠 ${L(T.within60)}</span></div>
+   <div class="sb b"><b>${c90}</b><span>🔵 ${L(T.within90)}</span></div>
+   <div class="sb g"><b>${ok}</b><span>✓ ${L(T.okCnt)}</span></div>`;
+  const sorted=[...ALERTS].sort((a,b)=>(a.done-b.done)||(a.days-b.days));
+  $('#alist').innerHTML=sorted.map(a=>{
+    const cls=a.done?'ok':(a.days<=30?'hi':(a.days<=60?'w':''));
+    return `<div class="arow ${cls}"><div class="ai">${a.icon}</div>
+      <div class="ab"><div class="at">${L(a.t)}</div><div class="as">${L(a.s)}</div></div>
+      <div class="cd"><b>${a.done?'✓':a.days}</b><span>${a.done?L(T.doneL):L(T.days)}</span></div>
+      <button class="rb" data-id="${a.id}" ${a.done?'disabled':''}>${L(T.renew)}</button></div>`;
+  }).join('');
+  $$('.rb').forEach(b=>{if(b.disabled)return;b.onclick=()=>{const a=ALERTS.find(x=>x.id==b.dataset.id);a.done=true;renderAlerts();tabsBar();toast(L(T.renewed));};});
+}
+
+function renderSite(){
+  $('#siteLayerLab').textContent=L(T.siteLayer);
+  $('#candList').innerHTML=SITES.map(s=>{
+    const cl=s.score>=80?'hi':(s.score>=60?'mid':'lo');
+    return `<div class="cand ${state.site===s.id?'on':''}" data-id="${s.id}"><span class="sc ${cl}">${s.score}</span>
+      <div class="cn">${L(s.nm)}</div><div class="cl">${L(s.loc)}</div></div>`;
+  }).join('');
+  $$('.cand').forEach(el=>el.onclick=()=>{state.site=+el.dataset.id;renderSite();});
+  const s=SITES.find(x=>x.id===state.site);
+  if(!s){$('#siteDetail').innerHTML=`<div style="color:var(--muted);font-size:13px">${L(T.pickHint)}</div>`;return;}
+  const vcls=s.score>=80?'go':(s.score>=60?'cau':'no');
+  const vtxt=s.score>=80?L(T.vGo):(s.score>=60?L(T.vCau):L(T.vNo));
+  const cl=s.score>=80?'hi':(s.score>=60?'mid':'lo');
+  $('#siteDetail').innerHTML=`<div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div><div class="mh">${L(s.nm)}</div><div class="msub">${L(s.loc)}</div></div>
+      <div style="text-align:right"><div class="scorebig ${cl}">${s.score}</div><div style="font-size:10px;color:var(--muted)">${L(T.score)}</div></div></div>
+    ${Object.keys(s.f).map(k=>`<div class="factor"><div class="fl"><span>${L(FLAB[k])}</span><span>${s.f[k]}</span></div>
+      <div class="ftrack"><i style="width:${s.f[k]}%"></i></div></div>`).join('')}
+    <div class="verdict ${vcls}">${vtxt}</div>`;
+}
+
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800);}
+function applyBrand(){const b=BRANDS[state.brand],r=document.documentElement.style;
+  r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
+  $('#brand').innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');}
+$('#fab').onclick=()=>{const k=Object.keys(BRANDS),i=k.indexOf(state.brand);state.brand=k[(i+1)%k.length];applyBrand();toast('🎨 '+BRANDS[state.brand].logo);};
+
+const LANGS=[['en','EN'],['zh','中'],['ja','日'],['th','ไท']];
+function renderLangs(){const box=$('#langs');box.innerHTML='';LANGS.forEach(([k,lab])=>{const b=document.createElement('button');b.textContent=lab;if(k===state.lang)b.className='on';b.onclick=()=>{state.lang=k;renderLangs();sync();};box.appendChild(b);});}
+try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_l=_p.get("lang");
+  if(_l&&["en","zh","ja","th"].indexOf(_l)>=0)state.lang=_l;if(_b&&BRANDS[_b])state.brand=_b;}catch(e){}
+renderLangs();applyBrand();sync();
+</script>
+</body>
+</html>

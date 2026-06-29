@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital Transformation — Blackmores Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
+    --ink:#1b1d1a; --muted:#6d716a; --canvas:#ffffff; --card:#ffffff; --line:#e8e6df;
+    --display:Georgia,'Times New Roman','Songti SC','Noto Serif CJK SC',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans','Microsoft YaHei',sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--body);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+  header{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--line)}
+  .bar{display:flex;align-items:center;gap:16px;max-width:1080px;margin:0 auto;padding:11px 28px}
+  .back{font-size:13px;font-weight:800;color:var(--brand-d);text-decoration:none;border:1px solid var(--line);padding:8px 14px;border-radius:999px;transition:.18s}
+  .back:hover{border-color:var(--brand);background:var(--soft)}
+  .ptitle{font-family:var(--display);font-size:21px;font-weight:600;letter-spacing:-.01em}
+  .spacer{flex:1}
+  .langsw{display:flex;gap:4px;background:#f4f2ec;border:1px solid var(--line);border-radius:999px;padding:3px}
+  .langsw button{border:0;background:transparent;font:inherit;font-size:12px;font-weight:800;color:var(--muted);padding:5px 11px;border-radius:999px;cursor:pointer;transition:.15s}
+  .langsw button.on{background:#fff;color:var(--brand-d);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+  .hero{background:linear-gradient(135deg,#e6f6f5 0%,#f7f5ef 60%);border-bottom:1px solid var(--line)}
+  .hero-in{padding:40px 0 36px}
+  .kick{font-size:11px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--brand);margin-bottom:14px}
+  .hero h1{font-family:var(--display);font-size:clamp(30px,4.6vw,46px);font-weight:600;letter-spacing:-.02em;margin:0;line-height:1.08}
+  .hero .lead{font-size:15.5px;color:var(--muted);max-width:740px;margin-top:14px}
+  section{padding:42px 0}
+  section + section{border-top:1px solid var(--line)}
+  .sec-kick{font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--brand);margin-bottom:10px}
+  .sec-h{font-family:var(--display);font-size:28px;font-weight:600;letter-spacing:-.01em;margin:0 0 8px}
+  .sec-sub{font-size:15px;color:var(--muted);max-width:780px;margin:0 0 24px}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:820px){.grid4{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}}
+  @media(max-width:520px){.grid4{grid-template-columns:1fr}}
+  .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}
+  .card .x{font-size:12px;font-weight:900;letter-spacing:.04em;color:var(--brand-d)}
+  .card h3{font-family:var(--display);font-size:18px;font-weight:600;margin:6px 0 8px}
+  .card p{font-size:13px;color:var(--muted);margin:0}
+  .vs{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .vs > div{padding:22px}
+  .vs .bx{background:#fff}.vs .cx{background:var(--soft)}
+  .vs h4{font-family:var(--display);font-size:18px;font-weight:600;margin:0 0 8px;color:var(--ink)}
+  .vs ul{margin:0;padding-left:18px;font-size:13.5px;color:var(--muted)}
+  .vs li{margin:5px 0}
+  .flow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .flow .node{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:13.5px;font-weight:800}
+  .flow .node small{display:block;font-weight:600;color:var(--muted);font-size:11.5px;margin-top:2px}
+  .flow .arr{color:var(--muted);font-weight:800}
+  .realm{display:grid;grid-template-columns:1fr 60px 1fr;gap:0;align-items:stretch}
+  @media(max-width:760px){.realm{grid-template-columns:1fr}}
+  .realm .col{border:1px solid var(--line);border-radius:16px;padding:20px}
+  .realm .col.on{border-top:4px solid var(--brand)}
+  .realm .col.off{border-top:4px solid var(--accent)}
+  .realm .mid{display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:900}
+  .realm h4{font-family:var(--display);font-size:17px;font-weight:600;margin:0 0 10px}
+  .realm ul{margin:0;padding-left:18px;font-size:13px;color:var(--muted)}
+  .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  @media(max-width:760px){.steps{grid-template-columns:1fr}}
+  .step{padding:18px;border-right:1px solid var(--line)}
+  .step:last-child{border-right:0}
+  .step .n{font-size:12px;font-weight:900;color:var(--brand-d)}
+  .step h4{font-family:var(--display);font-size:16px;font-weight:600;margin:6px 0 5px}
+  .step p{font-size:12.5px;color:var(--muted);margin:0}
+  .demos{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .demos a{font-size:12.5px;font-weight:700;text-decoration:none;background:#fff;border:1px solid var(--line);color:var(--ink);padding:7px 12px;border-radius:8px;transition:.18s}
+  .demos a:hover{border-color:var(--brand);color:var(--brand-d)}
+  footer{border-top:1px solid var(--line);padding:26px 0 50px}
+  .note{font-size:13px;color:var(--muted);background:#faf9f5;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <a class="back" href="index.html" data-i18n="back">← Back to studio</a>
+    <span class="ptitle" data-i18n="ptitle">Digital Transformation</span>
+    <span class="spacer"></span>
+    <div class="langsw" id="langsw">
+      <button data-lang="en" class="on">EN</button>
+      <button data-lang="zh">中文</button>
+      <button data-lang="ja">日本語</button>
+      <button data-lang="th">ไทย</button>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap hero-in">
+    <div class="kick" data-i18n="kick">Approach</div>
+    <h1 data-i18n="h1">Transform the experience — channel and consumer.</h1>
+    <p class="lead" data-i18n="lead">Blackmores already runs on plenty of platforms. The job isn't to rebuild them — it's to find the best path on top of what exists to modernise the experience across four layers: the business, the consumer, the daily product use, and the partners who run the channels. This is the framework we use to get there.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s1k">01 · Four experience layers</div>
+    <h2 class="sec-h" data-i18n="s1h">BX · CX · UX · EX</h2>
+    <p class="sec-sub" data-i18n="s1s">Transformation isn't one experience — it's four, and they have to move together.</p>
+    <div class="grid4">
+      <div class="card"><div class="x">BX</div><h3 data-i18n="c1h">Business experience</h3><p data-i18n="c1p">The brand &amp; commercial outcome — first-party data, margin, compliance, and the channel-to-direct shift.</p></div>
+      <div class="card"><div class="x">CX</div><h3 data-i18n="c2h">Customer experience</h3><p data-i18n="c2p">How a shopper discovers, buys, and is cared for — across marketplace, pharmacy, chat and owned channels.</p></div>
+      <div class="card"><div class="x">UX</div><h3 data-i18n="c3h">Use experience</h3><p data-i18n="c3p">The daily product moment — taking supplements, tracking goals, the habit that earns engagement.</p></div>
+      <div class="card"><div class="x">EX</div><h3 data-i18n="c4h">Enablement experience</h3><p data-i18n="c4p">The partners and store teams running the channels — content, tools, training and data they need to perform.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s2k">02 · The balance</div>
+    <h2 class="sec-h" data-i18n="s2h">CX vs BX — value for the consumer, value for the business</h2>
+    <p class="sec-sub" data-i18n="s2s">Good transformation creates consumer value and business value at the same time. Optimise only one and it stalls.</p>
+    <div class="vs">
+      <div class="cx">
+        <h4 data-i18n="cxh">Consumer value (CX/UX)</h4>
+        <ul>
+          <li data-i18n="cx1">Trusted, compliant guidance — supportive, never a claim</li>
+          <li data-i18n="cx2">A daily reason to engage (Health Score, plan, reminders)</li>
+          <li data-i18n="cx3">Seamless across the channels they already use</li>
+        </ul>
+      </div>
+      <div class="bx">
+        <h4 data-i18n="bxh">Business value (BX/EX)</h4>
+        <ul>
+          <li data-i18n="bx1">First-party, consented data feeding one CDP</li>
+          <li data-i18n="bx2">Channels enabled to sell more, with brand &amp; compliance intact</li>
+          <li data-i18n="bx3">A path from channel-led today to direct over time</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s3k">03 · Digital empowerment</div>
+    <h2 class="sec-h" data-i18n="s3h">Empower the channel now, build the consumer relationship over time</h2>
+    <p class="sec-sub" data-i18n="s3s">The same platform serves two jobs in sequence — exactly the operating model in the studio.</p>
+    <div class="flow">
+      <span class="node" data-i18n="fn1">Enable channels<small>content · AI · compliance · data</small></span>
+      <span class="arr">→</span>
+      <span class="node" data-i18n="fn2">Unify data &amp; content<small>one CDP · one source of truth</small></span>
+      <span class="arr">→</span>
+      <span class="node" data-i18n="fn3">Own the consumer<small>membership · health companion · direct</small></span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s4k">04 · Methodology</div>
+    <h2 class="sec-h" data-i18n="s4h">How we run it</h2>
+    <p class="sec-sub" data-i18n="s4s">A journey-map-led approach that modernises on top of existing systems rather than replacing them.</p>
+    <div class="steps">
+      <div class="step"><div class="n">01</div><h4 data-i18n="m1h">Discover</h4><p data-i18n="m1p">Map current channels, data, systems and the real consumer &amp; partner journeys.</p></div>
+      <div class="step"><div class="n">02</div><h4 data-i18n="m2h">Map</h4><p data-i18n="m2p">Build the journey-map canvas across digital and physical touchpoints.</p></div>
+      <div class="step"><div class="n">03</div><h4 data-i18n="m3h">Prioritise</h4><p data-i18n="m3p">Pick the highest-value gaps (e.g. platform-store enablement, daily habit).</p></div>
+      <div class="step"><div class="n">04</div><h4 data-i18n="m4h">Pilot</h4><p data-i18n="m4p">Prove a quick-win loop on top of existing platforms — measure, learn.</p></div>
+      <div class="step"><div class="n">05</div><h4 data-i18n="m5h">Scale</h4><p data-i18n="m5p">Roll the proven capability across markets and channels on one platform.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s5k">05 · Digital + physical realms</div>
+    <h2 class="sec-h" data-i18n="s5h">One experience across online and offline</h2>
+    <p class="sec-sub" data-i18n="s5s">Marketplaces, owned apps and chat on one side; pharmacy and retail on the other — unified by data and content.</p>
+    <div class="realm">
+      <div class="col on">
+        <h4 data-i18n="rdh">Digital realm</h4>
+        <ul>
+          <li data-i18n="rd1">Marketplace stores (Tmall / JD / Lazada / Shopee)</li>
+          <li data-i18n="rd2">Owned web/app, WeChat membership</li>
+          <li data-i18n="rd3">Conversational commerce (WeChat / LINE / WhatsApp)</li>
+        </ul>
+      </div>
+      <div class="mid">+</div>
+      <div class="col off">
+        <h4 data-i18n="rph">Physical realm</h4>
+        <ul>
+          <li data-i18n="rp1">Pharmacy &amp; retail (Chemist Warehouse, Priceline, drugstores)</li>
+          <li data-i18n="rp2">On-pack QR &amp; embedded brand content</li>
+          <li data-i18n="rp3">Store-team enablement &amp; training</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s6k">06 · Use case</div>
+    <h2 class="sec-h" data-i18n="s6h">An immunity shopper, transformed</h2>
+    <p class="sec-sub" data-i18n="s6s">The same person, before and after — showing all four layers moving together.</p>
+    <div class="grid2">
+      <div class="card"><h3 data-i18n="ucbh">Before</h3><p data-i18n="ucbp">Buys Fish Oil on a marketplace store run by a partner. Blackmores never sees the shopper, has no data, and the relationship ends at checkout.</p></div>
+      <div class="card"><h3 data-i18n="ucah">After</h3><p data-i18n="ucap">The partner is enabled with compliant content and an incentive; with consent, the shopper becomes a first-party member, lands in a daily Health Companion, builds a streak, and re-orders on subscription — data flowing to one CDP that improves every next interaction.</p></div>
+    </div>
+    <div class="demos">
+      <span class="muted" style="font-size:12.5px;font-weight:700;align-self:center;margin-right:4px" data-i18n="demolbl">Related demos:</span>
+      <a href="cross-entity-bridge.html" data-i18n="d_bridge">Consent bridge</a>
+      <a href="health-companion.html" data-i18n="d_comp">Health companion</a>
+      <a href="channel-ops.html" data-i18n="d_chan">Channel ops</a>
+      <a href="aigc.html" data-i18n="d_aigc">AIGC content</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="note" data-i18n="note">
+      <b>Draft for review.</b> Original Blackmores adaptation of the digital-transformation framework (re-authored for retail/health — no auto content reused). Grounded in the channel-enable → direct strategy. Source of truth: <b>MARKET_POSITIONING.md</b>.
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var I18N={
+    zh:{
+      back:"← 返回工作室", ptitle:"数字化转型", kick:"方法",
+      h1:"重塑体验——渠道与消费者并重。",
+      lead:"Blackmores 已经在大量平台上运营。我们的任务不是重建这些平台，而是在现有基础之上找到最佳路径，从四个层面焕新体验：业务、消费者、日常产品使用，以及运营渠道的伙伴。这正是我们达成目标所用的框架。",
+      s1k:"01 · 四层体验", s1h:"BX · CX · UX · EX", s1s:"转型不是一种体验，而是四种，而且必须协同推进。",
+      c1h:"业务体验", c1p:"品牌与商业成果——第一方数据、利润、合规，以及从渠道到直营的转变。",
+      c2h:"客户体验", c2p:"消费者如何发现、购买并获得关怀——贯穿电商平台、药房、对话与自有渠道。",
+      c3h:"使用体验", c3p:"每日的产品时刻——服用保健品、追踪目标，养成赢得参与的习惯。",
+      c4h:"赋能体验", c4p:"运营渠道的伙伴与门店团队——他们达成业绩所需的内容、工具、培训与数据。",
+      s2k:"02 · 平衡之道", s2h:"CX 对 BX——为消费者创造价值，为业务创造价值", s2s:"好的转型同时创造消费者价值与业务价值。只优化其一，便会停滞。",
+      cxh:"消费者价值（CX/UX）",
+      cx1:"可信、合规的引导——给予支持，绝不宣称疗效",
+      cx2:"每日参与的理由（健康评分、计划、提醒）",
+      cx3:"在消费者已使用的渠道间无缝衔接",
+      bxh:"业务价值（BX/EX）",
+      bx1:"经授权的第一方数据汇入统一 CDP",
+      bx2:"赋能渠道卖得更多，同时维护品牌与合规",
+      bx3:"一条从当下渠道主导走向直营的路径",
+      s3k:"03 · 数字赋能", s3h:"当下赋能渠道，长期构建消费者关系", s3s:"同一平台依次承担两项任务——正是工作室中的运营模式。",
+      fn1:"赋能渠道<small>内容 · AI · 合规 · 数据</small>",
+      fn2:"统一数据与内容<small>统一 CDP · 唯一事实来源</small>",
+      fn3:"掌握消费者<small>会员 · 健康伙伴 · 直营</small>",
+      s4k:"04 · 方法论", s4h:"我们如何落地", s4s:"以旅程地图为主导的方法，在现有系统之上焕新，而非取而代之。",
+      m1h:"洞察", m1p:"梳理现有渠道、数据、系统，以及真实的消费者与伙伴旅程。",
+      m2h:"绘制", m2p:"在数字与实体触点间构建旅程地图画布。",
+      m3h:"优先排序", m3p:"挑选价值最高的缺口（如平台店铺赋能、日常习惯）。",
+      m4h:"试点", m4p:"在现有平台之上验证一个快速见效的闭环——衡量、学习。",
+      m5h:"规模化", m5p:"将经验证的能力在同一平台上推广至各市场与渠道。",
+      s5k:"05 · 数字 + 实体场域", s5h:"线上线下融为一体的体验", s5s:"一侧是电商平台、自有 App 与对话；另一侧是药房与零售——以数据和内容统一。",
+      rdh:"数字场域",
+      rd1:"电商平台店铺（天猫 / 京东 / Lazada / Shopee）",
+      rd2:"自有网站/App、微信会员",
+      rd3:"对话式商务（微信 / LINE / WhatsApp）",
+      rph:"实体场域",
+      rp1:"药房与零售（Chemist Warehouse、Priceline、药妆店）",
+      rp2:"包装上的二维码与嵌入式品牌内容",
+      rp3:"门店团队赋能与培训",
+      s6k:"06 · 用例", s6h:"一位免疫力购物者的蜕变", s6s:"同一个人的前后对比——展现四个层面协同推进。",
+      ucbh:"之前", ucbp:"在伙伴运营的电商平台店铺购买鱼油。Blackmores 从未看见这位购物者、没有数据，关系在结账时即告终。",
+      ucah:"之后", ucap:"伙伴获得合规内容与激励；在征得同意后，购物者成为第一方会员，进入每日健康伙伴，养成连续打卡，并以订阅方式复购——数据汇入统一 CDP，让此后每一次互动都更出色。",
+      demolbl:"相关 Demo：", d_bridge:"授权桥接", d_comp:"健康伙伴", d_chan:"渠道运营", d_aigc:"AIGC 内容",
+      note:"<b>评审草稿。</b>Blackmores 对数字化转型框架的原创改编（为零售/健康重新撰写——未复用任何自动生成内容）。立足于渠道赋能 → 直营的战略。事实依据：<b>MARKET_POSITIONING.md</b>。"
+    },
+    ja:{
+      back:"← スタジオに戻る", ptitle:"デジタルトランスフォーメーション", kick:"アプローチ",
+      h1:"体験を変革する — チャネルと消費者。",
+      lead:"Blackmores はすでに数多くのプラットフォームで運営しています。仕事はそれらを作り直すことではなく、既存の上に最適な道筋を見つけ、4つの層で体験を刷新することです：ビジネス、消費者、日々の製品利用、そしてチャネルを運営するパートナー。これがそこへ到達するための私たちのフレームワークです。",
+      s1k:"01 · 4つの体験レイヤー", s1h:"BX · CX · UX · EX", s1s:"変革は一つの体験ではなく四つであり、それらは連動して動かさなければならない。",
+      c1h:"ビジネス体験", c1p:"ブランドと商業成果 — 一次データ、利益率、コンプライアンス、そしてチャネルから直販への転換。",
+      c2h:"カスタマー体験", c2p:"買い手がどう発見し、購入し、ケアされるか — マーケットプレイス、薬局、チャット、自社チャネルを横断して。",
+      c3h:"ユース体験", c3p:"日々の製品の瞬間 — サプリの摂取、目標の記録、エンゲージメントを生む習慣。",
+      c4h:"イネーブルメント体験", c4p:"チャネルを運営するパートナーと店舗チーム — 成果を出すために必要なコンテンツ、ツール、研修、データ。",
+      s2k:"02 · バランス", s2h:"CX 対 BX — 消費者への価値、ビジネスへの価値", s2s:"優れた変革は消費者価値とビジネス価値を同時に生む。片方だけ最適化すると停滞する。",
+      cxh:"消費者価値（CX/UX）",
+      cx1:"信頼でき、規制に適合したガイダンス — 支援的で、決して効能訴求はしない",
+      cx2:"毎日関わる理由（ヘルススコア、プラン、リマインダー）",
+      cx3:"すでに使っているチャネル間でシームレス",
+      bxh:"ビジネス価値（BX/EX）",
+      bx1:"同意済みの一次データを一つの CDP へ集約",
+      bx2:"ブランドとコンプライアンスを保ちつつ、チャネルがより多く売れるよう支援",
+      bx3:"今日のチャネル主導から、時とともに直販へ至る道筋",
+      s3k:"03 · デジタル・エンパワーメント", s3h:"今はチャネルを支援し、時間をかけて消費者関係を構築する", s3s:"同じプラットフォームが順を追って二つの役割を担う — まさにスタジオの運用モデル。",
+      fn1:"チャネルを支援<small>コンテンツ · AI · コンプライアンス · データ</small>",
+      fn2:"データとコンテンツを統合<small>一つの CDP · 唯一の信頼源</small>",
+      fn3:"消費者を自社で持つ<small>会員 · ヘルスコンパニオン · 直販</small>",
+      s4k:"04 · 方法論", s4h:"進め方", s4s:"既存システムを置き換えるのではなく、その上に刷新するジャーニーマップ主導のアプローチ。",
+      m1h:"ディスカバー", m1p:"現行のチャネル、データ、システムと、実際の消費者・パートナーのジャーニーを把握する。",
+      m2h:"マップ", m2p:"デジタルと物理のタッチポイントを横断するジャーニーマップのキャンバスを構築する。",
+      m3h:"優先順位付け", m3p:"最も価値の高いギャップを選ぶ（例：プラットフォーム店舗の支援、日々の習慣）。",
+      m4h:"パイロット", m4p:"既存プラットフォーム上でクイックウィンのループを実証する — 計測し、学ぶ。",
+      m5h:"スケール", m5p:"実証済みのケイパビリティを一つのプラットフォームで各市場・チャネルへ展開する。",
+      s5k:"05 · デジタル + 物理の領域", s5h:"オンラインとオフラインをまたぐ一つの体験", s5s:"一方にマーケットプレイス、自社アプリ、チャット。もう一方に薬局と小売 — データとコンテンツで統一する。",
+      rdh:"デジタル領域",
+      rd1:"マーケットプレイス店舗（Tmall / JD / Lazada / Shopee）",
+      rd2:"自社 Web/アプリ、WeChat 会員",
+      rd3:"会話型コマース（WeChat / LINE / WhatsApp）",
+      rph:"物理領域",
+      rp1:"薬局と小売（Chemist Warehouse、Priceline、ドラッグストア）",
+      rp2:"パッケージ上の QR と埋め込みブランドコンテンツ",
+      rp3:"店舗チームの支援と研修",
+      s6k:"06 · ユースケース", s6h:"免疫ケアの買い手、その変革", s6s:"同じ人物のビフォー・アフター — 4つの層が連動して動く様子を示す。",
+      ucbh:"ビフォー", ucbp:"パートナーが運営するマーケットプレイス店舗でフィッシュオイルを購入。Blackmores は買い手を一切見えず、データもなく、関係は決済で終わる。",
+      ucah:"アフター", ucap:"パートナーは規制適合コンテンツとインセンティブで支援され、同意のもと買い手は一次データ会員となり、日々のヘルスコンパニオンに入り、連続記録を築き、サブスクで再注文する — データは一つの CDP へ流れ、次のあらゆる接点を改善する。",
+      demolbl:"関連 Demo：", d_bridge:"同意ブリッジ", d_comp:"ヘルスコンパニオン", d_chan:"チャネルオペレーション", d_aigc:"AIGC コンテンツ",
+      note:"<b>レビュー用ドラフト。</b>デジタルトランスフォーメーション・フレームワークの Blackmores 独自アダプテーション（小売/ヘルス向けに再執筆 — 自動コンテンツの再利用なし）。チャネル支援 → 直販の戦略に基づく。出典：<b>MARKET_POSITIONING.md</b>。"
+    },
+    th:{
+      back:"← กลับสู่สตูดิโอ", ptitle:"การทรานส์ฟอร์มดิจิทัล", kick:"แนวทาง",
+      h1:"ทรานส์ฟอร์มประสบการณ์ — ทั้งช่องทางและผู้บริโภค",
+      lead:"Blackmores ดำเนินงานบนหลายแพลตฟอร์มอยู่แล้ว งานไม่ใช่การสร้างใหม่ทั้งหมด แต่คือการหาเส้นทางที่ดีที่สุดบนสิ่งที่มีอยู่ เพื่อยกระดับประสบการณ์ใน 4 ชั้น ได้แก่ ธุรกิจ ผู้บริโภค การใช้ผลิตภัณฑ์ในชีวิตประจำวัน และพาร์ทเนอร์ที่ดำเนินการช่องทาง นี่คือกรอบที่เราใช้เพื่อไปถึงเป้าหมาย",
+      s1k:"01 · สี่ชั้นประสบการณ์", s1h:"BX · CX · UX · EX", s1s:"การทรานส์ฟอร์มไม่ใช่ประสบการณ์เดียว แต่มีสี่ และต้องขับเคลื่อนไปด้วยกัน",
+      c1h:"ประสบการณ์ธุรกิจ", c1p:"ผลลัพธ์ของแบรนด์และการพาณิชย์ — ข้อมูลปฐมภูมิ มาร์จิน คอมไพลแอนซ์ และการเปลี่ยนจากช่องทางสู่ขายตรง",
+      c2h:"ประสบการณ์ลูกค้า", c2p:"ผู้ซื้อค้นพบ ซื้อ และได้รับการดูแลอย่างไร — ข้ามมาร์เก็ตเพลส ร้านขายยา แชต และช่องทางของแบรนด์เอง",
+      c3h:"ประสบการณ์การใช้งาน", c3p:"ช่วงเวลาของผลิตภัณฑ์ในแต่ละวัน — การทานอาหารเสริม ติดตามเป้าหมาย นิสัยที่สร้างการมีส่วนร่วม",
+      c4h:"ประสบการณ์การเสริมพลัง", c4p:"พาร์ทเนอร์และทีมหน้าร้านที่ดำเนินการช่องทาง — คอนเทนต์ เครื่องมือ การฝึกอบรม และข้อมูลที่พวกเขาต้องการเพื่อทำผลงาน",
+      s2k:"02 · ความสมดุล", s2h:"CX กับ BX — คุณค่าต่อผู้บริโภค คุณค่าต่อธุรกิจ", s2s:"การทรานส์ฟอร์มที่ดีสร้างคุณค่าให้ผู้บริโภคและธุรกิจพร้อมกัน หากปรับเพียงด้านเดียวมันจะหยุดชะงัก",
+      cxh:"คุณค่าต่อผู้บริโภค (CX/UX)",
+      cx1:"คำแนะนำที่น่าเชื่อถือและสอดคล้องกฎ — ให้การสนับสนุน ไม่อ้างสรรพคุณ",
+      cx2:"เหตุผลที่จะมีส่วนร่วมทุกวัน (Health Score แผน การแจ้งเตือน)",
+      cx3:"ราบรื่นข้ามช่องทางที่พวกเขาใช้อยู่แล้ว",
+      bxh:"คุณค่าต่อธุรกิจ (BX/EX)",
+      bx1:"ข้อมูลปฐมภูมิที่ได้รับความยินยอม ป้อนสู่ CDP เดียว",
+      bx2:"เสริมพลังช่องทางให้ขายได้มากขึ้น โดยรักษาแบรนด์และคอมไพลแอนซ์ไว้",
+      bx3:"เส้นทางจากการนำด้วยช่องทางวันนี้ สู่การขายตรงเมื่อเวลาผ่านไป",
+      s3k:"03 · การเสริมพลังดิจิทัล", s3h:"เสริมพลังช่องทางตอนนี้ สร้างความสัมพันธ์กับผู้บริโภคในระยะยาว", s3s:"แพลตฟอร์มเดียวทำสองภารกิจตามลำดับ — ตรงกับโมเดลการดำเนินงานในสตูดิโอ",
+      fn1:"เสริมพลังช่องทาง<small>คอนเทนต์ · AI · คอมไพลแอนซ์ · ข้อมูล</small>",
+      fn2:"รวมข้อมูลและคอนเทนต์<small>CDP เดียว · แหล่งความจริงเดียว</small>",
+      fn3:"เป็นเจ้าของผู้บริโภค<small>สมาชิก · ผู้ช่วยสุขภาพ · ขายตรง</small>",
+      s4k:"04 · ระเบียบวิธี", s4h:"เราดำเนินการอย่างไร", s4s:"แนวทางที่นำด้วยแผนที่เส้นทาง ซึ่งยกระดับบนระบบที่มีอยู่แทนการแทนที่",
+      m1h:"ค้นพบ", m1p:"ทำแผนที่ช่องทาง ข้อมูล ระบบปัจจุบัน และเส้นทางจริงของผู้บริโภคและพาร์ทเนอร์",
+      m2h:"ทำแผนที่", m2p:"สร้างแคนวาสแผนที่เส้นทางข้ามจุดสัมผัสดิจิทัลและกายภาพ",
+      m3h:"จัดลำดับความสำคัญ", m3p:"เลือกช่องว่างที่มีคุณค่าสูงสุด (เช่น การเสริมพลังร้านบนแพลตฟอร์ม นิสัยประจำวัน)",
+      m4h:"นำร่อง", m4p:"พิสูจน์ลูปที่ชนะเร็วบนแพลตฟอร์มที่มีอยู่ — วัดผล เรียนรู้",
+      m5h:"ขยายสเกล", m5p:"นำขีดความสามารถที่พิสูจน์แล้วไปใช้ข้ามตลาดและช่องทางบนแพลตฟอร์มเดียว",
+      s5k:"05 · ขอบเขตดิจิทัล + กายภาพ", s5h:"ประสบการณ์เดียวข้ามออนไลน์และออฟไลน์", s5s:"ฝั่งหนึ่งคือมาร์เก็ตเพลส แอปของแบรนด์ และแชต อีกฝั่งคือร้านขายยาและรีเทล — รวมเป็นหนึ่งด้วยข้อมูลและคอนเทนต์",
+      rdh:"ขอบเขตดิจิทัล",
+      rd1:"ร้านบนมาร์เก็ตเพลส (Tmall / JD / Lazada / Shopee)",
+      rd2:"เว็บ/แอปของแบรนด์ สมาชิก WeChat",
+      rd3:"คอมเมิร์ซเชิงสนทนา (WeChat / LINE / WhatsApp)",
+      rph:"ขอบเขตกายภาพ",
+      rp1:"ร้านขายยาและรีเทล (Chemist Warehouse, Priceline, ดรักสโตร์)",
+      rp2:"QR บนบรรจุภัณฑ์และคอนเทนต์แบรนด์ที่ฝังไว้",
+      rp3:"การเสริมพลังและฝึกอบรมทีมหน้าร้าน",
+      s6k:"06 · ยูสเคส", s6h:"ผู้ซื้อด้านภูมิคุ้มกัน ที่ถูกทรานส์ฟอร์ม", s6s:"คนเดิม ก่อนและหลัง — แสดงทั้งสี่ชั้นที่ขับเคลื่อนไปด้วยกัน",
+      ucbh:"ก่อน", ucbp:"ซื้อ Fish Oil ที่ร้านบนมาร์เก็ตเพลสซึ่งพาร์ทเนอร์ดำเนินการ Blackmores ไม่เคยเห็นผู้ซื้อ ไม่มีข้อมูล และความสัมพันธ์จบลงที่การชำระเงิน",
+      ucah:"หลัง", ucap:"พาร์ทเนอร์ได้รับการเสริมพลังด้วยคอนเทนต์ที่สอดคล้องกฎและสิ่งจูงใจ เมื่อได้รับความยินยอม ผู้ซื้อกลายเป็นสมาชิกปฐมภูมิ เข้าสู่ Health Companion รายวัน สร้างสตรีค และสั่งซ้ำแบบสมัครสมาชิก — ข้อมูลไหลสู่ CDP เดียวที่ปรับปรุงทุกการมีปฏิสัมพันธ์ถัดไป",
+      demolbl:"เดโมที่เกี่ยวข้อง:", d_bridge:"สะพานความยินยอม", d_comp:"ผู้ช่วยสุขภาพ", d_chan:"การดำเนินการช่องทาง", d_aigc:"คอนเทนต์ AIGC",
+      note:"<b>ฉบับร่างเพื่อทบทวน</b> การปรับใช้กรอบการทรานส์ฟอร์มดิจิทัลฉบับต้นแบบของ Blackmores (เขียนใหม่สำหรับรีเทล/สุขภาพ — ไม่นำคอนเทนต์อัตโนมัติมาใช้ซ้ำ) ยึดตามกลยุทธ์เสริมพลังช่องทาง → ขายตรง แหล่งอ้างอิง: <b>MARKET_POSITIONING.md</b>"
+    }
+  };
+  var LANGS=['en','zh','ja','th'];
+  var state={lang:'en'};
+  try{var _l=new URLSearchParams(location.search).get('lang');if(_l&&LANGS.indexOf(_l)>=0)state.lang=_l;}catch(e){}
+  function apply(){
+    var d=I18N[state.lang]||null;
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k=el.getAttribute('data-i18n');
+      if(!el.hasAttribute('data-en'))el.setAttribute('data-en',el.innerHTML);
+      if(d&&d[k]!=null)el.innerHTML=d[k];
+      else el.innerHTML=el.getAttribute('data-en');
+    });
+    document.documentElement.lang=state.lang;
+    document.querySelectorAll('#langsw button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-lang')===state.lang);});
+  }
+  document.querySelectorAll('#langsw button').forEach(function(b){b.addEventListener('click',function(){state.lang=b.getAttribute('data-lang');apply();});});
+  window.addEventListener('message',function(e){try{if(e.data&&e.data.t==='es'&&e.data.lang&&LANGS.indexOf(e.data.lang)>=0){state.lang=e.data.lang;apply();}}catch(err){}});
+  apply();
+})();
+// hide own header when embedded in the studio viewer
+(function(){try{if(window.self!==window.top){var s=document.createElement("style");s.textContent="header{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();
+</script>
+</body>
+</html>

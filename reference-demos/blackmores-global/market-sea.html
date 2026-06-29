@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Southeast Asia · Market Strategy — Blackmores Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-soft:#e0f2f3; --brand-d:#007A82; --ink:#1b1d1a; --muted:#6d716a;
+    --canvas:#ffffff; --card:#ffffff; --line:#e8e6df; --accent:#6C68C8;
+    --display:Georgia,'Times New Roman','Songti SC','Noto Serif CJK SC',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans','Microsoft YaHei',sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--body);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+  header{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--line)}
+  .bar{display:flex;align-items:center;gap:16px;padding:10px 28px}
+  .brand-logo{height:34px;width:auto;display:block}
+  .crumb{font-size:13px;font-weight:700;color:var(--muted)}
+  .crumb b{color:var(--ink)}
+  .page-title{font-family:var(--display);font-size:22px;font-weight:600;letter-spacing:-.01em;color:var(--ink);margin:0;line-height:1.1}
+  .spacer{flex:1}
+  .back{font-size:13px;font-weight:800;color:var(--brand-d);text-decoration:none;border:1px solid var(--line);padding:8px 14px;border-radius:999px;transition:.18s}
+  .back:hover{border-color:var(--brand);background:var(--brand-soft)}
+  .langsw{display:flex;gap:4px;background:#f4f2ec;border:1px solid var(--line);border-radius:999px;padding:3px}
+  .langsw button{border:0;background:transparent;font:inherit;font-size:12px;font-weight:800;color:var(--muted);padding:5px 11px;border-radius:999px;cursor:pointer;transition:.15s}
+  .langsw button.on{background:#fff;color:var(--brand-d);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+
+  .hero{background:linear-gradient(135deg,#eeedfb 0%,#f7f5ef 60%);border-bottom:1px solid var(--line)}
+  .hero-in{padding:40px 0 36px}
+  .kick{font-size:11px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+  .hflag{font-size:34px;line-height:1;vertical-align:-4px;margin-right:10px}
+  .hero h1{font-family:var(--display);font-size:clamp(34px,4.6vw,54px);font-weight:600;letter-spacing:-.02em;margin:0;line-height:1.02}
+  .hero .tag{font-size:16px;font-weight:700;color:var(--accent);margin-top:12px}
+  .hero .lead{font-size:15.5px;color:var(--muted);max-width:680px;margin-top:12px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .chip{font-size:12.5px;font-weight:700;background:#fff;border:1px solid var(--line);color:var(--ink);padding:8px 13px;border-radius:999px}
+  .chip b{color:var(--accent)}
+
+  section{padding:44px 0}
+  section + section{border-top:1px solid var(--line)}
+  .sec-kick{font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--brand);margin-bottom:10px}
+  .sec-h{font-family:var(--display);font-size:30px;font-weight:600;letter-spacing:-.01em;margin:0 0 8px}
+  .sec-sub{font-size:15px;color:var(--muted);max-width:760px;margin:0 0 26px}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px}
+  .card h3{font-family:var(--display);font-size:19px;font-weight:600;margin:0 0 12px;display:flex;align-items:center;gap:9px}
+  .card h3 .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--brand-soft);color:var(--brand-d);font-size:16px;flex:0 0 auto}
+  .card ul{margin:0;padding-left:0;list-style:none}
+  .card li{position:relative;padding:7px 0 7px 18px;font-size:14px;border-top:1px solid var(--line)}
+  .card li:first-child{border-top:0}
+  .card li::before{content:"";position:absolute;left:0;top:15px;width:7px;height:7px;border-radius:50%;background:var(--brand)}
+  .card li b{font-weight:800}
+  .muted{color:var(--muted)}
+  .tv{font-size:11px;font-weight:800;color:var(--accent);background:#eeedfb;border-radius:6px;padding:1px 6px;margin-left:4px}
+
+  .timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}
+  .tl{padding:20px;border-right:1px solid var(--line)}
+  .tl:last-child{border-right:0}
+  .tl .yr{font-size:12px;font-weight:800;color:var(--brand-d);letter-spacing:.04em}
+  .tl h4{font-family:var(--display);font-size:17px;font-weight:600;margin:8px 0 6px}
+  .tl p{font-size:13.5px;color:var(--muted);margin:0}
+
+  .status{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+  .st{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .st .k{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .st .v{font-size:14.5px;font-weight:700;color:var(--ink)}
+  .st .v small{display:block;font-weight:500;color:var(--muted);font-size:12.5px;margin-top:3px}
+
+  .pillars{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .pillar{border:1px solid var(--line);border-radius:18px;padding:24px;background:#fff}
+  .pillar.now{border-top:4px solid var(--brand)}
+  .pillar.next{border-top:4px solid var(--accent)}
+  .pillar .phase{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .pillar h3{font-family:var(--display);font-size:22px;font-weight:600;margin:6px 0 4px}
+  .pillar .who{font-size:13px;font-weight:700;color:var(--brand-d);margin-bottom:14px}
+  .pillar.next .who{color:var(--accent)}
+  .pillar ul{margin:0;padding-left:0;list-style:none}
+  .pillar li{font-size:14px;padding:8px 0 8px 20px;position:relative;border-top:1px solid var(--line)}
+  .pillar li::before{content:"→";position:absolute;left:0;top:7px;color:var(--brand);font-weight:800}
+  .pillar.next li::before{color:var(--accent)}
+
+  .flywheel{margin-top:20px;background:var(--brand-soft);border:1px solid color-mix(in srgb,var(--brand) 22%,#fff);border-radius:16px;padding:20px 22px}
+  .flywheel b{color:var(--brand-d)}
+  .demos{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .demos a{font-size:12.5px;font-weight:700;text-decoration:none;background:#fff;border:1px solid var(--line);color:var(--ink);padding:7px 12px;border-radius:8px;transition:.18s}
+  .demos a:hover{border-color:var(--brand);color:var(--brand-d)}
+
+  footer{border-top:1px solid var(--line);padding:26px 0 50px}
+  .note{font-size:13px;color:var(--muted);background:#faf9f5;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+
+  @media(max-width:860px){.grid3,.grid2,.timeline,.status,.pillars{grid-template-columns:1fr}.tl{border-right:0;border-bottom:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <a class="back" href="index.html" data-i18n="back">← Back to studio</a>
+    <h1 class="page-title" data-i18n="ptitle">Southeast Asia · Market Strategy</h1>
+    <span class="spacer"></span>
+    <div class="langsw" id="langsw">
+      <button data-lang="en" class="on">EN</button>
+      <button data-lang="zh">中文</button>
+      <button data-lang="ja">日本語</button>
+      <button data-lang="th">ไทย</button>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap hero-in">
+    <div class="kick" data-i18n="kick">Market Strategy</div>
+    <h1><span class="hflag">🌏</span><span data-i18n="hname">Southeast Asia</span> <span class="muted" style="font-size:.42em;font-weight:500">· 东南亚 · SG / MY / TH / PH</span></h1>
+    <div class="tag" data-i18n="tag">A mobile-first, multi-market chat-commerce region</div>
+    <p class="lead" data-i18n="lead">SEA is several markets at once, united by mobile-first shopping. Marketplaces (Shopee, Lazada) plus chat commerce (LINE in Thailand, WhatsApp elsewhere) carry the business — largely run by local partners — with official brand stores already live across the region.</p>
+    <div class="chips">
+      <span class="chip" data-i18n="chip1">Live: <b>Lazada + Shopee (SG/MY/TH/PH)</b></span>
+      <span class="chip" data-i18n="chip2">Chat: <b>LINE (TH) + WhatsApp</b></span>
+      <span class="chip" data-i18n="chip3">Sites: <b>blackmores.com.sg / .co.th</b></span>
+      <span class="chip" data-i18n="chip4">Shape: <b>Multi-market, partner-run</b></span>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s1k">01 · Market landscape</div>
+    <h2 class="sec-h" data-i18n="s1h">Market characteristics, audience &amp; channels</h2>
+    <p class="sec-sub" data-i18n="s1s">One region, many markets — mobile-first, marketplace-heavy, chat-assisted.</p>
+    <div class="grid3">
+      <div class="card">
+        <h3><span class="ic">🧭</span><span data-i18n="c1h">Market characteristics</span></h3>
+        <ul>
+          <li data-i18n="c1a"><b>Multi-market</b> — SG, MY, TH, PH each differ in channel mix &amp; language.</li>
+          <li data-i18n="c1b"><b>Mobile-first</b> — shopping, chat and payment on the phone.</li>
+          <li data-i18n="c1c"><b>Marketplace-dominant</b> — Shopee &amp; Lazada are primary storefronts.</li>
+          <li data-i18n="c1d"><b>Chat commerce</b> — LINE (Thailand) and WhatsApp for assisted selling.</li>
+          <li data-i18n="c1e"><b>Promo &amp; livestream led</b> — campaigns, affiliates, TikTok Shop rising.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="ic">👥</span><span data-i18n="c2h">Audience / persona</span> <span class="tv" data-i18n="tv">to verify</span></h3>
+        <ul>
+          <li data-i18n="c2a"><b>Urban, mobile-first families</b> — immunity, kids, everyday wellness.</li>
+          <li data-i18n="c2b"><b>Younger adults</b> — beauty-from-within, energy, sleep.</li>
+          <li data-i18n="c2c"><b>Deal-seeking</b> — responsive to campaigns, vouchers, livestream.</li>
+          <li data-i18n="c2d">Comfortable buying via <b>chat with a person</b> (LINE / WhatsApp).</li>
+          <li data-i18n="c2e">Trust imported, Australian-made quality.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="ic">🛒</span><span data-i18n="c3h">Mainstream channels</span></h3>
+        <ul>
+          <li data-i18n="c3a"><b>Marketplace:</b> Shopee, Lazada, TikTok Shop <span class="tv">to verify</span></li>
+          <li data-i18n="c3b"><b>Chat:</b> LINE (Thailand), WhatsApp Business (catalog + pay links)</li>
+          <li data-i18n="c3c"><b>Offline:</b> Watsons, Guardian, Boots (TH) <span class="tv">to verify</span></li>
+          <li data-i18n="c3d"><b>Owned:</b> blackmores.com.sg, blackmores.co.th (Blackmores Club)</li>
+          <li class="muted" data-i18n="c3e">Note: stores are largely <b>partner / distributor-operated</b>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s2k">02 · Where Blackmores is today</div>
+    <h2 class="sec-h" data-i18n="s2h">Blackmores' business status in SEA</h2>
+    <p class="sec-sub" data-i18n="s2s">Real, official marketplace presence across the region — operated mostly through partners.</p>
+    <div class="timeline">
+      <div class="tl">
+        <div class="yr" data-i18n="t1y">Footprint</div>
+        <h4 data-i18n="t1h">Official stores live</h4>
+        <p data-i18n="t1p">Official Lazada &amp; Shopee stores across SG, MY, TH and PH; local sites in SG and TH.</p>
+      </div>
+      <div class="tl">
+        <div class="yr" data-i18n="t2y">Operating model</div>
+        <h4 data-i18n="t2h">Partner-run</h4>
+        <p data-i18n="t2p">Marketplace and chat channels largely operated by local partners / distributors.</p>
+      </div>
+      <div class="tl">
+        <div class="yr" data-i18n="t3y">Membership</div>
+        <h4 data-i18n="t3h">Early loyalty</h4>
+        <p data-i18n="t3p">Thailand runs a Blackmores Club; chat-commerce (LINE/WhatsApp) is more enablement than a built DTC.</p>
+      </div>
+    </div>
+    <div class="status">
+      <div class="st"><div class="k" data-i18n="st1k">Primary route to market</div><div class="v" data-i18n="st1v">Marketplaces (Lazada + Shopee)<small>Official stores across SG / MY / TH / PH</small></div></div>
+      <div class="st"><div class="k" data-i18n="st2k">Who runs it</div><div class="v" data-i18n="st2v">Local partners / distributors <span class="tv">to verify</span><small>Brand data sits partly with partners</small></div></div>
+      <div class="st"><div class="k" data-i18n="st3k">Owned / membership</div><div class="v" data-i18n="st3v">Local sites + Blackmores Club (TH)<small>blackmores.com.sg · blackmores.co.th</small></div></div>
+      <div class="st"><div class="k" data-i18n="st4k">Chat commerce</div><div class="v" data-i18n="st4v">LINE (TH) + WhatsApp<small>Conversational selling &amp; service; partly aspirational</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s3k">03 · Our point of view</div>
+    <h2 class="sec-h" data-i18n="s3h">Digitalisation strategy — channel + consumer</h2>
+    <p class="sec-sub" data-i18n="s3s">Enable the partners running marketplaces and chat across each market, with one platform localised per country — then layer conversational membership on top.</p>
+    <div class="pillars">
+      <div class="pillar now">
+        <div class="phase" data-i18n="p1ph">Short-term · the reality today</div>
+        <h3 data-i18n="p1h">Channel enablement</h3>
+        <div class="who" data-i18n="p1w">Customer = Shopee / Lazada operators &amp; distributors</div>
+        <ul>
+          <li data-i18n="p1a">Regional content + AI creatives, localised per market &amp; language</li>
+          <li data-i18n="p1b">Marketplace official-store operations support &amp; campaign kits</li>
+          <li data-i18n="p1c">Chat-commerce enablement: WhatsApp / LINE catalog + agent assist</li>
+          <li data-i18n="p1d">Per-market compliance guardrails + sell-through dashboard</li>
+        </ul>
+      </div>
+      <div class="pillar next">
+        <div class="phase" data-i18n="p2ph">Long-term · the goal</div>
+        <h3 data-i18n="p2h">Consumer direct (DTC)</h3>
+        <div class="who" data-i18n="p2w">Customer = the end consumer</div>
+        <ul>
+          <li data-i18n="p2a">Conversational membership on LINE / WhatsApp (Blackmores Club)</li>
+          <li data-i18n="p2b">Loyalty + reminders + habit check-ins across markets</li>
+          <li data-i18n="p2c">Light owned commerce where it makes sense (SG / TH)</li>
+          <li data-i18n="p2d">One platform, localised — scale to new SEA markets fast</li>
+        </ul>
+      </div>
+    </div>
+    <div class="flywheel">
+      <span data-i18n="fly"><b>The data flywheel:</b> marketplace sell-out + chat-commerce engagement → one unified CDP → AI feeds back localised content, recommendations and offers. SEA proves the "one platform, many markets" model — the same playbook that extends to new markets.</span>
+      <div class="demos">
+        <span class="muted" style="font-size:12.5px;font-weight:700;align-self:center;margin-right:4px" data-i18n="demolbl">Studio demos:</span>
+        <a href="line-flywheel.html" data-i18n="d_line">LINE / WhatsApp flywheel</a>
+        <a href="conversational.html" data-i18n="d_conv">Conversational commerce</a>
+        <a href="aigc.html" data-i18n="d_aigc">AIGC content</a>
+        <a href="social-hub.html" data-i18n="d_social">Social Hub</a>
+        <a href="loyalty.html" data-i18n="d_loy">Loyalty</a>
+        <a href="attribution-roi.html" data-i18n="d_attr">Attribution / ROI</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="note" data-i18n="note">
+      <b>Draft for review.</b> Items marked <span class="tv">to verify</span> (persona, specific platforms/retailers, who operates the stores) are reasoned from public research and need confirmation. SEA shows real official Lazada/Shopee stores across SG/MY/TH/PH plus local sites. Source of truth: <b>MARKET_POSITIONING.md</b>.
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var I18N={
+    zh:{
+      back:"← 返回工作室", ptitle:"东南亚 · 市场战略", kick:"市场战略", hname:"东南亚",
+      tag:"以移动端为先、多市场并存的对话式商务区域",
+      lead:"东南亚同时是多个市场，但都以移动端购物为共同特征。电商平台（Shopee、Lazada）加上对话式商务（泰国的 LINE、其他市场的 WhatsApp）支撑着生意——大多由本地伙伴运营——且品牌官方店铺已在全区域上线。",
+      chip1:"在售：<b>Lazada + Shopee（SG/MY/TH/PH）</b>", chip2:"对话：<b>LINE（泰国）+ WhatsApp</b>", chip3:"官网：<b>blackmores.com.sg / .co.th</b>", chip4:"格局：<b>多市场、伙伴运营</b>",
+      s1k:"01 · 市场格局", s1h:"市场特征、人群与渠道", s1s:"一个区域、多个市场——以移动端为先、平台为重、对话辅助。",
+      c1h:"市场特征",
+      c1a:"<b>多市场</b>——SG、MY、TH、PH 各自在渠道组合与语言上有所不同。",
+      c1b:"<b>移动端为先</b>——购物、对话与支付都在手机上完成。",
+      c1c:"<b>平台主导</b>——Shopee 与 Lazada 是主要店面。",
+      c1d:"<b>对话式商务</b>——LINE（泰国）与 WhatsApp 用于辅助销售。",
+      c1e:"<b>促销与直播驱动</b>——大促、联盟带货，TikTok Shop 持续上升。",
+      c2h:"目标人群 / 画像",
+      c2a:"<b>都市、移动端为先的家庭</b>——免疫、儿童、日常健康。",
+      c2b:"<b>年轻成人</b>——由内而外的美、能量、睡眠。",
+      c2c:"<b>追求优惠</b>——对大促、优惠券、直播反应积极。",
+      c2d:"乐于通过<b>与真人对话</b>下单（LINE / WhatsApp）。",
+      c2e:"信赖进口、澳洲原产的品质。",
+      c3h:"主流渠道",
+      c3a:"<b>电商平台：</b>Shopee、Lazada、TikTok Shop <span class=\"tv\">待核实</span>",
+      c3b:"<b>对话：</b>LINE（泰国）、WhatsApp Business（商品目录 + 付款链接）",
+      c3c:"<b>线下：</b>Watsons、Guardian、Boots（泰国）<span class=\"tv\">待核实</span>",
+      c3d:"<b>自有：</b>blackmores.com.sg、blackmores.co.th（Blackmores Club）",
+      c3e:"注：店铺大多由<b>伙伴 / 分销商运营</b>。",
+      s2k:"02 · Blackmores 当前所处的位置", s2h:"Blackmores 在东南亚的经营现状", s2s:"全区域均有真实的官方平台布局——大多通过伙伴运营。",
+      t1y:"覆盖", t1h:"官方店铺已上线", t1p:"Lazada 与 Shopee 官方店铺覆盖 SG、MY、TH 与 PH；SG 与 TH 设有本地官网。",
+      t2y:"运营模式", t2h:"伙伴运营", t2p:"平台与对话渠道大多由本地伙伴 / 分销商运营。",
+      t3y:"会员", t3h:"会员体系起步", t3p:"泰国运营 Blackmores Club；对话式商务（LINE/WhatsApp）目前更偏赋能，而非成型的 DTC。",
+      st1k:"主要进入市场通路", st1v:"电商平台（Lazada + Shopee）<small>官方店铺覆盖 SG / MY / TH / PH</small>",
+      st2k:"由谁运营", st2v:"本地伙伴 / 分销商 <span class=\"tv\">待核实</span><small>品牌数据部分掌握在伙伴手中</small>",
+      st3k:"自有 / 会员", st3v:"本地官网 + Blackmores Club（泰国）<small>blackmores.com.sg · blackmores.co.th</small>",
+      st4k:"对话式商务", st4v:"LINE（泰国）+ WhatsApp<small>对话式销售与服务；部分仍处于规划阶段</small>",
+      s3k:"03 · 我们的观点", s3h:"数字化战略——渠道 + 消费者", s3s:"赋能在各市场运营电商与对话渠道的伙伴，以一个平台按国别本地化——随后叠加对话式会员。",
+      p1ph:"短期 · 当下现实", p1h:"渠道赋能", p1w:"客户 = Shopee / Lazada 运营方与分销商",
+      p1a:"区域内容 + AI 创意，按市场与语言本地化",
+      p1b:"平台官方店铺运营支持与活动素材包",
+      p1c:"对话式商务赋能：WhatsApp / LINE 商品目录 + 客服坐席辅助",
+      p1d:"分市场的合规守则 + 动销看板",
+      p2ph:"长期 · 目标", p2h:"消费者直营（DTC）", p2w:"客户 = 终端消费者",
+      p2a:"在 LINE / WhatsApp 上的对话式会员（Blackmores Club）",
+      p2b:"跨市场的会员积分 + 提醒 + 习惯打卡",
+      p2c:"在合适的市场布局轻量自营电商（SG / TH）",
+      p2d:"一个平台、本地化——快速拓展至新的东南亚市场",
+      fly:"<b>数据飞轮：</b>平台动销 + 对话式商务互动 → 统一 CDP → AI 反哺本地化内容、推荐与优惠。东南亚验证了「一个平台、多个市场」的模式——同一套打法可复制到新市场。",
+      demolbl:"工作室 Demo：", d_line:"LINE / WhatsApp 飞轮", d_conv:"对话式商务", d_aigc:"AIGC 内容", d_social:"社媒中台", d_loy:"会员忠诚度", d_attr:"归因 / ROI",
+      tv:"待核实",
+      note:"<b>评审草稿。</b>标注 <span class=\"tv\">待核实</span>的项目（人群画像、具体平台/零售商、店铺运营方）基于公开研究推断，需进一步确认。东南亚已有覆盖 SG/MY/TH/PH 的真实官方 Lazada/Shopee 店铺及本地官网。事实依据：<b>MARKET_POSITIONING.md</b>。"
+    },
+    ja:{
+      back:"← スタジオに戻る", ptitle:"東南アジア · 市場戦略", kick:"市場戦略", hname:"東南アジア",
+      tag:"モバイルファースト・複数市場のチャットコマース地域",
+      lead:"東南アジアは同時に複数の市場でありながら、モバイルファーストの購買行動で共通しています。マーケットプレイス（Shopee、Lazada）にチャットコマース（タイは LINE、その他は WhatsApp）が加わって事業を支え、その多くは現地パートナーが運営。ブランド公式ストアは既に地域全体で稼働しています。",
+      chip1:"販売中：<b>Lazada + Shopee（SG/MY/TH/PH）</b>", chip2:"チャット：<b>LINE（タイ）+ WhatsApp</b>", chip3:"サイト：<b>blackmores.com.sg / .co.th</b>", chip4:"構図：<b>複数市場・パートナー運営</b>",
+      s1k:"01 · 市場環境", s1h:"市場特性・顧客・チャネル", s1s:"一つの地域、多数の市場——モバイルファースト、マーケットプレイス中心、チャット支援型。",
+      c1h:"市場特性",
+      c1a:"<b>複数市場</b>——SG・MY・TH・PH はチャネル構成と言語がそれぞれ異なる。",
+      c1b:"<b>モバイルファースト</b>——買い物・チャット・決済をスマホで完結。",
+      c1c:"<b>マーケットプレイス主導</b>——Shopee と Lazada が主要な店頭。",
+      c1d:"<b>チャットコマース</b>——LINE（タイ）と WhatsApp で接客販売。",
+      c1e:"<b>プロモ・ライブ配信主導</b>——キャンペーン、アフィリエイト、TikTok Shop が台頭。",
+      c2h:"ターゲット / ペルソナ",
+      c2a:"<b>都市部・モバイルファーストの家族</b>——免疫、子ども、日常のウェルネス。",
+      c2b:"<b>若年層</b>——インナービューティー、エネルギー、睡眠。",
+      c2c:"<b>お得感重視</b>——キャンペーン、バウチャー、ライブ配信に反応。",
+      c2d:"<b>人とのチャット</b>での購入に抵抗がない（LINE / WhatsApp）。",
+      c2e:"輸入・オーストラリア製の品質を信頼。",
+      c3h:"主要チャネル",
+      c3a:"<b>マーケットプレイス：</b>Shopee、Lazada、TikTok Shop <span class=\"tv\">要確認</span>",
+      c3b:"<b>チャット：</b>LINE（タイ）、WhatsApp Business（カタログ + 決済リンク）",
+      c3c:"<b>オフライン：</b>Watsons、Guardian、Boots（タイ）<span class=\"tv\">要確認</span>",
+      c3d:"<b>自社：</b>blackmores.com.sg、blackmores.co.th（Blackmores Club）",
+      c3e:"注：店舗の多くは<b>パートナー / ディストリビューター運営</b>。",
+      s2k:"02 · Blackmores の現在地", s2h:"東南アジアにおける Blackmores の事業状況", s2s:"地域全体に実在する公式マーケットプレイス——その多くはパートナー経由で運営。",
+      t1y:"展開範囲", t1h:"公式ストア稼働中", t1p:"Lazada と Shopee の公式ストアが SG・MY・TH・PH に展開。SG と TH には現地サイト。",
+      t2y:"運営モデル", t2h:"パートナー運営", t2p:"マーケットプレイスとチャットの各チャネルは、多くを現地パートナー / ディストリビューターが運営。",
+      t3y:"会員制", t3h:"ロイヤルティは初期段階", t3p:"タイでは Blackmores Club を運営。チャットコマース（LINE/WhatsApp）は構築済みの DTC というより支援寄り。",
+      st1k:"主要な市場参入ルート", st1v:"マーケットプレイス（Lazada + Shopee）<small>公式ストアが SG / MY / TH / PH に展開</small>",
+      st2k:"運営主体", st2v:"現地パートナー / ディストリビューター <span class=\"tv\">要確認</span><small>ブランドのデータは一部パートナー側にある</small>",
+      st3k:"自社 / 会員制", st3v:"現地サイト + Blackmores Club（タイ）<small>blackmores.com.sg · blackmores.co.th</small>",
+      st4k:"チャットコマース", st4v:"LINE（タイ）+ WhatsApp<small>会話型の販売・サービス。一部は構想段階</small>",
+      s3k:"03 · 私たちの視点", s3h:"デジタル化戦略 — チャネル + 消費者", s3s:"各市場でマーケットプレイスとチャットを運営するパートナーを支援し、国ごとにローカライズした一つのプラットフォームで——その上に会話型の会員制を重ねる。",
+      p1ph:"短期 · 今日の現実", p1h:"チャネル・イネーブルメント", p1w:"顧客 = Shopee / Lazada の運営者とディストリビューター",
+      p1a:"地域向けコンテンツ + AI クリエイティブを市場・言語ごとにローカライズ",
+      p1b:"マーケットプレイス公式ストアの運営支援とキャンペーンキット",
+      p1c:"チャットコマースの支援：WhatsApp / LINE カタログ + エージェント補助",
+      p1d:"市場ごとのコンプライアンス・ガードレール + 売上ダッシュボード",
+      p2ph:"長期 · 目標", p2h:"消費者直販（DTC）", p2w:"顧客 = エンド消費者",
+      p2a:"LINE / WhatsApp 上の会話型会員制（Blackmores Club）",
+      p2b:"市場横断のロイヤルティ + リマインド + 習慣チェックイン",
+      p2c:"理にかなう市場での軽量な自社コマース（SG / TH）",
+      p2d:"一つのプラットフォームをローカライズ——新たな東南アジア市場へ素早く拡大",
+      fly:"<b>データフライホイール：</b>マーケットプレイスの売上 + チャットコマースのエンゲージメント → 統合 CDP → AI がローカライズ済みコンテンツ・レコメンド・オファーに還元。東南アジアは「一つのプラットフォーム、多数の市場」モデルを実証し、同じプレイブックを新市場へ展開できる。",
+      demolbl:"スタジオ Demo：", d_line:"LINE / WhatsApp フライホイール", d_conv:"会話型コマース", d_aigc:"AIGC コンテンツ", d_social:"ソーシャルハブ", d_loy:"ロイヤルティ", d_attr:"アトリビューション / ROI",
+      tv:"要確認",
+      note:"<b>レビュー用ドラフト。</b><span class=\"tv\">要確認</span>の項目（ペルソナ、特定のプラットフォーム/小売、店舗運営者）は公開情報からの推定で、確認が必要です。東南アジアには SG/MY/TH/PH にわたる実在の公式 Lazada/Shopee ストアと現地サイトがあります。出典：<b>MARKET_POSITIONING.md</b>。"
+    },
+    th:{
+      back:"← กลับสู่สตูดิโอ", ptitle:"เอเชียตะวันออกเฉียงใต้ · กลยุทธ์ตลาด", kick:"กลยุทธ์ตลาด", hname:"เอเชียตะวันออกเฉียงใต้",
+      tag:"ภูมิภาคแชตคอมเมิร์ซแบบโมบายเฟิร์สต์ หลากหลายตลาด",
+      lead:"เอเชียตะวันออกเฉียงใต้คือหลายตลาดในเวลาเดียวกัน เชื่อมโยงด้วยการช้อปแบบโมบายเฟิร์สต์ มาร์เก็ตเพลส (Shopee, Lazada) บวกกับแชตคอมเมิร์ซ (LINE ในไทย และ WhatsApp ในตลาดอื่น) ขับเคลื่อนธุรกิจ ซึ่งส่วนใหญ่ดำเนินการโดยพาร์ทเนอร์ท้องถิ่น โดยมีร้านค้าทางการของแบรนด์เปิดให้บริการแล้วทั่วภูมิภาค",
+      chip1:"วางขาย: <b>Lazada + Shopee (SG/MY/TH/PH)</b>", chip2:"แชต: <b>LINE (ไทย) + WhatsApp</b>", chip3:"เว็บไซต์: <b>blackmores.com.sg / .co.th</b>", chip4:"รูปแบบ: <b>หลายตลาด ดำเนินการโดยพาร์ทเนอร์</b>",
+      s1k:"01 · ภูมิทัศน์ตลาด", s1h:"ลักษณะตลาด ผู้ซื้อ และช่องทาง", s1s:"หนึ่งภูมิภาค หลายตลาด — โมบายเฟิร์สต์ เน้นมาร์เก็ตเพลส มีแชตช่วยเสริม",
+      c1h:"ลักษณะตลาด",
+      c1a:"<b>หลายตลาด</b> — SG, MY, TH, PH แต่ละแห่งต่างกันทั้งส่วนผสมช่องทางและภาษา",
+      c1b:"<b>โมบายเฟิร์สต์</b> — ช้อป แชต และจ่ายเงินบนมือถือ",
+      c1c:"<b>มาร์เก็ตเพลสเป็นใหญ่</b> — Shopee และ Lazada เป็นหน้าร้านหลัก",
+      c1d:"<b>แชตคอมเมิร์ซ</b> — LINE (ไทย) และ WhatsApp สำหรับการขายแบบมีผู้ช่วย",
+      c1e:"<b>นำด้วยโปรโมชันและไลฟ์สด</b> — แคมเปญ พันธมิตรแอฟฟิลิเอต และ TikTok Shop กำลังมาแรง",
+      c2h:"กลุ่มเป้าหมาย / เพอร์โซนา",
+      c2a:"<b>ครอบครัวในเมืองแบบโมบายเฟิร์สต์</b> — ภูมิคุ้มกัน เด็ก สุขภาพในชีวิตประจำวัน",
+      c2b:"<b>ผู้ใหญ่วัยหนุ่มสาว</b> — ความงามจากภายใน พลังงาน การนอนหลับ",
+      c2c:"<b>มองหาดีล</b> — ตอบสนองต่อแคมเปญ คูปอง และไลฟ์สด",
+      c2d:"สบายใจที่จะซื้อผ่าน<b>การแชตกับคนจริง</b> (LINE / WhatsApp)",
+      c2e:"เชื่อมั่นในคุณภาพสินค้านำเข้าที่ผลิตในออสเตรเลีย",
+      c3h:"ช่องทางหลัก",
+      c3a:"<b>มาร์เก็ตเพลส:</b> Shopee, Lazada, TikTok Shop <span class=\"tv\">ต้องยืนยัน</span>",
+      c3b:"<b>แชต:</b> LINE (ไทย), WhatsApp Business (แคตตาล็อก + ลิงก์ชำระเงิน)",
+      c3c:"<b>ออฟไลน์:</b> Watsons, Guardian, Boots (ไทย) <span class=\"tv\">ต้องยืนยัน</span>",
+      c3d:"<b>ของแบรนด์เอง:</b> blackmores.com.sg, blackmores.co.th (Blackmores Club)",
+      c3e:"หมายเหตุ: ร้านค้าส่วนใหญ่<b>ดำเนินการโดยพาร์ทเนอร์ / ตัวแทนจำหน่าย</b>",
+      s2k:"02 · Blackmores อยู่ตรงไหนวันนี้", s2h:"สถานะธุรกิจของ Blackmores ในเอเชียตะวันออกเฉียงใต้", s2s:"มีตัวตนบนมาร์เก็ตเพลสทางการจริงทั่วภูมิภาค — ดำเนินการผ่านพาร์ทเนอร์เป็นส่วนใหญ่",
+      t1y:"ขอบเขต", t1h:"ร้านค้าทางการเปิดให้บริการแล้ว", t1p:"ร้านค้าทางการ Lazada และ Shopee ครอบคลุม SG, MY, TH และ PH พร้อมเว็บไซต์ท้องถิ่นใน SG และ TH",
+      t2y:"รูปแบบการดำเนินงาน", t2h:"ดำเนินการโดยพาร์ทเนอร์", t2p:"ช่องทางมาร์เก็ตเพลสและแชตส่วนใหญ่ดำเนินการโดยพาร์ทเนอร์ / ตัวแทนจำหน่ายท้องถิ่น",
+      t3y:"สมาชิก", t3h:"ลอยัลตี้ระยะเริ่มต้น", t3p:"ไทยดำเนินการ Blackmores Club ส่วนแชตคอมเมิร์ซ (LINE/WhatsApp) ยังเป็นการเสริมพลังมากกว่า DTC ที่สร้างเสร็จแล้ว",
+      st1k:"ช่องทางหลักเข้าสู่ตลาด", st1v:"มาร์เก็ตเพลส (Lazada + Shopee)<small>ร้านค้าทางการครอบคลุม SG / MY / TH / PH</small>",
+      st2k:"ใครเป็นผู้ดำเนินการ", st2v:"พาร์ทเนอร์ / ตัวแทนจำหน่ายท้องถิ่น <span class=\"tv\">ต้องยืนยัน</span><small>ข้อมูลของแบรนด์บางส่วนอยู่กับพาร์ทเนอร์</small>",
+      st3k:"ของแบรนด์เอง / สมาชิก", st3v:"เว็บไซต์ท้องถิ่น + Blackmores Club (ไทย)<small>blackmores.com.sg · blackmores.co.th</small>",
+      st4k:"แชตคอมเมิร์ซ", st4v:"LINE (ไทย) + WhatsApp<small>การขายและบริการแบบสนทนา บางส่วนยังเป็นเป้าหมายที่ตั้งไว้</small>",
+      s3k:"03 · มุมมองของเรา", s3h:"กลยุทธ์ดิจิทัล — ช่องทาง + ผู้บริโภค", s3s:"เสริมพลังพาร์ทเนอร์ที่ดำเนินการมาร์เก็ตเพลสและแชตในแต่ละตลาด ด้วยแพลตฟอร์มเดียวที่โลคัลไลซ์ตามแต่ละประเทศ — แล้วจึงเพิ่มสมาชิกแบบสนทนาทับลงไป",
+      p1ph:"ระยะสั้น · ความจริงวันนี้", p1h:"การเสริมพลังช่องทาง", p1w:"ลูกค้า = ผู้ดำเนินการ Shopee / Lazada และตัวแทนจำหน่าย",
+      p1a:"คอนเทนต์ระดับภูมิภาค + ครีเอทีฟจาก AI โลคัลไลซ์ตามแต่ละตลาดและภาษา",
+      p1b:"สนับสนุนการดำเนินงานร้านค้าทางการบนมาร์เก็ตเพลส + ชุดแคมเปญ",
+      p1c:"เสริมพลังแชตคอมเมิร์ซ: แคตตาล็อก WhatsApp / LINE + ผู้ช่วยเอเจนต์",
+      p1d:"กรอบกำกับคอมไพลแอนซ์รายตลาด + แดชบอร์ดยอดขาย",
+      p2ph:"ระยะยาว · เป้าหมาย", p2h:"ขายตรงถึงผู้บริโภค (DTC)", p2w:"ลูกค้า = ผู้บริโภคปลายทาง",
+      p2a:"สมาชิกแบบสนทนาบน LINE / WhatsApp (Blackmores Club)",
+      p2b:"ลอยัลตี้ + การแจ้งเตือน + เช็กอินสร้างนิสัย ข้ามตลาด",
+      p2c:"คอมเมิร์ซของแบรนด์เองแบบเบาในจุดที่เหมาะสม (SG / TH)",
+      p2d:"แพลตฟอร์มเดียวที่โลคัลไลซ์ — ขยายสู่ตลาดใหม่ในเอเชียตะวันออกเฉียงใต้ได้รวดเร็ว",
+      fly:"<b>วงล้อข้อมูล:</b> ยอดขายบนมาร์เก็ตเพลส + การมีส่วนร่วมแชตคอมเมิร์ซ → CDP เดียว → AI ป้อนกลับคอนเทนต์ คำแนะนำ และข้อเสนอที่โลคัลไลซ์ เอเชียตะวันออกเฉียงใต้พิสูจน์โมเดล “หนึ่งแพลตฟอร์ม หลายตลาด” — แพลย์บุ๊กเดียวกันที่ขยายต่อไปยังตลาดใหม่ได้",
+      demolbl:"เดโมในสตูดิโอ:", d_line:"วงล้อ LINE / WhatsApp", d_conv:"คอมเมิร์ซแบบสนทนา", d_aigc:"คอนเทนต์ AIGC", d_social:"Social Hub", d_loy:"ลอยัลตี้", d_attr:"แอตทริบิวชัน / ROI",
+      tv:"ต้องยืนยัน",
+      note:"<b>ฉบับร่างเพื่อทบทวน</b> รายการที่ทำเครื่องหมาย <span class=\"tv\">ต้องยืนยัน</span> (เพอร์โซนา แพลตฟอร์ม/ร้านค้าปลีกเฉพาะ ผู้ดำเนินการร้าน) มาจากการวิเคราะห์ข้อมูลสาธารณะและต้องได้รับการยืนยัน เอเชียตะวันออกเฉียงใต้มีร้านค้าทางการ Lazada/Shopee จริงทั่ว SG/MY/TH/PH พร้อมเว็บไซต์ท้องถิ่น แหล่งอ้างอิง: <b>MARKET_POSITIONING.md</b>"
+    }
+  };
+  var LANGS=['en','zh','ja','th'];
+  var state={lang:'en'};
+  try{var _l=new URLSearchParams(location.search).get('lang');if(_l&&LANGS.indexOf(_l)>=0)state.lang=_l;}catch(e){}
+  function apply(){
+    var d=I18N[state.lang]||null;
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k=el.getAttribute('data-i18n');
+      if(!el.hasAttribute('data-en'))el.setAttribute('data-en',el.innerHTML);
+      if(d&&d[k]!=null)el.innerHTML=d[k];
+      else el.innerHTML=el.getAttribute('data-en');
+    });
+    document.documentElement.lang=state.lang;
+    document.querySelectorAll('#langsw button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-lang')===state.lang);});
+  }
+  document.querySelectorAll('#langsw button').forEach(function(b){b.addEventListener('click',function(){state.lang=b.getAttribute('data-lang');apply();});});
+  window.addEventListener('message',function(e){try{if(e.data&&e.data.t==='es'&&e.data.lang&&LANGS.indexOf(e.data.lang)>=0){state.lang=e.data.lang;apply();}}catch(err){}});
+  apply();
+})();
+// hide own header when embedded in the studio viewer
+(function(){try{if(window.self!==window.top){var s=document.createElement("style");s.textContent="header{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();
+</script>
+</body>
+</html>

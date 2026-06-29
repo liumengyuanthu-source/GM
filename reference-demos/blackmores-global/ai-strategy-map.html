@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Strategy Map · Experience Studio</title>
+<style>
+  :root{
+    --brand:#0a9499; --brand-d:#076e72; --soft:#e0f0f0; --accent:#e07a45;
+    --ink:#16201f; --muted:#6a7472; --bg:#f4f7f7; --card:#fff; --line:#e6ecec;
+    --display:Georgia,'Times New Roman','Songti SC','Hiragino Mincho ProN',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans','Microsoft YaHei','Thonburi','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  .nav{display:flex;align-items:center;gap:12px;max-width:1100px;margin:0 auto;padding:13px 18px}
+  .brand{font-family:var(--display);font-weight:700;font-size:19px}.brand sup{font-size:9px;color:var(--brand)}
+  .sub{font-size:11px;color:var(--muted);border-left:1px solid var(--line);padding-left:12px}.sp{flex:1}
+  .chip{display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:12px;font-weight:600;cursor:pointer;position:relative}
+  .langs{display:flex;gap:3px}
+  .langs button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;font-weight:600;color:var(--muted);min-width:32px;height:30px;border-radius:8px;cursor:pointer;transition:.2s;padding:0 6px}
+  .langs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .menu{position:absolute;top:40px;right:0;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:6px;min-width:120px;box-shadow:0 12px 30px rgba(0,0,0,.12);display:none;z-index:50}
+  .menu.open{display:block}.menu button{display:block;width:100%;border:0;background:0;font:inherit;font-size:13px;padding:8px 9px;border-radius:7px;cursor:pointer;text-align:left;color:var(--ink)}.menu button:hover{background:var(--soft)}
+  .wrap{max-width:1100px;margin:0 auto;padding:24px 18px 80px}
+
+  /* Hero */
+  .hero{background:linear-gradient(135deg,var(--brand),var(--brand-d));color:#fff;border-radius:18px;padding:48px 36px;margin-bottom:24px;text-align:center;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.06);right:-80px;bottom:-120px}
+  .hero::before{content:"";position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.04);left:-60px;top:-80px}
+  .hero h1{font-family:var(--display);font-size:32px;font-weight:700;line-height:1.2;margin-bottom:14px}
+  .hero p{font-size:15px;opacity:.92;max-width:680px;margin:0 auto 22px}
+  .hero-cta{display:inline-block;background:#fff;color:var(--brand);font-weight:700;font-size:14px;padding:12px 24px;border-radius:11px;cursor:pointer;text-decoration:none;transition:.2s}
+  .hero-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+
+  /* Why now */
+  .why-now{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}
+  .wn-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;transition:.2s}
+  .wn-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.06)}
+  .wn-icon{width:44px;height:44px;border-radius:12px;background:var(--soft);display:grid;place-items:center;font-size:22px;margin-bottom:14px}
+  .wn-card h3{font-family:var(--display);font-size:16px;font-weight:700;margin-bottom:8px}
+  .wn-card p{font-size:13px;color:var(--muted);line-height:1.6}
+
+  /* Strategy Map */
+  .map-wrap{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin:24px 0}
+  .map-title{font-family:var(--display);font-size:22px;font-weight:700;text-align:center;margin-bottom:6px}
+  .map-sub{text-align:center;font-size:13px;color:var(--muted);margin-bottom:28px}
+  .map{display:flex;flex-direction:column;gap:20px}
+  .phase{display:flex;gap:14px;align-items:stretch}
+  .phase-label{flex:0 0 110px;display:flex;align-items:center;justify-content:center;flex-direction:column;background:var(--soft);border-radius:14px;padding:14px 8px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--brand)}
+  .phase-label span{font-size:10px;font-weight:600;opacity:.7;margin-top:4px}
+  .nodes{flex:1;display:flex;gap:10px;flex-wrap:wrap}
+  .node{flex:1;min-width:120px;position:relative}
+  .node-btn{width:100%;border:2px solid var(--line);background:var(--card);border-radius:14px;padding:16px 12px;text-align:center;cursor:pointer;transition:.2s;font:inherit;font-size:13px;font-weight:700}
+  .node-btn:hover{border-color:var(--brand);background:var(--soft)}
+  .node-btn.on{border-color:var(--brand);background:var(--brand);color:#fff}
+  .node-btn .num{display:block;font-size:24px;font-weight:800;font-family:var(--display);margin-bottom:4px;color:var(--brand)}
+  .node-btn.on .num{color:#fff}
+  .node-btn .name{display:block;font-size:12px;font-weight:600}
+  .node-btn .stage{display:block;font-size:10px;opacity:.7;margin-top:2px}
+
+  .node-detail{grid-column:1/-1;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:22px;margin-top:6px;display:none;animation:rise .3s ease}
+  .node-detail.show{display:block}
+  .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .detail-block h4{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .detail-block p,.detail-block ul{font-size:13.5px;line-height:1.6;color:var(--ink)}
+  .detail-block ul{padding-left:18px}
+  .detail-block ul li{margin-bottom:4px}
+  .detail-block .tag{display:inline-block;background:var(--soft);color:var(--brand);font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;margin:2px}
+  .detail-block a.tag{background:var(--brand);color:#fff;text-decoration:none}
+  .detail-block a.tag:hover{background:var(--brand-d)}
+  .detail-block .solution{font-size:14px;font-weight:700;color:var(--brand);margin-top:8px}
+  .arrow-connector{text-align:center;font-size:24px;color:var(--line);margin:4px 0}
+
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  /* Why NTT DATA */
+  .why-ntt{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:36px 28px;margin:24px 0}
+  .why-ntt h2{font-family:var(--display);font-size:24px;font-weight:700;text-align:center;margin-bottom:6px}
+  .why-ntt .subt{text-align:center;font-size:14px;color:var(--muted);margin-bottom:28px}
+  .method{display:flex;gap:14px;margin-bottom:24px}
+  .method-step{flex:1;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center}
+  .method-step .step-num{width:36px;height:36px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px;margin:0 auto 10px}
+  .method-step h4{font-size:14px;font-weight:700;margin-bottom:6px}
+  .method-step p{font-size:12.5px;color:var(--muted);line-height:1.5}
+  .cases{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
+  .case{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:16px}
+  .case .tag{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);margin-bottom:6px}
+  .case h4{font-family:var(--display);font-size:15px;font-weight:700;margin-bottom:6px}
+  .case p{font-size:13px;color:var(--muted);line-height:1.5}
+  .process{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:24px}
+  .process-step{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 18px;font-size:13px;font-weight:700}
+  .process-arr{color:var(--muted);font-size:18px}
+  .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .cta-btn{border:0;background:var(--brand);color:#fff;font:inherit;font-size:14px;font-weight:700;padding:14px 24px;border-radius:12px;cursor:pointer;transition:.2s;text-decoration:none;display:inline-block}
+  .cta-btn:hover{background:var(--brand-d);transform:translateY(-2px)}
+  .cta-btn.secondary{background:var(--bg);color:var(--ink);border:1px solid var(--line)}
+  .cta-btn.secondary:hover{background:var(--line)}
+
+  /* Footer */
+  .footer-cta{background:linear-gradient(135deg,var(--ink),#2a3a38);color:#fff;border-radius:18px;padding:40px 28px;text-align:center;margin:24px 0}
+  .footer-cta h2{font-family:var(--display);font-size:22px;font-weight:700;margin-bottom:8px}
+  .footer-cta p{font-size:14px;opacity:.8;margin-bottom:24px}
+  .footer-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .fbtn{background:#fff;color:var(--ink);font:inherit;font-size:14px;font-weight:700;padding:14px 24px;border-radius:12px;cursor:pointer;transition:.2s;text-decoration:none;border:0;display:inline-block}
+  .fbtn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+  .fbtn.outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.3)}
+  .fbtn.outline:hover{background:rgba(255,255,255,.1)}
+
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(50px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:11px;font-size:14px;font-weight:600;z-index:80;opacity:0;transition:.3s}
+  .toast.show{transform:translateX(-50%);opacity:1}
+  .fab{position:fixed;right:20px;bottom:20px;width:52px;height:52px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:21px;box-shadow:0 10px 26px rgba(0,0,0,.2);cursor:pointer;z-index:40}
+
+  @media(max-width:760px){
+    .why-now{grid-template-columns:1fr}
+    .phase{flex-direction:column}
+    .phase-label{flex:0 0 auto;padding:10px}
+    .nodes{flex-direction:column}
+    .node{min-width:auto}
+    .detail-grid{grid-template-columns:1fr}
+    .method{flex-direction:column}
+    .cases{grid-template-columns:1fr}
+    .process{flex-direction:column}
+    .process-arr{transform:rotate(90deg)}
+    .hero h1{font-size:24px}
+    .hero{padding:36px 22px}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <div class="brand" id="brand">NTT DATA<sup>®</sup></div>
+    <div class="sub" id="sub">AI Strategy Map</div>
+    <div class="sp"></div>
+    <a class="chip" href="index.html" id="backToStudio" style="text-decoration:none;color:var(--ink)">🏠 <span>Studio</span></a>
+    <div class="chip" id="brandChip">🎨 <span id="brandLab">Blackmores</span> ▾<div class="menu" id="brandMenu"></div></div>
+    <div class="langs" id="langs"></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <h1 id="heroTitle">AI has rewritten the rules of retail. You have an opportunity at every stage.</h1>
+    <p id="heroSub">From the first time a consumer hears about you to the moment they become your advocate — what can AI do? We help you find the answer at 8 critical touchpoints.</p>
+    <a class="hero-cta" id="heroCta" href="#map">View the full map ↓</a>
+  </section>
+
+  <!-- Why now -->
+  <section class="why-now" id="whyNow">
+    <div class="wn-card">
+      <div class="wn-icon">⚡</div>
+      <h3 id="wn1t">Decision windows compressed from weeks to minutes</h3>
+      <p id="wn1p">Consumers now decide in seconds, influenced by AI recommendations, social proof, and algorithmic feeds. The old funnel no longer matches reality.</p>
+    </div>
+    <div class="wn-card">
+      <div class="wn-icon">🤖</div>
+      <h3 id="wn2t">Trust has shifted from brand to algorithm</h3>
+      <p id="wn2p">Winning the AI recommendation layer is the new shelf space. If your brand isn't visible to AI agents, it doesn't exist to the next generation.</p>
+    </div>
+    <div class="wn-card">
+      <div class="wn-icon">🧬</div>
+      <h3 id="wn3t">Consumer behavior has changed</h3>
+      <p id="wn3p">AI-native generations no longer follow the old purchase path. They ask AI, not search engines. They trust peers, not ads. They expect instant, not eventual.</p>
+    </div>
+  </section>
+
+  <!-- Map -->
+  <section class="map-wrap" id="map">
+    <h2 class="map-title" id="mapTitle">AI Retail Scenario Map</h2>
+    <p class="map-sub" id="mapSub">Click any node to explore the pain point, AI capability, and NTT DATA solution</p>
+    <div class="map" id="mapContainer">
+      <!-- Pre-Sales -->
+      <div class="phase">
+        <div class="phase-label">Pre-Sales<span id="ph1">Awareness → Interest</span></div>
+        <div class="nodes">
+          <div class="node"><button class="node-btn" data-node="awareness" onclick="openNode('awareness')">
+            <span class="num">1</span><span class="name">Awareness</span><span class="stage">认知</span>
+          </button></div>
+          <div class="node"><button class="node-btn" data-node="interest" onclick="openNode('interest')">
+            <span class="num">2</span><span class="name">Interest</span><span class="stage">兴趣</span>
+          </button></div>
+          <div class="node"><button class="node-btn" data-node="consideration" onclick="openNode('consideration')">
+            <span class="num">3</span><span class="name">Consideration</span><span class="stage">考虑</span>
+          </button></div>
+        </div>
+      </div>
+      <div class="arrow-connector">↓</div>
+      <!-- On-Sales -->
+      <div class="phase">
+        <div class="phase-label">On-Sales<span id="ph2">Purchase → Pay</span></div>
+        <div class="nodes">
+          <div class="node"><button class="node-btn" data-node="purchase" onclick="openNode('purchase')">
+            <span class="num">4</span><span class="name">Purchase Decision</span><span class="stage">购买决策</span>
+          </button></div>
+          <div class="node"><button class="node-btn" data-node="order" onclick="openNode('order')">
+            <span class="num">5</span><span class="name">Order Confirmation</span><span class="stage">订单确认</span>
+          </button></div>
+          <div class="node"><button class="node-btn" data-node="payment" onclick="openNode('payment')">
+            <span class="num">6</span><span class="name">Payment</span><span class="stage">支付交易</span>
+          </button></div>
+          <div class="node"><button class="node-btn" data-node="store" onclick="openNode('store')">
+            <span class="num">7</span><span class="name">Store Operation</span><span class="stage">门店运营</span>
+          </button></div>
+        </div>
+      </div>
+      <div class="arrow-connector">↓</div>
+      <!-- After-Sales -->
+      <div class="phase">
+        <div class="phase-label">After-Sales<span id="ph3">Usage → Loyalty</span></div>
+        <div class="nodes">
+          <div class="node"><button class="node-btn" data-node="support" onclick="openNode('support')">
+            <span class="num">8</span><span class="name">Usage & Support</span><span class="stage">使用与支持</span>
+          </button></div>
+        <div class="node"><button class="node-btn" data-node="loyalty" onclick="openNode('loyalty')">
+            <span class="num">9</span><span class="name">Loyalty & Advocacy</span><span class="stage">忠诚与拥护</span>
+          </button></div>
+        </div>
+      </div>
+      <!-- Detail panel -->
+      <div class="node-detail" id="detailPanel">
+        <div class="detail-grid" id="detailContent"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why NTT DATA -->
+  <section class="why-ntt" id="whyNtt">
+    <h2 id="nttTitle">Not selling tools. Helping you find where tools belong.</h2>
+    <p class="subt" id="nttSub">Three-layer diagnostic methodology</p>
+    <div class="method">
+      <div class="method-step">
+        <div class="step-num">1</div>
+        <h4 id="m1t">Enablement</h4>
+        <p id="m1p">AI literacy, data readiness, and pilot culture. Building the foundation so your team can experiment safely.</p>
+      </div>
+      <div class="method-step">
+        <div class="step-num">2</div>
+        <h4 id="m2t">Direct</h4>
+        <p id="m2p">Customer-facing AI — advisors, agents, recommendation engines, and conversational commerce that drives revenue.</p>
+      </div>
+      <div class="method-step">
+        <div class="step-num">3</div>
+        <h4 id="m3t">Backbone</h4>
+        <p id="m3p">Enterprise-grade infrastructure — CDP, identity resolution, MLOps, and governance that scales with your ambition.</p>
+      </div>
+    </div>
+    <div class="cases">
+      <div class="case">
+        <div class="tag">Case</div>
+        <h4 id="case1t">Marriott Journey Diagnostic</h4>
+        <p id="case1p">Mapped 47 touchpoints across pre-stay, on-property, and post-stay. Identified 12 AI-ready intervention points with projected 18% NPS lift.</p>
+      </div>
+      <div class="case">
+        <div class="tag">Case</div>
+        <h4 id="case2t">GenScript Blueprint Planning</h4>
+        <p id="case2p">From fragmented B2B portal to unified AI-powered commerce platform. Phase 1 delivered in 8 weeks, 3x conversion improvement.</p>
+      </div>
+    </div>
+    <div class="process">
+      <div class="process-step" id="proc1">Diagnose</div>
+      <div class="process-arr">→</div>
+      <div class="process-step" id="proc2">Design</div>
+      <div class="process-arr">→</div>
+      <div class="process-step" id="proc3">Deploy</div>
+    </div>
+    <div class="cta-row">
+      <a class="cta-btn" href="#" id="cta1">Book a Diagnostic Workshop</a>
+      <a class="cta-btn secondary" href="#" id="cta2">Download Full Blueprint</a>
+    </div>
+  </section>
+
+  <!-- Footer CTA -->
+  <section class="footer-cta" id="footer">
+    <h2 id="footTitle">Ready to map your AI journey?</h2>
+    <p id="footSub">Every stage is an opportunity. Let's find yours.</p>
+    <div class="footer-btns">
+      <a class="fbtn" href="index.html" id="fbtn1">Browse Solution Gallery →</a>
+      <a class="fbtn outline" href="#" id="fbtn2">Download AI Retail Whitepaper</a>
+      <a class="fbtn outline" href="#" id="fbtn3">Book 30-Min Diagnostic</a>
+    </div>
+  </section>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="fab" id="fab" title="Switch brand">🎨</div>
+
+<script>
+// ===== Data =====
+const BRANDS={
+  blackmores:{logo:"BLACKMORES",sup:"®",name:"Blackmores",em:"🌿",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  lumiere:{logo:"LUMIÈRE",sup:"",name:"Lumière",em:"💧",c:["#a8456b","#7d2f4e","#f6e7ee","#c98a8a"]},
+  harvest:{logo:"HARVEST & CO",sup:"",name:"Harvest & Co",em:"🍯",c:["#b5611f","#8a4715","#f6ebe0","#3d7a4f"]}
+};
+
+const NODE_DATA={
+  awareness:{en:{title:"Awareness — AIGC Growth Marketing",pain:"Brand content gets lost in algorithmic feeds. Organic reach declining. Ad costs rising.",ai:"AI-generated personalized content at scale. Dynamic creative optimization. GEO (Generative Engine Optimization) for AI recommendation layers.",solution:"AIGC Studio — auto-generate platform-native content, optimize for AI citation, track brand visibility in LLM responses.",demo:"aigc.html"},zh:{title:"Awareness — AIGC 增长营销",pain:"品牌内容淹没在算法信息流中。自然流量下降，广告成本上升。",ai:"AI 规模化生成个性化内容。动态创意优化。GEO（生成引擎优化）赢得 AI 推荐层。",solution:"AIGC 工作室——自动生成平台原生内容，优化 AI 引用可见性，追踪品牌在 LLM 回复中的曝光。",demo:"aigc.html"},ja:{title:"Awareness — AIGC グロースマーケティング",pain:"ブランドコンテンツがアルゴリズムフィードに埋もれる。オーガニックリーチ減少、広告費高騰。",ai:"AIによる大規模パーソナライズコンテンツ生成。ダイナミッククリエイティブ最適化。GEO（生成エンジン最適化）。",solution:"AIGCスタジオ——プラットフォームネイティブコンテンツ自動生成、AI引用最適化、LLM応答でのブランド可視性追跡。",demo:"aigc.html"},th:{title:"Awareness — AIGC การตลาดการเติบโต",pain:"เนื้อหาแบรนด์หายไปในอัลกอริทึมฟีด การเข้าถึงออร์แกนิกลดลง ค่าโฆษณาสูงขึ้น",ai:"AI สร้างเนื้อหาส่วนบุคคลในวงกว้าง การปรับแต่งครีเอทีฟแบบไดนามิก GEO (Generative Engine Optimization)",solution:"AIGC Studio — สร้างเนื้อหาแบบอัตโนมัติ ปรับให้เหมาะกับ AI citation ติดตามการมองเห็นแบรนด์ใน LLM",demo:"aigc.html"}},
+  interest:{en:{title:"Interest — AI Advisor",pain:"Consumers bounce between 10+ tabs comparing products. No one reads your full product page.",ai:"Conversational AI advisor that understands intent, answers objections, and guides discovery. Natural language, not keyword search.",solution:"AI Advisor — embedded chat that converts browsers into buyers by understanding what they actually need.",demo:"ai-advisor.html"},zh:{title:"Interest — AI 顾问",pain:"消费者在 10+ 个标签页间比价。没人读完你的完整产品页。",ai:"对话式 AI 顾问，理解意图、回答异议、引导发现。自然语言，而非关键词搜索。",solution:"AI 顾问——嵌入式对话，通过理解用户真实需求将浏览者转化为购买者。",demo:"ai-advisor.html"},ja:{title:"Interest — AI アドバイザー",pain:"消費者は10以上のタブで商品を比較。商品ページを最後まで読む人はいない。",ai:"意図を理解し、異議を回答し、発見を導く対話型AIアドバイザー。キーワード検索ではなく自然言語。",solution:"AIアドバイザー——ユーザーの本当のニーズを理解し、ブラウザをバイヤーに変換する埋め込みチャット。",demo:"ai-advisor.html"},th:{title:"Interest — AI ที่ปรึกษา",pain:"ผู้บริโภคสลับไปมาระหว่าง 10+ แท็บเปรียบเทียบสินค้า ไม่มีใครอ่านหน้าสินค้าทั้งหมด",ai:"AI ที่ปรึกษาแบบสนทนา เข้าใจเจตนา ตอบข้อโต้แย้ง แนะนำการค้นพบ ภาษาธรรมชาติ ไม่ใช่การค้นหาคีย์เวิร์ด",solution:"AI Advisor — แชตฝังตัวที่เปลี่ยนผู้เรียกดูให้เป็นผู้ซื้อโดยเข้าใจสิ่งที่พวกเขาต้องการจริงๆ",demo:"ai-advisor.html"}},
+  consideration:{en:{title:"Consideration — Agentic Commerce + Loyalty",pain:"Cart abandonment at 70%. No continuity between browsing and buying. Loyalty programs feel transactional, not emotional.",ai:"AI agents that negotiate, bundle, and personalize offers. Predictive loyalty scoring. Dynamic tier benefits.",solution:"Agentic Commerce + Loyalty Engine — intelligent bundling, predictive rewards, and tier progression that feels personal.",demo:"loyalty.html"},zh:{title:"Consideration — Agentic Commerce + 会员忠诚度",pain:"购物车放弃率 70%。浏览与购买之间没有连续性。会员计划感觉交易化，缺乏情感。",ai:"AI 智能体协商、组合、个性化推荐。预测性忠诚度评分。动态等级权益。",solution:"Agentic Commerce + 忠诚度引擎——智能组合、预测性奖励、个性化的等级进阶。",demo:"loyalty.html"},ja:{title:"Consideration — Agentic Commerce + ロイヤルティ",pain:"カート放棄率70%。閲覧と購入の間に連続性がない。ロイヤルティプログラムが取引的で感情的でない。",ai:"交渉・バンドル・パーソナライズオファーを行うAIエージェント。予測的ロイヤルティスコア。動的ティア特典。",solution:"Agentic Commerce + ロイヤルティエンジン——インテリジェントバンドリング、予測報酬、パーソナルなティア進行。",demo:"loyalty.html"},th:{title:"Consideration — Agentic Commerce + ความภักดี",pain:"อัตราการละทิ้งตะกร้า 70% ไม่มีความต่อเนื่องระหว่างการเรียกดูและการซื้อ โปรแกรมความภักดีรู้สึกเหมือนธุรกรรม",ai:"AI agents ที่เจรจา จัดชุด และปรับแต่งข้อเสนอ คะแนนความภักดีเชิงพยากรณ์ สิทธิประโยชน์แบบไดนามิก",solution:"Agentic Commerce + Loyalty Engine — การจัดชุดอัจฉริยะ รางวัลเชิงพยากรณ์ ระดับที่รู้สึกส่วนตัว",demo:"loyalty.html"}},
+  purchase:{en:{title:"Purchase Decision — Agentic Commerce + Conversational",pain:"Choice paralysis. Consumers abandon at the final step. Comparison shopping across 5+ platforms.",ai:"Conversational checkout. AI-assisted decision making. One-tap purchase via messaging apps. Voice commerce.",solution:"Conversational Commerce — let customers buy where they chat. WhatsApp, LINE, WeChat, voice — all channels, one experience.",demo:"conversational.html"},zh:{title:"Purchase Decision — Agentic Commerce + 对话式商务",pain:"选择困难症。消费者在最终步骤放弃。在 5+ 平台间比价。",ai:"对话式结账。AI 辅助决策。消息应用一键购买。语音商务。",solution:"对话式商务——让用户在聊天的地方购买。WhatsApp、LINE、微信、语音——全渠道，统一体验。",demo:"conversational.html"},ja:{title:"Purchase Decision — Agentic Commerce + 対話型コマース",pain:"選択麻痺。消費者は最終段階で放棄。5以上のプラットフォームで比較ショッピング。",ai:"対話型チェックアウト。AI支援意思決定。メッセージングアプリでのワンタップ購入。ボイスコマース。",solution:"対話型コマース——顧客がチャットする場所で購入できるように。WhatsApp、LINE、WeChat、ボイス——すべてのチャンネル、1つの体験。",demo:"conversational.html"},th:{title:"Purchase Decision — Agentic Commerce + การค้าแบบสนทนา",pain:"อาการช็อตไม่ตัดสินใจ ผู้บริโภคละทิ้งในขั้นตอนสุดท้าย เปรียบเทียบร้านค้าข้าม 5+ แพลตฟอร์ม",ai:"ชำระเงินแบบสนทนา AI ช่วยตัดสินใจ ซื้อด้วยแตะเดียวผ่านแอพแชท การค้าด้วยเสียง",solution:"Conversational Commerce — ให้ลูกค้าซื้อในที่ที่พวกเขาแชท WhatsApp LINE WeChat เสียง — ทุกช่องทาง ประสบการณ์เดียว",demo:"conversational.html"}},
+  order:{en:{title:"Order Confirmation — VOC + Conversational",pain:"Post-purchase silence. Customers wonder if their order went through. No proactive communication.",ai:"AI-generated confirmation with next-step guidance. Proactive exception handling. Predictive delivery updates.",solution:"VOC + Conversational — automated, intelligent post-purchase communication that reduces WISMO (Where Is My Order) by 40%.",demo:"voc.html"},zh:{title:"Order Confirmation — VOC + 对话式商务",pain:"购买后沉默。消费者不确定订单是否成功。没有主动沟通。",ai:"AI 生成确认信息，包含下一步引导。主动异常处理。预测性配送更新。",solution:"VOC + 对话式——自动化、智能的购后沟通，WISMO（我的订单在哪）减少 40%。",demo:"voc.html"},ja:{title:"Order Confirmation — VOC + 対話型コマース",pain:"購入後の沈黙。顧客は注文が通ったかどうか不安。能動的なコミュニケーションがない。",ai:"次のステップガイダンス付きAI生成確認。プロアクティブ例外処理。予測的配送更新。",solution:"VOC + 対話型——自動化されたインテリジェントな購入後コミュニケーション。WISMOを40%削減。",demo:"voc.html"},th:{title:"Order Confirmation — VOC + การค้าแบบสนทนา",pain:"ความเงียบหลังซื้อ ลูกค้าสงสัยว่าคำสั่งซื้อผ่านหรือไม่ ไม่มีการสื่อสารเชิงรุก",ai:"AI สร้างการยืนยันพร้อมคำแนะนำขั้นตอนต่อไป การจัดการข้อยกเว้นเชิงรุก การอัปเดตการจัดส่งเชิงพยากรณ์",solution:"VOC + แบบสนทนา — การสื่อสารหลังการซื้ออัตโนมัติและชาญฉลาด ลด WISMO 40%",demo:"voc.html"}},
+  payment:{en:{title:"Payment & Transaction — Enterprise Backbone + Commerce Front-End",pain:"Payment friction. Fraud losses. Integration debt across legacy systems. No unified transaction view.",ai:"AI-powered fraud detection. Smart routing. Embedded finance. Real-time reconciliation. Unified payment orchestration.",solution:"Enterprise Backbone + Commerce Front-End — secure, scalable, integrated payment infrastructure with modern UX.",demo:"commerce-front-end.html"},zh:{title:"Payment & Transaction — 企业级底座 + 电商前端",pain:"支付摩擦。欺诈损失。遗留系统集成债务。没有统一交易视图。",ai:"AI 驱动的欺诈检测。智能路由。嵌入式金融。实时对账。统一支付编排。",solution:"企业级底座 + 电商前端——安全、可扩展、集成的支付基础设施，配现代 UX。",demo:"commerce-front-end.html"},ja:{title:"Payment & Transaction — エンタープライズ基盤 + コマースフロントエンド",pain:"支払い摩擦。不正損失。レガシーシステム間の統合負債。統一された取引ビューがない。",ai:"AI駆動の不正検出。スマートルーティング。組み込み型ファイナンス。リアルタイム自動調整。統合支払いオーケストレーション。",solution:"エンタープライズ基盤 + コマースフロントエンド——安全でスケーラブル、統合された支払いインフラとモダンUX。",demo:"commerce-front-end.html"},th:{title:"Payment & Transaction — โครงสร้างพื้นฐานระดับองค์กร + หน้าร้านค้า",pain:"แรงเสียดทานการชำระเงิน การสูญเสียจากการฉ้อโกง หนี้การผสานรวมระบบเก่า ไม่มีมุมมองธุรกรรมที่รวมศูนย์",ai:"AI ตรวจจับการฉ้อโกง การกำหนดเส้นทางอัจฉริยะ การเงินฝังตัว การกระทบยอดแบบเรียลไทม์ การประสานการชำระเงิน",solution:"Enterprise Backbone + Commerce Front-End — โครงสร้างพื้นฐานการชำระเงินที่ปลอดภัย สเกลได้ ผสานรวม พร้อม UX สมัยใหม่",demo:"commerce-front-end.html"}},
+  store:{en:{title:"Store Operation — Conversational + WeChat Mini-Program",pain:"Staff can't answer every question. Inventory visibility gaps. No way to connect online discovery to offline purchase.",ai:"AI store assistant. Smart shelf management. Location-aware offers. WeChat ecosystem integration for seamless O2O.",solution:"Conversational + WeChat Mini-Program — bridge online discovery with in-store experience. Staff augmentation, not replacement.",demo:"line-flywheel.html"},zh:{title:"Store Operation — 对话式商务 + 微信小程序",pain:"员工无法回答所有问题。库存可见性缺口。无法连接线上发现与线下购买。",ai:"AI 门店助手。智能货架管理。基于位置的优惠。小程序集成实现无缝 O2O。",solution:"对话式 + 微信小程序——连接线上发现与店内体验。增强员工，而非替代。",demo:"line-flywheel.html"},ja:{title:"Store Operation — 対話型 + WeChat ミニプログラム",pain:"スタッフがすべての質問に答えられない。在庫可視性のギャップ。オンライン発見からオフライン購入への接続がない。",ai:"AI店舗アシスタント。スマート棚管理。位置認識型オファー。シームレスO2OのためのWeChat ミニプログラム統合。",solution:"対話型 + WeChat ミニプログラム——オンライン発見と店舗体験を橋渡し。スタッフの増強、置き換えではない。",demo:"line-flywheel.html"},th:{title:"Store Operation — การค้าแบบสนทนา + WeChat Mini-Program",pain:"พนักงานตอบทุกคำถามไม่ได้ ช่องโหว่การมองเห็นสต็อก ไม่มีวิธีเชื่อมต่อการค้นพบออนไลน์กับการซื้อออฟไลน์",ai:"ผู้ช่วยร้าน AI การจัดการชั้นวางอัจฉริยะ ข้อเสนอตามตำแหน่ง การผสานรวมWeChat Mini-Programสำหรับ O2O ที่ราบรื่น",solution:"การค้าแบบสนทนา + WeChat Mini-Program — เชื่อมต่อการค้นพบออนไลน์กับประสบการณ์ในร้าน เสริมพนักงาน ไม่ใช่แทนที่",demo:"line-flywheel.html"}},
+  support:{en:{title:"Usage & Support — VOC + Social Hub",pain:"Support tickets pile up. Social complaints go viral before you see them. No systematic voice-of-customer program.",ai:"AI sentiment monitoring across social platforms. Auto-categorization of feedback. Predictive churn alerts. Community-driven support.",solution:"VOC + Social Hub — unified listening, automated triage, and community-powered support that turns complaints into product insights.",demo:"voc.html"},zh:{title:"Usage & Support — VOC + Social Hub",pain:"支持工单堆积。社交投诉在你发现之前已经病毒式传播。没有系统化的客户之声项目。",ai:"跨社交平台的 AI 情感监控。反馈自动分类。预测性流失预警。社区驱动支持。",solution:"VOC + Social Hub——统一倾听、自动分类、社区驱动支持，将投诉转化为产品洞察。",demo:"voc.html"},ja:{title:"Usage & Support — VOC + ソーシャルハブ",pain:"サポートチケットが蓄積。ソーシャル苦情が気づく前にバイラル化。体系的なVOCプログラムがない。",ai:"ソーシャルプラットフォーム横断のAIセンチメントモニタリング。フィードバックの自動カテゴリ化。予測的離脱アラート。コミュニティ主導型サポート。",solution:"VOC + ソーシャルハブ——統合リスニング、自動トリアージ、コミュニティパワードサポート。苦情を製品洞察に変換。",demo:"voc.html"},th:{title:"Usage & Support — VOC + Social Hub",pain:"ตั๋วสนับสนุนสะสม การร้องเรียนบนโซเชียลกระจายไวกว่าที่จะเห็น ไม่มีโปรแกรมเสียงของลูกค้าแบบเป็นระบบ",ai:"AI ตรวจสอบความรู้สึกข้ามแพลตฟอร์มโซเชียล จัดหมวดหมู่ฟีดแบ็คอัตโนมัติ แจ้งเตือนการละทิ้งเชิงพยากรณ์ การสนับสนุนขับเคลื่อนชุมชน",solution:"VOC + Social Hub — การฟังแบบรวมศูนย์ การแบ่งกลุ่มอัตโนมัติ การสนับสนุนที่ขับเคลื่อนด้วยชุมชน แปลงการร้องเรียนเป็น insight ผลิตภัณฑ์",demo:"voc.html"}},
+  loyalty:{en:{title:"Loyalty & Advocacy — Loyalty + Health Management",pain:"Loyalty programs collect points, not passion. Members churn after redeeming. No viral advocacy mechanism.",ai:"AI-powered health coaching. Personalized wellness journeys. Gamified challenges. Social sharing with rewards. Community-driven advocacy.",solution:"Loyalty + Health Management — transform transactional loyalty into emotional attachment through personalized wellness and community.",demo:"loyalty.html"},zh:{title:"Loyalty & Advocacy — 会员忠诚度 + 健康管理",pain:"会员计划收集积分，而非热情。会员兑换后流失。没有病毒式拥护机制。",ai:"AI 驱动健康教练。个性化 wellness 旅程。游戏化挑战。社交分享奖励。社区驱动拥护。",solution:"忠诚度 + 健康管理——通过个性化 wellness 和社区，将交易型忠诚转化为情感连接。",demo:"loyalty.html"},ja:{title:"Loyalty & Advocacy — ロイヤルティ + ヘルスケア管理",pain:"ロイヤルティプログラムはポイントを集めるが、情熱は集めない。会員は交換後に離脱。バイラルアドボカシー機構がない。",ai:"AI駆動ヘルスコーチング。パーソナライズドウェルネスジャーニー。ゲーミファイドチャレンジ。報酬付きソーシャルシェアリング。コミュニティ主導アドボカシー。",solution:"ロイヤルティ + ヘルスケア管理——パーソナライズドウェルネスとコミュニティを通じて、取引的ロイヤルティを感情的な愛着に変換。",demo:"loyalty.html"},th:{title:"Loyalty & Advocacy — ความภักดี + การจัดการสุขภาพ",pain:"โปรแกรมความภักดีเก็บคะแนน ไม่ใช่ความหลงใหล สมาชิกละทิ้งหลังแลกรับ ไม่มีกลไกการสนับสนุนแบบไวรัล",ai:"AI โค้ชสุขภาพ การเดินทางเพื่อสุขภาพส่วนบุคคล ความท้าทายแบบเกม การแชร์โซเชียลพร้อมรางวัล การสนับสนุนขับเคลื่อนชุมชน",solution:"ความภักดี + การจัดการสุขภาพ — แปลงความภักดีแบบธุรกรรมให้เป็นความผูกพันทางอารมณ์ผ่าน wellness ส่วนบุคคลและชุมชน",demo:"loyalty.html"}}
+};
+
+const UI={
+  en:{
+    sub:"AI Strategy Map",
+    heroTitle:"AI has rewritten the rules of retail. You have an opportunity at every stage.",
+    heroSub:"From the first time a consumer hears about you to the moment they become your advocate — what can AI do? We help you find the answer at 8 critical touchpoints.",
+    heroCta:"View the full map ↓",
+    wn1t:"Decision windows compressed from weeks to minutes",
+    wn1p:"Consumers now decide in seconds, influenced by AI recommendations, social proof, and algorithmic feeds. The old funnel no longer matches reality.",
+    wn2t:"Trust has shifted from brand to algorithm",
+    wn2p:"Winning the AI recommendation layer is the new shelf space. If your brand isn't visible to AI agents, it doesn't exist to the next generation.",
+    wn3t:"Consumer behavior has changed",
+    wn3p:"AI-native generations no longer follow the old purchase path. They ask AI, not search engines. They trust peers, not ads. They expect instant, not eventual.",
+    mapTitle:"AI Retail Scenario Map",
+    mapSub:"Click any node to explore the pain point, AI capability, and NTT DATA solution",
+    ph1:"Awareness → Interest",
+    ph2:"Purchase → Pay",
+    ph3:"Usage → Loyalty",
+    nttTitle:"Not selling tools. Helping you find where tools belong.",
+    nttSub:"Three-layer diagnostic methodology",
+    m1t:"Enablement",m1p:"AI literacy, data readiness, and pilot culture. Building the foundation so your team can experiment safely.",
+    m2t:"Direct",m2p:"Customer-facing AI — advisors, agents, recommendation engines, and conversational commerce that drives revenue.",
+    m3t:"Backbone",m3p:"Enterprise-grade infrastructure — CDP, identity resolution, MLOps, and governance that scales with your ambition.",
+    case1t:"Marriott Journey Diagnostic",
+    case1p:"Mapped 47 touchpoints across pre-stay, on-property, and post-stay. Identified 12 AI-ready intervention points with projected 18% NPS lift.",
+    case2t:"GenScript Blueprint Planning",
+    case2p:"From fragmented B2B portal to unified AI-powered commerce platform. Phase 1 delivered in 8 weeks, 3x conversion improvement.",
+    proc1:"Diagnose",proc2:"Design",proc3:"Deploy",
+    cta1:"Book a Diagnostic Workshop",
+    cta2:"Download Full Blueprint",
+    footTitle:"Ready to map your AI journey?",
+    footSub:"Every stage is an opportunity. Let's find yours.",
+    fbtn1:"Browse Solution Gallery →",
+    fbtn2:"Download AI Retail Whitepaper",
+    fbtn3:"Book 30-Min Diagnostic",
+    pain:"Typical Pain Point",
+    ai:"What AI Can Do",
+    solution:"NTT DATA Solution",
+    demo:"View Demo →"
+  },
+  zh:{
+    sub:"AI 战略地图",
+    heroTitle:"AI 已重写零售规则。你在每个阶段都有机会。",
+    heroSub:"从消费者第一次听说你，到他成为你的拥护者——AI 可以做什么？我们帮你在 8 个关键节点找到答案。",
+    heroCta:"查看完整地图 ↓",
+    wn1t:"决策窗口从「周」压缩到「分钟」",
+    wn1p:"消费者如今在几秒内做出决定，受 AI 推荐、社交证明和算法信息流影响。旧漏斗已不再匹配现实。",
+    wn2t:"信任从品牌迁移到算法",
+    wn2p:"赢得 AI 推荐层是新的货架空间。如果你的品牌对 AI 智能体不可见，对下一代来说就等于不存在。",
+    wn3t:"消费者行为已改变",
+    wn3p:"AI 原生世代不再遵循旧的购买路径。他们问 AI，而非搜索引擎。他们信任同伴，而非广告。他们期望即时，而非最终。",
+    mapTitle:"AI 零售场景地图",
+    mapSub:"点击任意节点，探索痛点、AI 能力与 NTT DATA 方案",
+    ph1:"认知 → 兴趣",
+    ph2:"购买 → 支付",
+    ph3:"使用 → 忠诚",
+    nttTitle:"不是卖工具，是帮你找到该用工具的地方",
+    nttSub:"三层诊断方法论",
+    m1t:"赋能层",m1p:"AI 素养、数据就绪度、试点文化。打好基础，让团队安全实验。",
+    m2t:"直接层",m2p:"面向客户的 AI——顾问、智能体、推荐引擎、对话式商务，驱动收入。",
+    m3t:"底座层",m3p:"企业级基础设施——CDP、身份解析、MLOps、治理，与雄心同步扩展。",
+    case1t:"万豪旅程诊断",
+    case1p:"映射入住前、入住中、入住后 47 个触点。识别 12 个 AI 就绪干预点，预计 NPS 提升 18%。",
+    case2t:"GenScript 蓝图规划",
+    case2p:"从碎片化的 B2B 门户到统一的 AI 驱动商务平台。第一阶段 8 周交付，转化率提升 3 倍。",
+    proc1:"诊断",proc2:"设计",proc3:"落地",
+    cta1:"预约诊断工作坊",
+    cta2:"下载完整蓝图",
+    footTitle:"准备好绘制你的 AI 旅程了吗？",
+    footSub:"每个阶段都是机会。让我们找到属于你的。",
+    fbtn1:"浏览方案展厅 →",
+    fbtn2:"下载 AI 零售白皮书",
+    fbtn3:"预约 30 分钟诊断",
+    pain:"典型痛点",
+    ai:"AI 能做什么",
+    solution:"NTT DATA 对应方案",
+    demo:"查看 Demo →"
+  },
+  ja:{
+    sub:"AI 戦略マップ",
+    heroTitle:"AIが小売のルールを書き換えた。あなたには各段階で機会がある。",
+    heroSub:"消費者があなたを初めて知る瞬間から、擁護者になる瞬間まで——AIは何ができる？8つの重要なタッチポイントで答えを見つけます。",
+    heroCta:"フルマップを見る ↓",
+    wn1t:"意思決定の窓が「週」から「分」に圧縮された",
+    wn1p:"消費者は今、数秒で決定する。AI推奨、社会的証明、アルゴリズムフィードの影響を受ける。旧来のファネルは現実と合わない。",
+    wn2t:"信頼はブランドからアルゴリズムへ移行した",
+    wn2p:"AI推奨層での勝利が、新しい棚スペース。ブランドがAIエージェントに見えなければ、次世代には存在しない。",
+    wn3t:"消費者行動は変わった",
+    wn3p:"AIネイティブ世代は古い購入パスを辿らない。検索エンジンではなくAIに尋ねる。広告ではなく仲間を信じる。即時を期待する。",
+    mapTitle:"AI 小売シナリオマップ",
+    mapSub:"ノードをクリックして、痛点、AI能力、NTT DATAソリューションを探索",
+    ph1:"認知 → 興味",
+    ph2:"購入 → 支払",
+    ph3:"使用 → 忠誠",
+    nttTitle:"ツールを売るのではなく、ツールが置かれる場所を見つける",
+    nttSub:"三段階診断手法",
+    m1t:"Enablement",m1p:"AIリテラシー、データ準備、パイロット文化。基盤を構築し、チームが安全に実験できるようにする。",
+    m2t:"Direct",m2p:"顧客向けAI——アドバイザー、エージェント、推奨エンジン、対話型コマース。収益を牽引する。",
+    m3t:"Backbone",m3p:"エンタープライズグレードのインフラ——CDP、ID解決、MLOps、ガバナンス。野望に合わせてスケール。",
+    case1t:"マリオット・ジャーニー診断",
+    case1p:"滞在前、滞在中、滞在后の47タッチポイントをマッピング。12のAI対応介入ポイントを特定、NPS 18%向上を予測。",
+    case2t:"GenScript ブループリント計画",
+    case2p:"断片化したB2Bポータルから統合AI駆動コマースプラットフォームへ。フェーズ1は8週間で納品、コンバージョン3倍改善。",
+    proc1:"診断",proc2:"設計",proc3:"展開",
+    cta1:"診断ワークショップを予約",
+    cta2:"完全ブループリントをダウンロード",
+    footTitle:"AIジャーニーのマッピングの準備はできましたか？",
+    footSub:"すべての段階が機会。あなたの機会を見つけましょう。",
+    fbtn1:"ソリューションギャラリーを見る →",
+    fbtn2:"AI小売ホワイトペーパーをダウンロード",
+    fbtn3:"30分診断を予約",
+    pain:"典型的な痛点",
+    ai:"AIができること",
+    solution:"NTT DATAソリューション",
+    demo:"デモを見る →"
+  },
+  th:{
+    sub:"แผนที่กลยุทธ์ AI",
+    heroTitle:"AI ได้เขียนกฎของการค้าปลีกใหม่ คุณมีโอกาสในทุกขั้นตอน",
+    heroSub:"จากครั้งแรกที่ผู้บริโภคได้ยินเกี่ยวกับคุณ จนถึงเมื่อพวกเขากลายเป็นแฟนตัวยงของคุณ——AI ทำอะไรได้? เราช่วยคุณหาคำตอบที่ 8 จุดสัมผัสสำคัญ",
+    heroCta:"ดูแผนที่เต็ม ↓",
+    wn1t:"หน้าต่างการตัดสินใจถูกบีบจาก「สัปดาห์」เป็น「นาที」",
+    wn1p:"ผู้บริโภคตัดสินใจในวินาที ได้รับอิทธิพลจากคำแนะนำ AI หลักฐานทางสังคม และฟีดอัลกอริทึม กรองเก่าไม่ตรงกับความจริงอีกต่อไป",
+    wn2t:"ความไว้วางใจย้ายจากแบรนด์สู่อัลกอริทึม",
+    wn2p:"การชนะเลเยอร์คำแนะนำ AI คือพื้นที่ชั้นวางใหม่ หากแบรนด์ของคุณมองไม่เห็นต่อ AI agents มันก็ไม่มีอยู่สำหรับรุ่นต่อไป",
+    wn3t:"พฤติกรรมผู้บริโภคเปลี่ยนไปแล้ว",
+    wn3p:"รุ่น AI-native ไม่ติดตามเส้นทางการซื้อเก่า พวกเขาถาม AI ไม่ใช่ search engine เชื่อเพื่อน ไม่ใช่โฆษณา คาดหวังทันที ไม่ใช่สุดท้าย",
+    mapTitle:"แผนที่สถานการณ์ AI ค้าปลีก",
+    mapSub:"คลิกที่โหนดใดก็ได้เพื่อสำรวจจุดเจ็บปวด ความสามารถ AI และโซลูชัน NTT DATA",
+    ph1:"การรับรู้ → ความสนใจ",
+    ph2:"ซื้อ → จ่าย",
+    ph3:"ใช้ → ความภักดี",
+    nttTitle:"ไม่ใช่ขายเครื่องมือ แต่ช่วยคุณหาว่าเครื่องมือควรอยู่ที่ไหน",
+    nttSub:"วิธีวินิจฉัยสามชั้น",
+    m1t:"Enablement",m1p:"ความรู้ AI ความพร้อมของข้อมูล วัฒนธรรมนำร่อง สร้างรากฐานให้ทีมทดลองได้อย่างปลอดภัย",
+    m2t:"Direct",m2p:"AI หันหน้าสู่ลูกค้า——ที่ปรึกษา เอเจนต์ เครื่องยนต์แนะนำ การค้าแบบสนทนา ขับรายได้",
+    m3t:"Backbone",m3p:"โครงสร้างพื้นฐานระดับองค์กร——CDP การแก้ไขอัตลักษณ์ MLOps การกำกับดูแล ขยายตามความทะเยอทะยาน",
+    case1t:"การวินิจฉัยการเดินทาง Marriott",
+    case1p:"แมป 47 touchpoints ข้ามก่อนเข้าพัก ระหว่างพัก และหลังพัก ระบุ 12 จุดแทรกแซงพร้อม AI คาด NPS เพิ่ม 18%",
+    case2t:"การวางแผน Blueprint GenScript",
+    case2p:"จาก B2B portal แตกเป็นเสี่ยงสู่แพลตฟอร์มการค้าขับเคลื่อน AI ระยะ 1 ส่งมอบใน 8 สัปดาห์ ปรับปรุง conversion 3x",
+    proc1:"วินิจฉัย",proc2:"ออกแบบ",proc3:"ปรับใช้",
+    cta1:"จองเวิร์คช็อปวินิจฉัย",
+    cta2:"ดาวน์โหลด Blueprint ฉบับเต็ม",
+    footTitle:"พร้อมที่จะแมป AI journey ของคุณหรือยัง?",
+    footSub:"ทุกขั้นตอนคือโอกาส มาหาโอกาสของคุณกัน",
+    fbtn1:"ดู Solution Gallery →",
+    fbtn2:"ดาวน์โหลด AI Retail Whitepaper",
+    fbtn3:"จองการวินิจฉัย 30 นาที",
+    pain:"จุดเจ็บปวดทั่วไป",
+    ai:"AI ทำอะไรได้",
+    solution:"โซลูชัน NTT DATA",
+    demo:"ดู Demo →"
+  }
+};
+
+let state={lang:"en",brand:"blackmores"};
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const U=()=>UI[state.lang],BR=()=>BRANDS[state.brand];
+const N=n=>NODE_DATA[n][state.lang];
+
+function applyBrand(){
+  const b=BR(),r=document.documentElement.style;
+  r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
+  $('#brand').innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');
+  $('#brandLab').textContent=b.name;
+}
+
+function applyText(){
+  const u=U();
+  $('#sub').textContent=u.sub;
+  document.documentElement.lang=state.lang;
+
+  $('#heroTitle').textContent=u.heroTitle;
+  $('#heroSub').textContent=u.heroSub;
+  $('#heroCta').textContent=u.heroCta;
+
+  $('#wn1t').textContent=u.wn1t; $('#wn1p').textContent=u.wn1p;
+  $('#wn2t').textContent=u.wn2t; $('#wn2p').textContent=u.wn2p;
+  $('#wn3t').textContent=u.wn3t; $('#wn3p').textContent=u.wn3p;
+
+  $('#mapTitle').textContent=u.mapTitle;
+  $('#mapSub').textContent=u.mapSub;
+  $('#ph1').textContent=u.ph1;
+  $('#ph2').textContent=u.ph2;
+  $('#ph3').textContent=u.ph3;
+
+  $('#nttTitle').textContent=u.nttTitle;
+  $('#nttSub').textContent=u.nttSub;
+  $('#m1t').textContent=u.m1t; $('#m1p').textContent=u.m1p;
+  $('#m2t').textContent=u.m2t; $('#m2p').textContent=u.m2p;
+  $('#m3t').textContent=u.m3t; $('#m3p').textContent=u.m3p;
+  $('#case1t').textContent=u.case1t; $('#case1p').textContent=u.case1p;
+  $('#case2t').textContent=u.case2t; $('#case2p').textContent=u.case2p;
+  $('#proc1').textContent=u.proc1; $('#proc2').textContent=u.proc2; $('#proc3').textContent=u.proc3;
+  $('#cta1').textContent=u.cta1; $('#cta2').textContent=u.cta2;
+
+  $('#footTitle').textContent=u.footTitle;
+  $('#footSub').textContent=u.footSub;
+  $('#fbtn1').textContent=u.fbtn1;
+  $('#fbtn2').textContent=u.fbtn2;
+  $('#fbtn3').textContent=u.fbtn3;
+
+  // Refresh open detail if any
+  const open=$('.node-btn.on');
+  if(open){openNode(open.dataset.node);}
+}
+
+function openNode(key){
+  const d=N(key);
+  const u=U();
+  $$('.node-btn').forEach(b=>b.classList.toggle('on',b.dataset.node===key));
+  const panel=$('#detailPanel');
+  const content=$('#detailContent');
+  content.innerHTML=`<div class="detail-block">
+      <h4>🎯 ${u.pain}</h4>
+      <p>${d.pain}</p>
+    </div>
+    <div class="detail-block">
+      <h4>🤖 ${u.ai}</h4>
+      <p>${d.ai}</p>
+      <div class="solution">${d.solution}</div>
+      <a class="tag" href="${d.demo}" target="_blank">${u.demo}</a>
+    </div>`;
+  panel.classList.add('show');
+  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1900);}
+
+// Brand switcher (menu built lazily on first open)
+var _brandMenuBuilt=false;
+function buildBrandMenu(){
+  if(_brandMenuBuilt)return;_brandMenuBuilt=true;
+  [['blackmores','Blackmores'],['lumiere','Lumière'],['harvest','Harvest & Co']].forEach(([k,l])=>{
+    const b=document.createElement('button');b.textContent=l;
+    b.onclick=ev=>{ev.stopPropagation();state.brand=k;applyBrand();$('#brandMenu').classList.remove('open');toast('🎨 '+BR().name);};
+    $('#brandMenu').appendChild(b);
+  });
+}
+$('#brandChip').onclick=e=>{e.stopPropagation();buildBrandMenu();$('#brandMenu').classList.toggle('open');};
+
+// Language switcher (inline button row)
+const LANGS=[['en','EN'],['zh','中'],['ja','日'],['th','ไท']];
+function renderLangs(){const box=document.querySelector('#langs');box.innerHTML='';LANGS.forEach(([k,lab])=>{const b=document.createElement('button');b.textContent=lab;if(k===state.lang)b.className='on';b.onclick=()=>{state.lang=k;renderLangs();applyText();};box.appendChild(b);});}
+renderLangs();
+
+// Close menus on outside click
+document.addEventListener('click',()=>{$$('.menu').forEach(m=>m.classList.remove('open'));});
+
+// Read URL params (validate against BRANDS and language list)
+try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_l=_p.get("lang");if(_b&&BRANDS[_b])state.brand=_b;if(_l&&["en","zh","ja","th"].indexOf(_l)>=0)state.lang=_l;}catch(e){}
+
+// Initialize
+applyBrand();
+applyText();
+
+// Sync brand/lang to parent studio (optional)
+(function(){var _l="";setInterval(function(){try{if(typeof state==="undefined")return;var c=(state.brand||"")+"|"+(state.lang||"");if(c!==_l){_l=c;if(window.parent&&window.parent!==window)window.parent.postMessage({t:"es",brand:state.brand||null,lang:state.lang||null},"*");}}catch(e){}},400);})();
+</script>
+</body>
+</html>

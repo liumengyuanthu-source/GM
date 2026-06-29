@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign Management · Blackmores · Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
+    --ink:#16201f; --muted:#6a7472; --bg:#f5f6f8; --card:#fff; --line:#e6e8ec;
+    --neg:#c0563f; --warn:#b5731a; --ok:#1a8f4c;
+    --pre:#E91E63; --on:#b5731a; --post:#1a8f4c;
+    --display:Georgia,'Times New Roman','Songti SC',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  button{font-family:inherit;cursor:pointer}
+  header{background:#101418;position:sticky;top:0;z-index:30}
+  .nav{display:flex;align-items:center;gap:12px;max-width:1180px;margin:0 auto;padding:13px 18px}
+  .backst{display:none;align-items:center;gap:5px;border:1px solid #2a3138;background:rgba(255,255,255,.06);color:#cdd4db;font:inherit;font-size:12px;font-weight:700;padding:6px 11px;border-radius:9px}
+  .backst:hover{background:rgba(255,255,255,.12);color:#fff}
+  .brand{font-family:var(--display);font-weight:700;font-size:19px;color:#fff}.brand sup{font-size:9px;color:#ff9a9a}
+  .sub{font-size:11px;color:#9aa3ad;border-left:1px solid #2a3138;padding-left:12px;letter-spacing:.04em}.sp{flex:1}
+  .langs{display:flex;gap:3px;background:rgba(255,255,255,.06);border:1px solid #2a3138;border-radius:9px;padding:3px}
+  .langs button{border:0;background:0;font:inherit;font-size:12px;font-weight:700;color:#9aa3ad;min-width:30px;padding:5px 8px;border-radius:6px}
+  .langs button.on{background:#fff;color:var(--brand-d)}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 18px 80px}
+  .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:700}
+  h1.h{font-family:var(--display);font-weight:400;font-size:clamp(21px,4vw,29px);margin:8px 0 6px;line-height:1.18}
+  .lead{color:var(--muted);font-size:13.5px;max-width:82ch}
+  .proof{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+  .proof .pc{font-size:11px;font-weight:700;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--brand-d)}
+  .proof .pc b{color:var(--accent)}
+  .tabs{display:flex;gap:4px;margin:22px 0 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tabs button{border:0;background:0;font:inherit;font-size:13.5px;font-weight:700;color:var(--muted);padding:11px 12px;border-bottom:2px solid transparent}
+  .tabs button.on{color:var(--brand);border-color:var(--brand)}
+  .panel{display:none;animation:fade .3s ease}.panel.on{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 17px;margin-bottom:14px}
+  .card h3{font-family:var(--display);font-weight:600;font-size:16px;margin-bottom:3px}
+  .sec-t{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--brand);margin:2px 0 10px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.grid6{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+  @media(max-width:900px){.grid2,.grid3{grid-template-columns:1fr}.grid6{grid-template-columns:repeat(3,1fr)}}
+  ul.list{list-style:none;margin:6px 0 0}ul.list li{font-size:12.5px;padding:6px 0 6px 18px;position:relative;border-bottom:1px dashed var(--line)}ul.list li:last-child{border-bottom:0}ul.list li::before{content:"";position:absolute;left:2px;top:12px;width:6px;height:6px;border-radius:50%;background:var(--brand)}ul.list li b{color:var(--brand-d)}
+  .flow{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch}
+  .step{flex:1;min-width:120px;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:11px}
+  .step .sn{font-size:10px;font-weight:800;color:var(--brand);letter-spacing:.08em}.step .st{font-weight:700;font-size:13px;margin:3px 0 4px}.step .sx{font-size:11px;color:var(--muted);line-height:1.4}
+  .arrow{align-self:center;color:var(--muted);font-weight:800}
+  .center6{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:6px}@media(max-width:760px){.center6{grid-template-columns:repeat(3,1fr)}}
+  .cc{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 8px;text-align:center;font-size:11.5px;font-weight:700;color:var(--brand-d)}
+  .cc .ce{font-size:18px;display:block;margin-bottom:4px}
+  .insight{display:flex;gap:12px;align-items:flex-start;background:linear-gradient(180deg,#fff6f6,#fff);border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:12px;padding:13px 15px;margin:6px 0 14px}.insight .ic{font-size:18px}.insight .it{font-weight:800;font-size:12.5px;color:var(--brand-d)}.insight .id{font-size:12px;color:var(--muted)}
+  /* create wizard */
+  .wiz{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px}
+  .ws{flex:1;min-width:120px;border:1px solid var(--line);border-radius:10px;padding:9px 11px;cursor:pointer;background:var(--card);transition:.12s}
+  .ws.on{border-color:var(--brand);background:var(--soft)}
+  .ws .wn{font-size:10px;font-weight:800;color:var(--brand)}.ws .wt{font-weight:700;font-size:12.5px}
+  .wbody{border:1px solid var(--line);border-radius:12px;padding:15px;background:var(--card)}
+  .chip{display:inline-block;font-size:11px;font-weight:700;background:var(--soft);color:var(--brand-d);border:1px solid var(--line);border-radius:999px;padding:5px 11px;margin:0 6px 6px 0;cursor:pointer}
+  .chip.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  /* goal matrix */
+  .matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}@media(max-width:760px){.matrix{grid-template-columns:1fr}}
+  .mcol{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .mh{padding:9px 12px;font-weight:800;font-size:12.5px;color:#fff}
+  .mh.pre{background:var(--pre)}.mh.on{background:var(--on)}.mh.post{background:var(--post)}
+  .mb{padding:11px 12px}.mgoal{font-weight:700;font-size:12px;margin:7px 0 3px;color:var(--brand-d)}.mtags{font-size:11px;color:var(--muted)}
+  /* workbench */
+  .wb{display:grid;grid-template-columns:340px 1fr;gap:14px}@media(max-width:900px){.wb{grid-template-columns:1fr}}
+  .wb-filters{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}.gf{border:1px solid var(--line);background:var(--card);font:inherit;font-size:11.5px;font-weight:700;color:var(--muted);padding:5px 10px;border-radius:999px}.gf.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .clist{border:1px solid var(--line);border-radius:12px;overflow:hidden;max-height:600px;overflow-y:auto}
+  .ci{display:flex;gap:10px;align-items:center;padding:11px 12px;border-bottom:1px solid var(--line);cursor:pointer;transition:.12s}.ci:hover{background:var(--soft)}.ci.sel{background:var(--soft);box-shadow:inset 3px 0 0 var(--brand)}
+  .ci .cic{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:15px;flex-shrink:0;background:var(--soft)}
+  .ci .cm{flex:1;min-width:0}.ci .cn{font-weight:700;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ci .cd{font-size:11px;color:var(--muted)}
+  .pill{font-size:9.5px;font-weight:800;border-radius:6px;padding:2px 7px;white-space:nowrap}
+  .pill.live{background:#e7f5ec;color:var(--ok)}.pill.run{background:#fcefd9;color:var(--warn)}.pill.plan{background:#e4eefb;color:var(--accent)}.pill.done{background:#eceff2;color:#7c8690}
+  .detail{border:1px solid var(--line);border-radius:14px;overflow:hidden;min-height:600px}
+  .dh{background:linear-gradient(160deg,var(--brand),var(--brand-d));color:#fff;padding:15px 17px}.dh .dnm{font-family:var(--display);font-size:19px;font-weight:700}.dh .dmt{font-size:11.5px;opacity:.92;margin-top:3px}.dh .dgr{display:inline-block;margin-top:8px;font-size:11px;font-weight:800;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:3px 11px;margin-right:5px}
+  .db{padding:15px 17px}
+  .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px 16px;margin-bottom:6px}@media(max-width:560px){.fgrid{grid-template-columns:1fr}}
+  .fld{font-size:12.5px}.fld .fl{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}.fld .fv{font-weight:600}
+  .sec2{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);margin:14px 0 8px}
+  .track{display:flex;gap:4px;margin:6px 0 8px;flex-wrap:wrap}
+  .tn{flex:1;min-width:56px;text-align:center}.tn .dot{width:18px;height:18px;border-radius:50%;background:var(--line);margin:0 auto 4px;display:grid;place-items:center;font-size:9px;color:#fff}.tn.done .dot{background:var(--ok)}.tn.cur .dot{background:var(--brand)}.tn .tl{font-size:9.5px;color:var(--muted)}.tn.cur .tl{color:var(--brand);font-weight:800}
+  .funnel{margin-top:4px}
+  .fr{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .fr .frl{width:96px;font-size:11.5px;font-weight:700;color:var(--ink)}
+  .fr .frb{flex:1;height:20px;background:var(--bg);border-radius:6px;overflow:hidden}
+  .fr .frb i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-d));border-radius:6px;transition:width .5s}
+  .fr .frn{width:54px;text-align:right;font-size:12px;font-weight:800;color:var(--brand-d)}
+  .minikpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:4px 0 6px}@media(max-width:560px){.minikpis{grid-template-columns:repeat(2,1fr)}}
+  .mk{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px}.mk .mn{font-family:var(--display);font-size:18px;font-weight:700;color:var(--brand)}.mk .ml{font-size:10px;color:var(--muted)}
+  .actions{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:8px}
+  .arow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .btn{border:0;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:12px;padding:8px 14px;border-radius:9px}.btn.o{background:var(--soft);color:var(--brand)}.btn:disabled{opacity:.45}
+  .bars{margin-top:4px}.barrow{display:flex;align-items:center;gap:10px;margin-bottom:7px}.barrow .bl{width:140px;font-size:11.5px;font-weight:700}.barrow .bb{flex:1;height:16px;background:var(--bg);border-radius:99px;overflow:hidden}.barrow .bb i{display:block;height:100%;background:var(--brand);border-radius:99px}.barrow .bn{width:42px;text-align:right;font-size:11.5px;font-weight:700}
+  table.t{width:100%;border-collapse:collapse;font-size:12px}table.t th{text-align:left;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding:7px 9px;border-bottom:2px solid var(--line)}table.t td{padding:8px 9px;border-bottom:1px solid var(--line)}table.t tr:hover td{background:var(--soft)}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}@media(max-width:820px){.kpis{grid-template-columns:repeat(2,1fr)}}.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}.kpi .kn{font-family:var(--display);font-size:24px;font-weight:700;color:var(--brand)}.kpi .kl{font-size:11px;color:var(--muted);margin-top:2px}
+  .note{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:#101418;color:#fff;font-size:12.5px;font-weight:600;padding:10px 16px;border-radius:10px;opacity:0;transition:.25s;z-index:60;pointer-events:none}.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+  .empty{display:grid;place-items:center;height:100%;color:var(--muted);font-size:13px;padding:40px}
+  .fab{position:fixed;right:18px;bottom:18px;width:48px;height:48px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:19px;box-shadow:0 8px 22px rgba(0,0,0,.2);z-index:40;border:0}
+  /* faux form fields (wizard mini-screens) */
+  .ffg{display:grid;grid-template-columns:1fr 1fr;gap:9px 14px;margin:4px 0 10px}@media(max-width:560px){.ffg{grid-template-columns:1fr}}
+  .ff{display:flex;flex-direction:column;gap:3px}.ff label{font-size:9.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  .ff .inp{border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:12.5px;background:var(--bg);font-weight:600;color:var(--ink)}
+  .radios{display:flex;gap:6px;flex-wrap:wrap}.rad{font-size:11px;font-weight:700;border:1px solid var(--line);border-radius:8px;padding:6px 11px;cursor:pointer;background:var(--card)}.rad.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .ckline{display:flex;align-items:center;gap:7px;font-size:12px;padding:4px 0}.ckline .cb{width:15px;height:15px;border-radius:4px;border:1.5px solid var(--line);display:grid;place-items:center;font-size:9px;color:#fff;flex:none}.ckline.on .cb{background:var(--ok);border-color:var(--ok)}
+  .idbox{display:flex;align-items:center;gap:12px;background:#101418;color:#fff;border-radius:11px;padding:11px 14px;margin:8px 0}
+  .idbox .qr{width:44px;height:44px;border-radius:8px;background:#fff;display:grid;place-items:center;font-size:24px;color:#101418;flex:none}
+  .idbox .idv{font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:.03em}.idbox .idl{font-size:10px;color:#9aa3ad}
+  /* persona cards */
+  .pcards{display:grid;grid-template-columns:1fr 1fr;gap:9px}@media(max-width:560px){.pcards{grid-template-columns:1fr}}
+  .pcard{border:1px solid var(--line);border-radius:11px;padding:10px 12px;cursor:pointer;background:var(--card);transition:.12s}.pcard.on{border-color:var(--brand);background:var(--soft)}
+  .pcard .pt{font-weight:700;font-size:12.5px}.pcard .pd{font-size:11px;color:var(--muted)}.pcard .pn{font-size:11px;font-weight:800;color:var(--brand-d);margin-top:4px}
+  /* phone preview (message template / landing) */
+  .pv{width:230px;border:8px solid #11151a;border-radius:26px;overflow:hidden;background:#fff}
+  .pv .pvb{min-height:150px;padding:11px;font-size:11.5px;background:#e5ddd5}
+  .pv .pmsg{background:#fff;border-radius:9px;padding:9px;margin-bottom:6px;line-height:1.5}
+  .twocol{display:grid;grid-template-columns:1fr 244px;gap:16px;align-items:start}@media(max-width:760px){.twocol{grid-template-columns:1fr}}
+  /* toolkit cards / accordion */
+  .tkgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:760px){.tkgrid{grid-template-columns:1fr}}
+  .tk{border:1px solid var(--line);border-radius:13px;overflow:hidden;background:var(--card)}
+  .tk .tkh{display:flex;align-items:center;gap:9px;padding:12px 14px;font-weight:800;font-size:13px;cursor:pointer;background:linear-gradient(180deg,#fff6f6,#fff)}
+  .tk .tkh .tke{font-size:18px}.tk .tkh .cv{margin-left:auto;color:var(--muted);font-size:15px}
+  .tk .tkb{padding:0 14px 14px;font-size:12px;display:none}.tk.open .tkb{display:block}.tk.open .tkh .cv{transform:rotate(45deg)}
+  .coupon{display:flex;align-items:center;gap:10px;border:1px dashed var(--brand);border-radius:10px;padding:9px 11px;margin-bottom:7px;background:var(--soft)}
+  .coupon .cvv{font-family:var(--display);font-size:17px;font-weight:700;color:var(--brand);white-space:nowrap}.coupon .cinfo{flex:1}.coupon .ct{font-weight:700;font-size:12px}.coupon .cs{font-size:10.5px;color:var(--muted)}
+  .thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}@media(max-width:560px){.thumbs{grid-template-columns:repeat(2,1fr)}}
+  .thumb{border:1px solid var(--line);border-radius:9px;overflow:hidden;text-align:center;font-size:10.5px}.thumb .ti{height:46px;background:linear-gradient(135deg,var(--soft),#fff);display:grid;place-items:center;font-size:18px}.thumb .tl2{padding:5px 4px;font-weight:700}
+  /* segment matrix */
+  .segt{width:100%;border-collapse:collapse;font-size:11px}.segt th{background:var(--bg);text-align:left;padding:6px 8px;font-size:9.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);border:1px solid var(--line)}.segt td{padding:6px 8px;border:1px solid var(--line);vertical-align:top}.segt .seg-a{background:#e7f5ec}.segt .seg-b{background:#fcefd9}.segt .seg-c{background:#fde3e3}.segt td b{color:var(--brand-d)}
+  /* tag groups */
+  .tagrp{margin-bottom:9px}.tagrp .gt{font-size:10px;font-weight:800;color:var(--brand-d);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+  .tagx{display:inline-block;font-size:10.5px;font-weight:700;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 9px;margin:0 4px 4px 0}
+  /* lane (HQ-partner collab) */
+  .lane{display:flex;gap:6px;flex-wrap:wrap;align-items:stretch;margin-top:4px}
+  .lstep{flex:1;min-width:104px;border:1px solid var(--line);border-radius:10px;padding:9px;background:var(--card)}
+  .lstep .who{font-size:9px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.lstep.hq .who{color:var(--accent)}.lstep.dl .who{color:var(--warn)}
+  .lstep .lt{font-weight:700;font-size:11.5px;margin-top:2px}.lstep .lx{font-size:10px;color:var(--muted);margin-top:2px}
+  /* mini sub-toggle */
+  .subtog{display:inline-flex;gap:3px;background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:3px;margin-bottom:12px}
+  .subtog button{border:0;background:0;font:inherit;font-size:12px;font-weight:700;color:var(--muted);padding:6px 12px;border-radius:6px}.subtog button.on{background:var(--brand);color:#fff}
+  .taskrow{display:flex;align-items:center;gap:10px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;margin-bottom:7px;font-size:12px}.taskrow .tav{width:28px;height:28px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:13px;flex:none}.taskrow .tinfo{flex:1;min-width:0}.taskrow .tnm{font-weight:700}.taskrow .tsub{font-size:10.5px;color:var(--muted)}
+  /* 4-step wizard header (JLR style) */
+  .wsteps{display:flex;align-items:center;justify-content:center;gap:0;margin:6px 0 18px;flex-wrap:wrap}
+  .wstep{display:flex;align-items:center;gap:8px;cursor:pointer}
+  .wstep .wsc{width:24px;height:24px;border-radius:50%;background:var(--line);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:800;flex:none}
+  .wstep.on .wsc{background:var(--brand)}.wstep.done .wsc{background:var(--ok)}
+  .wstep .wsl{font-size:12.5px;font-weight:700;color:var(--muted)}.wstep.on .wsl{color:var(--ink)}
+  .wcon{width:48px;height:2px;background:var(--line);margin:0 10px}@media(max-width:680px){.wcon{width:18px;margin:0 5px}.wstep .wsl{font-size:11px}}
+  /* form sections */
+  .fsec{font-weight:800;font-size:13px;margin:14px 0 9px;color:var(--ink)}
+  .frow{display:grid;grid-template-columns:1fr 1fr;gap:12px 18px;margin-bottom:6px}@media(max-width:680px){.frow{grid-template-columns:1fr}}
+  .fcell label{display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:4px}
+  .fin{width:100%;border:1px solid var(--line);border-radius:7px;padding:7px 10px;font-size:12.5px;background:var(--card);color:var(--ink);font-weight:600}
+  .fin.ph{color:#aab2ba;font-weight:400}
+  .seltick{display:flex;flex-wrap:wrap;gap:5px}
+  .stk{font-size:11px;border:1px solid var(--line);border-radius:7px;padding:5px 9px;cursor:pointer;background:var(--card);font-weight:600;color:var(--muted)}.stk.on{background:var(--soft);border-color:var(--brand);color:var(--brand-d)}
+  .rdo{display:inline-flex;align-items:center;gap:5px;font-size:12px;margin-right:14px;cursor:pointer}.rdo i{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--line);display:inline-block;position:relative}.rdo.on i{border-color:var(--brand)}.rdo.on i::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--brand)}
+  .impbtn{display:inline-flex;gap:6px;align-items:center}.impbtn .ib{font-size:11px;font-weight:700;border-radius:7px;padding:5px 12px;border:1px solid var(--brand);background:var(--brand);color:#fff}.impbtn .vb{font-size:11px;font-weight:700;border-radius:7px;padding:5px 12px;border:1px solid var(--line);background:var(--card);color:var(--muted)}
+  .tog2{width:38px;height:21px;border-radius:99px;background:var(--line);position:relative;cursor:pointer;display:inline-block;vertical-align:middle}.tog2.on{background:var(--ok)}.tog2 i{position:absolute;top:2px;left:2px;width:17px;height:17px;border-radius:50%;background:#fff;transition:.15s}.tog2.on i{left:19px}
+  .fbrow{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+  .fbrow .fbt{font-size:11px;color:var(--muted);width:30px}.fbrow .fbk{border:1px solid var(--line);border-radius:7px;padding:6px 9px;font-size:12px;font-weight:600;width:90px;background:var(--bg)}.fbrow .fbv{flex:1;border:1px solid var(--line);border-radius:7px;padding:6px 9px;font-size:12px;color:#aab2ba;background:var(--card)}
+  .fbreq{font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:4px}.fbreq .cb{width:14px;height:14px;border:1.5px solid var(--line);border-radius:4px;display:grid;place-items:center;font-size:9px;color:#fff}.fbreq.on .cb{background:var(--brand);border-color:var(--brand)}
+  .fbdel{color:var(--neg);cursor:pointer;font-size:14px}
+  .fbadd{border:1.5px dashed var(--line);border-radius:9px;padding:10px;text-align:center;font-size:12px;font-weight:700;color:var(--brand);cursor:pointer;margin-top:4px}
+  .wnav{display:flex;justify-content:center;gap:10px;margin-top:18px;flex-wrap:wrap}
+  .wnav button{font:inherit;font-size:12.5px;font-weight:700;border-radius:8px;padding:9px 20px;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+  .wnav .pri{background:var(--brand);color:#fff;border-color:var(--brand)}.wnav .sav{background:var(--ok);color:#fff;border-color:var(--ok)}
+  /* calendar */
+  .calhead{display:flex;align-items:center;gap:8px;margin-bottom:10px}.calhead .cnav{border:1px solid var(--line);background:var(--card);border-radius:7px;width:26px;height:26px;font-weight:700;color:var(--muted)}.calhead .cm{font-weight:800;font-size:14px}
+  .calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+  .cald{border:1px solid var(--line);border-radius:8px;min-height:74px;padding:5px;background:var(--card);font-size:10px}.cald.dow{min-height:0;border:0;text-align:center;font-weight:800;color:var(--muted);text-transform:uppercase;font-size:9.5px;padding:2px}.cald .dn{font-size:10px;color:var(--muted);font-weight:700}
+  .cev{font-size:9px;font-weight:700;border-radius:4px;padding:2px 4px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+  .cev.pre{background:#e4eefb;color:var(--accent)}.cev.on2{background:#fcefd9;color:var(--warn)}.cev.post{background:#e7f5ec;color:var(--ok)}
+  .subtog2{display:inline-flex;gap:3px;background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:3px;margin-bottom:12px}.subtog2 button{border:0;background:0;font:inherit;font-size:12px;font-weight:700;color:var(--muted);padding:6px 14px;border-radius:6px}.subtog2 button.on{background:var(--brand);color:#fff}
+  /* central dashboard */
+  .dashstrip{display:grid;grid-template-columns:repeat(8,1fr);gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:14px;background:var(--card)}@media(max-width:900px){.dashstrip{grid-template-columns:repeat(4,1fr)}}@media(max-width:560px){.dashstrip{grid-template-columns:repeat(2,1fr)}}
+  .ds{padding:11px 9px;text-align:center;border-right:1px solid var(--line)}.ds .dn{font-family:var(--display);font-size:21px;font-weight:700;color:var(--brand)}.ds .dl{font-size:9.5px;color:var(--muted);margin-top:2px;line-height:1.25}
+  .ifunnel{display:flex;flex-direction:column;align-items:center;gap:3px;margin-top:6px}
+  .ifr{display:flex;align-items:center;gap:8px;width:100%}
+  .ifb{color:#fff;font-size:11px;font-weight:700;text-align:center;padding:7px 4px;border-radius:3px;background:linear-gradient(90deg,var(--brand),var(--brand-d))}
+  .ifn{width:62px;text-align:right;font-size:11.5px;font-weight:800;color:var(--brand-d)}.ifc{width:42px;text-align:center;font-size:10px;font-weight:800;color:var(--warn);background:#fcefd9;border-radius:5px;padding:1px 0}
+  .rank{display:flex;align-items:center;gap:9px;margin-bottom:8px}.rank .rm{width:20px;text-align:center;font-size:13px}.rank .rl{width:74px;font-size:11.5px;font-weight:700}.rank .rb{flex:1;height:12px;background:var(--bg);border-radius:99px;overflow:hidden}.rank .rb i{display:block;height:100%;background:var(--brand);border-radius:99px}.rank .rn{width:44px;text-align:right;font-size:11.5px;font-weight:700}
+  .contentbox{border-radius:11px;padding:12px;margin-bottom:12px;font-size:12.5px}.contentbox.mktg{background:#fff7ef;border:1px solid #f0d8bd}.contentbox.facts{background:var(--bg);border:1px solid var(--line)}.contentbox .cbh{font-weight:800;color:var(--brand-d);margin-bottom:6px}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <button class="backst" id="backStudio">← <span id="backLab">Studio</span></button>
+    <div class="brand" id="brand">Blackmores<sup>®</sup></div>
+    <div class="sub">Campaign Management</div>
+    <div class="sp"></div>
+    <div class="langs" id="langs"><button data-l="en" class="on">EN</button><button data-l="ja">日本語</button><button data-l="th">ไทย</button></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="eyebrow" data-i="eyebrow">Marketing Campaign Center</div>
+  <h1 class="h" data-i="h1">Plan, run, review and predict every Blackmores campaign — HQ ↔ partner, closed loop</h1>
+  <p class="lead" data-i="lead">One campaign center for Blackmores growth: define the brief, build channel content with AI, check health-claim compliance and GEO readiness, launch with campaign ID + QR attribution, then optimize from funnel to ROI.</p>
+  <div class="proof">
+    <span class="pc" data-i="p1">Unique <b>campaign ID + QR</b> attribution</span>
+    <span class="pc" data-i="p2"><b>HQ ↔ partner</b> closed loop</span>
+    <span class="pc" data-i="p3"><b>CDP</b> audience + marketing automation</span>
+    <span class="pc" data-i="p4"><b>Funnel → ROI</b> review</span>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <!-- 1 OVERVIEW -->
+  <div class="panel on" id="p-flow">
+    <div class="card">
+      <div class="sec-t" data-i="flow_t">End-to-end campaign management flow</div>
+      <div class="flow">
+        <div class="step"><div class="sn">01</div><div class="st" data-i="f1t">Plan</div><div class="sx" data-i="f1x">Annual/quarterly plan, budget owner, targets split by product & dept.</div></div><div class="arrow">→</div>
+        <div class="step"><div class="sn">02</div><div class="st" data-i="f2t">Execute</div><div class="sx" data-i="f2x">Create campaign, channels, templates, content, invite, check-in.</div></div><div class="arrow">→</div>
+        <div class="step"><div class="sn">03</div><div class="st" data-i="f3t">Review</div><div class="sx" data-i="f3x">Funnel, channel mix, city split, ROI, partner single-store review.</div></div><div class="arrow">→</div>
+        <div class="step"><div class="sn">04</div><div class="st" data-i="f4t">Predict</div><div class="sx" data-i="f4x">CDP models, precision scenarios,千人千面 recommendation → next plan.</div></div>
+      </div>
+      <div class="sec-t" style="margin-top:16px" data-i="center_t">Campaign management center · sub-systems</div>
+      <div class="center6">
+        <div class="cc"><span class="ce">📣</span><span data-i="c1">Campaign mgmt</span></div>
+        <div class="cc"><span class="ce">🔗</span><span data-i="c2">Channel mgmt</span></div>
+        <div class="cc"><span class="ce">▦</span><span data-i="c3">QR mgmt</span></div>
+        <div class="cc"><span class="ce">🎟️</span><span data-i="c4">Coupon mgmt</span></div>
+        <div class="cc"><span class="ce">🖼️</span><span data-i="c5">Page templates</span></div>
+        <div class="cc"><span class="ce">📊</span><span data-i="c6">Analytics</span></div>
+      </div>
+      <div class="insight"><div class="ic">🎯</div><div><div class="it" data-i="flow_ins_t">Pain points fixed</div><div class="id" data-i="flow_ins_d">No clear budget owner → product line manager owns potential-customer KPIs & budget. No unified creation → auto unique campaign ID with 3–4 level channel tags. No attribution → campaign-ID QR ties every lead to its channel/source. Manual budget spreadsheets → digitalized, verifiable, closed-loop.</div></div></div>
+    </div>
+    <div class="card">
+      <div class="sec-t" data-i="collab_t">HQ ↔ partner closed-loop collaboration</div>
+      <div class="lane" id="collabLane"></div>
+      <div class="note" data-i="collab_n">Targets are split top-down (集客/线索/订单/资金使用率) and results roll up bottom-up; every step — plan, approve, budget allotment, partner execution, feedback, fund settlement, review — is tracked, replacing offline spreadsheets and email.</div>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <div class="sec-t" style="margin:0" data-i="cal_t">Campaign list / calendar</div>
+        <div class="subtog2" id="calTog"></div>
+      </div>
+      <div class="kpis" id="calKpis" style="margin-top:12px"></div>
+      <div id="calBody"></div>
+    </div>
+  </div>
+
+  <!-- 2 CREATE -->
+  <div class="panel" id="p-create">
+    <div class="card">
+      <div class="sec-t" data-i="create_t">Create a campaign — step by step</div>
+      <div class="wiz" id="wiz"></div>
+      <div class="wbody" id="wbody"></div>
+    </div>
+    <div class="card">
+      <div class="sec-t" data-i="matrix_t">Campaign types by goal × stage (Blackmores templates)</div>
+      <div class="matrix">
+        <div class="mcol"><div class="mh pre" data-i="mx_pre">Pre-sales</div><div class="mb" id="mx_pre"></div></div>
+        <div class="mcol"><div class="mh on" data-i="mx_on">On-sales</div><div class="mb" id="mx_on"></div></div>
+        <div class="mcol"><div class="mh post" data-i="mx_post">After-sales</div><div class="mb" id="mx_post"></div></div>
+      </div>
+      <div class="note" data-i="tpl_n">Template kits: invitation event, new-product launch, member (loyalty) marketing, routine ops — each preconfigures landing page, message templates, check-in QR, coupons & invite list.</div>
+    </div>
+  </div>
+
+  <!-- 3 EXECUTION WORKBENCH -->
+  <div class="panel" id="p-exec">
+    <div class="subtog" id="execTog"></div>
+    <!-- 3a campaign workbench -->
+    <div class="card" style="margin-bottom:12px" id="exec-camp">
+      <div class="sec-t" data-i="exec_t">Execution workbench — pick a campaign, watch the funnel, drive it</div>
+      <div class="wb-filters" id="wbFilters"></div>
+      <div class="wb">
+        <div><div class="clist" id="campList"></div></div>
+        <div class="detail" id="detail"><div class="empty" data-i="exec_empty">← Select a campaign to monitor its funnel and advance it.</div></div>
+      </div>
+    </div>
+    <!-- 3b owner-marketing task workbench -->
+    <div class="card" style="margin-bottom:12px;display:none" id="exec-owner">
+      <div class="sec-t" data-i="om_t">Member-marketing tasks — call / WhatsApp invitation (会员营销)</div>
+      <p class="note" style="font-style:normal;margin:0 0 12px" data-i="om_lead">HQ pushes call tasks to the partner; an invitation specialist works them, converting un-reachable calls to WhatsApp tasks. Every contact carries the campaign script, offer, chat/call/order history; calls are recorded and quality-checked.</p>
+      <div class="grid2">
+        <div>
+          <div class="sec2" data-i="om_list">Task queue (Immunity Wellness Camp)</div>
+          <div id="taskList"></div>
+        </div>
+        <div>
+          <div class="sec2" data-i="om_funnel">Invitation funnel</div>
+          <div class="funnel" id="omFunnel"></div>
+          <div class="sec2" style="margin-top:12px" data-i="om_script">Campaign script (editable by partner)</div>
+          <div class="card" style="margin:0;background:var(--bg)"><div id="omScript" style="font-size:12px;line-height:1.6"></div></div>
+          <div class="minikpis" style="margin-top:10px" id="omQc"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 REVIEW / CENTRAL DASHBOARD -->
+  <div class="panel" id="p-review">
+    <div class="card" style="margin-bottom:14px">
+      <div class="sec-t" data-i="dash_t">Central Dashboard — live campaign performance</div>
+      <div class="dashstrip" id="dashStrip"></div>
+      <div class="grid2">
+        <div><div class="sec-t" data-i="dash_funnel_t">Activity conversion funnel</div><div class="ifunnel" id="ifunnel"></div></div>
+        <div><div class="sec-t" data-i="dash_region_t">Region ranking (sales referral)</div><div id="regionRank"></div>
+          <div class="sec-t" style="margin-top:12px" data-i="dash_city_t">City ranking (leads)</div><div id="cityRank"></div></div>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="card" style="margin:0"><div class="sec-t" data-i="dash_partnerrank_t">Partner ranking</div>
+        <table class="t"><thead><tr><th>#</th><th data-i="rv_h1">Partner</th><th data-i="dh_fwd">Fwd</th><th data-i="rv_h2">Reg</th><th data-i="m_invite">Inv</th><th data-i="rv_h5">Orders</th></tr></thead><tbody id="partnerRankT"></tbody></table>
+      </div>
+      <div class="card" style="margin:0"><div class="sec-t" data-i="dash_scrank_t">Sales-consultant ranking</div>
+        <table class="t"><thead><tr><th>#</th><th data-i="dh_name">Name</th><th data-i="dh_fwd">Fwd</th><th data-i="rv_h2">Reg</th><th data-i="rv_h5">Orders</th></tr></thead><tbody id="scRankT"></tbody></table>
+      </div>
+    </div>
+    <div class="kpis" id="kpis"></div>
+    <div class="grid2">
+      <div class="card" style="margin:0"><div class="sec-t" data-i="rv_chan_t">Channel mix</div><div class="bars" id="chanBars"></div>
+        <div class="sec-t" style="margin-top:14px" data-i="rv_city_t">Top cities</div><div class="bars" id="cityBars"></div></div>
+      <div class="card" style="margin:0"><div class="sec-t" data-i="rv_funnel_t">Overall conversion funnel</div><div class="funnel" id="ovFunnel"></div></div>
+    </div>
+    <div class="card"><div class="sec-t" data-i="rv_partner_t">Partner single-store review</div>
+      <table class="t"><thead><tr><th data-i="rv_h1">Partner</th><th data-i="rv_h2">Signups</th><th data-i="rv_h3">Check-in</th><th data-i="rv_h4">Leads</th><th data-i="rv_h5">Orders</th><th data-i="rv_h6">ROI</th></tr></thead>
+      <tbody>
+        <tr><td>Capital Blackmores, Bengaluru</td><td>312</td><td>241</td><td>198</td><td>27</td><td>4.1x</td></tr>
+        <tr><td>Pioneer Blackmores, Pune</td><td>268</td><td>205</td><td>171</td><td>22</td><td>3.6x</td></tr>
+        <tr><td>Sundaram Blackmores, Chennai</td><td>224</td><td>176</td><td>149</td><td>18</td><td>3.2x</td></tr>
+        <tr><td>Wellness Hub, Bengaluru</td><td>141</td><td>118</td><td>96</td><td>14</td><td>4.8x</td></tr>
+      </tbody></table>
+      <div class="note" data-i="rv_partner_n">Per store: shares, link clicks, LMS leads, signups, QR issued, on-site check-ins, satisfaction, orders — product-mix variance & cost-difference analysis included.</div>
+    </div>
+  </div>
+
+  <!-- TOOLKIT -->
+  <div class="panel" id="p-toolkit">
+    <div class="card" style="margin-bottom:12px">
+      <div class="sec-t" data-i="tk_t">Campaign toolkit — the building blocks behind every campaign</div>
+      <div class="tkgrid" id="tkGrid"></div>
+    </div>
+  </div>
+
+  <!-- 5 AUTOMATION & PREDICTION -->
+  <div class="panel" id="p-auto">
+    <div class="card">
+      <div class="sec-t" data-i="ma_t">Marketing automation (consumer health)</div>
+      <div class="flow">
+        <div class="step"><div class="sn">①</div><div class="st" data-i="ma1t">Audience (CDP)</div><div class="sx" data-i="ma1x">Segment by CDP tags, rule engine, lookalikes.</div></div><div class="arrow">→</div>
+        <div class="step"><div class="sn">②</div><div class="st" data-i="ma2t">Trigger</div><div class="sx" data-i="ma2x">Scheduled / routine / behaviour-triggered push; CRM opportunity alerts.</div></div><div class="arrow">→</div>
+        <div class="step"><div class="sn">③</div><div class="st" data-i="ma3t">Reach</div><div class="sx" data-i="ma3x">WhatsApp / SMS / email / push / MyBlackmores — multi-touch.</div></div><div class="arrow">→</div>
+        <div class="step"><div class="sn">④</div><div class="st" data-i="ma4t">Optimize</div><div class="sx" data-i="ma4x">A/B test, visual canvas, best-flow allocation, 千人千面.</div></div>
+      </div>
+    </div>
+    <div class="grid3">
+      <div class="card" style="margin:0"><h3 data-i="sc_pre_t">Pre-sales · consultation gift</h3><div class="note" style="font-style:normal" data-i="sc_pre_d">In the choosing stage, fire a consultation invite tied to sample sachets & coupons — personalized consultation perks for prospects.</div></div>
+      <div class="card" style="margin:0"><h3 data-i="sc_on_t">On-sales · purchase recommend</h3><div class="note" style="font-style:normal" data-i="sc_on_d">At checkout, recommend complementary products & value bundles; after the first order, welcome gift packs and wellness tips.</div></div>
+      <div class="card" style="margin:0"><h3 data-i="sc_post_t">After-sales · member marketing</h3><div class="note" style="font-style:normal" data-i="sc_post_d">In the loyalty stage — member care, win-back, replenishment — recommend reorders, subscription packs & gifts.</div></div>
+    </div>
+    <div class="card">
+      <div class="sec-t" data-i="mgm_t">Private-domain growth (MGM)</div>
+      <div class="grid2">
+        <ul class="list"><li data-i="mgm1"><b>Refer &amp; buy (MGM):</b> share to friends → on register/lead/purchase, both sides get rewards; rewards stack to drive more referrals.</li></ul>
+        <ul class="list"><li data-i="mgm2"><b>Brand partner:</b> partners use their own private domain to spread, chat and convert prospects — A$ rewards by referral tier.</li></ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="sec-t" data-i="om_models_t">Member-data analytics models (会员数据分析模型)</div>
+      <div class="grid3" id="omModels"></div>
+    </div>
+    <div class="card">
+      <div class="sec-t" data-i="tag_t">Member tag system (会员标签)</div>
+      <div id="tagBox"></div>
+    </div>
+    <div class="card">
+      <div class="sec-t" data-i="seg_t">Member value × tenure → tailored campaign matrix</div>
+      <div style="overflow-x:auto"><table class="segt" id="segMatrix"></table></div>
+      <div class="note" data-i="seg_n">For each member segment (new / active / lapsing) and tenure, the model picks the right offer — wake-up packs, subscription packs, upgrade & referral perks, single-item vouchers — so campaigns are 千人千面, lifting repeat purchase and revenue.</div>
+    </div>
+  </div>
+</div>
+<button class="fab" id="fab" title="brand">🎨</button>
+<div class="toast" id="toast"></div>
+
+<script>
+const BRANDS={core:{logo:"Blackmores",sup:"®",label:"Everyday Wellness",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},premium:{logo:"Blackmores",sup:"®",label:"Premium Health",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},blackmores:{logo:"Blackmores",sup:"®",label:"Global",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]}};
+const L={
+ eyebrow:["Marketing Campaign Center","マーケティングキャンペーンセンター","Marketing Campaign Center"],backLab:["Studio","戻る","กลับ"],
+ h1:["Plan, run, review and predict every Blackmores campaign — HQ ↔ channel partner, closed loop","すべてのBlackmoresキャンペーンを計画・実行・振り返り・予測——本部↔パートナー、クローズドループ","วางแผน ดำเนินการ ทบทวน และคาดการณ์ทุกแคมเปญของ Blackmores — สำนักงานใหญ่ ↔ พาร์ทเนอร์ แบบครบวงจร"],
+ lead:["One campaign center for Blackmores growth: define the brief, build channel content with AI, check health-claim compliance and GEO readiness, launch with campaign ID + QR attribution, then optimize from funnel to ROI.","Blackmoresの成長キャンペーンを一元管理。ブリーフを定義し、AIでチャネル別コンテンツを作成、ヘルスクレームのコンプライアンスとGEO対応を確認し、キャンペーンID+QRで配信、ファネルからROIまで最適化します。","ศูนย์แคมเปญเดียวสำหรับการเติบโตของ Blackmores: กำหนด brief สร้างคอนเทนต์รายช่องทางด้วย AI ตรวจ health-claim compliance และ GEO readiness เปิดตัวพร้อม campaign ID + QR attribution แล้ว optimize จาก funnel ถึง ROI"],
+ p1:["Unique <b>campaign ID + QR</b> attribution","一意の<b>キャンペーンID+QR</b>でアトリビューション","การระบุแหล่งที่มาด้วย<b>รหัสแคมเปญ + QR</b> ที่ไม่ซ้ำ"],p2:["<b>HQ ↔ channel partner</b> closed loop","<b>本部↔パートナー</b>のクローズドループ","ครบวงจร <b>สำนักงานใหญ่ ↔ พาร์ทเนอร์</b>"],p3:["<b>CDP</b> audience + marketing automation","<b>CDP</b> オーディエンス+マーケティングオートメーション","<b>CDP</b> กลุ่มเป้าหมาย + ระบบการตลาดอัตโนมัติ"],p4:["<b>Funnel → ROI</b> review","<b>ファネル→ROI</b>の振り返り","ทบทวน <b>Funnel → ROI</b>"],
+ tabs0:["Overview & Flow","全体フロー","ภาพรวมและขั้นตอน"],tabs1:["Create Campaign","キャンペーン作成","สร้างแคมเปญ"],tabs2:["Execution","キャンペーン実行","การดำเนินการ"],tabs3:["Review & Analytics","振り返り・分析","ทบทวนและวิเคราะห์"],tabs4:["Automation & Predict","自動化と予測","ระบบอัตโนมัติและคาดการณ์"],
+ flow_t:["End-to-end campaign management flow","キャンペーン管理の全体フロー","ขั้นตอนการบริหารแคมเปญแบบครบวงจร"],
+ f1t:["Plan","キャンペーン計画","วางแผน"],f1x:["Annual/quarterly plan, budget owner, targets split by product & dept.","年次/四半期計画、予算責任者、製品・部門別の目標配分。","แผนรายปี/รายไตรมาส ผู้รับผิดชอบงบประมาณ เป้าหมายแยกตามสินค้าและแผนก"],
+ f2t:["Execute","キャンペーン実行","ดำเนินการ"],f2x:["Create campaign, channels, templates, content, invite, check-in.","キャンペーン作成、チャネル、テンプレート、コンテンツ、招待、チェックイン。","สร้างแคมเปญ ช่องทาง เทมเพลต คอนเทนต์ เชิญชวน เช็คอิน"],
+ f3t:["Review","振り返り・分析","ทบทวน"],f3x:["Funnel, channel mix, city split, ROI, partner single-store review.","ファネル、チャネル構成比、都市別分布、ROI、パートナー単店の振り返り。","Funnel สัดส่วนช่องทาง การกระจายตามเมือง ROI ทบทวนรายพาร์ทเนอร์"],
+ f4t:["Predict","データ予測","คาดการณ์"],f4x:["CDP models, precision scenarios, 千人千面 recommendation → next plan.","CDPモデル、精密なシナリオ、一人ひとりに最適化したレコメンド→次の計画へ。","โมเดล CDP สถานการณ์แม่นยำ คำแนะนำเฉพาะบุคคล → แผนถัดไป"],
+ center_t:["Campaign management center · sub-systems","マーケティングキャンペーンセンター · サブシステム","ศูนย์แคมเปญ · ระบบย่อย"],
+ c1:["Campaign mgmt","キャンペーン管理","จัดการแคมเปญ"],c2:["Channel mgmt","チャネル管理","จัดการช่องทาง"],c3:["QR mgmt","QR管理","จัดการ QR"],c4:["Coupon mgmt","クーポン管理","จัดการคูปอง"],c5:["Page templates","ページテンプレート","เทมเพลตหน้าเพจ"],c6:["Analytics","データ分析","การวิเคราะห์"],
+ flow_ins_t:["Pain points fixed","解決する課題","ปัญหาที่แก้ไข"],flow_ins_d:["No clear budget owner → product line manager owns potential-customer KPIs & budget. No unified creation → auto unique campaign ID with 3–4 level channel tags. No attribution → campaign-ID QR ties every lead to its channel/source. Manual budget spreadsheets → digitalized, verifiable, closed-loop.","予算責任者が不明確→製品ラインマネージャーが見込み客KPIと予算を担当。作成が統一されていない→3〜4階層のチャネルタグ付き一意キャンペーンIDを自動生成。アトリビューション不可→キャンペーンID付きQRで各リードをチャネル/流入元に紐付け。手作業の予算表→デジタル化・検証可能・クローズドループ。","ไม่มีผู้รับผิดชอบงบประมาณ → ผู้จัดการโครงการรายรุ่นดูแล KPI ลูกค้าเป้าหมายและงบประมาณ ไม่มีการสร้างแบบรวมศูนย์ → รหัสแคมเปญที่ไม่ซ้ำอัตโนมัติพร้อมแท็กช่องทาง 3–4 ระดับ ไม่มีการระบุแหล่งที่มา → QR รหัสแคมเปญผูกทุกลีดเข้ากับช่องทาง/แหล่งที่มา ตารางงบประมาณด้วยมือ → เป็นดิจิทัล ตรวจสอบได้ ครบวงจร"],
+ create_t:["Create a campaign — step by step","キャンペーン作成——ステップごと","สร้างแคมเปญ — ทีละขั้นตอน"],
+ matrix_t:["Campaign types by goal × stage (Blackmores templates)","目標×ステージ別のキャンペーンタイプ(Blackmoresテンプレート)","ประเภทแคมเปญตามเป้าหมาย × ระยะ (เทมเพลต Blackmores)"],
+ tpl_n:["Template kits: invitation event, new-product launch, member (loyalty) marketing, routine ops — each preconfigures landing page, message templates, check-in QR, coupons & invite list.","テンプレートキット:招待イベント、新製品ローンチ、会員(ロイヤルティ)マーケティング、通常運用——それぞれにランディングページ、メッセージテンプレート、チェックインQR、クーポン、招待リストを事前設定。","ชุดเทมเพลต: อีเวนต์เชิญชวน เปิดตัวสินค้าใหม่ การตลาดสมาชิก (ความภักดี) งานประจำ — แต่ละชุดตั้งค่าหน้า Landing เทมเพลตข้อความ QR เช็คอิน คูปอง และรายชื่อเชิญไว้ล่วงหน้า"],
+ mx_pre:["Pre-sales","販売前","ก่อนการขาย"],mx_on:["On-sales","販売中","ระหว่างการขาย"],mx_post:["After-sales","販売後","หลังการขาย"],
+ exec_t:["Execution workbench — pick a campaign, watch the funnel, drive it","実行ワークベンチ — キャンペーンを選び、ファネルを見て、推進する","พื้นที่ดำเนินการ — เลือกแคมเปญ ดู Funnel และขับเคลื่อน"],
+ exec_empty:["← Select a campaign to monitor its funnel and advance it.","← キャンペーンを選択してファネルを確認し、推進してください。","← เลือกแคมเปญเพื่อติดตาม Funnel และดำเนินการต่อ"],
+ rv_funnel_t:["Overall conversion funnel","全体のコンバージョンファネル","Funnel การแปลงโดยรวม"],rv_chan_t:["Channel mix","チャネル構成比","สัดส่วนช่องทาง"],rv_city_t:["Top cities","都市別分布","เมืองอันดับต้น"],
+ rv_partner_t:["Partner single-store review","パートナー単店の振り返り","ทบทวนรายพาร์ทเนอร์"],
+ rv_h1:["Partner","パートナー","พาร์ทเนอร์"],rv_h2:["Signups","申込","ลงทะเบียน"],rv_h3:["Check-in","チェックイン","เช็คอิน"],rv_h4:["Leads","リード","ลีด"],rv_h5:["Orders","受注","คำสั่งซื้อ"],rv_h6:["ROI","ROI","ROI"],
+ rv_partner_n:["Per store: shares, link clicks, LMS leads, signups, QR issued, on-site check-ins, satisfaction, orders — model-deviation & cost-difference analysis included.","店舗別:シェア数、リンククリック数、LMSリード、申込、QR発行数、現地チェックイン、満足度、受注——製品構成の乖離度・コスト差異分析を含む。","ต่อร้าน: การแชร์ คลิกลิงก์ ลีด LMS การลงทะเบียน QR ที่ออก การเช็คอินหน้างาน ความพึงพอใจ คำสั่งซื้อ — รวมการวิเคราะห์ส่วนต่างของกลุ่มสินค้าและต้นทุน"],
+ ma_t:["Marketing automation (consumer health)","マーケティングオートメーション(コンシューマーヘルス)","ระบบการตลาดอัตโนมัติ (สุขภาพผู้บริโภค)"],
+ ma1t:["Audience (CDP)","オーディエンス抽出(CDP)","กลุ่มเป้าหมาย (CDP)"],ma1x:["Segment by CDP tags, rule engine, lookalikes.","CDPタグ、ルールエンジン、類似オーディエンスでセグメント化。","แบ่งกลุ่มด้วยแท็ก CDP, rule engine, lookalikes"],
+ ma2t:["Trigger","トリガー","ทริกเกอร์"],ma2x:["Scheduled / routine / behaviour-triggered push; CRM opportunity alerts.","定期/ルーチン/行動トリガーによる配信;CRMの商談機会アラート連携。","ส่งแบบกำหนดเวลา / ประจำ / ตามพฤติกรรม; แจ้งเตือนโอกาสจาก CRM"],
+ ma3t:["Reach","リーチ","เข้าถึง"],ma3x:["WhatsApp / SMS / email / push / MyBlackmores — multi-touch.","WhatsApp/SMS/メール/プッシュ/MyBlackmores——マルチタッチ。","WhatsApp / SMS / อีเมล / push / MyBlackmores — หลายช่องทาง"],
+ ma4t:["Optimize","最適化","ปรับให้เหมาะสม"],ma4x:["A/B test, visual canvas, best-flow allocation, 千人千面.","A/Bテスト、ビジュアルキャンバス、最適フロー配分、一人ひとりに最適化。","A/B test, visual canvas, จัดสรร flow ที่ดีที่สุด, เฉพาะบุคคล"],
+ sc_pre_t:["Pre-sales · consultation gift","販売前 · 相談特典","ก่อนการขาย · ของขวัญการปรึกษา"],sc_pre_d:["In the choosing stage, fire a consultation invite tied to sample sachets & coupons — personalized consultation perks for prospects.","製品検討の段階で、サンプルやクーポンと連動した相談・お試しの招待を発信——見込み客向けにパーソナライズされた相談特典を提供。","ในขั้นเลือกซื้อ ส่งคำเชิญปรึกษาพร้อมซองตัวอย่างและคูปอง — สิทธิพิเศษการปรึกษาเฉพาะบุคคลสำหรับลูกค้าเป้าหมาย"],
+ sc_on_t:["On-sales · purchase recommend","販売中 · 購入レコメンド","ระหว่างการขาย · แนะนำการซื้อ"],sc_on_d:["At checkout, recommend complementary products & value bundles; after the first order, welcome gift packs and wellness tips.","購入時に併用製品やバリューバンドルを提案;初回注文後はウェルカムギフトパックやウェルネスのヒントを提供。","ตอนชำระเงิน แนะนำสินค้าเสริมและชุดคุ้มค่า; หลังสั่งซื้อครั้งแรก มอบชุดของขวัญต้อนรับและเคล็ดลับสุขภาพ"],
+ sc_post_t:["After-sales · member marketing","販売後 · 会員マーケティング","หลังการขาย · การตลาดสมาชิก"],sc_post_d:["In the loyalty stage — member care, win-back, replenishment — recommend reorders, subscription packs & gifts.","ロイヤルティ段階——会員ケア、再獲得、買い足し——リピート注文、サブスクパック、ギフトを提案。","ในช่วงสร้างความภักดี — ดูแลสมาชิก ดึงกลับ การซื้อเติม — แนะนำการสั่งซ้ำ แพ็กสมาชิกรายเดือน และของขวัญ"],
+ mgm_t:["Private-domain growth (MGM)","プライベートドメイン成長(MGM)","การเติบโตแบบ Private-domain (MGM)"],
+ mgm1:["<b>Refer & buy (MGM):</b> share to friends → on register/lead/purchase, both sides get rewards; rewards stack to drive more referrals.","<b>紹介購入(MGM):</b> 友人にシェア→登録/見込み獲得/購入時に双方が特典を獲得;特典が累積してさらなる紹介を促進。","<b>แนะนำและซื้อ (MGM):</b> แชร์ให้เพื่อน → เมื่อสมัคร/เป็นลีด/ซื้อ ทั้งสองฝ่ายได้รางวัล; รางวัลสะสมเพื่อกระตุ้นการแนะนำเพิ่ม"],
+ mgm2:["<b>Brand partner:</b> partners use their own private domain to spread, chat and convert prospects — A$ rewards by referral tier.","<b>ブランドパートナー:</b> パートナーが自身のプライベートドメインを活用して拡散・対話・見込み客の転換を行う——紹介ティアに応じて A$ 報酬。","<b>พาร์ทเนอร์แบรนด์:</b> พาร์ทเนอร์ใช้ private domain ของตนเองในการกระจาย พูดคุย และเปลี่ยนลูกค้าเป้าหมาย — รางวัล A$ ตามระดับการแนะนำ"],
+ // wizard
+ w_steps:[["Theme","テーマ","ธีม"],["Channels","チャネル","ช่องทาง"],["Content","コンテンツ","คอนเทนต์"],["Review","レビュー","ตรวจสอบ"],["Audience","オーディエンス","กลุ่มเป้าหมาย"],["Launch","配信","เปิดตัว"]],
+ wn_prev:["← Previous","← 前へ","← ก่อนหน้า"],wn_save:["Save & exit","保存して終了","บันทึกและออก"],wn_next:["Next →","次へ →","ถัดไป →"],wn_pub:["Publish campaign 🎉","キャンペーンを公開 🎉","เผยแพร่แคมเปญ 🎉"],
+ // toasts
+ t_adv:["Advanced to ","次へ進みました:","ดำเนินการต่อไปยัง "],t_pub:["Campaign published 🎉","キャンペーンを公開しました 🎉","เผยแพร่แคมเปญแล้ว 🎉"],t_invite:["Invites sent","招待を送信しました","ส่งคำเชิญแล้ว"],t_checkin:["Check-in recorded","チェックインを記録しました","บันทึกการเช็คอินแล้ว"],
+ f_status:["Status","ステータス","สถานะ"],f_owner:["Budget owner","予算責任者","ผู้รับผิดชอบงบประมาณ"],f_id:["Campaign ID","キャンペーンID","รหัสแคมเปญ"],f_goal:["Goal","目標","เป้าหมาย"],f_stage:["Stage","ステージ","ระยะ"],f_channels:["Channels","チャネル","ช่องทาง"],f_audience:["Audience","オーディエンス","กลุ่มเป้าหมาย"],f_budget:["Budget","予算","งบประมาณ"],f_roi:["ROI","ROI","ROI"],f_org:["Organizer","主催","ผู้จัด"],f_models:["Products","製品","สินค้า"],
+ sec_info:["Campaign info","キャンペーン情報","ข้อมูลแคมเปญ"],sec_funnel:["Live funnel (扫码→签到→线索→订单)","リアルタイムファネル(QRスキャン→チェックイン→リード→受注)","Funnel เรียลไทม์ (สแกน→เช็คอิน→ลีด→คำสั่งซื้อ)"],sec_monitor:["Monitoring","プロセス監視","การติดตาม"],sec_act:["Run the campaign","キャンペーンを推進","ดำเนินแคมเปญ"],
+ a_adv:["Advance status →","ステータスを進める →","เลื่อนสถานะ →"],a_invite:["Send invites","招待を送信","ส่งคำเชิญ"],a_checkin:["Record check-in","チェックインを記録","บันทึกเช็คอิน"],a_next:["Next:","次:","ถัดไป:"],
+ k_total:["Active campaigns","実施中のキャンペーン","แคมเปญที่ใช้งานอยู่"],k_signup:["Total signups","総申込数","ยอดลงทะเบียนรวม"],k_lead:["Leads generated","獲得リード数","ลีดที่ได้"],k_roi:["Avg ROI","平均ROI","ROI เฉลี่ย"],
+ m_views:["Views","閲覧","การเข้าชม"],m_signup:["Signups","申込","ลงทะเบียน"],m_invite:["Invited","招待","เชิญแล้ว"],m_attend:["Attended","参加","เข้าร่วม"],
+ // tabs
+ tabs5:["Toolkit","ツールキット","ชุดเครื่องมือ"],
+ // collaboration lane
+ collab_t:["HQ ↔ partner closed-loop collaboration","本部↔パートナーのクローズドループ連携","ความร่วมมือครบวงจร สำนักงานใหญ่ ↔ พาร์ทเนอร์"],
+ collab_n:["Targets are split top-down (集客/线索/订单/资金使用率) and results roll up bottom-up; every step — plan, approve, budget allotment, partner execution, feedback, fund settlement, review — is tracked, replacing offline spreadsheets and email.","目標はトップダウンで配分(集客/リード/受注/予算消化率)され、結果はボトムアップで集約。企画、承認、予算配分、パートナーの実行、フィードバック、資金精算、振り返り——各ステップを追跡でき、オフラインの表計算やメールを置き換えます。","เป้าหมายถูกแบ่งจากบนลงล่าง (การหาลูกค้า/ลีด/คำสั่งซื้อ/อัตราการใช้งบ) และผลรวมจากล่างขึ้นบน; ทุกขั้นตอน — วางแผน อนุมัติ จัดสรรงบ พาร์ทเนอร์ดำเนินการ ฟีดแบ็ก ตัดยอดงบ ทบทวน — ติดตามได้ แทนการใช้ตารางและอีเมลออฟไลน์"],
+ // toolkit tab
+ tk_t:["Campaign toolkit — the building blocks behind every campaign","キャンペーンツールキット——すべてのキャンペーンを支える基本モジュール","ชุดเครื่องมือแคมเปญ — องค์ประกอบเบื้องหลังทุกแคมเปญ"],
+ // execution subtoggle
+ exec_camp:["Campaign workbench","キャンペーンワークベンチ","พื้นที่ทำงานแคมเปญ"],exec_owner:["Member-marketing tasks","会員マーケティングタスク","งานการตลาดสมาชิก"],
+ om_t:["Member-marketing tasks — call / WhatsApp invitation (会员营销)","会員マーケティングタスク——電話/WhatsApp 招待","งานการตลาดสมาชิก — โทร / เชิญผ่าน WhatsApp"],
+ om_lead:["HQ pushes call tasks to the partner; an invitation specialist works them, converting un-reachable calls to WhatsApp tasks. Every contact carries the campaign script, offer, chat/call/order history; calls are recorded and quality-checked.","本部が架電タスクをパートナーへ配信;招待専任者が一件ずつ対応し、つながらない架電はWhatsAppタスクに変換。各コンタクトにはキャンペーンスクリプト、特典、チャット/通話/注文履歴を付与;通話は録音され品質チェックされます。","สำนักงานใหญ่ส่งงานโทรให้พาร์ทเนอร์; เจ้าหน้าที่เชิญดำเนินการทีละราย เปลี่ยนสายที่ติดต่อไม่ได้เป็นงาน WhatsApp ทุกการติดต่อมีสคริปต์แคมเปญ ข้อเสนอ ประวัติแชท/โทร/คำสั่งซื้อ; บันทึกสายและตรวจสอบคุณภาพ"],
+ om_list:["Task queue (Immunity Wellness Camp)","タスクキュー(Immunity Wellness Camp)","คิวงาน (Immunity Wellness Camp)"],
+ om_funnel:["Invitation funnel","招待ファネル","Funnel การเชิญ"],
+ om_script:["Campaign script (editable by partner)","キャンペーンスクリプト(パートナーが編集可)","สคริปต์แคมเปญ (พาร์ทเนอร์แก้ไขได้)"],
+ // predict
+ om_models_t:["Member-data analytics models (会员数据分析模型)","会員データ分析モデル","โมเดลวิเคราะห์ข้อมูลสมาชิก"],
+ tag_t:["Member tag system (会员标签)","会員タグ体系","ระบบแท็กสมาชิก"],
+ seg_t:["Member value × tenure → tailored campaign matrix","会員価値 × 利用年数 → 最適化キャンペーンマトリクス","มูลค่าสมาชิก × ระยะเวลาเป็นสมาชิก → เมทริกซ์แคมเปญเฉพาะกลุ่ม"],
+ seg_n:["For each member segment (new / active / lapsing) and tenure, the model picks the right offer — wake-up packs, subscription packs, upgrade & referral perks, single-item vouchers — so campaigns are 千人千面, lifting repeat purchase and revenue.","会員のセグメント(新規/アクティブ/離脱傾向)と利用年数ごとに、モデルが最適なオファーを選定——再喚起パック、サブスクパック、アップグレード・紹介特典、単品クーポン——一人ひとりに最適化し、再購入と売上を向上させます。","สำหรับแต่ละกลุ่มสมาชิก (ใหม่ / แอคทีฟ / กำลังหาย) และระยะเวลาเป็นสมาชิก โมเดลจะเลือกข้อเสนอที่เหมาะสม — แพ็กกระตุ้น แพ็กสมาชิกรายเดือน สิทธิ์อัปเกรดและแนะนำ คูปองสินค้าเดี่ยว — ทำให้แคมเปญเฉพาะบุคคล เพิ่มการซื้อซ้ำและรายได้"],
+ // qc labels
+ q_dial:["Dialled","架電済み","โทรแล้ว"],q_reach:["Reached","通話成立","ติดต่อได้"],q_book:["Booked","予約","จองแล้ว"],q_qc:["QC pass","品質チェック合格","ผ่าน QC"],
+ // wizard nav extra
+ // calendar
+ cal_t:["Campaign list / calendar","キャンペーン一覧 / カレンダー","รายการแคมเปญ / ปฏิทิน"],cal_list:["List","一覧","รายการ"],cal_cal:["Calendar","カレンダー","ปฏิทิน"],
+ cal_k1:["Sales target","販売目標","เป้าหมายการขาย"],cal_k2:["Leads","リード","ลีด"],cal_k3:["KMI (reach)","KMI(リーチ)","KMI (เข้าถึง)"],cal_k4:["Footfall","集客","ผู้เข้าชม"],
+ // dashboard
+ dash_t:["Central Dashboard — live campaign performance","Central Dashboard — キャンペーンのリアルタイム実績","Central Dashboard — ผลแคมเปญแบบเรียลไทม์"],
+ dash_funnel_t:["Activity conversion funnel","キャンペーンのコンバージョンファネル","Funnel การแปลงของกิจกรรม"],
+ dash_region_t:["Region ranking (sales referral)","地域別ランキング(販売紹介)","อันดับภูมิภาค (การแนะนำขาย)"],
+ dash_city_t:["City ranking (leads)","都市別ランキング(リード)","อันดับเมือง (ลีด)"],
+ dash_partnerrank_t:["Partner ranking","パートナーランキング","อันดับพาร์ทเนอร์"],dash_scrank_t:["Sales-consultant ranking","セールスコンサルタントランキング","อันดับที่ปรึกษาการขาย"],
+ dh_fwd:["Fwd","転送","ส่งต่อ"],dh_name:["Name","氏名","ชื่อ"],
+ d_events:["Events supported","対応イベント","อีเวนต์ที่รองรับ"],d_auth:["SC authenticated","コンサルタント認証","SC ยืนยันตัวตน"],d_fwd:["SC forwards","コンサルタント転送","SC ส่งต่อ"],d_reg:["Registration","申込","ลงทะเบียน"],d_inv:["Invitation","招待","คำเชิญ"],d_chk:["On-site check-in","現地チェックイン","เช็คอินหน้างาน"],d_sat:["Satisfaction survey","満足度調査","สำรวจความพึงพอใจ"],d_ord:["Order","受注","คำสั่งซื้อ"],
+ fn_fwd:["SC forward","コンサルタント転送","SC ส่งต่อ"],fn_eff:["Effective fwd","有効な転送","ส่งต่อที่มีผล"],fn_reg:["Registration","申込","ลงทะเบียน"],fn_inv:["Invitation","招待","คำเชิญ"],fn_chk:["On-site check-in","現地チェックイン","เช็คอินหน้างาน"],fn_sat:["Satisfaction","満足度","ความพึงพอใจ"],fn_ord:["Order","受注","คำสั่งซื้อ"]
+};
+// status pipeline
+const FLOW=["plan","approved","live","running","closed"];
+const FLAB={plan:["Planned","計画済み","วางแผนแล้ว"],approved:["Approved","承認済み","อนุมัติแล้ว"],live:["Published","公開済み","เผยแพร่แล้ว"],running:["Running","進行中","กำลังดำเนินการ"],closed:["Closed","終了","ปิดแล้ว"]};
+const WSTEP=[ // wizard step bodies
+ {b:[["Brand, time, host city, organizer, partner-visibility","ブランド、日時、開催都市、主催、パートナーへの公開設定","แบรนด์ เวลา เมืองที่จัด ผู้จัด การมองเห็นของพาร์ทเนอร์"],["Campaign level 1/2/3, schedule (start–end), budget","キャンペーンレベル 1/2/3、スケジュール(開始〜終了)、予算","ระดับแคมเปญ 1/2/3 กำหนดการ (เริ่ม–สิ้นสุด) งบประมาณ"],["Auto unique campaign ID + 3–4 level channel tags","一意のキャンペーンIDを自動生成 + 3〜4階層のチャネルタグ","รหัสแคมเปญที่ไม่ซ้ำอัตโนมัติ + แท็กช่องทาง 3–4 ระดับ"]]},
+ {chips:[["促获客 Acquire","集客","หาลูกค้า"],["促到店 Visit","来店促進","กระตุ้นมาร้าน"],["促转化 Convert","成約促進","กระตุ้นปิดการขาย"],["促复购 Repeat","再購入促進","กระตุ้นซื้อซ้ำ"],["促忠诚 Loyalty","ロイヤルティ","ความภักดี"],["促传播 Advocacy","拡散促進","กระตุ้นบอกต่อ"]]},
+ {chips:[["WhatsApp","WhatsApp","WhatsApp"],["SMS","SMS","SMS"],["Instagram / Meta","Instagram/Meta","Instagram / Meta"],["Email / EDM","メール/EDM","อีเมล / EDM"],["MyBlackmores App","MyBlackmores App","MyBlackmores App"],["Partner store","パートナーストア","ร้านพาร์ทเนอร์"]],n:[["Cleansing rule: CRC / WhatsApp / none; lead-dispatch priority; required fields; lost-days","クレンジングルール:CRC/WhatsApp/なし;リード配信の優先度;必須項目;失注日数","กฎทำความสะอาดข้อมูล: CRC / WhatsApp / ไม่มี; ลำดับการส่งลีด; ฟิลด์ที่ต้องกรอก; จำนวนวันที่เสียลูกค้า"]]},
+ {b:[["Pick CDP audience tags / persona — integrated unified profile","CDPのオーディエンスタグ/ペルソナを選択——統合された統一プロファイル","เลือกแท็กกลุ่มเป้าหมาย CDP / persona — โปรไฟล์รวมเป็นหนึ่งเดียว"],["Examples: Fish Oil 1000 buyers 4+ yrs · Tier-2 first-time families · lapsed members","例:Fish Oil 1000 を4年以上購入の会員 · Tier-2の初回購入家庭 · 離脱した会員","ตัวอย่าง: ผู้ซื้อ Fish Oil 1000 4 ปีขึ้นไป · ครอบครัวซื้อครั้งแรกในเมืองรอง · สมาชิกที่หายไป"]]},
+ {chips:[["Invitation event","招待イベント","อีเวนต์เชิญชวน"],["New-product launch","新製品ローンチ","เปิดตัวสินค้าใหม่"],["Member marketing","会員マーケティング","การตลาดสมาชิก"],["Routine ops","通常運用","งานประจำ"]]},
+ {b:[["Landing page · message templates (SMS / app notify) · check-in QR","ランディングページ · メッセージテンプレート(SMS/アプリ通知) · チェックインQR","หน้า Landing · เทมเพลตข้อความ (SMS / แจ้งเตือนแอป) · QR เช็คอิน"],["Invite list · signup list · coupon/benefit config · cost split ratio","招待リスト · 申込リスト · クーポン/特典設定 · コスト分担比率","รายชื่อเชิญ · รายชื่อลงทะเบียน · ตั้งค่าคูปอง/สิทธิ์ · สัดส่วนแบ่งต้นทุน"]]}
+];
+const MX={ // goal x stage templates
+ pre:[["集客 Acquire","見込み客シェア特典 · 紹介購入 · パートナー","แชร์ลุ้นรางวัล · แนะนำซื้อ · พาร์ทเนอร์"],["来店促進 Visit","来店チェックイン特典 · リード獲得特典 · サンプル配布クーポン","ของขวัญเช็คอิน · ของขวัญลีด · คูปองสินค้าตัวอย่าง"]],
+ on:[["成約促進 Convert","タイムセール · 購入フェア · まとめ買い優待 · お試し特典","แฟลชเซล · เทศกาลช้อป · ข้อเสนอซื้อชุด · ของขวัญทดลองใช้"]],
+ post:[["再購入促進 Repeat","サブスクパック優待 · 定期購入優待 · アップグレード","ข้อเสนอแพ็กสมาชิก · ข้อเสนอสั่งซ้ำประจำ · อัปเกรด"],["ロイヤルティ/拡散 Loyalty","周年記念 · アンケートポイント抽選 · フォーラムイベント","ฉลองครบรอบ · จับรางวัลแบบสอบถาม · อีเวนต์ฟอรัม"]]
+};
+let CAMPS=[
+{id:"BLK-2026-SEASONAL-SAMP",nm:["Seasonal Wellness Sampling Carnival","季節ウェルネス・サンプリングカーニバル","เทศกาลแจกตัวอย่างสุขภาพตามฤดูกาล"],icon:"🌿",goal:["Acquire / Visit","集客/来店","หาลูกค้า / มาร้าน"],stage:"pre",org:["HQ → partners","本部から展開","สำนักงานใหญ่ → พาร์ทเนอร์"],owner:"Meera (Vitamins PM)",models:"Fish Oil 1000, Immunity C, Multivitamins",channels:"WhatsApp, IG, Partner store",audience:["Tier-1/2 first-time families","Tier-1/2の初回購入家庭","ครอบครัวซื้อครั้งแรก Tier-1/2"],budget:"A$42L",roi:"4.1x",status:"running",
+  f:{views:18400,signup:1320,invite:980,attend:741,lead:612,order:84}},
+ {id:"BLK-2026-IMMUNITY-SUB",nm:["Festive Subscription Upgrade","節庆サブスクアップグレード","อัปเกรดสมาชิกเทศกาล"],icon:"🔁",goal:["Convert","成約促進","กระตุ้นปิดการขาย"],stage:"on",org:["HQ → partners","本部から展開","สำนักงานใหญ่ → พาร์ทเนอร์"],owner:"Raj (Core PM)",models:"Immunity C, Vitamin D, Magnesium",channels:"WhatsApp, SMS, Partner store",audience:["Lapsed buyers, reorder-ready","購入離脱層、再購入見込み","ลูกค้าเดิม พร้อมสั่งซ้ำ"],budget:"A$28L",roi:"3.4x",status:"running",
+  f:{views:24100,signup:1880,invite:1500,attend:1190,lead:910,order:160}},
+ {id:"BLK-2026-IMMUNITY-CAMP",nm:["Immunity Wellness Camp","免疫ウェルネスキャンプ","แคมป์สุขภาพภูมิคุ้มกัน"],icon:"🌧️",goal:["Repeat purchase","再購入促進","กระตุ้นซื้อซ้ำ"],stage:"post",org:["Partner self + HQ support","パートナー主催+本部支援","พาร์ทเนอร์จัดเอง + สำนักงานใหญ่สนับสนุน"],owner:"Member care dept",models:"All",channels:"WhatsApp, MyBlackmores",audience:["Lapsed members, 6–12 mo","離脱会員 6〜12か月","สมาชิกที่หาย 6–12 เดือน"],budget:"A$12L",roi:"5.2x",status:"running",
+  f:{views:9600,signup:1410,invite:2200,attend:1080,lead:430,order:0}},
+ {id:"BLK-2026-PREG-GOLD",nm:["Pregnancy & Breastfeeding Gold Launch Preview","Pregnancy & Breastfeeding Gold 発売プレビュー","พรีวิวเปิดตัว Pregnancy & Breastfeeding Gold"],icon:"⚡",goal:["Acquire","集客","หาลูกค้า"],stage:"pre",org:["HQ","本部主催","สำนักงานใหญ่"],owner:"Meera (Vitamins PM)",models:"Pregnancy & Breastfeeding Gold",channels:"IG, YouTube, WhatsApp, MyBlackmores",audience:["Premium prenatal intenders","プレミアム妊活・妊娠層","ผู้สนใจวิตามินคุณแม่พรีเมียม"],budget:"A$55L",roi:"—",status:"live",
+  f:{views:6200,signup:540,invite:0,attend:0,lead:210,order:0}},
+ {id:"BLK-2026-MEMBERS-MEET",nm:["Blackmores Wellness Members Meet","Blackmores ウェルネス会員ミート","งานพบปะสมาชิก Blackmores Wellness"],icon:"🌿",goal:["Loyalty","ロイヤルティ","ความภักดี"],stage:"post",org:["Partner self","パートナー主催","พาร์ทเนอร์จัดเอง"],owner:"Loyalty team",models:"Fish Oil 1000, Bio C",channels:"WhatsApp, MyBlackmores",audience:["Gold members","ゴールド会員","สมาชิกระดับ Gold"],budget:"A$6L",roi:"—",status:"approved",
+  f:{views:0,signup:0,invite:0,attend:0,lead:0,order:0}},
+ {id:"BLK-2026-MGM-REFER",nm:["Refer & Win MGM","紹介特典 MGM","แนะนำรับรางวัล MGM"],icon:"🎁",goal:["Advocacy","拡散促進","กระตุ้นบอกต่อ"],stage:"post",org:["HQ","本部主催","สำนักงานใหญ่"],owner:"CRM team",models:"All",channels:"WhatsApp, MyBlackmores",audience:["Existing members","既存会員","สมาชิกปัจจุบัน"],budget:"A$9L",roi:"—",status:"plan",
+  f:{views:0,signup:0,invite:0,attend:0,lead:0,order:0}}
+];
+// HQ↔partner collaboration lane
+const COLLAB=[
+ {who:"hq",t:["Plan & targets","企画と目標","วางแผนและเป้าหมาย"],x:["Annual/quarterly, budget owner","年次/四半期、予算責任者","รายปี/ไตรมาส, ผู้รับผิดชอบงบ"]},
+ {who:"hq",t:["Approve & budget","承認と予算配分","อนุมัติและงบประมาณ"],x:["Approval KPI, allotment","承認KPI、配分","KPI อนุมัติ, จัดสรร"]},
+ {who:"hq",t:["Assign to partners","パートナーへのタスク割当","มอบหมายให้พาร์ทเนอร์"],x:["Target split by store","店舗別の目標配分","แบ่งเป้าหมายตามร้าน"]},
+ {who:"dl",t:["Partner execution","パートナーの実行","พาร์ทเนอร์ดำเนินการ"],x:["Invite, run, check-in","招待、実行、チェックイン","เชิญ ดำเนินการ เช็คอิน"]},
+ {who:"dl",t:["Feedback","結果フィードバック","ฟีดแบ็ก"],x:["Leads, signups, orders","リード、申込、受注","ลีด ลงทะเบียน คำสั่งซื้อ"]},
+ {who:"hq",t:["Settle & review","精算と振り返り","ตัดยอดและทบทวน"],x:["Fund use, deviation analysis","資金精算、差異分析","ใช้งบ, วิเคราะห์ส่วนต่าง"]}
+];
+// owner-marketing tasks
+const TASKS=[
+ {n:"Ravi Sharma",v:["Fish Oil 1000 · 14mo since reorder","Fish Oil 1000 · 前回購入から14か月","Fish Oil 1000 · 14 เดือนตั้งแต่สั่งซ้ำ"],st:"call",icon:"📞"},
+ {n:"Priya Menon",v:["Immunity C · subscription lapsed","Immunity C · 定期購入が失効","Immunity C · สมาชิกหมดอายุ"],st:"wa",icon:"🟢"},
+ {n:"Imran Khan",v:["Multivitamins · refill due","Multivitamins · 買い足し時期","Multivitamins · ถึงกำหนดเติม"],st:"call",icon:"📞"},
+ {n:"Sara DSouza",v:["Vitamin D · no-reach ×2 → WhatsApp","Vitamin D · 2回不通→WhatsApp","Vitamin D · ติดต่อไม่ได้ ×2 → WhatsApp"],st:"wa",icon:"🟢"},
+ {n:"Vikram Rao",v:["Fish Oil 1000 · booked ✓","Fish Oil 1000 · 予約済み ✓","Fish Oil 1000 · จองแล้ว ✓"],st:"done",icon:"✓"}
+];
+const OMSCRIPT=["Namaste {name} ji, this is {partner}. Your Blackmores {model} pack looks due for a refill. This week we have an Immunity Wellness Camp with A$500 off + a free wellness consultation. Shall I reserve your reorder and a slot?","{name}様、{partner}です。お使いのBlackmores {model}は買い足しの時期かと存じます。今週は免疫ウェルネスキャンプを開催中で、A$500割引+無料の健康相談をご用意しております。再注文とご予約をお取りしましょうか?","สวัสดีคุณ {name} ครับ นี่คือ {partner} ผลิตภัณฑ์ Blackmores {model} ของคุณน่าจะถึงเวลาเติมแล้ว สัปดาห์นี้เรามีแคมป์สุขภาพภูมิคุ้มกัน ลด A$500 + ปรึกษาสุขภาพฟรี ให้ผมจองการสั่งซ้ำและคิวให้เลยไหมครับ?"];
+const OMFUNNEL=[["q_dial",520],["q_reach",388],["m_invite",388],["q_book",212],["rv_h5",46]];
+const OMQC=[["q_dial","520"],["q_reach","75%"],["q_book","212"],["q_qc","96%"]];
+// toolkit sub-systems
+const TOOLKIT=[
+ {e:"✨",t:["AI Campaign Builder","AIキャンペーンビルダー","AI Campaign Builder"],render:"builder"},
+ {e:"🧪",t:["Dynamic Creative Optimizer","ダイナミッククリエイティブ最適化","Dynamic Creative Optimizer"],render:"creative"},
+ {e:"▦",t:["QR & source attribution","QRと流入元アトリビューション","QR และการระบุแหล่งที่มา"],render:"qr"},
+ {e:"🎟️",t:["Coupons & benefits (卡券)","クーポンと特典","คูปองและสิทธิประโยชน์"],render:"coupon"},
+ {e:"🖼️",t:["Page & message templates","ページとメッセージのテンプレート","เทมเพลตหน้าเพจและข้อความ"],render:"tpl"},
+ {e:"📚",t:["Material & knowledge library","素材とナレッジライブラリ","คลังสื่อและความรู้"],render:"mat"}
+];
+const BUILDER_FLOW=[
+ ["01",["Theme","テーマ","ธีม"],["Pick a growth theme such as immunity, pregnancy nutrition, family wellness or member win-back.","免疫、妊娠期栄養、家族の健康、会員再活性化などの成長テーマを選択。","เลือกธีม growth เช่น ภูมิคุ้มกัน โภชนาการคุณแม่ สุขภาพครอบครัว หรือ win-back สมาชิก"]],
+ ["02",["Channels","チャネル","ช่องทาง"],["Preselect WhatsApp, Instagram, retail media, marketplace PDP, email, app push and partner store touchpoints.","WhatsApp、Instagram、リテールメディア、マーケットプレイスPDP、メール、アプリPush、パートナー店舗接点を事前選択。","เลือกช่องทางล่วงหน้า เช่น WhatsApp, Instagram, retail media, marketplace PDP, email, app push และ partner store"]],
+ ["03",["Content","コンテンツ","คอนเทนต์"],["AI drafts compliant copy, image direction, short video script and PDP/social variants from approved Blackmores facts.","承認済みのBlackmoresファクトから、AIがコンプライアントなコピー、画像方向性、短尺動画台本、PDP/SNSバリアントを作成。","AI ร่าง copy ที่ compliant, แนวภาพ, script วิดีโอสั้น และ variant สำหรับ PDP/social จาก facts ที่อนุมัติแล้ว"]],
+ ["04",["Review","レビュー","ตรวจสอบ"],["Health-claim rules, brand tone, privacy consent and GEO readiness are checked before launch.","配信前にヘルスクレーム、ブランドトーン、プライバシー同意、GEO対応を確認。","ตรวจ health-claim rules, brand tone, privacy consent และ GEO readiness ก่อน launch"]],
+ ["05",["Audience","オーディエンス","กลุ่มเป้าหมาย"],["CDP tags and intent signals estimate reach and pick the best segment for each product goal.","CDPタグと意図シグナルでリーチを見積もり、製品目的ごとに最適セグメントを選択。","ใช้ CDP tags และ intent signals ประเมิน reach และเลือก segment ที่เหมาะกับ product goal"]],
+ ["06",["Launch","配信","เปิดตัว"],["Attach campaign ID + QR, publish to channels, and send results into the execution workbench.","キャンペーンID+QRを付与し、各チャネルへ配信、結果を実行ワークベンチへ送信。","แนบ campaign ID + QR, publish ไปยัง channels และส่งผลลัพธ์เข้า execution workbench"]]
+];
+const CREATIVE_TESTS=[
+ ["Bio C Immunity",["Benefit-led","Evidence-led","Family-led"],["72","81","76"]],
+ ["Fish Oil 1000",["Heart health","Daily habit","Value bundle"],["68","74","79"]],
+ ["Pregnancy Gold",["Expert reassurance","Mother journey","Checklist format"],["83","77","80"]]
+];
+const COUPONS=[
+ {v:"A$500",t:["Wellness camp voucher","ウェルネスキャンプ割引券","คูปองแคมป์สุขภาพ"],s:["Reorder · 14d","再注文 · 14日間","สั่งซ้ำ · 14 วัน"]},
+ {v:"Free",t:["Wellness consultation","無料健康相談","ปรึกษาสุขภาพฟรี"],s:["Walk-in · any store","来店 · 全店舗","เดินเข้ามา · ทุกร้าน"]},
+ {v:"15%",t:["Subscription / auto-replenish","定期購入/自動お届け","สมาชิก / เติมอัตโนมัติ"],s:["Renewal · festive","更新 · 節庆","ต่ออายุ · เทศกาล"]},
+ {v:"A$1,000",t:["Bundle / upgrade bonus","まとめ買い/アップグレード特典金","โบนัสซื้อชุด / อัปเกรด"],s:["On bundle order","まとめ買い注文時","เมื่อสั่งซื้อแบบชุด"]}
+];
+const TPLS=[["🏟️",["Health expo","ヘルスエキスポ","งานเฮลท์เอ็กซ์โป"]],["🎉",["Launch event","新製品発表","งานเปิดตัว"]],["⚡",["Pre-sale","先行販売","พรีเซล"]],["🛠️",["Wellness camp","ウェルネスキャンプ","แคมป์สุขภาพ"]]];
+const OMMODELS=[
+ ["🔁",["Upgrade / cross-sell lead model","アップグレード・クロスセルリードモデル","โมเดลลีดอัปเกรด/ขายต่อยอด"],["Surfaces members ready to move from single SKU to a bundle or premium range","単品からバンドルやプレミアムレンジへの移行準備層を特定","ระบุสมาชิกที่พร้อมขยับจาก SKU เดี่ยวไปชุดหรือไลน์พรีเมียม"]],
+ ["♻️",["Reactivation source model","再活性化リードモデル","โมเดลลีดดึงกลับ"],["Auto-dispatches lapsed-member reorder leads from HQ","本部の離脱会員再注文リードを自動配信","ส่งลีดสั่งซ้ำของสมาชิกที่หายจากสำนักงานใหญ่อัตโนมัติ"]],
+ ["🛡️",["Subscription & repeat behaviour","定期購入・リピート行動分析","พฤติกรรมสมาชิกและการซื้อซ้ำ"],["Subscription renewal & value-pack propensity","定期購入更新・バリューパック傾向","แนวโน้มต่อสมาชิกและแพ็กคุ้มค่า"]],
+ ["📉",["Churn / lapse early-warning","離脱予兆モデル","เตือนล่วงหน้าการหายของลูกค้า"],["Flags members drifting to other retailers","他社チャネルへ流れる会員を検知","ระบุสมาชิกที่ไปซื้อร้านอื่น"]],
+ ["💎",["Member value classification","会員価値分類","จำแนกมูลค่าสมาชิก"],["A new / B active / C lapsing × value tiers","A 新規/B アクティブ/C 離脱傾向 × 価値層","A ใหม่ / B แอคทีฟ / C กำลังหาย × ระดับมูลค่า"]],
+ ["🗺️",["Regional coverage analysis","地域カバレッジ分析","วิเคราะห์ความครอบคลุมเชิงพื้นที่"],["Coverage by district / partner","地域/パートナー別のカバレッジ","ความครอบคลุมตามเขต/พาร์ทเนอร์"]]
+];
+const TAGS=[
+ ["base",["Basic","基本タグ","แท็กพื้นฐาน"],[["Product / category","製品/カテゴリ","สินค้า/หมวด"],["City / region","都市/地域","เมือง/ภูมิภาค"],["First-purchase date","初回購入日","วันที่ซื้อครั้งแรก"],["Membership tenure","会員利用年数","ระยะเวลาเป็นสมาชิก"],["Subscription status","定期購入ステータス","สถานะสมาชิก"]]],
+ ["beh",["Behaviour","行動タグ","แท็กพฤติกรรม"],[["Reorder frequency","再注文頻度","ความถี่สั่งซ้ำ"],["Avg order value","平均注文額","มูลค่าคำสั่งซื้อเฉลี่ย"],["Spend band","支出帯","ช่วงการใช้จ่าย"],["Last purchase","前回購入","ซื้อครั้งล่าสุด"],["App / WhatsApp active","App/WhatsApp アクティブ","ใช้งาน App/WhatsApp"]]],
+ ["mdl",["Model-derived","モデルタグ","แท็กจากโมเดล"],[["Lead grade","リード評価","เกรดลีด"],["Win-back / lapsed","再獲得/離脱","ดึงกลับ/หายไป"],["Upgrade propensity","アップグレード傾向","แนวโน้มอัปเกรด"],["Churn risk","離脱リスク","ความเสี่ยงหาย"]]]
+];
+// owner value × product-age segment matrix
+const SEG_HEAD=[["Segment","セグメント","กลุ่ม"],["0–1 yr","0〜1年","0–1 ปี"],["1–3 yr","1〜3年","1–3 ปี"],["3–5 yr","3〜5年","3–5 ปี"],["5 yr+","5年以上","5 ปีขึ้นไป"]];
+const SEG_ROWS=[
+ {seg:["A · New","A 新規","A · ใหม่"],cls:"seg-a",c:[["First-reorder wake-up · starter pack","初回再注文喚起 · スターターパック","กระตุ้นสั่งซ้ำครั้งแรก · แพ็กเริ่มต้น"],["2nd-order bonus · subscription","2回目注文特典 · 定期購入","โบนัสคำสั่งซื้อที่ 2 · สมาชิก"],["Subscription pack & bundle","サブスクパック & バンドル","แพ็กสมาชิก & ชุดคุ้มค่า"],["—","—","—"],["—","—","—"]]},
+ {seg:["B · Active","B アクティブ","B · แอคทีฟ"],cls:"seg-b",c:[["Member guide · perks","会員ガイド · 特典","คู่มือสมาชิก · สิทธิ์"],["Seasonal · referral","季節企画 · 紹介","ตามฤดูกาล · แนะนำ"],["Single-item voucher","単品割引券","คูปองสินค้าเดี่ยว"],["Upgrade & referral perks","アップグレード・紹介特典","สิทธิ์อัปเกรด & แนะนำ"],["Loyalty · single-item","ロイヤルティ · 単品券","ความภักดี · สินค้าเดี่ยว"]]},
+ {seg:["C · Lapsing","C 離脱傾向","C · กำลังหาย"],cls:"seg-c",c:[["—","—","—"],["Subscription pack win-back","サブスクパックで再獲得","ดึงกลับด้วยแพ็กสมาชิก"],["Free consult · wellness check","無料相談 · 健康チェック","ปรึกษาฟรี · ตรวจสุขภาพ"],["Seasonal · win-back","季節 · 再獲得","ตามฤดูกาล · ดึงกลับ"],["Deep win-back offer","本格的な再獲得特典","ข้อเสนอดึงกลับเชิงลึก"]]}
+];
+let state={brand:"core",lang:0,filter:"all",sel:null,wstep:0,execMode:"camp",audience:[],goal:0,channels:[],tplPick:0,theme:"immunity",
+ exch:[5,6],dept:[0,1],level:0,notif:[0,1],signupReq:true,signupAudit:true,calView:"list"};
+function ent(){return state.brand==='core'?'core':'premium';}
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const D=k=>{const v=L[k];return v?(v[state.lang]||v[0]):k;};
+const tr=a=>Array.isArray(a)?(a[state.lang]||a[0]):a;
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._);t._=setTimeout(()=>t.classList.remove('on'),1800);}
+function applyBrand(){const b=BRANDS[state.brand]||BRANDS.core,r=document.documentElement.style;r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);$('#brand').innerHTML=b.logo+'<sup>'+b.sup+'</sup>';}
+function applyText(){$$('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');const v=L[k];if(v)el.innerHTML=(v[state.lang]||v[0]);});}
+function renderTabs(){const ids=['p-flow','p-create','p-toolkit','p-exec','p-review','p-auto'];const foc={1:'create',3:'winback'};const box=$('#tabs');box.innerHTML='';['tabs0','tabs1','tabs5','tabs2','tabs3','tabs4'].map(D).forEach((lab,i)=>{const b=document.createElement('button');b.textContent=lab;if(i===0)b.className='on';if(foc[i])b.dataset.focus=foc[i];b.onclick=()=>{$$('#tabs button').forEach(x=>x.classList.remove('on'));b.classList.add('on');$$('.panel').forEach(p=>p.classList.remove('on'));$('#'+ids[i]).classList.add('on');};box.appendChild(b);});}
+function renderCollab(){const box=$('#collabLane');if(!box)return;box.innerHTML='';COLLAB.forEach((s,i)=>{const el=document.createElement('div');el.className='lstep '+s.who;el.innerHTML='<div class="who">'+(s.who==='hq'?(state.lang===1?'本部':(state.lang===2?'สำนักงานใหญ่':'HQ')):(state.lang===1?'パートナー':(state.lang===2?'พาร์ทเนอร์':'Partner')))+'</div><div class="lt">'+tr(s.t)+'</div><div class="lx">'+tr(s.x)+'</div>';box.appendChild(el);if(i<COLLAB.length-1){const a=document.createElement('div');a.className='arrow';a.textContent='→';a.style.alignSelf='center';box.appendChild(a);}});}
+// toolkit
+function renderToolkit(){const box=$('#tkGrid');if(!box)return;box.innerHTML='';TOOLKIT.forEach((tk,i)=>{const el=document.createElement('div');el.className='tk'+(i===0?' open':'');el.innerHTML='<div class="tkh"><span class="tke">'+tk.e+'</span>'+tr(tk.t)+'<span class="cv">+</span></div><div class="tkb">'+tkBody(tk.render)+'</div>';el.querySelector('.tkh').onclick=()=>el.classList.toggle('open');box.appendChild(el);});}
+function tkBody(kind){
+ if(kind==='builder')return '<div class="flow">'+BUILDER_FLOW.map((s,i)=>'<div class="step"><div class="sn">'+s[0]+'</div><div class="st">'+tr(s[1])+'</div><div class="sx">'+tr(s[2])+'</div></div>'+(i<BUILDER_FLOW.length-1?'<div class="arrow">→</div>':'')).join('')+'</div>'+
+   '<div class="note" style="font-style:normal">'+tr(["This is the Growth Studio flow now embedded inside Campaign Management: the builder creates the campaign, then the management center governs approval, execution, attribution and ROI.","Growth StudioのフローをCampaign Management内に組み込みました。ビルダーがキャンペーンを作成し、管理センターが承認・実行・アトリビューション・ROIを統制します。","นี่คือ flow ของ Growth Studio ที่ฝังใน Campaign Management: builder สร้าง campaign แล้ว management center คุม approval, execution, attribution และ ROI"])+'</div>';
+ if(kind==='creative')return '<div class="grid3">'+CREATIVE_TESTS.map(r=>'<div class="card" style="margin:0;background:var(--bg)"><h3 style="font-size:14px">'+r[0]+'</h3>'+r[1].map((v,i)=>'<div class="barrow"><div class="bl">'+v+'</div><div class="bb"><i style="width:'+r[2][i]+'%"></i></div><div class="bn">'+r[2][i]+'</div></div>').join('')+'</div>').join('')+'</div>'+
+   '<ul class="list" style="margin-top:10px"><li>'+tr(["Tests creative angle, audience fit and channel format before launch, then sends the winning variant into paid media and social publishing.","配信前にクリエイティブ角度、オーディエンス適合、チャネル形式をテストし、勝ちパターンを有料メディアとSNS配信へ送ります。","ทดสอบ creative angle, audience fit และ channel format ก่อน launch แล้วส่ง variant ที่ชนะเข้า paid media และ social publishing"])+'</li><li>'+tr(["Uses approved claims and knowledge-graph facts, so optimization never drifts into unsafe supplement claims.","承認済みクレームとナレッジグラフの事実を使うため、最適化が危険なサプリメント表現へ逸脱しません。","ใช้ approved claims และ knowledge-graph facts ทำให้ optimization ไม่หลุดไปสู่ supplement claims ที่เสี่ยง"])+'</li></ul>';
+ if(kind==='qr')return '<div class="idbox"><div class="qr">▦</div><div><div class="idv">BLK-2026-IMMUNITY-WA-CREATIVE-01</div><div class="idl">'+tr(["Auto ID · level: HQ ▸ Immunity ▸ WhatsApp ▸ creative-01","自動ID · 階層:本部▸Immunity▸WhatsApp▸クリエイティブ01","ID อัตโนมัติ · ระดับ: สำนักงานใหญ่ ▸ Immunity ▸ WhatsApp ▸ creative-01"])+'</div></div></div>'+
+   '<ul class="list"><li>'+tr(["Each campaign auto-gets a unique ID + 3–4 level channel tags (channel ▸ sub-channel ▸ creative)","各キャンペーンに一意のIDと3〜4階層のチャネルタグ(チャネル▸サブチャネル▸クリエイティブ)を自動付与","แต่ละแคมเปญได้รหัสที่ไม่ซ้ำอัตโนมัติ + แท็กช่องทาง 3–4 ระดับ (ช่องทาง ▸ ช่องทางย่อย ▸ ครีเอทีฟ)"])+'</li>'+
+   '<li>'+tr(["Customer scans the QR → source tag written; <b>existing</b> customer gets channel-source appended, <b>new</b> customer record created","顧客がQRをスキャン→流入元タグを記録;<b>既存</b>顧客にはチャネル流入元を追記、<b>新規</b>顧客は自動で登録作成","ลูกค้าสแกน QR → บันทึกแท็กแหล่งที่มา; ลูกค้า<b>เดิม</b>เพิ่มแหล่งที่มาช่องทาง, ลูกค้า<b>ใหม่</b>สร้างประวัติ"])+'</li>'+
+   '<li>'+tr(["Every lead is tied 1:1 to its campaign & channel for true attribution and ROI","各リードをキャンペーンとチャネルに1対1で紐付け、真のアトリビューションとROIを実現","ทุกลีดผูก 1:1 กับแคมเปญและช่องทางเพื่อการระบุแหล่งที่มาและ ROI ที่แท้จริง"])+'</li></ul>';
+ if(kind==='coupon')return COUPONS.map(c=>'<div class="coupon"><div class="cvv">'+c.v+'</div><div class="cinfo"><div class="ct">'+tr(c.t)+'</div><div class="cs">'+tr(c.s)+'</div></div></div>').join('')+
+   '<div class="note" style="font-style:normal">'+tr(["Issue → push (千人千面 by CDP tag) → user claims → redeem at partner store by QR; live stock, usage & redemption tracked.","発行→配信(CDPタグで一人ひとりに最適化)→ユーザーが受け取り→パートナーストアでQR利用;在庫・受取・利用をリアルタイム追跡。","ออก → ส่ง (เฉพาะบุคคลตามแท็ก CDP) → ผู้ใช้รับ → ใช้สิทธิ์ที่ร้านพาร์ทเนอร์ด้วย QR; ติดตามสต็อก การรับ และการใช้แบบเรียลไทม์"])+'</div>';
+ if(kind==='tpl')return '<div class="thumbs">'+TPLS.map(t=>'<div class="thumb"><div class="ti">'+t[0]+'</div><div class="tl2">'+tr(t[1])+'</div></div>').join('')+'</div>'+
+   '<ul class="list" style="margin-top:8px"><li>'+tr(["Reusable page templates: edit copy, images & logic (lucky-draw, form) per module — 50%+ cost down, 60%+ faster","再利用可能なページテンプレート:モジュールごとに文言/画像/ロジック(抽選、フォーム)を編集——コスト50%以上削減、効率60%以上向上","เทมเพลตหน้าเพจที่ใช้ซ้ำได้: แก้ข้อความ รูป และตรรกะ (จับรางวัล ฟอร์ม) ต่อโมดูล — ลดต้นทุน 50%+, เร็วขึ้น 60%+"])+'</li>'+
+   '<li>'+tr(["Message templates: SMS + app/WhatsApp service notify, default reminders 3 days & 1 day before","メッセージテンプレート:SMS + アプリ/WhatsApp サービス通知、デフォルトで開催3日前・1日前にリマインド","เทมเพลตข้อความ: SMS + แจ้งเตือนบริการผ่านแอป/WhatsApp, เตือนล่วงหน้า 3 วันและ 1 วันโดยค่าเริ่มต้น"])+'</li></ul>';
+ return '<ul class="list"><li>'+tr(["Knowledge base & material library callable inside WhatsApp/app — preview, download, edit, forward, post to status","ナレッジベースと素材ライブラリをWhatsApp/アプリ内で呼び出し——プレビュー、ダウンロード、編集、転送、ステータス投稿","คลังความรู้และคลังสื่อเรียกใช้ได้ใน WhatsApp/แอป — พรีวิว ดาวน์โหลด แก้ไข ส่งต่อ โพสต์สถานะ"])+'</li>'+
+   '<li>'+tr(["Usage tracking: downloads, forwards, clicks & views per material, per user/partner/region","利用状況の追跡:素材ごとのダウンロード・転送・クリック・閲覧をユーザー/パートナー/地域別に集計","ติดตามการใช้งาน: ดาวน์โหลด ส่งต่อ คลิก และเข้าชม ต่อสื่อ ต่อผู้ใช้/พาร์ทเนอร์/ภูมิภาค"])+'</li>'+
+   '<li>'+tr(["Watermark/encryption, validity & permission control; usage rolls into reports","透かし/暗号化、有効期限と権限管理;利用状況はレポートに反映","ลายน้ำ/เข้ารหัส ควบคุมอายุและสิทธิ์; การใช้งานรวมเข้ารายงาน"])+'</li></ul>';
+}
+// execution subtoggle + owner tasks
+function renderExecTog(){const box=$('#execTog');if(!box)return;box.innerHTML='';[['camp','exec_camp'],['owner','exec_owner']].forEach(([m,k])=>{const b=document.createElement('button');b.className=state.execMode===m?'on':'';b.textContent=D(k);b.onclick=()=>{state.execMode=m;$('#exec-camp').style.display=m==='camp'?'block':'none';$('#exec-owner').style.display=m==='owner'?'block':'none';renderExecTog();};box.appendChild(b);});}
+function renderOwnerTasks(){const box=$('#taskList');if(!box)return;
+ const stTxt={call:["📞 Call task","📞 架電タスク","📞 งานโทร"],wa:["🟢 WhatsApp task","🟢 WhatsApp タスク","🟢 งาน WhatsApp"],done:["✓ Booked","✓ 予約済み","✓ จองแล้ว"]};
+ box.innerHTML=TASKS.map(t=>'<div class="taskrow"><div class="tav">'+t.icon+'</div><div class="tinfo"><div class="tnm">'+t.n+'</div><div class="tsub">'+tr(t.v)+'</div></div><span class="pill '+(t.st==='done'?'live':(t.st==='wa'?'run':'plan'))+'">'+tr(stTxt[t.st])+'</span></div>').join('');
+ const max=OMFUNNEL[0][1];$('#omFunnel').innerHTML=OMFUNNEL.map(s=>'<div class="fr"><div class="frl">'+D(s[0])+'</div><div class="frb"><i style="width:'+(s[1]/max*100)+'%"></i></div><div class="frn">'+s[1].toLocaleString()+'</div></div>').join('');
+ $('#omScript').innerHTML=tr(OMSCRIPT).replace('{name}','<b>Ravi</b>').replace('{partner}','<b>Capital Blackmores</b>').replace('{model}','<b>Fish Oil 1000</b>');
+ $('#omQc').innerHTML=OMQC.map(k=>'<div class="mk"><div class="mn">'+k[1]+'</div><div class="ml">'+D(k[0])+'</div></div>').join('');}
+// predict
+function renderPredict(){
+ var m=$('#omModels');if(m)m.innerHTML=OMMODELS.map(x=>'<div class="card" style="margin:0"><h3 style="font-size:14px">'+x[0]+' '+tr(x[1])+'</h3><div class="note" style="font-style:normal">'+tr(x[2])+'</div></div>').join('');
+ var t=$('#tagBox');if(t)t.innerHTML=TAGS.map(g=>'<div class="tagrp"><div class="gt">'+tr(g[1])+'</div>'+g[2].map(x=>'<span class="tagx">'+tr(x)+'</span>').join('')+'</div>').join('');
+ var s=$('#segMatrix');if(s){let h='<thead><tr>'+SEG_HEAD.map(x=>'<th>'+tr(x)+'</th>').join('')+'</tr></thead><tbody>';
+  SEG_ROWS.forEach(r=>{h+='<tr><td class="'+r.cls+'"><b>'+tr(r.seg)+'</b></td>'+r.c.map(c=>'<td>'+tr(c)+'</td>').join('')+'</tr>';});
+  s.innerHTML=h+'</tbody>';}}
+// wizard
+const EXCH=["Amazon","Flipkart","1mg","Official site","E-commerce","WhatsApp","Instagram","YouTube","Facebook","Google","MyBlackmores App","In-store screen"];
+const DEPTS=["CRM","Digital","ATL","Retail Vertical","Partner Marketing"];
+const WLEVELS=[["Central-Level","本部レベル","ระดับสำนักงานใหญ่"],["Collaborative-Level","連携レベル","ระดับร่วมมือ"],["Retail-Level","小売レベル","ระดับค้าปลีก"]];
+const NOTIF=[["SMS","SMS","SMS"],["WhatsApp","WhatsApp","WhatsApp"],["App SOP","App SOP","App SOP"]];
+const SPLIT=["Blackmores","Distributor","Retailer","Partner"];
+function renderWiz(){const box=$('#wiz');box.innerHTML='';let h='<div class="wsteps">';
+ L.w_steps.forEach((s,i)=>{h+='<div class="wstep'+(i===state.wstep?' on':(i<state.wstep?' done':''))+'" data-st="'+i+'"><div class="wsc">'+(i<state.wstep?'✓':(i+1))+'</div><div class="wsl">'+tr(s)+'</div></div>';if(i<L.w_steps.length-1)h+='<div class="wcon"></div>';});
+ h+='</div>';box.innerHTML=h;
+ $$('#wiz .wstep').forEach(el=>el.onclick=()=>{state.wstep=+el.dataset.st;renderWiz();renderWbody();});
+ renderWbody();}
+function fcell(label,val,ph){return '<div class="fcell"><label>'+tr(label)+'</label><div class="fin'+(ph?' ph':'')+'">'+val+'</div></div>';}
+function renderWbody(){const box=$('#wbody');const s=state.wstep;let h='';
+ if(s===0){
+  const themes=[["immunity","🌿","Immunity Season Push","Bio C + Vitamin D protection message for seasonal health needs"],["family","👨‍👩‍👧","Family Wellness Starter","Fish Oil, multivitamins and kids/family education for first-time households"],["pregnancy","🤱","Pregnancy Nutrition Launch","Pregnancy & Breastfeeding Gold education, sampling and expert reassurance"],["winback","🔁","Reorder & Win-back","Lapsed buyers, refill reminders, subscription and bundle offers"]];
+  h='<div class="fsec">'+tr(["Pick a growth theme","成長テーマを選択","เลือกธีม growth"])+'</div><div class="grid2">'+themes.map(t=>'<div class="pcard'+(state.theme===t[0]?' on':'')+'" data-theme="'+t[0]+'"><div class="pt">'+t[1]+' '+t[2]+'</div><div class="pd">'+t[3]+'</div><div class="pn">'+(t[0]==='pregnancy'?'Premium Health':'Everyday Wellness')+'</div></div>').join('')+'</div>'+
+   '<div class="frow" style="margin-top:12px">'+fcell(["Campaign goal","キャンペーン目標","เป้าหมายแคมเปญ"],state.theme==='winback'?'Lift repeat purchase and subscription renewal':'Create demand and capture attributed leads')+fcell(["Primary KPI","主要KPI","KPI หลัก"],state.theme==='winback'?'Repeat orders / ROI':'Attributed leads / conversion')+'</div>';
+ } else if(s===1){
+  h='<div class="fsec">'+tr(["Choose channels","チャネルを選択","เลือกช่องทาง"])+'</div>'+
+   '<div class="seltick">'+EXCH.map((c,i)=>'<span class="stk'+(state.exch.indexOf(i)>=0?' on':'')+'" data-exch="'+i+'">'+c+'</span>').join('')+'</div>'+
+   '<div class="note" style="font-style:normal;margin-top:12px">'+tr(["Recommended channels are preselected. Campaign ID and channel tags will be generated per selected channel for attribution.","推奨チャネルを事前選択済み。選択チャネルごとにキャンペーンIDとチャネルタグを生成してアトリビューションします。","ช่องทางที่แนะนำถูกเลือกไว้แล้ว ระบบจะสร้าง campaign ID และ channel tags ต่อช่องทางเพื่อ attribution"])+'</div>'+
+   '<div class="idbox"><div class="qr">▦</div><div><div class="idv">BLK-2026-'+(state.theme==='pregnancy'?'PREGGOLD':'IMMUNITY')+'-'+(state.exch[0]!=null?EXCH[state.exch[0]].toUpperCase().replace(/[^A-Z]/g,'').slice(0,4):'NA')+'-01</div><div class="idl">'+tr(["Unique campaign ID + QR · source written on every scan and click","一意のキャンペーンID+QR · すべてのスキャン/クリックに流入元を記録","campaign ID + QR เฉพาะ · บันทึก source ทุก scan และ click"])+'</div></div></div>';
+ } else if(s===2){
+  const product=state.theme==='pregnancy'?'Pregnancy & Breastfeeding Gold':(state.theme==='family'?'Fish Oil 1000':(state.theme==='winback'?'Bio C + Fish Oil refill':'Bio C 1000 + Vitamin D3'));
+  h='<div class="twocol"><div><div class="fsec">'+tr(["AI-drafted campaign content","AI生成キャンペーンコンテンツ","คอนเทนต์แคมเปญที่ AI ร่าง"])+'</div>'+
+   '<div class="contentbox facts"><div class="cbh">Approved Blackmores facts</div><p><b>'+product+'</b></p><p>Supports everyday wellbeing with approved product facts, dosage guidance and market-safe benefit language.</p></div>'+
+   '<div class="contentbox mktg"><div class="cbh">Draft copy</div><p>Support your '+(state.theme==='pregnancy'?'pregnancy nutrition journey':'daily wellness routine')+' with Blackmores. Explore the right product, claim your member benefit, and speak with a wellness consultant.</p></div>'+
+   '</div><div><div class="fsec">'+tr(["Channel creative variants","チャネル別クリエイティブ","creative ตามช่องทาง"])+'</div>'+
+   '<div class="thumbs"><div class="thumb"><div class="ti">📱</div><div class="tl2">WhatsApp card</div></div><div class="thumb"><div class="ti">🛒</div><div class="tl2">Marketplace PDP module</div></div><div class="thumb"><div class="ti">🎬</div><div class="tl2">Short video script</div></div><div class="thumb"><div class="ti">📧</div><div class="tl2">Email / app push</div></div></div>'+
+   '<div class="note">'+tr(["Dynamic creative optimizer tests message angle, audience fit and format before launch.","ダイナミッククリエイティブ最適化が、配信前に訴求軸・オーディエンス適合・形式をテストします。","Dynamic creative optimizer ทดสอบ message angle, audience fit และ format ก่อน launch"])+'</div></div></div>';
+ } else if(s===3){
+  h='<div class="grid2"><div class="card" style="margin:0;background:var(--bg)"><h3>'+tr(["Health-claim compliance","ヘルスクレームコンプライアンス","Health-claim compliance"])+'</h3><ul class="list"><li>Approved wording: supports / helps maintain / contributes to.</li><li>Risky wording avoided: cure, prevent disease, guaranteed effect.</li><li>Market rules checked for ANZ, China, Japan and SEA variants.</li></ul></div>'+
+   '<div class="card" style="margin:0;background:var(--bg)"><h3>'+tr(["GEO readiness","GEO対応","GEO readiness"])+'</h3><ul class="list"><li>Product facts structured for AI search and recommendation.</li><li>Evidence, ingredients and dosage are citable.</li><li>Claims align with Knowledge Graph source of truth.</li></ul></div></div>'+
+   '<div class="minikpis" style="margin-top:12px"><div class="mk"><div class="mn">94</div><div class="ml">Compliance score</div></div><div class="mk"><div class="mn">88</div><div class="ml">GEO readiness</div></div><div class="mk"><div class="mn">0</div><div class="ml">Critical issues</div></div></div>';
+ } else if(s===4){
+  const presets=[["New wellness shoppers","First-time supplement buyers, family-health content engagers"],["Reorder-ready members","Last purchase 60-120 days, high refill propensity"],["Premium prenatal intenders","Pregnancy content viewers, premium nutrition interest"],["Lapsed buyers","No purchase 6-12 months, still active on WhatsApp/app"]];
+  h='<div class="fsec">'+tr(["Build the audience","オーディエンスを構築","สร้างกลุ่มเป้าหมาย"])+'</div><div class="pcards">'+presets.map((p,i)=>'<div class="pcard'+(i===state.goal?' on':'')+'" data-goal="'+i+'"><div class="pt">'+p[0]+'</div><div class="pd">'+p[1]+'</div><div class="pn">'+[42800,26300,11800,17400][i].toLocaleString()+' reachable</div></div>').join('')+'</div>'+
+   '<div class="frow" style="margin-top:12px">'+fcell(["Consent status","同意ステータス","สถานะ consent"],"Marketing consent valid · preference checked")+fcell(["Projected 14-day reach","14日間予測リーチ","reach คาดการณ์ 14 วัน"],[42800,26300,11800,17400][state.goal].toLocaleString())+'</div>';
+ } else {
+  h='<div class="twocol"><div><div class="fsec">'+tr(["Schedule & launch","配信スケジュール","กำหนดเวลาและ launch"])+'</div>'+
+   '<div class="frow">'+fcell(["Send time","配信時間","เวลาส่ง"],"Next best time · Thu 10:30")+fcell(["Launch owner","配信責任者","เจ้าของ launch"],"Blackmores Growth Team")+'</div>'+
+   '<div class="idbox"><div class="qr">▦</div><div><div class="idv">BLK-2026-'+(state.theme==='pregnancy'?'PREGGOLD':'IMMUNITY')+'-LAUNCH-01</div><div class="idl">Campaign ID + QR attached for source attribution</div></div></div></div>'+
+   '<div><div class="fsec">'+tr(["Projected funnel","予測ファネル","funnel คาดการณ์"])+'</div><div class="funnel"><div class="fr"><div class="frl">Reach</div><div class="frb"><i style="width:100%"></i></div><div class="frn">42,800</div></div><div class="fr"><div class="frl">Delivered</div><div class="frb"><i style="width:86%"></i></div><div class="frn">36,900</div></div><div class="fr"><div class="frl">Scan / click</div><div class="frb"><i style="width:28%"></i></div><div class="frn">12,100</div></div><div class="fr"><div class="frl">Leads</div><div class="frb"><i style="width:11%"></i></div><div class="frn">4,730</div></div></div></div></div>';
+ }
+ // nav
+ h+='<div class="wnav">'+(s>0?'<button data-nav="prev">'+D('wn_prev')+'</button>':'')+
+   '<button class="sav" data-nav="save">'+D('wn_save')+'</button>'+
+   '<button class="pri" data-nav="next">'+(s===L.w_steps.length-1?D('wn_pub'):D('wn_next'))+'</button></div>';
+ box.innerHTML=h;
+ // bind
+ $$('#wbody [data-theme]').forEach(c=>c.onclick=()=>{state.theme=c.dataset.theme;renderWbody();});
+ $$('#wbody [data-goal]').forEach(c=>c.onclick=()=>{state.goal=+c.dataset.goal;renderWbody();});
+ $$('#wbody [data-exch]').forEach(c=>c.onclick=()=>tog(state.exch,+c.dataset.exch));
+ $$('#wbody [data-dept]').forEach(c=>c.onclick=()=>tog(state.dept,+c.dataset.dept));
+ $$('#wbody [data-notif]').forEach(c=>c.onclick=()=>tog(state.notif,+c.dataset.notif));
+ $$('#wbody [data-lvl]').forEach(c=>c.onclick=()=>{state.level=+c.dataset.lvl;renderWbody();});
+ $$('#wbody [data-tog]').forEach(c=>c.onclick=()=>c.classList.toggle('on'));
+ $$('#wbody [data-sr]').forEach(c=>c.onclick=()=>{state.signupReq=c.dataset.sr==='1';renderWbody();});
+ $$('#wbody [data-sa]').forEach(c=>c.onclick=()=>{state.signupAudit=c.dataset.sa==='1';renderWbody();});
+ $$('#wbody [data-nav]').forEach(b=>b.onclick=()=>{const n=b.dataset.nav;if(n==='prev'&&state.wstep>0){state.wstep--;renderWiz();}else if(n==='next'){if(state.wstep<L.w_steps.length-1){state.wstep++;renderWiz();}else{toast(D('wn_pub'));}}else if(n==='save'){toast(D('t_pub'));}});
+}
+function tog(arr,i){const p=arr.indexOf(i);p>=0?arr.splice(p,1):arr.push(i);renderWbody();}
+function impCell(label){return '<div class="fcell"><label>'+tr(label)+'</label><span class="impbtn"><span class="ib">'+tr(["Import","インポート","นำเข้า"])+'</span><span class="vb">'+tr(["View","表示","ดู"])+'</span></span></div>';}
+function renderMatrix(){
+ const fill=(id,arr)=>{$(id).innerHTML=arr.map(x=>'<div class="mgoal">'+tr([x[0]])+'</div><div class="mtags">'+tr([x[1],x[1],x[2]])+'</div>').join('');};
+ fill('#mx_pre',MX.pre);fill('#mx_on',MX.on);fill('#mx_post',MX.post);}
+// workbench
+function pill(s){const cls=s==='running'?'run':(s==='live'?'live':(s==='closed'?'done':'plan'));return '<span class="pill '+cls+'">'+tr(FLAB[s])+'</span>';}
+function renderFilters(){const box=$('#wbFilters');box.innerHTML='';['all','pre','on','post','running','plan'].forEach(f=>{const b=document.createElement('button');b.className='gf'+(state.filter===f?' on':'');b.textContent=f==='all'?(state.lang===1?'すべて':(state.lang===2?'ทั้งหมด':'All')):(['pre','on','post'].indexOf(f)>=0?tr(L['mx_'+f]):tr(FLAB[f]||[f]));b.onclick=()=>{state.filter=f;renderList();renderFilters();};box.appendChild(b);});}
+function renderList(){const box=$('#campList');box.innerHTML='';const arr=CAMPS.filter(c=>state.filter==='all'?true:(['pre','on','post'].indexOf(state.filter)>=0?c.stage===state.filter:c.status===state.filter));
+ if(!arr.length){box.innerHTML='<div class="empty" style="height:120px">'+(state.lang===1?'該当するキャンペーンなし':(state.lang===2?'ไม่พบแคมเปญ':'No campaigns'))+'</div>';return;}
+ arr.forEach(c=>{const el=document.createElement('div');el.className='ci'+(state.sel===c.id?' sel':'');
+  el.innerHTML='<div class="cic">'+c.icon+'</div><div class="cm"><div class="cn">'+tr(c.nm)+'</div><div class="cd">'+tr(c.goal)+' · '+c.models+'</div></div>'+pill(c.status);
+  el.onclick=()=>{state.sel=c.id;renderList();renderDetail();};box.appendChild(el);});}
+function renderDetail(){const box=$('#detail');const c=CAMPS.find(x=>x.id===state.sel);if(!c){box.innerHTML='<div class="empty">'+D('exec_empty')+'</div>';return;}
+ const si=FLOW.indexOf(c.status);
+ const track=FLOW.map((s,i)=>'<div class="tn '+(i<si?'done':(i===si?'cur':''))+'"><div class="dot">'+(i<si?'✓':(i+1))+'</div><div class="tl">'+tr(FLAB[s])+'</div></div>').join('');
+ const stages={pre:D('mx_pre'),on:D('mx_on'),post:D('mx_post')};
+ const f=c.f;const max=Math.max(1,f.views,f.signup,f.invite,f.attend,f.lead,f.order);
+ const steps=[['m_views',f.views],['m_invite',f.invite],['m_signup',f.signup],['m_attend',f.attend],['rv_h4',f.lead],['rv_h5',f.order]];
+ const funnel=steps.map(s=>'<div class="fr"><div class="frl">'+D(s[0])+'</div><div class="frb"><i style="width:'+(s[1]/max*100)+'%"></i></div><div class="frn">'+s[1].toLocaleString()+'</div></div>').join('');
+ const cr=f.views?((f.order/f.views*100).toFixed(1)+'%'):'—';
+ box.innerHTML='<div class="dh"><div class="dnm">'+c.icon+' '+tr(c.nm)+'</div><div class="dmt">'+c.id+'</div><div style="margin-top:8px">'+pill(c.status).replace('pill','dgr')+'<span class="dgr">'+stages[c.stage]+'</span></div></div>'+
+ '<div class="db">'+
+ '<div class="fgrid">'+fld('f_owner',c.owner)+fld('f_org',tr(c.org))+fld('f_goal',tr(c.goal))+fld('f_models',c.models)+fld('f_channels',c.channels)+fld('f_audience',tr(c.audience))+fld('f_budget',c.budget)+fld('f_roi',c.roi)+'</div>'+
+ '<div class="sec2">'+D('sec_monitor')+'</div><div class="track">'+track+'</div>'+
+ '<div class="minikpis">'+[['m_views',f.views],['m_signup',f.signup],['m_attend',f.attend],['rv_h5',f.order]].map(k=>'<div class="mk"><div class="mn">'+k[1].toLocaleString()+'</div><div class="ml">'+D(k[0])+'</div></div>').join('')+'</div>'+
+ '<div class="sec2">'+D('sec_funnel')+' · CR '+cr+'</div><div class="funnel">'+funnel+'</div>'+
+ (c.status==='closed'?'':'<div class="sec2">'+D('sec_act')+'</div>'+actionsHtml(c))+
+ '</div>';
+ if(c.status!=='closed')bindActions(c);}
+function fld(k,v){return '<div class="fld"><div class="fl">'+D(k)+'</div><div class="fv">'+v+'</div></div>';}
+function actionsHtml(c){const i=FLOW.indexOf(c.status);const ns=i<FLOW.length-1?FLOW[i+1]:null;
+ return '<div class="actions"><div class="arow">'+
+  (ns?'<button class="btn" id="advBtn">'+D('a_adv')+' '+tr(FLAB[ns])+'</button>':'')+
+  '<button class="btn o" id="invBtn">'+D('a_invite')+'</button>'+
+  '<button class="btn o" id="chkBtn">'+D('a_checkin')+'</button>'+
+  '</div></div>';}
+function bindActions(c){
+ const adv=$('#advBtn');adv&&(adv.onclick=()=>{const i=FLOW.indexOf(c.status);if(i<FLOW.length-1){c.status=FLOW[i+1];if(c.status==='running'&&!c.f.views){c.f.views=1200;c.f.signup=90;}toast((c.status==='live'?D('t_pub'):D('t_adv')+tr(FLAB[c.status])));renderList();renderDetail();renderReview();}});
+ const inv=$('#invBtn');inv&&(inv.onclick=()=>{c.f.invite+=120;c.f.views+=600;toast(D('t_invite'));renderDetail();renderReview();});
+ const chk=$('#chkBtn');chk&&(chk.onclick=()=>{c.f.attend+=40;c.f.signup+=55;c.f.lead+=30;toast(D('t_checkin'));renderDetail();renderReview();});
+}
+// review
+function renderReview(){
+ const act=CAMPS.filter(c=>c.status==='running'||c.status==='live').length;
+ const su=CAMPS.reduce((a,c)=>a+c.f.signup,0);const ld=CAMPS.reduce((a,c)=>a+c.f.lead,0);
+ const rois=CAMPS.filter(c=>c.roi!=='—').map(c=>parseFloat(c.roi));const avg=rois.length?(rois.reduce((a,b)=>a+b,0)/rois.length).toFixed(1)+'x':'—';
+ $('#kpis').innerHTML=[[act,'k_total'],[su.toLocaleString(),'k_signup'],[ld.toLocaleString(),'k_lead'],[avg,'k_roi']].map(k=>'<div class="kpi"><div class="kn">'+k[0]+'</div><div class="kl">'+D(k[1])+'</div></div>').join('');
+ const agg={views:0,invite:0,signup:0,attend:0,lead:0,order:0};CAMPS.forEach(c=>{for(const k in agg)agg[k]+=c.f[k];});
+ const max=Math.max(1,agg.views);const steps=[['m_views',agg.views],['m_invite',agg.invite],['m_signup',agg.signup],['m_attend',agg.attend],['rv_h4',agg.lead],['rv_h5',agg.order]];
+ $('#ovFunnel').innerHTML=steps.map(s=>'<div class="fr"><div class="frl">'+D(s[0])+'</div><div class="frb"><i style="width:'+(s[1]/max*100)+'%"></i></div><div class="frn">'+s[1].toLocaleString()+'</div></div>').join('');
+ const chans=[['WhatsApp',38],['Instagram / Meta',24],['Partner store',18],['MyBlackmores',12],['SMS / Email',8]];
+ $('#chanBars').innerHTML=chans.map(c=>'<div class="barrow"><div class="bl">'+c[0]+'</div><div class="bb"><i style="width:'+c[1]+'%"></i></div><div class="bn">'+c[1]+'%</div></div>').join('');
+ const cities=[['Bengaluru',26],['Pune',19],['Chennai',17],['Mumbai',14],['Delhi NCR',12]];
+ $('#cityBars').innerHTML=cities.map(c=>'<div class="barrow"><div class="bl">'+c[0]+'</div><div class="bb"><i style="width:'+c[1]*3+'%"></i></div><div class="bn">'+c[1]+'%</div></div>').join('');}
+// ---- calendar ----
+const CAL_EVENTS=[ // day(Oct2026) → [stageClass, labelEveryday, labelPremium]
+ {d:3,c:"pre",t2:["Immunity C Festive Preview","Immunity C 節庆プレビュー","พรีวิว Immunity C เทศกาล"],t4:["Pregnancy Gold Preview","Pregnancy Gold プレビュー","พรีวิว Pregnancy Gold"]},
+ {d:5,c:"on2",t2:["Bio C Buying Festival","Bio C 購入フェア","เทศกาลซื้อ Bio C"],t4:["Fish Oil 1000 Buying Festival","Fish Oil 1000 購入フェア","เทศกาลซื้อ Fish Oil 1000"]},
+ {d:9,c:"post",t2:["Immunity Wellness Camp","免疫ウェルネスキャンプ","แคมป์สุขภาพภูมิคุ้มกัน"],t4:["Immunity Wellness Camp","免疫ウェルネスキャンプ","แคมป์สุขภาพภูมิคุ้มกัน"]},
+{d:12,c:"pre",t2:["Seasonal Sampling","季節サンプリング","แจกตัวอย่างตามฤดูกาล"],t4:["Seasonal Wellness Carnival","季節ウェルネスカーニバル","คาร์นิวัลสุขภาพตามฤดูกาล"]},
+ {d:12,c:"on2",t2:["Bundle Mela","まとめ買いメラ","งานชุดคุ้มค่า Mela"],t4:["Bundle Mela","まとめ買いメラ","งานชุดคุ้มค่า Mela"]},
+ {d:17,c:"post",t2:["Wellness Members Meet","ウェルネス会員ミート","พบปะสมาชิก Wellness"],t4:["Gold Members Club","ゴールド会員クラブ","ชมรมสมาชิก Gold"]},
+ {d:21,c:"pre",t2:["Bio C Roadshow","Bio C ロードショー","โรดโชว์ Bio C"],t4:["Pregnancy Gold Roadshow","Pregnancy Gold ロードショー","โรดโชว์ Pregnancy Gold"]},
+ {d:24,c:"on2",t2:["Festive Offer Days","節庆オファーデー","วันข้อเสนอเทศกาล"],t4:["Festive Offer Days","節庆オファーデー","วันข้อเสนอเทศกาล"]},
+ {d:28,c:"post",t2:["Refer & Win MGM","紹介特典 MGM","แนะนำรับรางวัล MGM"],t4:["Refer & Win MGM","紹介特典 MGM","แนะนำรับรางวัล MGM"]}
+];
+function renderCal(){
+ const tog=$('#calTog');if(tog){tog.innerHTML='';[['list','cal_list'],['cal','cal_cal']].forEach(([m,k])=>{const b=document.createElement('button');b.className=state.calView===m?'on':'';b.textContent=D(k);b.onclick=()=>{state.calView=m;renderCal();};tog.appendChild(b);});}
+ const kp=$('#calKpis');if(kp)kp.innerHTML=[[ent()==='core'?'4,500':'1,000',ent()==='core'?'units':'units','cal_k1'],['8,000','','cal_k2'],['24,000','','cal_k3'],['12,400','','cal_k4']].map(k=>'<div class="kpi"><div class="kn">'+k[0]+'</div><div class="kl">'+D(k[2])+'</div></div>').join('');
+ const body=$('#calBody');if(!body)return;
+ const i2=ent()==='core';
+ if(state.calView==='list'){
+  body.innerHTML='<table class="t" style="margin-top:6px"><thead><tr><th>'+tr(["Date","日付","วันที่"])+'</th><th>'+tr(["Campaign","キャンペーン","แคมเปญ"])+'</th><th>'+tr(["Stage","ステージ","ระยะ"])+'</th></tr></thead><tbody>'+
+   CAL_EVENTS.map(e=>'<tr><td>'+e.d+' Oct</td><td>'+tr(i2?e.t2:e.t4)+'</td><td><span class="cev '+e.c+'" style="display:inline-block">'+(e.c==='pre'?D('mx_pre'):(e.c==='on2'?D('mx_on'):D('mx_post')))+'</span></td></tr>').join('')+'</tbody></table>';
+ } else {
+  const dows=(state.lang===1?['月','火','水','木','金','土','日']:(state.lang===2?['จ.','อ.','พ.','พฤ.','ศ.','ส.','อา.']:['MON','TUE','WED','THU','FRI','SAT','SUN']));
+  let h='<div class="calhead"><button class="cnav">‹</button><span class="cm">'+(state.lang===1?'2026年10月':(state.lang===2?'ตุลาคม 2026':'October 2026'))+'</span><button class="cnav">›</button></div><div class="calgrid">';
+  h+=dows.map(d=>'<div class="cald dow">'+d+'</div>').join('');
+  // Oct 2026: Oct 1 = Thursday → MON-start offset 3
+  const offset=3,days=31;
+  for(let i=0;i<offset;i++)h+='<div class="cald" style="background:transparent;border:0"></div>';
+  for(let d=1;d<=days;d++){const evs=CAL_EVENTS.filter(e=>e.d===d);
+   h+='<div class="cald"><div class="dn">'+d+'</div>'+evs.map(e=>'<div class="cev '+e.c+'">'+tr(i2?e.t2:e.t4)+'</div>').join('')+'</div>';}
+  h+='</div>';body.innerHTML=h;
+ }
+}
+// ---- central dashboard ----
+const DASH_KPI=[["d_events","20"],["d_auth","542"],["d_fwd","19,220"],["d_reg","50,283"],["d_inv","3,032"],["d_chk","1,490"],["d_sat","532"],["d_ord","1,035"]];
+const DFUNNEL=[["fn_fwd",20000,""],["fn_eff",10000,"28%"],["fn_reg",6000,"9%"],["fn_inv",4500,"25%"],["fn_chk",3000,"29.7%"],["fn_sat",1500,"12%"],["fn_ord",1035,"5.5%"]];
+const REGIONS=[["🥇",["North","北部","ภาคเหนือ"],454],["🥈",["West","西部","ภาคตะวันตก"],411],["🥉",["South","南部","ภาคใต้"],346],["4",["East","東部","ภาคตะวันออก"],333]];
+const DCITIES=[["🥇","Bengaluru",1230],["🥈","Pune",1120],["🥉","Delhi NCR",890],["4","Mumbai",760]];
+const DDEALERS=[["Capital Blackmores",700,1000,1000,27],["Pioneer Blackmores",567,998,998,22],["Sundaram Blackmores",324,895,895,18],["Wellness Hub Blr",231,754,754,14]];
+const DSCS=[["Arjun Nair",700,1000,27],["Vikram Gupta",567,998,22],["Neha Reddy",324,895,18],["Sara Pillai",231,754,14]];
+function renderDash(){
+ var st=$('#dashStrip');if(st)st.innerHTML=DASH_KPI.map(k=>'<div class="ds"><div class="dn">'+k[1]+'</div><div class="dl">'+D(k[0])+'</div></div>').join('');
+ var f=$('#ifunnel');if(f){const max=DFUNNEL[0][1];f.innerHTML=DFUNNEL.map(r=>'<div class="ifr"><div class="ifb" style="width:'+(28+r[1]/max*72)+'%">'+D(r[0])+'</div><div class="ifn">'+r[1].toLocaleString()+'</div><div class="ifc">'+(r[2]||'—')+'</div></div>').join('');}
+ var rr=$('#regionRank');if(rr){const mx=REGIONS[0][2];rr.innerHTML=REGIONS.map(r=>'<div class="rank"><span class="rm">'+r[0]+'</span><span class="rl">'+tr(r[1])+'</span><span class="rb"><i style="width:'+(r[2]/mx*100)+'%"></i></span><span class="rn">'+r[2]+'</span></div>').join('');}
+ var cr=$('#cityRank');if(cr){const mx=DCITIES[0][2];cr.innerHTML=DCITIES.map(r=>'<div class="rank"><span class="rm">'+r[0]+'</span><span class="rl">'+r[1]+'</span><span class="rb"><i style="width:'+(r[2]/mx*100)+'%"></i></span><span class="rn">'+r[2]+'</span></div>').join('');}
+ var dt=$('#partnerRankT');if(dt)dt.innerHTML=DDEALERS.map((d,i)=>'<tr><td>'+(i+1)+'</td><td>'+d[0]+'</td><td>'+d[1]+'</td><td>'+d[2]+'</td><td>'+d[3]+'</td><td>'+d[4]+'</td></tr>').join('');
+ var st2=$('#scRankT');if(st2)st2.innerHTML=DSCS.map((d,i)=>'<tr><td>'+(i+1)+'</td><td>'+d[0]+'</td><td>'+d[1]+'</td><td>'+d[2]+'</td><td>'+d[3]+'</td></tr>').join('');
+}
+function renderAll(){applyBrand();applyText();renderTabs();renderCollab();renderWiz();renderMatrix();renderToolkit();renderExecTog();renderFilters();renderList();renderDetail();renderOwnerTasks();renderCal();renderDash();renderReview();renderPredict();}
+$('#langs').onclick=e=>{const b=e.target.closest('button');if(!b)return;state.lang=b.dataset.l==='ja'?1:(b.dataset.l==='th'?2:0);$$('#langs button').forEach(x=>x.classList.toggle('on',x===b));renderAll();};
+$('#fab').onclick=()=>{state.brand=state.brand==='premium'?'core':'premium';applyBrand();renderWbody();renderCal();};
+try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_l=_p.get("lang");if(_l==='ja')state.lang=1;else if(_l==='th')state.lang=2;if(_b&&BRANDS[_b])state.brand=_b;$$('#langs button').forEach(x=>x.classList.toggle('on',x.dataset.l===['en','ja','th'][state.lang]));}catch(e){}
+(function(){var bs=$('#backStudio');var emb=false;try{emb=(window.top!==window.self);}catch(e){emb=true;}if(emb){bs.style.display='flex';bs.onclick=function(){try{(window.top||window).location.href='index.html'+location.search;}catch(e){location.href='index.html';}};}})();
+window.addEventListener('message',e=>{const d=e.data;if(!d||d.t!=='es')return;let ch=false;if(d.brand&&BRANDS[d.brand]){state.brand=d.brand;ch=true;}if(d.lang){state.lang=d.lang==='ja'?1:(d.lang==='th'?2:0);$$('#langs button').forEach(x=>x.classList.toggle('on',x.dataset.l===['en','ja','th'][state.lang]));ch=true;}if(ch)renderAll();});
+renderAll();
+(function(){try{var f=new URLSearchParams(location.search).get('focus');if(!f)return;setTimeout(function(){var el=document.querySelector('[data-focus="'+f+'"]');if(!el)return;if(typeof el.click==='function')el.click();if(el.scrollIntoView)el.scrollIntoView({behavior:'smooth',block:'center'});},350);}catch(e){}})();
+</script>
+<script>/*__embedHide2*/(function(){try{if(window.self!==window.top){var s=document.createElement('style');s.textContent='header,.topbar,.appbar,.langs,#__backStudio{display:none!important}';(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

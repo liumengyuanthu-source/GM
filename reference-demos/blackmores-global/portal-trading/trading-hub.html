@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="Trading Hub | BLACKMORES® Partner Portal">Trading Hub | BLACKMORES® Partner Portal</title>
+    <script src="../i18n.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f4f7f6;
+            color: #1a1a1a;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+        :root {
+            --primary: #009BA4;
+            --primary-dark: #007A82;
+            --primary-light: rgba(0, 155, 164, 0.08);
+            --accent: #E91E63;
+            --accent-light: rgba(233, 30, 99, 0.12);
+            --white: #FFFFFF;
+            --bg: #F5F7FA;
+            --text: #1A1A1A;
+            --text-secondary: #666666;
+            --text-tertiary: #999999;
+            --border: #E8ECF0;
+            --shadow: 0 2px 12px rgba(0,0,0,0.06);
+            --shadow-hover: 0 8px 24px rgba(0,0,0,0.10);
+            --success: #2ECC71;
+            --success-light: rgba(46, 204, 113, 0.10);
+            --warning: #F5A623;
+            --warning-light: rgba(245, 166, 35, 0.10);
+            --danger: #E74C3C;
+            --danger-light: rgba(231, 76, 60, 0.10);
+            --info: #3498db;
+            --info-light: rgba(52, 152, 219, 0.10);
+            /* Reference palette */
+            --teal-900: #08312e;
+            --teal-700: #0d524c;
+            --teal-600: #0f6b62;
+            --teal-500: #14857a;
+            --teal-100: #d6ebe8;
+            --teal-50: #eef6f5;
+            --ink: #16201e;
+            --slate: #5d6b68;
+            --line: #e4ebe9;
+            --paper: #ffffff;
+            --amber: #d98a1f;
+            --amber-bg: #fdf3e2;
+            --rose: #c0463f;
+            --rose-bg: #fbece9;
+            --green: #2f8a5b;
+            --green-bg: #e7f3ec;
+            --radius: 16px;
+            --shadow2: 0 1px 2px rgba(8,49,46,.04), 0 8px 24px -12px rgba(8,49,46,.14);
+            --shadow-lg: 0 2px 4px rgba(8,49,46,.05), 0 24px 48px -20px rgba(8,49,46,.22);
+        }
+
+        /* ===== Top Nav — unchanged ===== */
+        .top-nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 0 48px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-left { display: flex; align-items: center; gap: 48px; }
+        .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo-brand { font-size: 20px; font-weight: 800; color: var(--text); letter-spacing: 0.5px; font-family: Georgia, 'Times New Roman', serif; }
+        .logo-brand sup { font-size: 10px; font-weight: 400; margin-left: 2px; }
+        .logo-sub { font-size: 12px; color: var(--primary); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-left: 12px; padding-left: 12px; border-left: 1px solid var(--border); }
+        .nav-menu { display: flex; gap: 32px; align-items: center; }
+        .nav-menu a { text-decoration: none; color: var(--text-secondary); font-size: 14px; font-weight: 500; transition: color 0.2s; position: relative; white-space: nowrap; }
+        .nav-menu a:hover, .nav-menu a.active { color: var(--primary); }
+        .nav-menu a.active::after { content: ''; position: absolute; bottom: -21px; left: 0; right: 0; height: 3px; background: linear-gradient(135deg, #009DAC 0%, #007A82 100%); border-radius: 2px; }
+        .nav-right { display: flex; align-items: center; gap: 16px; }
+        .icon-btn { width: 40px; height: 40px; border-radius: 10px; border: none; background: var(--bg); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; position: relative; color: var(--text-secondary); text-decoration: none; }
+        .icon-btn:hover { background: var(--primary-light); color: var(--primary); }
+        .badge { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; background: var(--danger); color: white; border-radius: 50%; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 2px solid white; padding: 0 4px; }
+        .user-menu { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 6px 12px; border-radius: 10px; transition: background 0.2s; }
+        .user-menu:hover { background: var(--bg); }
+        .user-avatar { width: 36px; height: 36px; border-radius: 50%; overflow: hidden; border: 2px solid var(--border); flex-shrink: 0; }
+        .user-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+        .user-info { display: flex; flex-direction: column; }
+        .user-name { font-size: 13px; font-weight: 600; color: var(--text); }
+        .user-role { font-size: 11px; color: var(--text-tertiary); }
+
+        /* ===== App Layout ===== */
+        .app-layout { display: flex; margin-top: 0; min-height: calc(100vh - 64px); }
+
+        /* ===== Sidebar — Reference Style + Accordion ===== */
+        .sidebar {
+            width: 264px; background: var(--paper); border-right: 1px solid var(--line);
+            position: fixed; top: 64px; bottom: 0; left: 0; overflow-y: auto; z-index: 50;
+            padding: 26px 16px;
+        }
+        .sidebar-section { margin-bottom: 22px; }
+        .sidebar-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 12px 10px; cursor: pointer; transition: .15s;
+        }
+        .sidebar-header:hover .sidebar-title { color: var(--primary-dark); }
+        .sidebar-header-left { display: flex; align-items: center; gap: 10px; }
+        .sidebar-icon-main { width: 16px; height: 16px; color: var(--primary); flex-shrink: 0; }
+        .sidebar-title {
+            font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+            color: var(--primary); transition: color .15s;
+        }
+        .sidebar-chevron { width: 16px; height: 16px; color: var(--slate); transition: transform 0.2s; flex-shrink: 0; }
+        .sidebar-chevron.open { transform: rotate(180deg); }
+        .sidebar-submenu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; padding: 0 12px; }
+        .sidebar-submenu.open { max-height: 500px; padding: 0 12px 8px; }
+        .sidebar-item { list-style: none; }
+        .sidebar-link {
+            display: flex; align-items: center; gap: 12px;
+            text-decoration: none; color: var(--slate); font-size: 14.5px; font-weight: 500;
+            padding: 10px 12px; border-radius: 10px; transition: .15s;
+        }
+        .sidebar-link:hover { background: var(--primary-light); color: var(--primary-dark); }
+        .sidebar-link.active { background: var(--primary); color: #fff; font-weight: 600; }
+        .sidebar-link-icon { width: 18px; height: 18px; color: currentColor; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .sidebar-link-icon svg { width: 16px; height: 16px; }
+
+        /* ===== Main Content ===== */
+        .main-content { flex: 1; margin-left: 264px; padding: 0; max-width: calc(100vw - 264px); }
+
+        /* ---------- Page head ---------- */
+        .pagehead { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 26px; flex-wrap: wrap; gap: 16px; padding: 20px 40px 0; }
+        .pagehead h1 { font-weight: 600; font-size: 26px; letter-spacing: -.5px; color: var(--teal-900); }
+        .pagehead p { color: var(--slate); font-size: 15.5px; margin-top: 4px; }
+        .btn {
+            border: none; cursor: pointer; font-family: inherit; font-weight: 600; font-size: 14.5px;
+            border-radius: 11px; padding: 13px 22px; display: inline-flex; align-items: center; gap: 9px; transition: .18s;
+        }
+        .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 6px 16px -6px rgba(0,155,164,.4); }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+        .btn-ghost { background: var(--paper); color: var(--primary); border: 1px solid var(--line); }
+        .btn-ghost:hover { border-color: var(--primary); }
+
+        /* ---------- Attention strip ---------- */
+        .attention {
+            background: linear-gradient(135deg, #009DAC 0%, #008A95 50%, #007A82 100%);
+            border-radius: var(--radius); padding: 4px; margin-bottom: 28px; margin-left: 40px; margin-right: 40px;
+            box-shadow: var(--shadow-lg); position: relative; overflow: hidden;
+        }
+        .attention::before {
+            content:""; position:absolute; right:-60px; top:-60px; width:280px; height:280px;
+            background: radial-gradient(circle, rgba(255,255,255,.2), transparent 70%); pointer-events:none;
+        }
+        .attention-inner { display: flex; align-items: stretch; gap: 4px; position: relative; }
+        .att-title {
+            color: #fff; padding: 18px 22px; display: flex; flex-direction: column; justify-content: center;
+            min-width: 200px;
+        }
+        .att-title .k { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,.7); font-weight: 700; }
+        .att-title .v { font-size: 22px; font-weight: 600; margin-top: 2px; color: #fff; }
+        .att-items { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; flex: 1; }
+        .att-card {
+            background: rgba(255,255,255,.07); backdrop-filter: blur(4px);
+            border-radius: 12px; padding: 16px 18px; cursor: pointer; transition: .18s;
+            border: 1px solid rgba(255,255,255,.08);
+        }
+        .att-card:hover { background: rgba(255,255,255,.14); transform: translateY(-2px); }
+        .att-card .lbl { display: flex; align-items: center; gap: 8px; color: var(--teal-100); font-size: 13px; font-weight: 600; }
+        .att-card .lbl svg { width: 16px; height: 16px; flex-shrink: 0; }
+        .att-card .num { color: #fff; font-size: 27px; font-weight: 600; margin-top: 7px; line-height: 1; }
+        .att-card .sub { color: rgba(255,255,255,.6); font-size: 12.5px; margin-top: 5px; }
+        .att-card .chip { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px; }
+        .chip-rose { background: var(--rose); color: #fff; }
+        .chip-amber { background: var(--amber); color: #fff; }
+
+        /* ---------- Section label ---------- */
+        .seclabel { display:flex; align-items:center; gap:12px; margin: 6px 0 16px; }
+        .seclabel h2 { font-size:21px; font-weight:600; color:var(--primary-dark); }
+        .seclabel .line { flex:1; height:1px; background:var(--line); }
+        .seclabel a { font-size:13.5px; color:var(--teal-600); text-decoration:none; font-weight:600; }
+        .seclabel a:hover { text-decoration:underline; }
+
+        /* ---------- Status tiles ---------- */
+        .twocol { display: grid; grid-template-columns: 1fr 340px; gap: 22px; align-items: start; padding: 0 40px 32px; }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+        .tile {
+            background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+            padding: 22px 24px; box-shadow: var(--shadow2); transition: .2s; position: relative;
+            display: flex; flex-direction: column;
+        }
+        .tile:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); border-color: var(--teal-100); }
+        .tile-top { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 18px; }
+        .ticon {
+            width: 50px; height: 50px; border-radius: 14px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; color: #fff;
+        }
+        .ic-teal { background: linear-gradient(135deg, var(--teal-500), var(--teal-700)); }
+        .ic-amber { background: linear-gradient(135deg, #e9a23b, #c8761a); }
+        .ic-rose { background: linear-gradient(135deg, #d96b63, #b23a33); }
+        .ic-green { background: linear-gradient(135deg, #44a472, #2f8a5b); }
+        .tile-top h3 { font-size: 17.5px; font-weight: 700; color: var(--ink); }
+        .tile-top .meta { font-size: 13.5px; color: var(--slate); margin-top: 1px; }
+        .tile-stat { margin-top: auto; display: flex; align-items: flex-end; gap: 18px; padding-top: 6px; }
+        .stat-main { display: flex; flex-direction: column; }
+        .stat-main .big { font-size: 30px; font-weight: 600; color: var(--teal-900); line-height: 1; }
+        .stat-main .cap { font-size: 12.5px; color: var(--slate); margin-top: 5px; font-weight: 500; }
+        .stat-divider { width:1px; align-self:stretch; background:var(--line); margin:2px 0; }
+        .tile-foot { display: flex; align-items: center; gap: 10px; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); }
+        .tag-state { font-size: 12px; font-weight: 700; padding: 4px 11px; border-radius: 20px; }
+        .ts-amber { background: var(--amber-bg); color: var(--amber); }
+        .ts-rose  { background: var(--rose-bg); color: var(--rose); }
+        .ts-green { background: var(--green-bg); color: var(--green); }
+        .tile-foot .go {
+            margin-left: auto; color: var(--teal-700); font-weight: 600; font-size: 14px;
+            display: flex; align-items: center; gap: 6px; cursor: pointer; transition: gap .18s;
+        }
+        .tile-foot .go:hover { gap: 11px; }
+
+        /* ---------- Quick reorder ---------- */
+        .reorder { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow2); overflow: hidden; }
+        .reorder-row {
+            display: grid; grid-template-columns: 46px 1fr 130px 120px 120px; align-items: center;
+            gap: 16px; padding: 15px 24px; border-bottom: 1px solid var(--line); transition: .15s;
+        }
+        .reorder-row:last-child { border-bottom: none; }
+        .reorder-row:hover { background: var(--teal-50); }
+        .prod-thumb {
+            width: 46px; height: 46px; border-radius: 10px; background: var(--teal-50);
+            display: flex; align-items: center; justify-content: center; font-size: 22px;
+        }
+        .prod-name { font-weight: 600; font-size: 15px; }
+        .prod-sku { font-size: 12.5px; color: var(--slate); margin-top: 1px; }
+        .stock-bar { height: 6px; border-radius: 4px; background: var(--line); overflow: hidden; margin-top: 6px; }
+        .stock-bar i { display: block; height: 100%; border-radius: 4px; }
+        .stock-txt { font-size: 12px; font-weight: 600; }
+        .price { font-weight: 600; font-size: 16px; color: var(--teal-900); }
+        .reorder-btn {
+            border: 1px solid var(--teal-500); background: var(--paper); color: var(--teal-700);
+            font-weight: 600; font-size: 13.5px; padding: 9px 0; border-radius: 9px; cursor: pointer;
+            width: 100%; transition: .15s; font-family: inherit;
+        }
+        .reorder-btn:hover { background: var(--teal-700); color: #fff; border-color: var(--teal-700); }
+
+        /* ---------- Discover rail ---------- */
+        .discover { display: flex; flex-direction: column; gap: 18px; }
+        .discover-card {
+            background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+            padding: 22px 24px; box-shadow: var(--shadow2); transition: .2s;
+        }
+        .discover-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); border-color: var(--teal-100); }
+        .discover-card h3 { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+        .discover-card p { font-size: 14px; color: var(--slate); margin-bottom: 14px; line-height: 1.5; }
+        .discover-card .go { color: var(--teal-700); font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: gap .18s; }
+        .discover-card .go:hover { gap: 11px; }
+        .discover-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
+        .badge-teal { background: var(--teal-50); color: var(--teal-700); }
+        .badge-amber { background: var(--amber-bg); color: var(--amber); }
+
+        footer.note { margin-top: 30px; font-size: 12.5px; color: var(--slate); text-align: center; }
+
+        @media (max-width: 900px) {
+            .twocol { grid-template-columns: 1fr; }
+            .grid { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; max-width: 100%; }
+            .attention { margin-left: 24px; margin-right: 24px; }
+            .pagehead { padding: 24px 24px 0; }
+            .twocol { padding: 0 24px 32px; }
+            .discover { display: none; }
+        }
+    
+
+        /* Studio embed shell: keep the outer Studio header, remove the copied portal chrome. */
+        .top-nav, .sidebar { display: none !important; }
+        .main-content { margin-left: 0 !important; max-width: 100% !important; width: 100% !important; padding: 0 !important; }
+        .studio-intro { max-width: 1180px; margin: 0 auto 18px; padding: 28px 40px 0; }
+        .studio-eyebrow { color: var(--primary, var(--teal-700, #008f9a)); font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 8px; }
+        .studio-title { color: var(--ink, var(--text, #1f2a2a)); font-size: clamp(28px, 4vw, 44px); line-height: 1.04; font-weight: 800; margin: 0 0 10px; letter-spacing: 0; }
+        .studio-lead { color: var(--slate, var(--text-secondary, #6d7775)); font-size: 15px; line-height: 1.65; max-width: 880px; margin: 0; }
+        .studio-nav { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 18px; }
+        .studio-nav a, .studio-nav button { appearance: none; border: 1px solid var(--line, #e5e7eb); background: var(--paper, #fff); color: var(--ink, #233); border-radius: 8px; padding: 9px 14px; font: inherit; font-size: 12.5px; font-weight: 800; text-decoration: none; cursor: pointer; box-shadow: none; }
+        .studio-nav a:hover, .studio-nav button:hover, .studio-nav .active { border-color: var(--primary, var(--teal-700, #008f9a)); color: var(--primary, var(--teal-700, #008f9a)); background: var(--primary-light, var(--teal-50, #ecfeff)); }
+        .content-section, .content-body, .pagehead, .page-section { max-width: 1180px; margin-left: auto !important; margin-right: auto !important; }
+        .attention { max-width: 1100px; margin: 0 auto 28px !important; }
+        .twocol { max-width: 1180px; margin: 0 auto; }
+        footer.note { max-width: 1180px; margin-left: auto; margin-right: auto; }
+        @media (max-width: 760px) {
+            .studio-intro { padding: 22px 20px 0; }
+            .studio-title { font-size: 30px; }
+            .studio-nav a, .studio-nav button { flex: 1 1 auto; text-align: center; }
+            .attention { max-width: none; margin-left: 20px !important; margin-right: 20px !important; }
+            .attention-inner { flex-direction: column; }
+            .att-items, .grid { grid-template-columns: 1fr; }
+            .twocol { padding: 0 20px 30px; }
+            .reorder-row { grid-template-columns: 46px 1fr; }
+            .reorder-row > :nth-child(n+3) { grid-column: 2; }
+        }
+
+    </style>
+</head>
+<body data-module="trading">
+
+<!-- ===== TOP NAV — unchanged ===== -->
+<nav class="top-nav">
+    <div class="nav-left">
+        <a href="../index.html" class="logo">
+            <span class="logo-brand">BLACKMORES<sup>®</sup></span>
+        </a>
+        <div class="nav-menu">
+            <a href="../index.html" data-i18n="Home">Home</a>
+            <a href="trading-hub.html" class="active" data-i18n="Trading">Trading</a>
+            <a href="../index.html" data-i18n="Marketing">Marketing</a>
+            <a href="../index.html" data-i18n="Operations">Operations</a>
+            <a href="../index.html" data-i18n="Analytics">Analytics</a>
+        </div>
+    </div>
+    <div class="nav-right">
+        <button class="icon-btn" title="Language" id="langSwitcher"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button>
+        <a href="../index.html" class="icon-btn" title="Search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></a>
+        <a href="../index.html" class="icon-btn" title="Notification"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="badge">3</span></a>
+        <a href="../index.html" class="user-menu" style="text-decoration:none;">
+            <div class="user-avatar"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=GuardianKL&amp;backgroundColor=ffffff" alt="Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
+            <div class="user-info">
+                <span class="user-name" data-i18n="Guardian KL">Guardian KL</span>
+                <span class="user-role" data-i18n="Platinum Partner">Platinum Partner</span>
+            </div>
+        </a>
+    </div>
+</nav>
+
+<!-- ===== SIDEBAR — 3段式 accordion + Reference Style ===== -->
+<div class="app-layout">
+<aside class="sidebar" id="sidebar">
+
+    <!-- Purchase Orders Section -->
+    <div class="sidebar-section" id="sidebar-purchase">
+        <div class="sidebar-header" onclick="toggleSection('purchase')" id="header-purchase">
+            <div class="sidebar-header-left">
+                <svg class="sidebar-icon-main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+                <span class="sidebar-title" data-i18n="Purchase Orders">Purchase Orders</span>
+            </div>
+            <svg class="sidebar-chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="chevron-purchase"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <ul class="sidebar-submenu open" id="submenu-purchase">
+            <li class="sidebar-item"><a href="purchase-order.html#purchase" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span data-i18n="Purchase Orders">Purchase Orders</span></a></li>
+            <li class="sidebar-item"><a href="purchase-order.html#ai-recommend" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="11" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></span><span data-i18n="AI Recommendation">AI Recommendation</span></a></li>
+            <li class="sidebar-item"><a href="purchase-order.html#inventory" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></span><span data-i18n="Inventory">Inventory</span></a></li>
+            <li class="sidebar-item"><a href="purchase-order.html#invoices" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span data-i18n="Invoices">Invoices</span></a></li>
+        </ul>
+    </div>
+
+    <!-- Product Section -->
+    <div class="sidebar-section" id="sidebar-product">
+        <div class="sidebar-header" onclick="toggleSection('product')" id="header-product">
+            <div class="sidebar-header-left">
+                <svg class="sidebar-icon-main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                <span class="sidebar-title" data-i18n="Product">Product</span>
+            </div>
+            <svg class="sidebar-chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="chevron-product"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <ul class="sidebar-submenu open" id="submenu-product">
+            <li class="sidebar-item"><a href="product-center.html" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span><span data-i18n="Product Catalog">Product Catalog</span></a></li>
+            <li class="sidebar-item"><a href="product-center.html#cart" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span><span data-i18n="Shopping Cart">Shopping Cart</span></a></li>
+            <li class="sidebar-item"><a href="product-center.html#favorites" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span data-i18n="My Favorites">My Favorites</span></a></li>
+            <li class="sidebar-item"><a href="product-center.html#bundle" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></span><span data-i18n="Bundle Management">Bundle Management</span></a></li>
+        </ul>
+    </div>
+
+    <!-- Sales Orders Section -->
+    <div class="sidebar-section" id="sidebar-sales">
+        <div class="sidebar-header" onclick="toggleSection('sales')" id="header-sales">
+            <div class="sidebar-header-left">
+                <svg class="sidebar-icon-main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                <span class="sidebar-title" data-i18n="Sales Orders">Sales Orders</span>
+            </div>
+            <svg class="sidebar-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="chevron-sales"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <ul class="sidebar-submenu" id="submenu-sales">
+            <li class="sidebar-item"><a href="sale-order.html#sales" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span><span data-i18n="Sales Orders">Sales Orders</span></a></li>
+            <li class="sidebar-item"><a href="sale-order.html#channel" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></span><span data-i18n="Channel Management">Channel Management</span></a></li>
+        </ul>
+    </div>
+</aside>
+
+<!-- ===== MAIN CONTENT — Reference Layout ===== -->
+<main class="main-content">
+            <section class="studio-intro">
+                <div class="studio-eyebrow">Platform Commerce</div>
+                <h1 class="studio-title">Partner Trading Hub</h1>
+                <p class="studio-lead">A partner-facing workspace that brings daily tasks, quick reorder, purchase status, inventory signals and AI recommendations into one clean operating view.</p>
+                <div class="studio-nav">
+                    <a href="product-center.html">B2B ordering</a>
+                    <a href="purchase-order.html">Procurement & invoices</a>
+                    <a href="sale-order.html">Marketplace orders</a>
+                </div>
+            </section>
+
+    <div class="pagehead">
+        <div>
+            <h1 data-i18n="Trading Hub">Trading Hub</h1>
+            <p data-i18n="Discover, sell, track, restock — your partner growth loop.">Discover, sell, track, restock — your partner growth loop.</p>
+        </div>
+        <div style="display:flex; gap:12px;">
+            <button class="btn btn-ghost">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+                <span data-i18n="Browse Catalog">Browse Catalog</span>
+            </button>
+            <button class="btn btn-primary">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+                <span data-i18n="New Order">New Order</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ATTENTION STRIP -->
+    <section class="attention">
+        <div class="attention-inner">
+            <div class="att-title">
+                <span class="k" data-i18n="Needs your attention">Needs your attention</span>
+                <span class="v" data-i18n="3 things today">3 things today</span>
+            </div>
+            <div class="att-items">
+                <div class="att-card">
+                    <div class="lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg><span data-i18n="Pending Payments">Pending Payments</span> <span class="chip chip-rose">2</span></div>
+                    <div class="num" data-i18n="RM 4,280">RM 4,280</div>
+                    <div class="sub" data-i18n="1 invoice overdue · due in 2 days">1 invoice overdue · due in 2 days</div>
+                </div>
+                <div class="att-card">
+                    <div class="lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg><span data-i18n="Low Stock">Low Stock</span> <span class="chip chip-amber">4</span></div>
+                    <div class="num" data-i18n="4 SKUs">4 SKUs</div>
+                    <div class="sub" data-i18n="Below reorder threshold">Below reorder threshold</div>
+                </div>
+                <div class="att-card">
+                    <div class="lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg><span data-i18n="In Transit">In Transit</span></div>
+                    <div class="num" data-i18n="3 orders">3 orders</div>
+                    <div class="sub" data-i18n="1 arriving today · track shipments">1 arriving today · track shipments</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="twocol">
+        <!-- LEFT: STATUS TILES + QUICK REORDER -->
+        <div>
+            <div class="seclabel">
+                <h2 data-i18n="Your operation at a glance">Your operation at a glance</h2>
+                <span class="line"></span>
+            </div>
+            <div class="grid">
+                <!-- Shopping Cart -->
+                <div class="tile">
+                    <div class="tile-top">
+                        <div class="ticon ic-teal">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+                        </div>
+                        <div>
+                            <h3 data-i18n="Shopping Cart">Shopping Cart</h3>
+                            <div class="meta" data-i18n="Ready to checkout">Ready to checkout</div>
+                        </div>
+                    </div>
+                    <div class="tile-stat">
+                        <div class="stat-main"><span class="big">3</span><span class="cap" data-i18n="items in cart">items in cart</span></div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-main"><span class="big" data-i18n="RM 1,240">RM 1,240</span><span class="cap" data-i18n="incl. bundle discount">incl. bundle discount</span></div>
+                    </div>
+                    <div class="tile-foot">
+                        <span class="tag-state ts-green" data-i18n="−RM 180 saved">−RM 180 saved</span>
+                        <span class="go" data-i18n="Checkout">Checkout
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Purchase Orders -->
+                <div class="tile">
+                    <div class="tile-top">
+                        <div class="ticon ic-amber">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                        </div>
+                        <div>
+                            <h3 data-i18n="Purchase Orders">Purchase Orders</h3>
+                            <div class="meta" data-i18n="Procurement & logistics">Procurement & logistics</div>
+                        </div>
+                    </div>
+                    <div class="tile-stat">
+                        <div class="stat-main"><span class="big">12</span><span class="cap" data-i18n="active orders">active orders</span></div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-main"><span class="big">2</span><span class="cap" data-i18n="awaiting payment">awaiting payment</span></div>
+                    </div>
+                    <div class="tile-foot">
+                        <span class="tag-state ts-rose" data-i18n="1 overdue">1 overdue</span>
+                        <span class="go" data-i18n="Manage orders">Manage orders
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Inventory -->
+                <div class="tile">
+                    <div class="tile-top">
+                        <div class="ticon ic-rose">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+                        </div>
+                        <div>
+                            <h3 data-i18n="Inventory">Inventory</h3>
+                            <div class="meta" data-i18n="Stock health">Stock health</div>
+                        </div>
+                    </div>
+                    <div class="tile-stat">
+                        <div class="stat-main"><span class="big">218</span><span class="cap" data-i18n="SKUs in stock">SKUs in stock</span></div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-main"><span class="big">4</span><span class="cap" data-i18n="below threshold">below threshold</span></div>
+                    </div>
+                    <div class="tile-foot">
+                        <span class="tag-state ts-amber" data-i18n="Restock soon">Restock soon</span>
+                        <span class="go" data-i18n="View inventory">View inventory
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Sales Orders -->
+                <div class="tile">
+                    <div class="tile-top">
+                        <div class="ticon ic-green">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>
+                        </div>
+                        <div>
+                            <h3 data-i18n="Sales Orders">Sales Orders</h3>
+                            <div class="meta" data-i18n="This month">This month</div>
+                        </div>
+                    </div>
+                    <div class="tile-stat">
+                        <div class="stat-main"><span class="big" data-i18n="RM 38.2k">RM 38.2k</span><span class="cap" data-i18n="revenue MTD">revenue MTD</span></div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-main"><span class="big">+14%</span><span class="cap" data-i18n="vs last month">vs last month</span></div>
+                    </div>
+                    <div class="tile-foot">
+                        <span class="tag-state ts-green" data-i18n="On track">On track</span>
+                        <span class="go" data-i18n="See breakdown">See breakdown
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- QUICK REORDER -->
+            <div class="seclabel" style="margin-top:34px;">
+                <h2 data-i18n="Quick reorder">Quick reorder</h2>
+                <span class="line"></span>
+                <a href="favorites.html" data-i18n="View all favorites →">View all favorites →</a>
+            </div>
+            <div class="reorder">
+                <div class="reorder-row">
+                    <div class="prod-thumb">🐟</div>
+                    <div>
+                        <div class="prod-name" data-i18n="Fish Oil 1000 — 400 caps">Fish Oil 1000 — 400 caps</div>
+                        <div class="prod-sku" data-i18n="SKU BLK-FO1000 · last ordered 12 days ago">SKU BLK-FO1000 · last ordered 12 days ago</div>
+                    </div>
+                    <div>
+                        <div class="stock-txt" style="color:var(--rose)" data-i18n="Low · 18 left">Low · 18 left</div>
+                        <div class="stock-bar"><i style="width:18%; background:var(--rose)"></i></div>
+                    </div>
+                    <div class="price" data-i18n="RM 89.00">RM 89.00</div>
+                    <button class="reorder-btn" data-i18n="Reorder">Reorder</button>
+                </div>
+                <div class="reorder-row">
+                    <div class="prod-thumb">🌿</div>
+                    <div>
+                        <div class="prod-name" data-i18n="Bio Magnesium — 200 tabs">Bio Magnesium — 200 tabs</div>
+                        <div class="prod-sku" data-i18n="SKU BLK-MAG200 · last ordered 8 days ago">SKU BLK-MAG200 · last ordered 8 days ago</div>
+                    </div>
+                    <div>
+                        <div class="stock-txt" style="color:var(--amber)" data-i18n="Medium · 64 left">Medium · 64 left</div>
+                        <div class="stock-bar"><i style="width:48%; background:var(--amber)"></i></div>
+                    </div>
+                    <div class="price" data-i18n="RM 64.50">RM 64.50</div>
+                    <button class="reorder-btn" data-i18n="Reorder">Reorder</button>
+                </div>
+                <div class="reorder-row">
+                    <div class="prod-thumb">☀️</div>
+                    <div>
+                        <div class="prod-name" data-i18n="Vitamin D3 1000IU — 250 caps">Vitamin D3 1000IU — 250 caps</div>
+                        <div class="prod-sku" data-i18n="SKU BLK-VD3 · last ordered 5 days ago">SKU BLK-VD3 · last ordered 5 days ago</div>
+                    </div>
+                    <div>
+                        <div class="stock-txt" style="color:var(--green)" data-i18n="Healthy · 142 left">Healthy · 142 left</div>
+                        <div class="stock-bar"><i style="width:82%; background:var(--green)"></i></div>
+                    </div>
+                    <div class="price" data-i18n="RM 52.00">RM 52.00</div>
+                    <button class="reorder-btn" data-i18n="Reorder">Reorder</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT: Discover rail -->
+        <div>
+            <div class="seclabel"><h2 data-i18n="Discover">Discover</h2><div class="line"></div></div>
+            <div class="discover">
+            <div class="discover-card">
+                <div class="discover-badge badge-teal" data-i18n="AI Recommendation">AI Recommendation</div>
+                <h3 data-i18n="Immune Support Bundle">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="12" cy="11" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg>
+                    Immune Support Bundle
+                </h3>
+                <p data-i18n="Trending with partners in your region — projected +22% margin. Your sales mix suggests high fit.">
+                    Trending with partners in your region — projected <strong style="color:var(--green)">+22% margin</strong>. Your sales mix suggests high fit.
+                </p>
+                <div class="go" data-i18n="Explore">Explore
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </div>
+            </div>
+
+            <div class="discover-card">
+                <div class="discover-badge badge-amber" data-i18n="Product Catalog">Product Catalog</div>
+                <h3 data-i18n="New arrivals this week">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M11.5 3.8l2.1 4.3 4.7.7-3.4 3.3.8 4.7-4.2-2.2-4.2 2.2.8-4.7L4.7 8.8l4.7-.7z"/></svg>
+                    New arrivals this week
+                </h3>
+                <p data-i18n="12 new SKUs available including Children's Immune Defence and Bio C 1000mg. Browse with live partner pricing.">
+                    12 new SKUs available including <strong>Children's Immune Defence</strong> and <strong>Bio C 1000mg</strong>. Browse with live partner pricing.
+                </p>
+                <div class="go" data-i18n="Browse catalog">Browse catalog
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="note" data-i18n="BLACKMORES Partner Trading Hub — data-forward layout">BLACKMORES Partner Trading Hub — data-forward layout</footer>
+</main>
+</div>
+
+<script>
+/* Inline nav helpers — file:// compatible */
+(function(){
+    function highlightCurrentPage() {
+        var current = window.location.pathname.split('/').pop() || 'index.html';
+        document.querySelectorAll('.sidebar-link').forEach(function(link) {
+            var href = link.getAttribute('href');
+            if (!href) return;
+            var hrefClean = href.split('#')[0].split('?')[0];
+            if (hrefClean === current) {
+                link.classList.add('active');
+                var sub = link.closest('.sidebar-submenu');
+                if (sub) sub.classList.add('open');
+            }
+        });
+    }
+    function restoreSidebarState() {
+        var mod = document.body.dataset.module || 'home';
+        var state = JSON.parse(localStorage.getItem('sidebarState') || '{}');
+        var isLanding = window.location.pathname.split('/').pop().includes('hub');
+        document.querySelectorAll('.sidebar-section').forEach(function(sec) {
+            var id = sec.id; if (!id) return;
+            var key = mod + '-sidebar-' + id;
+            var isOpen = state[key];
+            if (isLanding && isOpen === undefined) {
+                var idx = Array.from(document.querySelectorAll('.sidebar-section[id]')).indexOf(sec);
+                isOpen = idx < 2;
+            }
+            if (isOpen !== undefined) {
+                var chev = sec.querySelector('.sidebar-chevron');
+                var sub = sec.querySelector('.sidebar-submenu');
+                if (isOpen) { if (chev) chev.classList.add('open'); if (sub) sub.classList.add('open'); }
+                else { if (chev) chev.classList.remove('open'); if (sub) sub.classList.remove('open'); }
+            }
+        });
+    }
+    window.toggleSection = function(id) {
+        var chev = document.getElementById('chevron-' + id);
+        var sub = document.getElementById('submenu-' + id);
+        if (chev && sub) {
+            var isOpen = chev.classList.toggle('open');
+            sub.classList.toggle('open', isOpen);
+            var mod = document.body.dataset.module || 'home';
+            var state = JSON.parse(localStorage.getItem('sidebarState') || '{}');
+            state[mod + '-sidebar-' + id] = isOpen;
+            localStorage.setItem('sidebarState', JSON.stringify(state));
+        }
+    };
+    window.toggleMenu = function(header) {
+        var sec = header.closest('.sidebar-section'); if (!sec) return;
+        var sub = sec.querySelector('.sidebar-submenu');
+        var chev = sec.querySelector('.sidebar-chevron');
+        if (sub && chev) {
+            var isOpen = sub.classList.toggle('open');
+            chev.classList.toggle('open', isOpen);
+            var mod = document.body.dataset.module || 'home';
+            var state = JSON.parse(localStorage.getItem('sidebarState') || '{}');
+            state[mod + '-' + sec.id] = isOpen;
+            localStorage.setItem('sidebarState', JSON.stringify(state));
+        }
+    };
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() { highlightCurrentPage(); restoreSidebarState(); });
+    } else { highlightCurrentPage(); restoreSidebarState(); }
+})();
+</script>
+
+</body>
+</html>

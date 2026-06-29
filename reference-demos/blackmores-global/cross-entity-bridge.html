@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consent Bridge · Channel → Brand — Blackmores Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4;--brand-d:#007A82;--soft:#e0f2f3;--accent:#E91E63;
+    --chan:#B8863B;--brandc:#009BA4;
+    --ink:#1b1d1a;--muted:#6d716a;--bg:#f7f6f2;--card:#fff;--line:#e8e6df;--ok:#1a8f4c;--warn:#b5731a;--lock:#7c8690;
+    --display:Georgia,'Times New Roman','Songti SC','Noto Serif CJK SC',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans','Microsoft YaHei','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  button{font-family:inherit;cursor:pointer}
+  a{color:inherit}
+  header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  .nav{display:flex;align-items:center;gap:16px;max-width:1180px;margin:0 auto;padding:11px 22px}
+  .back{font-size:13px;font-weight:800;color:var(--brand-d);text-decoration:none;border:1px solid var(--line);padding:8px 14px;border-radius:999px;transition:.18s}
+  .back:hover{border-color:var(--brand);background:var(--soft)}
+  .ptitle{font-family:var(--display);font-size:21px;font-weight:600;letter-spacing:-.01em;color:var(--ink)}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 18px 80px}
+  .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:800}
+  h1.h{font-family:var(--display);font-weight:600;font-size:clamp(22px,4vw,30px);margin:8px 0 8px;line-height:1.15}
+  .lead{color:var(--muted);font-size:13.5px;max-width:90ch}
+  .arch{display:flex;align-items:stretch;gap:0;margin:18px 0 14px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .ent{flex:1;padding:13px 16px;color:#fff}
+  .ent.h2{background:linear-gradient(160deg,var(--chan),#8f671f)}.ent.h4{background:linear-gradient(160deg,var(--brandc),#066b72)}
+  .ent .en{font-family:var(--display);font-size:16px;font-weight:700}.ent .ex{font-size:11px;opacity:.92}
+  .wallcol{width:70px;background:repeating-linear-gradient(45deg,#efeee8,#efeee8 6px,#e4e2da 6px,#e4e2da 12px);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--lock);font-size:9px;font-weight:800;text-align:center;gap:3px;border-left:1px dashed var(--lock);border-right:1px dashed var(--lock)}
+  .wallcol .wlk{font-size:18px}
+  .stepper{display:flex;gap:3px;margin-bottom:14px;flex-wrap:wrap}
+  .st{flex:1;min-width:84px;border:1px solid var(--line);border-radius:9px;padding:8px 6px;text-align:center;font-size:10px;color:var(--muted);background:var(--card);cursor:pointer}
+  .st .sn{display:block;font-weight:800;font-size:11px;color:var(--lock)}
+  .st.done{border-color:var(--ok)}.st.done .sn{color:var(--ok)}
+  .st.cur{border-color:var(--brand);background:var(--soft);color:var(--brand-d);font-weight:800}.st.cur .sn{color:var(--brand)}
+  .st.zone-h2.cur{border-color:var(--chan)}.st.zone-h4.cur{border-color:var(--brandc)}
+  .panes{display:grid;grid-template-columns:1fr 60px 1fr;gap:0;align-items:stretch;margin-bottom:14px}
+  @media(max-width:820px){.panes{grid-template-columns:1fr;gap:10px}.wallmid{display:none}}
+  .pane{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--card);min-height:300px;transition:.2s}
+  .pane.h2{border-top:3px solid var(--chan)}.pane.h4{border-top:3px solid var(--brandc)}
+  .pane.dim{opacity:.4}
+  .pane.active{box-shadow:0 10px 28px rgba(0,0,0,.08)}
+  .pane.h2.active{box-shadow:0 10px 28px rgba(184,134,59,.16)}
+  .pane.h4.active{box-shadow:0 10px 28px rgba(0,155,164,.16)}
+  .ph{display:flex;align-items:center;gap:8px;margin-bottom:10px}.ph .pi{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:#fff;font-size:15px}.ph.h2 .pi{background:var(--chan)}.ph.h4 .pi{background:var(--brandc)}.ph .pn{font-weight:800;font-size:13px}.ph .px{font-size:10.5px;color:var(--muted)}
+  .wallmid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--lock)}
+  .wallmid .wbig{font-size:24px}.wallmid .wtx{font-size:9px;font-weight:800;writing-mode:vertical-rl;letter-spacing:.1em}
+  .wallmid.open .wbig{color:var(--ok)}
+  .ownerc{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:11px;margin-bottom:10px}
+  .ownerc .onm{font-weight:800;font-size:13px}.ownerc .ox{font-size:11px;color:var(--muted)}
+  .gauge{display:flex;align-items:center;gap:10px;margin:10px 0}
+  .gring{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:15px;flex-shrink:0;background:conic-gradient(var(--brand) var(--p,0%),#ece9e0 0)}
+  .gring span{width:48px;height:48px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-size:14px;color:var(--brand-d)}
+  ul.list{list-style:none}ul.list li{font-size:12px;padding:5px 0 5px 17px;position:relative}ul.list li::before{content:"";position:absolute;left:1px;top:11px;width:5px;height:5px;border-radius:50%;background:var(--brand)}ul.list li b{color:var(--brand-d)}
+  .sig{display:flex;justify-content:space-between;font-size:11.5px;padding:5px 0;border-bottom:1px dashed var(--line)}.sig b{color:var(--brand-d)}.sig .v{color:var(--ok);font-weight:700}
+  .leadcard{border:1px solid var(--line);border-left:3px solid var(--brandc);border-radius:11px;padding:11px;background:var(--bg)}
+  .leadcard .lt{font-weight:800;font-size:12.5px}.leadcard .lx{font-size:11px;color:var(--muted)}
+  .tag{display:inline-block;font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px}.tag.new{background:var(--soft);color:var(--brand-d)}
+  .empty2{color:var(--muted);font-size:12px;padding:30px 6px;text-align:center}
+  .explain{display:grid;grid-template-columns:1.4fr 1fr;gap:14px}@media(max-width:820px){.explain{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 16px}
+  .sec-t{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--brand);margin-bottom:8px}
+  .step-title{font-family:var(--display);font-size:16px;font-weight:700;margin-bottom:4px}
+  .step-desc{font-size:12.5px;color:var(--muted)}
+  .consent{border:1px solid var(--brand);border-radius:12px;padding:13px;background:var(--soft);margin-top:10px}
+  .consent .ct{font-weight:800;font-size:12.5px;color:var(--brand-d);margin-bottom:6px}.consent .cx{font-size:12px;margin-bottom:9px}
+  .crow{display:flex;gap:8px}
+  .btn{border:0;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:12.5px;padding:10px 16px;border-radius:10px}.btn.o{background:var(--card);color:var(--brand);border:1px solid var(--brand)}.btn.g{background:var(--ok)}.btn.k{background:#7c8690}.btn:disabled{opacity:.4}
+  .wallt{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:6px}.wallt td{padding:6px 8px;border-bottom:1px solid var(--line)}.wallt .yes{color:var(--ok);font-weight:800}.wallt .no{color:var(--lock);font-weight:800}
+  .controls{display:flex;gap:8px;align-items:center;margin-top:14px}
+  .spacer{flex:1}
+  .langsw{display:flex;gap:4px;background:#f4f2ec;border:1px solid var(--line);border-radius:999px;padding:3px}
+  .langsw button{border:0;background:transparent;font:inherit;font-size:12px;font-weight:800;color:var(--muted);padding:5px 11px;border-radius:999px;cursor:pointer;transition:.15s}
+  .langsw button.on{background:#fff;color:var(--brand-d);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+  .note{font-size:11px;color:var(--muted);font-style:italic;margin-top:8px}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:#101418;color:#fff;font-size:12.5px;font-weight:600;padding:10px 16px;border-radius:10px;opacity:0;transition:.25s;z-index:60;pointer-events:none}.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <a class="back" href="index.html" data-i18n="back">← Back to studio</a>
+    <span class="ptitle" data-i18n="ptitle">Consent Bridge · Channel → Brand</span>
+    <span class="spacer"></span>
+    <div class="langsw" id="langsw">
+      <button data-lang="en" class="on">EN</button>
+      <button data-lang="zh">中文</button>
+      <button data-lang="ja">日本語</button>
+      <button data-lang="th">ไทย</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="eyebrow" data-i18n="eyebrow">Cross-Entity Bridge · Channel → Brand</div>
+  <h1 class="h" data-i18n="h1">Two entities, one consented bridge to first-party</h1>
+  <p class="lead" data-i18n="lead">Today the channel — a marketplace store, pharmacy or distributor — owns the shopper relationship and the transaction data. Blackmores does not. The two are NOT merged. The only connection is this governed bridge: the channel serves and grows the shopper, the shopper's first-party readiness is scored, and — only with explicit consent and through a privacy/RBAC data wall — a single minimal signal crosses, where it becomes a brand-new member in Blackmores' own CDP. Step through it below.</p>
+
+  <div class="arch">
+    <div class="ent h2"><div class="en" data-i18n="arch_chan_t">Channel · partner-operated</div><div class="ex" data-i18n="arch_chan_x">Marketplace / pharmacy / distributor · owns the shopper &amp; transaction data</div></div>
+    <div class="wallcol"><div class="wlk" id="wallLock">🔒</div><div data-i18n="arch_wall">CONSENT<br>+ RBAC<br>DATA WALL</div></div>
+    <div class="ent h4"><div class="en" data-i18n="arch_brand_t">Brand · Blackmores</div><div class="ex" data-i18n="arch_brand_x">First-party CDP / membership · the direct relationship</div></div>
+  </div>
+
+  <div class="stepper" id="stepper"></div>
+
+  <div class="panes">
+    <div class="pane h2" id="paneH2"></div>
+    <div class="wallmid" id="wallMid"><div class="wbig" id="wallBig">🔒</div><div class="wtx">CONSENT · RBAC</div></div>
+    <div class="pane h4" id="paneH4"></div>
+  </div>
+
+  <div class="explain">
+    <div class="card">
+      <div class="sec-t" data-i18n="cur_step">Current step</div>
+      <div class="step-title" id="stepTitle"></div>
+      <div class="step-desc" id="stepDesc"></div>
+      <div id="stepExtra"></div>
+      <div class="controls">
+        <button class="btn o" id="prevBtn" data-i18n="btn_back">← Back</button>
+        <button class="btn" id="nextBtn" data-i18n="btn_next">Next step →</button>
+        <button class="btn k" id="resetBtn" data-i18n="btn_reset">↺ Reset</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="sec-t" data-i18n="why_matters">Why this matters</div>
+      <div id="whyBox"></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const LANGS=['en','zh','ja','th'];
+const I18N={
+ en:{
+  back:"← Back to studio", ptitle:"Consent Bridge · Channel → Brand",
+  eyebrow:"Cross-Entity Bridge · Channel → Brand",
+  h1:"Two entities, one consented bridge to first-party",
+  lead:"Today the channel — a marketplace store, pharmacy or distributor — owns the shopper relationship and the transaction data. Blackmores does not. The two are NOT merged. The only connection is this governed bridge: the channel serves and grows the shopper, the shopper's first-party readiness is scored, and — only with explicit consent and through a privacy/RBAC data wall — a single minimal signal crosses, where it becomes a brand-new member in Blackmores' own CDP. Step through it below.",
+  arch_chan_t:"Channel · partner-operated", arch_chan_x:"Marketplace / pharmacy / distributor · owns the shopper &amp; transaction data",
+  arch_wall:"CONSENT<br>+ RBAC<br>DATA WALL",
+  arch_brand_t:"Brand · Blackmores", arch_brand_x:"First-party CDP / membership · the direct relationship",
+  cur_step:"Current step", why_matters:"Why this matters",
+  btn_back:"← Back", btn_next:"Next step →", btn_reset:"↺ Reset",
+  pane_chan_t:"Channel · partner-operated", pane_chan_x:"owns the shopper &amp; data",
+  pane_brand_t:"Brand · Blackmores", pane_brand_x:"first-party CDP / membership",
+  threshold:"&gt; threshold 70",
+  s0_l1:"Tmall Global store · active", s0_l2:"3 repeat Fish Oil orders", s0_l3:"On-pack QR scanned · genuine", s0_l4:"Opened brand health content",
+  crosses:"✓ crosses", stays:"✕ stays",
+  owner_nm:"Mei Lin",
+  owner_x:"Buys Blackmores Fish Oil on Tmall Global · 3 repeat orders · Shanghai",
+  lyl_tier:"Channel status",lyl_gold:"Repeat buyer",
+  sc_label:"First-party readiness",
+  sig_t:"Signals (held by the channel)",
+  sig1:"Product & tenure",sig1v:"Fish Oil · 9 months",
+  sig2:"Repeat frequency",sig2v:"Every ~60 days",
+  sig3:"Life stage",sig3v:"New parent",
+  sig4:"On-pack QR scans",sig4v:"2 (verified genuine)",
+  empty_h4:"No data here yet — nothing has crossed the wall.",
+  empty_h2_done:"Signal handed off. The channel keeps serving the shopper independently.",
+  consent_t:"Consent request",
+  consent_x:"“Allow Blackmores to hold your health profile and contact you directly about your supplements? You can withdraw anytime.”",
+  consent_y:"✓ I consent",consent_n:"Not now",
+  consent_given:"Consent logged · purpose-limited · revocable",
+  consent_deny:"Without consent, nothing crosses. The shopper stays a channel-only relationship.",
+  wall_cross:"What crosses the wall",
+  wc_y1:"Name & contact",wc_y2:"Consent token",wc_y3:"Membership signal + readiness",wc_y4:"Product interest (health goal)",
+  wc_n1:"Channel follow-up notes",wc_n2:"Full basket / other-brand history",wc_n3:"Channel margin & pricing data",
+  newlead_t:"NEW MEMBER", member_arrow:"→ member",
+  newlead_x:"BLK-CN-2026-04417 · WeChat member · graded A · enrolled in Immunity plan",
+  conv1:"Health assessment completed",conv2:"Personalised plan + bundle",conv3:"Replenishment subscription set",
+  settle_t:"Settlement",
+  settle1:"Member lifetime value (est.)",settle1v:"A$420",
+  settle2:"Referral reward → channel",settle2v:"A$18",
+  settle3:"Paid by / credited to",settle3v:"Blackmores → channel partner",
+  settle4:"HQ co-fund",settle4v:"50% of welcome pack",
+  t_consent:"Consent recorded ✓",t_cross:"Signal crossed the wall ✓",t_done:"Channel → first-party bridge complete 🎉",
+  snames:["Serve","Readiness","Consent","Handoff","New member","Activate","Settle"],
+  steps:[
+   {t:"Serve & grow on the channel",d:"On the channel — a Tmall/JD store, pharmacy or distributor — the shopper is served and grown: repeat orders, on-pack QR scans, brand content. There is no Blackmores first-party relationship yet.",w:"It starts inside the channel. The partner owns the relationship today; the brand's job is to enable that partner, not to grab the data. First-party comes later, with consent."},
+   {t:"Score first-party readiness",d:"The channel-side signals score first-party readiness. Mei Lin crosses the threshold (78/100) — a strong candidate to become a Blackmores member. Still entirely the channel's relationship.",w:"The score is computed on channel-held signals. Blackmores never sees the raw basket or the channel's other-brand data — only, later and with consent, that a qualified member signal exists."},
+   {t:"Consent (the gate)",d:"Before anything crosses, the shopper is asked for explicit, purpose-limited consent for Blackmores to hold their profile and contact them directly. Nothing moves without it.",w:"This is the legal linchpin. Under privacy law (PIPL in China, the Privacy Act in ANZ), cross-entity sharing needs informed, revocable consent with a clear purpose. The consent token itself authorises the handoff."},
+   {t:"Governed handoff (through the wall)",d:"With consent logged, the RBAC data wall lets ONLY the minimal, purpose-bound fields cross. The channel's follow-up notes, full basket and margin data stay behind.",w:"Data minimisation, enforced by tech. The wall isn't a policy on paper — RBAC physically scopes what each side can read. This is what answers the regulator and the partner's commercial concerns."},
+   {t:"New first-party member created",d:"A brand-NEW member record is created in Blackmores' CDP / WeChat membership — graded and enrolled. It's a separate record in a separate system; the shopper now enters the brand's direct relationship.",w:"Crucially it's a new member, not a shared record. From here the brand's first-party lifecycle takes over — the channel can't see the brand follow-up, and vice-versa."},
+   {t:"Direct activation (Blackmores)",d:"Inside the brand stack, the member is activated directly: health assessment → personalised plan → replenishment. All of this happens in Blackmores' own first-party experience.",w:"Two independent stacks, each complete on its own. The bridge only created the opportunity; the direct relationship is 100% the brand's own process and data — the long-term goal."},
+   {t:"Cross-entity settlement",d:"When the member activates, a referral reward is attributed back to the originating channel partner and settled between the entities — making the bridge worth running for the channel too.",w:"Without a settlement model, the channel has no incentive to hand over a consented member. The referral reward + HQ co-fund is what makes the channel-to-first-party bridge actually happen."}
+  ]
+ },
+ zh:{
+  back:"← 返回工作室", ptitle:"同意桥接 · 渠道 → 品牌",
+  eyebrow:"跨实体桥接 · 渠道 → 品牌",
+  h1:"两个实体，一座经同意授权、通往第一方的桥",
+  lead:"如今渠道——平台店铺、药房或经销商——拥有消费者关系与交易数据，Blackmores 并不拥有。两者并未合并。唯一的连接就是这座受治理的桥：渠道服务并培育消费者，对消费者的第一方就绪度进行评分，且——仅在获得明确同意、并通过隐私／RBAC 数据墙的前提下——单一最小化信号才得以跨越，并在 Blackmores 自有 CDP 中成为一名全新会员。请逐步体验。",
+  arch_chan_t:"渠道 · 伙伴运营", arch_chan_x:"平台 / 药房 / 经销商 · 拥有消费者与交易数据",
+  arch_wall:"同意<br>+ RBAC<br>数据墙",
+  arch_brand_t:"品牌 · Blackmores", arch_brand_x:"第一方 CDP / 会员体系 · 直接关系",
+  cur_step:"当前步骤", why_matters:"为何重要",
+  btn_back:"← 上一步", btn_next:"下一步 →", btn_reset:"↺ 重置",
+  pane_chan_t:"渠道 · 伙伴运营", pane_chan_x:"拥有消费者与数据",
+  pane_brand_t:"品牌 · Blackmores", pane_brand_x:"第一方 CDP / 会员体系",
+  threshold:"&gt; 阈值 70",
+  s0_l1:"天猫国际店铺 · 活跃", s0_l2:"3 次复购鱼油", s0_l3:"扫描包装二维码 · 正品", s0_l4:"打开品牌健康内容",
+  crosses:"✓ 跨越", stays:"✕ 留存",
+  owner_nm:"Mei Lin（美琳）",
+  owner_x:"在天猫国际购买 Blackmores 鱼油 · 3 次复购 · 上海",
+  lyl_tier:"渠道状态",lyl_gold:"复购用户",
+  sc_label:"第一方就绪度",
+  sig_t:"信号（由渠道持有）",
+  sig1:"产品与时长",sig1v:"鱼油 · 9 个月",
+  sig2:"复购频率",sig2v:"约每 60 天",
+  sig3:"人生阶段",sig3v:"新手父母",
+  sig4:"包装二维码扫描",sig4v:"2 次（已验证正品）",
+  empty_h4:"此处暂无数据——尚无任何信息跨越数据墙。",
+  empty_h2_done:"信号已交接。渠道继续独立服务该消费者。",
+  consent_t:"同意请求",
+  consent_x:"“是否允许 Blackmores 保存您的健康画像，并就您的保健品直接与您联系？您可随时撤回。”",
+  consent_y:"✓ 我同意",consent_n:"暂不",
+  consent_given:"同意已记录 · 目的限定 · 可撤回",
+  consent_deny:"未经同意，任何数据都不会跨越。该消费者仍只属于渠道关系。",
+  wall_cross:"哪些信息跨越数据墙",
+  wc_y1:"姓名与联系方式",wc_y2:"同意令牌",wc_y3:"会员信号 + 就绪度",wc_y4:"产品兴趣（健康目标）",
+  wc_n1:"渠道跟进备注",wc_n2:"完整购物篮 / 他品牌历史",wc_n3:"渠道毛利与定价数据",
+  newlead_t:"新会员", member_arrow:"→ 会员",
+  newlead_x:"BLK-CN-2026-04417 · 微信会员 · 评级 A · 已加入免疫力计划",
+  conv1:"已完成健康评估",conv2:"个性化方案 + 组合装",conv3:"已设定补货订阅",
+  settle_t:"结算",
+  settle1:"会员终身价值（估）",settle1v:"A$420",
+  settle2:"推荐奖励 → 渠道",settle2v:"A$18",
+  settle3:"支付方 / 入账方",settle3v:"Blackmores → 渠道伙伴",
+  settle4:"总部共担",settle4v:"欢迎礼包的 50%",
+  t_consent:"同意已记录 ✓",t_cross:"信号已跨越数据墙 ✓",t_done:"渠道 → 第一方桥接完成 🎉",
+  snames:["服务","就绪度","同意","交接","新会员","激活","结算"],
+  steps:[
+   {t:"在渠道服务并培育",d:"在渠道——天猫／京东店铺、药房或经销商——消费者得到服务与培育：复购、扫描包装二维码、浏览品牌内容。此时尚不存在 Blackmores 的第一方关系。",w:"一切始于渠道之内。如今渠道伙伴拥有这段关系；品牌的职责是赋能该伙伴，而非攫取数据。第一方关系将在稍后、经同意后才建立。"},
+   {t:"评估第一方就绪度",d:"渠道侧信号对第一方就绪度进行评分。Mei Lin 跨过阈值（78/100）——成为 Blackmores 会员的有力候选。但这仍完全属于渠道的关系。",w:"评分基于渠道持有的信号计算。Blackmores 从不查看原始购物篮或渠道的他品牌数据——只有在稍后、经同意后，才知道存在一个合格的会员信号。"},
+   {t:"同意（关口）",d:"在任何数据跨越之前，会向消费者征求明确、目的限定的同意，授权 Blackmores 保存其画像并直接联系。未经同意，任何数据都不会流动。",w:"这是法律上的关键枢纽。依据隐私法（中国 PIPL、澳新《隐私法》），跨实体共享需要知情、可撤回且目的明确的同意。同意令牌本身即授权此次交接。"},
+   {t:"受治理的交接（穿过数据墙）",d:"同意记录后，RBAC 数据墙仅允许最小化、与目的绑定的字段跨越。渠道的跟进备注、完整购物篮与毛利数据均留在墙后。",w:"数据最小化由技术强制执行。这道墙不是纸面政策——RBAC 在物理层面界定每一方可读取的范围。这正是回应监管机构与渠道伙伴商业顾虑的答案。"},
+   {t:"创建全新第一方会员",d:"在 Blackmores 的 CDP／微信会员体系中创建一条全新会员记录——已评级并已加入计划。这是位于独立系统中的独立记录；消费者由此进入品牌的直接关系。",w:"关键在于这是一名新会员，而非共享记录。从此品牌的第一方生命周期接管——渠道无法看到品牌的跟进，反之亦然。"},
+   {t:"直接激活（Blackmores）",d:"在品牌技术栈内，会员被直接激活：健康评估 → 个性化方案 → 补货。这一切都发生在 Blackmores 自有的第一方体验中。",w:"两套独立的技术栈，各自完整。桥接只创造了机会；直接关系 100% 是品牌自有的流程与数据——这正是长期目标。"},
+   {t:"跨实体结算",d:"当会员激活时，推荐奖励被归因回原始渠道伙伴，并在两个实体之间结算——这让运营这座桥对渠道同样划算。",w:"若没有结算模型，渠道就没有动力交出一名已同意的会员。推荐奖励 + 总部共担，正是让渠道到第一方的桥真正成立的关键。"}
+  ]
+ },
+ ja:{
+  back:"← スタジオに戻る", ptitle:"同意ブリッジ · チャネル → ブランド",
+  eyebrow:"クロスエンティティ・ブリッジ · チャネル → ブランド",
+  h1:"二つの主体、同意に基づくファーストパーティへの一本の橋",
+  lead:"現在、チャネル——マーケットプレイス店舗・薬局・ディストリビューター——が買い物客との関係と取引データを保有しており、Blackmores は保有していません。両者は統合されていません。唯一の接点はこのガバナンスされた橋です：チャネルが買い物客を育成し、ファーストパーティ準備度がスコアリングされ、明示的な同意がありプライバシー／RBAC のデータウォールを通った場合に限り、単一の最小限のシグナルだけが越境し、Blackmores 自社の CDP で新規会員になります。以下で順を追ってご覧ください。",
+  arch_chan_t:"チャネル · パートナー運営", arch_chan_x:"マーケットプレイス / 薬局 / ディストリビューター · 買い物客と取引データを保有",
+  arch_wall:"同意<br>+ RBAC<br>データウォール",
+  arch_brand_t:"ブランド · Blackmores", arch_brand_x:"ファーストパーティ CDP / 会員制 · 直接の関係",
+  cur_step:"現在のステップ", why_matters:"なぜ重要か",
+  btn_back:"← 戻る", btn_next:"次のステップ →", btn_reset:"↺ リセット",
+  pane_chan_t:"チャネル · パートナー運営", pane_chan_x:"買い物客とデータを保有",
+  pane_brand_t:"ブランド · Blackmores", pane_brand_x:"ファーストパーティ CDP / 会員制",
+  threshold:"&gt; 閾値 70",
+  s0_l1:"Tmall Global 店舗 · 稼働中", s0_l2:"フィッシュオイル 3 回リピート", s0_l3:"パッケージQRスキャン · 正規品", s0_l4:"ブランドの健康コンテンツを閲覧",
+  crosses:"✓ 越境", stays:"✕ 留保",
+  owner_nm:"Mei Lin",
+  owner_x:"Tmall Global で Blackmores フィッシュオイルを購入 · 3 回リピート · 上海",
+  lyl_tier:"チャネルステータス",lyl_gold:"リピート購入者",
+  sc_label:"ファーストパーティ準備度",
+  sig_t:"シグナル（チャネルが保有）",
+  sig1:"製品と利用期間",sig1v:"フィッシュオイル · 9か月",
+  sig2:"リピート頻度",sig2v:"約60日ごと",
+  sig3:"ライフステージ",sig3v:"新米の親",
+  sig4:"パッケージQRスキャン",sig4v:"2回（正規品を確認）",
+  empty_h4:"ここにはまだデータがありません — ウォールを越えたものはありません。",
+  empty_h2_done:"シグナルを引き渡し済み。チャネルは引き続き独立して買い物客に対応します。",
+  consent_t:"同意リクエスト",
+  consent_x:"「Blackmores があなたの健康プロファイルを保持し、サプリメントについて直接ご連絡することを許可しますか？いつでも撤回できます。」",
+  consent_y:"✓ 同意する",consent_n:"今はしない",
+  consent_given:"同意を記録 · 目的限定 · 撤回可能",
+  consent_deny:"同意がなければ何も越境しません。買い物客はチャネルのみの関係にとどまります。",
+  wall_cross:"ウォールを越えるもの",
+  wc_y1:"氏名と連絡先",wc_y2:"同意トークン",wc_y3:"会員シグナル + 準備度",wc_y4:"製品への関心（健康目標）",
+  wc_n1:"チャネルのフォローアップ記録",wc_n2:"カート全体 / 他ブランド履歴",wc_n3:"チャネルの利益・価格データ",
+  newlead_t:"新規会員", member_arrow:"→ 会員",
+  newlead_x:"BLK-CN-2026-04417 · WeChat 会員 · グレード A · 免疫プランに登録",
+  conv1:"健康アセスメント完了",conv2:"パーソナライズ計画 + バンドル",conv3:"定期補充を設定",
+  settle_t:"精算",
+  settle1:"会員ライフタイムバリュー（推定）",settle1v:"A$420",
+  settle2:"紹介報酬 → チャネル",settle2v:"A$18",
+  settle3:"支払元 / 入金先",settle3v:"Blackmores → チャネルパートナー",
+  settle4:"本社の共同負担",settle4v:"ウェルカムパックの50%",
+  t_consent:"同意を記録しました ✓",t_cross:"シグナルがウォールを越えました ✓",t_done:"チャネル → ファーストパーティのブリッジ完了 🎉",
+  snames:["育成","準備度","同意","引き渡し","新規会員","アクティベート","精算"],
+  steps:[
+   {t:"チャネルで育成する",d:"チャネル——Tmall/JD 店舗、薬局、ディストリビューター——で買い物客は育成されます：リピート購入、パッケージQRスキャン、ブランドコンテンツ。まだ Blackmores のファーストパーティ関係はありません。",w:"すべてはチャネル内から始まります。現在パートナーが関係を保有しており、ブランドの役割はデータを奪うことではなくパートナーを支援することです。ファーストパーティは後から、同意を経て築かれます。"},
+   {t:"ファーストパーティ準備度をスコアリング",d:"チャネル側のシグナルでファーストパーティ準備度をスコアリングします。Mei Lin は閾値（78/100）を超え、Blackmores 会員になる有力候補です。それでも関係は完全にチャネルのものです。",w:"スコアはチャネルが保有するシグナルで算出されます。Blackmores は生のカートやチャネルの他ブランドデータを決して見ず、後から同意を得てはじめて「適格な会員シグナルが存在する」ことだけを知ります。"},
+   {t:"同意（ゲート）",d:"何かが越境する前に、Blackmores がプロファイルを保持し直接連絡することについて、明示的で目的限定の同意を買い物客に求めます。同意なしには何も動きません。",w:"これが法的な要です。プライバシー法（中国の PIPL、ANZ のプライバシー法）の下では、クロスエンティティ共有には目的が明確で撤回可能なインフォームド・コンセントが必要です。同意トークン自体が引き渡しを認可します。"},
+   {t:"ガバナンスされた引き渡し（ウォール越し）",d:"同意が記録されると、RBAC データウォールは最小限かつ目的に紐づくフィールドのみを越境させます。チャネルのフォローアップ記録、カート全体、利益データは背後に残ります。",w:"技術で強制されるデータ最小化。このウォールは紙の上のポリシーではなく、RBAC が各側で読める範囲を物理的にスコープします。これが規制当局とパートナーの商業的懸念に対する答えです。"},
+   {t:"新規ファーストパーティ会員を作成",d:"Blackmores の CDP／WeChat 会員制に全く新しい会員レコードが作成され、グレード付けと登録がされます。別システムの別レコードであり、買い物客はブランドの直接関係に入ります。",w:"重要なのは共有レコードではなく新規会員であることです。ここからブランドのファーストパーティ・ライフサイクルが引き継ぎ、チャネルはブランドのフォローアップを見られず、その逆も同様です。"},
+   {t:"直接アクティベーション（Blackmores）",d:"ブランドのスタック内で会員は直接アクティベートされます：健康アセスメント → パーソナライズ計画 → 補充。すべて Blackmores 自社のファーストパーティ体験の中で起こります。",w:"二つの独立したスタックがそれぞれ完結します。ブリッジは機会を作っただけで、直接の関係は 100% ブランド自身のプロセスとデータ——これが長期目標です。"},
+   {t:"クロスエンティティ精算",d:"会員がアクティベートすると、紹介報酬が起点となったチャネルパートナーに帰属され、主体間で精算されます——ブリッジを回す価値をチャネルにも生みます。",w:"精算モデルがなければ、チャネルには同意済み会員を引き渡す動機がありません。紹介報酬 + 本社の共同負担こそが、チャネルからファーストパーティへの橋を実際に成立させます。"}
+  ]
+ },
+ th:{
+  back:"← กลับสู่สตูดิโอ", ptitle:"สะพานความยินยอม · ช่องทาง → แบรนด์",
+  eyebrow:"สะพานข้ามนิติบุคคล · ช่องทาง → แบรนด์",
+  h1:"สองนิติบุคคล หนึ่งสะพานสู่ข้อมูลปฐมภูมิที่ผ่านความยินยอม",
+  lead:"ปัจจุบันช่องทาง — ร้านมาร์เก็ตเพลส ร้านขายยา หรือผู้จัดจำหน่าย — เป็นเจ้าของความสัมพันธ์กับผู้ซื้อและข้อมูลธุรกรรม Blackmores ไม่ได้เป็นเจ้าของ ทั้งสองฝ่ายไม่ได้รวมกัน การเชื่อมโยงเดียวคือสะพานที่มีการกำกับดูแลนี้: ช่องทางให้บริการและบ่มเพาะผู้ซื้อ ระบบให้คะแนนความพร้อมเป็นข้อมูลปฐมภูมิ และ — เฉพาะเมื่อมีความยินยอมชัดแจ้งและผ่านกำแพงข้อมูลความเป็นส่วนตัว/RBAC เท่านั้น — สัญญาณขั้นต่ำเพียงหนึ่งจึงข้ามไป กลายเป็นสมาชิกใหม่ใน CDP ของ Blackmores เอง ลองดูทีละขั้นด้านล่าง",
+  arch_chan_t:"ช่องทาง · ดำเนินการโดยพาร์ทเนอร์", arch_chan_x:"มาร์เก็ตเพลส / ร้านขายยา / ผู้จัดจำหน่าย · เป็นเจ้าของผู้ซื้อและข้อมูลธุรกรรม",
+  arch_wall:"ความยินยอม<br>+ RBAC<br>กำแพงข้อมูล",
+  arch_brand_t:"แบรนด์ · Blackmores", arch_brand_x:"CDP ปฐมภูมิ / ระบบสมาชิก · ความสัมพันธ์โดยตรง",
+  cur_step:"ขั้นตอนปัจจุบัน", why_matters:"ทำไมจึงสำคัญ",
+  btn_back:"← ย้อนกลับ", btn_next:"ขั้นถัดไป →", btn_reset:"↺ รีเซ็ต",
+  pane_chan_t:"ช่องทาง · ดำเนินการโดยพาร์ทเนอร์", pane_chan_x:"เป็นเจ้าของผู้ซื้อและข้อมูล",
+  pane_brand_t:"แบรนด์ · Blackmores", pane_brand_x:"CDP ปฐมภูมิ / ระบบสมาชิก",
+  threshold:"&gt; เกณฑ์ 70",
+  s0_l1:"ร้าน Tmall Global · ใช้งานอยู่", s0_l2:"สั่งซื้อ Fish Oil ซ้ำ 3 ครั้ง", s0_l3:"สแกน QR บนบรรจุภัณฑ์ · ของแท้", s0_l4:"เปิดคอนเทนต์สุขภาพของแบรนด์",
+  crosses:"✓ ข้าม", stays:"✕ คงไว้",
+  owner_nm:"Mei Lin",
+  owner_x:"ซื้อ Blackmores Fish Oil บน Tmall Global · สั่งซ้ำ 3 ครั้ง · เซี่ยงไฮ้",
+  lyl_tier:"สถานะช่องทาง",lyl_gold:"ผู้ซื้อซ้ำ",
+  sc_label:"ความพร้อมเป็นข้อมูลปฐมภูมิ",
+  sig_t:"สัญญาณ (ถือครองโดยช่องทาง)",
+  sig1:"ผลิตภัณฑ์และระยะเวลา",sig1v:"Fish Oil · 9 เดือน",
+  sig2:"ความถี่ในการซื้อซ้ำ",sig2v:"ทุก ~60 วัน",
+  sig3:"ช่วงชีวิต",sig3v:"พ่อแม่มือใหม่",
+  sig4:"สแกน QR บนบรรจุภัณฑ์",sig4v:"2 ครั้ง (ยืนยันของแท้)",
+  empty_h4:"ยังไม่มีข้อมูลที่นี่ — ยังไม่มีอะไรข้ามกำแพง",
+  empty_h2_done:"ส่งมอบสัญญาณแล้ว ช่องทางยังคงให้บริการผู้ซื้ออย่างเป็นอิสระต่อไป",
+  consent_t:"คำขอความยินยอม",
+  consent_x:"“อนุญาตให้ Blackmores เก็บโปรไฟล์สุขภาพของคุณ และติดต่อคุณโดยตรงเกี่ยวกับอาหารเสริมหรือไม่? คุณสามารถถอนความยินยอมได้ทุกเมื่อ”",
+  consent_y:"✓ ฉันยินยอม",consent_n:"ยังไม่ตอนนี้",
+  consent_given:"บันทึกความยินยอมแล้ว · จำกัดวัตถุประสงค์ · เพิกถอนได้",
+  consent_deny:"หากไม่มีความยินยอม จะไม่มีอะไรข้ามไป ผู้ซื้อยังคงเป็นความสัมพันธ์เฉพาะช่องทางเท่านั้น",
+  wall_cross:"สิ่งที่ข้ามกำแพง",
+  wc_y1:"ชื่อและช่องทางติดต่อ",wc_y2:"โทเคนความยินยอม",wc_y3:"สัญญาณสมาชิก + ความพร้อม",wc_y4:"ความสนใจผลิตภัณฑ์ (เป้าหมายสุขภาพ)",
+  wc_n1:"บันทึกการติดตามของช่องทาง",wc_n2:"ตะกร้าทั้งหมด / ประวัติแบรนด์อื่น",wc_n3:"ข้อมูลมาร์จิ้นและราคาของช่องทาง",
+  newlead_t:"สมาชิกใหม่", member_arrow:"→ สมาชิก",
+  newlead_x:"BLK-CN-2026-04417 · สมาชิก WeChat · เกรด A · ลงทะเบียนแผนภูมิคุ้มกัน",
+  conv1:"ประเมินสุขภาพเสร็จสิ้น",conv2:"แผนเฉพาะบุคคล + ชุดสินค้า",conv3:"ตั้งค่าสมัครรับสินค้าเติม",
+  settle_t:"การชำระบัญชี",
+  settle1:"มูลค่าตลอดชีพของสมาชิก (ประมาณ)",settle1v:"A$420",
+  settle2:"รางวัลแนะนำ → ช่องทาง",settle2v:"A$18",
+  settle3:"ผู้จ่าย / ผู้รับเครดิต",settle3v:"Blackmores → พาร์ทเนอร์ช่องทาง",
+  settle4:"สำนักงานใหญ่ร่วมสมทบ",settle4v:"50% ของชุดต้อนรับ",
+  t_consent:"บันทึกความยินยอมแล้ว ✓",t_cross:"สัญญาณข้ามกำแพงแล้ว ✓",t_done:"สะพานช่องทาง → ปฐมภูมิเสร็จสมบูรณ์ 🎉",
+  snames:["บริการ","ความพร้อม","ยินยอม","ส่งมอบ","สมาชิกใหม่","เปิดใช้งาน","ชำระบัญชี"],
+  steps:[
+   {t:"ให้บริการและบ่มเพาะบนช่องทาง",d:"บนช่องทาง — ร้าน Tmall/JD ร้านขายยา หรือผู้จัดจำหน่าย — ผู้ซื้อได้รับบริการและการบ่มเพาะ: การซื้อซ้ำ การสแกน QR บนบรรจุภัณฑ์ คอนเทนต์แบรนด์ ยังไม่มีความสัมพันธ์ปฐมภูมิกับ Blackmores",w:"ทุกอย่างเริ่มภายในช่องทาง วันนี้พาร์ทเนอร์เป็นเจ้าของความสัมพันธ์ หน้าที่ของแบรนด์คือเสริมพลังพาร์ทเนอร์ ไม่ใช่ฉวยข้อมูล ข้อมูลปฐมภูมิจะตามมาภายหลังเมื่อได้รับความยินยอม"},
+   {t:"ให้คะแนนความพร้อมเป็นข้อมูลปฐมภูมิ",d:"สัญญาณฝั่งช่องทางให้คะแนนความพร้อมเป็นข้อมูลปฐมภูมิ Mei Lin ข้ามเกณฑ์ (78/100) — เป็นผู้สมัครที่แข็งแกร่งในการเป็นสมาชิก Blackmores แต่ยังคงเป็นความสัมพันธ์ของช่องทางทั้งหมด",w:"คะแนนคำนวณจากสัญญาณที่ช่องทางถือครอง Blackmores ไม่เคยเห็นตะกร้าดิบหรือข้อมูลแบรนด์อื่นของช่องทาง — เพียงทราบภายหลังเมื่อได้รับความยินยอมว่ามีสัญญาณสมาชิกที่ผ่านเกณฑ์อยู่"},
+   {t:"ความยินยอม (ประตูด่าน)",d:"ก่อนสิ่งใดจะข้ามไป ผู้ซื้อจะถูกขอความยินยอมที่ชัดแจ้งและจำกัดวัตถุประสงค์ ให้ Blackmores เก็บโปรไฟล์และติดต่อโดยตรง ไม่มีอะไรเคลื่อนหากปราศจากมัน",w:"นี่คือแกนกฎหมาย ภายใต้กฎหมายความเป็นส่วนตัว (PIPL ในจีน, Privacy Act ใน ANZ) การแบ่งปันข้ามนิติบุคคลต้องอาศัยความยินยอมที่ได้รับแจ้ง เพิกถอนได้ และมีวัตถุประสงค์ชัดเจน โทเคนความยินยอมเองเป็นตัวอนุญาตการส่งมอบ"},
+   {t:"การส่งมอบที่มีการกำกับ (ผ่านกำแพง)",d:"เมื่อบันทึกความยินยอมแล้ว กำแพงข้อมูล RBAC อนุญาตให้เฉพาะฟิลด์ขั้นต่ำที่ผูกกับวัตถุประสงค์ข้ามไปได้ บันทึกการติดตาม ตะกร้าทั้งหมด และข้อมูลมาร์จิ้นของช่องทางยังคงอยู่ด้านหลัง",w:"การลดข้อมูลให้น้อยที่สุด บังคับใช้ด้วยเทคโนโลยี กำแพงนี้ไม่ใช่นโยบายบนกระดาษ — RBAC กำหนดขอบเขตเชิงกายภาพว่าแต่ละฝ่ายอ่านอะไรได้ นี่คือคำตอบต่อหน่วยงานกำกับและความกังวลเชิงพาณิชย์ของพาร์ทเนอร์"},
+   {t:"สร้างสมาชิกปฐมภูมิรายใหม่",d:"มีการสร้างเรกคอร์ดสมาชิกใหม่ทั้งหมดใน CDP / ระบบสมาชิก WeChat ของ Blackmores — จัดเกรดและลงทะเบียน เป็นเรกคอร์ดแยกในระบบแยก ผู้ซื้อจึงเข้าสู่ความสัมพันธ์โดยตรงกับแบรนด์",w:"ที่สำคัญคือเป็นสมาชิกใหม่ ไม่ใช่เรกคอร์ดที่ใช้ร่วมกัน จากจุดนี้วงจรชีวิตปฐมภูมิของแบรนด์เข้ามารับช่วง ช่องทางมองไม่เห็นการติดตามของแบรนด์ และในทางกลับกันด้วย"},
+   {t:"การเปิดใช้งานโดยตรง (Blackmores)",d:"ภายในสแตกของแบรนด์ สมาชิกถูกเปิดใช้งานโดยตรง: ประเมินสุขภาพ → แผนเฉพาะบุคคล → การเติมสินค้า ทั้งหมดเกิดขึ้นในประสบการณ์ปฐมภูมิของ Blackmores เอง",w:"สองสแตกอิสระ แต่ละสแตกสมบูรณ์ในตัวเอง สะพานเพียงสร้างโอกาส ความสัมพันธ์โดยตรงเป็นกระบวนการและข้อมูลของแบรนด์เอง 100% — เป็นเป้าหมายระยะยาว"},
+   {t:"การชำระบัญชีข้ามนิติบุคคล",d:"เมื่อสมาชิกเปิดใช้งาน รางวัลแนะนำจะถูกระบุย้อนกลับไปยังพาร์ทเนอร์ช่องทางต้นทาง และชำระบัญชีระหว่างนิติบุคคล — ทำให้การเดินสะพานคุ้มค่าสำหรับช่องทางด้วย",w:"หากไม่มีโมเดลการชำระบัญชี ช่องทางก็ไม่มีแรงจูงใจที่จะส่งมอบสมาชิกที่ยินยอมแล้ว รางวัลแนะนำ + การร่วมสมทบของสำนักงานใหญ่ คือสิ่งที่ทำให้สะพานจากช่องทางสู่ปฐมภูมิเกิดขึ้นจริง"}
+  ]
+ }
+};
+let state={step:0,consented:false,lang:'en'};
+try{var _l=new URLSearchParams(location.search).get('lang');if(_l&&LANGS.indexOf(_l)>=0)state.lang=_l;}catch(e){}
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+function T(k){var d=I18N[state.lang]||I18N.en;return (d[k]!=null?d[k]:(I18N.en[k]!=null?I18N.en[k]:k));}
+function STEP(i){var d=I18N[state.lang]||I18N.en;return (d.steps&&d.steps[i])?d.steps[i]:I18N.en.steps[i];}
+function SNAME(i){var d=I18N[state.lang]||I18N.en;return (d.snames&&d.snames[i])?d.snames[i]:I18N.en.snames[i];}
+const ZONES=["h2","h2","br","br","h4","h4","br"];
+const SN=["1","2","3","4","5","6","7"];
+const NSTEPS=7;
+const D=k=>T(k);
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._);t._=setTimeout(()=>t.classList.remove('on'),1800);}
+function ownerCard(){return '<div class="ownerc"><div class="onm">'+D('owner_nm')+'</div><div class="ox">'+D('owner_x')+'</div></div>';}
+function renderStepper(){const box=$('#stepper');box.innerHTML='';for(let i=0;i<NSTEPS;i++){const el=document.createElement('div');el.className='st zone-'+ZONES[i]+(i<state.step?' done':(i===state.step?' cur':''));el.innerHTML='<span class="sn">'+SN[i]+'</span>'+SNAME(i);el.onclick=()=>{if(i<=state.step){state.step=i;render();}};box.appendChild(el);}}
+function renderPanes(){const st=state.step;const h2=$('#paneH2'),h4=$('#paneH4');const wallOpen=st>=3;
+ $('#wallBig').textContent=wallOpen?'🔓':'🔒';$('#wallLock').textContent=wallOpen?'🔓':'🔒';$('#wallMid').classList.toggle('open',wallOpen);
+ let a='<div class="ph h2"><div class="pi">🛒</div><div><div class="pn">'+T('pane_chan_t')+'</div><div class="px">'+T('pane_chan_x')+'</div></div></div>'+ownerCard();
+ if(st===0){a+='<div class="sig"><span>'+D('lyl_tier')+'</span><span class="v">'+D('lyl_gold')+'</span></div><ul class="list"><li>'+T('s0_l1')+'</li><li>'+T('s0_l2')+'</li><li>'+T('s0_l3')+'</li><li>'+T('s0_l4')+'</li></ul>';}
+ else if(st>=1){const p=78;a+='<div class="gauge"><div class="gring" style="--p:'+p+'%"><span>'+p+'</span></div><div><b style="color:var(--brand-d)">'+D('sc_label')+'</b><div class="note" style="font-style:normal">'+T('threshold')+'</div></div></div>'+
+   '<div class="sec-t" style="margin-top:6px">'+D('sig_t')+'</div>'+
+   [['sig1','sig1v'],['sig2','sig2v'],['sig3','sig3v'],['sig4','sig4v']].map(s=>'<div class="sig"><span>'+D(s[0])+'</span><b>'+D(s[1])+'</b></div>').join('');}
+ if(st>=4){a+='<div class="note" style="margin-top:10px">'+D('empty_h2_done')+'</div>';}
+ h2.innerHTML=a;
+ h2.className='pane h2'+(st<=3?' active':' dim');
+ let b='<div class="ph h4"><div class="pi">🌿</div><div><div class="pn">'+T('pane_brand_t')+'</div><div class="px">'+T('pane_brand_x')+'</div></div></div>';
+ if(st<4){b+='<div class="empty2">🔒 '+D('empty_h4')+'</div>';h4.className='pane h4 dim';}
+ else{h4.className='pane h4 active';
+   b+='<div class="leadcard"><div><span class="tag new">'+D('newlead_t')+'</span></div><div class="lt" style="margin-top:6px">'+D('owner_nm')+' '+T('member_arrow')+'</div><div class="lx">'+D('newlead_x')+'</div></div>';
+   if(st>=5){b+='<ul class="list" style="margin-top:8px"><li>✓ '+D('conv1')+'</li><li>✓ '+D('conv2')+'</li><li>✓ '+D('conv3')+'</li></ul>';}
+   if(st>=6){b+='<div class="sec-t" style="margin-top:8px">'+D('settle_t')+'</div>'+[['settle1','settle1v'],['settle2','settle2v'],['settle3','settle3v'],['settle4','settle4v']].map(s=>'<div class="sig"><span>'+D(s[0])+'</span><b>'+D(s[1])+'</b></div>').join('');}
+ }
+ h4.innerHTML=b;
+}
+function renderStepCard(){const s=STEP(state.step);$('#stepTitle').textContent=s.t;$('#stepDesc').textContent=s.d;$('#whyBox').innerHTML='<div class="step-desc">'+s.w+'</div>';
+ const ex=$('#stepExtra');ex.innerHTML='';
+ if(state.step===2){
+   if(!state.consented){ex.innerHTML='<div class="consent"><div class="ct">🔐 '+D('consent_t')+'</div><div class="cx">'+D('consent_x')+'</div><div class="crow"><button class="btn g" id="cYes">'+D('consent_y')+'</button><button class="btn k" id="cNo">'+D('consent_n')+'</button></div></div>';}
+   else{ex.innerHTML='<div class="consent"><div class="ct">✓ '+D('consent_given')+'</div></div>';}
+ } else if(state.step===3){
+   ex.innerHTML='<div class="sec-t" style="margin-top:12px">'+D('wall_cross')+'</div><table class="wallt">'+
+     [['wc_y1',1],['wc_y2',1],['wc_y3',1],['wc_y4',1],['wc_n1',0],['wc_n2',0],['wc_n3',0]].map(r=>'<tr><td>'+D(r[0])+'</td><td style="text-align:right" class="'+(r[1]?'yes':'no')+'">'+(r[1]?T('crosses'):T('stays'))+'</td></tr>').join('')+'</table>';
+ }
+ const nb=$('#nextBtn');nb.disabled=(state.step===2&&!state.consented)||state.step===NSTEPS-1;
+ $('#prevBtn').disabled=state.step===0;
+ if(state.step===2&&!state.consented){const y=$('#cYes'),n=$('#cNo');y&&(y.onclick=()=>{state.consented=true;toast(D('t_consent'));render();});n&&(n.onclick=()=>{toast(D('consent_deny'));});}
+}
+function applyStatic(){
+  var d=I18N[state.lang]||I18N.en;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k=el.getAttribute('data-i18n');
+    if(!el.hasAttribute('data-en'))el.setAttribute('data-en',el.innerHTML);
+    if(d&&d[k]!=null)el.innerHTML=d[k];
+    else el.innerHTML=el.getAttribute('data-en');
+  });
+  document.documentElement.lang=state.lang;
+  document.querySelectorAll('#langsw button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-lang')===state.lang);});
+}
+function render(){applyStatic();renderStepper();renderPanes();renderStepCard();}
+$('#nextBtn').onclick=()=>{if(state.step===2&&!state.consented)return;if(state.step<NSTEPS-1){state.step++;if(state.step===4)toast(D('t_cross'));if(state.step===NSTEPS-1)toast(D('t_done'));render();}};
+$('#prevBtn').onclick=()=>{if(state.step>0){state.step--;render();}};
+$('#resetBtn').onclick=()=>{state.step=0;state.consented=false;render();};
+function setLang(l){if(LANGS.indexOf(l)>=0){state.lang=l;render();}}
+document.querySelectorAll('#langsw button').forEach(function(b){b.addEventListener('click',function(){setLang(b.getAttribute('data-lang'));});});
+window.addEventListener('message',function(e){try{if(e.data&&e.data.t==='es'&&e.data.lang&&LANGS.indexOf(e.data.lang)>=0){setLang(e.data.lang);}}catch(err){}});
+render();
+</script>
+<script>/*__embedHide2*/(function(){try{if(window.self!==window.top){var s=document.createElement('style');s.textContent='header{display:none!important}';(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

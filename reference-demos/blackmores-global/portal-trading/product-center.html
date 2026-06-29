@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Center | BLACKMORES® Partner Portal</title>
+    <style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+        }
+        :root {
+            --teal-900: #08312e;
+            --teal-700: #0d524c;
+            --teal-600: #0f6b62;
+            --teal-500: #14857a;
+            --teal-400: #1ba99a;
+            --teal-100: #d6ebe8;
+            --teal-50: #eef6f5;
+            --ink: #16201e;
+            --slate: #5d6b68;
+            --muted: #8d9d99;
+            --line: #e4ebe9;
+            --paper: #ffffff;
+            --bg: #f5f7f6;
+            --amber: #d98a1f;
+            --amber-bg: #fdf3e2;
+            --rose: #c0463f;
+            --rose-bg: #fbece9;
+            --green: #2f8a5b;
+            --green-bg: #e7f3ec;
+            --blue: #2d6cdf;
+            --blue-bg: #e8f0fe;
+            --gray: #94a3b8;
+            --gray-bg: #f1f5f9;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow2: 0 1px 2px rgba(8,49,46,.04), 0 8px 24px -12px rgba(8,49,46,.14);
+            --shadow-lg: 0 2px 4px rgba(8,49,46,.05), 0 24px 48px -20px rgba(8,49,46,.22);
+            /* Legacy aliases for compatibility */
+            --primary: var(--teal-500);
+            --primary-dark: var(--teal-700);
+            --primary-light: var(--teal-50);
+            --accent: #E91E63;
+            --accent-light: rgba(233, 30, 99, 0.12);
+            --white: var(--paper);
+            --text: var(--ink);
+            --text-secondary: var(--slate);
+            --text-tertiary: var(--muted);
+            --border: var(--line);
+            --shadow: var(--shadow2);
+            --shadow-hover: var(--shadow-lg);
+            --success: var(--green);
+            --success-light: var(--green-bg);
+            --warning: var(--amber);
+            --warning-light: var(--amber-bg);
+            --danger: var(--rose);
+            --danger-light: var(--rose-bg);
+            --info: var(--blue);
+            --info-light: var(--blue-bg);
+        }
+
+        /* ===== Top Nav ===== */
+        .top-nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 0 48px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-left { display: flex; align-items: center; gap: 48px; }
+        .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo-brand { font-size: 20px; font-weight: 800; color: var(--text); letter-spacing: 0.5px; font-family: Georgia, 'Times New Roman', serif; }
+        .logo-brand sup { font-size: 10px; font-weight: 400; margin-left: 2px; }
+        .logo-sub { font-size: 12px; color: var(--primary); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-left: 12px; padding-left: 12px; border-left: 1px solid var(--border); }
+        .nav-menu { display: flex; gap: 32px; align-items: center; }
+        .nav-menu a { text-decoration: none; color: var(--text-secondary); font-size: 14px; font-weight: 500; transition: color 0.2s; position: relative; white-space: nowrap; }
+        .nav-menu a:hover, .nav-menu a.active { color: var(--primary); }
+        .nav-menu a.active::after { content: ''; position: absolute; bottom: -21px; left: 0; right: 0; height: 3px; background: linear-gradient(135deg, #009DAC 0%, #007A82 100%); border-radius: 2px; }
+        .nav-right { display: flex; align-items: center; gap: 16px; }
+        .icon-btn { width: 40px; height: 40px; border-radius: 10px; border: none; background: var(--bg); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; position: relative; color: var(--text-secondary); text-decoration: none; }
+        .icon-btn:hover { background: var(--primary-light); color: var(--primary); }
+        .badge { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; background: var(--danger); color: white; border-radius: 50%; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 2px solid white; padding: 0 4px; }
+        .user-menu { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 6px 12px; border-radius: 10px; transition: background 0.2s; }
+        .user-menu:hover { background: var(--bg); }
+        .user-avatar { width: 36px; height: 36px; border-radius: 50%; overflow: hidden; border: 2px solid var(--border); flex-shrink: 0; }
+        .user-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+        .user-info { display: flex; flex-direction: column; }
+        .user-name { font-size: 13px; font-weight: 600; color: var(--text); }
+        .user-role { font-size: 11px; color: var(--text-tertiary); }
+
+        /* ===== App Layout ===== */
+        .app-layout { display: flex; margin-top: 0; min-height: calc(100vh - 64px); }
+        .sidebar { width: 264px; background: var(--paper); border-right: 1px solid var(--line); position: fixed; top: 64px; bottom: 0; left: 0; overflow-y: auto; z-index: 50; padding: 26px 16px; }
+        .sidebar-section { margin-bottom: 22px; }
+        .sidebar-header { display: flex; align-items: center; justify-content: space-between; padding: 0 12px 10px; cursor: pointer; transition: .15s; }
+        .sidebar-header:hover .sidebar-title { color: var(--primary-dark); }
+        .sidebar-header.active { background: transparent; color: inherit; }
+        .sidebar-header.active .sidebar-icon-main { color: var(--primary); }
+        .sidebar-header.active .sidebar-title { color: var(--primary); }
+        .sidebar-header.active .sidebar-chevron { color: var(--teal-700); }
+        .sidebar-header-left { display: flex; align-items: center; gap: 10px; }
+        .sidebar-icon-main { width: 18px; height: 18px; color: var(--muted); flex-shrink: 0; }
+        .sidebar-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); }
+        .sidebar-chevron { width: 14px; height: 14px; color: var(--muted); transition: transform 0.25s ease; flex-shrink: 0; }
+        .sidebar-chevron.open { transform: rotate(180deg); }
+        .sidebar-submenu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+        .sidebar-submenu.open { max-height: 500px; }
+        .sidebar-link {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 12px; color: var(--slate); text-decoration: none;
+            font-size: 14.5px; font-weight: 500; transition: all 0.15s;
+            border-radius: var(--radius-sm); margin-bottom: 2px;
+        }
+        .sidebar-link:hover { background: var(--primary-light); color: var(--primary-dark); }
+        .sidebar-link.active { background: var(--primary); color: var(--paper); font-weight: 600; }
+        .sidebar-link-icon { width: 18px; height: 18px; color: currentColor; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .sidebar-link-icon svg { width: 14px; height: 14px; }
+        .main-content { flex: 1; margin-left: 264px; padding: 0; max-width: calc(100vw - 264px); }
+        /* ===== Hero Banner removed — clean header ===== */
+        .page-header { padding: 20px 40px 0; margin-bottom: 20px; }
+        .page-header h1 { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+        .page-header p { color: var(--text-secondary); font-size: 14px; }
+        .content-body { padding: 0 40px 32px; }
+
+        /* ===== Cards ===== */
+        .cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        .module-card {
+            background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 32px;
+            cursor: pointer; text-decoration: none; color: inherit; display: block;
+            position: relative;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #009DAC 0%, #007A82 100%);
+            border-radius: 16px 16px 0 0;
+        }
+        .card-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+        .card-icon {
+            width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-size: 24px; flex-shrink: 0;
+        }
+        .card-icon.catalog { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .card-icon.cart { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .card-icon.favorites { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .card-icon.purchase { background: linear-gradient(135deg, #009BA4 0%, #007A82 100%); }
+        .card-icon.sales { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .card-icon.ai { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .card-icon.bundle { background: linear-gradient(135deg, #2ECC71 0%, #1ABC9C 100%); }
+        .card-title { font-size: 20px; font-weight: 700; color: var(--text); }
+        .card-goal {
+            font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px; padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .card-features-title { font-size: 12px; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+        .card-features { display: flex; flex-wrap: wrap; gap: 8px; }
+        .feature-tag {
+            font-size: 13px; color: var(--primary); background: white;
+            padding: 5px 12px; border-radius: 20px; font-weight: 500;
+            display: inline-flex; align-items: center; gap: 6px;
+            border: 1px solid transparent;
+            background-image: linear-gradient(white, white), linear-gradient(135deg, #009DAC 0%, #007A82 100%);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+        .card-footer { display: none; }
+        .card-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: #F5A623;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        .card-badge.alert { background: #E74C3C; }
+        .card-badge.warn { background: #E91E63; }
+
+        /* ===== Product Grid ===== */
+        .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .product-card {
+            background: var(--white); border-radius: 16px; border: 1px solid var(--border);
+            overflow: hidden; cursor: pointer; transition: all 0.3s;
+            box-shadow: var(--shadow);
+        }
+        .product-card:hover { box-shadow: var(--shadow-hover); }
+        .product-img {
+            height: 200px; background: linear-gradient(135deg, #e0f7f7, #f0fafa);
+            position: relative; overflow: hidden;
+        }
+        .product-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+        .product-card:hover .product-img img { transform: scale(1.05); }
+        .product-badge {
+            position: absolute; top: 12px; left: 12px;
+            padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700;
+        }
+        .badge-new { background: var(--primary); color: white; }
+        .badge-bestseller { background: var(--accent); color: white; }
+        .badge-sale { background: var(--warning); color: white; }
+        .badge-stock { background: var(--danger-light); color: var(--danger); }
+        .product-info { padding: 16px; }
+        .product-sku { font-size: 11px; color: var(--text-tertiary); margin-bottom: 4px; }
+        .product-name { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 8px; line-height: 1.3; }
+        .product-pricing { margin-bottom: 10px; }
+        .contract-price { font-size: 12px; color: var(--text-tertiary); text-decoration: line-through; }
+        .coupon-price { font-size: 20px; font-weight: 800; color: var(--accent); }
+        .price-save { font-size: 12px; color: var(--success); font-weight: 600; margin-top: 2px; }
+        .product-meta { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-secondary); margin-bottom: 12px; }
+        .add-cart-btn {
+            width: 100%; padding: 10px; background: var(--primary); color: white; border: none;
+            border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s;
+        }
+        .add-cart-btn:hover { background: var(--primary-dark); }
+        .add-cart-btn.out-of-stock { background: var(--border); color: var(--text-tertiary); cursor: not-allowed; }
+
+        /* ===== Cart ===== */
+        .cart-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+        .cart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .cart-title-group { display: flex; align-items: baseline; gap: 8px; }
+        .cart-title { font-size: 15px; font-weight: 700; color: var(--text); }
+        .cart-title-count { font-size: 12px; color: var(--text-tertiary); font-weight: 500; }
+        .cart-delete-all { display: flex; align-items: center; gap: 6px; background: none; border: none; color: var(--danger); font-size: 13px; font-weight: 600; cursor: pointer; padding: 6px 10px; border-radius: 8px; transition: background 0.2s; }
+        .cart-delete-all:hover { background: var(--danger-light); }
+        .cart-item { display: flex; align-items: center; gap: 16px; padding: 20px; border-bottom: 1px solid var(--border); }
+        .cart-item:last-child { border-bottom: none; }
+        .cart-item-checkbox { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--border); cursor: pointer; flex-shrink: 0; accent-color: var(--primary); }
+        .cart-item-img { width: 80px; height: 80px; background: linear-gradient(135deg, #e0f7f7, #f0fafa); border-radius: 12px; flex-shrink: 0; overflow: hidden; }
+        .cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
+        .cart-item-info { flex: 1; }
+        .cart-item-name { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+        .cart-item-sku { font-size: 12px; color: var(--text-tertiary); margin-bottom: 8px; }
+        .cart-item-prices { display: flex; gap: 12px; font-size: 13px; }
+        .cart-contract { color: var(--text-tertiary); text-decoration: line-through; }
+        .cart-coupon { color: var(--accent); font-weight: 700; }
+        .cart-save { color: var(--success); font-size: 12px; }
+        .cart-qty { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+        .cart-qty-btn { width: 28px; height: 28px; border: 1px solid var(--border); background: var(--white); border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all 0.15s; }
+        .cart-qty-btn:hover { background: var(--primary-light); color: var(--primary); }
+        .cart-qty-input { width: 48px; height: 28px; border: 1px solid var(--border); border-radius: 6px; text-align: center; font-size: 13px; }
+        .cart-remove { color: var(--danger); font-size: 13px; cursor: pointer; margin-left: auto; padding: 4px 8px; border-radius: 6px; transition: background 0.2s; }
+        .cart-remove:hover { background: var(--danger-light); }
+        .cart-empty { text-align: center; padding: 80px 40px; }
+        .cart-empty-icon { font-size: 48px; margin-bottom: 16px; }
+        .cart-empty h3 { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+        .cart-empty p { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; }
+        .cart-summary { background: var(--white); border-radius: 16px; border: 1px solid var(--border); padding: 24px; }
+        .summary-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; }
+        .summary-row { display: flex; justify-content: space-between; padding: 10px 0; font-size: 14px; }
+        .summary-row.discount { color: var(--success); }
+        .summary-row.total { border-top: 1px solid var(--border); padding-top: 16px; font-size: 18px; font-weight: 700; color: var(--text); }
+        .checkout-btn { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 16px; }
+        .checkout-btn:hover { background: var(--primary-dark); }
+        .checkout-btn-secondary { width: 100%; padding: 14px; background: var(--white); color: var(--text); border: 1.5px solid var(--border); border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 12px; }
+        .checkout-btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* ===== Product Detail ===== */
+        .detail-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+        .detail-img { border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, #e0f7f7, #f0fafa); }
+        .detail-img img { width: 100%; height: 100%; object-fit: cover; }
+        .detail-name { font-size: 24px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+        .detail-sku { font-size: 13px; color: var(--text-tertiary); margin-bottom: 16px; }
+        .detail-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px; }
+        .detail-price-table { background: var(--coupon-bg); border-radius: 12px; padding: 16px; margin-bottom: 20px; }
+        .price-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; }
+        .price-row.total { border-top: 1px solid var(--border); padding-top: 12px; margin-top: 4px; font-weight: 700; font-size: 16px; color: var(--text); }
+        .price-label { color: var(--text-secondary); }
+        .price-value { font-weight: 600; }
+        .price-value.coupon { color: var(--accent); font-size: 18px; }
+        .qty-row { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .qty-btn { width: 40px; height: 40px; border: 1px solid var(--border); background: var(--white); border-radius: 10px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .qty-input { width: 60px; height: 40px; border: 1px solid var(--border); border-radius: 10px; text-align: center; font-size: 16px; font-weight: 600; }
+        .moq-hint { font-size: 12px; color: var(--text-tertiary); margin-left: auto; }
+        .detail-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn-primary { padding: 14px 32px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; }
+        .btn-secondary { padding: 14px 32px; background: var(--white); color: var(--text); border: 1.5px solid var(--border); border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; }
+        .btn-accent { padding: 14px 32px; background: var(--accent); color: white; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; }
+
+        /* ===== Checkout Wizard ===== */
+        .checkout-wizard-steps { display: flex; align-items: center; gap: 8px; margin-bottom: 32px; }
+        .wizard-step { display: flex; align-items: center; gap: 8px; }
+        .wizard-step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--bg); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: var(--text-secondary); }
+        .wizard-step-num.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .wizard-step-num.completed { background: var(--success); color: white; border-color: var(--success); }
+        .wizard-step-label { font-size: 13px; font-weight: 600; color: var(--text-tertiary); }
+        .wizard-step-label.active { color: var(--text); }
+        .wizard-connector { flex: 1; height: 2px; background: var(--border); border-radius: 1px; max-width: 60px; }
+        .wizard-connector.completed { background: var(--success); }
+        .checkout-layout { display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; }
+        .checkout-form { display: flex; flex-direction: column; gap: 20px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 14px; outline: none; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .payment-options { display: flex; gap: 12px; flex-wrap: wrap; }
+        .payment-card { padding: 16px; border: 1.5px solid var(--border); border-radius: 12px; cursor: pointer; flex: 1; min-width: 140px; text-align: center; transition: all 0.2s; }
+        .payment-card:hover { border-color: var(--primary); }
+        .payment-card.selected { border-color: var(--primary); background: var(--primary-light); }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--primary); font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 20px; }
+
+        /* ===== Order Success ===== */
+        .order-success { text-align: center; padding: 60px 40px; }
+        .success-icon { width: 80px; height: 80px; background: var(--success-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 36px; }
+        .order-success h2 { font-size: 24px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+        .order-success p { font-size: 14px; color: var(--text-secondary); margin-bottom: 8px; }
+        .order-number { display: inline-block; background: var(--bg); padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 600; font-family: monospace; margin: 12px 0; }
+        .success-actions { display: flex; gap: 12px; justify-content: center; margin-top: 24px; }
+
+        /* ===== AI Widget ===== */
+        .ai-float-btn { position: fixed; bottom: 28px; right: 28px; width: 56px; height: 56px; background: var(--teal-700); color: white; border: none; border-radius: 50%; font-size: 24px; cursor: pointer; box-shadow: var(--shadow-lg); z-index: 300; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+        .ai-float-btn:hover { transform: scale(1.05); background: var(--teal-900); }
+        .ai-widget { position: fixed; bottom: 92px; right: 28px; width: 360px; height: 520px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-lg); z-index: 300; display: none; flex-direction: column; overflow: hidden; }
+        .ai-widget.open { display: flex; }
+        .ai-widget-header { padding: 20px; border-bottom: 1px solid var(--line); background: var(--teal-50); }
+        .ai-widget-title { font-size: 16px; font-weight: 700; color: var(--teal-900); }
+        .ai-widget-subtitle { font-size: 12px; color: var(--slate); margin-top: 2px; }
+        .ai-avatar { width: 36px; height: 36px; background: var(--teal-700); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 14px; }
+        .ai-messages { padding: 16px; flex: 1; overflow-y: auto; }
+        .ai-msg-bubble { max-width: 85%; padding: 12px 14px; border-radius: 14px; font-size: 13px; line-height: 1.5; }
+        .ai-msg-bubble.bot { background: var(--teal-50); color: var(--teal-700); align-self: flex-start; border-bottom-left-radius: 4px; }
+        .ai-msg-bubble.user { background: var(--teal-700); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .ai-chips { padding: 0 16px 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+        .ai-chip { padding: 6px 12px; border: 1px solid var(--teal-100); border-radius: 20px; font-size: 12px; color: var(--teal-700); cursor: pointer; background: var(--paper); transition: all 0.2s; }
+        .ai-chip:hover { background: var(--teal-50); border-color: var(--teal-500); }
+        .ai-widget-footer { padding: 12px 16px; border-top: 1px solid var(--line); display: flex; gap: 8px; align-items: center; }
+        .ai-widget-input { flex: 1; padding: 10px 14px; border: 1px solid var(--line); border-radius: 20px; font-size: 13px; outline: none; }
+        .ai-widget-input:focus { border-color: var(--teal-500); }
+        .ai-widget-send { width: 36px; height: 36px; border-radius: 50%; background: var(--teal-700); color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .ai-widget-send:hover { background: var(--teal-900); }
+        .ai-chip { padding: 6px 12px; background: var(--primary-light); color: var(--primary); border-radius: 16px; font-size: 12px; font-weight: 500; cursor: pointer; }
+        .ai-input-area { padding: 12px 20px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
+        .ai-input { flex: 1; padding: 10px 14px; border: 1px solid var(--border); border-radius: 20px; font-size: 13px; outline: none; }
+        .ai-send { width: 36px; height: 36px; background: var(--primary); color: white; border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
+        /* ===== Filters ===== */
+        .filter-bar { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+        .filter-chip { padding: 8px 16px; border: 1px solid var(--border); border-radius: 20px; font-size: 13px; color: var(--text-secondary); cursor: pointer; background: var(--white); transition: all 0.2s; }
+        .filter-chip:hover { border-color: var(--primary); color: var(--primary); }
+        .filter-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        @media (max-width: 900px) {
+            .cards-grid { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 24px; max-width: 100%; }
+        }
+    
+
+        /* Studio embed shell: keep the outer Studio header, remove the copied portal chrome. */
+        .top-nav, .sidebar { display: none !important; }
+        .main-content { margin-left: 0 !important; max-width: 100% !important; width: 100% !important; padding: 0 !important; }
+        .studio-intro { max-width: 1180px; margin: 0 auto 18px; padding: 28px 40px 0; }
+        .studio-eyebrow { color: var(--primary, var(--teal-700, #008f9a)); font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 8px; }
+        .studio-title { color: var(--ink, var(--text, #1f2a2a)); font-size: clamp(28px, 4vw, 44px); line-height: 1.04; font-weight: 800; margin: 0 0 10px; letter-spacing: 0; }
+        .studio-lead { color: var(--slate, var(--text-secondary, #6d7775)); font-size: 15px; line-height: 1.65; max-width: 880px; margin: 0; }
+        .studio-nav { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 18px; }
+        .studio-nav a, .studio-nav button { appearance: none; border: 1px solid var(--line, #e5e7eb); background: var(--paper, #fff); color: var(--ink, #233); border-radius: 8px; padding: 9px 14px; font: inherit; font-size: 12.5px; font-weight: 800; text-decoration: none; cursor: pointer; box-shadow: none; }
+        .studio-nav a:hover, .studio-nav button:hover, .studio-nav .active { border-color: var(--primary, var(--teal-700, #008f9a)); color: var(--primary, var(--teal-700, #008f9a)); background: var(--primary-light, var(--teal-50, #ecfeff)); }
+        .content-section, .content-body, .pagehead, .page-section { max-width: 1180px; margin-left: auto !important; margin-right: auto !important; }
+        .page-section { padding: 0 40px 40px; }
+        .page-section .page-header { padding: 18px 0 0; }
+        .stats-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin: 10px 0 22px; }
+        .stat-box { background: var(--paper, #fff); border: 1px solid var(--line, #e5e7eb); border-radius: 12px; padding: 18px 20px; box-shadow: var(--shadow2, 0 1px 2px rgba(0,0,0,.04)); }
+        .stat-box-value { color: var(--ink, #16201e); font-size: 24px; line-height: 1; font-weight: 800; margin-bottom: 8px; }
+        .stat-box-label { color: var(--slate, #5d6b68); font-size: 12.5px; font-weight: 700; line-height: 1.3; }
+        @media (max-width: 1020px) {
+            .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .stats-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .cart-layout, .checkout-layout, .detail-layout { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 760px) {
+            .studio-intro { padding: 22px 20px 0; }
+            .studio-title { font-size: 30px; }
+            .studio-nav a, .studio-nav button { flex: 1 1 auto; text-align: center; }
+            .page-section { padding: 0 20px 30px; }
+            .product-grid, .stats-row { grid-template-columns: 1fr; }
+        }
+
+    </style>
+    <script src="../i18n.js"></script>
+</head>
+<body data-module="trading">
+    <!-- Top Nav -->
+        <nav class="top-nav">
+        <div class="nav-left">
+            <a href="../index.html" class="logo">
+                <span class="logo-brand">BLACKMORES<sup>®</sup></span>
+            </a>
+            <div class="nav-menu">
+            <a href="../index.html" data-i18n="Home">Home</a>
+            <a href="trading-hub.html" class="active" data-i18n="Trading">Trading</a>
+            <a href="../index.html" data-i18n="Marketing">Marketing</a>
+            <a href="../index.html" data-i18n="Operations">Operations</a>
+            <a href="../index.html" data-i18n="Analytics">Analytics</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <button class="icon-btn" title="Language" id="langSwitcher"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button>
+            <a href="../index.html" class="icon-btn" title="Search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></a>
+            <a href="../index.html" class="icon-btn" title="Notification"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="badge">3</span></a>
+            <a href="../index.html" class="user-menu" style="text-decoration:none;">
+                <div class="user-avatar"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=GuardianKL&amp;backgroundColor=ffffff" alt="Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
+                <div class="user-info">
+                    <span class="user-name" data-i18n="Guardian KL">Guardian KL</span>
+                    <span class="user-role" data-i18n="Platinum Partner">Platinum Partner</span>
+                </div>
+            </a>
+        </div>
+    </nav>
+
+    <div class="app-layout">
+        <!-- Sidebar -->
+        
+        <aside class="sidebar" id="sidebar">
+
+    <!-- Product Section -->
+    <div class="sidebar-section" id="sidebar-product">
+        <div class="sidebar-header active" onclick="toggleSection('product')" id="header-product">
+            <div class="sidebar-header-left">
+                <svg class="sidebar-icon-main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                <span class="sidebar-title" data-i18n="Product">Product</span>
+            </div>
+            <svg class="sidebar-chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="chevron-product"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <ul class="sidebar-submenu open" id="submenu-product">
+            <li class="sidebar-item"><a href="product-center.html" class="sidebar-link active"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span><span data-i18n="Product Catalog">Product Catalog</span></a></li>
+            <li class="sidebar-item"><a href="product-center.html#cart" onclick="showPage('cart', this); return false;" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span><span data-i18n="Shopping Cart">Shopping Cart</span></a></li>
+            <li class="sidebar-item"><a href="favorites.html" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span data-i18n="My Favorites">My Favorites</span></a></li>
+            <li class="sidebar-item"><a href="bundle-management.html" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></span><span data-i18n="Bundle Management">Bundle Management</span></a></li>
+        </ul>
+    </div>
+
+    <!-- Purchase Orders Section -->
+    <div class="sidebar-section" id="sidebar-purchase">
+        <div class="sidebar-header" onclick="toggleSection('purchase')" id="header-purchase">
+            <div class="sidebar-header-left">
+                <svg class="sidebar-icon-main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+                <span class="sidebar-title" data-i18n="Purchase Orders">Purchase Orders</span>
+            </div>
+            <svg class="sidebar-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="chevron-purchase"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <ul class="sidebar-submenu" id="submenu-purchase">
+            <li class="sidebar-item"><a href="purchase-order.html#purchase" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span data-i18n="Purchase Orders">Purchase Orders</span></a></li>
+            <li class="sidebar-item"><a href="purchase-order.html#ai-recommend" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/><path d="M9 21h6"/></svg></span><span data-i18n="AI Recommendation">AI Recommendation</span></a></li>
+            <li class="sidebar-item"><a href="purchase-order.html#inventory" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span><span data-i18n="Inventory">Inventory</span></a></li>
+            <li class="sidebar-item"><a href="purchase-order.html#invoices" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span data-i18n="Invoices">Invoices</span></a></li>
+        </ul>
+    </div>
+
+    <!-- Sales Orders Section -->
+    <div class="sidebar-section" id="sidebar-sales">
+        <div class="sidebar-header" onclick="toggleSection('sales')" id="header-sales">
+            <div class="sidebar-header-left">
+                <svg class="sidebar-icon-main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                <span class="sidebar-title" data-i18n="Sales Orders">Sales Orders</span>
+            </div>
+            <svg class="sidebar-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="chevron-sales"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <ul class="sidebar-submenu" id="submenu-sales">
+            <li class="sidebar-item"><a href="sale-order.html#sales" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span><span data-i18n="Sales Orders">Sales Orders</span></a></li>
+            <li class="sidebar-item"><a href="sale-order.html#channel" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></span><span data-i18n="Channel Management">Channel Management</span></a></li>
+        </ul>
+    </div>
+</aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <section class="studio-intro">
+                <div class="studio-eyebrow">Partner B2B Ordering & Checkout</div>
+                <h1 class="studio-title">Order Blackmores products with partner pricing, MOQ and checkout in one flow.</h1>
+                <p class="studio-lead">This demo covers the partner purchase journey from product discovery and contract pricing to cart, checkout, order confirmation and quick reorder paths.</p>
+                <div class="studio-nav">
+                    <button type="button" class="active" data-page="product-list" onclick="showPage('product-list', this)">Product catalog</button>
+                    <button type="button" data-page="cart" onclick="showPage('cart', this)">Cart & checkout</button>
+                    <a href="favorites.html">Favorites & reorder</a>
+                    <a href="bundle-management.html">Bundles</a>
+                </div>
+            </section>
+
+
+            <!-- ========== PRODUCT LIST ========== -->
+            <div id="page-product-list" class="page-section" style="display:block;">
+                <div class="page-header">
+                    <h1 data-i18n="Product Center">Product Center</h1>
+                    <p data-i18n="B2B product catalog with exclusive partner pricing. 250+ SKUs available.">B2B product catalog with exclusive partner pricing. 250+ SKUs available.</p>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-box">
+                        <div class="stat-box-value" data-i18n="250+">250+</div>
+                        <div class="stat-box-label" data-i18n="Total SKUs">Total SKUs</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-box-value">18%</div>
+                        <div class="stat-box-label" data-i18n="Avg. Partner Discount">Avg. Partner Discount</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-box-value" data-i18n="SGD 15K">SGD 15K</div>
+                        <div class="stat-box-label" data-i18n="Your YTD Savings">Your YTD Savings</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-box-value">42</div>
+                        <div class="stat-box-label" data-i18n="Orders This Quarter">Orders This Quarter</div>
+                    </div>
+                </div>
+
+                <div class="filter-bar">
+                    <span class="filter-chip active" onclick="filterTag(this, 'all')" data-i18n="All Products">All Products</span>
+                    <span class="filter-chip" onclick="filterTag(this, 'instock')" data-i18n="In Stock">In Stock</span>
+                    <span class="filter-chip" onclick="filterTag(this, 'new')" data-i18n="New Arrival">New Arrival</span>
+                    <span class="filter-chip" onclick="filterTag(this, 'bestseller')" data-i18n="Bestseller">Bestseller</span>
+                    <span class="filter-chip" onclick="filterTag(this, 'sale')" data-i18n="On Sale">On Sale</span>
+                </div>
+
+                <div class="product-grid" id="productGrid">
+
+                    <div class="product-card" data-tags="omega3 instock bestseller" onclick="showProductDetail('fish-oil')">
+                        <div class="product-img">
+                            <img src="https://www.blackmores.co.th/media/product/img-2094.jpg" alt="Blackmores Fish Oil 1000mg" loading="lazy">
+                            <span class="product-badge badge-bestseller" data-i18n="Bestseller">Bestseller</span>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-sku" data-i18n="SKU: BM-FO1000-001">SKU: BM-FO1000-001</div>
+                            <div class="product-name" data-i18n="Blackmores Fish Oil 1000mg">Blackmores Fish Oil 1000mg</div>
+                            <div class="product-pricing">
+                                <div class="contract-price" data-i18n="Contract: SGD 45.00">Contract: SGD 45.00</div>
+                                <div class="coupon-price" data-i18n="SGD 36.90">SGD 36.90</div>
+                                <div class="price-save" data-i18n="You save SGD 8.10 per unit">You save SGD 8.10 per unit</div>
+                            </div>
+                            <div class="product-meta">
+                                <span data-i18n="MOQ: 12 bottles">MOQ: 12 bottles</span>
+                                <span style="color: var(--success); font-weight: 600;" data-i18n="In Stock">In Stock</span>
+                            </div>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-FO1000-001')" data-i18n="Add to Cart">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-tags="vitamins instock bestseller" onclick="showProductDetail('bio-c')">
+                        <div class="product-img">
+                            <img src="https://www.blackmores.com.sg/-/media/project/blackmores/singapore/version-2/products/bio-c-1000-120s/blackmores-bio-c-120s---bottle-1.png" alt="Blackmores Bio C 1000mg" loading="lazy">
+                            <span class="product-badge badge-bestseller" data-i18n="Bestseller">Bestseller</span>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-sku" data-i18n="SKU: BM-BC1000-002">SKU: BM-BC1000-002</div>
+                            <div class="product-name" data-i18n="Blackmores Bio C 1000mg">Blackmores Bio C 1000mg</div>
+                            <div class="product-pricing">
+                                <div class="contract-price" data-i18n="Contract: SGD 38.00">Contract: SGD 38.00</div>
+                                <div class="coupon-price" data-i18n="SGD 31.50">SGD 31.50</div>
+                                <div class="price-save" data-i18n="You save SGD 6.50 per unit">You save SGD 6.50 per unit</div>
+                            </div>
+                            <div class="product-meta">
+                                <span data-i18n="MOQ: 12 bottles">MOQ: 12 bottles</span>
+                                <span style="color: var(--success); font-weight: 600;" data-i18n="In Stock">In Stock</span>
+                            </div>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-BC1000-002')" data-i18n="Add to Cart">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-tags="pregnancy instock new" onclick="showProductDetail('pregnancy-gold')">
+                        <div class="product-img">
+                            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&h=300&q=80" alt="Blackmores Pregnancy & Breast-Feeding Gold">
+                            <span class="product-badge badge-new" data-i18n="New">New</span>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-sku" data-i18n="SKU: BM-PGOLD-003">SKU: BM-PGOLD-003</div>
+                            <div class="product-name" data-i18n="Blackmores Pregnancy & Breast-Feeding Gold">Blackmores Pregnancy & Breast-Feeding Gold</div>
+                            <div class="product-pricing">
+                                <div class="contract-price" data-i18n="Contract: SGD 72.00">Contract: SGD 72.00</div>
+                                <div class="coupon-price" data-i18n="SGD 58.90">SGD 58.90</div>
+                                <div class="price-save" data-i18n="You save SGD 13.10 per unit">You save SGD 13.10 per unit</div>
+                            </div>
+                            <div class="product-meta">
+                                <span data-i18n="MOQ: 6 bottles">MOQ: 6 bottles</span>
+                                <span style="color: var(--success); font-weight: 600;" data-i18n="In Stock">In Stock</span>
+                            </div>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-PGOLD-003')" data-i18n="Add to Cart">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-tags="vitamins minerals instock" onclick="showProductDetail('multi-vitamin')">
+                        <div class="product-img">
+                            <img src="https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=400&h=300&q=80" alt="Blackmores Multivitamins + Minerals">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-sku" data-i18n="SKU: BM-MVM-004">SKU: BM-MVM-004</div>
+                            <div class="product-name" data-i18n="Blackmores Multivitamins + Minerals">Blackmores Multivitamins + Minerals</div>
+                            <div class="product-pricing">
+                                <div class="contract-price" data-i18n="Contract: SGD 42.00">Contract: SGD 42.00</div>
+                                <div class="coupon-price" data-i18n="SGD 34.50">SGD 34.50</div>
+                                <div class="price-save" data-i18n="You save SGD 7.50 per unit">You save SGD 7.50 per unit</div>
+                            </div>
+                            <div class="product-meta">
+                                <span data-i18n="MOQ: 12 bottles">MOQ: 12 bottles</span>
+                                <span style="color: var(--success); font-weight: 600;" data-i18n="In Stock">In Stock</span>
+                            </div>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-MVM-004')" data-i18n="Add to Cart">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-tags="probiotics instock sale" onclick="showProductDetail('probiotics')">
+                        <div class="product-img">
+                            <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=400&h=300&q=80" alt="Blackmores Probiotics+ 90 capsules">
+                            <span class="product-badge badge-sale" data-i18n="On Sale">On Sale</span>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-sku" data-i18n="SKU: BM-PRO90-005">SKU: BM-PRO90-005</div>
+                            <div class="product-name" data-i18n="Blackmores Probiotics+ (90 capsules)">Blackmores Probiotics+ (90 capsules)</div>
+                            <div class="product-pricing">
+                                <div class="contract-price" data-i18n="Contract: SGD 55.00">Contract: SGD 55.00</div>
+                                <div class="coupon-price" data-i18n="SGD 42.00">SGD 42.00</div>
+                                <div class="price-save" data-i18n="You save SGD 13.00 per unit">You save SGD 13.00 per unit</div>
+                            </div>
+                            <div class="product-meta">
+                                <span data-i18n="MOQ: 8 bottles">MOQ: 8 bottles</span>
+                                <span style="color: var(--success); font-weight: 600;" data-i18n="In Stock">In Stock</span>
+                            </div>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-PRO90-005')" data-i18n="Add to Cart">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-tags="minerals instock" onclick="showProductDetail('glucosamine')">
+                        <div class="product-img">
+                            <img src="https://cdn.shopify.com/s/files/1/0902/4562/8224/files/blackmores-glucosamine-1500mg-30s-165.webp?v=1779157432&width=400" alt="Blackmores Glucosamine Sulfate 1500mg" loading="lazy">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-sku" data-i18n="SKU: BM-GLU1500-006">SKU: BM-GLU1500-006</div>
+                            <div class="product-name" data-i18n="Blackmores Glucosamine Sulfate 1500mg">Blackmores Glucosamine Sulfate 1500mg</div>
+                            <div class="product-pricing">
+                                <div class="contract-price" data-i18n="Contract: SGD 68.00">Contract: SGD 68.00</div>
+                                <div class="coupon-price" data-i18n="SGD 55.00">SGD 55.00</div>
+                                <div class="price-save" data-i18n="You save SGD 13.00 per unit">You save SGD 13.00 per unit</div>
+                            </div>
+                            <div class="product-meta">
+                                <span data-i18n="MOQ: 6 bottles">MOQ: 6 bottles</span>
+                                <span style="color: var(--warning); font-weight: 600;" data-i18n="Low Stock">Low Stock</span>
+                            </div>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-GLU1500-006')" data-i18n="Add to Cart">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-tags="beauty instock" onclick="showProductDetail('evening-primrose')">
+                        <div class="product-img">
+                            <img src="https://cdn.shopify.com/s/files/1/0902/4562/8224/files/blackmores-evening-primrose-oil-1000mg-capsules-100-count.jpg?v=1778055266&width=400" alt="Blackmores Evening Primrose Oil" loading="lazy">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-sku" data-i18n="SKU: BM-EPO-007">SKU: BM-EPO-007</div>
+                            <div class="product-name" data-i18n="Blackmores Evening Primrose Oil">Blackmores Evening Primrose Oil</div>
+                            <div class="product-pricing">
+                                <div class="contract-price" data-i18n="Contract: SGD 52.00">Contract: SGD 52.00</div>
+                                <div class="coupon-price" data-i18n="SGD 42.50">SGD 42.50</div>
+                                <div class="price-save" data-i18n="You save SGD 9.50 per unit">You save SGD 9.50 per unit</div>
+                            </div>
+                            <div class="product-meta">
+                                <span data-i18n="MOQ: 8 bottles">MOQ: 8 bottles</span>
+                                <span style="color: var(--success); font-weight: 600;" data-i18n="In Stock">In Stock</span>
+                            </div>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-EPO-007')" data-i18n="Add to Cart">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-tags="beauty instock new" onclick="showProductDetail('vitamin-e-cream')">
+                        <div class="product-img">
+                            <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=400&h=300&q=80" alt="Blackmores Natural Vitamin E Cream">
+                            <span class="product-badge badge-new" data-i18n="New">New</span>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-sku" data-i18n="SKU: BM-VEC-008">SKU: BM-VEC-008</div>
+                            <div class="product-name" data-i18n="Blackmores Natural Vitamin E Cream">Blackmores Natural Vitamin E Cream</div>
+                            <div class="product-pricing">
+                                <div class="contract-price" data-i18n="Contract: SGD 28.00">Contract: SGD 28.00</div>
+                                <div class="coupon-price" data-i18n="SGD 22.90">SGD 22.90</div>
+                                <div class="price-save" data-i18n="You save SGD 5.10 per unit">You save SGD 5.10 per unit</div>
+                            </div>
+                            <div class="product-meta">
+                                <span data-i18n="MOQ: 24 tubes">MOQ: 24 tubes</span>
+                                <span style="color: var(--success); font-weight: 600;" data-i18n="In Stock">In Stock</span>
+                            </div>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-VEC-008')" data-i18n="Add to Cart">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-tags="vitamins instock" onclick="showProductDetail('coq10')">
+                        <div class="product-img">
+                            <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=400&h=300&q=80" alt="Blackmores CoQ10 150mg">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-sku" data-i18n="SKU: BM-COQ150-009">SKU: BM-COQ150-009</div>
+                            <div class="product-name" data-i18n="Blackmores CoQ10 150mg">Blackmores CoQ10 150mg</div>
+                            <div class="product-pricing">
+                                <div class="contract-price" data-i18n="Contract: SGD 62.00">Contract: SGD 62.00</div>
+                                <div class="coupon-price" data-i18n="SGD 50.00">SGD 50.00</div>
+                                <div class="price-save" data-i18n="You save SGD 12.00 per unit">You save SGD 12.00 per unit</div>
+                            </div>
+                            <div class="product-meta">
+                                <span data-i18n="MOQ: 6 bottles">MOQ: 6 bottles</span>
+                                <span style="color: var(--success); font-weight: 600;" data-i18n="In Stock">In Stock</span>
+                            </div>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-COQ150-009')" data-i18n="Add to Cart">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-tags="vitamins instock" onclick="showProductDetail('buffered-c')">
+                        <div class="product-img">
+                            <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=400&h=300&q=80" alt="Blackmores Buffered C Slow Release">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-sku" data-i18n="SKU: BM-BCSLOW-010">SKU: BM-BCSLOW-010</div>
+                            <div class="product-name" data-i18n="Blackmores Buffered C Slow Release">Blackmores Buffered C Slow Release</div>
+                            <div class="product-pricing">
+                                <div class="contract-price" data-i18n="Contract: SGD 48.00">Contract: SGD 48.00</div>
+                                <div class="coupon-price" data-i18n="SGD 39.00">SGD 39.00</div>
+                                <div class="price-save" data-i18n="You save SGD 9.00 per unit">You save SGD 9.00 per unit</div>
+                            </div>
+                            <div class="product-meta">
+                                <span data-i18n="MOQ: 12 bottles">MOQ: 12 bottles</span>
+                                <span style="color: var(--success); font-weight: 600;" data-i18n="In Stock">In Stock</span>
+                            </div>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-BCSLOW-010')" data-i18n="Add to Cart">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-tags="immunity instock" onclick="showProductDetail('immune-defence')">
+                        <div class="product-img">
+                            <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=400&h=300&q=80" alt="Blackmores Immune Defence Ultra">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-sku" data-i18n="SKU: BM-IMD-011">SKU: BM-IMD-011</div>
+                            <div class="product-name" data-i18n="Blackmores Immune Defence Ultra">Blackmores Immune Defence Ultra</div>
+                            <div class="product-pricing">
+                                <div class="contract-price" data-i18n="Contract: SGD 58.00">Contract: SGD 58.00</div>
+                                <div class="coupon-price" data-i18n="SGD 47.00">SGD 47.00</div>
+                                <div class="price-save" data-i18n="You save SGD 11.00 per unit">You save SGD 11.00 per unit</div>
+                            </div>
+                            <div class="product-meta">
+                                <span data-i18n="MOQ: 8 bottles">MOQ: 8 bottles</span>
+                                <span style="color: var(--warning); font-weight: 600;" data-i18n="Low Stock">Low Stock</span>
+                            </div>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-IMD-011')" data-i18n="Add to Cart">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-tags="sports instock" onclick="showProductDetail('muscle-magnesium')">
+                        <div class="product-img">
+                            <img src="https://cdn.shopify.com/s/files/1/0902/4562/8224/files/blackmores-bio-magnesium-60s-317.webp?v=1779157457&width=400" alt="Blackmores Muscle Magnesium Powder" loading="lazy">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-sku" data-i18n="SKU: BM-MGSP-012">SKU: BM-MGSP-012</div>
+                            <div class="product-name" data-i18n="Blackmores Muscle Magnesium Powder">Blackmores Muscle Magnesium Powder</div>
+                            <div class="product-pricing">
+                                <div class="contract-price" data-i18n="Contract: SGD 35.00">Contract: SGD 35.00</div>
+                                <div class="coupon-price" data-i18n="SGD 28.00">SGD 28.00</div>
+                                <div class="price-save" data-i18n="You save SGD 7.00 per unit">You save SGD 7.00 per unit</div>
+                            </div>
+                            <div class="product-meta">
+                                <span data-i18n="MOQ: 12 packs">MOQ: 12 packs</span>
+                                <span style="color: var(--success); font-weight: 600;" data-i18n="In Stock">In Stock</span>
+                            </div>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-MGSP-012')" data-i18n="Add to Cart">Add to Cart</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ========== PRODUCT DETAIL ========== -->
+            <div id="page-product-detail" class="page-section" style="display:none;">
+                <div class="back-link" onclick="showPage('product-list')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                    Back to Products
+                </div>
+                <div class="detail-layout" id="detailLayout">
+                    <div class="detail-img" id="detailImg"><img src="" alt="" id="detailImgSrc"></div>
+                    <div>
+                        <div class="detail-name" id="detailName" data-i18n="Blackmores Fish Oil 1000mg">Blackmores Fish Oil 1000mg</div>
+                        <div class="detail-sku" id="detailSku" data-i18n="SKU: BM-FO1000-001">SKU: BM-FO1000-001</div>
+                        <div class="detail-desc" id="detailDesc" data-i18n="A premium source of omega-3 fatty acids EPA and DHA, essential for heart health, brain function, and overall wellbeing. Each capsule contains 1000mg of high-quality fish oil.">
+                            A premium source of omega-3 fatty acids EPA and DHA, essential for heart health, brain function, and overall wellbeing. Each capsule contains 1000mg of high-quality fish oil.
+                        </div>
+                        <div class="detail-price-table">
+                            <div class="price-row">
+                                <span class="price-label" data-i18n="Contract Price">Contract Price</span>
+                                <span class="price-value" id="detailContract" data-i18n="SGD 45.00">SGD 45.00</span>
+                            </div>
+                            <div class="price-row">
+                                <span class="price-label" data-i18n="Your Coupon Price">Your Coupon Price</span>
+                                <span class="price-value coupon" id="detailCoupon" data-i18n="SGD 36.90">SGD 36.90</span>
+                            </div>
+                            <div class="price-row">
+                                <span class="price-label" data-i18n="You Save">You Save</span>
+                                <span class="price-value" style="color:var(--success);" id="detailSave" data-i18n="SGD 8.10 per unit">SGD 8.10 per unit</span>
+                            </div>
+                            <div class="price-row total">
+                                <span class="price-label" data-i18n="Your Price">Your Price</span>
+                                <span class="price-value coupon" id="detailTotal" data-i18n="SGD 36.90">SGD 36.90</span>
+                            </div>
+                        </div>
+                        <div class="qty-row">
+                            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+                            <input type="number" class="qty-input" id="qtyInput" value="12" min="1">
+                            <button class="qty-btn" onclick="changeQty(1)">+</button>
+                            <span class="moq-hint" id="moqHint" data-i18n="MOQ: 12 bottles">MOQ: 12 bottles</span>
+                        </div>
+
+                        <div class="detail-actions">
+                            <button class="btn-primary" onclick="addDetailToCart()" data-i18n="Add to Cart">Add to Cart</button>
+                            <button class="btn-accent" onclick="showPage('cart')" data-i18n="View Cart & Checkout">View Cart & Checkout</button>
+                            <button class="btn-secondary" data-i18n="♡ Save to List">♡ Save to List</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== CART ========== -->
+            <div id="page-cart" class="page-section" style="display:none;">
+                <div class="page-header">
+                    <h1 data-i18n="Shopping Cart">Shopping Cart</h1>
+                    <p data-i18n="Review your order before checkout.">Review your order before checkout.</p>
+                </div>
+
+                <div class="cart-layout">
+                    <div class="content-card" id="cartItemsCard">
+                        <div class="cart-header">
+                            <div class="cart-title-group">
+                                <span class="cart-title" data-i18n="Cart Items">Cart Items</span>
+                                <span class="cart-title-count" id="cartItemCount" data-i18n="(0 items)">(0 items)</span>
+                            </div>
+                            <button class="cart-delete-all" onclick="clearCart()" id="clearCartBtn" style="display:none;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                Clear All
+                            </button>
+                        </div>
+                        <div id="cartItemsContainer">
+                            <!-- Dynamic cart items rendered here -->
+                        </div>
+                        <div class="cart-empty" id="cartEmpty" style="display:none;">
+                            <div class="cart-empty-icon">🛒</div>
+                            <h3 data-i18n="Your cart is empty">Your cart is empty</h3>
+                            <p data-i18n="Browse our product catalog and add items to your cart.">Browse our product catalog and add items to your cart.</p>
+                            <button class="btn-primary" onclick="showPage('product-list')" style="margin-top:8px;" data-i18n="Continue Shopping">Continue Shopping</button>
+                        </div>
+                    </div>
+
+                    <div class="cart-summary" id="cartSummaryCard">
+                        <div class="summary-title" data-i18n="Order Summary">Order Summary</div>
+                        <div class="summary-row">
+                            <span>Subtotal (<span id="summaryQty">0</span> items)</span>
+                            <span id="summarySubtotal" data-i18n="SGD 0.00">SGD 0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span data-i18n="Contract Total">Contract Total</span>
+                            <span style="text-decoration:line-through; color:var(--text-tertiary);" id="summaryContract" data-i18n="SGD 0.00">SGD 0.00</span>
+                        </div>
+                        <div class="summary-row discount">
+                            <span data-i18n="Partner Discount">Partner Discount</span>
+                            <span id="summaryDiscount" data-i18n="− SGD 0.00">− SGD 0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span data-i18n="GST (9%)">GST (9%)</span>
+                            <span id="summaryGst" data-i18n="SGD 0.00">SGD 0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span data-i18n="Shipping">Shipping</span>
+                            <span style="color:var(--success);" id="summaryShipping" data-i18n="Free">Free</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span data-i18n="Total">Total</span>
+                            <span id="summaryTotal" data-i18n="SGD 0.00">SGD 0.00</span>
+                        </div>
+                        <button class="checkout-btn" onclick="startCheckout()" id="checkoutBtn" data-i18n="Proceed to Checkout →">Proceed to Checkout →</button>
+                        <button class="checkout-btn-secondary" onclick="showPage('product-list')" data-i18n="Continue Shopping">Continue Shopping</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== CHECKOUT STEP 1: SHIPPING ========== -->
+            <div id="page-checkout-step1" class="page-section" style="display:none;">
+                <div class="back-link" onclick="showPage('cart')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                    Back to Cart
+                </div>
+                <div class="page-header">
+                    <h1 data-i18n="Checkout">Checkout</h1>
+                    <p data-i18n="Complete your order with B2B partner pricing.">Complete your order with B2B partner pricing.</p>
+                </div>
+
+                <div class="checkout-wizard-steps">
+                    <div class="wizard-step">
+                        <div class="wizard-step-num active">1</div>
+                        <span class="wizard-step-label active" data-i18n="Shipping">Shipping</span>
+                    </div>
+                    <div class="wizard-connector"></div>
+                    <div class="wizard-step">
+                        <div class="wizard-step-num">2</div>
+                        <span class="wizard-step-label" data-i18n="Payment">Payment</span>
+                    </div>
+                    <div class="wizard-connector"></div>
+                    <div class="wizard-step">
+                        <div class="wizard-step-num">3</div>
+                        <span class="wizard-step-label" data-i18n="Review">Review</span>
+                    </div>
+                </div>
+
+                <div class="checkout-layout">
+                    <div class="content-card checkout-form">
+                        <div class="form-group">
+                            <label data-i18n="Company Name">Company Name</label>
+                            <input type="text" id="shipCompany" value="Wellness Distribution Pte Ltd" placeholder="Your company name">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label data-i18n="Contact Name">Contact Name</label>
+                                <input type="text" id="shipName" value="Sarah Tan" placeholder="Full name">
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="Email">Email</label>
+                                <input type="email" id="shipEmail" value="sarah@wellnessdist.sg" placeholder="Email address">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label data-i18n="Phone">Phone</label>
+                                <input type="tel" id="shipPhone" value="+65 9123 4567" placeholder="Phone number">
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="Delivery Date">Delivery Date</label>
+                                <input type="date" id="shipDate" value="2025-01-15">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="Delivery Address">Delivery Address</label>
+                            <textarea rows="3" id="shipAddress" placeholder="Enter full delivery address">12 Tampines Industrial Ave 3, #04-05, Singapore 528499</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="Purchase Order Number">Purchase Order Number</label>
+                            <input type="text" id="shipPO" value="PO-2025-001234" placeholder="Your PO number for reference">
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="Notes">Notes</label>
+                            <textarea rows="2" id="shipNotes" placeholder="Any special instructions..."></textarea>
+                        </div>
+                        <button class="checkout-btn" onclick="showCheckoutStep(2)" style="margin-top:8px;" data-i18n="Continue to Payment →">Continue to Payment →</button>
+                    </div>
+                    <div class="cart-summary">
+                        <div class="summary-title" data-i18n="Order Summary">Order Summary</div>
+                        <div id="checkoutSummary1"></div>
+                        <div class="summary-row total">
+                            <span data-i18n="Total">Total</span>
+                            <span id="checkoutTotal1" data-i18n="SGD 0.00">SGD 0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== CHECKOUT STEP 2: PAYMENT ========== -->
+            <div id="page-checkout-step2" class="page-section" style="display:none;">
+                <div class="back-link" onclick="showCheckoutStep(1)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                    Back to Shipping
+                </div>
+                <div class="page-header">
+                    <h1 data-i18n="Checkout">Checkout</h1>
+                    <p data-i18n="Choose your payment method.">Choose your payment method.</p>
+                </div>
+
+                <div class="checkout-wizard-steps">
+                    <div class="wizard-step">
+                        <div class="wizard-step-num completed">✓</div>
+                        <span class="wizard-step-label" data-i18n="Shipping">Shipping</span>
+                    </div>
+                    <div class="wizard-connector completed"></div>
+                    <div class="wizard-step">
+                        <div class="wizard-step-num active">2</div>
+                        <span class="wizard-step-label active" data-i18n="Payment">Payment</span>
+                    </div>
+                    <div class="wizard-connector"></div>
+                    <div class="wizard-step">
+                        <div class="wizard-step-num">3</div>
+                        <span class="wizard-step-label" data-i18n="Review">Review</span>
+                    </div>
+                </div>
+
+                <div class="checkout-layout">
+                    <div class="content-card checkout-form">
+                        <div class="form-group">
+                            <label data-i18n="Payment Method">Payment Method</label>
+                            <div class="payment-options">
+                                <div class="payment-card selected" onclick="selectPayment(this)" data-method="credit">
+                                    <div style="font-size:24px; margin-bottom:8px;">💳</div>
+                                    <div style="font-size:14px; font-weight:600;" data-i18n="Credit Card">Credit Card</div>
+                                    <div style="font-size:12px; color:var(--text-tertiary);" data-i18n="Visa / Mastercard">Visa / Mastercard</div>
+                                </div>
+                                <div class="payment-card" onclick="selectPayment(this)" data-method="bank">
+                                    <div style="font-size:24px; margin-bottom:8px;">🏦</div>
+                                    <div style="font-size:14px; font-weight:600;" data-i18n="Bank Transfer">Bank Transfer</div>
+                                    <div style="font-size:12px; color:var(--text-tertiary);" data-i18n="NETS / GIRO">NETS / GIRO</div>
+                                </div>
+                                <div class="payment-card" onclick="selectPayment(this)" data-method="invoice">
+                                    <div style="font-size:24px; margin-bottom:8px;">📋</div>
+                                    <div style="font-size:14px; font-weight:600;" data-i18n="Invoice">Invoice</div>
+                                    <div style="font-size:12px; color:var(--text-tertiary);" data-i18n="30-day terms">30-day terms</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="creditCardFields">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label data-i18n="Card Number">Card Number</label>
+                                    <input type="text" placeholder="0000 0000 0000 0000">
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="Cardholder Name">Cardholder Name</label>
+                                    <input type="text" placeholder="Name on card">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label data-i18n="Expiry Date">Expiry Date</label>
+                                    <input type="text" placeholder="MM/YY">
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="CVV">CVV</label>
+                                    <input type="text" placeholder="123">
+                                </div>
+                            </div>
+                        </div>
+                        <button class="checkout-btn" onclick="showCheckoutStep(3)" style="margin-top:8px;" data-i18n="Review Order →">Review Order →</button>
+                    </div>
+                    <div class="cart-summary">
+                        <div class="summary-title" data-i18n="Order Summary">Order Summary</div>
+                        <div id="checkoutSummary2"></div>
+                        <div class="summary-row total">
+                            <span data-i18n="Total">Total</span>
+                            <span id="checkoutTotal2" data-i18n="SGD 0.00">SGD 0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== CHECKOUT STEP 3: REVIEW ========== -->
+            <div id="page-checkout-step3" class="page-section" style="display:none;">
+                <div class="back-link" onclick="showCheckoutStep(2)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                    Back to Payment
+                </div>
+                <div class="page-header">
+                    <h1 data-i18n="Review & Confirm">Review & Confirm</h1>
+                    <p data-i18n="Double-check your order details before placing.">Double-check your order details before placing.</p>
+                </div>
+
+                <div class="checkout-wizard-steps">
+                    <div class="wizard-step">
+                        <div class="wizard-step-num completed">✓</div>
+                        <span class="wizard-step-label" data-i18n="Shipping">Shipping</span>
+                    </div>
+                    <div class="wizard-connector completed"></div>
+                    <div class="wizard-step">
+                        <div class="wizard-step-num completed">✓</div>
+                        <span class="wizard-step-label" data-i18n="Payment">Payment</span>
+                    </div>
+                    <div class="wizard-connector completed"></div>
+                    <div class="wizard-step">
+                        <div class="wizard-step-num active">3</div>
+                        <span class="wizard-step-label active" data-i18n="Review">Review</span>
+                    </div>
+                </div>
+
+                <div class="checkout-layout">
+                    <div class="content-card checkout-form">
+                        <div style="margin-bottom:24px;">
+                            <h3 style="font-size:16px; font-weight:700; margin-bottom:12px;" data-i18n="Shipping Information">Shipping Information</h3>
+                            <div style="font-size:14px; color:var(--text-secondary); line-height:1.8;" id="reviewShipping"></div>
+                        </div>
+                        <div style="margin-bottom:24px;">
+                            <h3 style="font-size:16px; font-weight:700; margin-bottom:12px;" data-i18n="Payment Method">Payment Method</h3>
+                            <div style="font-size:14px; color:var(--text-secondary);" id="reviewPayment"></div>
+                        </div>
+                        <div>
+                            <h3 style="font-size:16px; font-weight:700; margin-bottom:12px;" data-i18n="Order Items">Order Items</h3>
+                            <div id="reviewItems"></div>
+                        </div>
+                        <button class="checkout-btn" onclick="placeOrder()" style="margin-top:16px;" data-i18n="Place Order →">Place Order →</button>
+                    </div>
+                    <div class="cart-summary">
+                        <div class="summary-title" data-i18n="Order Summary">Order Summary</div>
+                        <div id="checkoutSummary3"></div>
+                        <div class="summary-row total">
+                            <span data-i18n="Total">Total</span>
+                            <span id="checkoutTotal3" data-i18n="SGD 0.00">SGD 0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== ORDER SUCCESS ========== -->
+            <div id="page-order-success" class="page-section" style="display:none;">
+                <div class="content-card order-success">
+                    <div class="success-icon">✓</div>
+                    <h2 data-i18n="Order Placed Successfully!">Order Placed Successfully!</h2>
+                    <p data-i18n="Your order has been confirmed and is being processed.">Your order has been confirmed and is being processed.</p>
+                    <div class="order-number" id="successOrderNumber" data-i18n="BM-ORD-20250115-001234">BM-ORD-20250115-001234</div>
+                    <p>A confirmation email has been sent to <strong id="successEmail" data-i18n="sarah@wellnessdist.sg">sarah@wellnessdist.sg</strong></p>
+                    <div class="success-actions">
+                        <button class="btn-primary" onclick="showPage('product-list')" data-i18n="Continue Shopping">Continue Shopping</button>
+                        <button class="btn-secondary" onclick="showPage('product-list')" data-i18n="View Order History">View Order History</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- AI Widget -->
+    <button class="ai-float-btn" onclick="toggleAI()">✨</button>
+    <div class="ai-widget" id="aiWidget">
+        <div class="ai-widget-header">
+            <div class="ai-avatar">B</div>
+            <div>
+                <div class="ai-title" data-i18n="B.More AI">B.More AI</div>
+                <div class="ai-subtitle" data-i18n="Your Product Advisor">Your Product Advisor</div>
+            </div>
+        </div>
+        <div class="ai-messages">
+            <div class="ai-msg-bubble" data-i18n="Hi! I can help you find products, compare pricing, check stock levels, or recommend bestsellers for your market. What do you need?">Hi! I can help you find products, compare pricing, check stock levels, or recommend bestsellers for your market. What do you need?</div>
+        </div>
+        <div class="ai-chips">
+            <span class="ai-chip" onclick="aiAsk('What\'s the MOQ for Fish Oil?')" data-i18n="MOQ for Fish Oil">MOQ for Fish Oil</span>
+            <span class="ai-chip" onclick="aiAsk('Recommend bestsellers for Singapore')" data-i18n="Bestsellers SG">Bestsellers SG</span>
+            <span class="ai-chip" onclick="aiAsk('Compare Omega-3 products')" data-i18n="Compare Omega-3">Compare Omega-3</span>
+            <span class="ai-chip" onclick="aiAsk('Check my order status')" data-i18n="Order Status">Order Status</span>
+        </div>
+        <div class="ai-input-area">
+            <input type="text" class="ai-input" id="aiInput" placeholder="Ask me anything...">
+            <button class="ai-send" onclick="sendAI()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ===== CART STATE =====
+        const CART_KEY = 'bm_cart_v1';
+        let cart = [];
+
+        function loadCart() {
+            try {
+                const saved = localStorage.getItem(CART_KEY);
+                if (saved) cart = JSON.parse(saved);
+            } catch (e) { cart = []; }
+            updateCartBadge();
+        }
+
+        function saveCart() {
+            localStorage.setItem(CART_KEY, JSON.stringify(cart));
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+            const badge = document.getElementById('cartBadge');
+            if (totalQty > 0) {
+                badge.textContent = totalQty > 99 ? '99+' : totalQty;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function getCartItem(sku) {
+            return cart.find(item => item.sku === sku);
+        }
+
+        function parsePrice(priceStr) {
+            return parseFloat(priceStr.replace(/[^0-9.]/g, ''));
+        }
+
+        // ===== PRODUCT DATA =====
+        const products = {
+            'fish-oil': { name: 'Blackmores Fish Oil 1000mg', sku: 'BM-FO1000-001', contract: 'SGD 45.00', coupon: 'SGD 36.90', save: 'SGD 8.10', moq: 12, desc: 'A premium source of omega-3 fatty acids EPA and DHA, essential for heart health, brain function, and overall wellbeing. Sourced from wild-caught fish, molecularly distilled for purity.', img: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=400&h=300&q=80' },
+            'bio-c': { name: 'Blackmores Bio C 1000mg', sku: 'BM-BC1000-002', contract: 'SGD 38.00', coupon: 'SGD 31.50', save: 'SGD 6.50', moq: 12, desc: 'High potency vitamin C with added bioflavonoids for enhanced absorption. Supports immune system health and collagen formation. Gentle on the stomach.', img: 'https://images.unsplash.com/photo-1611080626919-7cf5a9f15f3d?auto=format&fit=crop&w=400&h=300&q=80' },
+            'pregnancy-gold': { name: 'Blackmores Pregnancy & Breast-Feeding Gold', sku: 'BM-PGOLD-003', contract: 'SGD 72.00', coupon: 'SGD 58.90', save: 'SGD 13.10', moq: 6, desc: 'Comprehensive prenatal formula with 17 essential nutrients including folic acid, iodine, iron, DHA, and choline. Supports healthy pregnancy and fetal development.', img: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&h=300&q=80' },
+            'multi-vitamin': { name: 'Blackmores Multivitamins + Minerals', sku: 'BM-MVM-004', contract: 'SGD 42.00', coupon: 'SGD 34.50', save: 'SGD 7.50', moq: 12, desc: 'Daily nutritional support with a balanced blend of vitamins and minerals. Supports energy production, immune health, and general wellbeing for adults.', img: 'https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=400&h=300&q=80' },
+            'probiotics': { name: 'Blackmores Probiotics+ (90 capsules)', sku: 'BM-PRO90-005', contract: 'SGD 55.00', coupon: 'SGD 42.00', save: 'SGD 13.00', moq: 8, desc: 'Multi-strain probiotic formula with 30 billion CFU per capsule. Supports digestive health, immune function, and gut microbiome balance. Refrigeration recommended.', img: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=400&h=300&q=80' },
+            'glucosamine': { name: 'Blackmores Glucosamine Sulfate 1500mg', sku: 'BM-GLU1500-006', contract: 'SGD 68.00', coupon: 'SGD 55.00', save: 'SGD 13.00', moq: 6, desc: 'One-a-day joint health formula with clinically trialled glucosamine sulfate. Supports cartilage health and joint mobility. Shellfish-derived.', img: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=400&h=300&q=80' },
+            'evening-primrose': { name: 'Blackmores Evening Primrose Oil', sku: 'BM-EPO-007', contract: 'SGD 52.00', coupon: 'SGD 42.50', save: 'SGD 9.50', moq: 8, desc: 'Rich source of gamma-linolenic acid (GLA) to support skin health and hormonal balance. Cold-pressed extraction preserves nutrient integrity.', img: 'https://images.unsplash.com/photo-1490750967868-88aa2f55ba7e?auto=format&fit=crop&w=400&h=300&q=80' },
+            'vitamin-e-cream': { name: 'Blackmores Natural Vitamin E Cream', sku: 'BM-VEC-008', contract: 'SGD 28.00', coupon: 'SGD 22.90', save: 'SGD 5.10', moq: 24, desc: 'Fragrance-free moisturizing cream with natural vitamin E, avocado oil, and apricot kernel oil. Suitable for all skin types including sensitive skin.', img: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=400&h=300&q=80' },
+            'coq10': { name: 'Blackmores CoQ10 150mg', sku: 'BM-COQ150-009', contract: 'SGD 62.00', coupon: 'SGD 50.00', save: 'SGD 12.00', moq: 6, desc: 'High potency Coenzyme Q10 to support heart health and cellular energy production. Naturally fermented. Supports cardiovascular system function.', img: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=400&h=300&q=80' },
+            'buffered-c': { name: 'Blackmores Buffered C Slow Release', sku: 'BM-BCSLOW-010', contract: 'SGD 48.00', coupon: 'SGD 39.00', save: 'SGD 9.00', moq: 12, desc: 'Gentle, sustained-release vitamin C with added bioflavonoids. Provides antioxidant support over 8 hours. Ideal for sensitive stomachs.', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=400&h=300&q=80' },
+            'immune-defence': { name: 'Blackmores Immune Defence Ultra', sku: 'BM-IMD-011', contract: 'SGD 58.00', coupon: 'SGD 47.00', save: 'SGD 11.00', moq: 8, desc: 'Advanced immune support with andrographis, echinacea, vitamin C, and zinc. Clinical strength formula for immune system support during seasonal challenges.', img: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=400&h=300&q=80' },
+            'muscle-magnesium': { name: 'Blackmores Muscle Magnesium Powder', sku: 'BM-MGSP-012', contract: 'SGD 35.00', coupon: 'SGD 28.00', save: 'SGD 7.00', moq: 12, desc: 'High absorption magnesium glycinate powder for muscle function and recovery. Natural lemon-lime flavor. Dissolves easily in water.', img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=400&h=300&q=80' }
+        };
+
+        const productBySku = {};
+        Object.values(products).forEach(p => { productBySku[p.sku] = p; });
+
+        // ===== PAGE NAVIGATION =====
+        function showPage(pageId, el) {
+            document.querySelectorAll('.page-section').forEach(page => {
+                page.style.display = 'none';
+            });
+            const target = document.getElementById('page-' + pageId);
+            if (target) target.style.display = 'block';
+
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            var studioCurrent = document.querySelector('.studio-nav [data-page="' + pageId + '"]');
+            if (studioCurrent || (el && el.closest && el.closest('.studio-nav'))) {
+                document.querySelectorAll('.studio-nav button, .studio-nav a').forEach(function(item) { item.classList.remove('active'); });
+                (studioCurrent || el).classList.add('active');
+            }
+
+            if (pageId === 'cart') updateCartUI();
+        }
+
+        function toggleMenu(header) {
+            const submenu = header.nextElementSibling;
+            const chevron = header.querySelector('.sidebar-chevron');
+            submenu.classList.toggle('open');
+            chevron.classList.toggle('open');
+            header.classList.toggle('active');
+        }
+
+        function toggleAI() {
+            document.getElementById('aiWidget').classList.toggle('open');
+        }
+
+        function filterTag(chip, tag) {
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                if (tag === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = card.dataset.tags.includes(tag) ? 'block' : 'none';
+                }
+            });
+        }
+
+        function filterCategory(cat) {
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                card.style.display = card.dataset.tags.includes(cat) ? 'block' : 'none';
+            });
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        }
+
+        // ===== PRODUCT DETAIL =====
+        function showProductDetail(id) {
+            const p = products[id];
+            if (!p) return;
+            document.getElementById('detailName').textContent = p.name;
+            document.getElementById('detailSku').textContent = 'SKU: ' + p.sku;
+            document.getElementById('detailDesc').textContent = p.desc;
+            document.getElementById('detailContract').textContent = p.contract;
+            document.getElementById('detailCoupon').textContent = p.coupon;
+            document.getElementById('detailSave').textContent = 'You save ' + p.save + ' per unit';
+            document.getElementById('detailTotal').textContent = p.coupon;
+            document.getElementById('moqHint').textContent = 'MOQ: ' + p.moq + ' bottles';
+            document.getElementById('detailImgSrc').src = p.img;
+            document.getElementById('detailImgSrc').alt = p.name;
+            document.getElementById('qtyInput').value = p.moq;
+            document.getElementById('qtyInput').min = p.moq;
+            document.getElementById('qtyInput').dataset.sku = p.sku;
+            showPage('product-detail');
+        }
+
+        function changeQty(delta) {
+            const input = document.getElementById('qtyInput');
+            const min = parseInt(input.min);
+            let val = parseInt(input.value) + delta;
+            if (val < min) val = min;
+            input.value = val;
+        }
+
+        // ===== CART OPERATIONS =====
+        function addToCart(sku) {
+            const p = productBySku[sku];
+            if (!p) return;
+            const existing = getCartItem(sku);
+            if (existing) {
+                existing.qty += p.moq;
+            } else {
+                cart.push({ sku: p.sku, name: p.name, contract: p.contract, coupon: p.coupon, save: p.save, moq: p.moq, img: p.img, qty: p.moq });
+            }
+            saveCart();
+            showToast('Added ' + p.name + ' to cart!');
+        }
+
+        function addDetailToCart() {
+            const sku = document.getElementById('detailSku').textContent.replace('SKU: ', '');
+            const qty = parseInt(document.getElementById('qtyInput').value);
+            const p = productBySku[sku];
+            if (!p) return;
+            const existing = getCartItem(sku);
+            if (existing) {
+                existing.qty += qty;
+            } else {
+                cart.push({ sku: p.sku, name: p.name, contract: p.contract, coupon: p.coupon, save: p.save, moq: p.moq, img: p.img, qty: qty });
+            }
+            saveCart();
+            showToast('Added ' + p.name + ' (' + qty + ' units) to cart!');
+        }
+
+        function removeFromCart(sku) {
+            cart = cart.filter(item => item.sku !== sku);
+            saveCart();
+            updateCartUI();
+        }
+
+        function changeCartQty(sku, delta) {
+            const item = getCartItem(sku);
+            if (!item) return;
+            const newQty = item.qty + delta;
+            if (newQty < item.moq) {
+                if (confirm('Remove this item from cart?')) {
+                    removeFromCart(sku);
+                }
+                return;
+            }
+            item.qty = newQty;
+            saveCart();
+            updateCartUI();
+        }
+
+        function setCartQty(sku, qty) {
+            const item = getCartItem(sku);
+            if (!item) return;
+            const val = parseInt(qty);
+            if (isNaN(val) || val < item.moq) {
+                if (val <= 0) {
+                    removeFromCart(sku);
+                    return;
+                }
+                item.qty = item.moq;
+            } else {
+                item.qty = val;
+            }
+            saveCart();
+            updateCartUI();
+        }
+
+        function clearCart() {
+            if (!cart.length) return;
+            if (confirm('Clear all items from your cart?')) {
+                cart = [];
+                saveCart();
+                updateCartUI();
+            }
+        }
+
+        // ===== CART UI RENDERING =====
+        function updateCartUI() {
+            const container = document.getElementById('cartItemsContainer');
+            const emptyEl = document.getElementById('cartEmpty');
+            const clearBtn = document.getElementById('clearCartBtn');
+            const countEl = document.getElementById('cartItemCount');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+
+            if (!cart.length) {
+                container.innerHTML = '';
+                emptyEl.style.display = 'block';
+                clearBtn.style.display = 'none';
+                countEl.textContent = '(0 items)';
+                checkoutBtn.disabled = true;
+                checkoutBtn.style.opacity = '0.5';
+                calculateTotals();
+                return;
+            }
+
+            emptyEl.style.display = 'none';
+            clearBtn.style.display = 'flex';
+            checkoutBtn.disabled = false;
+            checkoutBtn.style.opacity = '1';
+
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            countEl.textContent = '(' + totalItems + ' item' + (totalItems !== 1 ? 's' : '') + ')';
+
+            container.innerHTML = cart.map(item => {
+                const contractPrice = parsePrice(item.contract);
+                const couponPrice = parsePrice(item.coupon);
+                const lineTotal = couponPrice * item.qty;
+                const savePerUnit = parsePrice(item.save);
+                const lineSave = savePerUnit * item.qty;
+                return `
+                    <div class="cart-item">
+                        <div class="cart-item-img"><img src="${item.img}" alt="${item.name}"></div>
+                        <div class="cart-item-info">
+                            <div class="cart-item-name" data-i18n="${item.name}">${item.name}</div>
+                            <div class="cart-item-sku" data-i18n="SKU: ${item.sku}">SKU: ${item.sku}</div>
+                            <div class="cart-item-prices">
+                                <span class="cart-contract" data-i18n="${item.contract}">${item.contract}</span>
+                                <span class="cart-coupon" data-i18n="${item.coupon}">${item.coupon}</span>
+                                <span class="cart-save" data-i18n="Save ${item.save}/unit">Save ${item.save}/unit</span>
+                            </div>
+                            <div class="cart-qty">
+                                <button class="cart-qty-btn" onclick="changeCartQty('${item.sku}', -${item.moq})">−</button>
+                                <input type="number" class="cart-qty-input" value="${item.qty}" min="${item.moq}" onchange="setCartQty('${item.sku}', this.value)">
+                                <button class="cart-qty-btn" onclick="changeCartQty('${item.sku}', ${item.moq})">+</button>
+                                <span class="cart-remove" onclick="removeFromCart('${item.sku}')" data-i18n="Remove">Remove</span>
+                            </div>
+                        </div>
+                        <div class="cart-item-price" data-i18n="SGD ${lineTotal.toFixed(2)}">SGD ${lineTotal.toFixed(2)}</div>
+                    </div>
+                `;
+            }).join('');
+
+            calculateTotals();
+        }
+
+        function calculateTotals() {
+            let subtotalContract = 0;
+            let subtotalCoupon = 0;
+            let totalQty = 0;
+
+            cart.forEach(item => {
+                const contractPrice = parsePrice(item.contract);
+                const couponPrice = parsePrice(item.coupon);
+                subtotalContract += contractPrice * item.qty;
+                subtotalCoupon += couponPrice * item.qty;
+                totalQty += item.qty;
+            });
+
+            const discount = subtotalContract - subtotalCoupon;
+            const gst = subtotalCoupon * 0.09;
+            const total = subtotalCoupon + gst;
+
+            document.getElementById('summaryQty').textContent = totalQty;
+            document.getElementById('summarySubtotal').textContent = 'SGD ' + subtotalCoupon.toFixed(2);
+            document.getElementById('summaryContract').textContent = 'SGD ' + subtotalContract.toFixed(2);
+            document.getElementById('summaryDiscount').textContent = '− SGD ' + discount.toFixed(2);
+            document.getElementById('summaryGst').textContent = 'SGD ' + gst.toFixed(2);
+            document.getElementById('summaryTotal').textContent = 'SGD ' + total.toFixed(2);
+
+            // Also update checkout summary placeholders
+            const summaryHTML = cart.map(item => {
+                const couponPrice = parsePrice(item.coupon);
+                return `<div class="summary-row" style="font-size:13px;"><span data-i18n="${item.name} × ${item.qty}">${item.name} × ${item.qty}</span><span data-i18n="SGD ${(couponPrice * item.qty).toFixed(2)}">SGD ${(couponPrice * item.qty).toFixed(2)}</span></div>`;
+            }).join('');
+
+            ['checkoutSummary1', 'checkoutSummary2', 'checkoutSummary3'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.innerHTML = summaryHTML;
+            });
+
+            ['checkoutTotal1', 'checkoutTotal2', 'checkoutTotal3'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = 'SGD ' + total.toFixed(2);
+            });
+        }
+
+        // ===== CHECKOUT WIZARD =====
+        function startCheckout() {
+            if (!cart.length) return;
+            showCheckoutStep(1);
+        }
+
+        function showCheckoutStep(step) {
+            document.querySelectorAll('.page-section').forEach(page => page.style.display = 'none');
+            if (step === 1) {
+                document.getElementById('page-checkout-step1').style.display = 'block';
+            } else if (step === 2) {
+                document.getElementById('page-checkout-step2').style.display = 'block';
+            } else if (step === 3) {
+                document.getElementById('page-checkout-step3').style.display = 'block';
+                populateReview();
+            }
+            calculateTotals();
+        }
+
+        function selectPayment(card) {
+            document.querySelectorAll('.payment-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            const method = card.dataset.method;
+            const ccFields = document.getElementById('creditCardFields');
+            if (ccFields) ccFields.style.display = method === 'credit' ? 'block' : 'none';
+        }
+
+        function populateReview() {
+            const company = document.getElementById('shipCompany').value;
+            const name = document.getElementById('shipName').value;
+            const email = document.getElementById('shipEmail').value;
+            const phone = document.getElementById('shipPhone').value;
+            const date = document.getElementById('shipDate').value;
+            const address = document.getElementById('shipAddress').value;
+            const po = document.getElementById('shipPO').value;
+            const notes = document.getElementById('shipNotes').value;
+
+            const selectedPayment = document.querySelector('.payment-card.selected');
+            const paymentLabel = selectedPayment ? selectedPayment.querySelector('div:nth-child(2)').textContent : 'Credit Card';
+
+            document.getElementById('reviewShipping').innerHTML = `
+                <strong data-i18n="${company}">${company}</strong><br>
+                Attn: ${name}<br>
+                ${address}<br>
+                Phone: ${phone}<br>
+                Email: ${email}<br>
+                Delivery Date: ${date}<br>
+                PO Number: ${po}
+                ${notes ? '<br>Notes: ' + notes : ''}
+            `;
+            document.getElementById('reviewPayment').innerHTML = `<strong data-i18n="${paymentLabel}">${paymentLabel}</strong>`;
+
+            document.getElementById('reviewItems').innerHTML = cart.map(item => {
+                const couponPrice = parsePrice(item.coupon);
+                return `
+                    <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border); font-size:14px;">
+                        <span>${item.name} <span style="color:var(--text-tertiary);" data-i18n="× ${item.qty}">× ${item.qty}</span></span>
+                        <span style="font-weight:600;" data-i18n="SGD ${(couponPrice * item.qty).toFixed(2)}">SGD ${(couponPrice * item.qty).toFixed(2)}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function placeOrder() {
+            const orderNum = 'BM-ORD-' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '-' + Math.floor(100000 + Math.random() * 900000);
+            const email = document.getElementById('shipEmail').value || 'sarah@wellnessdist.sg';
+            document.getElementById('successOrderNumber').textContent = orderNum;
+            document.getElementById('successEmail').textContent = email;
+
+            cart = [];
+            saveCart();
+            updateCartBadge();
+
+            document.querySelectorAll('.page-section').forEach(page => page.style.display = 'none');
+            document.getElementById('page-order-success').style.display = 'block';
+        }
+
+        // ===== TOAST =====
+        function showToast(message) {
+            const existing = document.querySelector('.cart-toast');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            toast.className = 'cart-toast';
+            toast.innerHTML = message;
+            toast.style.cssText = 'position:fixed; bottom:100px; left:50%; transform:translateX(-50%); background:var(--text); color:white; padding:12px 24px; border-radius:12px; font-size:14px; font-weight:600; z-index:300; box-shadow:0 4px 20px rgba(0,0,0,0.2); animation:toastIn 0.3s ease;';
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(10px)';
+                toast.style.transition = 'all 0.3s';
+                setTimeout(() => toast.remove(), 300);
+            }, 2000);
+        }
+
+        // ===== AI =====
+        function aiAsk(text) {
+            const msgArea = document.querySelector('.ai-messages');
+            msgArea.innerHTML += '<div style="margin-top:12px; text-align:right;"><div style="display:inline-block; background:var(--primary); color:white; padding:10px 14px; border-radius:16px; font-size:13px;" data-i18n="' + text + '">' + text + '</div></div>';
+            setTimeout(() => {
+                msgArea.innerHTML += '<div class="ai-msg-bubble" style="margin-top:12px;" data-i18n="I\'ll help you with that! Let me check our product database and get back to you with the details.">I\'ll help you with that! Let me check our product database and get back to you with the details.</div>';
+                msgArea.scrollTop = msgArea.scrollHeight;
+            }, 800);
+        }
+
+        function sendAI() {
+            const input = document.getElementById('aiInput');
+            if (!input.value.trim()) return;
+            aiAsk(input.value);
+            input.value = '';
+        }
+
+        // ===== INIT =====
+        loadCart();
+    </script>
+
+<script>
+(function(){
+    function highlightCurrentPage() {
+        var current = window.location.pathname.split('/').pop() || 'index.html';
+        document.querySelectorAll('.sidebar-link').forEach(function(link) {
+            var href = link.getAttribute('href');
+            if (!href) return;
+            var hrefClean = href.split('#')[0].split('?')[0];
+            if (hrefClean === current) {
+                link.classList.add('active');
+                var sub = link.closest('.sidebar-submenu');
+                if (sub) sub.classList.add('open');
+            }
+        });
+    }
+    function restoreSidebarState() {
+        var mod = document.body.dataset.module || 'home';
+        var state = JSON.parse(localStorage.getItem('sidebarState') || '{}');
+        document.querySelectorAll('.sidebar-section').forEach(function(sec) {
+            var id = sec.id; if (!id) return;
+            var key = mod + '-' + id;
+            var isOpen = state[key];
+            if (isOpen !== undefined) {
+                var chev = sec.querySelector('.sidebar-chevron');
+                var sub = sec.querySelector('.sidebar-submenu');
+                if (isOpen) { if (chev) chev.classList.add('open'); if (sub) sub.classList.add('open'); }
+                else { if (chev) chev.classList.remove('open'); if (sub) sub.classList.remove('open'); }
+            }
+        });
+    }
+    window.toggleSection = function(id) {
+        var chev = document.getElementById('chevron-' + id);
+        var sub = document.getElementById('submenu-' + id);
+        if (chev && sub) {
+            var isOpen = chev.classList.toggle('open');
+            sub.classList.toggle('open', isOpen);
+            var mod = document.body.dataset.module || 'home';
+            var state = JSON.parse(localStorage.getItem('sidebarState') || '{}');
+            state[mod + '-sidebar-' + id] = isOpen;
+            localStorage.setItem('sidebarState', JSON.stringify(state));
+        }
+    };
+    window.toggleMenu = function(header) {
+        var sec = header.closest('.sidebar-section'); if (!sec) return;
+        var sub = sec.querySelector('.sidebar-submenu');
+        var chev = sec.querySelector('.sidebar-chevron');
+        if (sub && chev) {
+            var isOpen = sub.classList.toggle('open');
+            chev.classList.toggle('open', isOpen);
+            var mod = document.body.dataset.module || 'home';
+            var state = JSON.parse(localStorage.getItem('sidebarState') || '{}');
+            state[mod + '-' + sec.id] = isOpen;
+            localStorage.setItem('sidebarState', JSON.stringify(state));
+        }
+    };
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            var hash = window.location.hash.substring(1);
+            var map = {'cart': 'cart'};
+            var pageId = map[hash] || 'product-list';
+            var selector = hash ? 'a[href="product-center.html#' + hash + '"]' : 'a[href="product-center.html"]';
+            var link = document.querySelector(selector);
+            showPage(pageId, link);
+            highlightCurrentPage();
+            restoreSidebarState();
+        });
+    } else { highlightCurrentPage(); restoreSidebarState(); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Japan · Market Strategy — Blackmores Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-soft:#e0f2f3; --brand-d:#007A82; --ink:#1b1d1a; --muted:#6d716a;
+    --canvas:#ffffff; --card:#ffffff; --line:#e8e6df; --accent:#3FA876;
+    --display:Georgia,'Times New Roman','Songti SC','Noto Serif CJK SC',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans','Microsoft YaHei',sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--body);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+  header{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--line)}
+  .bar{display:flex;align-items:center;gap:16px;padding:10px 28px}
+  .brand-logo{height:34px;width:auto;display:block}
+  .crumb{font-size:13px;font-weight:700;color:var(--muted)}
+  .crumb b{color:var(--ink)}
+  .page-title{font-family:var(--display);font-size:22px;font-weight:600;letter-spacing:-.01em;color:var(--ink);margin:0;line-height:1.1}
+  .spacer{flex:1}
+  .back{font-size:13px;font-weight:800;color:var(--brand-d);text-decoration:none;border:1px solid var(--line);padding:8px 14px;border-radius:999px;transition:.18s}
+  .back:hover{border-color:var(--brand);background:var(--brand-soft)}
+  .langsw{display:flex;gap:4px;background:#f4f2ec;border:1px solid var(--line);border-radius:999px;padding:3px}
+  .langsw button{border:0;background:transparent;font:inherit;font-size:12px;font-weight:800;color:var(--muted);padding:5px 11px;border-radius:999px;cursor:pointer;transition:.15s}
+  .langsw button.on{background:#fff;color:var(--brand-d);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+
+  .hero{background:linear-gradient(135deg,#e9f5ec 0%,#f7f5ef 60%);border-bottom:1px solid var(--line)}
+  .hero-in{padding:40px 0 36px}
+  .kick{font-size:11px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+  .hflag{font-size:34px;line-height:1;vertical-align:-4px;margin-right:10px}
+  .hero h1{font-family:var(--display);font-size:clamp(36px,5vw,58px);font-weight:600;letter-spacing:-.02em;margin:0;line-height:1.02}
+  .hero .tag{font-size:16px;font-weight:700;color:var(--accent);margin-top:12px}
+  .hero .lead{font-size:15.5px;color:var(--muted);max-width:680px;margin-top:12px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .chip{font-size:12.5px;font-weight:700;background:#fff;border:1px solid var(--line);color:var(--ink);padding:8px 13px;border-radius:999px}
+  .chip b{color:var(--accent)}
+
+  section{padding:44px 0}
+  section + section{border-top:1px solid var(--line)}
+  .sec-kick{font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--brand);margin-bottom:10px}
+  .sec-h{font-family:var(--display);font-size:30px;font-weight:600;letter-spacing:-.01em;margin:0 0 8px}
+  .sec-sub{font-size:15px;color:var(--muted);max-width:760px;margin:0 0 26px}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px}
+  .card h3{font-family:var(--display);font-size:19px;font-weight:600;margin:0 0 12px;display:flex;align-items:center;gap:9px}
+  .card h3 .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--brand-soft);color:var(--brand-d);font-size:16px;flex:0 0 auto}
+  .card ul{margin:0;padding-left:0;list-style:none}
+  .card li{position:relative;padding:7px 0 7px 18px;font-size:14px;border-top:1px solid var(--line)}
+  .card li:first-child{border-top:0}
+  .card li::before{content:"";position:absolute;left:0;top:15px;width:7px;height:7px;border-radius:50%;background:var(--brand)}
+  .card li b{font-weight:800}
+  .muted{color:var(--muted)}
+  .tv{font-size:11px;font-weight:800;color:var(--accent);background:#e9f5ec;border-radius:6px;padding:1px 6px;margin-left:4px}
+
+  .timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}
+  .tl{padding:20px;border-right:1px solid var(--line)}
+  .tl:last-child{border-right:0}
+  .tl .yr{font-size:12px;font-weight:800;color:var(--brand-d);letter-spacing:.04em}
+  .tl h4{font-family:var(--display);font-size:17px;font-weight:600;margin:8px 0 6px}
+  .tl p{font-size:13.5px;color:var(--muted);margin:0}
+
+  .status{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+  .st{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .st .k{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .st .v{font-size:14.5px;font-weight:700;color:var(--ink)}
+  .st .v small{display:block;font-weight:500;color:var(--muted);font-size:12.5px;margin-top:3px}
+
+  .pillars{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .pillar{border:1px solid var(--line);border-radius:18px;padding:24px;background:#fff}
+  .pillar.now{border-top:4px solid var(--brand)}
+  .pillar.next{border-top:4px solid var(--accent)}
+  .pillar .phase{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .pillar h3{font-family:var(--display);font-size:22px;font-weight:600;margin:6px 0 4px}
+  .pillar .who{font-size:13px;font-weight:700;color:var(--brand-d);margin-bottom:14px}
+  .pillar.next .who{color:var(--accent)}
+  .pillar ul{margin:0;padding-left:0;list-style:none}
+  .pillar li{font-size:14px;padding:8px 0 8px 20px;position:relative;border-top:1px solid var(--line)}
+  .pillar li::before{content:"→";position:absolute;left:0;top:7px;color:var(--brand);font-weight:800}
+  .pillar.next li::before{color:var(--accent)}
+
+  .flywheel{margin-top:20px;background:var(--brand-soft);border:1px solid color-mix(in srgb,var(--brand) 22%,#fff);border-radius:16px;padding:20px 22px}
+  .flywheel b{color:var(--brand-d)}
+  .demos{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .demos a{font-size:12.5px;font-weight:700;text-decoration:none;background:#fff;border:1px solid var(--line);color:var(--ink);padding:7px 12px;border-radius:8px;transition:.18s}
+  .demos a:hover{border-color:var(--brand);color:var(--brand-d)}
+
+  footer{border-top:1px solid var(--line);padding:26px 0 50px}
+  .note{font-size:13px;color:var(--muted);background:#faf9f5;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+
+  @media(max-width:860px){.grid3,.grid2,.timeline,.status,.pillars{grid-template-columns:1fr}.tl{border-right:0;border-bottom:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <a class="back" href="index.html" data-i18n="back">← Back to studio</a>
+    <h1 class="page-title" data-i18n="ptitle">Japan · Market Strategy</h1>
+    <span class="spacer"></span>
+    <div class="langsw" id="langsw">
+      <button data-lang="en" class="on">EN</button>
+      <button data-lang="zh">中文</button>
+      <button data-lang="ja">日本語</button>
+      <button data-lang="th">ไทย</button>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap hero-in">
+    <div class="kick" data-i18n="kick">Market Strategy</div>
+    <h1><span class="hflag">🇯🇵</span><span data-i18n="hname">Japan</span> <span class="muted" style="font-size:.5em;font-weight:500">· 日本</span></h1>
+    <div class="tag" data-i18n="tag">A LINE-driven daily-care market · relationship-led, lowest priority today</div>
+    <p class="lead" data-i18n="lead">Japan is a high-trust, quality-first market where LINE is the everyday relationship channel and drugstores dominate offline. For Blackmores it is currently the lightest presence — mostly resellers on marketplaces — so the near-term play is enablement, not heavy build.</p>
+    <div class="chips">
+      <span class="chip" data-i18n="chip1">Live: <b>Amazon JP / Rakuten (reseller-led)</b></span>
+      <span class="chip" data-i18n="chip2">Relationship: <b>LINE</b></span>
+      <span class="chip" data-i18n="chip3">Offline: <b>Drugstore chains</b></span>
+      <span class="chip" data-i18n="chip4">Priority: <b>Lowest / optional</b></span>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s1k">01 · Market landscape</div>
+    <h2 class="sec-h" data-i18n="s1h">Market characteristics, audience &amp; channels</h2>
+    <p class="sec-sub" data-i18n="s1s">Quality-sensitive, habitual, and LINE-centric — with strong drugstore retail.</p>
+    <div class="grid3">
+      <div class="card">
+        <h3><span class="ic">🧭</span><span data-i18n="c1h">Market characteristics</span></h3>
+        <ul>
+          <li data-i18n="c1a"><b>High trust, quality over price</b> — provenance and safety matter.</li>
+          <li data-i18n="c1b"><b>Habitual daily care</b> — steady routines, long retention.</li>
+          <li data-i18n="c1c"><b>LINE-centric</b> — the default messaging, loyalty &amp; coupon channel.</li>
+          <li data-i18n="c1d"><b>Drugstore culture</b> (ドラッグストア) is a major offline route.</li>
+          <li data-i18n="c1e">Imported brands often arrive via <b>resellers / parallel import</b>.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="ic">👥</span><span data-i18n="c2h">Audience / persona</span> <span class="tv" data-i18n="tv">to verify</span></h3>
+        <ul>
+          <li data-i18n="c2a"><b>Health-conscious adults, 35–60+</b> — daily supplementation routines.</li>
+          <li data-i18n="c2b"><b>Women managing family health</b> — quality and safety led.</li>
+          <li data-i18n="c2c"><b>Older adults</b> — joint, eye, heart, healthy ageing.</li>
+          <li data-i18n="c2d">Loyal &amp; habitual; reassured by meticulous service.</li>
+          <li data-i18n="c2e">Prefer <b>no new app</b> — act inside LINE.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="ic">🛒</span><span data-i18n="c3h">Mainstream channels</span></h3>
+        <ul>
+          <li data-i18n="c3a"><b>Marketplace:</b> Rakuten, Amazon JP, Yahoo! Shopping <span class="tv" data-i18n="tv">to verify</span></li>
+          <li data-i18n="c3b"><b>Relationship:</b> LINE OA + Mini App + LINE Pay / Points</li>
+          <li data-i18n="c3c"><b>Offline:</b> drugstore chains (e.g. Matsukiyo / Welcia) <span class="tv" data-i18n="tv">to verify</span></li>
+          <li data-i18n="c3d"><b>Distribution:</b> local agents / importers <span class="tv" data-i18n="tv">to verify</span></li>
+          <li class="muted" data-i18n="c3e">Note: today largely <b>reseller-led</b>, not an official DTC operation.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s2k">02 · Where Blackmores is today</div>
+    <h2 class="sec-h" data-i18n="s2h">Blackmores' business status in Japan</h2>
+    <p class="sec-sub" data-i18n="s2s">The lightest of the four markets — present through marketplaces, mostly via third parties.</p>
+    <div class="timeline">
+      <div class="tl">
+        <div class="yr" data-i18n="t1y">Today</div>
+        <h4 data-i18n="t1h">Reseller presence</h4>
+        <p data-i18n="t1p">Products listed on Amazon JP, Rakuten and Yahoo — largely via distributors and parallel-import sellers.</p>
+      </div>
+      <div class="tl">
+        <div class="yr" data-i18n="t2y">Gap</div>
+        <h4 data-i18n="t2h">No strong official DTC</h4>
+        <p data-i18n="t2p">No confirmed official Japan DTC or official LINE store; brand control and first-party data are limited.</p>
+      </div>
+      <div class="tl">
+        <div class="yr" data-i18n="t3y">Opportunity</div>
+        <h4 data-i18n="t3h">LINE relationship layer</h4>
+        <p data-i18n="t3p">If pursued, LINE offers a low-friction, habit-forming care channel — but this is aspirational, not current.</p>
+      </div>
+    </div>
+    <div class="status">
+      <div class="st"><div class="k" data-i18n="st1k">Primary route to market</div><div class="v" data-i18n="st1v">Marketplaces via third parties <span class="tv">to verify</span><small>Rakuten / Amazon JP / Yahoo listings, reseller-led</small></div></div>
+      <div class="st"><div class="k" data-i18n="st2k">Official DTC / LINE</div><div class="v" data-i18n="st2v">Not confirmed<small>Limited direct brand presence and first-party data</small></div></div>
+      <div class="st"><div class="k" data-i18n="st3k">Offline</div><div class="v" data-i18n="st3v">Drugstore retail <span class="tv">to verify</span><small>Habitual purchase, strong service expectations</small></div></div>
+      <div class="st"><div class="k" data-i18n="st4k">Priority</div><div class="v" data-i18n="st4v">Lowest of four markets<small>Treat as optional / phased enablement</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s3k">03 · Our point of view</div>
+    <h2 class="sec-h" data-i18n="s3h">Digitalisation strategy — channel + consumer</h2>
+    <p class="sec-sub" data-i18n="s3s">Given the light footprint, keep it lean: enable retail and marketplace partners, and use LINE as a low-cost relationship layer — only scale if the market case strengthens.</p>
+    <div class="pillars">
+      <div class="pillar now">
+        <div class="phase" data-i18n="p1ph">Short-term · keep it lean</div>
+        <h3 data-i18n="p1h">Channel enablement</h3>
+        <div class="who" data-i18n="p1w">Customer = drugstore &amp; marketplace partners</div>
+        <ul>
+          <li data-i18n="p1a">Brand content &amp; compliant assets for retail and marketplace listings</li>
+          <li data-i18n="p1b">Establish official representation to reduce parallel-import noise</li>
+          <li data-i18n="p1c">LINE Official Account as the daily-care relationship channel</li>
+          <li data-i18n="p1d">Lightweight sell-through visibility where data is available</li>
+        </ul>
+      </div>
+      <div class="pillar next">
+        <div class="phase" data-i18n="p2ph">Long-term · if the case strengthens</div>
+        <h3 data-i18n="p2h">Consumer direct (DTC)</h3>
+        <div class="who" data-i18n="p2w">Customer = the end consumer</div>
+        <ul>
+          <li data-i18n="p2a">LINE Mini App for daily care — reminders &amp; member coupons</li>
+          <li data-i18n="p2b">Habit check-ins and gentle, high-trust service</li>
+          <li data-i18n="p2c">Member data captured inside LINE — no new app needed</li>
+          <li data-i18n="p2d">Scale only once volume justifies the build</li>
+        </ul>
+      </div>
+    </div>
+    <div class="flywheel">
+      <span data-i18n="fly"><b>The data flywheel:</b> marketplace sell-out + LINE engagement → unified CDP → AI feeds back content and coupons. In Japan the priority is a light, low-cost loop — proving the relationship model on LINE before any heavier investment.</span>
+      <div class="demos">
+        <span class="muted" style="font-size:12.5px;font-weight:700;align-self:center;margin-right:4px" data-i18n="demolbl">Studio demos:</span>
+        <a href="line-flywheel.html" data-i18n="d_line">LINE flywheel</a>
+        <a href="conversational.html" data-i18n="d_conv">Conversational commerce</a>
+        <a href="loyalty.html" data-i18n="d_loy">Loyalty</a>
+        <a href="health.html" data-i18n="d_health">Health</a>
+        <a href="aigc.html" data-i18n="d_aigc">AIGC content</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="note" data-i18n="note">
+      <b>Draft for review.</b> Items marked <span class="tv">to verify</span> (persona, specific platforms/drugstores, who operates listings) are reasoned from public research and need confirmation. Japan currently shows a reseller-led marketplace presence with no confirmed official DTC/LINE. Source of truth: <b>MARKET_POSITIONING.md</b>.
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var I18N={
+    zh:{
+      back:"← 返回工作室", ptitle:"日本 · 市场战略", kick:"市场战略", hname:"日本",
+      tag:"由 LINE 驱动的日常养护市场 · 关系导向，当前优先级最低",
+      lead:"日本是一个高信任、品质优先的市场，LINE 是日常的关系沟通渠道，药妆店主导线下。对 Blackmores 而言，这里目前是布局最轻的市场——主要由第三方经销商在电商平台上销售——因此近期的打法是赋能，而非重投入建设。",
+      chip1:"在售：<b>Amazon JP / 乐天（经销商主导）</b>", chip2:"关系：<b>LINE</b>", chip3:"线下：<b>药妆连锁</b>", chip4:"优先级：<b>最低 / 可选</b>",
+      s1k:"01 · 市场格局", s1h:"市场特征、人群与渠道", s1s:"对品质敏感、习惯稳定、以 LINE 为中心——并拥有强势的药妆零售。",
+      c1h:"市场特征",
+      c1a:"<b>高信任，品质重于价格</b>——原产地与安全性至关重要。",
+      c1b:"<b>习惯性日常养护</b>——稳定的服用习惯，留存周期长。",
+      c1c:"<b>以 LINE 为中心</b>——默认的消息、会员与优惠券渠道。",
+      c1d:"<b>药妆店文化</b>（ドラッグストア）是重要的线下通路。",
+      c1e:"进口品牌常通过<b>经销商 / 平行进口</b>进入。",
+      c2h:"目标人群 / 画像",
+      c2a:"<b>注重健康的成年人，35–60 岁以上</b>——日常补充养护的习惯。",
+      c2b:"<b>掌管家庭健康的女性</b>——以品质与安全为先。",
+      c2c:"<b>中老年人</b>——关节、眼睛、心脏与健康老龄。",
+      c2d:"忠诚且习惯稳定；细致的服务令其安心。",
+      c2e:"偏好<b>无需新增 App</b>——在 LINE 内完成操作。",
+      c3h:"主流渠道",
+      c3a:"<b>电商平台：</b>乐天、Amazon JP、Yahoo! 购物 <span class=\"tv\">待核实</span>",
+      c3b:"<b>关系：</b>LINE 官方账号 + 小程序 + LINE Pay / 积分",
+      c3c:"<b>线下：</b>药妆连锁（如松本清 / Welcia） <span class=\"tv\">待核实</span>",
+      c3d:"<b>分销：</b>本地代理 / 进口商 <span class=\"tv\">待核实</span>",
+      c3e:"注：目前主要为<b>经销商主导</b>，而非官方 DTC 运营。",
+      s2k:"02 · Blackmores 当前所处的位置", s2h:"Blackmores 在日本的经营现状", s2s:"四个市场中布局最轻——通过电商平台存在，且多由第三方经营。",
+      t1y:"当下", t1h:"经销商存在", t1p:"产品在 Amazon JP、乐天与 Yahoo 上架——主要通过分销商与平行进口卖家。",
+      t2y:"缺口", t2h:"缺乏强势官方 DTC", t2p:"尚无确认的日本官方 DTC 或官方 LINE 商城；品牌掌控力与第一方数据有限。",
+      t3y:"机会", t3h:"LINE 关系层", t3p:"若推进，LINE 可提供低摩擦、易养成习惯的养护渠道——但这属愿景，而非现状。",
+      st1k:"主要进入市场通路", st1v:"通过第三方的电商平台 <span class=\"tv\">待核实</span><small>乐天 / Amazon JP / Yahoo 上架，经销商主导</small>",
+      st2k:"官方 DTC / LINE", st2v:"尚未确认<small>品牌直接触点与第一方数据有限</small>",
+      st3k:"线下", st3v:"药妆零售 <span class=\"tv\">待核实</span><small>习惯性购买，对服务期望高</small>",
+      st4k:"优先级", st4v:"四个市场中最低<small>视为可选 / 分阶段赋能</small>",
+      s3k:"03 · 我们的观点", s3h:"数字化战略——渠道 + 消费者", s3s:"鉴于布局较轻，保持精简：赋能零售与电商平台伙伴，并以 LINE 作为低成本的关系层——仅在市场理由增强时才扩大投入。",
+      p1ph:"短期 · 保持精简", p1h:"渠道赋能", p1w:"客户 = 药妆与电商平台伙伴",
+      p1a:"为零售与平台上架提供品牌内容与合规素材",
+      p1b:"建立官方代表，减少平行进口的杂音",
+      p1c:"以 LINE 官方账号作为日常养护的关系渠道",
+      p1d:"在有数据的环节实现轻量化的动销可见性",
+      p2ph:"长期 · 若理由增强", p2h:"消费者直营（DTC）", p2w:"客户 = 终端消费者",
+      p2a:"面向日常养护的 LINE 小程序——提醒与会员优惠券",
+      p2b:"习惯打卡与温和、高信任的服务",
+      p2c:"在 LINE 内沉淀会员数据——无需新增 App",
+      p2d:"待销量足以支撑投入时再行扩大",
+      fly:"<b>数据飞轮：</b>平台动销 + LINE 互动 → 统一 CDP → AI 反哺内容与优惠券。在日本，重点是一个轻量、低成本的闭环——在更大投入之前，先在 LINE 上验证关系模式。",
+      demolbl:"工作室 Demo：", d_line:"LINE 飞轮", d_conv:"对话式商务", d_loy:"会员忠诚", d_health:"健康", d_aigc:"AIGC 内容",
+      tv:"待核实",
+      note:"<b>评审草稿。</b>标注 <span class=\"tv\">待核实</span>的项目（人群画像、具体平台/药妆店、上架经营方）基于公开研究推断，需进一步确认。日本目前呈现经销商主导的电商平台存在，尚无确认的官方 DTC / LINE。事实依据：<b>MARKET_POSITIONING.md</b>。"
+    },
+    ja:{
+      back:"← スタジオに戻る", ptitle:"日本 · 市場戦略", kick:"市場戦略", hname:"日本",
+      tag:"LINE 主導のデイリーケア市場 · 関係性重視、現状では優先度は最も低い",
+      lead:"日本は信頼性が高く品質を最優先する市場で、LINE が日常の関係チャネル、ドラッグストアがオフラインを牽引します。Blackmores にとっては現状もっとも展開が軽い市場で、主にマーケットプレイス上のリセラー経由のため、当面の打ち手は本格的な構築ではなくイネーブルメントです。",
+      chip1:"販売中：<b>Amazon JP / 楽天（リセラー主導）</b>", chip2:"関係：<b>LINE</b>", chip3:"オフライン：<b>ドラッグストアチェーン</b>", chip4:"優先度：<b>最も低い / 任意</b>",
+      s1k:"01 · 市場環境", s1h:"市場特性・顧客・チャネル", s1s:"品質に敏感で習慣的、そして LINE 中心 — 強力なドラッグストア小売を伴う。",
+      c1h:"市場特性",
+      c1a:"<b>高い信頼、価格より品質</b> — 原産地と安全性が重視される。",
+      c1b:"<b>習慣的なデイリーケア</b> — 安定した継続、長い定着。",
+      c1c:"<b>LINE 中心</b> — メッセージ・会員・クーポンの標準チャネル。",
+      c1d:"<b>ドラッグストア文化</b>（ドラッグストア）が主要なオフライン経路。",
+      c1e:"輸入ブランドは多くの場合<b>リセラー / 並行輸入</b>経由で流通する。",
+      c2h:"ターゲット / ペルソナ",
+      c2a:"<b>健康意識の高い成人、35〜60歳以上</b> — 日々のサプリ習慣。",
+      c2b:"<b>家族の健康を管理する女性</b> — 品質と安全を重視。",
+      c2c:"<b>シニア層</b> — 関節・目・心臓・健やかな加齢。",
+      c2d:"ロイヤルかつ習慣的で、きめ細かなサービスに安心する。",
+      c2e:"<b>新しいアプリは不要</b>を好む — LINE 内で完結。",
+      c3h:"主要チャネル",
+      c3a:"<b>マーケットプレイス：</b>楽天、Amazon JP、Yahoo! ショッピング <span class=\"tv\">要確認</span>",
+      c3b:"<b>関係：</b>LINE 公式アカウント + ミニアプリ + LINE Pay / ポイント",
+      c3c:"<b>オフライン：</b>ドラッグストアチェーン（例：マツキヨ / ウエルシア） <span class=\"tv\">要確認</span>",
+      c3d:"<b>流通：</b>国内代理店 / 輸入業者 <span class=\"tv\">要確認</span>",
+      c3e:"注：現状は主に<b>リセラー主導</b>であり、公式の DTC 運営ではない。",
+      s2k:"02 · Blackmores の現在地", s2h:"日本における Blackmores の事業状況", s2s:"4市場の中でもっとも軽い — マーケットプレイス経由、その多くは第三者による。",
+      t1y:"現在", t1h:"リセラーによる展開", t1p:"Amazon JP・楽天・Yahoo に出品 — その多くはディストリビューターや並行輸入セラー経由。",
+      t2y:"ギャップ", t2h:"強力な公式 DTC が不在", t2p:"日本の公式 DTC や公式 LINE ストアは未確認。ブランドの統制力と一次データは限定的。",
+      t3y:"機会", t3h:"LINE の関係レイヤー", t3p:"取り組めば、LINE は摩擦が少なく習慣化しやすいケアチャネルになり得る — ただしこれは構想であり現状ではない。",
+      st1k:"主要な市場参入ルート", st1v:"第三者経由のマーケットプレイス <span class=\"tv\">要確認</span><small>楽天 / Amazon JP / Yahoo 出品、リセラー主導</small>",
+      st2k:"公式 DTC / LINE", st2v:"未確認<small>ブランドの直接的な接点と一次データは限定的</small>",
+      st3k:"オフライン", st3v:"ドラッグストア小売 <span class=\"tv\">要確認</span><small>習慣的な購入、高いサービス期待</small>",
+      st4k:"優先度", st4v:"4市場の中で最も低い<small>任意 / 段階的イネーブルメントとして扱う</small>",
+      s3k:"03 · 私たちの視点", s3h:"デジタル化戦略 — チャネル + 消費者", s3s:"軽い展開を踏まえ、無駄なくいく：小売とマーケットプレイスのパートナーを支援し、LINE を低コストの関係レイヤーとして活用 — 市場の根拠が強まった場合にのみ拡大する。",
+      p1ph:"短期 · 無駄なく", p1h:"チャネル・イネーブルメント", p1w:"顧客 = ドラッグストアとマーケットプレイスのパートナー",
+      p1a:"小売・マーケットプレイス出品向けのブランドコンテンツとコンプライアンス素材",
+      p1b:"公式の代表体制を整え、並行輸入のノイズを低減",
+      p1c:"デイリーケアの関係チャネルとしての LINE 公式アカウント",
+      p1d:"データが得られる範囲での軽量な売上可視化",
+      p2ph:"長期 · 根拠が強まれば", p2h:"消費者直販（DTC）", p2w:"顧客 = エンド消費者",
+      p2a:"デイリーケア向け LINE ミニアプリ — リマインダーと会員クーポン",
+      p2b:"習慣チェックインと、やさしく信頼性の高いサービス",
+      p2c:"会員データを LINE 内で取得 — 新しいアプリは不要",
+      p2d:"数量が投資を正当化してから初めて拡大する",
+      fly:"<b>データフライホイール：</b>マーケットプレイスの売上 + LINE エンゲージメント → 統合 CDP → AI がコンテンツとクーポンに還元。日本では軽く低コストなループが優先 — 本格投資の前に LINE で関係モデルを検証する。",
+      demolbl:"スタジオ Demo：", d_line:"LINE フライホイール", d_conv:"会話型コマース", d_loy:"ロイヤルティ", d_health:"ヘルス", d_aigc:"AIGC コンテンツ",
+      tv:"要確認",
+      note:"<b>レビュー用ドラフト。</b><span class=\"tv\">要確認</span>の項目（ペルソナ、具体的なプラットフォーム/ドラッグストア、出品の運営者）は公開情報からの推定で、確認が必要です。日本は現状、リセラー主導のマーケットプレイス展開で、公式の DTC / LINE は未確認です。出典：<b>MARKET_POSITIONING.md</b>。"
+    },
+    th:{
+      back:"← กลับสู่สตูดิโอ", ptitle:"ญี่ปุ่น · กลยุทธ์ตลาด", kick:"กลยุทธ์ตลาด", hname:"ญี่ปุ่น",
+      tag:"ตลาดดูแลสุขภาพประจำวันที่ขับเคลื่อนด้วย LINE · เน้นความสัมพันธ์ และมีลำดับความสำคัญต่ำสุดในขณะนี้",
+      lead:"ญี่ปุ่นเป็นตลาดที่ไว้วางใจสูงและให้คุณภาพมาก่อน โดย LINE เป็นช่องทางความสัมพันธ์ในชีวิตประจำวัน และร้านขายยา (ดรักสโตร์) ครองตลาดออฟไลน์ สำหรับ Blackmores นี่คือตลาดที่มีตัวตนเบาที่สุดในขณะนี้ — ส่วนใหญ่ผ่านรีเซลเลอร์บนมาร์เก็ตเพลส ดังนั้นแนวทางระยะใกล้คือการเสริมพลังช่องทาง ไม่ใช่การลงทุนสร้างหนัก",
+      chip1:"วางขาย: <b>Amazon JP / Rakuten (นำโดยรีเซลเลอร์)</b>", chip2:"ความสัมพันธ์: <b>LINE</b>", chip3:"ออฟไลน์: <b>เครือร้านขายยา</b>", chip4:"ลำดับความสำคัญ: <b>ต่ำสุด / เป็นทางเลือก</b>",
+      s1k:"01 · ภูมิทัศน์ตลาด", s1h:"ลักษณะตลาด ผู้ซื้อ และช่องทาง", s1s:"ใส่ใจคุณภาพ เป็นกิจวัตร และมี LINE เป็นศูนย์กลาง — พร้อมค้าปลีกร้านขายยาที่แข็งแกร่ง",
+      c1h:"ลักษณะตลาด",
+      c1a:"<b>ไว้วางใจสูง คุณภาพมาก่อนราคา</b> — แหล่งที่มาและความปลอดภัยสำคัญ",
+      c1b:"<b>การดูแลประจำวันที่เป็นกิจวัตร</b> — กิจวัตรสม่ำเสมอ คงอยู่ยาวนาน",
+      c1c:"<b>มี LINE เป็นศูนย์กลาง</b> — ช่องทางข้อความ สมาชิก และคูปองโดยปริยาย",
+      c1d:"<b>วัฒนธรรมร้านขายยา</b> (ドラッグストア) เป็นช่องทางออฟไลน์หลัก",
+      c1e:"แบรนด์นำเข้ามักเข้ามาผ่าน <b>รีเซลเลอร์ / การนำเข้าคู่ขนาน</b>",
+      c2h:"กลุ่มเป้าหมาย / เพอร์โซนา",
+      c2a:"<b>ผู้ใหญ่ใส่ใจสุขภาพ อายุ 35–60+</b> — กิจวัตรการเสริมอาหารประจำวัน",
+      c2b:"<b>ผู้หญิงที่ดูแลสุขภาพครอบครัว</b> — นำด้วยคุณภาพและความปลอดภัย",
+      c2c:"<b>ผู้สูงวัย</b> — ข้อต่อ สายตา หัวใจ และการสูงวัยอย่างมีสุขภาพดี",
+      c2d:"ภักดีและเป็นกิจวัตร อุ่นใจด้วยบริการที่พิถีพิถัน",
+      c2e:"ชอบ <b>ไม่ต้องโหลดแอปใหม่</b> — ทำทุกอย่างภายใน LINE",
+      c3h:"ช่องทางหลัก",
+      c3a:"<b>มาร์เก็ตเพลส:</b> Rakuten, Amazon JP, Yahoo! Shopping <span class=\"tv\">ต้องยืนยัน</span>",
+      c3b:"<b>ความสัมพันธ์:</b> LINE OA + Mini App + LINE Pay / Points",
+      c3c:"<b>ออฟไลน์:</b> เครือร้านขายยา (เช่น Matsukiyo / Welcia) <span class=\"tv\">ต้องยืนยัน</span>",
+      c3d:"<b>การกระจายสินค้า:</b> ตัวแทน / ผู้นำเข้าในประเทศ <span class=\"tv\">ต้องยืนยัน</span>",
+      c3e:"หมายเหตุ: ปัจจุบันส่วนใหญ่ <b>นำโดยรีเซลเลอร์</b> ไม่ใช่การดำเนินการ DTC อย่างเป็นทางการ",
+      s2k:"02 · Blackmores อยู่ตรงไหนวันนี้", s2h:"สถานะธุรกิจของ Blackmores ในญี่ปุ่น", s2s:"เบาที่สุดในสี่ตลาด — มีตัวตนผ่านมาร์เก็ตเพลส ส่วนใหญ่ผ่านบุคคลที่สาม",
+      t1y:"วันนี้", t1h:"การมีตัวตนผ่านรีเซลเลอร์", t1p:"สินค้าวางขายบน Amazon JP, Rakuten และ Yahoo — ส่วนใหญ่ผ่านผู้จัดจำหน่ายและผู้ขายแบบนำเข้าคู่ขนาน",
+      t2y:"ช่องว่าง", t2h:"ยังไม่มี DTC ทางการที่แข็งแกร่ง", t2p:"ยังไม่ยืนยัน DTC ทางการในญี่ปุ่นหรือร้าน LINE ทางการ การควบคุมแบรนด์และข้อมูลปฐมภูมิมีจำกัด",
+      t3y:"โอกาส", t3h:"ชั้นความสัมพันธ์ LINE", t3p:"หากเดินหน้า LINE มอบช่องทางดูแลที่มีแรงเสียดทานต่ำและสร้างนิสัยได้ — แต่นี่เป็นเป้าหมายในอนาคต ไม่ใช่ปัจจุบัน",
+      st1k:"ช่องทางหลักเข้าสู่ตลาด", st1v:"มาร์เก็ตเพลสผ่านบุคคลที่สาม <span class=\"tv\">ต้องยืนยัน</span><small>วางขายบน Rakuten / Amazon JP / Yahoo นำโดยรีเซลเลอร์</small>",
+      st2k:"DTC / LINE ทางการ", st2v:"ยังไม่ยืนยัน<small>ตัวตนแบรนด์โดยตรงและข้อมูลปฐมภูมิมีจำกัด</small>",
+      st3k:"ออฟไลน์", st3v:"ค้าปลีกร้านขายยา <span class=\"tv\">ต้องยืนยัน</span><small>การซื้อเป็นกิจวัตร คาดหวังบริการสูง</small>",
+      st4k:"ลำดับความสำคัญ", st4v:"ต่ำสุดในสี่ตลาด<small>ถือเป็นทางเลือก / การเสริมพลังแบบเป็นเฟส</small>",
+      s3k:"03 · มุมมองของเรา", s3h:"กลยุทธ์ดิจิทัล — ช่องทาง + ผู้บริโภค", s3s:"ด้วยการมีตัวตนที่เบา จึงทำให้กระชับ: เสริมพลังพาร์ทเนอร์ค้าปลีกและมาร์เก็ตเพลส และใช้ LINE เป็นชั้นความสัมพันธ์ต้นทุนต่ำ — ขยายขนาดเฉพาะเมื่อเหตุผลทางตลาดแข็งแกร่งขึ้น",
+      p1ph:"ระยะสั้น · ทำให้กระชับ", p1h:"การเสริมพลังช่องทาง", p1w:"ลูกค้า = พาร์ทเนอร์ร้านขายยาและมาร์เก็ตเพลส",
+      p1a:"คอนเทนต์แบรนด์และแอสเซตที่สอดคล้องกฎสำหรับการวางขายในค้าปลีกและมาร์เก็ตเพลส",
+      p1b:"จัดตั้งตัวแทนอย่างเป็นทางการเพื่อลดสัญญาณรบกวนจากการนำเข้าคู่ขนาน",
+      p1c:"LINE Official Account เป็นช่องทางความสัมพันธ์สำหรับการดูแลประจำวัน",
+      p1d:"การมองเห็นยอดขายแบบเบาๆ ในจุดที่มีข้อมูล",
+      p2ph:"ระยะยาว · หากเหตุผลแข็งแกร่งขึ้น", p2h:"ขายตรงถึงผู้บริโภค (DTC)", p2w:"ลูกค้า = ผู้บริโภคปลายทาง",
+      p2a:"LINE Mini App สำหรับการดูแลประจำวัน — การแจ้งเตือนและคูปองสมาชิก",
+      p2b:"การเช็กอินกิจวัตรและบริการที่อ่อนโยน น่าเชื่อถือสูง",
+      p2c:"เก็บข้อมูลสมาชิกภายใน LINE — ไม่ต้องใช้แอปใหม่",
+      p2d:"ขยายขนาดเมื่อปริมาณคุ้มกับการลงทุนสร้างเท่านั้น",
+      fly:"<b>วงล้อข้อมูล:</b> ยอดขายมาร์เก็ตเพลส + การมีส่วนร่วมบน LINE → CDP เดียว → AI ป้อนกลับคอนเทนต์และคูปอง ในญี่ปุ่นเน้นลูปที่เบาและต้นทุนต่ำ — พิสูจน์โมเดลความสัมพันธ์บน LINE ก่อนการลงทุนที่หนักกว่า",
+      demolbl:"เดโมในสตูดิโอ:", d_line:"LINE flywheel", d_conv:"คอมเมิร์ซเชิงสนทนา", d_loy:"ลอยัลตี้", d_health:"สุขภาพ", d_aigc:"คอนเทนต์ AIGC",
+      tv:"ต้องยืนยัน",
+      note:"<b>ฉบับร่างเพื่อทบทวน</b> รายการที่ทำเครื่องหมาย <span class=\"tv\">ต้องยืนยัน</span> (เพอร์โซนา แพลตฟอร์ม/ร้านขายยาเฉพาะ ผู้ดำเนินการวางขาย) มาจากการวิเคราะห์ข้อมูลสาธารณะ และต้องยืนยัน ปัจจุบันญี่ปุ่นแสดงการมีตัวตนบนมาร์เก็ตเพลสที่นำโดยรีเซลเลอร์ โดยยังไม่ยืนยัน DTC/LINE ทางการ แหล่งอ้างอิง: <b>MARKET_POSITIONING.md</b>"
+    }
+  };
+  var LANGS=['en','zh','ja','th'];
+  var state={lang:'en'};
+  try{var _l=new URLSearchParams(location.search).get('lang');if(_l&&LANGS.indexOf(_l)>=0)state.lang=_l;}catch(e){}
+  function apply(){
+    var d=I18N[state.lang]||null;
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k=el.getAttribute('data-i18n');
+      if(!el.hasAttribute('data-en'))el.setAttribute('data-en',el.innerHTML);
+      if(d&&d[k]!=null)el.innerHTML=d[k];
+      else el.innerHTML=el.getAttribute('data-en');
+    });
+    document.documentElement.lang=state.lang;
+    document.querySelectorAll('#langsw button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-lang')===state.lang);});
+  }
+  document.querySelectorAll('#langsw button').forEach(function(b){b.addEventListener('click',function(){state.lang=b.getAttribute('data-lang');apply();});});
+  window.addEventListener('message',function(e){try{if(e.data&&e.data.t==='es'&&e.data.lang&&LANGS.indexOf(e.data.lang)>=0){state.lang=e.data.lang;apply();}}catch(err){}});
+  apply();
+})();
+// hide own header when embedded in the studio viewer
+(function(){try{if(window.self!==window.top){var s=document.createElement("style");s.textContent="header{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();
+</script>
+</body>
+</html>

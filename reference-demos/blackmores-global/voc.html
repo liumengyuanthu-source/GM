@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consumer Insight & VOC · Blackmores · Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
+    --ink:#16201f; --muted:#6a7472; --bg:#f4f7f7; --card:#fff; --line:#e6ecec;
+    --pos:#1f9d57; --neu:#c98a2b; --neg:#e0564a;
+    --display:Georgia,'Times New Roman','Songti SC','Hiragino Mincho ProN',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans','Microsoft YaHei','Thonburi','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  .nav{display:flex;align-items:center;gap:12px;max-width:1000px;margin:0 auto;padding:13px 18px}
+  .brand{font-family:var(--display);font-weight:700;font-size:19px}.brand sup{font-size:9px;color:var(--brand)}
+  .sub{font-size:11px;color:var(--muted);border-left:1px solid var(--line);padding-left:12px}.sp{flex:1}
+  .chip{display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:12px;font-weight:600;cursor:pointer;position:relative}
+  .menu{position:absolute;top:40px;right:0;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:6px;min-width:120px;box-shadow:0 12px 30px rgba(0,0,0,.12);display:none;z-index:50}
+  .menu.open{display:block}.menu button{display:block;width:100%;border:0;background:0;font:inherit;font-size:13px;padding:8px 9px;border-radius:7px;cursor:pointer;text-align:left;color:var(--ink)}.menu button:hover{background:var(--soft)}
+  .langs{display:flex;gap:3px}
+  .langs button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;font-weight:600;color:var(--muted);min-width:32px;height:30px;border-radius:8px;cursor:pointer;transition:.2s;padding:0 6px}
+  .langs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .tabs{max-width:1000px;margin:0 auto;padding:0 18px;display:flex;gap:4px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tabs button{border:0;background:0;font:inherit;font-size:13.5px;font-weight:600;color:var(--muted);padding:13px 13px;cursor:pointer;border-bottom:2px solid transparent}
+  .tabs button.on{color:var(--brand);border-color:var(--brand)}
+  .wrap{max-width:1000px;margin:0 auto;padding:20px 18px 70px}
+  h2.sec{font-family:var(--display);font-size:21px;margin-bottom:3px}.lead{color:var(--muted);font-size:13px;margin-bottom:16px}
+
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+  .kc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px}
+  .kc b{font-size:23px;font-family:var(--display)}.kc small{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+  .kc.pos b{color:var(--pos)}.kc.neu b{color:var(--neu)}.kc.neg b{color:var(--neg)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:16px}
+  .panel h3{font-family:var(--display);font-size:15px;margin-bottom:12px}
+  .donut{width:120px;height:120px;border-radius:50%;margin:0 auto;
+    background:conic-gradient(var(--pos) 0 53%,var(--neu) 53% 80%,var(--neg) 80% 100%)}
+  .leg{display:flex;flex-direction:column;gap:6px;font-size:12.5px;justify-content:center}
+  .leg span{display:flex;gap:7px;align-items:center}.sw{width:11px;height:11px;border-radius:3px}
+  .src .sr{display:flex;align-items:center;gap:9px;margin:7px 0;font-size:12.5px}
+  .src .sn{width:84px;color:var(--muted)}.src .sb{flex:1;height:14px;background:var(--soft);border-radius:5px;overflow:hidden}
+  .src .sb i{display:block;height:100%;background:var(--brand);border-radius:5px}.src .sv{width:34px;text-align:right;font-weight:700;font-size:12px}
+  .cloud{display:flex;flex-wrap:wrap;gap:9px;align-items:center;line-height:1}
+  .cloud span{font-weight:700}
+  .vtypes .vt{display:flex;align-items:center;gap:9px;margin:6px 0;font-size:13px;cursor:pointer;padding:6px;border-radius:9px}
+  .vtypes .vt:hover{background:var(--bg)}
+  .vt .vbar{flex:1;height:13px;background:var(--soft);border-radius:5px;overflow:hidden}.vt .vbar i{display:block;height:100%;background:var(--neg);border-radius:5px}
+  .vt .vc{width:34px;text-align:right;font-weight:700;color:var(--muted);font-size:12px}
+
+  /* ai chat */
+  .qchips{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 14px}
+  .qc{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:8px 13px;font-size:12.5px;font-weight:600;cursor:pointer}
+  .qc.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .askbtn{border:0;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:14px;padding:12px 20px;border-radius:11px;cursor:pointer}
+  .summary{margin-top:16px;display:none}.summary.show{display:block;animation:fin .4s}@keyframes fin{from{opacity:0;transform:translateY(8px)}}
+  .sample{font-size:11.5px;color:var(--muted);margin-bottom:10px}
+  .pc2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .pcbox{border-radius:13px;padding:14px}.pcbox.p{background:color-mix(in srgb,var(--pos) 9%,#fff);border:1px solid color-mix(in srgb,var(--pos) 30%,#fff)}
+  .pcbox.c{background:color-mix(in srgb,var(--neg) 8%,#fff);border:1px solid color-mix(in srgb,var(--neg) 28%,#fff)}
+  .pcbox h4{font-size:13px;margin-bottom:8px}.pcbox.p h4{color:var(--pos)}.pcbox.c h4{color:var(--neg)}
+  .pcbox li{font-size:13px;margin:6px 0;list-style:none}
+
+  /* drill */
+  .reason{display:flex;align-items:center;gap:10px;padding:11px;border:1px solid var(--line);border-radius:11px;margin-bottom:9px}
+  .reason .rc{font-weight:800;color:var(--neg);font-size:17px;font-family:var(--display);width:42px}
+  .reason .rt{flex:1;font-size:13.5px;font-weight:600}
+  .reason .ct{border:1px solid var(--brand);background:var(--soft);color:var(--brand);font:inherit;font-weight:700;font-size:11.5px;padding:7px 11px;border-radius:8px;cursor:pointer;white-space:nowrap}
+  .comments{margin-top:6px}.comment{background:var(--bg);border-radius:10px;padding:10px 12px;font-size:12.5px;margin:7px 0;color:var(--muted)}
+  .comment b{color:var(--ink);font-weight:600}
+
+  /* tasks */
+  .task{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:11px}
+  .task .th{display:flex;justify-content:space-between;align-items:center}
+  .task h4{font-family:var(--display);font-size:15px}
+  .badge{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:6px}
+  .b-open{background:color-mix(in srgb,var(--neu) 16%,#fff);color:var(--neu)}
+  .b-closed{background:color-mix(in srgb,var(--pos) 16%,#fff);color:var(--pos)}
+  .task .meta{font-size:12px;color:var(--muted);margin:7px 0}
+  .closebtn{border:1px solid var(--brand);background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:12px;padding:8px 13px;border-radius:9px;cursor:pointer}
+  .empty{text-align:center;color:var(--muted);font-size:13.5px;padding:40px 20px}
+
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(50px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:11px;font-size:14px;font-weight:600;z-index:80;opacity:0;transition:.3s}
+  .toast.show{transform:translateX(-50%);opacity:1}
+  .fab{position:fixed;right:18px;bottom:18px;width:50px;height:50px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:20px;box-shadow:0 8px 22px rgba(0,0,0,.2);cursor:pointer;z-index:40}
+  @media(max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.pc2{grid-template-columns:1fr}}
+  .verdict{display:flex;gap:15px;align-items:flex-start;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:14px}
+  .ring{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;position:relative;flex-shrink:0;background:conic-gradient(var(--pos) calc(var(--p)*1%),#e7edec 0)}
+  .ring::after{content:"";position:absolute;inset:8px;background:var(--card);border-radius:50%}
+  .ring .num{position:relative;font-family:var(--display);font-weight:800;font-size:22px;line-height:1}
+  .ring .num small{font-size:11px;color:var(--muted);font-weight:600}
+  .vtxt h4{font-family:var(--display);font-size:15px;margin-bottom:5px}
+  .vtxt p{font-size:13px;color:var(--muted);line-height:1.5}
+  .vtxt .tags{margin-top:9px;display:flex;gap:7px;flex-wrap:wrap}
+  .tg{font-size:11px;font-weight:700;padding:3px 9px;border-radius:7px}
+  .tg.up{background:color-mix(in srgb,var(--pos) 14%,#fff);color:var(--pos)}
+  .tg.dn{background:color-mix(in srgb,var(--neg) 12%,#fff);color:var(--neg)}
+  .pcg{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .pccol h3{font-family:var(--display);font-size:14px;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+  .pccol .b{width:20px;height:20px;border-radius:6px;display:grid;place-items:center;color:#fff;font-size:12px}
+  .ins{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:11px;background:var(--card)}
+  .ins.pos{border-left:3px solid var(--pos)}.ins.neg{border-left:3px solid var(--neg)}
+  .ins .hd{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .ins .hd .t{font-weight:700;font-size:13px}
+  .ins .hd .vol{margin-left:auto;font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap}
+  .ins .why{font-size:12.5px;color:var(--muted);line-height:1.5}.ins .why b{color:var(--ink);font-weight:600}
+  .ins .quote{margin-top:9px;font-size:12px;color:var(--ink);background:var(--bg);border-radius:8px;padding:8px 10px;border-left:2px solid var(--line);font-style:italic}
+  .ins .quote .src{display:block;font-style:normal;font-size:10.5px;color:var(--muted);margin-top:4px;font-weight:600}
+  @media(max-width:680px){.pcg{grid-template-columns:1fr}}
+  .cechips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px}
+  .ce-body{display:grid;grid-template-columns:280px 1fr;gap:20px}
+  .radarwrap{text-align:center}
+  .radarleg{display:flex;gap:14px;justify-content:center;font-size:11.5px;font-weight:600;color:var(--muted);margin-top:2px}
+  .radarleg i{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:5px;vertical-align:-1px}
+  .idx{display:flex;gap:9px;justify-content:center;margin-top:14px}
+  .idx .ix{flex:1;text-align:center;border:1px solid var(--line);border-radius:10px;padding:9px 4px;background:var(--bg)}
+  .idx .ix .v{font-family:var(--display);font-weight:800;font-size:18px;line-height:1}
+  .idx .ix .k{font-size:9px;color:var(--muted);font-weight:600;margin-top:5px;text-transform:uppercase;letter-spacing:.3px}
+  .h2r{margin-bottom:11px}
+  .h2r .dn{font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:8px;margin-bottom:5px}
+  .h2r .dn .sc{margin-left:auto;font-size:11px;color:var(--muted);font-weight:600}
+  .h2r .lead{font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px}
+  .h2r .lead.you{background:color-mix(in srgb,var(--pos) 14%,#fff);color:var(--pos)}
+  .h2r .lead.them{background:color-mix(in srgb,var(--accent) 16%,#fff);color:var(--accent)}
+  .h2r .lead.tie{background:var(--soft);color:var(--muted)}
+  .hbar{height:7px;background:var(--soft);border-radius:5px;position:relative;margin:3px 0}
+  .hbar i{position:absolute;left:0;top:0;bottom:0;border-radius:5px}
+  .hbar.you i{background:var(--brand)}.hbar.them i{background:var(--accent)}
+  .counter{margin-top:12px;border:1px dashed var(--accent);background:color-mix(in srgb,var(--accent) 7%,#fff);border-radius:12px;padding:13px 14px}
+  .counter .clab{font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--accent);margin-bottom:7px}
+  .counter h4{font-family:var(--display);font-size:13.5px;margin-bottom:5px}
+  .counter p{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:11px}
+  .counter .go{font-size:11px;font-weight:700;color:#fff;background:var(--accent);border:0;padding:7px 13px;border-radius:8px;cursor:pointer;font-family:inherit}
+  .nbatabs{display:flex;gap:4px;margin-bottom:14px}
+  .nbatabs button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12.5px;font-weight:600;color:var(--muted);padding:7px 13px;border-radius:9px;cursor:pointer}
+  .nbatabs button.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .nbagrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .act{border:1px solid var(--line);border-radius:13px;padding:14px;position:relative;overflow:hidden;background:var(--card)}
+  .act .seam{position:absolute;left:0;top:0;bottom:0;width:4px}
+  .act.amp .seam{background:var(--pos)}.act.fix .seam{background:var(--neg)}
+  .act .r1{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+  .bdg{font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;text-transform:uppercase}
+  .bdg.amp{background:color-mix(in srgb,var(--pos) 14%,#fff);color:var(--pos)}.bdg.fix{background:color-mix(in srgb,var(--neg) 12%,#fff);color:var(--neg)}
+  .pr{margin-left:auto;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px}
+  .pr.high{background:color-mix(in srgb,var(--neg) 14%,#fff);color:var(--neg)}.pr.med{background:color-mix(in srgb,var(--neu) 16%,#fff);color:var(--neu)}.pr.low{background:var(--soft);color:var(--brand)}
+  .act h4{font-family:var(--display);font-size:13.5px;font-weight:700;line-height:1.3;margin-bottom:6px}
+  .act p{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:11px}
+  .act .foot{display:flex;gap:8px;flex-wrap:wrap;align-items:center;border-top:1px dashed var(--line);padding-top:10px}
+  .mt{font-size:11px;color:var(--muted);font-weight:600}.mt b{color:var(--ink)}.mt.imp b{color:var(--pos)}
+  .act .go{margin-left:auto;font-size:11px;font-weight:700;color:#fff;background:var(--brand);border:0;padding:6px 12px;border-radius:8px;cursor:pointer;font-family:inherit}
+  @media(max-width:680px){.ce-body{grid-template-columns:1fr}.nbagrid{grid-template-columns:1fr}}
+  .tmeta{font-size:11.5px;color:var(--muted);margin:6px 0}
+  .tg2{display:inline-block;background:var(--soft);color:var(--brand);font-weight:700;font-size:10.5px;padding:2px 8px;border-radius:6px;margin-right:5px}
+  .tgoal{font-size:12.5px;color:var(--ink);margin-bottom:4px}
+  .b-req{background:color-mix(in srgb,var(--neu) 18%,#fff);color:var(--neu)}
+  .tlog{border-top:1px dashed var(--line);margin-top:10px;padding-top:10px}
+  .logstep{display:flex;gap:9px;font-size:12.5px;margin:6px 0}
+  .logstep .ld{width:8px;height:8px;border-radius:50%;background:var(--brand);margin-top:5px;flex-shrink:0}
+  .lat{font-size:10.5px;color:var(--muted)}
+  .addrow{display:flex;gap:7px;margin-top:9px}
+  .tkstep{flex:1;border:1px solid var(--line);border-radius:9px;padding:8px 10px;font:inherit;font-size:12.5px;min-width:0}
+  .trow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:11px}
+  .await{font-size:12px;color:var(--neu);font-weight:700}
+  .ghost{border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:600;font-size:11.5px;padding:7px 11px;border-radius:8px;cursor:pointer}
+  .th{cursor:pointer;align-items:center}
+  .tkmodal-bg{position:fixed;inset:0;background:rgba(16,32,31,.45);display:none;align-items:center;justify-content:center;z-index:90;padding:18px}
+  .tkmodal{background:var(--card);border-radius:16px;padding:20px;max-width:440px;width:100%;max-height:90vh;overflow:auto}
+  .tkmodal h3{font-family:var(--display);font-size:17px;margin-bottom:12px}
+  .tkmodal .kk{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;margin:11px 0 5px}
+  .tkrow{font-size:13px;margin-bottom:8px}
+  .chiprow{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px}
+  .tksel{width:100%;border:1px solid var(--line);border-radius:9px;padding:9px;font:inherit;font-size:13.5px;background:var(--card)}
+  .tkta{width:100%;border:1px solid var(--line);border-radius:9px;padding:9px;font:inherit;font-size:13.5px;resize:vertical;min-height:60px}
+  /* proof points */
+  .proof{margin-top:32px;padding-top:24px;border-top:1px solid var(--line)}
+  .proof h3{font-family:var(--display);font-size:16px;margin-bottom:12px}
+  .proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+  .proof-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+  .proof-card h4{font-size:13px;font-weight:700;color:var(--brand);margin-bottom:8px}
+  .proof-card p{font-size:12.5px;color:var(--muted);margin-bottom:10px;line-height:1.5}
+  .proof-card ul{list-style:none;padding:0;margin:0}
+  .proof-card li{font-size:12.5px;color:var(--muted);margin:6px 0;padding-left:14px;position:relative}
+  .proof-card li::before{content:"\u2022";position:absolute;left:0;color:var(--brand)}
+  .proof-stat{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .stat-box{background:var(--soft);border-radius:10px;padding:12px;text-align:center}
+  .stat-box b{font-family:var(--display);font-size:22px;color:var(--brand)}
+  .stat-box span{font-size:11px;color:var(--muted);display:block;margin-top:3px}
+  .proof-logo{font-size:11px;color:var(--muted);font-weight:600;background:var(--bg);padding:4px 10px;border-radius:6px;display:inline-block;margin-bottom:8px}
+  .sigp{font-size:11px;font-weight:800;border:1px solid;border-radius:999px;padding:3px 9px;white-space:nowrap}
+  .pl-list{display:grid;gap:11px}
+  .pl-card{display:flex;gap:13px;align-items:flex-start;background:var(--card,#fff);border:1px solid var(--line);border-radius:14px;padding:14px;cursor:pointer;transition:.15s}
+  .pl-card:hover{border-color:var(--brand);box-shadow:0 8px 22px rgba(0,0,0,.06);transform:translateY(-1px)}
+  .pl-src{width:40px;height:40px;border-radius:11px;background:var(--soft);display:grid;place-items:center;font-size:19px;flex:none}
+  .pl-main{flex:1;min-width:0}
+  .pl-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:2px}
+  .pl-name{font-weight:800;font-size:14px}
+  .pl-srcname{font-size:11px;color:var(--muted);font-weight:600}
+  .pl-when{font-size:11px;color:var(--muted);margin-left:auto}
+  .pl-q{font-size:12.5px;color:var(--ink);line-height:1.5;margin:3px 0 5px}
+  .pl-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+  .pl-model{font-size:11px;font-weight:700;color:var(--brand-d);background:var(--soft);border-radius:6px;padding:3px 8px}
+  .pl-back{border:1px solid var(--line);background:var(--card,#fff);border-radius:9px;padding:7px 13px;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;margin-bottom:14px;color:var(--ink)}
+  .pl-back:hover{border-color:var(--brand);color:var(--brand)}
+  .pl-d-head{display:flex;align-items:center;gap:12px;margin-bottom:13px}
+  .pl-d-q{background:var(--soft);border-radius:3px 13px 13px 13px;padding:13px 15px;font-size:13.5px;line-height:1.55;margin-bottom:16px}
+  .pl-d-q .src{display:block;font-size:11px;color:var(--muted);margin-top:7px;font-weight:600}
+  .pl-sec{margin-bottom:17px}
+  .pl-sec h4{font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--brand);margin-bottom:9px}
+  .pl-nba{font-size:13.5px;line-height:1.55;background:var(--soft);border-radius:13px;padding:13px 15px}
+  .pl-why{display:grid;gap:7px}
+  .pl-why .wi{display:flex;gap:9px;align-items:flex-start;font-size:13px;line-height:1.45;background:var(--card,#fff);border:1px solid var(--line);border-radius:10px;padding:9px 11px}
+  .pl-why .wi .ck{color:#2e9e5b;font-weight:800;flex:none}
+  .pl-tags{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .pl-tag{font-size:11.5px;font-weight:700;background:var(--soft);color:var(--brand-d);border-radius:999px;padding:4px 11px}
+  .pl-actions{display:flex;gap:9px;flex-wrap:wrap}
+  .pl-btn{border:1px solid var(--brand);background:var(--brand);color:#fff;border-radius:10px;padding:10px 16px;font:inherit;font-weight:800;font-size:13px;cursor:pointer}
+  .pl-btn.o{background:#fff;color:var(--brand-d)}
+  .pl-btn:hover{filter:brightness(.96)}
+</style>
+</head>
+<body>
+<header><div class="nav">
+  <div class="brand" id="brand">Blackmores<sup>®</sup></div>
+  <div class="sub" id="sub">Consumer Insight & VOC</div><div class="sp"></div>
+  <div class="langs" id="langs"></div>
+</div></header>
+<div class="tabs" id="tabs"></div>
+<div class="wrap" id="main"></div>
+<div class="wrap" id="proofWrap" style="padding-top:0"></div>
+<div class="toast" id="toast"></div>
+<div class="fab" id="fab" title="Switch brand">🎨</div>
+
+<script>
+const BRANDS={blackmores:{logo:"Blackmores",sup:"®",name:"Blackmores",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  bioceuticals:{logo:"BioCeuticals",sup:"",name:"BioCeuticals",c:["#1b3a5c","#10243a","#e7edf3","#c9a24a"]},
+  paw:{logo:"PAW by Blackmores",sup:"",name:"PAW by Blackmores",c:["#2e7d32","#1b5e20","#e7f3e8","#7cb342"]}};
+const SOURCES=[[{ja:"小红书 (RED)",en:"RED (Xiaohongshu)",zh:"小红书",th:"RED (Xiaohongshu)"},24],[{ja:"Amazon AU",en:"Amazon AU",zh:"Amazon AU",th:"Amazon AU"},20],[{ja:"Chemist Warehouse",en:"Chemist Warehouse",zh:"Chemist Warehouse 评价",th:"Chemist Warehouse"},16],[{ja:"天猫 / JD",en:"Tmall / JD",zh:"天猫 / 京东",th:"Tmall / JD"},14],[{ja:"Instagram",en:"Instagram",zh:"Instagram",th:"Instagram"},9],[{ja:"WhatsApp / Shopee",en:"WhatsApp / Shopee",zh:"WhatsApp / Shopee",th:"WhatsApp / Shopee"},9],[{ja:"客服中心",en:"Call center",zh:"客服中心",th:"คอลเซ็นเตอร์"},8]];
+const NEGTYPES=[
+  {t:{en:"Out of stock",zh:"缺货",ja:"欠品",th:"สินค้าหมด"},c:42,
+   reasons:[{t:{en:"Cross-border supply delay to China",zh:"对中国跨境供货延迟",ja:"中国向け越境供給の遅延",th:"ส่งข้ามแดนไปจีนล่าช้า"},c:42},
+     {t:{en:"Top SKUs sold out at Chemist Warehouse",zh:"热门单品在 Chemist Warehouse 售罄",ja:"主要SKUがChemist Warehouseで欠品",th:"SKU ยอดนิยมหมดที่ Chemist Warehouse"},c:31},
+     {t:{en:"Fish Oil restock lag after promo",zh:"鱼油促销后补货滞后",ja:"フィッシュオイル販促後の補充遅れ",th:"เติมสต็อกฟิชออยล์ช้าหลังโปร"},c:18}],
+   comments:[{ja:"小红书で人気のフィッシュオイル、天猫旗艦店でずっと品切れ。いつ入荷？",en:"The Fish Oil everyone raves about on RED is always sold out on the Tmall flagship store… when's it back?",zh:"小红书上很火的深海鱼油,天猫旗舰店一直缺货……什么时候到货?",th:"Fish Oil ที่ดังใน RED หมดตลอดในร้านธงทมอลล์… เมื่อไรจะมีของ"},{ja:"Chemist Warehouseでグルコサミンが何度も売り切れ。買えたことがない。",en:"Glucosamine keeps selling out at Chemist Warehouse — never managed to grab it.",zh:"维骨力关节灵在 Chemist Warehouse 屡次售罄,从来没买到过。",th:"Glucosamine หมดบ่อยที่ Chemist Warehouse ไม่เคยซื้อได้เลย"},{ja:"越境ECで注文して3週間、まだ届かない…",en:"Ordered via cross-border e-commerce 3 weeks ago and it still hasn't arrived…",zh:"跨境电商下单三周了,还没送到……",th:"สั่งผ่านอีคอมข้ามแดน 3 สัปดาห์แล้ว ยังไม่มาเลย…"}]},
+  {t:{en:"Fish oil aftertaste",zh:"鱼油腥味",ja:"魚油の後味",th:"กลิ่นคาวฟิชออยล์"},c:35,
+   reasons:[{t:{en:"Fishy burp / aftertaste",zh:"打嗝有腥味",ja:"魚臭い後味・げっぷ",th:"เรอมีกลิ่นคาว"},c:35},
+     {t:{en:"Wants stronger odourless formula",zh:"想要更无腥味配方",ja:"より無臭な処方を希望",th:"อยากได้สูตรไร้กลิ่นกว่านี้"},c:22}],
+   comments:[{ja:"心臓ケアに良いけど、後味の魚臭さが気になる。無腥味タイプを増やして。",en:"Great for heart health but the fishy aftertaste bothers me — please offer more odourless types.",zh:"对心脏保养很好,但鱼腥味让我有顾虑。希望多出无腥味款。",th:"ดีต่อหัวใจแต่กังวลกลิ่นคาว อยากให้เพิ่มสูตรไร้กลิ่น"},{ja:"飲んだ後にげっぷで魚の味がする。改良してほしい。",en:"I get a fishy burp after taking it — please improve this.",zh:"吃完打嗝有鱼味,希望改良一下。",th:"เรอมีรสคาวหลังกิน อยากให้ปรับปรุง"}]},
+  {t:{en:"Capsule size",zh:"胶囊偏大",ja:"カプセルが大きい",th:"แคปซูลใหญ่"},c:22,
+   reasons:[{t:{en:"Capsule too large to swallow",zh:"胶囊太大难吞咽",ja:"カプセルが大きく飲みにくい",th:"แคปซูลใหญ่กลืนยาก"},c:22}],
+   comments:[{ja:"効果は感じるけどカプセルが大きくて飲みにくい。小さいサイズも出して。",en:"I feel the benefit but the capsule is large and hard to swallow — please offer a smaller size.",zh:"有体感效果,但胶囊偏大不好吞,希望出小一点的规格。",th:"รู้สึกได้ผลแต่แคปซูลใหญ่กลืนยาก อยากได้ขนาดเล็กลง"},{ja:"高齢の母には大きすぎる。粒を小さくしてほしい。",en:"Too big for my elderly mother — please make the tablets smaller.",zh:"对年长的妈妈来说太大了,希望把粒做小些。",th:"ใหญ่ไปสำหรับแม่ที่สูงอายุ อยากให้เม็ดเล็กลง"}]},
+  {t:{en:"Price vs competitor",zh:"价格高于竞品",ja:"競合より高い",th:"แพงกว่าคู่แข่ง"},c:14,
+   reasons:[{t:{en:"Pricier than competitor on Tmall",zh:"天猫上比竞品贵",ja:"天猫で競合より割高",th:"แพงกว่าคู่แข่งบน Tmall"},c:14}],
+   comments:[{ja:"品質は信頼してるけど、天猫だと競合よりやや高い。お得なまとめ買いが欲しい。",en:"I trust the quality, but on Tmall it's a bit pricier than a competitor — I'd love a value bundle.",zh:"我信赖品质,但天猫上比某竞品稍贵,希望有划算的组合装。",th:"เชื่อคุณภาพแต่บน Tmall แพงกว่าคู่แข่งนิด อยากได้เซ็ตคุ้ม"},{ja:"成分は良いと思う。定期購入の割引をもっと充実させて。",en:"The ingredients look good — please beef up the subscription discount.",zh:"成分我觉得不错,希望订阅折扣更给力些。",th:"ส่วนผสมดี อยากให้ส่วนลดสมัครสมาชิกคุ้มกว่านี้"}]}];
+const ASKCATS=[{en:"Fish Oil (Heart & vitality)",zh:"深海鱼油(心脏与活力)",ja:"フィッシュオイル(心臓・活力)",th:"Fish Oil (หัวใจ&พลัง)"},{en:"Glucosamine (Joints)",zh:"维骨力关节灵(关节)",ja:"グルコサミン(関節)",th:"Glucosamine (ข้อต่อ)"},{en:"Probiotics (Gut health)",zh:"益生菌每日健康(肠道)",ja:"プロバイオティクス(腸内環境)",th:"Probiotics (สุขภาพลำไส้)"}];
+const AISUM=[
+ {verdict:{p:82,head:{en:"Trusted heart-health staple — watch aftertaste & cross-border stock",zh:"心脏保养信赖之选——留意腥味与跨境缺货",ja:"心臓ケアの定番 — 後味と越境欠品に注意",th:"ตัวหลักสุขภาพหัวใจ — ระวังกลิ่นคาวและของขาดข้ามแดน"},
+   body:{en:"<b>Strong loyalty</b> on felt benefit and odourless formula; the rising friction is <b>fishy aftertaste</b> and cross-border availability.",zh:"在体感效果与无腥味配方上<b>忠诚度高</b>;上升的摩擦点是<b>鱼腥味</b>与跨境缺货。",ja:"実感と無臭処方で<b>高い忠誠度</b>;上昇中の不満は<b>魚の後味</b>と越境欠品。",th:"<b>ภักดีสูง</b>เรื่องผลที่รู้สึกได้และสูตรไร้กลิ่น ปัญหาที่เพิ่มคือ<b>กลิ่นคาว</b>และของขาดข้ามแดน"},
+   tags:[{d:"up",tx:{en:"Positive 78%",zh:"正面 78%",ja:"ポジ 78%",th:"บวก 78%"}},{d:"dn",tx:{en:"Aftertaste ▲ MoM",zh:"腥味顾虑 ▲ 环比",ja:"後味 ▲",th:"กลิ่นคาว ▲"}}]},
+  pros:[
+   {t:{en:"Felt heart / vitality benefit",zh:"心脏与活力体感明显",ja:"心臓・活力に実感",th:"รู้สึกได้ผลหัวใจ/พลัง"},vol:"3,120",tr:"+9%",
+    why:{en:"Repeat buyers credit <b>everyday vitality & heart support</b> — the top repurchase driver.",zh:"复购者归功于<b>日常活力与心脏支持</b>——头号复购动因。",ja:"リピーターは<b>日々の活力・心臓サポート</b>を評価 — 再購入の主因。",th:"ผู้ซื้อซ้ำชม<b>พลังประจำวันและช่วยหัวใจ</b> — ตัวขับซื้อซ้ำอันดับ1"},
+    q:{en:"I feel more energetic and my checkups look better after a couple of months.",zh:"吃了两个月感觉更有活力,体检指标也更好。",ja:"2か月で元気になり、健診の数値も良くなった。",th:"รู้สึกมีพลังขึ้นและผลตรวจดีขึ้นหลังสองเดือน"},src:{en:"RED · 5★",zh:"小红书 · 5★",ja:"小红书 · 5★",th:"RED · 5★"}},
+   {t:{en:"Odourless, easy to take daily",zh:"无腥味,易于日常服用",ja:"無臭で毎日飲みやすい",th:"ไร้กลิ่น กินทุกวันง่าย"},vol:"2,260",tr:"+7%",
+    why:{en:"Odourless formula praised — <b>the #1 reason switchers stay</b>.",zh:"无腥味配方获赞——<b>转用者留下的首要原因</b>。",ja:"無臭処方が好評 — <b>乗換者が定着する一番の理由</b>。",th:"สูตรไร้กลิ่นได้ชม — <b>เหตุผลหลักที่คนเปลี่ยนมาอยู่ต่อ</b>"},
+    q:{en:"No fishy burps at all — the whole family takes it.",zh:"完全没有鱼腥打嗝,全家都在吃。",ja:"魚臭いげっぷが全くなく、家族みんなで飲んでる。",th:"ไม่เรอคาวเลย ทั้งบ้านกินได้"},src:"Amazon AU · 5★"},
+   {t:{en:"Trusted TGA-certified Blackmores",zh:"Blackmores TGA 认证可信",ja:"TGA認証のBlackmores信頼",th:"Blackmores รับรอง TGA น่าเชื่อ"},vol:"1,740",tr:"+4%",
+    why:{en:"Australian heritage + TGA certification converts to <b>recommendation</b>.",zh:"澳洲传承 + TGA 认证,转化为<b>口碑推荐</b>。",ja:"豪州の伝統+TGA認証が<b>推奨</b>に。",th:"มรดกออสเตรเลีย+รับรอง TGA นำสู่<b>การบอกต่อ</b>"},
+    q:{en:"I trust Blackmores quality over cheaper alternatives.",zh:"比起更便宜的替代品,我更信 Blackmores 的品质。",ja:"安い代替品よりBlackmoresの品質を信頼。",th:"เชื่อคุณภาพ Blackmores มากกว่าทางเลือกที่ถูกกว่า"},src:"Chemist Warehouse"}],
+  cons:[
+   {t:{en:"Fishy aftertaste / burp",zh:"鱼腥味/打嗝",ja:"魚の後味・げっぷ",th:"กลิ่นคาว/เรอ"},vol:"880",tr:"+16%",
+    why:{en:"Some users want a <b>stronger odourless formula</b> — <b>fastest-rising negative</b>; an opening for an enhanced odourless line.",zh:"部分用户想要<b>更无腥味的配方</b>——<b>上升最快的负面</b>;升级无腥味系列是机会。",ja:"一部ユーザーが<b>より無臭な処方</b>を求める — <b>最も急増する不満</b>;無臭強化ラインに商機。",th:"ผู้ใช้บางส่วนต้องการ<b>สูตรไร้กลิ่นกว่านี้</b> — <b>ลบที่โตเร็วสุด</b>; โอกาสทำไลน์ไร้กลิ่นรุ่นใหม่"},
+    q:{en:"Good for my heart but I wish there were no fishy aftertaste.",zh:"对心脏很好,但希望没有鱼腥后味。",ja:"心臓にはいいけど魚の後味が無いといい。",th:"ดีต่อหัวใจแต่อยากให้ไม่มีกลิ่นคาว"},src:{en:"RED · 2★",zh:"小红书 · 2★",ja:"小红书 · 2★",th:"RED · 2★"}},
+   {t:{en:"Capsule a bit large for some",zh:"部分人觉得胶囊偏大",ja:"人によってカプセルが大きい",th:"บางคนว่าแคปซูลใหญ่"},vol:"640",tr:"+6%",
+    why:{en:"Swallowing split <b>on the 1000mg cap</b>, mostly older users.",zh:"<b>1000mg 规格</b>吞咽两极——多为年长者。",ja:"<b>1000mgカプセル</b>の飲みやすさは賛否 — 主に高齢者。",th:"การกลืนแตกต่าง<b>แคป 1000mg</b> ส่วนใหญ่ผู้สูงอายุ"},
+    q:{en:"The 1000mg cap is a bit big for my mother.",zh:"1000mg 那款对我妈来说有点大。",ja:"1000mgは母には少し大きい。",th:"แคป 1000mg ใหญ่ไปสำหรับแม่"},src:"Amazon AU"},
+   {t:{en:"Out of stock cross-border",zh:"跨境缺货",ja:"越境で欠品",th:"ของขาดข้ามแดน"},vol:"410",tr:"+11%",
+    why:{en:"Availability friction on the <b>Tmall flagship store</b> — links to the Out-of-stock voice type.",zh:"在<b>天猫旗舰店</b>买不到——与缺货声音类型相关。",ja:"<b>天猫旗艦店</b>で入手困難 — 欠品種類と関連。",th:"หาซื้อยากที่<b>ร้านธงทมอลล์</b> — เชื่อมกับประเภทของขาด"},
+    q:{en:"Can't find the Fish Oil on the Tmall flagship store.",zh:"天猫旗舰店买不到深海鱼油。",ja:"天猫旗艦店でフィッシュオイルが見つからない。",th:"หา Fish Oil ที่ร้านธงทมอลล์ไม่เจอ"},src:{en:"WeChat",zh:"微信",ja:"WeChat",th:"WeChat"}}]},
+ {verdict:{p:80,head:{en:"Go-to joint support for runners; price perception is the gap",zh:"跑者关节养护首选;价格认知是短板",ja:"ランナーの関節ケア定番;価格イメージが課題",th:"ตัวเลือกแรกดูแลข้อต่อนักวิ่ง; ภาพราคาคือช่องว่าง"},
+   body:{en:"Loved as <b>joint support for active users</b>; the rising negative is <b>'a bit pricey'</b> vs a competitor.",zh:"作为<b>活跃人群关节支持</b>很受欢迎;上升的负面是相对某竞品<b>“偏贵”</b>。",ja:"<b>アクティブ層の関節ケア</b>として好評;上昇中の不満は競合比で<b>「やや高い」</b>。",th:"ชอบเป็น<b>ตัวช่วยข้อต่อสำหรับคนแอ็กทีฟ</b>; ลบที่เพิ่มคือ<b>'แพงไปนิด'</b>เทียบคู่แข่ง"},
+   tags:[{d:"up",tx:{en:"Positive 75%",zh:"正面 75%",ja:"ポジ 75%",th:"บวก 75%"}},{d:"dn",tx:{en:"Price ▲",zh:"价格 ▲",ja:"価格 ▲",th:"ราคา ▲"}}]},
+  pros:[
+   {t:{en:"Visible results for runners",zh:"跑者体感效果明显",ja:"ランナーに実感",th:"นักวิ่งเห็นผลชัด"},vol:"2,540",tr:"+8%",
+    why:{en:"Fits running & gym routines — <b>high repeat</b>, low friction.",zh:"契合跑步与健身日常——<b>复购高</b>、摩擦低。",ja:"ランニング・筋トレに合い<b>高リピート</b>。",th:"เข้ากับวิ่งและออกกำลัง — <b>ซื้อซ้ำสูง</b>"},
+    q:{en:"My knees feel much better on long runs after a month.",zh:"吃了一个月,长跑时膝盖舒服多了。",ja:"1か月で長距離走でも膝が楽になった。",th:"วิ่งไกลแล้วเข่าสบายขึ้นมากหลังหนึ่งเดือน"},src:{ja:"Chemist Warehouse",en:"Chemist Warehouse",zh:"Chemist Warehouse 评价",th:"Chemist Warehouse"}},
+   {t:{en:"High-strength formula",zh:"高含量配方",ja:"高含有処方",th:"สูตรเข้มข้นสูง"},vol:"1,610",tr:"+5%",
+    why:{en:"High-strength dosing seen as <b>premium and effective</b>.",zh:"高含量配比被视为<b>高级又有效</b>。",ja:"高含有量が<b>上質で効果的</b>と評価。",th:"ปริมาณเข้มข้นมองว่า<b>พรีเมียมและได้ผล</b>"},
+    q:{en:"The high-strength one really works for my joints.",zh:"高含量那款对我的关节真的有效。",ja:"高含有タイプは関節に本当に効く。",th:"สูตรเข้มข้นได้ผลกับข้อต่อจริง"},src:"Amazon AU · 5★"},
+   {t:{en:"Trusted for active ageing",zh:"积极抗衰可信",ja:"アクティブエイジングで信頼",th:"เชื่อเรื่องสูงวัยอย่างแอ็กทีฟ"},vol:"1,180",tr:"+4%",
+    why:{en:"Recommended for <b>active over-50s</b> by long-term users.",zh:"长期用户向<b>50+ 活跃人群</b>推荐。",ja:"長期ユーザーが<b>50代以上のアクティブ層</b>に推奨。",th:"ผู้ใช้ระยะยาวแนะนำ<b>คนแอ็กทีฟวัย 50+</b>"},
+    q:{en:"My dad's been on it for years, keeps him moving.",zh:"我爸吃了好几年,一直活动自如。",ja:"父が何年も飲んでいて、ずっと元気。",th:"พ่อกินมาหลายปี ยังเคลื่อนไหวดี"},src:{en:"RED",zh:"小红书",ja:"小红书",th:"RED"}}],
+  cons:[
+   {t:{en:"A bit pricey vs competitor",zh:"相对竞品偏贵",ja:"競合より高め",th:"แพงกว่าคู่แข่งนิด"},vol:"760",tr:"+15%",
+    why:{en:"Premium questioned <b>relative to a competitor</b>, not quality — fastest-rising gripe.",zh:"溢价被质疑——是<b>相对某竞品</b>,而非品质——上升最快。",ja:"割高感は<b>競合比</b>で、品質ではない — 急増中。",th:"ตั้งคำถามราคา<b>เทียบคู่แข่ง</b> ไม่ใช่คุณภาพ — โตเร็วสุด"},
+    q:{en:"Works well but pricey for daily use.",zh:"有效,但每天吃有点贵。",ja:"効くけど毎日だと高い。",th:"ได้ผลแต่กินทุกวันแพงไป"},src:{en:"Tmall · 2★",zh:"天猫 · 2★",ja:"天猫 · 2★",th:"Tmall · 2★"}},
+   {t:{en:"Capsule too large for some",zh:"部分人觉得胶囊偏大",ja:"カプセルが大きいという声",th:"บางคนว่าแคปซูลใหญ่"},vol:"430",tr:"+7%",
+    why:{en:"Some find the tablet <b>hard to swallow</b> — smaller format wanted.",zh:"部分人觉得片剂<b>难吞咽</b>——想要更小规格。",ja:"錠剤が<b>飲みにくい</b>人も — 小型化の要望。",th:"บางคนว่าเม็ด<b>กลืนยาก</b> — อยากได้ขนาดเล็กลง"},
+    q:{en:"The tablet is too big, need a smaller version.",zh:"片剂太大,希望出小一点的。",ja:"錠剤が大きすぎ、小さい版を。",th:"เม็ดใหญ่ไป อยากได้รุ่นเล็กลง"},src:{en:"Instagram",zh:"Instagram",ja:"Instagram",th:"Instagram"}},
+   {t:{en:"Slow to feel results",zh:"见效较慢",ja:"効果を感じるまで時間",th:"เห็นผลช้า"},vol:"260",tr:"+5%",
+    why:{en:"Minor cluster on <b>time-to-benefit expectations</b>.",zh:"<b>见效时间预期</b>有小众抱怨。",ja:"<b>効果実感までの期待</b>に少数の不満。",th:"กลุ่มเล็กบ่น<b>ความคาดหวังเวลาเห็นผล</b>"},
+    q:{en:"Took a few weeks before I noticed anything.",zh:"过了几周才感觉到效果。",ja:"数週間してやっと実感した。",th:"ผ่านไปหลายสัปดาห์กว่าจะรู้สึก"},src:{en:"Instagram",zh:"Instagram",ja:"Instagram",th:"Instagram"}}]},
+ {verdict:{p:77,head:{en:"Families trust it for gut comfort; price is the gap",zh:"家庭信赖肠道舒适;价格是短板",ja:"家族が腸の快適さで信頼;価格が課題",th:"ครอบครัวเชื่อเรื่องลำไส้สบาย; ราคาคือช่องว่าง"},
+   body:{en:"A trusted <b>daily gut-health pick</b>; the rising negative is <b>per-bottle price</b> for daily use.",zh:"备受信赖的<b>每日肠道健康之选</b>;上升的负面是日常服用的<b>单瓶价格</b>。",ja:"信頼される<b>毎日の腸内環境ケア</b>;上昇中の不満は毎日使いの<b>1本あたり価格</b>。",th:"ตัวเลือก<b>สุขภาพลำไส้ประจำวัน</b>ที่เชื่อถือ; ลบที่เพิ่มคือ<b>ราคาต่อขวด</b>สำหรับกินทุกวัน"},
+   tags:[{d:"up",tx:{en:"Positive 72%",zh:"正面 72%",ja:"ポジ 72%",th:"บวก 72%"}},{d:"dn",tx:{en:"Per-bottle price ▲",zh:"单瓶价格 ▲",ja:"1本価格 ▲",th:"ราคาต่อขวด ▲"}}]},
+  pros:[
+   {t:{en:"Noticeable gut comfort",zh:"肠道舒适明显",ja:"腸の快適さに実感",th:"ลำไส้สบายชัด"},vol:"2,100",tr:"+10%",
+    why:{en:"Less bloating, lighter stomach — <b>strong repeat among families</b>.",zh:"少胀气、肠胃轻松——<b>家庭复购强</b>。",ja:"張りが減り胃が軽い — <b>家族のリピート強</b>。",th:"ท้องอืดน้อยลง ท้องเบา — <b>ครอบครัวซื้อซ้ำสูง</b>"},
+    q:{en:"My stomach feels so much lighter every day.",zh:"每天肠胃都轻松很多。",ja:"毎日お腹がとても軽い。",th:"ท้องเบาขึ้นมากทุกวัน"},src:{en:"RED · 5★",zh:"小红书 · 5★",ja:"小红书 · 5★",th:"RED · 5★"}},
+   {t:{en:"Trusted multi-strain quality",zh:"多菌株品质可信",ja:"多菌株の品質で信頼",th:"เชื่อคุณภาพหลายสายพันธุ์"},vol:"1,500",tr:"+6%",
+    why:{en:"Families trust it for <b>well-researched strains and gentle support</b>.",zh:"家庭信赖其<b>经研究的菌株与温和支持</b>。",ja:"<b>研究された菌株とやさしいサポート</b>として家族が信頼。",th:"ครอบครัวเชื่อเรื่อง<b>สายพันธุ์ที่วิจัยแล้วและช่วยอย่างอ่อนโยน</b>"},
+    q:{en:"I feel good giving it to the whole family.",zh:"全家一起吃很放心。",ja:"家族みんなに安心して与えられる。",th:"ให้ทั้งบ้านกินแล้วสบายใจ"},src:{en:"RED",zh:"小红书",ja:"小红书",th:"RED"}},
+   {t:{en:"Easy daily routine",zh:"易于日常坚持",ja:"毎日続けやすい",th:"ทำเป็นกิจวัตรง่าย"},vol:"1,050",tr:"+4%",
+    why:{en:"Single daily capsule is <b>convenient and easy to keep up</b>.",zh:"每日一粒<b>方便又易坚持</b>。",ja:"1日1粒で<b>便利で続けやすい</b>。",th:"กินวันละแคปซูล<b>สะดวกและทำต่อเนื่องง่าย</b>"},
+    q:{en:"One a day with breakfast, easy to remember.",zh:"早餐配一粒,很好记。",ja:"朝食に1粒、覚えやすい。",th:"วันละเม็ดตอนเช้า จำง่าย"},src:{ja:"Chemist Warehouse",en:"Chemist Warehouse",zh:"Chemist Warehouse 评价",th:"Chemist Warehouse"}}],
+  cons:[
+   {t:{en:"Per-bottle price too high",zh:"单瓶价格偏高",ja:"1本あたり価格が高い",th:"ราคาต่อขวดสูงไป"},vol:"690",tr:"+13%",
+    why:{en:"Daily family use makes the <b>per-bottle cost add up</b> — needs a value multipack.",zh:"全家每天吃<b>单瓶成本累积</b>——需要实惠组合装。",ja:"家族の毎日使いで<b>1本コストがかさむ</b> — お得なまとめ買いが必要。",th:"ครอบครัวกินทุกวันทำให้<b>ต้นทุนต่อขวดสะสม</b> — ต้องมีแพ็กคุ้ม"},
+    q:{en:"The family goes through bottles fast, the price adds up.",zh:"全家消耗快,单瓶算下来不便宜。",ja:"家族で消費が早く、1本ずつだと割高。",th:"ครอบครัวใช้หมดเร็ว ราคารวมแล้วแพง"},src:{en:"Tmall · 3★",zh:"天猫 · 3★",ja:"天猫 · 3★",th:"Tmall · 3★"}},
+   {t:{en:"Out of stock cross-border",zh:"跨境缺货",ja:"越境で欠品",th:"ของขาดข้ามแดน"},vol:"480",tr:"+6%",
+    why:{en:"Hard to find on <b>cross-border channels</b> after a promo.",zh:"促销后<b>跨境渠道</b>难买到。",ja:"販促後に<b>越境チャネル</b>で見つけにくい。",th:"หายากบน<b>ช่องทางข้ามแดน</b>หลังโปร"},
+    q:{en:"Often sold out on the cross-border store we use.",zh:"我们常用的跨境店经常卖光。",ja:"よく使う越境ストアで売り切れ多い。",th:"มักหมดที่ร้านข้ามแดนที่เราใช้"},src:{en:"WeChat",zh:"微信",ja:"WeChat",th:"WeChat"}},
+   {t:{en:"Wants a fridge-free version",zh:"希望出免冷藏款",ja:"冷蔵不要版が欲しい",th:"อยากได้สูตรไม่ต้องแช่เย็น"},vol:"300",tr:"+7%",
+    why:{en:"Some want a <b>shelf-stable format</b> for travel.",zh:"部分人想要<b>常温保存</b>方便出行。",ja:"<b>常温保存</b>タイプを旅行用に望む声も。",th:"บางคนอยากได้<b>สูตรเก็บอุณหภูมิห้อง</b>สำหรับเดินทาง"},
+    q:{en:"Would love a version I don't have to refrigerate when travelling.",zh:"希望有出行时不用冷藏的款。",ja:"旅行時に冷蔵不要な版が欲しい。",th:"อยากได้รุ่นที่ไม่ต้องแช่เย็นตอนเดินทาง"},src:{en:"Instagram",zh:"Instagram",ja:"Instagram",th:"Instagram"}}]}];
+const UI={
+  en:{sub:"Consumer Insight & VOC",t_ov:"Overview",t_ai:"AI Insight Summary",t_dr:"Voice types",t_tk:"Insight Tasks",
+    ovH:"Consumer insight across every channel",ovL:"64,800 consumer voices · Jan–Apr · Blackmores (ANZ · China · SEA · Japan)",totalV:"Total voice",nps:"NPS",
+    pos:"Positive",neu:"Neutral",neg:"Negative",sentT:"Sentiment",srcT:"Data source",cloudP:"Positive voice cloud",negT:"Top negative voice types",tapHint:"tap to drill ↓",
+    aiH:"Ask the data",aiL:"Conversational VOC — turn consumer voices into product, content and campaign insight.",ask:"Ask AI",picked:"What do people say about",
+    summary:"AI summary",sampleN:n=>`AI-generated from ${n} comments`,pros:"Pros",cons:"Cons",wkWell:"What\u2019s working well",needAttn:"What needs attention",mentions:"mentions",
+    drH:"Voice types · root cause",drL:"Drill a negative type to its root cause, raw comments and action owner.",reasonsT:"Root-cause reasons",commentsT:"Original comments",createTask:"➕ Create insight task",
+    tkH:"Insight-to-action tasks",tkL:"Insight → opportunity → owner → campaign/product/content action → closure. We don't just listen.",empty:"No tasks yet — create one from a voice type or next best action.",
+    assignee:"Owner",priority:"Priority",goal:"Goal",goalV:"Resolve within 2 weeks",reqClose:"Request closure",open:"In progress",closed:"Closed",taskCreated:"Insight task created",taskClosed:"Closure requested",ppH:"Consumer Insight Proof Points",ppCase1:"Fish Oil on RED & Tmall — Supplement VOC",ppCase1L:"Review insights → 3 Fish Oil product, content and campaign improvements shipped in 90 days.",ppCase2:"Multi-market Retail VOC Module",ppCase2L:"VOC embedded across RED, Tmall/JD, Amazon AU and Chemist Warehouse reviews for real-time opportunity sensing.",ppNlp:"NLP accuracy",ppNlpV:"92%+",ppLang:"Multi-language",ppLangV:"EN · ZH · JA · TH",ppResp:"Insight-to-action speed",ppRespV:"3x faster"},
+  zh:{sub:"消费者洞察与 VOC",t_ov:"总览",t_ai:"AI 洞察总结",t_dr:"声音类型",t_tk:"洞察任务",
+    ovH:"全渠道消费者洞察",ovL:"64,800 条消费者声音 · 1–4 月 · Blackmores(澳新 · 中国 · 东南亚 · 日本)",totalV:"总声量",nps:"NPS",
+    pos:"正面",neu:"中性",neg:"负面",sentT:"情感分布",srcT:"数据来源",cloudP:"正面词云",negT:"高频负面声音类型",tapHint:"点击下钻 ↓",
+    aiH:"问数据",aiL:"对话式 VOC——把消费者声音转成产品、内容与活动洞察。",ask:"问 AI",picked:"大家怎么评价",
+    summary:"AI 总结",sampleN:n=>`基于 ${n} 条评论由 AI 生成`,pros:"优点",cons:"缺点",wkWell:"做得好的",needAttn:"需要关注的",mentions:"条提及",
+    drH:"声音类型 · 根因",drL:"把负面类型下钻到根因、原始评论与行动负责人。",reasonsT:"根因排行",commentsT:"原始评论",createTask:"➕ 建洞察任务",
+    tkH:"洞察到行动任务",tkL:"洞察 → 机会 → 负责人 → 活动/产品/内容行动 → 关闭。不只听，还闭环。",empty:"暂无任务——从声音类型或下一步行动创建一个。",
+    assignee:"负责人",priority:"优先级",goal:"目标",goalV:"两周内解决",reqClose:"请求关闭",open:"进行中",closed:"已关闭",taskCreated:"洞察任务已创建",taskClosed:"已请求关闭",ppH:"消费者洞察实证",ppCase1:"深海鱼油(小红书 & 天猫)— 保健品 VOC",ppCase1L:"评论洞察 → 90 天内落地 3 项深海鱼油产品、内容与活动改进。",ppCase2:"多市场零售 VOC 模块",ppCase2L:"VOC 嵌入小红书、天猫/京东、Amazon AU 与 Chemist Warehouse 评价，实时感知增长机会。",ppNlp:"NLP 准确率",ppNlpV:"92%+",ppLang:"多语言",ppLangV:"英 · 中 · 日 · 泰",ppResp:"洞察到行动速度",ppRespV:"快 3 倍"},
+  ja:{sub:"消費者インサイト・VOC",t_ov:"概要",t_ai:"AIインサイト要約",t_dr:"声の種類",t_tk:"インサイトタスク",
+    ovH:"全チャネルの消費者インサイト",ovL:"64,800件の消費者ボイス · 1–4月 · Blackmores(豪NZ・中国・東南アジア・日本)",totalV:"総ボイス",nps:"NPS",
+    pos:"ポジ",neu:"中立",neg:"ネガ",sentT:"感情分布",srcT:"データソース",cloudP:"ポジティブ語クラウド",negT:"上位ネガティブ種類",tapHint:"タップで深掘り ↓",
+    aiH:"データに質問",aiL:"会話型VOC — 消費者の声を製品・コンテンツ・キャンペーンのインサイトへ。",ask:"AIに質問",picked:"評判は",
+    summary:"AI要約",sampleN:n=>`${n}件のコメントからAI生成`,pros:"長所",cons:"短所",wkWell:"好調な点",needAttn:"要注意の点",mentions:"件",
+    drH:"声の種類 · 根本原因",drL:"ネガティブ種類を根因・生コメント・アクション担当へ深掘り。",reasonsT:"根本原因ランキング",commentsT:"元コメント",createTask:"➕ インサイトタスク作成",
+    tkH:"インサイトからアクションへ",tkL:"インサイト → 機会 → 担当 → キャンペーン/製品/コンテンツ施策 → クローズ。聞くだけで終わらない。",empty:"タスクなし — 声の種類または次の一手から作成。",
+    assignee:"担当",priority:"優先度",goal:"目標",goalV:"2週間以内に解決",reqClose:"完了申請",open:"進行中",closed:"完了",taskCreated:"インサイトタスク作成",taskClosed:"完了申請しました",ppH:"消費者インサイト実証",ppCase1:"フィッシュオイル(小红书 & 天猫)— サプリVOC",ppCase1L:"レビュー洞察 → 90日以内に製品・コンテンツ・キャンペーン改善を3件出荷。",ppCase2:"マルチ市場 小売VOCモジュール",ppCase2L:"VOCを小红书・天猫/京东・Amazon AU・Chemist Warehouseのレビューに組込み、リアルタイムに成長機会を検知。",ppNlp:"NLP精度",ppNlpV:"92%+",ppLang:"多言語",ppLangV:"EN · ZH · JA · TH",ppResp:"インサイトから実行まで",ppRespV:"3倍高速"},
+  th:{sub:"เสียงลูกค้า",t_ov:"ภาพรวม",t_ai:"AI ข้อดีข้อเสีย",t_dr:"ประเภทเสียง",t_tk:"งาน",
+    ovH:"ฟังทุกช่องทาง",ovL:"64,800 เสียง · ม.ค.–เม.ย. · Blackmores (ANZ · จีน · SEA · ญี่ปุ่น)",totalV:"เสียงรวม",nps:"NPS",
+    pos:"บวก",neu:"กลาง",neg:"ลบ",sentT:"การกระจายอารมณ์",srcT:"แหล่งข้อมูล",cloudP:"คลาวด์คำบวก",negT:"ประเภทเสียงลบยอดนิยม",tapHint:"แตะเพื่อเจาะลึก ↓",
+    aiH:"ถามข้อมูล",aiL:"VOC เชิงสนทนา — สรุปข้อดีข้อเสียทันที",ask:"ถาม AI",picked:"คนพูดถึงอย่างไรเกี่ยวกับ",
+    summary:"สรุปโดย AI",sampleN:n=>`สร้างโดย AI จาก ${n} ความเห็น`,pros:"ข้อดี",cons:"ข้อเสีย",wkWell:"สิ่งที่ดี",needAttn:"สิ่งที่ต้องดูแล",mentions:"การกล่าวถึง",
+    drH:"ประเภทเสียง · สาเหตุราก",drL:"เจาะประเภทลบสู่สาเหตุรากและความเห็นดิบ",reasonsT:"อันดับสาเหตุราก",commentsT:"ความเห็นต้นฉบับ",createTask:"➕ สร้างงาน",
+    tkH:"งานแบบปิดลูป",tkL:"ข้อมูลเชิงลึก → งาน → มอบหมาย → ขอปิด ไม่ใช่แค่ฟัง",empty:"ยังไม่มีงาน — สร้างจากประเภทเสียง",
+    assignee:"ผู้รับผิดชอบ",priority:"ความสำคัญ",goal:"เป้าหมาย",goalV:"แก้ไขภายใน 2 สัปดาห์",reqClose:"ขอปิดงาน",open:"กำลังทำ",closed:"ปิดแล้ว",taskCreated:"สร้างงานแล้ว",taskClosed:"ขอปิดงานแล้ว",ppH:"หลักฐานลูกค้า",ppCase1:"Fish Oil บน RED & Tmall — VOC อาหารเสริม",ppCase1L:"รีวิวเชิงลึก → ปรับปรุงผลิตภัณฑ์&ข้อความ Fish Oil 3 รายการใน 90 วัน",ppCase2:"โมดูล VOC ค้าปลีกหลายตลาด",ppCase2L:"VOC ฝังใน RED, Tmall/JD, Amazon AU และรีวิว Chemist Warehouse แก้ไขบริการแบบเรียลไทม์",ppNlp:"ความแม่นยำ NLP",ppNlpV:"92%+",ppLang:"หลายภาษา",ppLangV:"EN · ZH · JA · TH",ppResp:"ปรับปรุงเวลาตอบสนอง",ppRespV:"เร็วขึ้น 3 เท่า"}};
+const POSWORDS=[{ja:"心臓ケア",en:"Heart health",zh:"心脏保养",th:"สุขภาพหัวใจ"},{ja:"無臭",en:"Odourless",zh:"无腥味",th:"ไร้กลิ่น"},{ja:"信頼",en:"Trust",zh:"信赖",th:"น่าเชื่อ"},{ja:"関節ケア",en:"Joint support",zh:"关节养护",th:"ดูแลข้อต่อ"},{ja:"実感",en:"Felt benefit",zh:"体感效果",th:"รู้สึกได้ผล"},{ja:"続けやすい",en:"Easy to keep up",zh:"易坚持",th:"กินต่อเนื่องง่าย"},{ja:"腸内環境",en:"Gut health",zh:"肠道健康",th:"สุขภาพลำไส้"},{ja:"健康",en:"Healthy",zh:"健康",th:"สุขภาพดี"},{ja:"リピート",en:"Repeat buy",zh:"回购",th:"ซื้อซ้ำ"},{ja:"安心",en:"Reassuring",zh:"放心",th:"อุ่นใจ"}];
+
+let state={lang:"en",brand:"blackmores",tab:"ov",drill:0,askCat:0,ceCat:0,ceComp:0,nbaCat:0,nbaTab:"all",plSel:null,tasks:[]};
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const U=()=>UI[state.lang],T=o=>o[state.lang]||o.en;
+
+function tabsBar(){const u=U();$('#tabs').innerHTML=[["ov",u.t_ov],["ai",u.t_ai],["ce",CEUI[state.lang].t_ce],["nba",CEUI[state.lang].t_nba],["pl",(PLUI[state.lang]||PLUI.en).t_pl],["dr",u.t_dr],["tk",u.t_tk+(state.tasks.length?` (${state.tasks.length})`:'')]]
+  .map(([k,l])=>`<button data-t="${k}" class="${state.tab===k?'on':''}">${l}</button>`).join('');
+  $$('#tabs button').forEach(b=>b.onclick=()=>{state.tab=b.dataset.t;state.plSel=null;render();});}
+function render(){tabsBar();({ov:renderOv,ai:renderAi,ce:renderCE,nba:renderNBA,pl:renderPL,dr:renderDr,tk:renderTk}[state.tab])();}
+
+function renderOv(){const u=U();
+  $('#main').innerHTML=`<h2 class="sec">${u.ovH}</h2><div class="lead">${u.ovL}</div>
+  <div class="kpis"><div class="kc"><b>64,800</b><small>${u.totalV}</small></div>
+    <div class="kc pos"><b>53%</b><small>${u.pos} · 34,634</small></div>
+    <div class="kc neu"><b>27%</b><small>${u.neu} · 17,132</small></div>
+    <div class="kc neg"><b>20%</b><small>${u.neg} · 13,032</small></div></div>
+  <div class="grid2">
+    <div class="panel"><h3>${u.sentT}</h3><div style="display:flex;gap:18px"><div class="donut"></div>
+      <div class="leg"><span><i class="sw" style="background:var(--pos)"></i>${u.pos} 53%</span>
+        <span><i class="sw" style="background:var(--neu)"></i>${u.neu} 27%</span>
+        <span><i class="sw" style="background:var(--neg)"></i>${u.neg} 20%</span>
+        <span style="margin-top:6px;font-weight:700;color:var(--brand)">${u.nps} +47</span></div></div></div>
+    <div class="panel src"><h3>${u.srcT}</h3>${SOURCES.map(s=>`<div class="sr"><div class="sn">${T(s[0])}</div>
+      <div class="sb"><i style="width:${s[1]*3}%"></i></div><div class="sv">${s[1]}%</div></div>`).join('')}</div>
+  </div>
+  <div class="grid2" style="margin-top:14px">
+    <div class="panel"><h3>${u.cloudP}</h3><div class="cloud">${POSWORDS.map((w,i)=>`<span style="font-size:${13+(i%4)*5}px;color:${i%3===0?'var(--brand)':i%3===1?'var(--pos)':'var(--accent)'}">${T(w)}</span>`).join('')}</div></div>
+    <div class="panel vtypes"><h3>${u.negT} <span style="font-size:11px;color:var(--muted);font-weight:400">${u.tapHint}</span></h3>
+      ${NEGTYPES.map((v,i)=>`<div class="vt" data-v="${i}"><div style="width:96px;font-weight:600">${T(v.t)}</div>
+        <div class="vbar"><i style="width:${v.c*2}%"></i></div><div class="vc">${v.c}</div></div>`).join('')}</div>
+  </div>`;
+  $$('.vt').forEach(el=>el.onclick=()=>{state.drill=+el.dataset.v;state.tab='dr';render();});
+}
+
+function renderAi(){const u=U();
+  $('#main').innerHTML=`<h2 class="sec">${u.aiH}</h2><div class="lead">${u.aiL}</div>
+  <div class="qchips" id="cats">${ASKCATS.map((c,i)=>`<span class="qc ${i===state.askCat?'on':''}" data-c="${i}">${T(c)}</span>`).join('')}</div>
+  <div class="panel"><button class="askbtn" id="ask" style="width:100%">💬 ${u.ask}: "${u.picked} ${T(ASKCATS[state.askCat])}?"</button>
+    <div class="summary" id="sum"></div></div>`;
+  $$('#cats .qc').forEach(c=>c.onclick=()=>{state.askCat=+c.dataset.c;render();});
+  $('#ask').onclick=renderSummary;}
+function renderSummary(){const u=U();const s=AISUM[state.askCat];const n=8691;const v=s.verdict;
+  const card=(kind,i)=>`<div class="ins ${kind}"><div class="hd"><span class="t">${T(i.t)}</span>
+    <span class="vol">${i.vol} ${u.mentions} · <span class="tr" style="color:${i.tr[0]==='+'?(kind==='pos'?'var(--pos)':'var(--neg)'):'var(--neu)'}">${i.tr}</span></span></div>
+    <div class="why">${T(i.why)}</div><div class="quote">“${T(i.q)}”<span class="src">— ${typeof i.src==='string'?i.src:T(i.src)}</span></div></div>`;
+  $('#sum').innerHTML=`<div class="sample">✦ ${u.summary} · ${u.sampleN(n)}</div>
+    <div class="verdict"><div class="ring" style="--p:${v.p}"><div class="num">${v.p}<small>/100</small></div></div>
+      <div class="vtxt"><h4>${T(v.head)}</h4><p>${T(v.body)}</p>
+        <div class="tags">${v.tags.map(t=>`<span class="tg ${t.d}">${t.d==='up'?'▲':'▼'} ${T(t.tx)}</span>`).join('')}</div></div></div>
+    <div class="pcg"><div class="pccol"><h3><span class="b" style="background:var(--pos)">✓</span> ${u.wkWell}</h3>${s.pros.map(x=>card('pos',x)).join('')}</div>
+      <div class="pccol"><h3><span class="b" style="background:var(--neg)">!</span> ${u.needAttn}</h3>${s.cons.map(x=>card('neg',x)).join('')}</div></div>`;
+  $('#sum').classList.add('show');toast('✦ '+u.summary);}
+
+function renderDr(){const u=U();const v=NEGTYPES[state.drill];
+  $('#main').innerHTML=`<h2 class="sec">${u.drH}</h2><div class="lead">${u.drL}</div>
+  <div class="qchips" id="vt2">${NEGTYPES.map((x,i)=>`<span class="qc ${i===state.drill?'on':''}" data-v="${i}">${T(x.t)} · ${x.c}</span>`).join('')}</div>
+  <div class="grid2"><div class="panel"><h3>${u.reasonsT} — ${T(v.t)}</h3>
+    ${v.reasons.map((r,ri)=>`<div class="reason"><div class="rc">${r.c}</div><div class="rt">${T(r.t)}</div>
+      <button class="ct" data-r="${ri}">${u.createTask}</button></div>`).join('')}</div>
+    <div class="panel"><h3>${u.commentsT}</h3>${v.comments.map(c=>`<div class="comment">${T(c)}</div>`).join('')}</div></div>`;
+  $$('#vt2 .qc').forEach(c=>c.onclick=()=>{state.drill=+c.dataset.v;render();});
+  $$('.ct').forEach(b=>b.onclick=()=>createTask(v,v.reasons[b.dataset.r]));
+}
+function createTask(v,r){openTaskModal(T(r.t),T(v.t));}
+
+function renderTk(){const u=U();const k=TK2[state.lang];
+  if(!state.tasks.length){$('#main').innerHTML=`<h2 class="sec">${u.tkH}</h2><div class="lead">${u.tkL}</div>
+    <div class="panel"><div class="empty">📋 ${k.emptyHint}</div></div>`;return;}
+  const stB={progress:'b-open',requested:'b-req',closed:'b-closed'},stL={progress:k.progress,requested:k.requested,closed:k.closed};
+  $('#main').innerHTML=`<h2 class="sec">${u.tkH}</h2><div class="lead">${u.tkL}</div>
+  ${state.tasks.map((t,i)=>`<div class="task"><div class="th" data-tg="${i}"><h4>${t.action}</h4>
+    <span class="badge ${stB[t.status]}">${stL[t.status]}</span></div>
+    <div class="tmeta"><span class="tg2">${t.brand}</span><span class="tg2">${t.product}</span> · 👤 ${t.owner} · ${t.prio}</div>
+    <div class="tgoal">🎯 ${k.goalSet}: ${t.goal}</div>
+    ${t._open?`<div class="tlog">${t.steps.length?t.steps.map(sx=>`<div class="logstep"><span class="ld"></span><div><div>${sx.tx}</div><div class="lat">${sx.at} · ${t.owner}</div></div></div>`).join(''):`<div class="lat" style="padding:4px 0">${k.noSteps}</div>`}
+      ${t.status!=='closed'?`<div class="addrow"><input class="tkstep" id="step${i}" placeholder="${k.stepPh}"><button class="ghost" data-add="${i}">${k.addStep}</button></div>`:''}</div>
+    <div class="trow">
+      ${t.status==='progress'?`<button class="closebtn" data-req="${i}">${k.reqClose}</button>`:''}
+      ${t.status==='requested'?`<span class="await">⏳ ${k.awaiting}</span><button class="closebtn" data-app="${i}">${k.approve}</button>`:''}
+      ${t.status==='closed'?`<span style="color:var(--pos);font-weight:700;font-size:12.5px">✓ ${k.closed} · ${t.steps.length} ${k.steps}</span>`:''}
+      <button class="ghost" data-sync="${i}">${k.sync}</button></div>`:''}
+  </div>`).join('')}`;
+  $$('.th[data-tg]').forEach(h=>h.onclick=()=>{const i=+h.dataset.tg;state.tasks[i]._open=!state.tasks[i]._open;render();});
+  $$('[data-add]').forEach(b=>b.onclick=()=>{const i=+b.dataset.add,inp=document.querySelector('#step'+i);if(!inp.value.trim())return;
+    state.tasks[i].steps.push({tx:inp.value.trim(),at:nowStr()});toast('✓ '+k.stepAdded);render();});
+  $$('[data-req]').forEach(b=>b.onclick=()=>{state.tasks[+b.dataset.req].status='requested';toast('⏳ '+k.reqToast);render();});
+  $$('[data-app]').forEach(b=>b.onclick=()=>{state.tasks[+b.dataset.app].status='closed';toast('✓ '+k.closedToast);render();});
+  $$('[data-sync]').forEach(b=>b.onclick=()=>toast(k.synced));}
+
+
+const D={purity:{en:"Purity / quality",zh:"纯度与品质",ja:"純度・品質",th:"ความบริสุทธิ์/คุณภาพ"},absorb:{en:"TGA certification",zh:"TGA 认证",ja:"TGA認証",th:"การรับรอง TGA"},
+ noaft:{en:"No aftertaste",zh:"无腥味",ja:"後味なし",th:"ไม่มีกลิ่นคาว"},heart:{en:"Brand trust",zh:"品牌信赖",ja:"ブランド信頼",th:"ความเชื่อแบรนด์"},
+ value:{en:"Value",zh:"性价比",ja:"価格価値",th:"ความคุ้ม"},swallow:{en:"Easy to swallow",zh:"易吞咽",ja:"飲みやすさ",th:"กลืนง่าย"},
+ potency:{en:"Potency",zh:"含量功效",ja:"含有量",th:"ความเข้มข้น"},gentle:{en:"Gentle on stomach",zh:"温和不刺激",ja:"胃にやさしい",th:"อ่อนโยนต่อกระเพาะ"},
+ habit:{en:"Daily habit",zh:"日常习惯",ja:"習慣化",th:"กิจวัตร"},taste:{en:"Format range",zh:"剂型丰富",ja:"剤形の幅",th:"ความหลากหลายรูปแบบ"},
+ trust:{en:"Brand trust",zh:"品牌信赖",ja:"ブランド信頼",th:"ความเชื่อแบรนด์"},effic:{en:"Felt benefit",zh:"体感效果",ja:"実感",th:"รู้สึกได้ผล"},
+ family:{en:"Family-friendly",zh:"全家适用",ja:"家族向け",th:"เหมาะทั้งครอบครัว"},clarity:{en:"Label clarity",zh:"标签清晰",ja:"表示の分かりやすさ",th:"ความชัดฉลาก"},
+ conv:{en:"Availability",zh:"铺货",ja:"入手しやすさ",th:"หาซื้อง่าย"}};
+const COMP=[
+ {"compA":{dims:[D.purity,D.absorb,D.noaft,D.heart,D.value,D.swallow],self:[90,88,86,84,60,58],comp:[88,82,80,86,72,66],
+   note:{en:"Competitor A is the Fish Oil benchmark — you win on purity & odourless formula.",zh:"竞品 A 是深海鱼油标杆——你赢在纯度与无腥味配方。",ja:"競合Aはフィッシュオイルのベンチマーク — 純度と無臭処方で勝つ。",th:"คู่แข่ง A คือเกณฑ์ Fish Oil — คุณชนะเรื่องความบริสุทธิ์และสูตรไร้กลิ่น"}},
+  "compB":{dims:[D.purity,D.absorb,D.noaft,D.heart,D.value,D.swallow],self:[90,88,86,84,60,58],comp:[82,90,72,82,84,70],
+   note:{en:"Competitor B leads on certification & value — close the value gap.",zh:"竞品 B 在认证与性价比领先——补上性价比差距。",ja:"競合Bは認証と価格で先行 — 価格価値の差を詰める。",th:"คู่แข่ง B นำเรื่องการรับรองและราคา — ปิดช่องว่างความคุ้ม"}}},
+ {"compA":{dims:[D.potency,D.gentle,D.habit,D.value,D.taste,D.trust],self:[88,86,82,62,70,86],comp:[80,82,84,72,74,88],
+   note:{en:"Competitor A pushes value & format range — you win on potency & gentleness.",zh:"竞品 A 主打性价比与剂型——你赢在含量功效与温和。",ja:"競合Aは価格と剤形で攻める — 含有量とやさしさで勝つ。",th:"คู่แข่ง A เน้นราคาและรูปแบบ — คุณชนะเรื่องความเข้มข้นและความอ่อนโยน"}},
+  "compC":{dims:[D.potency,D.gentle,D.habit,D.value,D.taste,D.trust],self:[88,86,82,62,70,86],comp:[74,78,80,84,68,80],
+   note:{en:"Competitor C competes on price — potency & gentle formula are your moat.",zh:"竞品 C 靠价格竞争——含量功效与温和配方是你的护城河。",ja:"競合Cは価格で勝負 — 含有量とやさしい処方が堀。",th:"คู่แข่ง C แข่งด้านราคา — ความเข้มข้นและสูตรอ่อนโยนคือคูเมือง"}}},
+ {"compD":{dims:[D.effic,D.family,D.clarity,D.value,D.conv,D.trust],self:[80,90,64,64,80,86],comp:[78,82,80,78,84,82],
+   note:{en:"Competitor D communicates label info more clearly — close the clarity gap.",zh:"竞品 D 的标签信息沟通更清晰——补上清晰度差距。",ja:"競合Dは表示情報の訴求が明快 — 分かりやすさの差を詰める。",th:"คู่แข่ง D สื่อสารข้อมูลฉลากชัดกว่า — ปิดช่องว่างความชัด"}},
+  "compC":{dims:[D.effic,D.family,D.clarity,D.value,D.conv,D.trust],self:[80,90,64,64,80,86],comp:[76,80,72,82,78,78],
+   note:{en:"Competitor C is balanced on value — your family-trust pull is stronger.",zh:"竞品 C 在性价比上较均衡——你的家庭信赖更强。",ja:"競合Cは価値で均衡 — 家族の信頼で上回る。",th:"คู่แข่ง C สมดุลด้านราคา — แรงดึงความเชื่อครอบครัวคุณแกร่งกว่า"}}}];
+const TEAM={mkt:{en:"Marketing",zh:"市场",ja:"マーケ",th:"การตลาด"},brand:{en:"Branding",zh:"品牌",ja:"ブランド",th:"แบรนด์"},
+ prod:{en:"Product",zh:"产品",ja:"製品",th:"ผลิตภัณฑ์"},ops:{en:"Operations",zh:"运营",ja:"運用",th:"ปฏิบัติการ"}};
+const EFF={lo:{en:"Low effort",zh:"低投入",ja:"低工数",th:"งานน้อย"},med:{en:"Med effort",zh:"中投入",ja:"中工数",th:"งานกลาง"},hi:{en:"High effort",zh:"高投入",ja:"高工数",th:"งานมาก"}};
+const NBA=[
+ [{k:"amp",prio:"high",t:{en:"Own the ‘odourless heart-health’ story on RED",zh:"在小红书主打‘无腥味护心’",ja:"小红书で「無臭の心臓ケア」を前面に",th:"ชู ‘บำรุงหัวใจไร้กลิ่นคาว’ บน RED"},d:{en:"Lead KOL content on RED on the odourless formula — the #1 switch driver.",zh:"在小红书主打无腥味配方的 KOL 内容——头号转化动因。",ja:"小红书のKOLコンテンツで無臭処方を前面に — 乗換の主因。",th:"นำคอนเทนต์ KOL บน RED เรื่องสูตรไร้กลิ่น — ตัวขับเปลี่ยนแบรนด์อันดับ1"},team:"mkt",impact:{en:"+pos voice",zh:"正面声量↑",ja:"ポジ↑",th:"เสียงบวก↑"},eff:"lo"},
+  {k:"amp",prio:"med",t:{en:"Surface real heart-benefit reviews",zh:"放大心脏体感真实评价",ja:"心臓ケア実感の口コミを活用",th:"ดันรีวิวผลหัวใจจริง"},d:{en:"Turn repeat-buyer results into UGC proof on Amazon AU & Chemist Warehouse.",zh:"把复购见效转成 Amazon AU 与 Chemist Warehouse 的 UGC 证据。",ja:"リピーターの実感をAmazon AU・Chemist WarehouseのUGCに。",th:"เปลี่ยนผลผู้ซื้อซ้ำเป็น UGC บน Amazon AU & Chemist Warehouse"},team:"brand",impact:{en:"+engagement",zh:"互动↑",ja:"エンゲージ↑",th:"มีส่วนร่วม↑"},eff:"med"},
+  {k:"fix",prio:"high",t:{en:"Launch an enhanced odourless Fish Oil",zh:"推出升级无腥味鱼油",ja:"無臭強化フィッシュオイルを発売",th:"ออก Fish Oil ไร้กลิ่นรุ่นใหม่"},d:{en:"Aftertaste concern up +16% — close the odourless gap (TGA-certified).",zh:"腥味顾虑升 +16%——补上无腥味短板(TGA 认证)。",ja:"後味の不満+16% — 無臭の差を解消(TGA認証)。",th:"กังวลกลิ่นคาว +16% — ปิดช่องว่างไร้กลิ่น (รับรอง TGA)"},team:"prod",impact:{en:"−aftertaste voice",zh:"腥味负面↓",ja:"後味不満↓",th:"เสียงกลิ่นคาว↓"},eff:"hi"},
+  {k:"fix",prio:"med",t:{en:"Secure cross-border stock on Tmall flagship",zh:"保障天猫旗舰店跨境备货",ja:"天猫旗艦店の越境在庫を確保",th:"ล็อกสต็อกข้ามแดนที่ร้านธงทมอลล์"},d:{en:"Answer ‘out of stock cross-border’ — secure Tmall flagship inventory.",zh:"回应‘跨境缺货’——保障天猫旗舰店库存。",ja:"「越境欠品」に対応 — 天猫旗艦店の在庫を確保。",th:"ตอบ ‘ของขาดข้ามแดน’ — ล็อกสต็อกร้านธงทมอลล์"},team:"ops",impact:{en:"−stock voice",zh:"缺货负面↓",ja:"欠品不満↓",th:"เสียงของขาด↓"},eff:"med"}],
+ [{k:"amp",prio:"high",t:{en:"Market the ‘joint support for runners’ angle",zh:"主打‘跑者关节养护’",ja:"「ランナーの関節ケア」を訴求",th:"ชู ‘ดูแลข้อต่อนักวิ่ง’"},d:{en:"Position as the joint support for runners & active over-50s — top repeat driver.",zh:"定位为跑者与 50+ 活跃人群的关节支持——头号复购动因。",ja:"ランナー・50代以上のアクティブ層の関節ケアとして — 再購入の主因。",th:"วางเป็นตัวช่วยข้อต่อสำหรับนักวิ่งและคนแอ็กทีฟวัย 50+ — ตัวขับซื้อซ้ำ"},team:"mkt",impact:{en:"+pos voice",zh:"正面声量↑",ja:"ポジ↑",th:"เสียงบวก↑"},eff:"lo"},
+  {k:"amp",prio:"med",t:{en:"Promote the value bundle",zh:"主推组合装划算",ja:"まとめ買いのお得を訴求",th:"ดันเซ็ตคุ้ม"},d:{en:"Lean into ‘great value’ bundles for daily users.",zh:"对日常用户强化组合装‘高性价比’。",ja:"日常ユーザーにまとめ買いの『お得』を訴求。",th:"ชูเซ็ต ‘คุ้มค่า’ สำหรับผู้ใช้ประจำ"},team:"brand",impact:{en:"+basket",zh:"客单↑",ja:"客単価↑",th:"ตะกร้า↑"},eff:"med"},
+  {k:"fix",prio:"high",t:{en:"Reframe the price-vs-competitor perception",zh:"重塑‘比竞品贵’认知",ja:"「競合比で高い」イメージを再構築",th:"ปรับภาพ ‘แพงกว่าคู่แข่ง’"},d:{en:"Communicate cost-per-day value vs competitor — price voice up +15%.",zh:"沟通每日成本相对竞品的价值——价格负面 +15%。",ja:"競合比の1日あたりコスト価値を訴求 — 価格不満+15%。",th:"สื่อสารคุณค่าต้นทุนต่อวันเทียบคู่แข่ง — เสียงราคา +15%"},team:"mkt",impact:{en:"−price voice",zh:"价格负面↓",ja:"価格不満↓",th:"เสียงราคา↓"},eff:"med"},
+  {k:"fix",prio:"low",t:{en:"Add a smaller-tablet format",zh:"增加小片剂规格",ja:"小型錠剤を追加",th:"เพิ่มรูปแบบเม็ดเล็ก"},d:{en:"Answer the ‘capsule too large’ cluster.",zh:"回应‘胶囊偏大’诉求。",ja:"「カプセルが大きい」声に対応。",th:"ตอบกลุ่ม ‘แคปซูลใหญ่’"},team:"prod",impact:{en:"−size voice",zh:"规格负面↓",ja:"サイズ不満↓",th:"เสียงขนาด↓"},eff:"med"}],
+ [{k:"amp",prio:"high",t:{en:"Push the family gut-comfort trust story",zh:"主打全家肠道舒适信赖",ja:"家族の腸内ケア信頼を訴求",th:"ชูความเชื่อลำไส้สบายทั้งครอบครัว"},d:{en:"Own ‘daily gut comfort for the family’ — strong family repurchase.",zh:"占据‘全家每日肠道舒适’——家庭复购强。",ja:"「家族の毎日の腸内ケア」を占有 — 家族のリピート強。",th:"ครอง ‘ลำไส้สบายประจำวันทั้งครอบครัว’ — ครอบครัวซื้อซ้ำสูง"},team:"brand",impact:{en:"+pos voice",zh:"正面声量↑",ja:"ポジ↑",th:"เสียงบวก↑"},eff:"lo"},
+  {k:"amp",prio:"med",t:{en:"Family value-bundle campaigns",zh:"家庭组合装活动",ja:"家族向けまとめ買い施策",th:"แคมเปญเซ็ตคุ้มครอบครัว"},d:{en:"Lean into convenient family value bundles.",zh:"强化方便的家庭组合装。",ja:"便利な家族向けまとめ買いを訴求。",th:"ชูเซ็ตคุ้มครอบครัวที่สะดวก"},team:"mkt",impact:{en:"+basket",zh:"客单↑",ja:"客単価↑",th:"ตะกร้า↑"},eff:"med"},
+  {k:"fix",prio:"high",t:{en:"Launch a value multipack to fix per-bottle cost",zh:"推出实惠组合装降单瓶成本",ja:"お得なまとめ買いで1本コストを解消",th:"ออกแพ็กคุ้มแก้ต้นทุนต่อขวด"},d:{en:"Per-bottle price gripe up +13% — give families a daily-use value pack.",zh:"单瓶价格抱怨 +13%——给家庭日常实惠装。",ja:"1本価格の不満+13% — 家族に毎日使いのお得パックを。",th:"บ่นราคาต่อขวด +13% — ให้ครอบครัวแพ็กคุ้มใช้ทุกวัน"},team:"prod",impact:{en:"−price voice",zh:"价格负面↓",ja:"価格不満↓",th:"เสียงราคา↓"},eff:"med"},
+  {k:"fix",prio:"low",t:{en:"Add a shelf-stable travel format",zh:"增加常温免冷藏出行款",ja:"常温保存の旅行用タイプを追加",th:"เพิ่มสูตรเก็บอุณหภูมิห้องสำหรับเดินทาง"},d:{en:"Answer the ‘wants a fridge-free version’ cluster for travel.",zh:"回应‘希望免冷藏出行款’诉求。",ja:"「冷蔵不要版が欲しい」声に対応。",th:"ตอบกลุ่ม ‘อยากได้สูตรไม่ต้องแช่เย็น’ สำหรับเดินทาง"},team:"prod",impact:{en:"−format voice",zh:"剂型负面↓",ja:"剤形の不満↓",th:"เสียงรูปแบบ↓"},eff:"lo"}]];
+const CEUI={
+ en:{t_ce:"Competitive Edge",t_nba:"Next Best Action",ceH:"Competitive Edge",ceL:"How we stack up — and the AI counter-move.",benchVs:"Benchmark vs",
+   youIdx:"index",netGap:"Net gap",youLead:"You lead",theyLead:"leads",even:"Even",counterLab:"⚔ AI counter-move",
+   closeTitle:d=>`Close the ${d} gap`,counterBody:(cn,d,s,c)=>`${cn} outperforms on ${d} (${c} vs ${s}). Prioritise a targeted improvement + message test to neutralise it before it drives switching.`,
+   leadTitle:"You lead on every dimension",leadBody:cn=>`Defend the lead vs ${cn}: lock in loyalty on your strengths and pre-empt their catch-up.`,addNba:"＋ Add to Next Best Action",addedNba:"Added to Next Best Action",
+   nbaH:"Next Best Action",nbaL:"Amplify what they love, fix what they don't — ranked by impact & effort.",all:"All",amplify:"Amplify",fix:"Fix",prio:"priority",assign:"Assign task →",assigned:"Task created"},
+ zh:{t_ce:"竞争优势",t_nba:"下一步行动",ceH:"竞争优势",ceL:"我们与对手的对比——以及 AI 反制建议。",benchVs:"对标",
+   youIdx:"指数",netGap:"净差",youLead:"你领先",theyLead:"领先",even:"持平",counterLab:"⚔ AI 反制建议",
+   closeTitle:d=>`缩小 ${d} 差距`,counterBody:(cn,d,s,c)=>`${cn} 在 ${d} 上更强(${c} vs ${s})。优先做针对性改进 + 文案测试,在它引发流失前抵消优势。`,
+   leadTitle:"你在每个维度都领先",leadBody:cn=>`守住对 ${cn} 的领先:在你的强项上锁定忠诚,提前防住对手追赶。`,addNba:"＋ 加入下一步行动",addedNba:"已加入下一步行动",
+   nbaH:"下一步行动",nbaL:"放大他们喜欢的,修复他们不满的——按影响与投入排序。",all:"全部",amplify:"放大",fix:"修复",prio:"优先级",assign:"指派任务 →",assigned:"任务已创建"},
+ ja:{t_ce:"競争優位",t_nba:"次の一手",ceH:"競争優位",ceL:"競合との比較 — そしてAIの対抗策。",benchVs:"ベンチマーク",
+   youIdx:"指数",netGap:"差分",youLead:"優位",theyLead:"優位",even:"互角",counterLab:"⚔ AI対抗策",
+   closeTitle:d=>`${d} の差を詰める`,counterBody:(cn,d,s,c)=>`${cn}は${d}で上回る(${c} vs ${s})。乗換を招く前に、的を絞った改善+メッセージ検証で無力化を。`,
+   leadTitle:"全項目で優位",leadBody:cn=>`${cn}への優位を守る:強みで忠誠を固め、追い上げを先回り。`,addNba:"＋ 次の一手へ",addedNba:"次の一手に追加",
+   nbaH:"次の一手",nbaL:"好評を伸ばし不満を直す — 影響と工数で順位付け。",all:"すべて",amplify:"伸ばす",fix:"直す",prio:"優先度",assign:"タスク割当 →",assigned:"タスク作成"},
+ th:{t_ce:"ความได้เปรียบ",t_nba:"ก้าวต่อไป",ceH:"ความได้เปรียบในการแข่งขัน",ceL:"เราเทียบกับคู่แข่ง — และหมัดสวนของ AI",benchVs:"เทียบกับ",
+   youIdx:"ดัชนี",netGap:"ส่วนต่าง",youLead:"คุณนำ",theyLead:"นำ",even:"เสมอ",counterLab:"⚔ หมัดสวน AI",
+   closeTitle:d=>`ปิดช่องว่าง ${d}`,counterBody:(cn,d,s,c)=>`${cn} เหนือกว่าด้าน ${d} (${c} vs ${s}) ควรปรับปรุงตรงจุด + ทดสอบข้อความ ก่อนทำให้ลูกค้าเปลี่ยนใจ`,
+   leadTitle:"คุณนำทุกมิติ",leadBody:cn=>`รักษาความนำเหนือ ${cn}: ล็อกความภักดีที่จุดแข็งและกันการไล่ตาม`,addNba:"＋ เพิ่มในก้าวต่อไป",addedNba:"เพิ่มในก้าวต่อไปแล้ว",
+   nbaH:"ก้าวต่อไป",nbaL:"ขยายสิ่งที่ชอบ แก้สิ่งที่ไม่ — จัดอันดับตามผลและความพยายาม",all:"ทั้งหมด",amplify:"ขยาย",fix:"แก้",prio:"ความสำคัญ",assign:"มอบหมายงาน →",assigned:"สร้างงานแล้ว"}};
+const UC=()=>CEUI[state.lang];
+const COMPNAME={"compA":{ja:"競合A",en:"Competitor A",zh:"竞品 A",th:"คู่แข่ง A"},"compB":{ja:"競合B",en:"Competitor B",zh:"竞品 B",th:"คู่แข่ง B"},"compC":{ja:"競合C",en:"Competitor C",zh:"竞品 C",th:"คู่แข่ง C"},"compD":{ja:"競合D",en:"Competitor D",zh:"竞品 D",th:"คู่แข่ง D"}};
+const compName=k=>COMPNAME[k]?T(COMPNAME[k]):k;
+
+function buildRadar(dims,self,comp){const n=dims.length,cx=130,cy=113,R=72,W=260,H=230;
+  const ang=i=>(-90+i*360/n)*Math.PI/180;
+  const pt=(i,v)=>[(cx+R*v/100*Math.cos(ang(i))).toFixed(1),(cy+R*v/100*Math.sin(ang(i))).toFixed(1)];
+  const poly=a=>a.map(p=>p.join(',')).join(' ');
+  let grid='';[33,66,100].forEach(r=>grid+=`<polygon points="${poly(dims.map((_,i)=>pt(i,r)))}" fill="none" stroke="#e6ecec" stroke-width="1"/>`);
+  let axes='';dims.forEach((_,i)=>{const e=pt(i,100);axes+=`<line x1="${cx}" y1="${cy}" x2="${e[0]}" y2="${e[1]}" stroke="#e6ecec" stroke-width="1"/>`;});
+  let labels='';dims.forEach((dn,i)=>{const l=pt(i,118),c=Math.cos(ang(i)),sn=Math.sin(ang(i));
+    const anc=c>0.3?'start':c<-0.3?'end':'middle';const dy=sn>0.3?9:sn<-0.3?-3:3;
+    labels+=`<text x="${l[0]}" y="${(+l[1]+dy).toFixed(1)}" font-size="9" font-weight="600" fill="#6a7472" text-anchor="${anc}">${dn}</text>`;});
+  const cP=`<polygon points="${poly(comp.map((v,i)=>pt(i,v)))}" fill="rgba(10,157,78,.15)" stroke="#E91E63" stroke-width="2"/>`;
+  const sP=`<polygon points="${poly(self.map((v,i)=>pt(i,v)))}" fill="rgba(0,91,150,.18)" stroke="#009BA4" stroke-width="2"/>`;
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${grid}${axes}${labels}${cP}${sP}</svg>`;}
+
+function renderCE(){const u=UC();const cat=state.ceCat;const comps=Object.keys(COMP[cat]);const cn=comps[state.ceComp]||comps[0];const ce=COMP[cat][cn];const cnD=compName(cn);
+  const dimsT=ce.dims.map(T);const self=ce.self,comp=ce.comp;
+  const avg=a=>Math.round(a.reduce((x,y)=>x+y,0)/a.length);const si=avg(self),ci=avg(comp),gap=si-ci;
+  const rows=ce.dims.map((d,i)=>({d:T(d),s:self[i],c:comp[i],g:self[i]-comp[i]}));
+  const bars=rows.map(r=>{const lead=r.g>=4?'you':r.g<=-4?'them':'tie';const ltxt=lead==='you'?u.youLead:lead==='them'?cnD+' '+u.theyLead:u.even;
+    return `<div class="h2r"><div class="dn">${r.d}<span class="lead ${lead}">${ltxt}</span><span class="sc">${r.s} vs ${r.c}</span></div>
+      <div class="hbar you"><i style="width:${r.s}%"></i></div><div class="hbar them"><i style="width:${r.c}%"></i></div></div>`;}).join('');
+  const worst=rows.slice().sort((a,b)=>a.g-b.g)[0];
+  let counter;
+  if(worst.g<0){counter=`<div class="counter"><div class="clab">${u.counterLab}</div><h4>${u.closeTitle(worst.d)}</h4>
+    <p>${u.counterBody(cnD,worst.d,worst.s,worst.c)}</p><button class="go" id="addNba">${u.addNba}</button></div>`;}
+  else{counter=`<div class="counter" style="border-color:var(--pos);background:color-mix(in srgb,var(--pos) 7%,#fff)"><div class="clab" style="color:var(--pos)">✓ ${u.counterLab.replace('⚔ ','')}</div>
+    <h4>${u.leadTitle}</h4><p>${u.leadBody(cnD)}</p><button class="go" id="addNba" style="background:var(--pos)">${u.addNba}</button></div>`;}
+  $('#main').innerHTML=`<h2 class="sec">${u.ceH}</h2><div class="lead">${u.ceL}</div>
+   <div class="cechips" id="ceCats">${ASKCATS.map((c,i)=>`<span class="qc ${i===state.ceCat?'on':''}" data-c="${i}">${T(c)}</span>`).join('')}</div>
+   <div class="lead" style="margin:6px 0 2px;font-size:11.5px">${u.benchVs}:</div>
+   <div class="cechips" id="ceComps">${comps.map((c,i)=>`<span class="qc ${i===state.ceComp?'on':''}" data-i="${i}">${compName(c)}</span>`).join('')}</div>
+   <div class="panel"><div class="ce-body">
+     <div class="radarwrap"><div>${buildRadar(dimsT,self,comp)}</div>
+       <div class="radarleg"><span><i style="background:#009BA4"></i>${BRANDS[state.brand].name}</span><span><i style="background:#E91E63"></i>${cnD}</span></div>
+       <div class="idx"><div class="ix"><div class="v" style="color:var(--brand)">${si}</div><div class="k">${BRANDS[state.brand].name} ${u.youIdx}</div></div>
+         <div class="ix"><div class="v" style="color:var(--accent)">${ci}</div><div class="k">${cnD} ${u.youIdx}</div></div>
+         <div class="ix"><div class="v" style="color:${gap>=0?'var(--pos)':'var(--neg)'}">${gap>=0?'+'+gap:gap}</div><div class="k">${u.netGap}</div></div></div></div>
+     <div><div style="font-size:12px;color:var(--muted);margin-bottom:10px">${T(ce.note)}</div>${bars}${counter}</div>
+   </div></div>`;
+  $$('#ceCats .qc').forEach(c=>c.onclick=()=>{state.ceCat=+c.dataset.c;state.ceComp=0;renderCE();});
+  $$('#ceComps .qc').forEach(c=>c.onclick=()=>{state.ceComp=+c.dataset.i;renderCE();});
+  $('#addNba').onclick=()=>{state.tab='nba';render();toast('✦ '+u.t_nba);};}
+
+function renderNBA(){const u=UC();let list=NBA[state.nbaCat];if(state.nbaTab!=='all')list=list.filter(a=>a.k===state.nbaTab);
+  $('#main').innerHTML=`<h2 class="sec">${u.nbaH}</h2><div class="lead">${u.nbaL}</div>
+   <div class="cechips" id="nbaCats">${ASKCATS.map((c,i)=>`<span class="qc ${i===state.nbaCat?'on':''}" data-c="${i}">${T(c)}</span>`).join('')}</div>
+   <div class="nbatabs" id="nbaTabs">${[['all',u.all],['amp',u.amplify],['fix',u.fix]].map(([k,l])=>`<button data-t="${k}" class="${state.nbaTab===k?'on':''}">${l}</button>`).join('')}</div>
+   <div class="nbagrid">${list.map(a=>`<div class="act ${a.k}"><span class="seam"></span>
+     <div class="r1"><span class="bdg ${a.k}">${a.k==='amp'?u.amplify:u.fix}</span><span class="pr ${a.prio}">${a.prio} ${u.prio}</span></div>
+     <h4>${T(a.t)}</h4><p>${T(a.d)}</p>
+     <div class="foot"><span class="mt">👥 <b>${T(TEAM[a.team])}</b></span><span class="mt imp">↑ <b>${T(a.impact)}</b></span><span class="mt">⏱ ${T(EFF[a.eff])}</span>
+       <button class="go" data-t="${T(a.t)}">${u.assign}</button></div></div>`).join('')}</div>`;
+  $$('#nbaCats .qc').forEach(c=>c.onclick=()=>{state.nbaCat=+c.dataset.c;renderNBA();});
+  $$('#nbaTabs button').forEach(b=>b.onclick=()=>{state.nbaTab=b.dataset.t;renderNBA();});
+  $$('.act .go').forEach(b=>b.onclick=()=>openTaskModal(b.dataset.t,T(ASKCATS[state.nbaCat])));}
+
+const OWNERS=[{ja:"Emma Wilson",en:"Emma Wilson",zh:"Emma Wilson",th:"Emma Wilson"},{ja:"陈 婉婷",en:"Wendy Chen",zh:"陈 婉婷",th:"Wendy Chen"},{ja:"James Park",en:"James Park",zh:"James Park",th:"James Park"},{ja:"地域イネーブルメントチーム",en:"Regional enablement team",zh:"区域协同团队",th:"ทีมสนับสนุนภูมิภาค"}];
+const TK2={
+ en:{create:"Create follow-up task",actionL:"Action",ownerL:"Owner",prioL:"Priority",goalL:"Goal",goalPh:"What outcome defines done?",goalDefault:"Resolve within 2 weeks",cancel:"Cancel",createBtn:"Create task",progress:"In progress",requested:"Closure requested",closed:"Closed",stepPh:"What did you do? (progress)",addStep:"+ Add step",reqClose:"Request closure",awaiting:"Awaiting approval",approve:"Approve & close",sync:"🔗 Sync to ticketing",synced:"Synced to ticketing (Jira / ServiceNow)",created:"Follow-up task created",stepAdded:"Progress logged",closedToast:"Task closed — loop complete",reqToast:"Closure requested",steps:"steps",noSteps:"No progress logged yet",goalSet:"Goal",emptyHint:"No tasks yet — create one from Next Best Action or a Voice type."},
+ zh:{create:"创建跟进任务",actionL:"行动",ownerL:"负责人",prioL:"优先级",goalL:"目标",goalPh:"达成什么算完成?",goalDefault:"两周内解决",cancel:"取消",createBtn:"创建任务",progress:"进行中",requested:"已申请关闭",closed:"已关闭",stepPh:"你做了什么?(进展)",addStep:"+ 记录一步",reqClose:"申请关闭",awaiting:"等待审批",approve:"批准并关闭",sync:"🔗 同步到工单系统",synced:"已同步到工单系统(Jira / ServiceNow)",created:"跟进任务已创建",stepAdded:"已记录进展",closedToast:"任务已关闭——闭环完成",reqToast:"已申请关闭",steps:"步",noSteps:"还没有进展记录",goalSet:"目标",emptyHint:"暂无任务——从下一步行动或声音类型创建。"},
+ ja:{create:"フォローアップ作成",actionL:"アクション",ownerL:"担当",prioL:"優先度",goalL:"目標",goalPh:"何をもって完了?",goalDefault:"2週間以内に解決",cancel:"キャンセル",createBtn:"作成",progress:"進行中",requested:"完了申請中",closed:"完了",stepPh:"何をした?(進捗)",addStep:"+ 進捗追加",reqClose:"完了申請",awaiting:"承認待ち",approve:"承認して完了",sync:"🔗 チケットに同期",synced:"チケットに同期(Jira / ServiceNow)",created:"タスク作成",stepAdded:"進捗を記録",closedToast:"完了 — ループ達成",reqToast:"完了申請しました",steps:"件",noSteps:"進捗なし",goalSet:"目標",emptyHint:"タスクなし — 次の一手か声の種類から作成。"},
+ th:{create:"สร้างงานติดตาม",actionL:"แอ็กชัน",ownerL:"ผู้รับผิดชอบ",prioL:"ความสำคัญ",goalL:"เป้าหมาย",goalPh:"อะไรคือว่าเสร็จ?",goalDefault:"แก้ภายใน 2 สัปดาห์",cancel:"ยกเลิก",createBtn:"สร้างงาน",progress:"กำลังทำ",requested:"ขอปิดงาน",closed:"ปิดแล้ว",stepPh:"คุณทำอะไร? (ความคืบหน้า)",addStep:"+ เพิ่มขั้น",reqClose:"ขอปิดงาน",awaiting:"รออนุมัติ",approve:"อนุมัติและปิด",sync:"🔗 ซิงก์เข้าระบบทิกเก็ต",synced:"ซิงก์เข้าระบบทิกเก็ตแล้ว (Jira / ServiceNow)",created:"สร้างงานติดตามแล้ว",stepAdded:"บันทึกความคืบหน้า",closedToast:"ปิดงาน — ครบลูป",reqToast:"ขอปิดงานแล้ว",steps:"ขั้น",noSteps:"ยังไม่มีความคืบหน้า",goalSet:"เป้าหมาย",emptyHint:"ยังไม่มีงาน — สร้างจากก้าวต่อไปหรือประเภทเสียง"}};
+let _tk={action:"",product:"",prio:"P2"};
+function nowStr(){const d=new Date();return d.toLocaleDateString([], {month:'short',day:'numeric'})+' '+d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});}
+function openTaskModal(action,product){_tk={action:action,product:product,prio:"P2"};renderTkModal();}
+function renderTkModal(){const k=TK2[state.lang];let el=document.querySelector('#tkmodal');
+  if(!el){el=document.createElement('div');el.id='tkmodal';el.className='tkmodal-bg';document.body.appendChild(el);}
+  el.innerHTML=`<div class="tkmodal"><h3>${k.create}</h3>
+    <div class="tkrow"><b>${k.actionL}:</b> ${_tk.action}</div>
+    <div class="chiprow"><span class="tg2">${BRANDS[state.brand].name}</span><span class="tg2">${_tk.product}</span></div>
+    <div class="kk">${k.ownerL}</div><select id="tkOwner" class="tksel">${OWNERS.map(o=>`<option>${T(o)}</option>`).join('')}</select>
+    <div class="kk">${k.prioL}</div><div class="chiprow" id="tkPrio">${['P1','P2','P3'].map(p=>`<span class="qc ${p===_tk.prio?'on':''}" data-p="${p}">${p}</span>`).join('')}</div>
+    <div class="kk">${k.goalL}</div><textarea id="tkGoal" class="tkta" placeholder="${k.goalPh}"></textarea>
+    <div class="trow" style="justify-content:flex-end"><button class="ghost" id="tkCancel">${k.cancel}</button><button class="closebtn" id="tkCreate">${k.createBtn}</button></div></div>`;
+  el.style.display='flex';
+  el.onclick=e=>{if(e.target===el)closeTkModal();};
+  document.querySelector('#tkCancel').onclick=closeTkModal;
+  $$('#tkPrio .qc').forEach(c=>c.onclick=()=>{_tk.prio=c.dataset.p;$$('#tkPrio .qc').forEach(x=>x.classList.toggle('on',x===c));});
+  document.querySelector('#tkCreate').onclick=()=>{
+    state.tasks.unshift({action:_tk.action,brand:BRANDS[state.brand].name,product:_tk.product,
+      owner:document.querySelector('#tkOwner').value,prio:_tk.prio,
+      goal:document.querySelector('#tkGoal').value.trim()||k.goalDefault,status:"progress",steps:[],_open:true});
+    closeTkModal();state.tab='tk';render();toast('✓ '+k.created);};}
+function closeTkModal(){const el=document.querySelector('#tkmodal');if(el)el.style.display='none';}
+
+function applyBrand(){const b=BRANDS[state.brand],r=document.documentElement.style;
+  r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
+  $('#brand').innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');}
+function renderProof(){const pw=$('#proofWrap');if(pw)pw.innerHTML='';}
+function applyText(){$('#sub').textContent=U().sub;
+  document.documentElement.lang=state.lang;render();renderProof();}
+/* ===== Potential Leads (AI-flagged opportunities) ===== */
+const SRCEM={call:"📞",social:"📱",ai:"🤖",whatsapp:"💬",review:"⭐"};
+const GRADE={H:{c:'#E91E63',en:'Hot lead',zh:'高意向'},A:{c:'#E0A100',en:'Warm',zh:'温热'},B:{c:'#3FA876',en:'Watch',zh:'观察'}};
+function sigPill(g){const x=GRADE[g]||GRADE.B;const l=state.lang==='zh'?x.zh:x.en;return `<span class="sigp" style="background:${x.c}1a;color:${x.c};border-color:${x.c}55">${l}</span>`;}
+const PLUI={
+ en:{t_pl:"Growth Opportunities",plH:"AI-flagged growth opportunities",plL:"AI listens across WhatsApp, calls, marketplace reviews and the MyBlackmores assistant — then surfaces shoppers ready to reorder, bundle up, join membership or feed a campaign brief. Always consent-first, no health claims.",whyH:"Why AI flagged this",profileH:"AI-generated profile",nbaH:"Next best action",back:"← All opportunities",assign:"Assign to CRM",sync:"Sync to consent CDP",synced:"Synced to first-party CDP — consent on file",assigned:"Assigned to CRM owner"},
+ zh:{t_pl:"增长机会",plH:"AI 标记的增长机会",plL:"AI 聆听 WhatsApp、来电、平台评论与 MyBlackmores 助手，挑出准备复购、加购、入会或进入 campaign brief 的购物者。始终先取得同意，不宣称疗效。",whyH:"AI 为何标记",profileH:"AI 生成画像",nbaH:"下一步行动",back:"← 返回全部机会",assign:"指派到 CRM",sync:"同步到同意 CDP",synced:"已同步到第一方 CDP——同意已存档",assigned:"已指派 CRM 负责人"}};
+const POTENTIAL=[
+ {name:"Mei Lin Tan",src:"whatsapp",srcDetail:{en:"WhatsApp · SG official store",zh:"WhatsApp · 新加坡官方店"},product:{en:"Immunity C 1000 bundle",zh:"维C 1000 免疫套装"},grade:"H",when:{en:"12 min ago",zh:"12 分钟前"},
+  quote:{en:"Is the immunity bundle still on offer? Want to reorder before flu season starts 🙂",zh:"免疫套装还在优惠吗？想在流感季前补货 🙂"},
+  signals:[{en:"Explicit reorder intent + a timeframe (“before flu season”)",zh:"明确复购意图 + 时间点（“流感季前”）"},{en:"Returning buyer — 2 prior orders in 9 months",zh:"老客——9 个月内 2 单"},{en:"Asking about the bundle, not a single SKU — basket-builder",zh:"在问套装而非单品——加购倾向"}],
+  profile:[{en:"Repeat immunity buyer",zh:"免疫复购客"},{en:"Family household",zh:"家庭用户"},{en:"Promo-responsive",zh:"对促销敏感"}],
+  nba:{en:"Reply with the live bundle offer + auto-replenish option, and invite to membership (consent captured in-chat). Use “supports everyday immunity” language — no health claims.",zh:"回复当前套装优惠 + 自动续订选项，并邀请入会（聊天内取得同意）。用“支持日常免疫力”措辞——不得宣称疗效。"}},
+ {name:"Sarah Whitfield",src:"call",srcDetail:{en:"Inbound call · AU careline",zh:"来电 · 澳洲客服热线"},product:{en:"Fish Oil 1000 · family pack",zh:"鱼油 1000 · 家庭装"},grade:"H",when:{en:"38 min ago",zh:"38 分钟前"},
+  quote:{en:"Buying Fish Oil for the whole family — is there a subscription discount if I set it up monthly?",zh:"给全家买鱼油——如果按月订购有折扣吗？"},
+  signals:[{en:"Asked for subscription pricing — high lifetime-value signal",zh:"主动问订阅价——高终身价值信号"},{en:"Multi-pack / household volume",zh:"多件 / 家庭量"},{en:"Self-initiated the call — warm, ready to buy",zh:"主动来电——意向温热、准备成交"}],
+  profile:[{en:"Subscription-ready",zh:"可订阅"},{en:"High basket value",zh:"高客单"},{en:"Brand-loyal caller",zh:"忠诚来电客"}],
+  nba:{en:"Offer the auto-delivery plan with the member price and confirm consent to email the schedule. Flag for the loyalty team as a subscription onboarding.",zh:"提供自动配送计划 + 会员价，并确认同意以邮件发送配送时间表。标记给会员团队做订阅引导。"}},
+ {name:"Wei (RED handle @wei_wellness)",src:"social",srcDetail:{en:"RED (Xiaohongshu) comment",zh:"小红书评论"},product:{en:"Pregnancy & Breast-Feeding Gold",zh:"孕妇黄金营养素"},grade:"A",when:{en:"1 hr ago",zh:"1 小时前"},
+  quote:{en:"How much is Pregnancy Gold, and where do I buy the genuine one? Worried about fakes.",zh:"孕妇黄金多少钱？哪里买正品？担心买到假货。"},
+  signals:[{en:"Price + authenticity question — purchase-stage intent",zh:"价格 + 正品问题——接近购买阶段"},{en:"High-consideration category (pregnancy) — trust-sensitive",zh:"高决策品类（孕期）——重信任"},{en:"Public comment — opportunity to reassure others too",zh:"公开评论——可同时安抚其他人"}],
+  profile:[{en:"Expecting / new-parent",zh:"孕期 / 新手父母"},{en:"Authenticity-anxious",zh:"在意正品"},{en:"CBEC shopper",zh:"跨境购物者"}],
+  nba:{en:"Direct to the official Tmall Global / JD Worldwide store link (channel-operated) with the anti-counterfeit guarantee. PGC reply only — route to the brand assistant for personalised, no-claims guidance.",zh:"引导至官方天猫国际 / 京东全球购店铺链接（渠道运营）+ 防伪保障。仅 PGC 回复——转品牌助手做个性化、无疗效引导。"}},
+ {name:"Aiko Sato",src:"review",srcDetail:{en:"Amazon JP review thread",zh:"亚马逊日本评论区"},product:{en:"Sleep Support",zh:"睡眠支持"},grade:"A",when:{en:"3 hrs ago",zh:"3 小时前"},
+  quote:{en:"Comparing this to melatonin — how many capsules per night, and is it ok for long-term use?",zh:"在和褪黑素比较——每晚几粒？可以长期吃吗？"},
+  signals:[{en:"Active comparison — in-market, evaluating options",zh:"主动比较——正在选购评估"},{en:"Usage / dosage question — close to purchase",zh:"用量问题——接近购买"},{en:"Reseller-led market (JP) — chance to win first-party contact",zh:"经销商主导市场（日本）——可争取第一方联系"}],
+  profile:[{en:"Sleep-category researcher",zh:"睡眠品类研究型"},{en:"Detail-oriented",zh:"注重细节"},{en:"Long-term-use intent",zh:"长期使用意图"}],
+  nba:{en:"Publish a compliant PGC reply (directions per label, no efficacy claims) and link the brand FAQ. Invite to the JP assistant for consented follow-up.",zh:"发布合规 PGC 回复（按标签用法、无疗效宣称）并附品牌 FAQ。邀请至日本助手做取得同意的跟进。"}},
+ {name:"Nadia (MyBlackmores AI)",src:"ai",srcDetail:{en:"MyBlackmores assistant · MY",zh:"MyBlackmores 助手 · 马来西亚"},product:{en:"Energy & B-vitamins",zh:"能量与 B 族"},grade:"B",when:{en:"5 hrs ago",zh:"5 小时前"},
+  quote:{en:"Asked 3 times: best supplement for low energy under A$40?",zh:"问了 3 次：40 澳元以内改善疲劳的最佳补剂是？"},
+  signals:[{en:"Repeated query in one session — unmet need",zh:"同一会话内反复提问——需求未满足"},{en:"Clear budget anchor (under A$40)",zh:"明确预算锚点（40 澳元内）"},{en:"No contact captured yet — consent not given",zh:"尚未留下联系方式——未取得同意"}],
+  profile:[{en:"Energy / fatigue seeker",zh:"能量 / 疲劳人群"},{en:"Budget-conscious",zh:"预算敏感"},{en:"Anonymous (no consent)",zh:"匿名（无同意）"}],
+  nba:{en:"Surface 2 in-budget options with supportive (non-claim) framing and a soft membership prompt for a personalised plan. Do NOT add to CRM until consent is given.",zh:"展示 2 个预算内选项 + 支持性（非疗效）措辞，并温和邀请入会以获取个性化方案。取得同意前不得加入 CRM。"}},
+ {name:"Tom Becker",src:"social",srcDetail:{en:"YouTube review comment",zh:"YouTube 测评评论"},product:{en:"Kids Multi",zh:"儿童复合维生素"},grade:"B",when:{en:"yesterday",zh:"昨天"},
+  quote:{en:"Does the kids' multi work for a family of four? Thinking of switching brands.",zh:"儿童复合维生素够四口之家吃吗？想换个牌子。"},
+  signals:[{en:"Switching intent — competitor-displacement chance",zh:"换牌意图——可抢竞品份额"},{en:"Household volume (family of four)",zh:"家庭量（四口之家）"},{en:"Early stage — needs nurture, not a hard sell",zh:"较早阶段——需培育而非硬推"}],
+  profile:[{en:"Switcher",zh:"换牌者"},{en:"Family household",zh:"家庭用户"},{en:"Top-of-funnel",zh:"漏斗上层"}],
+  nba:{en:"Reply with a value-pack option and the Australian-made / TGA trust message — no competitor mention. Nurture toward the brand store; capture consent only if offered.",zh:"回复家庭装选项 + 澳洲原产 / TGA 信任信息——不提竞品。引导至品牌商店培育；仅在对方愿意时取得同意。"}}
+];
+function renderPL(){const p=PLUI[state.lang]||PLUI.en;
+  if(state.plSel!=null){renderPLDetail();return;}
+  $('#main').innerHTML=`<h2 class="sec">${p.plH}</h2><div class="lead">${p.plL}</div>
+   <div class="pl-list" id="plList">${POTENTIAL.map((d,i)=>`
+     <div class="pl-card" data-i="${i}">
+       <div class="pl-src">${SRCEM[d.src]||'•'}</div>
+       <div class="pl-main">
+         <div class="pl-top"><span class="pl-name">${d.name}</span><span class="pl-srcname">${T(d.srcDetail)}</span>${sigPill(d.grade)}<span class="pl-when">${T(d.when)}</span></div>
+         <div class="pl-q">“${T(d.quote)}”</div>
+         <div class="pl-meta"><span class="pl-model">${T(d.product)}</span>${d.profile.slice(0,2).map(x=>`<span class="pl-tag">${T(x)}</span>`).join('')}</div>
+       </div>
+     </div>`).join('')}</div>`;
+  $$('#plList .pl-card').forEach(c=>c.onclick=()=>{state.plSel=+c.dataset.i;render();});}
+function renderPLDetail(){const p=PLUI[state.lang]||PLUI.en;const d=POTENTIAL[state.plSel];
+  $('#main').innerHTML=`<button class="pl-back" id="plback">${p.back}</button>
+   <div class="pl-d-head"><div class="pl-src">${SRCEM[d.src]||'•'}</div><div style="flex:1"><div class="pl-name" style="font-size:18px">${d.name}</div><div class="pl-srcname">${T(d.srcDetail)} · ${T(d.when)}</div></div>${sigPill(d.grade)}</div>
+   <div class="pl-d-q">“${T(d.quote)}”<span class="src">${T(d.product)}</span></div>
+   <div class="pl-sec"><h4>${p.whyH}</h4><div class="pl-why">${d.signals.map(s=>`<div class="wi"><span class="ck">✓</span><span>${T(s)}</span></div>`).join('')}</div></div>
+   <div class="pl-sec"><h4>${p.profileH}</h4><div class="pl-tags">${d.profile.map(x=>`<span class="pl-tag">${T(x)}</span>`).join('')}</div></div>
+   <div class="pl-sec"><h4>🎯 ${p.nbaH}</h4><div class="pl-nba">${T(d.nba)}</div></div>
+   <div class="pl-actions"><button class="pl-btn" id="plsync">${p.sync}</button><button class="pl-btn o" id="plassign">${p.assign}</button></div>`;
+  $('#plback').onclick=()=>{state.plSel=null;render();};
+  $('#plsync').onclick=()=>toast('⇪ '+p.synced);
+  $('#plassign').onclick=()=>toast('✓ '+p.assigned);}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1900);}
+
+$('#fab').onclick=()=>{const k=Object.keys(BRANDS);const i=k.indexOf(state.brand);state.brand=k[(i+1)%k.length];applyBrand();toast('🎨 '+BRANDS[state.brand].name);};
+const LANGS=[['en','EN'],['zh','中'],['ja','日'],['th','ไท']];
+function renderLangs(){const box=$('#langs');box.innerHTML='';LANGS.forEach(([k,lab])=>{const b=document.createElement('button');b.textContent=lab;if(k===state.lang)b.className='on';b.onclick=()=>{state.lang=k;renderLangs();applyText();};box.appendChild(b);});}
+renderLangs();
+
+try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_m=_p.get("market"),_l=_p.get("lang");if(_b&&typeof BRANDS!=="undefined"&&BRANDS[_b])state.brand=_b;if(_l&&["en","zh","ja","th"].indexOf(_l)>=0)state.lang=_l;if(_m&&typeof MARKETS!=="undefined"&&MARKETS[_m])state.market=_m;}catch(e){}
+applyBrand();applyText();renderLangs();
+(function(){var _l="";setInterval(function(){try{if(typeof state==="undefined")return;var c=(state.brand||"")+"|"+(state.lang||"")+"|"+(state.market||"");if(c!==_l){_l=c;if(window.parent&&window.parent!==window)window.parent.postMessage({t:"es",brand:state.brand||null,lang:state.lang||null,market:state.market||null},"*");}}catch(e){}},400);})();
+</script>
+</body>
+</html>

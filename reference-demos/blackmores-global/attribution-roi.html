@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attribution & ROI · Blackmores · Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
+    --ink:#16201f; --muted:#6a7472; --bg:#f4f7fb; --card:#fff; --line:#e6ecf2;
+    --neg:#c0563f; --warn:#b5731a; --black:#0b1320;
+    --display:Georgia,'Times New Roman','Hiragino Mincho ProN','Songti SC',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','PingFang SC','Microsoft YaHei','Thonburi','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  button{font-family:inherit;cursor:pointer}
+  header{background:var(--black);position:sticky;top:0;z-index:30}
+  .nav{display:flex;align-items:center;gap:12px;max-width:1080px;margin:0 auto;padding:13px 18px}
+  .backst{display:none;align-items:center;gap:5px;border:1px solid #2a3647;background:rgba(255,255,255,.06);color:#cdd9e6;font:inherit;font-size:12px;font-weight:700;padding:6px 11px;border-radius:9px;cursor:pointer}
+  .backst:hover{background:rgba(255,255,255,.12);color:#fff}
+  .brand{font-family:var(--display);font-weight:700;font-size:19px;color:#fff;letter-spacing:.02em}.brand sup{font-size:9px;color:#7fb2dc}
+  .sub{font-size:11px;color:#9fb4c8;border-left:1px solid #2a3647;padding-left:12px;letter-spacing:.04em}.sp{flex:1}
+  .langs{display:flex;gap:3px;background:rgba(255,255,255,.06);border:1px solid #2a3647;border-radius:9px;padding:3px}
+  .langs button{border:0;background:0;font:inherit;font-size:12px;font-weight:700;color:#9fb4c8;min-width:30px;padding:5px 8px;border-radius:6px;transition:.15s}
+  .langs button.on{background:#fff;color:var(--brand-d)}
+  .wrap{max-width:1080px;margin:0 auto;padding:22px 18px 70px}
+  .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:700}
+  h1.h{font-family:var(--display);font-weight:400;font-size:clamp(21px,4vw,28px);margin:8px 0 5px;line-height:1.18}
+  .lead{color:var(--muted);font-size:13.5px;max-width:70ch}
+  .proof{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .proof .pc{font-size:11px;font-weight:700;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--brand-d)}
+  .proof .pc b{color:var(--accent)}
+
+  .tabs{display:flex;gap:4px;margin:20px 0 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tabs button{border:0;background:0;font:inherit;font-size:13.5px;font-weight:700;color:var(--muted);padding:11px 14px;border-bottom:2px solid transparent;display:flex;gap:7px;align-items:center}
+  .tabs button.on{color:var(--brand);border-color:var(--brand)}
+  .tabs .cnt{font-size:11px;background:var(--soft);color:var(--brand-d);border-radius:999px;padding:1px 8px;font-weight:800}
+
+  .toolrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+  .seg{display:flex;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:4px;flex-wrap:wrap}
+  .seg button{border:0;background:0;font:inherit;font-size:12.5px;font-weight:700;color:var(--muted);padding:7px 13px;border-radius:8px}
+  .seg button.on{background:var(--brand);color:#fff}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:14px}
+  .panel h3{font-family:var(--display);font-size:15px;font-weight:600;margin-bottom:3px}
+  .panel .ph{font-size:11px;color:var(--muted);margin-bottom:12px}
+  .layerlab{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:4px 0 9px}
+
+  /* conversion path */
+  .path{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
+  .ptouch{flex:1;min-width:118px;text-align:center;position:relative;padding:0 4px}
+  .ptouch .pic{width:42px;height:42px;border-radius:11px;background:var(--soft);display:grid;place-items:center;margin:0 auto 6px;border:2px solid var(--line)}
+  .ptouch.final .pic{border-color:var(--accent);background:#eafaf0}
+  .ptouch .pnm{font-size:11.5px;font-weight:700;line-height:1.25}
+  .ptouch .pstep{font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+  .ptouch .pcredit{font-family:var(--display);font-size:22px;font-weight:600;color:var(--brand);margin-top:5px;line-height:1;transition:.4s}
+  .ptouch .pcredit.lo{color:var(--muted)}
+  .ptouch .pbar{height:6px;border-radius:99px;background:var(--soft);margin-top:6px;overflow:hidden}
+  .ptouch .pbar i{display:block;height:100%;background:var(--brand);border-radius:99px;transition:width .45s ease}
+  .ptouch.final .pbar i{background:var(--accent)}
+  .parrow{display:grid;place-items:center;color:var(--line);font-size:18px;font-weight:800;flex:0 0 18px}
+  @media(max-width:740px){.parrow{display:none}.ptouch{min-width:0;flex:1 1 45%;margin-bottom:8px}}
+
+  /* roi chart */
+  .roigrid{display:grid;grid-template-columns:1fr;gap:0}
+  .roirow{display:grid;grid-template-columns:120px 1fr 64px;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line)}
+  .roirow:last-child{border-bottom:0}
+  .roirow .rl{font-size:12px;font-weight:700}
+  .roirow .rl span{display:block;font-size:10px;color:var(--muted);font-weight:600}
+  .rtrack{height:20px;border-radius:6px;background:var(--soft);overflow:hidden;position:relative}
+  .rtrack i{display:block;height:100%;background:var(--brand);border-radius:6px;transition:width .5s ease}
+  .roirow .rv{text-align:right;font-family:var(--display);font-size:17px;font-weight:600}
+  .rv.good{color:var(--accent)}.rv.mid{color:var(--warn)}.rv.bad{color:var(--neg)}
+
+  table.dt{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px}
+  table.dt th{text-align:right;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:6px 8px;border-bottom:1px solid var(--line);font-weight:800}
+  table.dt th:first-child{text-align:left}
+  table.dt td{text-align:right;padding:6px 8px;border-bottom:1px solid var(--line)}
+  table.dt td:first-child{text-align:left;font-weight:700}
+  table.dt tr:last-child td{border-bottom:0}
+  table.dt td.good{color:var(--accent);font-weight:700}table.dt td.bad{color:var(--neg);font-weight:700}
+
+  .insight{display:flex;gap:12px;align-items:flex-start;background:linear-gradient(180deg,#f3f9ff,#fff);border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:12px;padding:13px 15px;margin-bottom:14px}
+  .insight .ic{width:34px;height:34px;border-radius:9px;background:var(--soft);display:grid;place-items:center;font-size:16px;flex-shrink:0}
+  .insight .it{font-weight:800;font-size:12.5px;color:var(--brand-d);margin-bottom:2px}
+  .insight .id{font-size:12.5px;color:var(--ink);line-height:1.45}
+  .insight .id b{color:var(--accent)}
+
+  /* campaigns */
+  .camp{border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:12px;padding:13px;margin-bottom:10px;cursor:pointer;transition:.15s}
+  .camp:hover{box-shadow:0 6px 16px rgba(0,60,110,.1);transform:translateY(-1px)}
+  .camp.sel{border-color:var(--brand);background:var(--soft)}
+  .camp.bad{border-left-color:var(--neg)}
+  .camp .ctop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .camp .cnm{font-weight:700;font-size:13.5px}
+  .camp .cprod{font-size:10.5px;color:var(--muted);margin-top:1px}
+  .camp .cverdict{font-size:10px;font-weight:800;border-radius:6px;padding:3px 8px;flex-shrink:0}
+  .cverdict.go{background:#eafaf0;color:#077a3c}.cverdict.cau{background:#fdf2e2;color:var(--warn)}
+  .camp .cmet{display:flex;gap:16px;margin-top:9px;flex-wrap:wrap}
+  .camp .cmet div{font-size:10px;color:var(--muted)}
+  .camp .cmet b{font-family:var(--display);font-size:16px;font-weight:600;color:var(--ink);display:block;line-height:1}
+  .camp .cmet b.good{color:var(--accent)}.camp .cmet b.bad{color:var(--neg)}
+  .minifun{display:flex;gap:3px;margin-top:9px;align-items:flex-end;height:30px}
+  .minifun i{flex:1;background:var(--brand);border-radius:3px 3px 0 0;opacity:.85;min-height:3px}
+
+  .clayout{display:grid;grid-template-columns:340px 1fr;gap:16px}
+  @media(max-width:780px){.clayout{grid-template-columns:1fr}}
+  .funnel{display:flex;flex-direction:column;gap:5px;margin-top:6px}
+  .fstage{position:relative}
+  .fstage .ftop{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:3px}
+  .fstage .ftop span:last-child{color:var(--muted);font-weight:600}
+  .fbar{height:26px;background:var(--soft);border-radius:7px;overflow:hidden}
+  .fbar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-d));border-radius:7px}
+  .fconv{font-size:10px;color:var(--accent);font-weight:700;margin-top:2px}
+  .csplit{margin-top:4px}
+  .csplit .srow{display:grid;grid-template-columns:90px 1fr 40px;gap:9px;align-items:center;margin-bottom:6px;font-size:11.5px}
+  .csplit .srow .strk{height:9px;border-radius:99px;background:var(--soft);overflow:hidden}
+  .csplit .srow .strk i{display:block;height:100%;background:var(--accent);border-radius:99px}
+  .csplit .srow b{text-align:right;font-weight:700}
+  .verdict{margin-top:12px;border-radius:11px;padding:12px;font-size:12.5px;font-weight:600;line-height:1.45}
+  .verdict.go{background:#eafaf0;color:#077a3c}.verdict.cau{background:#fdf2e2;color:var(--warn)}
+  .verdict b{display:block;font-size:13px;margin-bottom:3px}
+
+  /* optimizer */
+  .optbar{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+  @media(max-width:740px){.optbar{grid-template-columns:1fr}}
+  .ob{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px;text-align:center}
+  .ob b{font-family:var(--display);font-size:24px;display:block;line-height:1}
+  .ob.g b{color:var(--accent)}.ob.b b{color:var(--brand)}.ob.r b{color:var(--neg)}
+  .ob span{font-size:10.5px;color:var(--muted);display:block;margin-top:5px}
+  .slrow{display:grid;grid-template-columns:96px 1fr 150px;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+  @media(max-width:680px){.slrow{grid-template-columns:80px 1fr;gap:8px}.slrow .slmeta{grid-column:1/3}}
+  .slrow:last-child{border-bottom:0}
+  .slrow .sln{font-size:12px;font-weight:700}.slrow .sln span{display:block;font-size:9.5px;color:var(--muted);font-weight:600}
+  .slrow input[type=range]{width:100%;accent-color:var(--brand)}
+  .slmeta{display:flex;gap:12px;justify-content:flex-end;align-items:center}
+  .slmeta .sv{font-family:var(--display);font-size:14px;font-weight:600;min-width:64px;text-align:right}
+  .slmeta .mroi{font-size:10px;font-weight:800;border-radius:6px;padding:2px 7px}
+  .mroi.hi{background:#eafaf0;color:#077a3c}.mroi.mid{background:#fdf2e2;color:var(--warn)}.mroi.lo{background:#fdecea;color:var(--neg)}
+  .optbtns{display:flex;gap:9px;margin-top:13px;flex-wrap:wrap}
+  .btn{border:0;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:13px;padding:11px 18px;border-radius:11px}
+  .btn.o{background:var(--soft);color:var(--brand)}
+  .upliftbox{margin-top:13px;border-radius:11px;padding:13px;background:#eafaf0;color:#077a3c;font-size:13px;font-weight:600;display:none}
+  .upliftbox.show{display:block}
+  .upliftbox b{font-family:var(--display);font-size:18px}
+
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(50px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:11px;font-size:14px;font-weight:600;z-index:90;opacity:0;transition:.3s}
+  .toast.show{transform:translateX(-50%);opacity:1}
+  .fab{position:fixed;right:18px;bottom:18px;width:50px;height:50px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:20px;box-shadow:0 8px 22px rgba(0,0,0,.2);z-index:40}
+  .pane{display:none}.pane.on{display:block;animation:fin .3s ease}
+  @keyframes fin{from{opacity:0;transform:translateY(6px)}}
+</style>
+</head>
+<body>
+<header><div class="nav">
+  <button class="backst" id="backStudio">← <span id="backLab">Studio</span></button>
+  <div class="brand" id="brand">Blackmores<sup>®</sup></div>
+  <div class="sub" id="sub">Attribution & ROI</div><div class="sp"></div>
+  <div class="langs" id="langs"></div>
+</div></header>
+
+<div class="wrap">
+  <div class="eyebrow" id="eye">Marketing · Multi-touch Attribution & ROI</div>
+  <h1 class="h" id="title"></h1>
+  <div class="lead" id="lead"></div>
+  <div class="proof" id="proofRow"></div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <!-- TAB 1: Attribution models -->
+  <div class="pane on" id="pane-attr">
+    <div class="toolrow"><div class="layerlab" style="margin:0" id="modelLab"></div><div class="seg" id="modelSeg"></div></div>
+    <div class="insight" id="attrInsight"></div>
+    <div class="panel">
+      <h3 id="pathH"></h3><div class="ph" id="pathSub"></div>
+      <div class="path" id="pathBox"></div>
+    </div>
+    <div class="panel">
+      <h3 id="roiH"></h3><div class="ph" id="roiSub"></div>
+      <div class="roigrid" id="roiBars"></div>
+      <table class="dt" id="roiTable"></table>
+    </div>
+  </div>
+
+  <!-- TAB 2: Campaign ROI -->
+  <div class="pane" id="pane-camp">
+    <div class="clayout">
+      <div>
+        <div class="layerlab" id="campLab"></div>
+        <div id="campList"></div>
+      </div>
+      <div class="panel" id="campDetail"></div>
+    </div>
+  </div>
+
+  <!-- TAB 3: Budget optimizer -->
+  <div class="pane" id="pane-budget">
+    <div class="optbar" id="optStats"></div>
+    <div class="panel">
+      <h3 id="optH"></h3><div class="ph" id="optSub"></div>
+      <div id="sliders"></div>
+      <div class="optbtns">
+        <button class="btn" id="optBtn"></button>
+        <button class="btn o" id="resetBtn"></button>
+      </div>
+      <div class="upliftbox" id="uplift"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="fab" id="fab" title="brand">🎨</div>
+
+<script>
+const BRANDS={blackmores:{logo:"Blackmores",sup:"®",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  bioceuticals:{logo:"BioCeuticals",sup:"",c:["#1b3a5c","#10243a","#e7edf3","#c9a24a"]},
+  paw:{logo:"PAW by Blackmores",sup:"",c:["#2e7d32","#1b5e20","#e7f3e8","#7cb342"]}};
+const L=o=>o[state.lang]||o.en||o.ja;
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const yen=n=>'A$'+Math.round(n).toLocaleString('en-US');
+const yenM=n=>'A$'+(n/1e6).toFixed(1)+'M';
+
+const T={
+ sub:{ja:"アトリビューション & ROI",en:"Attribution & ROI",zh:"归因与 ROI",th:"แอตทริบิวชัน & ROI"},
+ eye:{ja:"マーケティング · 多触点アトリビューション & ROI",en:"Marketing · Multi-touch Attribution & ROI",zh:"营销 · 多触点归因与 ROI",th:"การตลาด · แอตทริบิวชันหลายจุดสัมผัส & ROI"},
+ title:{ja:"どのチャネルが本当に売上を生んだか――AI推薦から店頭・薬局まで、一つのモデルで。",en:"Which channels actually drove sales — from AI-rec to pharmacy, in one model.",zh:"到底哪个渠道真正带来了销售——从 AI 推荐到药房门店，一个模型说清楚。",th:"ช่องทางไหนสร้างยอดขายจริง — ตั้งแต่ AI-rec ถึงร้านขายยา ในโมเดลเดียว"},
+ lead:{ja:"末次触点に依存した ROI 評価は、AI推薦や RED/微信など上位ファネルの貢献を過小評価します。データ駆動アトリビューションで各タッチポイントに正しくクレジットを配分し、活動別 ROI を掘り下げ、予算を限界 ROI が最大になるよう再配分します。ANZ・中国・SEA の各市場にそのまま適用できます。",
+   en:"ROI judged on last-touch alone undervalues upper-funnel channels like AI-rec and social (RED, WeChat). Data-driven attribution assigns credit correctly across every touchpoint, drills into campaign-level ROI, and reallocates budget where marginal ROI peaks. Applies directly across ANZ, China and SEA.",
+   zh:"只看末次触点的 ROI 会低估 AI 推荐、小红书/微信等上位漏斗渠道的贡献。数据驱动归因为每个触点正确分配 credit，下钻到活动级 ROI，并把预算重新配置到边际 ROI 最高处。可直接套用于 ANZ、中国、SEA 各市场。",
+   th:"การวัด ROI จากจุดสัมผัสสุดท้ายอย่างเดียวประเมินช่องบนกรวยอย่าง AI-rec และโซเชียล (RED, WeChat) ต่ำเกินไป แอตทริบิวชันแบบขับเคลื่อนด้วยข้อมูลกระจายเครดิตให้ทุกจุดสัมผัสอย่างถูกต้อง เจาะ ROI ระดับแคมเปญ และจัดสรรงบใหม่ที่ ROI ส่วนเพิ่มสูงสุด"},
+ proof:{ja:["<b>TGA認証</b>サプリ","データ駆動アトリビューション","多言語・多市場対応"],en:["<b>TGA-certified</b> supplements","Data-driven attribution","Multilingual · multi-market"],zh:["<b>TGA 认证</b>保健品","数据驱动归因","多语言·多市场"],th:["ผลิตภัณฑ์เสริม <b>รับรอง TGA</b>","แอตทริบิวชันขับเคลื่อนด้วยข้อมูล","หลายภาษา·หลายตลาด"]},
+ t_attr:{ja:"アトリビューション",en:"Attribution",zh:"归因模型",th:"แอตทริบิวชัน"},
+ t_camp:{ja:"活動別 ROI",en:"Campaign ROI",zh:"活动 ROI",th:"ROI แคมเปญ"},
+ t_budget:{ja:"予算最適化",en:"Budget Optimizer",zh:"预算优化",th:"จัดสรรงบ"},
+ // models
+ modelLab:{ja:"アトリビューションモデル",en:"Attribution model",zh:"归因模型",th:"โมเดลแอตทริบิวชัน"},
+ m_last:{ja:"末次触点",en:"Last-touch",zh:"末次触点",th:"จุดสัมผัสสุดท้าย"},
+ m_lin:{ja:"線形",en:"Linear",zh:"线性",th:"เชิงเส้น"},
+ m_decay:{ja:"時間減衰",en:"Time-decay",zh:"时间衰减",th:"ลดตามเวลา"},
+ m_dd:{ja:"データ駆動",en:"Data-driven",zh:"数据驱动",th:"ขับเคลื่อนด้วยข้อมูล"},
+ // path
+ pathH:{ja:"コンバージョン経路（1人の消費者ジャーニー）",en:"Conversion path (one consumer journey)",zh:"转化路径（单个消费者旅程）",th:"เส้นทางคอนเวอร์ชัน (1 ผู้บริโภค)"},
+ pathSub:{ja:"Vitamin C 購入者の代表的なパス（RED発見→微信→Tmallクーポン→購入）。各タッチに配分されるクレジットはモデルで変わります。",en:"A representative path of a Vitamin C buyer (RED discovery → WeChat → Tmall coupon → purchase). Credit per touch shifts with the model.",zh:"维生素 C 购买者的典型路径（小红书发现→微信→天猫券→购买）。各触点的 credit 随模型变化。",th:"เส้นทางตัวอย่างของผู้ซื้อ Vitamin C (RED ค้นพบ → WeChat → คูปอง Tmall → ซื้อ) เครดิตแต่ละจุดเปลี่ยนตามโมเดล"},
+ credit:{ja:"クレジット",en:"credit",zh:"credit",th:"เครดิต"},
+ // roi
+ roiH:{ja:"チャネル別 ROAS（モデルで再計算）",en:"Channel ROAS (recomputed per model)",zh:"分渠道 ROAS（按模型重算）",th:"ROAS ตามช่อง (คำนวณใหม่ตามโมเดล)"},
+ roiSub:{ja:"帰属売上 ÷ 投下コスト。モデルを切り替えると配分と ROAS が動きます。",en:"Attributed revenue ÷ spend. Switching models moves both the split and ROAS.",zh:"归因收入 ÷ 投放成本。切换模型，配分和 ROAS 都会变。",th:"รายได้ที่กำหนด ÷ งบ เปลี่ยนโมเดลแล้วทั้งสัดส่วนและ ROAS เปลี่ยน"},
+ thChannel:{ja:"チャネル",en:"Channel",zh:"渠道",th:"ช่อง"},
+ thRev:{ja:"帰属売上",en:"Attr. revenue",zh:"归因收入",th:"รายได้"},
+ thSpend:{ja:"コスト",en:"Spend",zh:"成本",th:"งบ"},
+ thRoas:{ja:"ROAS",en:"ROAS",zh:"ROAS",th:"ROAS"},
+ insightTitle:{ja:"AI インサイト",en:"AI insight",zh:"AI 洞察",th:"AI อินไซต์"},
+ ins_last:{ja:"末次触点モデルでは Tmall/JD・公式ECに売上のほぼ全てが集中し、AI推薦・REDの新規獲得貢献が <b>ほぼゼロ評価</b> になっています。上位ファネルの予算が過小評価される典型です。",en:"Under last-touch, Tmall/JD and official EC capture nearly all revenue and AI-rec/RED new-customer contribution reads <b>near zero</b>. A classic case of starving the upper funnel.",zh:"末次触点模型下，天猫/京东、官方电商几乎吞掉全部收入，AI 推荐/小红书的拉新贡献被评为 <b>近乎为零</b>，典型地低估了上位漏斗预算。",th:"แบบจุดสัมผัสสุดท้าย Tmall/JD และ EC ทางการคว้ารายได้เกือบทั้งหมด ส่วน AI-rec/RED ถูกประเมิน <b>เกือบศูนย์</b>"},
+ ins_lin:{ja:"線形モデルは全タッチに均等配分。公平ですが、実際の影響度の差（REDの発見 vs Tmallクーポンの最後の一押し）を無視します。",en:"Linear splits credit evenly across touches. Fair, but it ignores real differences in impact (RED discovery vs the final Tmall coupon nudge).",zh:"线性模型对所有触点均分 credit。公平，但忽略了真实影响力差异（小红书的发现 vs 天猫券的临门一脚）。",th:"แบบเชิงเส้นแบ่งเครดิตเท่ากันทุกจุด ยุติธรรมแต่มองข้ามความต่างของผลกระทบจริง"},
+ ins_decay:{ja:"時間減衰は購入に近いタッチを重視。Tmallクーポン・ECが伸びますが、発見を生んだAI推薦・REDの貢献はやや抑えられます。",en:"Time-decay favors touches closer to purchase. Tmall coupon and EC rise, while AI-rec/RED discovery role is somewhat muted.",zh:"时间衰减更看重临近购买的触点。天猫券、电商上升，但带来发现的 AI 推荐/小红书贡献被略微压低。",th:"แบบลดตามเวลาให้น้ำหนักจุดใกล้การซื้อ คูปอง Tmall และอีคอมเพิ่มขึ้น แต่บทบาทการค้นพบของ AI-rec/RED ถูกลดทอน"},
+ ins_dd:{ja:"データ駆動だと上位ファネルの真の貢献が見えます。AI推薦とREDの ROAS は <b>末次比 +1.9x / +1.4x</b>。AI推薦予算の増額が全体 ROI を押し上げる、と AI は判断します。",en:"Data-driven reveals the true upper-funnel contribution. AI-rec and RED ROAS run <b>+1.9x / +1.4x vs last-touch</b>. AI recommends shifting budget into AI-rec to lift overall ROI.",zh:"数据驱动下，上位漏斗的真实贡献显现：AI 推荐与小红书 ROAS 较末次 <b>+1.9x / +1.4x</b>。AI 判断：增加 AI 推荐预算可拉升整体 ROI。",th:"แบบขับเคลื่อนด้วยข้อมูลเผยการมีส่วนร่วมจริงของกรวยบน AI-rec และ RED ROAS <b>+1.9x / +1.4x เทียบจุดสัมผัสสุดท้าย</b> AI แนะนำย้ายงบไป AI-rec"},
+ // campaigns
+ campLab:{ja:"キャンペーン（クリックで掘り下げ）",en:"Campaigns (click to drill down)",zh:"活动（点击下钻）",th:"แคมเปญ (คลิกเพื่อเจาะ)"},
+ c_spend:{ja:"投下",en:"Spend",zh:"投放",th:"งบ"},
+ c_roas:{ja:"ROAS",en:"ROAS",zh:"ROAS",th:"ROAS"},
+ c_cac:{ja:"CAC",en:"CAC",zh:"CAC",th:"CAC"},
+ c_inc:{ja:"増分売上",en:"Incremental",zh:"增量销售",th:"ยอดเพิ่ม"},
+ vGood:{ja:"好調",en:"Strong",zh:"好调",th:"แข็งแกร่ง"},
+ vCau:{ja:"要改善",en:"Needs work",zh:"需改善",th:"ต้องปรับ"},
+ funnelLab:{ja:"フルファネル",en:"Full funnel",zh:"完整漏斗",th:"กรวยเต็ม"},
+ splitLab:{ja:"チャネル寄与",en:"Channel contribution",zh:"渠道贡献",th:"การมีส่วนของช่อง"},
+ nextAction:{ja:"ネクストアクション",en:"Next action",zh:"下一步",th:"ขั้นถัดไป"},
+ f_imp:{ja:"インプレッション",en:"Impressions",zh:"曝光",th:"การแสดงผล"},
+ f_click:{ja:"クリック",en:"Clicks",zh:"点击",th:"คลิก"},
+ f_mem:{ja:"会員登録",en:"Sign-ups",zh:"会员注册",th:"สมัครสมาชิก"},
+ f_buy:{ja:"購入",en:"Purchases",zh:"购买",th:"ซื้อ"},
+ pickHint:{ja:"左のキャンペーンを選ぶと、フルファネルとチャネル寄与を表示します。",en:"Pick a campaign to see its full funnel and channel contribution.",zh:"选择左侧活动，查看完整漏斗与渠道贡献。",th:"เลือกแคมเปญเพื่อดูกรวยเต็มและการมีส่วนของช่อง"},
+ // optimizer
+ optTotal:{ja:"総予算",en:"Total budget",zh:"总预算",th:"งบรวม"},
+ optAlloc:{ja:"配分済",en:"Allocated",zh:"已配分",th:"จัดสรรแล้ว"},
+ optRem:{ja:"残り",en:"Remaining",zh:"剩余",th:"คงเหลือ"},
+ optOver:{ja:"超過",en:"Over",zh:"超出",th:"เกิน"},
+ optReturn:{ja:"予測リターン",en:"Projected return",zh:"预测回报",th:"ผลตอบแทนคาด"},
+ optH:{ja:"チャネル別 予算スライダー",en:"Per-channel budget sliders",zh:"分渠道预算滑块",th:"สไลเดอร์งบต่อช่อง"},
+ optSub:{ja:"逓減リターン（各チャネルに飽和点）。限界 ROI が高いほど追加 A$1 あたりの効果が大きい。",en:"Diminishing returns — each channel has a saturation point. Higher marginal ROI = more return per extra A$.",zh:"边际递减（每个渠道有饱和点）。边际 ROI 越高，每多投 1 澳元的回报越大。",th:"ผลตอบแทนลดลง — แต่ละช่องมีจุดอิ่มตัว ROI ส่วนเพิ่มสูง = ผลตอบแทนต่อ A$ มากกว่า"},
+ mroiLab:{ja:"限界ROI",en:"Marginal ROI",zh:"边际ROI",th:"ROI ส่วนเพิ่ม"},
+ optimize:{ja:"最適配分 ✨",en:"Optimize ✨",zh:"最优配分 ✨",th:"จัดสรรที่ดีที่สุด ✨"},
+ reset:{ja:"リセット",en:"Reset",zh:"重置",th:"รีเซ็ต"},
+ optDone:{ja:"最適配分を適用しました",en:"Applied optimal allocation",zh:"已应用最优配分",th:"ใช้การจัดสรรที่ดีที่สุดแล้ว"},
+ resetDone:{ja:"初期配分に戻しました",en:"Reset to baseline",zh:"已恢复初始配分",th:"คืนค่าเริ่มต้น"},
+ upliftMsg:{ja:"最適配分により予測リターンが ",en:"Optimal allocation lifts projected return by ",zh:"最优配分使预测回报提升 ",th:"การจัดสรรที่ดีที่สุดเพิ่มผลตอบแทนคาด "},
+ backStudio:{ja:"スタジオへ戻る",en:"Studio",zh:"返回工作室",th:"กลับสตูดิโอ"}
+};
+
+// ---- channels ----
+const CH=[
+ {k:"geo", nm:{ja:"AI推薦/GEO",en:"AI-rec / GEO",zh:"AI 推荐/GEO",th:"AI-rec / GEO"}, icon:"🤖", spend:1400000, funnel:"upper"},
+ {k:"social", nm:{ja:"RED/社媒",en:"RED / Social",zh:"小红书/社媒",th:"RED / โซเชียล"}, icon:"📱", spend:1800000, funnel:"upper"},
+ {k:"aigc", nm:{ja:"WeChat",en:"WeChat",zh:"微信",th:"WeChat"}, icon:"💬", spend:900000, funnel:"mid"},
+ {k:"line", nm:{ja:"WhatsApp/SEA",en:"WhatsApp (SEA)",zh:"WhatsApp/SEA",th:"WhatsApp (SEA)"}, icon:"🟢", spend:1100000, funnel:"lower"},
+ {k:"store", nm:{ja:"薬局/店頭",en:"Pharmacy / Store",zh:"药房/门店",th:"ร้านขายยา"}, icon:"🏪", spend:1600000, funnel:"mid"},
+ {k:"ec", nm:{ja:"Tmall/JD・EC",en:"Tmall/JD · EC",zh:"天猫/京东·电商",th:"Tmall/JD · อีคอม"}, icon:"🛒", spend:1300000, funnel:"lower"},
+ {k:"crm", nm:{ja:"会員CRM",en:"CRM",zh:"会员CRM",th:"CRM"}, icon:"⭐", spend:700000, funnel:"lower"}
+];
+// total attributed revenue pool (fixed); models redistribute the share
+const REV_POOL=58000000;
+// base "true" influence weights per channel (data-driven baseline)
+const DD_W={geo:0.17,social:0.20,aigc:0.10,line:0.16,store:0.13,ec:0.14,crm:0.10};
+// last-touch concentrates on conversion channels; linear even; decay weights lower funnel
+function channelShare(model){
+ const lastW={geo:0.02,social:0.04,aigc:0.03,line:0.30,store:0.10,ec:0.43,crm:0.08};
+ const linW={}; CH.forEach(c=>linW[c.k]=1/CH.length);
+ const decayW={geo:0.06,social:0.09,aigc:0.07,line:0.24,store:0.13,ec:0.30,crm:0.11};
+ const map={last:lastW,lin:linW,decay:decayW,dd:DD_W};
+ return map[model];
+}
+
+// ---- conversion path (one journey) ----
+const PATH=[
+ {k:"social", nm:{ja:"RED発見",en:"RED discovery",zh:"小红书发现",th:"RED ค้นพบ"}, icon:"📱", step:{ja:"発見",en:"Discover",zh:"发现",th:"ค้นพบ"}},
+ {k:"aigc", nm:{ja:"WeChat",en:"WeChat",zh:"微信内容",th:"WeChat"}, icon:"💬", step:{ja:"関心",en:"Interest",zh:"兴趣",th:"สนใจ"}},
+ {k:"ec", nm:{ja:"Tmallクーポン",en:"Tmall coupon",zh:"天猫券",th:"คูปอง Tmall"}, icon:"🎟️", step:{ja:"検討",en:"Consider",zh:"考虑",th:"พิจารณา"}},
+ {k:"ec", nm:{ja:"Tmall購入",en:"Tmall purchase",zh:"天猫购买",th:"ซื้อ Tmall"}, icon:"🛒", step:{ja:"購入",en:"Purchase",zh:"购买",th:"ซื้อ"}, final:true}
+];
+// path credit per model (4 touches, sum=100)
+const PATH_CREDIT={
+ last: [2, 3, 12, 83],
+ lin:  [25,25,25,25],
+ decay:[12,18,27,43],
+ dd:   [31,27,21,21]
+};
+
+// ---- campaigns ----
+const CAMP=[
+ {id:1,nm:{ja:"イミュニティ・シーズン",en:"Immunity Season",zh:"免疫季",th:"ซีซันภูมิคุ้มกัน"},prod:{ja:"ビタミンC",en:"Vitamin C",zh:"维生素 C",th:"วิตามินซี"},
+   spend:2200000,roas:4.6,cac:680,inc:10100000,verdict:"go",
+   funnel:[1850000,142000,38500,14800],
+   split:[["social",34],["geo",22],["ec",26],["aigc",18]],
+   action:{ja:"風邪シーズンの立ち上がりで RED リターゲを 2 週間延長し、再購入を会員 CRM に引き継ぐ。",en:"Extend RED retargeting 2 weeks into cold-season ramp-up and hand repeat purchases to CRM.",zh:"在感冒季启动期延长小红书再营销 2 周，把复购交接给会员 CRM。",th:"ขยายรีทาร์เก็ต RED 2 สัปดาห์ช่วงเข้าฤดูหวัด แล้วส่งการซื้อซ้ำให้ CRM"}},
+ {id:2,nm:{ja:"ウィンター関節ケア",en:"Winter Joint Care",zh:"冬季关节呵护",th:"ดูแลข้อต่อหน้าหนาว"},prod:{ja:"グルコサミン",en:"Glucosamine",zh:"氨基葡萄糖",th:"กลูโคซามีน"},
+   spend:1900000,roas:5.4,cac:540,inc:10300000,verdict:"go",
+   funnel:[2400000,205000,61000,21400],
+   split:[["geo",31],["social",24],["aigc",17],["crm",28]],
+   action:{ja:"AI推薦の発見導線が最強。AI 推薦の在庫を増やし、WeChat で実証コンテンツを量産。",en:"AI-rec discovery is the strongest path. Scale AI-rec inventory and mass-produce proof content via WeChat.",zh:"AI 推荐发现路径最强。扩大 AI 推荐库存，用微信量产实证内容（支持关节舒适，不作疗效宣称）。",th:"เส้นทางค้นพบผ่าน AI-rec แข็งสุด เพิ่มสต็อก AI rec และผลิตคอนเทนต์ผ่าน WeChat"}},
+ {id:3,nm:{ja:"プレグナンシー・サポート",en:"Pregnancy & Maternity",zh:"孕期与备孕支持",th:"การตั้งครรภ์และคุณแม่"},prod:{ja:"Pregnancy Gold",en:"Pregnancy Gold",zh:"Pregnancy Gold",th:"Pregnancy Gold"},
+   spend:1500000,roas:2.4,cac:1380,inc:3600000,verdict:"cau",
+   funnel:[1200000,76000,12100,3900],
+   split:[["social",41],["geo",14],["aigc",19],["store",26]],
+   action:{ja:"会員→購入の転換が弱い（16%）。妊娠・育児コミュニティの CRM 育成と薬局サンプリングを強化。",en:"Sign-up→purchase conversion is weak (16%). Strengthen CRM nurturing in pregnancy communities and in-pharmacy sampling.",zh:"会员→购买转化偏弱（16%）。加强孕期育儿社群的 CRM 培育与药房派样。",th:"คอนเวอร์ชันสมัคร→ซื้ออ่อน (16%) เสริมการดูแล CRM ในชุมชนคุณแม่และแจกตัวอย่างที่ร้านขายยา"}},
+ {id:4,nm:{ja:"オメガ3 ハートヘルス",en:"Omega-3 Heart Health",zh:"Omega-3 心脏健康",th:"โอเมก้า-3 หัวใจ"},prod:{ja:"Fish Oil",en:"Fish Oil",zh:"深海鱼油",th:"น้ำมันปลา"},
+   spend:1700000,roas:3.1,cac:1020,inc:5300000,verdict:"go",
+   funnel:[1600000,118000,24800,7600],
+   split:[["aigc",29],["social",27],["ec",24],["geo",20]],
+   action:{ja:"心血管健康の認知は WeChat 実証コンテンツが効率的。EC 初回クーポンを AI推薦経由の新規に限定配布。",en:"WeChat proof content is efficient for heart-health awareness. Restrict EC first-buy coupons to AI-rec-sourced new customers.",zh:"心血管健康认知用微信实证内容最有效率（支持心脏健康，不作疗效宣称）。把电商首购券限定发给 AI 推荐来源的新客。",th:"คอนเทนต์ WeChat มีประสิทธิภาพสำหรับการรับรู้เรื่องหัวใจ จำกัดคูปองซื้อแรก EC ให้ลูกค้าใหม่จาก AI-rec"}},
+ {id:5,nm:{ja:"スリープ＆ストレス",en:"Sleep & Stress",zh:"睡眠与减压",th:"การนอนและความเครียด"},prod:{ja:"Sleep Support",en:"Sleep Support",zh:"Sleep Support",th:"Sleep Support"},
+   spend:2000000,roas:1.9,cac:1640,inc:3800000,verdict:"cau",
+   funnel:[1500000,88000,15600,4100],
+   split:[["ec",38],["line",27],["store",21],["social",14]],
+   action:{ja:"ROAS が下限。EC 偏重で発見が不足。RED・AI推薦を厚くしてファネル上流を補強。",en:"ROAS at the floor. EC-heavy with too little discovery. Reinforce the upper funnel via RED and AI-rec.",zh:"ROAS 触底。过度依赖电商，发现不足。加厚小红书与 AI 推荐补强漏斗上游。",th:"ROAS ต่ำสุด พึ่งอีคอมมากเกินไปและขาดการค้นพบ เสริมกรวยบนด้วย RED และ AI-rec"}}
+];
+
+// ---- optimizer ----
+const TOTAL=10000000;
+// return_i = a_i * (1 - exp(-spend_i / b_i))
+const OPT=[
+ {k:"geo", nm:{ja:"AI推薦",en:"AI-rec",zh:"AI 推荐",th:"AI-rec"}, a:8200000, b:2200000, base:600000},
+ {k:"social",nm:{ja:"RED/社媒",en:"RED / Social",zh:"小红书/社媒",th:"RED / โซเชียล"}, a:7600000, b:2600000, base:1100000},
+ {k:"aigc", nm:{ja:"WeChat",en:"WeChat",zh:"微信",th:"WeChat"}, a:4400000, b:1400000, base:500000},
+ {k:"line", nm:{ja:"WhatsApp",en:"WhatsApp",zh:"WhatsApp",th:"WhatsApp"}, a:5400000, b:1700000, base:1700000},
+ {k:"store",nm:{ja:"薬局/店頭",en:"Pharmacy",zh:"药房/门店",th:"ร้านขายยา"}, a:3800000, b:2400000, base:2600000},
+ {k:"ec", nm:{ja:"Tmall/JD",en:"Tmall/JD",zh:"天猫/京东",th:"Tmall/JD"}, a:5000000, b:1600000, base:1500000},
+ {k:"crm", nm:{ja:"CRM",en:"CRM",zh:"CRM",th:"CRM"}, a:3400000, b:900000, base:2000000}
+];
+function ret(o,s){return o.a*(1-Math.exp(-s/o.b));}
+function margROI(o,s){const d=10000;return (ret(o,s+d)-ret(o,s))/d;} // marginal return per ¥
+
+let state={lang:"en",brand:"blackmores",market:"ANZ",tab:"attr",model:"last",camp:1,alloc:null};
+function initAlloc(){state.alloc={};OPT.forEach(o=>state.alloc[o.k]=o.base);}
+initAlloc();
+
+function renderProof(){$('#proofRow').innerHTML=L(T.proof).map(p=>`<span class="pc">${p}</span>`).join('');}
+function tabsBar(){
+  $('#tabs').innerHTML=[["attr",L(T.t_attr)],["camp",L(T.t_camp)],["budget",L(T.t_budget)]]
+   .map(([k,l])=>`<button data-t="${k}" class="${state.tab===k?'on':''}">${l}</button>`).join('');
+  $$('#tabs button').forEach(b=>b.onclick=()=>{state.tab=b.dataset.t;sync();});
+}
+function sync(){
+  document.documentElement.lang=state.lang;
+  $('#sub').textContent=L(T.sub);$('#eye').textContent=L(T.eye);$('#title').textContent=L(T.title);$('#lead').textContent=L(T.lead);
+  $('#backLab').textContent=L(T.backStudio);
+  renderProof();tabsBar();
+  $$('.pane').forEach(p=>p.classList.remove('on'));$('#pane-'+state.tab).classList.add('on');
+  if(state.tab==='attr')renderAttr();
+  if(state.tab==='camp')renderCamp();
+  if(state.tab==='budget')renderBudget();
+}
+
+// ===== TAB 1 =====
+function renderAttr(){
+  $('#modelLab').textContent=L(T.modelLab);
+  $('#modelSeg').innerHTML=[["last",L(T.m_last)],["lin",L(T.m_lin)],["decay",L(T.m_decay)],["dd",L(T.m_dd)]]
+   .map(([k,l])=>`<button data-m="${k}" class="${state.model===k?'on':''}">${l}</button>`).join('');
+  $$('#modelSeg button').forEach(b=>b.onclick=()=>{state.model=b.dataset.m;renderAttr();});
+  // insight
+  const insMap={last:T.ins_last,lin:T.ins_lin,decay:T.ins_decay,dd:T.ins_dd};
+  $('#attrInsight').innerHTML=`<div class="ic">💡</div><div><div class="it">${L(T.insightTitle)} · ${L(modelLabel(state.model))}</div><div class="id">${L(insMap[state.model])}</div></div>`;
+  // path
+  $('#pathH').textContent=L(T.pathH);$('#pathSub').textContent=L(T.pathSub);
+  const cr=PATH_CREDIT[state.model];
+  $('#pathBox').innerHTML=PATH.map((p,i)=>{
+    const arrow=i<PATH.length-1?'<div class="parrow">→</div>':'';
+    const lo=cr[i]<10?'lo':'';
+    return `<div class="ptouch ${p.final?'final':''}">
+       <div class="pic">${p.icon}</div>
+       <div class="pnm">${L(p.nm)}</div>
+       <div class="pstep">${L(p.step)}</div>
+       <div class="pcredit ${lo}">${cr[i]}%</div>
+       <div class="pbar"><i style="width:${cr[i]}%"></i></div>
+     </div>${arrow}`;
+  }).join('');
+  // roi
+  $('#roiH').textContent=L(T.roiH);$('#roiSub').textContent=L(T.roiSub);
+  const share=channelShare(state.model);
+  const rows=CH.map(c=>{const rev=REV_POOL*share[c.k];const roas=rev/c.spend;return {c,rev,roas};});
+  const maxRoas=Math.max(...rows.map(r=>r.roas));
+  $('#roiBars').innerHTML=rows.map(r=>{
+    const cls=r.roas>=4?'good':(r.roas>=2.2?'mid':'bad');
+    return `<div class="roirow">
+      <div class="rl">${L(r.c.nm)}<span>${L(T.thRev)} ${yenM(r.rev)}</span></div>
+      <div class="rtrack"><i style="width:${Math.round(r.roas/maxRoas*100)}%"></i></div>
+      <div class="rv ${cls}">${r.roas.toFixed(1)}x</div></div>`;
+  }).join('');
+  $('#roiTable').innerHTML=`<thead><tr><th>${L(T.thChannel)}</th><th>${L(T.thRev)}</th><th>${L(T.thSpend)}</th><th>${L(T.thRoas)}</th></tr></thead><tbody>`+
+    rows.map(r=>{const cls=r.roas>=4?'good':(r.roas<2.2?'bad':'');return `<tr><td>${L(r.c.nm)}</td><td>${yenM(r.rev)}</td><td>${yenM(r.c.spend)}</td><td class="${cls}">${r.roas.toFixed(2)}x</td></tr>`;}).join('')+
+    `</tbody>`;
+}
+function modelLabel(m){return {last:T.m_last,lin:T.m_lin,decay:T.m_decay,dd:T.m_dd}[m];}
+
+// ===== TAB 2 =====
+function renderCamp(){
+  $('#campLab').textContent=L(T.campLab);
+  $('#campList').innerHTML=CAMP.map(c=>{
+    const vcls=c.verdict==='go'?'go':'cau';const vtxt=c.verdict==='go'?L(T.vGood):L(T.vCau);
+    const maxF=c.funnel[0];
+    const roasCls=c.roas>=4?'good':(c.roas<2.2?'bad':'');
+    return `<div class="camp ${c.verdict==='cau'?'bad':''} ${state.camp===c.id?'sel':''}" data-id="${c.id}">
+      <div class="ctop"><div><div class="cnm">${L(c.nm)}</div><div class="cprod">${L(c.prod)}</div></div>
+        <div class="cverdict ${vcls}">${vtxt}</div></div>
+      <div class="cmet">
+        <div><b>${yenM(c.spend)}</b>${L(T.c_spend)}</div>
+        <div><b class="${roasCls}">${c.roas.toFixed(1)}x</b>${L(T.c_roas)}</div>
+        <div><b>${yen(c.cac)}</b>${L(T.c_cac)}</div>
+        <div><b class="good">${yenM(c.inc)}</b>${L(T.c_inc)}</div>
+      </div>
+      <div class="minifun">${c.funnel.map(f=>`<i style="height:${Math.max(8,f/maxF*100)}%"></i>`).join('')}</div>
+    </div>`;
+  }).join('');
+  $$('.camp').forEach(el=>el.onclick=()=>{state.camp=+el.dataset.id;renderCamp();});
+  const c=CAMP.find(x=>x.id===state.camp);
+  if(!c){$('#campDetail').innerHTML=`<div style="color:var(--muted);font-size:13px">${L(T.pickHint)}</div>`;return;}
+  const flabs=[T.f_imp,T.f_click,T.f_mem,T.f_buy];
+  const maxF=c.funnel[0];
+  const funnelHtml=c.funnel.map((f,i)=>{
+    const conv=i>0?((f/c.funnel[i-1])*100).toFixed(1)+'%':'';
+    return `<div class="fstage"><div class="ftop"><span>${L(flabs[i])}</span><span>${f.toLocaleString('en-US')}</span></div>
+      <div class="fbar"><i style="width:${Math.max(4,f/maxF*100)}%"></i></div>
+      ${conv?`<div class="fconv">↳ ${conv}</div>`:''}</div>`;
+  }).join('');
+  const chName=k=>{const ch=CH.find(x=>x.k===k);return ch?L(ch.nm):k;};
+  const splitHtml=c.split.map(([k,v])=>`<div class="srow"><span>${chName(k)}</span><div class="strk"><i style="width:${v}%"></i></div><b>${v}%</b></div>`).join('');
+  const vcls=c.verdict==='go'?'go':'cau';const vtxt=c.verdict==='go'?L(T.vGood):L(T.vCau);
+  $('#campDetail').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+      <div><h3>${L(c.nm)}</h3><div class="ph">${L(c.prod)} · ROAS ${c.roas.toFixed(1)}x · CAC ${yen(c.cac)}</div></div>
+      <div class="cverdict ${vcls}" style="font-size:12px">${vtxt}</div></div>
+    <div class="layerlab">${L(T.funnelLab)}</div><div class="funnel">${funnelHtml}</div>
+    <div class="layerlab" style="margin-top:14px">${L(T.splitLab)}</div><div class="csplit">${splitHtml}</div>
+    <div class="verdict ${vcls}"><b>${L(T.nextAction)}</b>${L(c.action)}</div>`;
+}
+
+// ===== TAB 3 =====
+function renderBudget(){
+  $('#optH').textContent=L(T.optH);$('#optSub').textContent=L(T.optSub);
+  $('#optBtn').textContent=L(T.optimize);$('#resetBtn').textContent=L(T.reset);
+  drawSliders();updateOptStats();
+}
+function drawSliders(){
+  $('#sliders').innerHTML=OPT.map(o=>{
+    return `<div class="slrow">
+      <div class="sln">${L(o.nm)}<span>a=${(o.a/1e6).toFixed(1)}M</span></div>
+      <input type="range" min="0" max="${TOTAL}" step="100000" value="${state.alloc[o.k]}" data-k="${o.k}">
+      <div class="slmeta"><span class="sv" id="sv-${o.k}">${yenM(state.alloc[o.k])}</span><span class="mroi" id="mr-${o.k}"></span></div>
+    </div>`;
+  }).join('');
+  $$('#sliders input').forEach(inp=>inp.oninput=()=>{state.alloc[inp.dataset.k]=+inp.value;$('#sv-'+inp.dataset.k).textContent=yenM(+inp.value);updateOptStats();});
+}
+function totalReturn(alloc){let r=0;OPT.forEach(o=>r+=ret(o,alloc[o.k]));return r;}
+function updateOptStats(){
+  let allocSum=0;OPT.forEach(o=>allocSum+=state.alloc[o.k]);
+  const rem=TOTAL-allocSum;
+  const tr=totalReturn(state.alloc);
+  // marginal ROI per channel
+  OPT.forEach(o=>{
+    const m=margROI(o,state.alloc[o.k]);
+    const el=$('#mr-'+o.k);if(!el)return;
+    const cls=m>=1.4?'hi':(m>=0.8?'mid':'lo');
+    el.className='mroi '+cls;el.textContent=L(T.mroiLab)+' '+m.toFixed(2);
+  });
+  const remLab=rem>=0?L(T.optRem):L(T.optOver);
+  const remCls=rem>=0?'b':'r';
+  $('#optStats').innerHTML=`
+    <div class="ob b"><b>${yenM(TOTAL)}</b><span>${L(T.optTotal)}</span></div>
+    <div class="ob ${remCls}"><b>${yenM(Math.abs(rem))}</b><span>${remLab}（${L(T.optAlloc)} ${yenM(allocSum)}）</span></div>
+    <div class="ob g"><b>${yenM(tr)}</b><span>${L(T.optReturn)}</span></div>`;
+}
+// greedy allocator: distribute TOTAL across channels to maximize total return
+function optimalAlloc(){
+  const a={};OPT.forEach(o=>a[o.k]=0);
+  let left=TOTAL;const step=100000;
+  while(left>0){
+    let bestK=null,bestM=-1;
+    OPT.forEach(o=>{const m=margROI(o,a[o.k]);if(m>bestM){bestM=m;bestK=o.k;}});
+    a[bestK]+=step;left-=step;
+  }
+  return a;
+}
+$('#fab')&&null;
+function bindBudgetBtns(){
+  $('#optBtn').onclick=()=>{
+    const before=totalReturn(state.alloc);
+    state.alloc=optimalAlloc();
+    drawSliders();updateOptStats();
+    const after=totalReturn(state.alloc);
+    const pct=((after-before)/before*100);
+    const box=$('#uplift');box.classList.add('show');
+    box.innerHTML=`${L(T.upliftMsg)}<b>+${pct.toFixed(1)}%</b> · ${yenM(before)} → ${yenM(after)}`;
+    toast(L(T.optDone));
+  };
+  $('#resetBtn').onclick=()=>{initAlloc();drawSliders();updateOptStats();$('#uplift').classList.remove('show');toast(L(T.resetDone));};
+}
+
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800);}
+function applyBrand(){const b=BRANDS[state.brand],r=document.documentElement.style;
+  r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
+  $('#brand').innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');}
+$('#fab').onclick=()=>{const k=Object.keys(BRANDS),i=k.indexOf(state.brand);state.brand=k[(i+1)%k.length];applyBrand();toast('🎨 '+BRANDS[state.brand].logo);};
+
+const LANGS=[['en','EN'],['zh','中'],['ja','日'],['th','ไท']];
+function renderLangs(){const box=$('#langs');box.innerHTML='';LANGS.forEach(([k,lab])=>{const b=document.createElement('button');b.textContent=lab;if(k===state.lang)b.className='on';b.onclick=()=>{state.lang=k;renderLangs();sync();};box.appendChild(b);});}
+
+// URL params: default ja / JP
+try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_l=_p.get("lang"),_m=_p.get("market");
+  if(_l&&["ja","en","zh","th"].indexOf(_l)>=0)state.lang=_l;if(_b&&BRANDS[_b])state.brand=_b;if(_m)state.market=_m;}catch(e){}
+
+// back-to-studio: only when embedded
+(function(){var bs=$('#backStudio');if(!bs)return;var embedded=false;try{embedded=window.self!==window.top;}catch(e){embedded=true;}
+  if(embedded){bs.style.display='flex';bs.onclick=function(){try{(window.top||window).location.href='index.html'+location.search;}catch(e){location.href='index.html';}};}})();
+
+// inbound sync from parent studio iframe
+window.addEventListener("message",function(ev){
+  try{var d=ev.data;if(d&&d.t==="es"){
+    if(d.brand&&BRANDS[d.brand])state.brand=d.brand;
+    if(d.lang&&["ja","en","zh","th"].indexOf(d.lang)>=0)state.lang=d.lang;
+    if(d.market)state.market=d.market;
+    applyBrand();renderLangs();sync();
+  }}catch(e){}
+});
+// outbound sync to parent
+(function(){var _s="";setInterval(function(){try{if(window.parent&&window.parent!==window){var c=state.brand+"|"+state.lang;if(c!==_s){_s=c;window.parent.postMessage({t:"es",brand:state.brand,lang:state.lang,market:state.market},"*");}}}catch(e){}},400);})();
+
+bindBudgetBtns();
+renderLangs();applyBrand();sync();
+</script>
+</body>
+</html>

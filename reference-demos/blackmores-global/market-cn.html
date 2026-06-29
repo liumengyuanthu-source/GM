@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>China · Market Strategy — Blackmores Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-soft:#e0f2f3; --brand-d:#007A82; --ink:#1b1d1a; --muted:#6d716a;
+    --canvas:#ffffff; --card:#ffffff; --line:#e8e6df; --accent:#E0567A;
+    --display:Georgia,'Times New Roman','Songti SC','Noto Serif CJK SC',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans','Microsoft YaHei',sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--body);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+  header{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--line)}
+  .bar{display:flex;align-items:center;gap:16px;padding:10px 28px}
+  .brand-logo{height:34px;width:auto;display:block}
+  .crumb{font-size:13px;font-weight:700;color:var(--muted)}
+  .crumb b{color:var(--ink)}
+  .page-title{font-family:var(--display);font-size:22px;font-weight:600;letter-spacing:-.01em;color:var(--ink);margin:0;line-height:1.1}
+  .spacer{flex:1}
+  .back{font-size:13px;font-weight:800;color:var(--brand-d);text-decoration:none;border:1px solid var(--line);padding:8px 14px;border-radius:999px;transition:.18s}
+  .back:hover{border-color:var(--brand);background:var(--brand-soft)}
+  .langsw{display:flex;gap:4px;background:#f4f2ec;border:1px solid var(--line);border-radius:999px;padding:3px}
+  .langsw button{border:0;background:transparent;font:inherit;font-size:12px;font-weight:800;color:var(--muted);padding:5px 11px;border-radius:999px;cursor:pointer;transition:.15s}
+  .langsw button.on{background:#fff;color:var(--brand-d);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+
+  .hero{background:linear-gradient(135deg,#fef0f4 0%,#f7f5ef 60%);border-bottom:1px solid var(--line)}
+  .hero-in{padding:40px 0 36px}
+  .kick{font-size:11px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+  .hflag{font-size:34px;line-height:1;vertical-align:-4px;margin-right:10px}
+  .hero h1{font-family:var(--display);font-size:clamp(36px,5vw,58px);font-weight:600;letter-spacing:-.02em;margin:0;line-height:1.02}
+  .hero .tag{font-size:16px;font-weight:700;color:var(--accent);margin-top:12px}
+  .hero .lead{font-size:15.5px;color:var(--muted);max-width:680px;margin-top:12px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .chip{font-size:12.5px;font-weight:700;background:#fff;border:1px solid var(--line);color:var(--ink);padding:8px 13px;border-radius:999px}
+  .chip b{color:var(--accent)}
+
+  section{padding:44px 0}
+  section + section{border-top:1px solid var(--line)}
+  .sec-kick{font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--brand);margin-bottom:10px}
+  .sec-h{font-family:var(--display);font-size:30px;font-weight:600;letter-spacing:-.01em;margin:0 0 8px}
+  .sec-sub{font-size:15px;color:var(--muted);max-width:760px;margin:0 0 26px}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px}
+  .card h3{font-family:var(--display);font-size:19px;font-weight:600;margin:0 0 12px;display:flex;align-items:center;gap:9px}
+  .card h3 .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--brand-soft);color:var(--brand-d);font-size:16px;flex:0 0 auto}
+  .card ul{margin:0;padding-left:0;list-style:none}
+  .card li{position:relative;padding:7px 0 7px 18px;font-size:14px;border-top:1px solid var(--line)}
+  .card li:first-child{border-top:0}
+  .card li::before{content:"";position:absolute;left:0;top:15px;width:7px;height:7px;border-radius:50%;background:var(--brand)}
+  .card li b{font-weight:800}
+  .muted{color:var(--muted)}
+  .tv{font-size:11px;font-weight:800;color:var(--accent);background:#fdeef2;border-radius:6px;padding:1px 6px;margin-left:4px}
+
+  .timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}
+  .tl{padding:20px;border-right:1px solid var(--line)}
+  .tl:last-child{border-right:0}
+  .tl .yr{font-size:12px;font-weight:800;color:var(--brand-d);letter-spacing:.04em}
+  .tl h4{font-family:var(--display);font-size:17px;font-weight:600;margin:8px 0 6px}
+  .tl p{font-size:13.5px;color:var(--muted);margin:0}
+
+  .status{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+  .st{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .st .k{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .st .v{font-size:14.5px;font-weight:700;color:var(--ink)}
+  .st .v small{display:block;font-weight:500;color:var(--muted);font-size:12.5px;margin-top:3px}
+
+  .pillars{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .pillar{border:1px solid var(--line);border-radius:18px;padding:24px;background:#fff}
+  .pillar.now{border-top:4px solid var(--brand)}
+  .pillar.next{border-top:4px solid var(--accent)}
+  .pillar .phase{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .pillar h3{font-family:var(--display);font-size:22px;font-weight:600;margin:6px 0 4px}
+  .pillar .who{font-size:13px;font-weight:700;color:var(--brand-d);margin-bottom:14px}
+  .pillar.next .who{color:var(--accent)}
+  .pillar ul{margin:0;padding-left:0;list-style:none}
+  .pillar li{font-size:14px;padding:8px 0 8px 20px;position:relative;border-top:1px solid var(--line)}
+  .pillar li::before{content:"→";position:absolute;left:0;top:7px;color:var(--brand);font-weight:800}
+  .pillar.next li::before{color:var(--accent)}
+
+  .flywheel{margin-top:20px;background:var(--brand-soft);border:1px solid color-mix(in srgb,var(--brand) 22%,#fff);border-radius:16px;padding:20px 22px}
+  .flywheel b{color:var(--brand-d)}
+  .demos{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .demos a{font-size:12.5px;font-weight:700;text-decoration:none;background:#fff;border:1px solid var(--line);color:var(--ink);padding:7px 12px;border-radius:8px;transition:.18s}
+  .demos a:hover{border-color:var(--brand);color:var(--brand-d)}
+
+  footer{border-top:1px solid var(--line);padding:26px 0 50px}
+  .note{font-size:13px;color:var(--muted);background:#faf9f5;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+
+  @media(max-width:860px){.grid3,.grid2,.timeline,.status,.pillars{grid-template-columns:1fr}.tl{border-right:0;border-bottom:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <a class="back" href="index.html" data-i18n="back">← Back to studio</a>
+    <h1 class="page-title" data-i18n="ptitle">China · Market Strategy</h1>
+    <span class="spacer"></span>
+    <div class="langsw" id="langsw">
+      <button data-lang="en" class="on">EN</button>
+      <button data-lang="zh">中文</button>
+      <button data-lang="ja">日本語</button>
+      <button data-lang="th">ไทย</button>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap hero-in">
+    <div class="kick" data-i18n="kick">Market Strategy</div>
+    <h1><span class="hflag">🇨🇳</span><span data-i18n="hname">China</span> <span class="muted" style="font-size:.5em;font-weight:500">· 中国</span></h1>
+    <div class="tag" data-i18n="tag">An all-in-WeChat customer journey · the strongest D2C data opportunity</div>
+    <p class="lead" data-i18n="lead">China is Blackmores' largest cross-border growth market. The whole purchase journey — discovery, content, payment, service — can live inside super-apps, but today most platform stores are run by channel partners, not the brand directly.</p>
+    <div class="chips">
+      <span class="chip" data-i18n="chip1">Live: <b>Tmall Global + JD (CBEC)</b></span>
+      <span class="chip" data-i18n="chip2">Discovery: <b>RED / Douyin / livestream</b></span>
+      <span class="chip" data-i18n="chip3">Private: <b>WeChat / WeCom</b></span>
+      <span class="chip" data-i18n="chip4">Owner: <b>Kirin group</b></span>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s1k">01 · Market landscape</div>
+    <h2 class="sec-h" data-i18n="s1h">Market characteristics, audience &amp; channels</h2>
+    <p class="sec-sub" data-i18n="s1s">What makes the China health-supplement market different, who buys, and where they buy.</p>
+    <div class="grid3">
+      <div class="card">
+        <h3><span class="ic">🧭</span><span data-i18n="c1h">Market characteristics</span></h3>
+        <ul>
+          <li data-i18n="c1a">One of the world's largest imported-supplement markets; <b>cross-border (CBEC)</b> is the main route for foreign brands.</li>
+          <li data-i18n="c1b"><b>Trust in origin</b> — Australian-made / TGA is a strong proof point against counterfeits.</li>
+          <li data-i18n="c1c"><b>Content-led discovery</b>: shoppers research on RED (小红书) &amp; Douyin before buying.</li>
+          <li data-i18n="c1d"><b>Super-app ecosystems</b>: discovery → store → pay → service can close inside WeChat.</li>
+          <li data-i18n="c1e"><b>Strict rules</b>: no medical claims, PGC only, bonded-warehouse import.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="ic">👥</span><span data-i18n="c2h">Audience / persona</span> <span class="tv" data-i18n="tv">to verify</span></h3>
+        <ul>
+          <li data-i18n="c2a"><b>Urban middle-class women, 25–40</b> — immunity, pregnancy, beauty-from-within, family health.</li>
+          <li data-i18n="c2b"><b>Mums-to-be &amp; maternity</b> — Pregnancy &amp; Breastfeeding Gold a hero SKU.</li>
+          <li data-i18n="c2c"><b>Silver / older adults</b> — joint, heart, eye health for self &amp; parents.</li>
+          <li data-i18n="c2d">Value-aware but <b>insist on genuine, original-import</b> goods.</li>
+          <li data-i18n="c2e">Convert via <b>KOL/KOC seeding</b> and livestream rooms.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="ic">🛒</span><span data-i18n="c3h">Mainstream channels</span></h3>
+        <ul>
+          <li data-i18n="c3a"><b>Marketplace:</b> Tmall Global (天猫国际), JD Worldwide (京东国际), Douyin e-commerce, Pinduoduo <span class="tv" data-i18n="tv">to verify</span></li>
+          <li data-i18n="c3b"><b>Content / seeding:</b> RED (小红书), Douyin, Channels livestream (视频号)</li>
+          <li data-i18n="c3c"><b>Private domain:</b> WeChat OA + Mini-Program + WeCom (anti-counterfeit, members, content)</li>
+          <li data-i18n="c3d"><b>Offline:</b> pharmacy chains, bonded-warehouse fulfilment <span class="tv" data-i18n="tv">to verify</span></li>
+          <li class="muted" data-i18n="c3e">Note: most platform stores are operated by <b>channel partners / TP agencies</b>, not Blackmores directly.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s2k">02 · Where Blackmores is today</div>
+    <h2 class="sec-h" data-i18n="s2h">Blackmores' business status in China</h2>
+    <p class="sec-sub" data-i18n="s2s">From a daigou-fuelled boom to a platform-led, partner-operated present.</p>
+    <div class="timeline">
+      <div class="tl">
+        <div class="yr">2015–2018</div>
+        <h4 data-i18n="t1h">Daigou &amp; CBEC boom</h4>
+        <p data-i18n="t1p">China sales surged (A$7.5m → A$143m); at peak China was over a third of group operating profit.</p>
+      </div>
+      <div class="tl">
+        <div class="yr">2018–2020</div>
+        <h4 data-i18n="t2h">Reset</h4>
+        <p data-i18n="t2p">Tighter daigou rules and bonded-warehouse taxes; growth cooled, brand pivoted toward direct platform sales.</p>
+      </div>
+      <div class="tl">
+        <div class="yr" data-i18n="t3y">Now</div>
+        <h4 data-i18n="t3h">Platform-led, partner-run</h4>
+        <p data-i18n="t3p">Tmall Global + JD Worldwide flagship stores; rebuilding with fewer, tailored products. Owned by Kirin.</p>
+      </div>
+    </div>
+    <div class="status">
+      <div class="st"><div class="k" data-i18n="st1k">Primary route to market</div><div class="v" data-i18n="st1v">Cross-border (CBEC) marketplaces<small>Tmall Global &amp; JD Worldwide bonded import</small></div></div>
+      <div class="st"><div class="k" data-i18n="st2k">Who runs the stores</div><div class="v" data-i18n="st2v">Channel partners / TP agencies <span class="tv">to verify</span><small>Brand has limited direct consumer touchpoints &amp; first-party data</small></div></div>
+      <div class="st"><div class="k" data-i18n="st3k">Owned / DTC presence</div><div class="v" data-i18n="st3v">Chinese site blackmores.com.cn<small>WeChat used mainly for anti-counterfeit &amp; content — no confirmed mini-program store</small></div></div>
+      <div class="st"><div class="k" data-i18n="st4k">Content guardrails</div><div class="v" data-i18n="st4v">No competitors · no health claims · PGC only<small>TGA / Australian-made as trust anchor</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s3k">03 · Our point of view</div>
+    <h2 class="sec-h" data-i18n="s3h">Digitalisation strategy — channel + consumer</h2>
+    <p class="sec-sub" data-i18n="s3s">Two moves on one platform: enable the channels that run the business today, while building the brand's own consumer relationship for tomorrow.</p>
+    <div class="pillars">
+      <div class="pillar now">
+        <div class="phase" data-i18n="p1ph">Short-term · the reality today</div>
+        <h3 data-i18n="p1h">Channel enablement</h3>
+        <div class="who" data-i18n="p1w">Customer = the partners running Tmall / JD / Douyin</div>
+        <ul>
+          <li data-i18n="p1a">Supply one source of brand PGC + AI-generated, localised content &amp; creatives</li>
+          <li data-i18n="p1b">Push compliant copy guardrails (no claims / no competitors) and TGA proof</li>
+          <li data-i18n="p1c">Livestream &amp; campaign asset kits for the agencies' calendars</li>
+          <li data-i18n="p1d">Sell-through &amp; stock dashboard + attribution across platform stores</li>
+          <li data-i18n="p1e">Training &amp; certification for store operators</li>
+        </ul>
+      </div>
+      <div class="pillar next">
+        <div class="phase" data-i18n="p2ph">Long-term · the goal</div>
+        <h3 data-i18n="p2h">Consumer direct (DTC)</h3>
+        <div class="who" data-i18n="p2w">Customer = the end consumer</div>
+        <ul>
+          <li data-i18n="p2a">WeChat Mini-Program membership store + WeCom private-domain SCRM</li>
+          <li data-i18n="p2b">Health assessment / Health Twin onboarding to personalise care</li>
+          <li data-i18n="p2c">4-tier loyalty that turns CBEC traffic into first-party members</li>
+          <li data-i18n="p2d">AI health buyer / agentic recommendations inside the journey</li>
+          <li data-i18n="p2e">Pull the customer relationship back from channel to brand, step by step</li>
+        </ul>
+      </div>
+    </div>
+    <div class="flywheel">
+      <span data-i18n="fly"><b>The data flywheel:</b> platform sell-out + private-domain behaviour → one unified CDP → AI analyses → feeds back better content, recommendations and member offers. Short-term we collect channel &amp; sell-through data; that becomes the first-party base for the long-term DTC play.</span>
+      <div class="demos">
+        <span class="muted" style="font-size:12.5px;font-weight:700;align-self:center;margin-right:4px" data-i18n="demolbl">Studio demos:</span>
+        <a href="aigc.html" data-i18n="d_aigc">AIGC content</a>
+        <a href="social-hub.html" data-i18n="d_social">Social Hub</a>
+        <a href="wechat-miniprogram.html">WeChat Mini-Program</a>
+        <a href="wecom-console.html">WeCom console</a>
+        <a href="attribution-roi.html" data-i18n="d_attr">Attribution / ROI</a>
+        <a href="compliance-hub.html" data-i18n="d_comp">Compliance</a>
+        <a href="voc.html" data-i18n="d_voc">Voice of Customer</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="note" data-i18n="note"><b>Draft for review.</b> Items marked <span class="tv">to verify</span> (persona, some platforms, who operates the stores) are reasoned from public research and need confirmation against Blackmores' actual China operation. Business-status facts draw from cross-border e-commerce reporting and the brand's Tmall Global / JD Worldwide presence. Source of truth: <b>MARKET_POSITIONING.md</b>.</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var I18N={
+    zh:{
+      back:"← 返回工作室", ptitle:"中国 · 市场战略", kick:"市场战略", hname:"中国",
+      tag:"全程嵌入微信的消费者旅程 · 最具潜力的 D2C 数据机会",
+      lead:"中国是 Blackmores 最大的跨境增长市场。发现、内容、支付、服务——整条购买旅程都可以在超级 App 内闭环；但目前大多数平台店铺由渠道伙伴运营，而非品牌直营。",
+      chip1:"在售：<b>天猫国际 + 京东（跨境）</b>", chip2:"种草：<b>小红书 / 抖音 / 直播</b>", chip3:"私域：<b>微信 / 企业微信</b>", chip4:"母公司：<b>麒麟集团</b>",
+      s1k:"01 · 市场格局", s1h:"市场特征、人群与渠道", s1s:"中国保健品市场有何不同、谁在购买、在哪里购买。",
+      c1h:"市场特征",
+      c1a:"全球最大的进口保健品市场之一；<b>跨境电商（CBEC）</b>是境外品牌的主要通路。",
+      c1b:"<b>对原产地的信任</b>——澳洲原产 / TGA 是对抗假货的有力背书。",
+      c1c:"<b>内容驱动的发现</b>：消费者购买前会在小红书、抖音做功课。",
+      c1d:"<b>超级 App 生态</b>：发现 → 商店 → 支付 → 服务都可在微信内闭环。",
+      c1e:"<b>严格合规</b>：不得宣称疗效、仅限 PGC、保税仓进口。",
+      c2h:"目标人群 / 画像",
+      c2a:"<b>都市中产女性，25–40 岁</b>——免疫、孕期、由内而外的美、家庭健康。",
+      c2b:"<b>备孕与孕产人群</b>——孕妇黄金营养素是明星 SKU。",
+      c2c:"<b>银发 / 中老年</b>——为自己及父母关注关节、心脏、眼睛健康。",
+      c2d:"注重性价比，但<b>坚持正品、原装进口</b>。",
+      c2e:"通过 <b>KOL/KOC 种草</b>和直播间转化。",
+      c3h:"主流渠道",
+      c3a:"<b>电商平台：</b>天猫国际、京东国际、抖音电商、拼多多 <span class=\"tv\">待核实</span>",
+      c3b:"<b>内容 / 种草：</b>小红书、抖音、视频号直播",
+      c3c:"<b>私域：</b>微信公众号 + 小程序 + 企业微信（防伪、会员、内容）",
+      c3d:"<b>线下：</b>连锁药房、保税仓履约 <span class=\"tv\">待核实</span>",
+      c3e:"注：大多数平台店铺由<b>渠道伙伴 / TP 代运营</b>负责，而非 Blackmores 直营。",
+      s2k:"02 · Blackmores 当前所处的位置", s2h:"Blackmores 在中国的经营现状", s2s:"从代购驱动的爆发，到平台主导、伙伴代运营的当下。",
+      t1h:"代购与跨境爆发", t1p:"中国销售激增（A$750 万 → A$1.43 亿）；高峰期中国曾贡献集团逾三分之一的经营利润。",
+      t2h:"调整期", t2p:"代购监管收紧、保税仓税收提高；增长放缓，品牌转向平台直营销售。",
+      t3y:"当下", t3h:"平台主导、伙伴运营", t3p:"天猫国际 + 京东国际旗舰店；以更精简、更本地化的产品重建。现归麒麟集团所有。",
+      st1k:"主要进入市场通路", st1v:"跨境电商（CBEC）平台<small>天猫国际与京东国际保税进口</small>",
+      st2k:"谁在运营店铺", st2v:"渠道伙伴 / TP 代运营 <span class=\"tv\">待核实</span><small>品牌直接触达消费者的触点与第一方数据有限</small>",
+      st3k:"自有 / DTC 布局", st3v:"中文官网 blackmores.com.cn<small>微信主要用于防伪与内容——尚无确认的小程序商城</small>",
+      st4k:"内容合规底线", st4v:"无竞品 · 无疗效宣称 · 仅 PGC<small>以 TGA / 澳洲原产为信任锚点</small>",
+      s3k:"03 · 我们的观点", s3h:"数字化战略——渠道 + 消费者", s3s:"在同一平台上的两步走：既赋能今天支撑生意的渠道，也为明天构建品牌自有的消费者关系。",
+      p1ph:"短期 · 当下现实", p1h:"渠道赋能", p1w:"客户 = 运营天猫 / 京东 / 抖音的伙伴",
+      p1a:"提供统一的品牌 PGC + AI 生成的本地化内容与素材",
+      p1b:"下发合规文案守则（无疗效 / 无竞品）与 TGA 背书",
+      p1c:"为代运营的排期提供直播与活动素材包",
+      p1d:"跨平台店铺的动销与库存看板 + 归因",
+      p1e:"面向店铺运营者的培训与认证",
+      p2ph:"长期 · 目标", p2h:"消费者直营（DTC）", p2w:"客户 = 终端消费者",
+      p2a:"微信小程序会员商城 + 企业微信私域 SCRM",
+      p2b:"健康评估 / 健康分身引导，实现个性化关怀",
+      p2c:"四级会员体系，将跨境流量转化为第一方会员",
+      p2d:"在旅程中嵌入 AI 健康买手 / 智能体推荐",
+      p2e:"一步步把客户关系从渠道收回到品牌",
+      fly:"<b>数据飞轮：</b>平台动销 + 私域行为 → 统一 CDP → AI 分析 → 反哺更好的内容、推荐与会员权益。短期我们采集渠道与动销数据；这正是长期 DTC 的第一方基础。",
+      demolbl:"工作室 Demo：", d_aigc:"AIGC 内容", d_social:"社媒中台", d_attr:"归因 / ROI", d_comp:"合规", d_voc:"消费者之声",
+      tv:"待核实",
+      note:"<b>评审草稿。</b>标注 <span class=\"tv\">待核实</span>的项目（人群画像、部分平台、店铺运营方）基于公开研究推断，需与 Blackmores 实际中国运营核对。经营现状取自跨境电商报道及品牌的天猫国际 / 京东国际布局。事实依据：<b>MARKET_POSITIONING.md</b>。"
+    },
+    ja:{
+      back:"← スタジオに戻る", ptitle:"中国 · 市場戦略", kick:"市場戦略", hname:"中国",
+      tag:"WeChat 完結型のカスタマージャーニー · 最有力の D2C データ機会",
+      lead:"中国は Blackmores 最大の越境成長市場です。発見・コンテンツ・決済・サービスという購買体験のすべてをスーパーアプリ内で完結できますが、現状ほとんどのプラットフォーム店舗はブランド直営ではなくチャネルパートナーが運営しています。",
+      chip1:"販売中：<b>Tmall Global + JD（越境EC）</b>", chip2:"発見：<b>RED / Douyin / ライブ配信</b>", chip3:"プライベート：<b>WeChat / WeCom</b>", chip4:"親会社：<b>キリングループ</b>",
+      s1k:"01 · 市場環境", s1h:"市場特性・顧客・チャネル", s1s:"中国のサプリメント市場の特徴、誰が、どこで買うのか。",
+      c1h:"市場特性",
+      c1a:"世界最大級の輸入サプリ市場の一つ。海外ブランドの主要ルートは<b>越境EC（CBEC）</b>。",
+      c1b:"<b>原産地への信頼</b> — オーストラリア製 / TGA は模倣品対策の強力な裏付け。",
+      c1c:"<b>コンテンツ起点の発見</b>：購入前に RED（小紅書）や Douyin で下調べ。",
+      c1d:"<b>スーパーアプリ経済圏</b>：発見 → 店舗 → 決済 → サービスを WeChat 内で完結。",
+      c1e:"<b>厳格な規制</b>：効能訴求の禁止、PGC のみ、保税倉庫経由の輸入。",
+      c2h:"ターゲット / ペルソナ",
+      c2a:"<b>都市部の中流女性、25〜40歳</b> — 免疫・妊娠・インナービューティー・家族の健康。",
+      c2b:"<b>プレママ・マタニティ</b> — 妊娠・授乳期ゴールドが主力SKU。",
+      c2c:"<b>シニア / 中高年</b> — 自身と親のために関節・心臓・目の健康。",
+      c2d:"価格に敏感だが<b>正規・並行輸入品にこだわる</b>。",
+      c2e:"<b>KOL/KOC のシーディング</b>とライブ配信で転換。",
+      c3h:"主要チャネル",
+      c3a:"<b>マーケットプレイス：</b>Tmall Global（天猫国際）、JD Worldwide（京東国際）、Douyin EC、Pinduoduo <span class=\"tv\">要確認</span>",
+      c3b:"<b>コンテンツ / シーディング：</b>RED（小紅書）、Douyin、Channels ライブ（視頻号）",
+      c3c:"<b>プライベートドメイン：</b>WeChat 公式アカウント + ミニプログラム + WeCom（模倣品対策・会員・コンテンツ）",
+      c3d:"<b>オフライン：</b>薬局チェーン、保税倉庫からのフルフィルメント <span class=\"tv\">要確認</span>",
+      c3e:"注：ほとんどのプラットフォーム店舗は Blackmores 直営ではなく<b>チャネルパートナー / TP 代行</b>が運営。",
+      s2k:"02 · Blackmores の現在地", s2h:"中国における Blackmores の事業状況", s2s:"代購（ダイゴウ）主導のブームから、プラットフォーム主導・パートナー運営の現在へ。",
+      t1h:"代購・越境ECブーム", t1p:"中国売上が急増（A$750万 → A$1.43億）。ピーク時には中国がグループ営業利益の3分の1超を占めた。",
+      t2h:"リセット", t2p:"代購規制の強化と保税倉庫課税で成長が鈍化。ブランドはプラットフォーム直販へ転換。",
+      t3y:"現在", t3h:"プラットフォーム主導・パートナー運営", t3p:"Tmall Global + JD Worldwide の旗艦店。製品を絞り込み最適化して再構築。キリンの傘下。",
+      st1k:"主要な市場参入ルート", st1v:"越境EC（CBEC）マーケットプレイス<small>Tmall Global・JD Worldwide の保税輸入</small>",
+      st2k:"店舗の運営者", st2v:"チャネルパートナー / TP 代行 <span class=\"tv\">要確認</span><small>ブランドの直接的な消費者接点と一次データは限定的</small>",
+      st3k:"自社 / DTC の有無", st3v:"中国語サイト blackmores.com.cn<small>WeChat は主に模倣品対策とコンテンツ用途 — ミニプログラム店舗は未確認</small>",
+      st4k:"コンテンツのガードレール", st4v:"競合なし · 効能訴求なし · PGC のみ<small>TGA / オーストラリア製を信頼の拠り所に</small>",
+      s3k:"03 · 私たちの視点", s3h:"デジタル化戦略 — チャネル + 消費者", s3s:"一つのプラットフォームで二手：今日の事業を支えるチャネルを支援しつつ、明日に向けてブランド自身の消費者関係を構築する。",
+      p1ph:"短期 · 今日の現実", p1h:"チャネル・イネーブルメント", p1w:"顧客 = Tmall / JD / Douyin を運営するパートナー",
+      p1a:"ブランド PGC + AI 生成のローカライズ済みコンテンツ・クリエイティブを一元供給",
+      p1b:"コンプライアンス文言ガイド（効能なし / 競合なし）と TGA の裏付けを配信",
+      p1c:"代行各社のカレンダー向けにライブ・キャンペーン素材キットを提供",
+      p1d:"プラットフォーム店舗横断の売上・在庫ダッシュボード + アトリビューション",
+      p1e:"店舗運営者向けの研修・認定",
+      p2ph:"長期 · 目標", p2h:"消費者直販（DTC）", p2w:"顧客 = エンド消費者",
+      p2a:"WeChat ミニプログラム会員ストア + WeCom プライベートドメイン SCRM",
+      p2b:"健康アセスメント / ヘルスツイン導入でケアをパーソナライズ",
+      p2c:"越境ECの流入を一次データ会員へ変える4段階ロイヤルティ",
+      p2d:"ジャーニー内に AI ヘルスバイヤー / エージェント型レコメンド",
+      p2e:"顧客関係をチャネルからブランドへ段階的に取り戻す",
+      fly:"<b>データフライホイール：</b>プラットフォームの売上 + プライベートドメインの行動 → 統合 CDP → AI 分析 → より良いコンテンツ・レコメンド・会員特典に還元。短期はチャネルと売上データを収集し、それが長期 DTC の一次データ基盤になる。",
+      demolbl:"スタジオ Demo：", d_aigc:"AIGC コンテンツ", d_social:"ソーシャルハブ", d_attr:"アトリビューション / ROI", d_comp:"コンプライアンス", d_voc:"顧客の声",
+      tv:"要確認",
+      note:"<b>レビュー用ドラフト。</b><span class=\"tv\">要確認</span>の項目（ペルソナ、一部プラットフォーム、店舗運営者）は公開情報からの推定で、Blackmores の実際の中国オペレーションとの確認が必要です。事業状況は越境EC報道とブランドの Tmall Global / JD Worldwide での展開に基づきます。出典：<b>MARKET_POSITIONING.md</b>。"
+    },
+    th:{
+      back:"← กลับสู่สตูดิโอ", ptitle:"จีน · กลยุทธ์ตลาด", kick:"กลยุทธ์ตลาด", hname:"จีน",
+      tag:"เส้นทางลูกค้าครบวงจรใน WeChat · โอกาสด้านข้อมูล D2C ที่แข็งแกร่งที่สุด",
+      lead:"จีนคือตลาดเติบโตข้ามพรมแดนที่ใหญ่ที่สุดของ Blackmores ทั้งการค้นพบ คอนเทนต์ การชำระเงิน และบริการ สามารถอยู่ครบในซูเปอร์แอป แต่ปัจจุบันร้านค้าบนแพลตฟอร์มส่วนใหญ่ดำเนินการโดยพาร์ทเนอร์ช่องทาง ไม่ใช่แบรนด์โดยตรง",
+      chip1:"วางขาย: <b>Tmall Global + JD (CBEC)</b>", chip2:"ค้นพบ: <b>RED / Douyin / ไลฟ์สด</b>", chip3:"ไพรเวท: <b>WeChat / WeCom</b>", chip4:"เจ้าของ: <b>กลุ่ม Kirin</b>",
+      s1k:"01 · ภูมิทัศน์ตลาด", s1h:"ลักษณะตลาด ผู้ซื้อ และช่องทาง", s1s:"อะไรทำให้ตลาดอาหารเสริมจีนต่างออกไป ใครซื้อ และซื้อที่ไหน",
+      c1h:"ลักษณะตลาด",
+      c1a:"หนึ่งในตลาดอาหารเสริมนำเข้าที่ใหญ่ที่สุดในโลก โดย <b>อีคอมเมิร์ซข้ามพรมแดน (CBEC)</b> เป็นช่องทางหลักของแบรนด์ต่างชาติ",
+      c1b:"<b>ความเชื่อมั่นในแหล่งผลิต</b> — ผลิตในออสเตรเลีย / TGA เป็นจุดพิสูจน์ที่แข็งแกร่งต่อต้านสินค้าปลอม",
+      c1c:"<b>การค้นพบที่นำด้วยคอนเทนต์</b>: ผู้ซื้อหาข้อมูลบน RED (小红书) และ Douyin ก่อนซื้อ",
+      c1d:"<b>ระบบนิเวศซูเปอร์แอป</b>: ค้นพบ → ร้านค้า → จ่ายเงิน → บริการ ปิดจบได้ใน WeChat",
+      c1e:"<b>กฎเข้มงวด</b>: ห้ามอ้างสรรพคุณ ใช้เฉพาะ PGC นำเข้าผ่านคลังทัณฑ์บน",
+      c2h:"กลุ่มเป้าหมาย / เพอร์โซนา",
+      c2a:"<b>ผู้หญิงชนชั้นกลางในเมือง อายุ 25–40</b> — ภูมิคุ้มกัน การตั้งครรภ์ ความงามจากภายใน สุขภาพครอบครัว",
+      c2b:"<b>ว่าที่คุณแม่และคุณแม่</b> — Pregnancy & Breastfeeding Gold เป็น SKU เรือธง",
+      c2c:"<b>ผู้สูงวัย</b> — ดูแลข้อต่อ หัวใจ สายตา ทั้งของตนเองและพ่อแม่",
+      c2d:"ใส่ใจความคุ้มค่า แต่ <b>ยืนยันสินค้าแท้ นำเข้าจากต้นทาง</b>",
+      c2e:"เปลี่ยนเป็นยอดขายผ่าน <b>การซีดดิ้งของ KOL/KOC</b> และห้องไลฟ์สด",
+      c3h:"ช่องทางหลัก",
+      c3a:"<b>มาร์เก็ตเพลส:</b> Tmall Global (天猫国际), JD Worldwide (京东国际), Douyin e-commerce, Pinduoduo <span class=\"tv\">ต้องยืนยัน</span>",
+      c3b:"<b>คอนเทนต์ / ซีดดิ้ง:</b> RED (小红书), Douyin, Channels ไลฟ์ (视频号)",
+      c3c:"<b>ไพรเวทโดเมน:</b> WeChat OA + Mini-Program + WeCom (ป้องกันของปลอม สมาชิก คอนเทนต์)",
+      c3d:"<b>ออฟไลน์:</b> เครือร้านขายยา การจัดส่งจากคลังทัณฑ์บน <span class=\"tv\">ต้องยืนยัน</span>",
+      c3e:"หมายเหตุ: ร้านค้าบนแพลตฟอร์มส่วนใหญ่ดำเนินการโดย <b>พาร์ทเนอร์ช่องทาง / ตัวแทน TP</b> ไม่ใช่ Blackmores โดยตรง",
+      s2k:"02 · Blackmores อยู่ตรงไหนวันนี้", s2h:"สถานะธุรกิจของ Blackmores ในจีน", s2s:"จากบูมที่ขับเคลื่อนด้วยไต้เกา สู่ปัจจุบันที่นำด้วยแพลตฟอร์มและดำเนินการโดยพาร์ทเนอร์",
+      t1h:"บูมไต้เกาและ CBEC", t1p:"ยอดขายจีนพุ่ง (A$7.5m → A$143m) ช่วงพีคจีนคิดเป็นกว่าหนึ่งในสามของกำไรจากการดำเนินงานของกลุ่ม",
+      t2h:"รีเซ็ต", t2p:"กฎไต้เกาเข้มขึ้นและภาษีคลังทัณฑ์บน การเติบโตชะลอ แบรนด์หันสู่การขายตรงบนแพลตฟอร์ม",
+      t3y:"ปัจจุบัน", t3h:"นำด้วยแพลตฟอร์ม ดำเนินการโดยพาร์ทเนอร์", t3p:"ร้านเรือธง Tmall Global + JD Worldwide สร้างใหม่ด้วยสินค้าที่น้อยลงและปรับให้เหมาะ เป็นของ Kirin",
+      st1k:"ช่องทางหลักเข้าสู่ตลาด", st1v:"มาร์เก็ตเพลส CBEC<small>นำเข้าทัณฑ์บนผ่าน Tmall Global และ JD Worldwide</small>",
+      st2k:"ใครดำเนินการร้านค้า", st2v:"พาร์ทเนอร์ช่องทาง / ตัวแทน TP <span class=\"tv\">ต้องยืนยัน</span><small>แบรนด์มีจุดสัมผัสผู้บริโภคและข้อมูลปฐมภูมิจำกัด</small>",
+      st3k:"การมีตัวตน Owned / DTC", st3v:"เว็บไซต์จีน blackmores.com.cn<small>WeChat ใช้หลักเพื่อป้องกันของปลอมและคอนเทนต์ — ยังไม่ยืนยันร้านมินิโปรแกรม</small>",
+      st4k:"กรอบกำกับคอนเทนต์", st4v:"ไม่มีคู่แข่ง · ไม่อ้างสรรพคุณ · PGC เท่านั้น<small>TGA / ผลิตในออสเตรเลีย เป็นจุดยึดความเชื่อมั่น</small>",
+      s3k:"03 · มุมมองของเรา", s3h:"กลยุทธ์ดิจิทัล — ช่องทาง + ผู้บริโภค", s3s:"สองก้าวบนแพลตฟอร์มเดียว: สนับสนุนช่องทางที่ขับเคลื่อนธุรกิจวันนี้ พร้อมสร้างความสัมพันธ์กับผู้บริโภคของแบรนด์เองเพื่อวันพรุ่งนี้",
+      p1ph:"ระยะสั้น · ความจริงวันนี้", p1h:"การเสริมพลังช่องทาง", p1w:"ลูกค้า = พาร์ทเนอร์ที่ดำเนินการ Tmall / JD / Douyin",
+      p1a:"จัดหาแหล่งเดียวของ PGC แบรนด์ + คอนเทนต์และครีเอทีฟที่ AI สร้างและโลคัลไลซ์",
+      p1b:"ส่งกรอบข้อความที่สอดคล้องกฎ (ไม่อ้างสรรพคุณ / ไม่มีคู่แข่ง) และหลักฐาน TGA",
+      p1c:"ชุดแอสเซตไลฟ์สดและแคมเปญสำหรับปฏิทินของตัวแทน",
+      p1d:"แดชบอร์ดยอดขายและสต็อก + แอตทริบิวชันข้ามร้านบนแพลตฟอร์ม",
+      p1e:"การฝึกอบรมและรับรองสำหรับผู้ดำเนินการร้าน",
+      p2ph:"ระยะยาว · เป้าหมาย", p2h:"ขายตรงถึงผู้บริโภค (DTC)", p2w:"ลูกค้า = ผู้บริโภคปลายทาง",
+      p2a:"ร้านสมาชิก WeChat Mini-Program + SCRM ไพรเวทโดเมน WeCom",
+      p2b:"การประเมินสุขภาพ / ออนบอร์ด Health Twin เพื่อปรับการดูแลให้เฉพาะบุคคล",
+      p2c:"ลอยัลตี้ 4 ระดับที่เปลี่ยนทราฟฟิก CBEC เป็นสมาชิกปฐมภูมิ",
+      p2d:"AI health buyer / คำแนะนำแบบเอเจนต์ภายในเส้นทางลูกค้า",
+      p2e:"ดึงความสัมพันธ์ลูกค้ากลับจากช่องทางสู่แบรนด์ทีละขั้น",
+      fly:"<b>วงล้อข้อมูล:</b> ยอดขายบนแพลตฟอร์ม + พฤติกรรมไพรเวทโดเมน → CDP เดียว → AI วิเคราะห์ → ป้อนกลับคอนเทนต์ คำแนะนำ และสิทธิประโยชน์สมาชิกที่ดีขึ้น ระยะสั้นเก็บข้อมูลช่องทางและยอดขาย ซึ่งกลายเป็นฐานข้อมูลปฐมภูมิสำหรับ DTC ระยะยาว",
+      demolbl:"เดโมในสตูดิโอ:", d_aigc:"คอนเทนต์ AIGC", d_social:"Social Hub", d_attr:"แอตทริบิวชัน / ROI", d_comp:"คอมไพลแอนซ์", d_voc:"เสียงของลูกค้า",
+      tv:"ต้องยืนยัน",
+      note:"<b>ฉบับร่างเพื่อทบทวน</b> รายการที่ทำเครื่องหมาย <span class=\"tv\">ต้องยืนยัน</span> (เพอร์โซนา บางแพลตฟอร์ม ผู้ดำเนินการร้าน) มาจากการวิเคราะห์ข้อมูลสาธารณะ และต้องยืนยันกับการดำเนินงานจริงของ Blackmores ในจีน ข้อมูลสถานะธุรกิจอ้างอิงจากรายงานอีคอมเมิร์ซข้ามพรมแดนและการมีตัวตนบน Tmall Global / JD Worldwide ของแบรนด์ แหล่งอ้างอิง: <b>MARKET_POSITIONING.md</b>"
+    }
+  };
+  var LANGS=['en','zh','ja','th'];
+  var state={lang:'en'};
+  try{var _l=new URLSearchParams(location.search).get('lang');if(_l&&LANGS.indexOf(_l)>=0)state.lang=_l;}catch(e){}
+  function apply(){
+    var d=I18N[state.lang]||null;
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k=el.getAttribute('data-i18n');
+      if(!el.hasAttribute('data-en'))el.setAttribute('data-en',el.innerHTML);
+      if(d&&d[k]!=null)el.innerHTML=d[k];
+      else el.innerHTML=el.getAttribute('data-en');
+    });
+    document.documentElement.lang=state.lang;
+    document.querySelectorAll('#langsw button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-lang')===state.lang);});
+  }
+  document.querySelectorAll('#langsw button').forEach(function(b){b.addEventListener('click',function(){state.lang=b.getAttribute('data-lang');apply();});});
+  window.addEventListener('message',function(e){try{if(e.data&&e.data.t==='es'&&e.data.lang&&LANGS.indexOf(e.data.lang)>=0){state.lang=e.data.lang;apply();}}catch(err){}});
+  apply();
+})();
+// hide own header when embedded in the studio viewer
+(function(){try{if(window.self!==window.top){var s=document.createElement("style");s.textContent="header{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();
+</script>
+</body>
+</html>

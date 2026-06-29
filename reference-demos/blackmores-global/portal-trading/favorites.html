@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Favorites | BLACKMORES® Partner Portal</title>
+    <style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.5;
+        }
+        :root {
+            --teal-900: #08312e;
+            --teal-700: #0d524c;
+            --teal-600: #0f6b62;
+            --teal-500: #14857a;
+            --teal-400: #1ba99a;
+            --teal-100: #d6ebe8;
+            --teal-50: #eef6f5;
+            --ink: #16201e;
+            --slate: #5d6b68;
+            --muted: #8d9d99;
+            --line: #e4ebe9;
+            --paper: #ffffff;
+            --bg: #f5f7f6;
+            --amber: #d98a1f;
+            --amber-bg: #fdf3e2;
+            --rose: #c0463f;
+            --rose-bg: #fbece9;
+            --green: #2f8a5b;
+            --green-bg: #e7f3ec;
+            --blue: #2d6cdf;
+            --blue-bg: #e8f0fe;
+            --gray: #94a3b8;
+            --gray-bg: #f1f5f9;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow2: 0 1px 2px rgba(8,49,46,.04), 0 8px 24px -12px rgba(8,49,46,.14);
+            --shadow-lg: 0 2px 4px rgba(8,49,46,.05), 0 24px 48px -20px rgba(8,49,46,.22);
+            --primary: var(--teal-500);
+            --primary-dark: var(--teal-700);
+            --primary-light: var(--teal-50);
+            --accent: #E91E63;
+            --accent-light: rgba(233, 30, 99, 0.12);
+            --white: var(--paper);
+            --text: var(--ink);
+            --text-secondary: var(--slate);
+            --text-tertiary: var(--muted);
+            --border: var(--line);
+            --shadow: var(--shadow2);
+            --shadow-hover: var(--shadow-lg);
+            --success: var(--green);
+            --success-light: var(--green-bg);
+            --warning: var(--amber);
+            --warning-light: var(--amber-bg);
+            --danger: var(--rose);
+            --danger-light: var(--rose-bg);
+            --info: var(--blue);
+            --info-light: var(--blue-bg);
+        }
+
+        /* ===== Top Nav ===== */
+        .top-nav {
+            background: var(--paper);
+            border-bottom: 1px solid var(--line);
+            padding: 0 32px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-brand { font-size: 20px; font-weight: 800; color: var(--teal-900); letter-spacing: -0.5px; }
+        .nav-brand span { color: var(--accent); }
+        .nav-menu { display: flex; gap: 32px; align-items: center; }
+        .nav-menu a { text-decoration: none; color: var(--slate); font-size: 14px; font-weight: 500; transition: color 0.2s; position: relative; white-space: nowrap; }
+        .nav-menu a:hover, .nav-menu a.active { color: var(--teal-900); }
+        .nav-menu a.active::after { content: ''; position: absolute; bottom: -21px; left: 0; right: 0; height: 3px; background: var(--teal-700); border-radius: 2px; }
+        .nav-right { display: flex; align-items: center; gap: 16px; }
+        .nav-btn {
+            width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--line);
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            background: var(--paper); color: var(--slate); transition: all 0.2s; position: relative;
+        }
+        .nav-btn:hover { border-color: var(--teal-500); color: var(--teal-700); }
+        .nav-btn-badge { position: absolute; top: -4px; right: -4px; width: 18px; height: 18px; background: var(--rose); color: white; font-size: 10px; font-weight: 700; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--paper); }
+        .nav-user { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 6px 12px; border-radius: 10px; transition: background 0.2s; }
+        .nav-user:hover { background: var(--bg); }
+        .nav-user-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--teal-700); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 14px; }
+        .nav-user-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+        .nav-user-role { font-size: 12px; color: var(--muted); }
+        #langSwitcher { cursor: pointer; }
+
+        /* ===== Sidebar ===== */
+        .sidebar { width: 264px; background: var(--paper); border-right: 1px solid var(--line); position: fixed; top: 64px; bottom: 0; left: 0; overflow-y: auto; z-index: 50; padding: 26px 16px; }
+        .sidebar-section { margin-bottom: 22px; }
+        .sidebar-header { display: flex; align-items: center; justify-content: space-between; padding: 0 12px 10px; cursor: pointer; transition: .15s; }
+        .sidebar-header:hover .sidebar-title { color: var(--primary-dark); }
+        .sidebar-header.active .sidebar-icon-main { color: var(--primary); }
+        .sidebar-header.active .sidebar-title { color: var(--primary); }
+        .sidebar-header.active .sidebar-chevron { color: var(--teal-700); }
+        .sidebar-header-left { display: flex; align-items: center; gap: 10px; }
+        .sidebar-icon-main { width: 18px; height: 18px; color: var(--muted); flex-shrink: 0; }
+        .sidebar-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); }
+        .sidebar-chevron { width: 14px; height: 14px; color: var(--muted); transition: transform 0.25s ease; flex-shrink: 0; }
+        .sidebar-chevron.open { transform: rotate(180deg); }
+        .sidebar-submenu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+        .sidebar-submenu.open { max-height: 500px; }
+        .sidebar-link {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 12px; color: var(--slate); text-decoration: none;
+            font-size: 14.5px; font-weight: 500; transition: all 0.15s;
+            border-radius: var(--radius-sm); margin-bottom: 2px;
+        }
+        .sidebar-link:hover { background: var(--primary-light); color: var(--primary-dark); }
+        .sidebar-link.active { background: var(--primary); color: var(--paper); font-weight: 600; }
+        .sidebar-link-icon { width: 18px; height: 18px; color: currentColor; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .sidebar-link-icon svg { width: 14px; height: 14px; }
+        @media (max-width: 1024px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0 !important; max-width: 100vw !important; }
+        }
+
+        /* ===== Main Content ===== */
+        .main-content { flex: 1; margin-left: 264px; padding: 0; max-width: calc(100vw - 264px); }
+        .content-section { padding: 32px 40px; }
+        .section-title { font-size: 26px; font-weight: 800; color: var(--teal-900); margin-bottom: 8px; }
+        .section-sub { font-size: 14px; color: var(--slate); margin-bottom: 24px; }
+
+        /* ===== Favorites Toolbar ===== */
+        .fav-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; gap: 16px; flex-wrap: wrap; }
+        .fav-search { display: flex; align-items: center; gap: 8px; flex: 1; max-width: 400px; }
+        .fav-search input { flex: 1; padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; font-size: 14px; outline: none; transition: border 0.2s; background: var(--paper); }
+        .fav-search input:focus { border-color: var(--teal-500); }
+        .fav-actions { display: flex; gap: 10px; }
+        .btn {
+            padding: 9px 18px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer;
+            transition: all 0.2s; border: 1px solid transparent; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .btn-outline { background: var(--paper); border-color: var(--line); color: var(--slate); }
+        .btn-outline:hover { border-color: var(--teal-500); color: var(--teal-700); }
+        .btn-primary { background: var(--teal-700); color: white; border-color: var(--teal-700); }
+        .btn-primary:hover { background: var(--teal-900); }
+        .btn-accent { background: var(--accent); color: white; border-color: var(--accent); }
+        .btn-accent:hover { background: #c4165a; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* ===== Favorites Grid ===== */
+        .fav-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+        .fav-card {
+            background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 0;
+            overflow: hidden; transition: box-shadow 0.2s, transform 0.2s; cursor: pointer; position: relative;
+            box-shadow: var(--shadow2);
+        }
+        .fav-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+        .fav-card.selected { border-color: var(--teal-500); box-shadow: 0 0 0 3px rgba(20,133,122,0.1); }
+        .fav-card-top { position: relative; padding: 16px 16px 0; }
+        .fav-card-check { position: absolute; top: 16px; left: 16px; z-index: 5; }
+        .fav-card-check input { width: 18px; height: 18px; cursor: pointer; accent-color: var(--teal-700); }
+        .fav-card-heart { position: absolute; top: 16px; right: 16px; z-index: 5; }
+        .fav-card-heart svg { width: 20px; height: 20px; color: var(--rose); fill: var(--rose); }
+        .fav-card-img { width: 100%; height: 180px; display: flex; align-items: center; justify-content: center; background: var(--teal-50); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+        .fav-card-img img { width: 100%; height: 100%; object-fit: cover; }
+        .fav-card-img span { font-size: 48px; }
+        .fav-card-body { padding: 0 16px 16px; }
+        .fav-card-tag { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; }
+        .fav-card-tag.best { background: var(--green-bg); color: var(--green); }
+        .fav-card-tag.stock { background: var(--amber-bg); color: var(--amber); }
+        .fav-card-tag.hot { background: var(--rose-bg); color: var(--rose); }
+        .fav-card-name { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 4px; line-height: 1.3; }
+        .fav-card-sku { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+        .fav-card-price { font-size: 18px; font-weight: 800; color: var(--teal-900); margin-bottom: 4px; }
+        .fav-card-price-orig { font-size: 13px; color: var(--muted); text-decoration: line-through; margin-bottom: 12px; }
+        .fav-card-btn { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--teal-700); color: white; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .fav-card-btn:hover { background: var(--teal-900); }
+        .fav-card-btn.outline { background: var(--paper); color: var(--teal-700); border-color: var(--teal-700); }
+        .fav-card-btn.outline:hover { background: var(--teal-50); }
+
+        /* ===== AI Compare Panel ===== */
+        .compare-panel {
+            position: fixed; bottom: 92px; left: 50%; transform: translateX(-50%) translateY(120%);
+            width: 720px; max-width: 90vw; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+            box-shadow: var(--shadow-lg); z-index: 250; padding: 24px; transition: transform 0.4s cubic-bezier(.16,1,.3,1);
+        }
+        .compare-panel.open { transform: translateX(-50%) translateY(0); }
+        .compare-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .compare-title { font-size: 18px; font-weight: 700; color: var(--teal-900); }
+        .compare-close { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); background: var(--paper); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--slate); }
+        .compare-close:hover { background: var(--teal-50); color: var(--teal-700); }
+        .compare-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .compare-item { border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+        .compare-item-img { width: 100%; height: 120px; background: var(--teal-50); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 40px; margin-bottom: 12px; }
+        .compare-item-name { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+        .compare-item-price { font-size: 16px; font-weight: 800; color: var(--teal-900); margin-bottom: 8px; }
+        .compare-item-row { display: flex; justify-content: space-between; font-size: 12px; padding: 6px 0; border-bottom: 1px solid var(--line); }
+        .compare-item-row:last-child { border-bottom: none; }
+        .compare-item-row span:first-child { color: var(--muted); }
+        .compare-item-row span:last-child { color: var(--ink); font-weight: 600; }
+        .compare-ai { grid-column: 1 / -1; background: var(--teal-50); border: 1px solid var(--teal-100); border-radius: 12px; padding: 16px; margin-top: 8px; }
+        .compare-ai-title { font-size: 13px; font-weight: 700; color: var(--teal-700); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .compare-ai-body { font-size: 13px; color: var(--slate); line-height: 1.6; }
+        .compare-ai-body strong { color: var(--teal-900); }
+        .compare-count { font-size: 13px; color: var(--slate); margin-bottom: 12px; }
+
+        /* ===== AI Widget ===== */
+        .ai-float-btn { position: fixed; bottom: 28px; right: 28px; width: 56px; height: 56px; background: var(--teal-700); color: white; border: none; border-radius: 50%; font-size: 24px; cursor: pointer; box-shadow: var(--shadow-lg); z-index: 300; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+        .ai-float-btn:hover { transform: scale(1.05); background: var(--teal-900); }
+        .ai-widget { position: fixed; bottom: 92px; right: 28px; width: 360px; height: 520px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-lg); z-index: 300; display: none; flex-direction: column; overflow: hidden; }
+        .ai-widget.open { display: flex; }
+        .ai-widget-header { padding: 20px; border-bottom: 1px solid var(--line); background: var(--teal-50); }
+        .ai-widget-title { font-size: 16px; font-weight: 700; color: var(--teal-900); }
+        .ai-widget-subtitle { font-size: 12px; color: var(--slate); margin-top: 2px; }
+        .ai-avatar { width: 36px; height: 36px; background: var(--teal-700); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 14px; }
+        .ai-widget-body { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+        .ai-msg-bubble { max-width: 85%; padding: 12px 14px; border-radius: 14px; font-size: 13px; line-height: 1.5; }
+        .ai-msg-bubble.bot { background: var(--teal-50); color: var(--teal-700); align-self: flex-start; border-bottom-left-radius: 4px; }
+        .ai-msg-bubble.user { background: var(--teal-700); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .ai-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+        .ai-chip { padding: 6px 12px; border: 1px solid var(--teal-100); border-radius: 20px; font-size: 12px; color: var(--teal-700); cursor: pointer; background: var(--paper); transition: all 0.2s; }
+        .ai-chip:hover { background: var(--teal-50); border-color: var(--teal-500); }
+        .ai-widget-footer { padding: 12px 16px; border-top: 1px solid var(--line); display: flex; gap: 8px; align-items: center; }
+        .ai-widget-input { flex: 1; padding: 10px 14px; border: 1px solid var(--line); border-radius: 20px; font-size: 13px; outline: none; }
+        .ai-widget-input:focus { border-color: var(--teal-500); }
+        .ai-widget-send { width: 36px; height: 36px; border-radius: 50%; background: var(--teal-700); color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .ai-widget-send:hover { background: var(--teal-900); }
+
+        /* ===== Toast ===== */
+        .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--teal-900); color: white; padding: 12px 24px; border-radius: 12px; font-size: 14px; font-weight: 600; z-index: 300; box-shadow: 0 4px 20px rgba(0,0,0,0.2); opacity: 0; transition: all 0.3s; pointer-events: none; }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    
+
+        /* Studio embed shell: keep the outer Studio header, remove the copied portal chrome. */
+        .top-nav, .sidebar { display: none !important; }
+        .main-content { margin-left: 0 !important; max-width: 100% !important; width: 100% !important; padding: 0 !important; }
+        .studio-intro { max-width: 1180px; margin: 0 auto 18px; padding: 28px 40px 0; }
+        .studio-eyebrow { color: var(--primary, var(--teal-700, #008f9a)); font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 8px; }
+        .studio-title { color: var(--ink, var(--text, #1f2a2a)); font-size: clamp(28px, 4vw, 44px); line-height: 1.04; font-weight: 800; margin: 0 0 10px; letter-spacing: 0; }
+        .studio-lead { color: var(--slate, var(--text-secondary, #6d7775)); font-size: 15px; line-height: 1.65; max-width: 880px; margin: 0; }
+        .studio-nav { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 18px; }
+        .studio-nav a, .studio-nav button { appearance: none; border: 1px solid var(--line, #e5e7eb); background: var(--paper, #fff); color: var(--ink, #233); border-radius: 8px; padding: 9px 14px; font: inherit; font-size: 12.5px; font-weight: 800; text-decoration: none; cursor: pointer; box-shadow: none; }
+        .studio-nav a:hover, .studio-nav button:hover, .studio-nav .active { border-color: var(--primary, var(--teal-700, #008f9a)); color: var(--primary, var(--teal-700, #008f9a)); background: var(--primary-light, var(--teal-50, #ecfeff)); }
+        .content-section, .content-body, .pagehead, .page-section { max-width: 1180px; margin-left: auto !important; margin-right: auto !important; }
+        @media (max-width: 760px) {
+            .studio-intro { padding: 22px 20px 0; }
+            .studio-title { font-size: 30px; }
+            .studio-nav a, .studio-nav button { flex: 1 1 auto; text-align: center; }
+        }
+
+    </style>
+    <script src="../i18n.js"></script>
+</head>
+<body data-module="trading">
+    <!-- Top Nav -->
+    <nav class="top-nav">
+        <div class="nav-brand">BLACKMORES<span>®</span> Partner</div>
+        <div class="nav-menu">
+            <a href="../index.html" data-i18n="Home">Home</a>
+            <a href="trading-hub.html" class="active" data-i18n="Trading">Trading</a>
+            <a href="../index.html" data-i18n="Marketing">Marketing</a>
+            <a href="../index.html" data-i18n="Operations">Operations</a>
+            <a href="../index.html" data-i18n="Analytics">Analytics</a>
+        </div>
+        <div class="nav-right">
+            <button class="nav-btn" id="langSwitcher" title="Language">EN</button>
+            <button class="nav-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
+            <button class="nav-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="nav-btn-badge">3</span></button>
+            <div class="nav-user">
+                <div class="nav-user-avatar">S</div>
+                <div>
+                    <div class="nav-user-name">Sarah</div>
+                    <div class="nav-user-role">Admin</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div style="display: flex; min-height: 100vh;">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-section" id="sidebar-product">
+                <div class="sidebar-header active" onclick="toggleSection('product')" id="header-product">
+                    <div class="sidebar-header-left">
+                        <svg class="sidebar-icon-main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                        <span class="sidebar-title" data-i18n="Product">Product</span>
+                    </div>
+                    <svg class="sidebar-chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="chevron-product"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <ul class="sidebar-submenu open" id="submenu-product">
+                    <li class="sidebar-item"><a href="product-center.html" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span><span data-i18n="Product Catalog">Product Catalog</span></a></li>
+                    <li class="sidebar-item"><a href="product-center.html#cart" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span><span data-i18n="Shopping Cart">Shopping Cart</span></a></li>
+                    <li class="sidebar-item"><a href="favorites.html" class="sidebar-link active"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span data-i18n="My Favorites">My Favorites</span></a></li>
+                    <li class="sidebar-item"><a href="bundle-management.html" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></span><span data-i18n="Bundle Management">Bundle Management</span></a></li>
+                </ul>
+            </div>
+            <div class="sidebar-section" id="sidebar-purchase">
+                <div class="sidebar-header" onclick="toggleSection('purchase')" id="header-purchase">
+                    <div class="sidebar-header-left">
+                        <svg class="sidebar-icon-main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+                        <span class="sidebar-title" data-i18n="Purchase Orders">Purchase Orders</span>
+                    </div>
+                    <svg class="sidebar-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="chevron-purchase"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <ul class="sidebar-submenu" id="submenu-purchase">
+                    <li class="sidebar-item"><a href="purchase-order.html" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span data-i18n="Purchase Orders">Purchase Orders</span></a></li>
+                    <li class="sidebar-item"><a href="purchase-order.html#ai-recommend" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/><path d="M9 21h6"/></svg></span><span data-i18n="AI Recommendation">AI Recommendation</span></a></li>
+                    <li class="sidebar-item"><a href="purchase-order.html#inventory" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span><span data-i18n="Inventory">Inventory</span></a></li>
+                    <li class="sidebar-item"><a href="purchase-order.html#invoices" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span data-i18n="Invoices">Invoices</span></a></li>
+                </ul>
+            </div>
+            <div class="sidebar-section" id="sidebar-sales">
+                <div class="sidebar-header" onclick="toggleSection('sales')" id="header-sales">
+                    <div class="sidebar-header-left">
+                        <svg class="sidebar-icon-main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                        <span class="sidebar-title" data-i18n="Sales Orders">Sales Orders</span>
+                    </div>
+                    <svg class="sidebar-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="chevron-sales"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <ul class="sidebar-submenu" id="submenu-sales">
+                    <li class="sidebar-item"><a href="sale-order.html" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span><span data-i18n="Sales Orders">Sales Orders</span></a></li>
+                    <li class="sidebar-item"><a href="sale-order.html#channel" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></span><span data-i18n="Channel Management">Channel Management</span></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <section class="studio-intro">
+                <div class="studio-eyebrow">Partner B2B Ordering & Checkout</div>
+                <h1 class="studio-title">Favorites and quick reorder for high-frequency Blackmores SKUs.</h1>
+                <p class="studio-lead">A focused reorder workspace for saved products, seasonal baskets, product comparison and fast add-to-cart actions inside the partner ordering flow.</p>
+                <div class="studio-nav">
+                    <a href="product-center.html">Product catalog</a>
+                    <a href="product-center.html#cart">Cart & checkout</a>
+                    <a class="active" href="favorites.html">Favorites & reorder</a>
+                    <a href="bundle-management.html">Bundles</a>
+                </div>
+            </section>
+
+            <div class="content-section">
+                <h1 class="section-title" data-i18n="My Favorites">My Favorites</h1>
+                <p class="section-sub" data-i18n="6 saved products · Select 2-3 to compare with AI">6 saved products · Select 2-3 to compare with AI</p>
+
+                <div class="fav-toolbar">
+                    <div class="fav-search">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" placeholder="Search favorites..." id="favSearch">
+                    </div>
+                    <div class="fav-actions">
+                        <button class="btn btn-outline" onclick="removeSelected()" id="btnRemove" disabled><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> <span data-i18n="Remove">Remove</span></button>
+                        <button class="btn btn-primary" onclick="compareSelected()" id="btnCompare" disabled><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="M2 12h20"/><path d="M4 8l4 4-4 4"/></svg> <span data-i18n="Compare Selected">Compare Selected</span></button>
+                        <button class="btn btn-accent" onclick="shareFavorites()" id="btnShare"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> <span data-i18n="Share">Share</span></button>
+                    </div>
+                </div>
+
+                <div class="fav-grid" id="favGrid">
+                    <!-- Card 1: Multivitamin+ -->
+                    <div class="fav-card" data-sku="MV001" onclick="toggleCard(this, event)">
+                        <div class="fav-card-top">
+                            <div class="fav-card-check"><input type="checkbox" onchange="toggleCheck(event)" data-sku="MV001"></div>
+                            <div class="fav-card-heart"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                            <div class="fav-card-img"><span>💊</span></div>
+                        </div>
+                        <div class="fav-card-body">
+                            <div class="fav-card-tag best" data-i18n="Best Seller">Best Seller</div>
+                            <div class="fav-card-name" data-i18n="Multivitamin + Mineral">Multivitamin + Mineral</div>
+                            <div class="fav-card-sku">SKU: MV001</div>
+                            <div class="fav-card-price" data-currency>RM 120.00</div>
+                            <div class="fav-card-price-orig" data-currency>RM 150.00</div>
+                            <button class="fav-card-btn" onclick="addToCart('MV001', event)" data-i18n="Add to Cart">Add to Cart</button>
+                        </div>
+                    </div>
+                    <!-- Card 2: Omega-3 -->
+                    <div class="fav-card" data-sku="OM002" onclick="toggleCard(this, event)">
+                        <div class="fav-card-top">
+                            <div class="fav-card-check"><input type="checkbox" onchange="toggleCheck(event)" data-sku="OM002"></div>
+                            <div class="fav-card-heart"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                            <div class="fav-card-img"><span>🐟</span></div>
+                        </div>
+                        <div class="fav-card-body">
+                            <div class="fav-card-tag hot" data-i18n="Hot in Q2">Hot in Q2</div>
+                            <div class="fav-card-name" data-i18n="Omega-3 Fish Oil 1000mg">Omega-3 Fish Oil 1000mg</div>
+                            <div class="fav-card-sku">SKU: OM002</div>
+                            <div class="fav-card-price" data-currency>RM 88.00</div>
+                            <div class="fav-card-price-orig" data-currency>RM 110.00</div>
+                            <button class="fav-card-btn" onclick="addToCart('OM002', event)" data-i18n="Add to Cart">Add to Cart</button>
+                        </div>
+                    </div>
+                    <!-- Card 3: CoQ10 -->
+                    <div class="fav-card" data-sku="CQ003" onclick="toggleCard(this, event)">
+                        <div class="fav-card-top">
+                            <div class="fav-card-check"><input type="checkbox" onchange="toggleCheck(event)" data-sku="CQ003"></div>
+                            <div class="fav-card-heart"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                            <div class="fav-card-img"><span>❤️</span></div>
+                        </div>
+                        <div class="fav-card-body">
+                            <div class="fav-card-tag best" data-i18n="Best Seller">Best Seller</div>
+                            <div class="fav-card-name" data-i18n="CoQ10 150mg">CoQ10 150mg</div>
+                            <div class="fav-card-sku">SKU: CQ003</div>
+                            <div class="fav-card-price" data-currency>RM 145.00</div>
+                            <div class="fav-card-price-orig" data-currency>RM 180.00</div>
+                            <button class="fav-card-btn" onclick="addToCart('CQ003', event)" data-i18n="Add to Cart">Add to Cart</button>
+                        </div>
+                    </div>
+                    <!-- Card 4: Vitamin C -->
+                    <div class="fav-card" data-sku="VC004" onclick="toggleCard(this, event)">
+                        <div class="fav-card-top">
+                            <div class="fav-card-check"><input type="checkbox" onchange="toggleCheck(event)" data-sku="VC004"></div>
+                            <div class="fav-card-heart"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                            <div class="fav-card-img"><span>🍊</span></div>
+                        </div>
+                        <div class="fav-card-body">
+                            <div class="fav-card-tag stock" data-i18n="Low Stock">Low Stock</div>
+                            <div class="fav-card-name" data-i18n="Vitamin C 1000mg">Vitamin C 1000mg</div>
+                            <div class="fav-card-sku">SKU: VC004</div>
+                            <div class="fav-card-price" data-currency>RM 55.00</div>
+                            <div class="fav-card-price-orig" data-currency>RM 68.00</div>
+                            <button class="fav-card-btn" onclick="addToCart('VC004', event)" data-i18n="Add to Cart">Add to Cart</button>
+                        </div>
+                    </div>
+                    <!-- Card 5: Probiotic -->
+                    <div class="fav-card" data-sku="PB005" onclick="toggleCard(this, event)">
+                        <div class="fav-card-top">
+                            <div class="fav-card-check"><input type="checkbox" onchange="toggleCheck(event)" data-sku="PB005"></div>
+                            <div class="fav-card-heart"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                            <div class="fav-card-img"><span>🦠</span></div>
+                        </div>
+                        <div class="fav-card-body">
+                            <div class="fav-card-tag best" data-i18n="Best Seller">Best Seller</div>
+                            <div class="fav-card-name" data-i18n="Probiotic 30 Billion CFU">Probiotic 30 Billion CFU</div>
+                            <div class="fav-card-sku">SKU: PB005</div>
+                            <div class="fav-card-price" data-currency>RM 105.00</div>
+                            <div class="fav-card-price-orig" data-currency>RM 130.00</div>
+                            <button class="fav-card-btn" onclick="addToCart('PB005', event)" data-i18n="Add to Cart">Add to Cart</button>
+                        </div>
+                    </div>
+                    <!-- Card 6: Glucosamine -->
+                    <div class="fav-card" data-sku="GL006" onclick="toggleCard(this, event)">
+                        <div class="fav-card-top">
+                            <div class="fav-card-check"><input type="checkbox" onchange="toggleCheck(event)" data-sku="GL006"></div>
+                            <div class="fav-card-heart"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                            <div class="fav-card-img"><span>🦴</span></div>
+                        </div>
+                        <div class="fav-card-body">
+                            <div class="fav-card-tag stock" data-i18n="Low Stock">Low Stock</div>
+                            <div class="fav-card-name" data-i18n="Glucosamine Sulfate 1500mg">Glucosamine Sulfate 1500mg</div>
+                            <div class="fav-card-sku">SKU: GL006</div>
+                            <div class="fav-card-price" data-currency>RM 75.00</div>
+                            <div class="fav-card-price-orig" data-currency>RM 92.00</div>
+                            <button class="fav-card-btn" onclick="addToCart('GL006', event)" data-i18n="Add to Cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Compare Panel -->
+            <div class="compare-panel" id="comparePanel">
+                <div class="compare-header">
+                    <div class="compare-title" data-i18n="AI Smart Comparison">AI Smart Comparison</div>
+                    <button class="compare-close" onclick="closeCompare()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+                </div>
+                <div class="compare-count" id="compareCount">Comparing 3 products</div>
+                <div class="compare-grid" id="compareGrid">
+                    <!-- Dynamically filled -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Widget -->
+    <button class="ai-float-btn" onclick="toggleAI()">✨</button>
+    <div class="ai-widget" id="aiWidget">
+        <div class="ai-widget-header" style="display:flex; gap:12px; align-items:center;">
+            <div class="ai-avatar">AI</div>
+            <div>
+                <div class="ai-widget-title">B.More</div>
+                <div class="ai-widget-subtitle">Your AI assistant</div>
+            </div>
+        </div>
+        <div class="ai-widget-body" id="aiMessages">
+            <div class="ai-msg-bubble bot" data-i18n="Hi! I can help you compare products, find similar items, check stock levels, or suggest bundles based on your favorites. What would you like to do?">Hi! I can help you compare products, find similar items, check stock levels, or suggest bundles based on your favorites. What would you like to do?</div>
+        </div>
+        <div class="ai-chips" style="padding:0 16px 12px;">
+            <span class="ai-chip" onclick="aiAsk('Compare all my favorites')" data-i18n="Compare all my favorites">Compare all my favorites</span>
+            <span class="ai-chip" onclick="aiAsk('Find similar products')" data-i18n="Find similar products">Find similar products</span>
+            <span class="ai-chip" onclick="aiAsk('Check stock')" data-i18n="Check stock">Check stock</span>
+        </div>
+        <div class="ai-widget-footer">
+            <input type="text" class="ai-widget-input" placeholder="Ask me anything..." id="aiInput" onkeypress="if(event.key==='Enter')sendAI()">
+            <button class="ai-widget-send" onclick="sendAI()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ===== DATA =====
+        const products = {
+            MV001: { name: 'Multivitamin + Mineral', sku: 'MV001', price: 120, orig: 150, tag: 'best', tagText: 'Best Seller', emoji: '💊', category: 'General Health', stock: 'In Stock', moq: 100 },
+            OM002: { name: 'Omega-3 Fish Oil 1000mg', sku: 'OM002', price: 88, orig: 110, tag: 'hot', tagText: 'Hot in Q2', emoji: '🐟', category: 'Heart Health', stock: 'In Stock', moq: 80 },
+            CQ003: { name: 'CoQ10 150mg', sku: 'CQ003', price: 145, orig: 180, tag: 'best', tagText: 'Best Seller', emoji: '❤️', category: 'Heart Health', stock: 'In Stock', moq: 60 },
+            VC004: { name: 'Vitamin C 1000mg', sku: 'VC004', price: 55, orig: 68, tag: 'stock', tagText: 'Low Stock', emoji: '🍊', category: 'Immunity', stock: 'Low Stock', moq: 200 },
+            PB005: { name: 'Probiotic 30 Billion CFU', sku: 'PB005', price: 105, orig: 130, tag: 'best', tagText: 'Best Seller', emoji: '🦠', category: 'Digestive', stock: 'In Stock', moq: 50 },
+            GL006: { name: 'Glucosamine Sulfate 1500mg', sku: 'GL006', price: 75, orig: 92, tag: 'stock', tagText: 'Low Stock', emoji: '🦴', category: 'Joint Health', stock: 'Low Stock', moq: 120 }
+        };
+
+        let selectedSkus = new Set();
+
+        function toggleCard(card, event) {
+            if (event.target.tagName === 'INPUT' || event.target.tagName === 'BUTTON' || event.target.closest('button') || event.target.closest('.fav-card-heart')) return;
+            const checkbox = card.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            toggleCheckFromSku(checkbox.dataset.sku, checkbox.checked);
+        }
+
+        function toggleCheck(event) {
+            event.stopPropagation();
+            const sku = event.target.dataset.sku;
+            toggleCheckFromSku(sku, event.target.checked);
+        }
+
+        function toggleCheckFromSku(sku, checked) {
+            const card = document.querySelector('.fav-card[data-sku="' + sku + '"]');
+            if (checked) {
+                selectedSkus.add(sku);
+                card.classList.add('selected');
+            } else {
+                selectedSkus.delete(sku);
+                card.classList.remove('selected');
+            }
+            updateToolbar();
+        }
+
+        function updateToolbar() {
+            const count = selectedSkus.size;
+            const btnRemove = document.getElementById('btnRemove');
+            const btnCompare = document.getElementById('btnCompare');
+            btnRemove.disabled = count === 0;
+            btnCompare.disabled = count < 2 || count > 3;
+            if (count > 0) {
+                btnRemove.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> Remove (' + count + ')';
+            } else {
+                btnRemove.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> Remove';
+            }
+        }
+
+        function removeSelected() {
+            if (!selectedSkus.size) return;
+            if (!confirm('Remove ' + selectedSkus.size + ' item(s) from favorites?')) return;
+            selectedSkus.forEach(sku => {
+                const card = document.querySelector('.fav-card[data-sku="' + sku + '"]');
+                if (card) card.remove();
+            });
+            selectedSkus.clear();
+            updateToolbar();
+            showToast('Removed from favorites');
+        }
+
+        function compareSelected() {
+            const skus = Array.from(selectedSkus);
+            if (skus.length < 2 || skus.length > 3) {
+                showToast('Select 2-3 products to compare');
+                return;
+            }
+            const panel = document.getElementById('comparePanel');
+            const grid = document.getElementById('compareGrid');
+            const count = document.getElementById('compareCount');
+            count.textContent = 'Comparing ' + skus.length + ' products';
+
+            let itemsHtml = '';
+            skus.forEach(sku => {
+                const p = products[sku];
+                itemsHtml += `
+                    <div class="compare-item">
+                        <div class="compare-item-img">${p.emoji}</div>
+                        <div class="compare-item-name">${p.name}</div>
+                        <div class="compare-item-price" data-currency>RM ${p.price.toFixed(2)}</div>
+                        <div class="compare-item-row"><span>Category</span><span>${p.category}</span></div>
+                        <div class="compare-item-row"><span>Stock</span><span>${p.stock}</span></div>
+                        <div class="compare-item-row"><span>MOQ</span><span>${p.moq}</span></div>
+                        <div class="compare-item-row"><span>Discount</span><span>${Math.round((1 - p.price/p.orig)*100)}%</span></div>
+                    </div>
+                `;
+            });
+
+            // AI analysis
+            const names = skus.map(s => products[s].name);
+            const prices = skus.map(s => products[s].price);
+            const minPrice = Math.min(...prices);
+            const maxPrice = Math.max(...prices);
+            const avgPrice = (prices.reduce((a,b)=>a+b,0)/prices.length).toFixed(0);
+            const categories = [...new Set(skus.map(s => products[s].category))];
+
+            let aiText = '';
+            if (skus.length === 2) {
+                aiText = `<strong>${names[0]}</strong> is ${categories[0] === categories[1] ? 'in the same category (' + categories[0] + ') and offers better unit economics' : 'a ' + categories[0] + ' product'} with ${Math.round((1 - products[skus[0]].price/products[skus[0]].orig)*100)}% discount. <strong>${names[1]}</strong> is priced at <strong>RM ${minPrice}</strong> — ${(maxPrice-minPrice).toFixed(0)} RM lower than the other. For a diversified portfolio, consider bundling both to cover ${categories.join(' + ')}.`;
+            } else {
+                aiText = `Comparing 3 products across ${categories.length > 1 ? categories.join(' + ') : categories[0]}. <strong>${names[prices.indexOf(minPrice)]}</strong> offers the best price at RM ${minPrice}. All have strong discount margins (20% avg). <strong>Recommendation:</strong> Bundle all three for a "Complete Wellness Pack" to increase AOV by ~35%.`;
+            }
+
+            itemsHtml += `
+                <div class="compare-ai">
+                    <div class="compare-ai-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/><path d="M9 21h6"/></svg> AI Analysis</div>
+                    <div class="compare-ai-body">${aiText}</div>
+                </div>
+            `;
+
+            grid.innerHTML = itemsHtml;
+            panel.classList.add('open');
+        }
+
+        function closeCompare() {
+            document.getElementById('comparePanel').classList.remove('open');
+        }
+
+        function shareFavorites() {
+            const count = Object.keys(products).length;
+            showToast('Share link copied: ' + count + ' favorites · my-favorites.blackmores/partner/sarah');
+        }
+
+        function addToCart(sku, event) {
+            event.stopPropagation();
+            const p = products[sku];
+            showToast('Added ' + p.name + ' to cart');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // ===== AI Widget =====
+        function toggleAI() {
+            document.getElementById('aiWidget').classList.toggle('open');
+        }
+        function aiAsk(text) {
+            const msgArea = document.getElementById('aiMessages');
+            msgArea.innerHTML += '<div class="ai-msg-bubble user">' + text + '</div>';
+            setTimeout(() => {
+                msgArea.innerHTML += '<div class="ai-msg-bubble bot" data-i18n="I\'ll check that for you. One moment...">I\'ll check that for you. One moment...</div>';
+                msgArea.scrollTop = msgArea.scrollHeight;
+            }, 600);
+        }
+        function sendAI() {
+            const input = document.getElementById('aiInput');
+            if (!input.value.trim()) return;
+            aiAsk(input.value);
+            input.value = '';
+        }
+
+        // ===== Search =====
+        document.getElementById('favSearch').addEventListener('input', function(e) {
+            const q = e.target.value.toLowerCase();
+            document.querySelectorAll('.fav-card').forEach(card => {
+                const name = card.querySelector('.fav-card-name').textContent.toLowerCase();
+                const sku = card.querySelector('.fav-card-sku').textContent.toLowerCase();
+                card.style.display = (name.includes(q) || sku.includes(q)) ? '' : 'none';
+            });
+        });
+    </script>
+
+<script>
+(function(){
+    function highlightCurrentPage() {
+        var current = window.location.pathname.split('/').pop() || 'index.html';
+        document.querySelectorAll('.sidebar-link').forEach(function(link) {
+            var href = link.getAttribute('href');
+            if (!href) return;
+            var hrefClean = href.split('#')[0].split('?')[0];
+            if (hrefClean === current) {
+                link.classList.add('active');
+                var sub = link.closest('.sidebar-submenu');
+                if (sub) sub.classList.add('open');
+            }
+        });
+    }
+    function restoreSidebarState() {
+        var mod = document.body.dataset.module || 'home';
+        var state = JSON.parse(localStorage.getItem('sidebarState') || '{}');
+        document.querySelectorAll('.sidebar-section').forEach(function(sec) {
+            var id = sec.id; if (!id) return;
+            var key = mod + '-' + id;
+            var isOpen = state[key];
+            if (isOpen !== undefined) {
+                var chev = sec.querySelector('.sidebar-chevron');
+                var sub = sec.querySelector('.sidebar-submenu');
+                if (isOpen) { if (chev) chev.classList.add('open'); if (sub) sub.classList.add('open'); }
+                else { if (chev) chev.classList.remove('open'); if (sub) sub.classList.remove('open'); }
+            }
+        });
+    }
+    window.toggleSection = function(id) {
+        var chev = document.getElementById('chevron-' + id);
+        var sub = document.getElementById('submenu-' + id);
+        if (chev && sub) {
+            var isOpen = chev.classList.toggle('open');
+            sub.classList.toggle('open', isOpen);
+            var mod = document.body.dataset.module || 'home';
+            var state = JSON.parse(localStorage.getItem('sidebarState') || '{}');
+            state[mod + '-sidebar-' + id] = isOpen;
+            localStorage.setItem('sidebarState', JSON.stringify(state));
+        }
+    };
+    window.toggleMenu = function(header) {
+        var sec = header.closest('.sidebar-section'); if (!sec) return;
+        var sub = sec.querySelector('.sidebar-submenu');
+        var chev = sec.querySelector('.sidebar-chevron');
+        if (sub && chev) {
+            var isOpen = sub.classList.toggle('open');
+            chev.classList.toggle('open', isOpen);
+            var mod = document.body.dataset.module || 'home';
+            var state = JSON.parse(localStorage.getItem('sidebarState') || '{}');
+            state[mod + '-' + sec.id] = isOpen;
+            localStorage.setItem('sidebarState', JSON.stringify(state));
+        }
+    };
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() { highlightCurrentPage(); restoreSidebarState(); });
+    } else { highlightCurrentPage(); restoreSidebarState(); }
+})();
+</script>
+</body>
+</html>
