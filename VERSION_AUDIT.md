@@ -49,3 +49,23 @@
   - No `.DS_Store`, `__MACOSX`, `._*`, `.fuse_hidden*`, or nested zip files found under `reference-demos`.
   - No file over 90MB found.
   - No `Jacky`, `五人`, `5 人`, `mother`, or deprecated NTT capability title copy found in the publish HTML files.
+
+## 2026-06-29 Blackmores v2 Catalog Completion
+
+- Learned and synced `blackmores-global-v2.zip`.
+- Updated `reference-demos/blackmores-global/` with v2 files while excluding `.DS_Store`, `__MACOSX`, `._*`, `.fuse_hidden*`, nested zip files, and `_archive`.
+- Rebuilt `case-catalog.html` from the v2 `CATALOG_ITEMS` in `blackmores-global/index.html`.
+- Catalog now includes:
+  - 44 GM / industry cases.
+  - 8 NTT DATA capability records.
+  - 75 Blackmores v2 catalog entries.
+  - 46 Blackmores v2 entries with openable reference demo pages.
+  - 29 Blackmores v2 concept backlog entries marked as concept / prototype needed.
+- New v2 live demo coverage includes `channel-levers.html` and the updated v2 versions of VOC, Social Hub, AIGC, Platform Commerce, Retail & Channel Operations, Membership & Health Engagement, and Trust / Compliance / Data Foundation pages.
+- Concept backlog entries are not presented as delivered demos; they are clearly marked as scenarios needing GM-specific owner, data, business rules, proof metrics, and prototype scope.
+- Audit checks completed:
+  - Inline script syntax passed for `index.html`, `Three_Journey_Navigator.html`, `customerjourney/index.html`, and `case-catalog.html`.
+  - All 46 Blackmores v2 demo file references resolve under `reference-demos/blackmores-global/`.
+  - No `.DS_Store`, `__MACOSX`, `._*`, `.fuse_hidden*`, or nested zip files found under `reference-demos`.
+  - No file over 90MB found.
+  - No `Jacky`, `五人`, `5 人`, `mother`, or deprecated NTT capability title copy found in the publish HTML files.

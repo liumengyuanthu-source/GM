@@ -92,5 +92,6 @@
     function simulate(){const d=Number(document.getElementById('discount').value||18);const u=Number(document.getElementById('units').value||4200);const margin=Math.max(18,42-d*.62);const cover=Math.max(4,Math.round(30-u/260));const risk=cover<10||margin<25?'High':cover<16||margin<30?'Medium':'Low';document.getElementById('margin').textContent=Math.round(margin)+'%';document.getElementById('cover').textContent=cover+'d';document.getElementById('risk').textContent=risk;document.getElementById('recommendation').textContent=risk==='High'?'Recommendation: hold launch until stock or price guardrail is fixed.':'Recommendation: proceed with conditional approval and monitor sell-out daily.';}
   </script>
   <script src="platform-commerce-i18n.js"></script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
 </body>
 </html>

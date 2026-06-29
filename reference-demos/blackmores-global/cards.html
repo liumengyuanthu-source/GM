@@ -159,5 +159,6 @@ try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_m=_p.get("ma
 applyBrand();applyText();
 (function(){var _l="";setInterval(function(){try{if(typeof state==="undefined")return;var c=(state.brand||"")+"|"+(state.lang||"")+"|"+(state.market||"");if(c!==_l){_l=c;if(window.parent&&window.parent!==window)window.parent.postMessage({t:"es",brand:state.brand||null,lang:state.lang||null,market:state.market||null},"*");}}catch(e){}},400);})();
 </script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
 </body>
 </html>

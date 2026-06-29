@@ -264,8 +264,11 @@
   .viewer{position:fixed;inset:0;z-index:90;background:var(--canvas);display:none;flex-direction:column}
   .viewer.open{display:flex}
   .vbar{display:flex;align-items:center;gap:12px;padding:11px 16px;background:var(--card);border-bottom:1px solid var(--line)}
-  .vbar button,.vlink{border:1px solid var(--line);background:var(--card);font-family:var(--body);font-size:13px;font-weight:700;color:var(--ink);padding:8px 13px;border-radius:10px;cursor:pointer;text-decoration:none}
+  .vbar>#vback,.vlink{border:1px solid var(--line);background:var(--card);font-family:var(--body);font-size:13px;font-weight:700;color:var(--ink);padding:8px 13px;border-radius:10px;cursor:pointer;text-decoration:none}
   .vbar .vt{font-family:var(--display);font-weight:600;font-size:16px}
+  .vbar .studio-settings{flex:0 0 auto}
+  .vbar .settings-capsule{padding:8px 14px;border-radius:999px;min-height:36px}
+  .vbar .settings-popover{top:46px}
   .viewer iframe{flex:1;width:100%;border:0;background:#fff}
   .splash{position:fixed;inset:0;z-index:100;background:linear-gradient(140deg,var(--brand),var(--brand-d));color:#fff;display:none;align-items:center;justify-content:center;padding:26px;animation:spin2 .4s ease}
   @keyframes spin2{from{opacity:0}}
@@ -775,7 +778,7 @@ const CATALOG_ITEMS = [
     file: 'partner-training.html',
     tags: ['partner', 'ops'],
     icon: '🎓',
-    title: { en: 'Partner Staff Training AI', zh: '渠道商培训 AI', ja: 'パートナー店員トレーニングAI', th: 'AI ฝึกอบรมพนักงานพาร์ทเนอร์' },
+    title: { en: 'Partner Staff Enablement & E-Learning', zh: 'Partner 店员赋能与 E-Learning', ja: 'パートナー店員育成・Eラーニング', th: 'Partner Staff Enablement & E-Learning' },
     desc: {
       en: 'A gamified staff club: AI customer role-play with scoring, e-learning and tiers, promotion exams, and a manager dashboard — building participation, identity and belonging.',
       zh: '游戏化店员俱乐部：AI 顾客对练评分、E-Learning 与分级、晋升考核与管理看板——养成参与感、认同感、归属感。',
@@ -783,10 +786,10 @@ const CATALOG_ITEMS = [
       th: 'สโมสรพนักงานเกมิฟาย: โรลเพลย์ลูกค้า AI พร้อมคะแนน E-Learning และระดับ ทดสอบเลื่อนขั้น และแดชบอร์ดผู้จัดการ'
     },
     scenes: {
-      en: ['AI role-play & scoring', 'E-learning & tiers', 'Manager dashboard'],
-      zh: ['AI 对练与评分', 'E-Learning 与分级', '管理看板'],
-      ja: ['AIロールプレイ採点', 'E-Learningと等級', '管理ダッシュボード'],
-      th: ['โรลเพลย์ AI', 'E-Learning และระดับ', 'แดชบอร์ดผู้จัดการ']
+      en: ['AI role-play & scoring', 'E-learning & certification', 'Manager dashboard'],
+      zh: ['AI 对练与评分', 'E-Learning 与认证', '管理看板'],
+      ja: ['AIロールプレイ採点', 'Eラーニングと認定', '管理ダッシュボード'],
+      th: ['โรลเพลย์ AI', 'E-Learning และ certification', 'แดชบอร์ดผู้จัดการ']
     }
   },
   {
@@ -868,22 +871,22 @@ const CATALOG_ITEMS = [
     cluster: 'store-ops',
     icon: '🧊',
     title: {
-      en: 'Store Execution · Planogram',
-      zh: '店头执行 · 棚割',
-      ja: '店頭実行 · 棚割',
-      th: 'การจัดเรียงชั้นวาง'
+      en: 'Field Sales, Shelf Audit & Store Execution',
+      zh: '一线拜访、货架巡检与店头执行',
+      ja: 'フィールド営業・棚監査・店頭実行',
+      th: 'Field Sales, Shelf Audit & Store Execution'
     },
     desc: {
-      en: 'AI compares the chilled-case shelf with the standard planogram — out-of-stock, competitor invasion, facing gaps and freshness — issuing corrective actions and tracking compliance per store.',
-      zh: 'AI 把冷藏柜货架与标准棚割比对——欠品、竞品侵入、排面不足与鲜度——给出整改指示，并按门店追踪遵守率。',
-      ja: '冷蔵ケースの棚割を標準と突き合わせ、欠品・競合の侵入・フェイス不足・鮮度を検知。是正指示を出し、店舗ごとに遵守率を追跡。',
-      th: 'AI เทียบชั้นแช่เย็นกับแพลนโนแกรมมาตรฐาน — สินค้าหมด คู่แข่ง ช่องว่าง ความสด — สั่งแก้ไขและติดตามความสอดคล้องต่อร้าน'
+      en: 'Plan field visits, compare the Blackmores vitamin shelf with standard execution, detect out-of-stock, competitor intrusion, facing gaps and promo-material issues, then create corrective tasks per store.',
+      zh: '规划一线拜访，把 Blackmores 维生素货架与标准执行要求比对，识别缺货、竞品侵占、排面不足与促销物料问题，并按门店生成整改任务。',
+      ja: 'フィールド訪問を計画し、Blackmores のビタミン棚を標準実行と照合。欠品、競合侵入、フェイス不足、販促物の問題を検知し、店舗別の是正タスクを作成します。',
+      th: 'วางแผน visit ตรวจชั้น Blackmores เทียบมาตรฐาน ตรวจ stockout คู่แข่ง ช่องว่าง และสื่อโปรโมชัน แล้วสร้าง task แก้ไขรายร้าน'
     },
     scenes: {
-      en: ['Standard vs actual shelf', 'AI corrective actions', 'Audit ranking & compliance'],
-      zh: ['标准 vs 实态货架', 'AI 整改指示', '巡检排名与遵守率'],
-      ja: ['標準 vs 実態の棚', 'AI 是正指示', '巡検ランキングと遵守率'],
-      th: ['มาตรฐาน vs จริง', 'การแก้ไขโดย AI', 'อันดับและความสอดคล้อง']
+      en: ['Visit plan & store checklist', 'Shelf photo audit', 'Corrective tasks & compliance'],
+      zh: ['拜访计划与门店检查表', '货架照片巡检', '整改任务与合规率'],
+      ja: ['訪問計画と店舗チェックリスト', '棚写真監査', '是正タスクと遵守率'],
+      th: ['Visit plan & checklist', 'Shelf photo audit', 'Corrective tasks']
     }
   },
   {
@@ -1211,10 +1214,10 @@ const CATALOG_ITEMS = [
       th: 'การจัดการวงจรชีวิตร้าน'
     },
     desc: {
-      en: 'Run the whole store & touchpoint network — open, refit, transfer, close — on one pipeline, with milestone tracking, POP/fixture/contract expiry alerts and site selection. Proven at adidas China & McDonald’s.',
+      en: 'Run the whole pharmacy counter, health-store and pop-up network — open, refit, transfer, close — on one pipeline, with milestone tracking, POP/fixture/contract expiry alerts and site selection.',
       zh: '把整个门店与售点网络——新开、改装、移设、退店——放在一条 pipeline 上管理，含里程碑跟踪、POP/器架/合同到期预警与选址。adidas 中国与麦当劳已落地。',
-      ja: '店舗・売場ネットワーク全体（新規・改装・移設・退店）を一つのパイプラインで管理。マイルストーン追跡、POP/什器/契約の期限アラート、出店選定まで。adidas 中国・McDonald’s で実績。',
-      th: 'จัดการเครือข่ายร้านและจุดขายทั้งหมด — เปิด ปรับปรุง ย้าย ปิด — บนไปป์ไลน์เดียว พร้อมติดตามไมล์สโตน แจ้งเตือนหมดอายุ และเลือกทำเล ใช้จริงที่ adidas จีนและ McDonald’s'
+      ja: '薬局カウンター、ヘルスストア、ポップアップのネットワーク全体（新規・改装・移設・退店）を一つのパイプラインで管理。マイルストーン追跡、POP/什器/契約の期限アラート、出店選定まで。',
+      th: 'จัดการเครือข่ายเคาน์เตอร์ร้านยา ร้านสุขภาพ และ pop-up — เปิด ปรับปรุง ย้าย ปิด — บนไปป์ไลน์เดียว พร้อมติดตามไมล์สโตน แจ้งเตือนหมดอายุ และเลือกทำเล'
     },
     scenes: {
       en: ['Open / refit / transfer / close pipeline', 'POP / fixture / contract expiry alerts', 'Site selection & approval workflow'],
@@ -1249,27 +1252,51 @@ const CATALOG_ITEMS = [
     }
   },
   {
+    key: 'channel-levers',
+    file: 'channel-levers.html',
+    tags: ['ai', 'ops'],
+    icon: 'L',
+    title: {
+      en: 'Channel Performance Levers',
+      zh: '渠道绩效杠杆',
+      ja: 'チャネル業績レバー',
+      th: 'Channel Performance Levers'
+    },
+    desc: {
+      en: 'Business framing for turning red channel partners green: partner / store / SKU KPI drill-down, gap diagnosis, AI action plans, field visits, VOC and staff enablement.',
+      zh: '把红色渠道伙伴变绿的业务框架：Partner / 门店 / SKU KPI 下钻、差距诊断、AI 行动计划、跑店拜访、VOC 与店员赋能。',
+      ja: '赤いチャネルパートナーを緑に変える業務フレーム：パートナー/店舗/SKU KPIドリルダウン、ギャップ診断、AIアクションプラン、訪問、VOC、スタッフ育成。',
+      th: 'Business framing เพื่อเปลี่ยน channel partner สีแดงเป็นสีเขียว: KPI drill-down, gap diagnosis, AI action plan, field visit, VOC และ staff enablement'
+    },
+    scenes: {
+      en: ['KPI RAG', 'Gap diagnosis', 'Action plan'],
+      zh: ['KPI RAG', '差距诊断', '行动计划'],
+      ja: ['KPI RAG', 'ギャップ診断', 'アクションプラン'],
+      th: ['KPI RAG', 'Gap diagnosis', 'Action plan']
+    }
+  },
+  {
     key: 'channel-ops',
     file: 'channel-ops.html',
     tags: ['ai', 'ops'],
     icon: 'O',
     title: {
-      en: 'Channel Operations',
-      zh: '渠道运营',
-      ja: 'チャネルオペレーション',
-      th: 'การดำเนินงานช่องทาง'
+      en: 'Channel Ops AI',
+      zh: '渠道运营 AI',
+      ja: 'チャネル運営 AI',
+      th: 'Channel Ops AI'
     },
     desc: {
-      en: 'End-to-end digital coverage from distributor to store — ERP, BPM, supply chain, cloud integration.',
-      zh: '从经销商到门店全链路数字化覆盖 — ERP、BPM、供应链、云集成。',
-      ja: '販売店から店舗までのエンドツーエンドデジタル化 — ERP、BPM、サプライチェーン、クラウド統合。',
-      th: 'การครอบคลุมดิจิทัลแบบครบวงจรจากตัวแทนจำหน่ายถึงร้านค้า — ERP BPM ซัพพลายเชน คลาวด์'
+      en: 'Channel-operations governance console: regional KPI RAG, partner watchlist, gap diagnosis, AI action plans, visit checklists and staff enablement follow-up.',
+      zh: '渠道运营治理台：区域 KPI 红黄绿、Partner watchlist、差距诊断、AI 行动计划、拜访检查表与店员赋能跟进。',
+      ja: 'チャネル運営ガバナンスコンソール：地域KPI RAG、パートナー監視、ギャップ診断、AIアクションプラン、訪問チェックリスト、スタッフ育成フォロー。',
+      th: 'คอนโซล governance สำหรับ channel ops: KPI RAG, partner watchlist, gap diagnosis, AI action plan, checklist และ staff enablement'
     },
     scenes: {
-      en: ['Distributor management', 'Store operations', 'Supply chain integration'],
-      zh: ['经销商管理', '门店运营', '供应链整合'],
-      ja: ['販売店管理', '店舗運営', 'サプライチェーン統合'],
-      th: ['การจัดการตัวแทนจำหน่าย', 'การดำเนินงานร้านค้า', 'การผสานซัพพลายเชน']
+      en: ['Region KPI RAG & partner watchlist', 'Gap diagnosis + AI action plan', 'Store-visit checklist'],
+      zh: ['区域 KPI RAG 与 Partner watchlist', '差距诊断 + AI 行动计划', '跑店检查表'],
+      ja: ['地域KPI RAGとパートナー監視', 'ギャップ診断 + AIアクションプラン', '店舗訪問チェックリスト'],
+      th: ['Region KPI RAG & partner watchlist', 'Gap diagnosis + AI action plan', 'Store-visit checklist']
     }
   },
   {
@@ -1325,13 +1352,14 @@ CATALOG_ITEMS.push(
   {key:'platform-sellout-inventory-dashboard',file:'',tags:['data','ops'],icon:'S',title:{en:'Platform Sell-out & Inventory Dashboard',zh:'平台 Sell-out 与库存看板'},desc:{en:'Connect sell-out, inventory, stockout risk and replenishment signals across platform stores.',zh:'打通平台店铺 sell-out、库存、缺货风险与补货信号。'},scenes:{en:['Sell-out view','Stockout risk','Replenishment signal'],zh:['Sell-out 视图','缺货风险','补货信号']}},
   {key:'cross-border-commerce-tracking',file:'cross-border-commerce-tracking.html',tags:['ops'],icon:'X',title:{en:'Cross-Border Commerce Tracking',zh:'跨境电商追踪'},desc:{en:'Track cross-border orders, logistics status, tariff reminders and exception handling for CBEC operations.',zh:'追踪跨境订单、物流状态、税费提醒与异常处理。'},scenes:{en:['CBEC order status','Logistics tracking','Exception handling'],zh:['跨境订单状态','物流追踪','异常处理']}},
 
-  {key:'distributor-sellthrough-intelligence',file:'',tags:['partner','data'],icon:'D',title:{en:'Distributor Sell-through Intelligence',zh:'分销商 Sell-through 洞察'},desc:{en:'Turn distributor and pharmacy sell-through into channel health, replenishment and field action recommendations.',zh:'把分销商与药房 sell-through 转成渠道健康、补货与一线行动建议。'},scenes:{en:['Sell-through insight','Channel health','Field action'],zh:['Sell-through 洞察','渠道健康','一线行动']}},
+  {key:'distributor-sellthrough-intelligence',file:'',tags:['partner','data'],icon:'D',title:{en:'Distributor Sell-through & Replenishment Intelligence',zh:'分销 Sell-through 与补货智能'},desc:{en:'Turn distributor, pharmacy and regional sell-through into channel health, stockout risk, replenishment recommendations and field action priorities.',zh:'把分销商、药房与区域 sell-through 转成渠道健康、缺货风险、补货建议与一线行动优先级。'},scenes:{en:['Sell-through insight','Stockout risk','Replenishment action'],zh:['Sell-through 洞察','缺货风险','补货行动']}},
   {key:'pharmacy-shelf-inspection',file:'',tags:['partner','ops'],icon:'P',title:{en:'Pharmacy Shelf Inspection',zh:'药房货架巡检'},desc:{en:'Detect stockouts, wrong facings, competitor intrusion and POP compliance from shelf photos.',zh:'从货架照片识别缺货、排面错误、竞品侵占与 POP 合规。'},scenes:{en:['Shelf photo audit','Stockout detection','POP compliance'],zh:['货架照片巡检','缺货识别','POP 合规']}},
   {key:'stockout-prediction',file:'',tags:['data','ops'],icon:'S',title:{en:'Stockout Prediction',zh:'缺货预测'},desc:{en:'Predict stockout risk by store, SKU and channel using sell-through, promotion and inventory signals.',zh:'结合 sell-through、活动和库存信号，按门店、SKU 与渠道预测缺货风险。'},scenes:{en:['SKU risk','Promo impact','Replenishment alert'],zh:['SKU 风险','活动影响','补货预警']}},
   {key:'field-sales-visit-assistant',file:'',tags:['partner','ops'],icon:'F',title:{en:'Field Sales Visit Assistant',zh:'一线拜访助手'},desc:{en:'Prepare visit plans, talking points, shelf checks and follow-up tasks for field sales teams.',zh:'为一线销售准备拜访计划、沟通要点、货架检查与跟进任务。'},scenes:{en:['Visit plan','Store checklist','Follow-up task'],zh:['拜访计划','门店检查表','跟进任务']}},
   {key:'channel-activity-planning-approval',file:'',tags:['partner','ops'],icon:'A',title:{en:'Channel Activity Planning & Approval',zh:'渠道活动规划与审批'},desc:{en:'Plan retail and distributor activities, allocate budget, approve content and monitor execution.',zh:'规划零售与分销商活动，分配预算，审批内容并跟踪执行。'},scenes:{en:['Activity plan','Budget allocation','Execution tracking'],zh:['活动规划','预算分配','执行追踪']}},
   {key:'dealer-pharmacy-replenishment',file:'',tags:['partner','ops'],icon:'R',title:{en:'Dealer / Pharmacy Replenishment Recommendation',zh:'经销商 / 药房补货推荐'},desc:{en:'Recommend replenishment by store, pharmacy or distributor based on demand forecast and inventory threshold.',zh:'基于需求预测与库存阈值，为门店、药房或分销商推荐补货。'},scenes:{en:['Demand forecast','Safety stock','Suggested order'],zh:['需求预测','安全库存','建议订单']}},
   {key:'localized-selling-point-extraction',file:'',tags:['ai','partner'],icon:'L',title:{en:'Localized Selling-Point Extraction',zh:'本地化卖点提取'},desc:{en:'Extract market-specific selling points for staff, distributors and marketplace product pages.',zh:'为店员、分销商与平台商品页提取本地化卖点。'},scenes:{en:['Local claims','Staff talk track','PDP selling points'],zh:['本地宣称','店员话术','商品页卖点']}},
+  {key:'retail-media-promotion-performance',file:'growth.html',tags:['partner','data'],icon:'M',title:{en:'Retail Media & Promotion Performance',zh:'零售媒体与促销表现'},desc:{en:'Track on-site search ads, retail media placements, pharmacy promotions and platform event uplift, then connect spend to sell-through, conversion and margin.',zh:'追踪站内搜索广告、零售媒体资源位、药房促销与平台活动提升，并把花费连接到 sell-through、转化与毛利。'},scenes:{en:['Retail media ROI','Promo uplift','Budget shift'],zh:['零售媒体 ROI','促销提升','预算调整']}},
 
   {key:'repurchase-trigger-engine',file:'',tags:['consumer','data'],icon:'R',title:{en:'Repurchase Trigger Engine',zh:'复购触发引擎'},desc:{en:'Trigger repeat purchase by product cycle, health goal, consumption rhythm and member behavior.',zh:'按产品周期、健康目标、消耗节奏与会员行为触发复购。'},scenes:{en:['Product cycle','Reorder timing','Member offer'],zh:['产品周期','复购时机','会员优惠']}},
   {key:'next-best-action-recommendation',file:'',tags:['consumer','data'],icon:'N',title:{en:'Next-Best-Action Recommendation',zh:'下一最佳行动推荐'},desc:{en:'Recommend the next message, offer, service action or product suggestion for each member.',zh:'为每个会员推荐下一条消息、权益、服务动作或产品建议。'},scenes:{en:['Action ranking','Offer fit','Service prompt'],zh:['行动排序','权益匹配','服务提示']}},
@@ -1409,7 +1437,7 @@ const SCENARIOS=[
   {key:"u3",stage:"usage",audience:["online"],icon:"🗄️",t:{en:"Data Usage Backbone",zh:"数据使用基座",ja:"データ利用基盤",th:"แกนการใช้ข้อมูล"},d:{en:"CDP and knowledge graph powering usage analytics.",zh:"CDP和知识图谱驱动使用分析。",ja:"CDP・KGが利用分析を駆動。",th:"CDP และ knowledge graph ขับการวิเคราะห์"}},
   {key:"u4",stage:"usage",audience:["online"],icon:"🔁",t:{en:"Super-App Support",zh:"LINE客服",ja:"LINEサポート",th:"สนับสนุนLINE"},d:{en:"In-app support, manuals, and AI troubleshooting.",zh:"应用内客服、手册、AI排障。",ja:"アプリ内サポート・マニュアル・AI故障。",th:"สนับสนุน คู่มือ AI แก้ปัญหาในแอป"}},
   {key:"u5",stage:"usage",audience:["offline"],icon:"🧑‍🔧",t:{en:"In-Store AR Manual",zh:"门店AR说明书",ja:"店舗ARマニュアル",th:"คู่มือ AR หน้าร้าน"},d:{en:"AR overlay shows product usage instructions in-store.",zh:"AR叠加显示产品使用说明。",ja:"ARオーバーレイで使用説明を表示。",th:"AR แสดงคำแนะนำการใช้สินค้า"}},
-  {key:"u6",stage:"usage",audience:["distributor"],icon:"📚",t:{en:"Distributor Training AI",zh:"渠道商培训AI",ja:"販売店研修AI",th:"AI ฝึกอบรมตัวแทน"},d:{en:"AI-powered training modules for distributor staff.",zh:"AI驱动的渠道商员工培训模块。",ja:"AI駆動の販売店スタッフ研修モジュール。",th:"โมดูลฝึกอบรมพนักงานตัวแทนขับเคลื่อน AI"}},
+  {key:"u6",stage:"usage",audience:["distributor"],icon:"📚",t:{en:"Partner Staff Enablement & E-Learning",zh:"Partner 店员赋能与 E-Learning",ja:"パートナー店員育成・Eラーニング",th:"Partner Staff Enablement & E-Learning"},d:{en:"AI role-play, e-learning, certification and manager dashboards for partner staff.",zh:"面向 Partner 店员的 AI 对练、E-Learning、认证与经理看板。",ja:"パートナー店員向けのAIロールプレイ、Eラーニング、認定、マネージャーダッシュボード。",th:"AI role-play, e-learning, certification และ dashboard สำหรับพนักงาน partner"}},
   {key:"f1",stage:"feedback",audience:["online"],icon:"📊",t:{en:"VOC Full Loop",zh:"VOC全闭环",ja:"VOC フルループ",th:"VOC ลูปครบ"},d:{en:"AI verdict + Pros/Cons → Next Best Action → assign & close.",zh:"AI判定+优缺点→下一步行动→指派并关闭。",ja:"AI判定+長短所→次の一手→割当・クローズ。",th:"AI ตัดสิน+ข้อดีข้อเสีย→ก้าวต่อไป→มอบและปิด"}},
   {key:"f2",stage:"feedback",audience:["online"],icon:"🗄️",t:{en:"Feedback Data Lake",zh:"反馈数据湖",ja:"フィードバックデータ湖",th:"ทะเลสาบข้อมูลฟีดแบ็ก"},d:{en:"Unified feedback ingestion into the CDP.",zh:"统一反馈汇入CDP。",ja:"統合フィードバックをCDPへ。",th:"รวมฟีดแบ็กเข้า CDP"}},
   {key:"f3",stage:"feedback",audience:["online"],icon:"💬",t:{en:"Feedback Chat Collector",zh:"反馈聊天收集器",ja:"フィードバック対話収集",th:"ตัวเก็บฟีดแบ็กแชต"},d:{en:"Collect feedback naturally through chat conversations.",zh:"通过聊天对话自然收集反馈。",ja:"対話で自然にフィードバックを収集。",th:"รวมฟีดแบ็กผ่านบทสนทนาแชต"}},
@@ -1457,7 +1485,7 @@ const TILES=[
   {id:"trading",layer:"direct",demo:1,uni:1,ph:["awareness","order","delivery"],t:{en:"Trading Hub · Stock & Replenish",zh:"交易枢纽 · 进货与补货",ja:"取引ハブ · 仕入れ・補充",th:"เทรดดิ้งฮับ · สั่งซื้อและเติม"},d:{en:"Partner workspace: catalog push, AI replenishment, inventory & allocation, orders & invoices.",zh:"Partner 工作台：目录推送、AI 补货、库存与调拨、订单与发票。",ja:"パートナーの作業台：カタログ配信・AI補充・在庫と転送・注文と請求。",th:"พื้นที่พาร์ทเนอร์: ส่งแคตตาล็อก เติม AI สต็อกและจัดสรร คำสั่งและใบแจ้งหนี้"},hi:{en:"AI forecasts 3–6 months → drafts a purchase order; below-threshold stock auto-allocates across channels.",zh:"AI 预测 3–6 个月 → 自动生成采购订单；低于阈值的库存在全渠道自动调拨。",ja:"AIが3〜6か月を予測→発注書を作成；閾値以下の在庫を全チャネルで自動転送。",th:"AI พยากรณ์ 3–6 เดือน → ร่างใบสั่งซื้อ; สต็อกต่ำกว่าเกณฑ์จัดสรรอัตโนมัติ"}},
   {id:"digstore",layer:"direct",demo:1,uni:1,ph:["awareness"],t:{en:"Digital Store · Smart Sensing",zh:"数字化门店 · 智能感知",ja:"デジタルストア · スマート感知",th:"ดิจิทัลสโตร์ · เซนเซอร์อัจฉริยะ"},d:{en:"QR-triggered screen content tied to local stock; footfall, heatmap, shelf-touch and a smart shelf.",zh:"二维码触发屏幕内容并关联本地库存；客流、热力、货架接触与智能货架。",ja:"QRで画面コンテンツを起動し在庫と連動；人流・ヒートマップ・棚接触・スマート棚。",th:"คอนเทนต์จอจาก QR เชื่อมสต็อก; ทราฟฟิก ฮีตแมป การสัมผัสชั้น และชั้นอัจฉริยะ"},hi:{en:"Scan a shelf QR → the screen shows product info, coupon and local availability; engagement is logged live.",zh:"扫货架二维码 → 屏幕展示产品信息、优惠券与本地库存；互动实时记录。",ja:"棚のQRをスキャン→画面に商品情報・クーポン・在庫；エンゲージメントを即記録。",th:"สแกน QR ชั้น → จอแสดงข้อมูลสินค้า คูปอง และสต็อก; บันทึกการมีส่วนร่วมสด"}},
   {id:"attrib",layer:"back",demo:1,uni:1,ph:["feedback"],t:{en:"Marketing Attribution & ROI",zh:"营销归因与 ROI",ja:"マーケティング帰属・ROI",th:"แอตทริบิวชันและ ROI"},d:{en:"Multi-touch attribution across channels, campaign ROI drill-down and a budget optimizer.",zh:"跨渠道多触点归因、活动级 ROI 钻取与预算优化器。",ja:"全チャネルの多接点アトリビューション、キャンペーンROIドリルダウン、予算最適化。",th:"แอตทริบิวชันหลายจุดสัมผัส เจาะ ROI แคมเปญ และเครื่องมือจัดงบ"},hi:{en:"Switch model (last-touch → data-driven) and watch channel ROAS shift, then auto-optimise the budget for +18% return.",zh:"切换归因模型（末次→数据驱动），看各渠道 ROAS 此消彼长，再一键最优分配预算，回报 +18%。",ja:"モデルを切替（末次→データ駆動）でチャネルROASが変動、予算を最適配分してリターン+18%。",th:"สลับโมเดล แล้วดู ROAS เปลี่ยน จากนั้นจัดงบอัตโนมัติ +18%"}},
-  {id:"training",layer:"enable",demo:1,uni:1,ph:["usage"],t:{en:"Partner Staff Training AI",zh:"渠道商培训 AI",ja:"パートナー店員トレーニングAI",th:"AI ฝึกอบรมพนักงานพาร์ทเนอร์"},d:{en:"A gamified staff club: AI customer role-play with scoring, e-learning, tiers & promotion, and a manager dashboard.",zh:"游戏化店员俱乐部：AI 顾客对练评分、E-Learning、分级晋升与管理看板。",ja:"ゲーミフィケーション店員クラブ：AI接客ロールプレイ採点・E-Learning・等級と昇格・管理ダッシュボード。",th:"สโมสรพนักงานเกมิฟาย: โรลเพลย์ลูกค้า AI พร้อมคะแนน E-Learning ระดับ และแดชบอร์ด"},hi:{en:"Run an AI customer role-play, get scored on service, product knowledge and compliance, earn points and rank up to Senior Staff.",zh:"做一次 AI 顾客对练，按接客/产品知识/合规打分，赚积分晋升到资深店员。",ja:"AI接客ロールプレイ→接客・商品知識・コンプラで採点→ポイントを稼ぎシニアに昇格。",th:"เล่นโรลเพลย์ลูกค้า AI ให้คะแนนบริการ ความรู้สินค้า และคอมไพลายเอนซ์ สะสมแต้มเลื่อนขั้น"}},
+  {id:"training",layer:"enable",demo:1,uni:1,ph:["usage"],t:{en:"Partner Staff Enablement & E-Learning",zh:"Partner 店员赋能与 E-Learning",ja:"パートナー店員育成・Eラーニング",th:"Partner Staff Enablement & E-Learning"},d:{en:"A gamified staff club: AI customer role-play with scoring, e-learning, certification, tiers & promotion, and a manager dashboard.",zh:"游戏化店员俱乐部：AI 顾客对练评分、E-Learning、认证、分级晋升与管理看板。",ja:"ゲーミフィケーション店員クラブ：AI接客ロールプレイ採点・Eラーニング・認定・等級と昇格・管理ダッシュボード。",th:"Gamified staff club: AI role-play, scoring, E-Learning, certification, tiers และ dashboard"},hi:{en:"Run an AI customer role-play, get scored on service, product knowledge and compliance, earn points and rank up to Senior Staff.",zh:"做一次 AI 顾客对练，按接客/产品知识/合规打分，赚积分晋升到资深店员。",ja:"AI接客ロールプレイ→接客・商品知識・コンプラで採点→ポイントを稼ぎシニアに昇格。",th:"เล่นโรลเพลย์ลูกค้า AI ให้คะแนนบริการ ความรู้สินค้า และคอมไพลายเอนซ์ สะสมแต้มเลื่อนขั้น"}},
   {id:"growth",layer:"enable",demo:1,uni:1,ph:["awareness","interest"],t:{en:"Growth Studio",zh:"增长活动生成",ja:"グロース・スタジオ",th:"โกรทสตูดิโอ"},d:{en:"Pick a goal and audience, and AI generates a full cross-platform growth campaign.",zh:"选目标与人群，AI 一键生成跨平台整套增长活动。",ja:"目的とターゲットを選ぶと、AIがクロスプラットフォームの増長キャンペーンを一括生成。",th:"เลือกเป้าหมายและกลุ่ม แล้ว AI สร้างแคมเปญโกรทข้ามแพลตฟอร์ม"},hi:{en:"Choose an immunity-supplement acquisition goal, and AI drafts copy, visuals and a schedule across web/app, social and the local messaging app (WeChat/WeChat/LINE/WhatsApp), ready to launch.",zh:"选定免疫补充剂拉新目标，AI 产出 官网/App、社媒与本地消息应用（微信/WeChat/LINE/WhatsApp）整套文案、视觉与排期，一键铺开。",ja:"免疫サプリの新規獲得目標を選ぶと、AIがWeb/App・ソーシャル・現地メッセージアプリ（WeChat/WeChat/LINE/WhatsApp）の文案・ビジュアル・スケジュールを生成し、すぐ展開。",th:"เลือกเป้าหมายหาลูกค้าอาหารเสริมภูมิคุ้มกัน แล้ว AI ร่างคอนเทนต์ ภาพ และตารางข้ามเว็บ/แอป โซเชียล และแอปแชตท้องถิ่น (WeChat/WeChat/LINE/WhatsApp)"}}
 ];
 /* i18n moved to index.i18n.js */
@@ -1637,15 +1665,27 @@ function renderSettings(){
   const cap=$('#capsuleLabel');if(cap)cap.textContent=mLabel+' / '+lName;
   const ml=$('#spMarketList');if(ml){ml.innerHTML='';Object.keys(MARKETS).forEach(k=>{const mm=MARKETS[k],me=MKT_META[k]||{};const name=(mm.label&&(mm.label[lang]||mm.label.en))||k;const b=document.createElement('button');b.type='button';b.className='sp-mkt-item mt-'+k.toLowerCase()+(k===state.market?' on':'');b.innerHTML='<span class="sp-flag">'+(me.flag||'')+'</span><span class="sp-mkt-text"><b>'+name+'</b><span>'+shortOf(k)+'</span></span><span class="sp-check" aria-hidden="true">'+(k===state.market?'✓':'')+'</span>';b.onclick=ev=>{ev.stopPropagation();selectMarket(k);};ml.appendChild(b);});}
   const ll=$('#spLangList');if(ll){ll.innerHTML='';Object.keys(LANG_NAMES).forEach(k=>{const b=document.createElement('button');b.type='button';b.textContent=LANG_NAMES[k];b.className=(k===state.lang?'on':'');b.onclick=ev=>{ev.stopPropagation();selectLang(k);};ll.appendChild(b);});}
+  renderViewerSettings();
 }
 function selectMarket(k){if(!MARKETS[k])return;state.market=k;renderSettings();applyText();renderJourney();renderCatalog();syncViewer();layoutStack(k);closeSettings();}
-function selectLang(k){state.lang=k;renderSettings();applyText();renderJourney();renderCatalog();initPicks();buildMarketStack();closeSettings();}
-function closeSettings(){const p=$('#settingsPopover'),c=$('#settingsCapsule');if(p)p.hidden=true;if(c){c.classList.remove('open');c.setAttribute('aria-expanded','false');}}
+function selectLang(k){state.lang=k;renderSettings();applyText();renderJourney();renderCatalog();initPicks();buildMarketStack();syncViewer();closeSettings();}
+function closeSettings(){['','v'].forEach(pre=>{const p=$(pre?'#vSettingsPopover':'#settingsPopover'),c=$(pre?'#vSettingsCapsule':'#settingsCapsule');if(p)p.hidden=true;if(c){c.classList.remove('open');c.setAttribute('aria-expanded','false');}});}
 function toggleSettings(){const p=$('#settingsPopover'),c=$('#settingsCapsule');if(!p)return;if(p.hidden){p.hidden=false;c.classList.add('open');c.setAttribute('aria-expanded','true');}else{closeSettings();}}
+function toggleViewerSettings(){const p=$('#vSettingsPopover'),c=$('#vSettingsCapsule');if(!p)return;if(p.hidden){closeSettings();p.hidden=false;c.classList.add('open');c.setAttribute('aria-expanded','true');}else{closeSettings();}}
 function initSettings(){
   const c=$('#settingsCapsule');if(c&&!c._b){c._b=1;c.addEventListener('click',e=>{e.stopPropagation();toggleSettings();});}
   const p=$('#settingsPopover');if(p&&!p._b){p._b=1;p.addEventListener('click',e=>e.stopPropagation());}
+  const vc=$('#vSettingsCapsule');if(vc&&!vc._b){vc._b=1;vc.addEventListener('click',e=>{e.stopPropagation();toggleViewerSettings();});}
+  const vp=$('#vSettingsPopover');if(vp&&!vp._b){vp._b=1;vp.addEventListener('click',e=>e.stopPropagation());}
   if(!document._bSettings){document._bSettings=1;document.addEventListener('click',()=>closeSettings());}
+}
+function renderViewerSettings(){
+  const cap=$('#vCapsuleLabel');if(!cap)return;
+  const lang=state.lang,mk=MARKETS[state.market]||{},mLabel=(mk.label&&(mk.label[lang]||mk.label.en))||state.market,lName=LANG_NAMES[lang]||lang;
+  cap.textContent=mLabel+' / '+lName;
+  const vb=$('#vback');if(vb)vb.textContent=LB[state.lang].back;
+  const ml=$('#vSpMarketList');if(ml){ml.innerHTML='';Object.keys(MARKETS).forEach(k=>{const mm=MARKETS[k],me=MKT_META[k]||{},name=(mm.label&&(mm.label[lang]||mm.label.en))||k;const b=document.createElement('button');b.type='button';b.className='sp-mkt-item mt-'+k.toLowerCase()+(k===state.market?' on':'');b.innerHTML='<span class="sp-flag">'+(me.flag||'')+'</span><span class="sp-mkt-text"><b>'+name+'</b><span>'+shortOf(k)+'</span></span><span class="sp-check" aria-hidden="true">'+(k===state.market?'✓':'')+'</span>';b.onclick=ev=>{ev.stopPropagation();selectMarket(k);};ml.appendChild(b);});}
+  const ll=$('#vSpLangList');if(ll){ll.innerHTML='';Object.keys(LANG_NAMES).forEach(k=>{const b=document.createElement('button');b.type='button';b.textContent=LANG_NAMES[k];b.className=(k===state.lang?'on':'');b.onclick=ev=>{ev.stopPropagation();selectLang(k);};ll.appendChild(b);});}
 }
 function renderLangs(){renderSettings();}
 function renderMarkets(){renderSettings();}
@@ -1679,7 +1719,16 @@ function renderMarketFeature(){const big=$('#mktBig'),list=$('#mktSmall');if(!bi
 function buildMarketStack(){renderMarketFeature();}
 function layoutStack(){renderMarketFeature();}
 function openMarketModel(market){if(MARKETS[market]){state.market=market;renderMarkets();applyText();renderJourney();renderCatalog();syncViewer();renderMarketFeature();}document.querySelector('.bd-model')?.scrollIntoView({behavior:'smooth',block:'start'});}
-function syncViewer(){const fr=document.querySelector('#vframe');if(fr&&fr.contentWindow){try{fr.contentWindow.postMessage({t:'es',brand:state.brand,lang:state.lang,market:state.market},'*');}catch(e){}}}
+function syncViewer(){
+  const fr=document.querySelector('#vframe'),nt=$('#vnewtab');
+  if(nt&&nt.dataset.file){nt.href=viewerUrl(nt.dataset.file,nt.dataset.extra||'');}
+  if(fr&&fr.dataset.file){
+    const url=viewerUrl(fr.dataset.file,fr.dataset.extra||'');
+    if(fr.getAttribute('src')!==url){fr.src=url;return;}
+  }
+  if(fr&&fr.contentWindow){try{fr.contentWindow.postMessage({t:'es',brand:state.brand,lang:state.lang,market:state.market},'*');hideViewerInnerControls();}catch(e){}}
+}
+function hideViewerInnerControls(){const fr=$('#vframe');if(!fr)return;try{const d=fr.contentDocument;if(!d||!d.head||d.getElementById('__studioHideInnerControls'))return;const s=d.createElement('style');s.id='__studioHideInnerControls';s.textContent='.langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang],header .langs,header .langsw{display:none!important}';d.head.appendChild(s);}catch(e){}}
 const SVGI={"✨": "<path d=\"M12 4l1.7 4.6L18 10l-4.3 1.4L12 16l-1.7-4.6L6 10l4.3-1.4z\"/><path d=\"M18 4l.6 1.6 1.6.6-1.6.6L18 8.4l-.6-1.6L15.8 6l1.6-.6z\"/>", "❤️": "<path d=\"M12 20s-7-4.3-7-9.2A3.8 3.8 0 0 1 12 7a3.8 3.8 0 0 1 7 3.8C19 15.7 12 20 12 20z\"/>", "⭐": "<path d=\"M12 4l2.3 4.8 5.2.6-3.9 3.5 1.1 5.1L12 15.9 7.3 18l1.1-5.1L4.5 9.4l5.2-.6z\"/>", "🌱": "<path d=\"M12 21v-7\"/><path d=\"M12 14c0-3-2.5-5-5.5-5 0 3 2.5 5 5.5 5z\"/><path d=\"M12 12.5c0-3 2.5-5 5.5-5 0 3-2.5 5-5.5 5z\"/>", "🎁": "<rect x=\"4\" y=\"9\" width=\"16\" height=\"11\" rx=\"1\"/><path d=\"M3 9h18M12 9v11\"/><path d=\"M12 9C9.5 9 8 4.5 9.8 4.2 11.6 4 12 7 12 9zM12 9c2.5 0 4-4.5 2.2-4.8C12.4 4 12 7 12 9z\"/>", "🎙️": "<rect x=\"9\" y=\"3\" width=\"6\" height=\"11\" rx=\"3\"/><path d=\"M6 11a6 6 0 0 0 12 0\"/><path d=\"M12 17v4M9 21h6\"/>", "🎥": "<rect x=\"3\" y=\"7\" width=\"12\" height=\"10\" rx=\"2\"/><path d=\"M15 10l6-3v10l-6-3z\"/>", "🎨": "<path d=\"M12 3a9 9 0 1 0 0 18c1.4 0 2-1 2-2 0-1.5 1-2 2.5-2H18a3 3 0 0 0 3-3c0-5-4-9-9-9z\"/><circle cx=\"7.5\" cy=\"11.5\" r=\"1\"/><circle cx=\"11\" cy=\"7.5\" r=\"1\"/><circle cx=\"15.5\" cy=\"9.5\" r=\"1\"/>", "🏆": "<path d=\"M8 4h8v4a4 4 0 0 1-8 0z\"/><path d=\"M8 5H5v2a3 3 0 0 0 3 3M16 5h3v2a3 3 0 0 1-3 3\"/><path d=\"M12 12v4M9 20h6M10 20l.5-4h3l.5 4\"/>", "🏪": "<path d=\"M3 9l1.5-5h15L21 9\"/><path d=\"M5 9v10h14V9\"/><path d=\"M9 19v-6h6v6\"/>", "🏷️": "<path d=\"M3 12l8-8h7v7l-8 8z\"/><circle cx=\"15\" cy=\"9\" r=\"1.3\"/>", "👗": "<path d=\"M9 3l3 3 3-3\"/><path d=\"M9 3l-1 5 2 2-2 8h8l-2-8 2-2-1-5\"/>", "💚": "<path d=\"M12 20s-7-4.3-7-9.2A3.8 3.8 0 0 1 12 7a3.8 3.8 0 0 1 7 3.8C19 15.7 12 20 12 20z\"/>", "💬": "<path d=\"M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H9l-5 4z\"/>", "💰": "<path d=\"M9 3h6l-1.5 3h-3z\"/><path d=\"M13.5 6.2C16 7.2 19 10 19 14a7 7 0 0 1-14 0c0-4 3-6.8 5.5-7.8\"/><path d=\"M12 10v6M10.4 12h3.2\"/>", "💳": "<rect x=\"3\" y=\"6\" width=\"18\" height=\"12\" rx=\"2\"/><path d=\"M3 10h18M6 14h4\"/>", "📈": "<path d=\"M4 4v16h16\"/><path d=\"M7 14l4-4 3 3 5-6\"/><path d=\"M19 7v3h-3\"/>", "📊": "<path d=\"M4 4v16h16\"/><path d=\"M8 16v-4M12 16v-8M16 16v-6\"/>", "📋": "<rect x=\"5\" y=\"4\" width=\"14\" height=\"16\" rx=\"2\"/><rect x=\"9\" y=\"3\" width=\"6\" height=\"3\" rx=\"1\"/><path d=\"M8 11h8M8 15h5\"/>", "📕": "<path d=\"M5 4h12a1 1 0 0 1 1 1v15a1 1 0 0 0-1-1H5z\"/><path d=\"M5 20V4\"/>", "📚": "<rect x=\"4\" y=\"5\" width=\"4\" height=\"14\"/><rect x=\"9\" y=\"7\" width=\"4\" height=\"12\"/><path d=\"M15 6l4 1-2 12-4-1z\"/>", "📝": "<path d=\"M14 4l6 6\"/><path d=\"M4 20l1-4L17 4l3 3L8 19z\"/><path d=\"M14 7l3 3\"/>", "📢": "<path d=\"M4 10v4h3l8 4V6l-8 4z\"/><path d=\"M17 9a4 4 0 0 1 0 6\"/>", "📦": "<path d=\"M12 3l8 4.5v9L12 21l-8-4.5v-9z\"/><path d=\"M4 7.5l8 4.5 8-4.5M12 12v9\"/>", "📱": "<rect x=\"7\" y=\"3\" width=\"10\" height=\"18\" rx=\"2\"/><path d=\"M10 18h4\"/>", "📲": "<rect x=\"7\" y=\"3\" width=\"10\" height=\"18\" rx=\"2\"/><path d=\"M10 18h4\"/>", "🔁": "<path d=\"M4 9a8 8 0 0 1 13-3l3 2\"/><path d=\"M20 5v4h-4\"/><path d=\"M20 15a8 8 0 0 1-13 3l-3-2\"/><path d=\"M4 19v-4h4\"/>", "🔄": "<path d=\"M4 9a8 8 0 0 1 13-3l3 2\"/><path d=\"M20 5v4h-4\"/><path d=\"M20 15a8 8 0 0 1-13 3l-3-2\"/><path d=\"M4 19v-4h4\"/>", "🔮": "<circle cx=\"12\" cy=\"11\" r=\"7\"/><path d=\"M5 20h14\"/><path d=\"M9 9.5A3 3 0 0 1 12 7.5\"/>", "🗄️": "<rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"2\"/><path d=\"M5 9h14M5 15h14\"/><path d=\"M10.5 6h3M10.5 12h3M10.5 18h3\"/>", "🚀": "<path d=\"M12 3c3 1 5 5 5 9l-3 3H10L7 12c0-4 2-8 5-9z\"/><circle cx=\"12\" cy=\"10\" r=\"1.5\"/><path d=\"M7 15l-2 4 4-2M17 15l2 4-4-2\"/>", "🚚": "<path d=\"M3 6h11v9H3z\"/><path d=\"M14 9h4l3 3v3h-7z\"/><circle cx=\"7\" cy=\"18\" r=\"1.6\"/><circle cx=\"17\" cy=\"18\" r=\"1.6\"/>", "🚛": "<path d=\"M3 6h11v9H3z\"/><path d=\"M14 9h4l3 3v3h-7z\"/><circle cx=\"7\" cy=\"18\" r=\"1.6\"/><circle cx=\"17\" cy=\"18\" r=\"1.6\"/>", "🚪": "<path d=\"M6 3h9a1 1 0 0 1 1 1v17H6z\"/><path d=\"M4 21h16\"/><circle cx=\"13\" cy=\"12\" r=\"1\"/>", "🛒": "<path d=\"M4 5h2l2 11h9l2-7H7\"/><circle cx=\"9\" cy=\"20\" r=\"1.4\"/><circle cx=\"17\" cy=\"20\" r=\"1.4\"/>", "🛡️": "<path d=\"M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z\"/><path d=\"M9 12l2 2 4-4\"/>", "🤖": "<rect x=\"5\" y=\"8\" width=\"14\" height=\"11\" rx=\"2\"/><path d=\"M12 4v4M2 12v3M22 12v3M9 16h6\"/><circle cx=\"9.5\" cy=\"13\" r=\"1\"/><circle cx=\"14.5\" cy=\"13\" r=\"1\"/>", "🧊": "<path d=\"M12 3l8 4.5v9L12 21l-8-4.5v-9z\"/><path d=\"M4 7.5l8 4.5 8-4.5M12 12v9\"/>", "🧑‍💼": "<circle cx=\"12\" cy=\"8\" r=\"3.5\"/><path d=\"M5 20a7 7 0 0 1 14 0\"/><path d=\"M12 14v3\"/>", "🧑‍🔧": "<circle cx=\"12\" cy=\"7\" r=\"3\"/><path d=\"M6 20a6 6 0 0 1 12 0\"/><path d=\"M15.5 12l3.5 3.5\"/>"};
 function svgIcon(e){return SVGI[e]?'<svg viewBox="0 0 24 24" aria-hidden="true">'+SVGI[e]+'</svg>':e;}
 function renderJourney(){const container=$('#journey');container.innerHTML='';
@@ -1763,6 +1812,7 @@ function renderCatalog(){
     'ai-strategy': svg('<circle cx="12" cy="12" r="10"/><polygon points="16.2 7.8 14.1 14.1 7.8 16.2 9.9 9.9"/>'),
     'solution-cards': svg('<polygon points="12 2 2 7 12 12 22 7"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>'),
     'growth': svg('<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>'),
+    'channel-levers': svg('<path d="M4 19V5"/><path d="M4 19h17"/><path d="M8 16l3.5-4 3 2 5-7"/><path d="M17 7h2.5v2.5"/><path d="M8 8h.01M8 12h.01M12 8h.01"/>'),
     'channel-ops': svg('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>'),
     'enterprise': svg('<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/>'),
     'ai-transformation': svg('<path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l2.5 2.5M16.5 16.5 19 19M19 5l-2.5 2.5M7.5 16.5 5 19"/><circle cx="12" cy="12" r="3.5"/>'),
@@ -1801,6 +1851,7 @@ function renderCatalog(){
     'channel-activity-planning-approval': CAT_ICONS['campaign-management'],
     'dealer-pharmacy-replenishment': CAT_ICONS['trading-hub'],
     'localized-selling-point-extraction': CAT_ICONS.aigc,
+    'retail-media-promotion-performance': CAT_ICONS.attribution,
     'repurchase-trigger-engine': CAT_ICONS.loyalty,
     'next-best-action-recommendation': CAT_ICONS['ai-advisor'],
     'member-benefit-recommendation': CAT_ICONS.loyalty,
@@ -1828,7 +1879,7 @@ function renderCatalog(){
   const iconFor = item => CAT_ICONS[item.key] || TAG_ICONS[item.tags.find(t => TAG_ICONS[t])] || CAT_ICONS['ai-strategy'];
 
   // Render grid (Style A: balanced header + live badge + scene chips + footer)
-  const CONCEPT=['channel-ops','enterprise'];
+  const CONCEPT=['enterprise'];
   const CAT_COLORS={partner:['var(--brand)','var(--brand-soft)'],data:['var(--brand)','var(--brand-soft)'],consumer:['var(--accent)','var(--brand-soft)'],ops:['var(--accent)','var(--brand-soft)'],ai:['var(--brand-d)','var(--brand-soft)'],strategy:['var(--brand-d)','var(--brand-soft)']};
   // === Unified capability-domain catalog: Blackmores retail scenario groups ===
   const DOMAINS=[
@@ -1841,9 +1892,9 @@ function renderCatalog(){
     {id:'platform-commerce',icon:'🛒',clients:['adidas','PUMA','Sephora','Blackmores'],members:['portal-trading-hub','portal-product-center','portal-purchase-order','portal-sale-order','voice-shop','marketplace-operations-cockpit','platform-promotion-offer-verification','cross-border-commerce-tracking'],
       name:{en:'Platform Commerce',zh:'平台电商',ja:'プラットフォームコマース',th:'แพลตฟอร์มคอมเมิร์ซ'},
       desc:{en:'Run marketplace and direct commerce across Tmall, JD, Shopee, Lazada, Amazon, WeChat and other digital channels.',zh:'运营天猫、京东、Shopee、Lazada、Amazon、微信等平台与直营网点。',ja:'Tmall、JD、Shopee、Lazada、Amazon、WeChatなどのマーケットプレイスと直販チャネルを運営。',th:'บริหาร marketplace และ direct commerce บน Tmall, JD, Shopee, Lazada, Amazon, WeChat และช่องทางดิจิทัลอื่น'}},
-    {id:'retail-channel',icon:'🤝',clients:['BMW','Jaguar Land Rover','Cycle & Carriage'],members:['trading-hub','merch','digital-store','store-lifecycle','training','wecom','distributor-sellthrough-intelligence','pharmacy-shelf-inspection','stockout-prediction','field-sales-visit-assistant','channel-activity-planning-approval','dealer-pharmacy-replenishment','localized-selling-point-extraction'],
+    {id:'retail-channel',icon:'🤝',clients:['BMW','Jaguar Land Rover','Cycle & Carriage'],members:['store-lifecycle','channel-levers','channel-ops','merch','digital-store','wecom','training','distributor-sellthrough-intelligence','retail-media-promotion-performance'],
       name:{en:'Retail & Channel Operations',zh:'零售与渠道运营',ja:'リテール・チャネル運営',th:'การดำเนินงานรีเทลและช่องทาง'},
-      desc:{en:'Enable pharmacies, retail chains, distributors and field teams with sell-through, replenishment, shelf execution and staff training.',zh:'赋能药房、连锁零售、分销商与一线团队，覆盖 sell-through、补货、货架执行与员工培训。',ja:'薬局、量販店、販売店、フィールドチームを、販売実績・補充・棚割実行・スタッフ育成で支援。',th:'เสริมศักยภาพ pharmacy, retail chain, distributor และ field team ด้วย sell-through, replenishment, shelf execution และ training'}},
+      desc:{en:'Store lifecycle → field execution → digital shelf sensing → private traffic → sell-through and replenishment → retail media performance.',zh:'门店生命周期 → 跑店执行 → 数字货架监测 → 私域转化 → sell-through 与补货 → 零售媒体表现。',ja:'店舗ライフサイクル → 店頭実行 → デジタル棚監視 → 私域運営 → 販売実績と補充 → リテールメディア効果。',th:'Store lifecycle → field execution → digital shelf sensing → private traffic → sell-through and replenishment → retail media performance.'}},
     {id:'membership-health',icon:'🎯',clients:['Viking','AVIVA-COFCO','adidas'],members:['loyalty','health-companion','health-score','health','conversational','data-driven-customer-experience','repurchase-trigger-engine','next-best-action-recommendation','member-benefit-recommendation','personalized-after-sales-care','referral-member-campaign','cross-sell-recommendation','health-journey-orchestration'],
       name:{en:'Membership & Health Engagement',zh:'会员与健康互动',ja:'会員・ヘルスエンゲージメント',th:'สมาชิกและ Health Engagement'},
       desc:{en:'Build the long-term consumer relationship through loyalty, health companions, conversational service and lifecycle personalization.',zh:'通过会员、健康陪伴、对话服务与生命周期个性化，建立长期消费者关系。',ja:'ロイヤルティ、ヘルスコンパニオン、対話サービス、ライフサイクル個別化で長期的な顧客関係を築く。',th:'สร้างความสัมพันธ์ระยะยาวผ่าน loyalty, health companion, conversational service และ lifecycle personalization'}},
@@ -1933,8 +1984,9 @@ function renderCatalog(){
 
 const FILE={commerce:"commerce-front-end.html",voice:"agentic-commerce.html",aigc:"aigc.html",loyalty:"loyalty.html",advisor:"agentic-commerce.html",health:"health.html",growth:"growth.html",matrix:"social-hub.html",chat:"conversational.html",voc:"voc.html",china:"line-flywheel.html",wecom:"wecom-console.html",tryon:"cards.html",data:"cards.html",risk:"cards.html",geo:"geo.html",compliance:"compliance-hub.html",merch:"merchandising.html",navi:"ai-transformation-navigator.html",trading:"portal-trading/trading-hub.html",digstore:"digital-store.html",attrib:"attribution-roi.html",training:"partner-training.html"};
 const LB={en:{openDemo:"▶ Open live demo",openCard:"▸ Open card",back:"← Back to studio"},zh:{openDemo:"▶ 打开演示",openCard:"▸ 打开卡片",back:"← 返回门面"},ja:{openDemo:"▶ ライブデモを開く",openCard:"▸ カードを開く",back:"← スタジオへ"},th:{openDemo:"▶ เปิดเดโมสด",openCard:"▸ เปิดการ์ด",back:"← กลับสตูดิโอ"}};
-function ensureViewer(){if(document.querySelector('#viewer'))return;const v=document.createElement('div');v.className='viewer';v.id='viewer';v.innerHTML=`<div class="vbar"><button id="vback"></button><span class="vt" id="vtitle"></span><span style="flex:1"></span><a id="vnewtab" class="vlink" target="_blank">↗</a></div><iframe id="vframe" title="demo"></iframe>`;document.body.appendChild(v);document.querySelector('#vback').onclick=()=>document.querySelector('#viewer').classList.remove('open');}
-function openViewer(file,title,extra){ensureViewer();document.querySelector('#vtitle').textContent=title;document.querySelector('#vback').textContent=LB[state.lang].back;const url=file+`?brand=${state.brand}&market=${state.market}&lang=${state.lang}`+(extra||'');document.querySelector('#vnewtab').href=url;document.querySelector('#vframe').src=url;document.querySelector('#viewer').classList.add('open');}
+function viewerUrl(file,extra){return file+`?brand=${state.brand}&market=${state.market}&lang=${state.lang}&embed=1`+(extra||'');}
+function ensureViewer(){if(document.querySelector('#viewer'))return;const v=document.createElement('div');v.className='viewer';v.id='viewer';v.innerHTML=`<div class="vbar"><button id="vback"></button><span class="vt" id="vtitle"></span><span style="flex:1"></span><div class="studio-settings" id="vStudioSettings"><button class="settings-capsule" id="vSettingsCapsule" type="button" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/></svg><span id="vCapsuleLabel">Australia / English</span><svg class="sc-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="settings-popover" id="vSettingsPopover" hidden><div class="sp-sec"><div class="sp-label">Market</div><div class="sp-mkt-list" id="vSpMarketList"></div></div><div class="sp-divider"></div><div class="sp-sec"><div class="sp-label">Language</div><div class="sp-lang-pills" id="vSpLangList"></div></div></div></div><a id="vnewtab" class="vlink" target="_blank">↗</a></div><iframe id="vframe" title="demo"></iframe>`;document.body.appendChild(v);document.querySelector('#vback').onclick=()=>document.querySelector('#viewer').classList.remove('open');document.querySelector('#vframe').addEventListener('load',()=>{hideViewerInnerControls();syncViewer();});initSettings();renderViewerSettings();}
+function openViewer(file,title,extra){ensureViewer();document.querySelector('#vtitle').textContent=title;document.querySelector('#vback').textContent=LB[state.lang].back;const url=viewerUrl(file,extra);const nt=document.querySelector('#vnewtab'),fr=document.querySelector('#vframe');nt.href=url;nt.dataset.file=file;nt.dataset.extra=extra||'';fr.dataset.file=file;fr.dataset.extra=extra||'';fr.src=url;document.querySelector('#viewer').classList.add('open');renderViewerSettings();}
 const ML={ja:{feat:"主な機能",scene:"適用シーン"},en:{feat:"Key features",scene:"Use cases"},zh:{feat:"核心功能",scene:"适用场景"},th:{feat:"ฟีเจอร์หลัก",scene:"กรณีใช้งาน"}};
 const MODAL_INFO={
  geo:{about:{ja:"健康目的の質問をAI回答へ変換し、製品を順位付けし、GEO対応ファクトとナレッジグラフで根拠を持たせ、地域チャネルへ引き渡す発見レイヤー。",en:"A discovery layer that turns health-goal questions into grounded AI answers, ranks Blackmores products, uses GEO-ready facts from the knowledge graph and hands off to the local channel.",zh:"把健康目标问题转成有依据的 AI 回答，排序 Blackmores 产品，用知识图谱里的 GEO 就绪事实支撑推荐，并承接到本地渠道的发现层。"},

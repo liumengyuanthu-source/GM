@@ -14,20 +14,25 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
-  header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
-  .nav{display:flex;align-items:center;gap:12px;max-width:1020px;margin:0 auto;padding:13px 18px}
-  .brand{font-family:var(--display);font-weight:700;font-size:19px}.brand sup{font-size:9px;color:var(--brand)}
-  .subt{font-size:11px;color:var(--muted);border-left:1px solid var(--line);padding-left:12px}.sp{flex:1}
+  button{font-family:inherit;cursor:pointer}
+  .sp{flex:1}
   .chip{display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:12px;font-weight:600;cursor:pointer;position:relative}
   .menu{position:absolute;top:40px;right:0;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:6px;min-width:120px;box-shadow:0 12px 30px rgba(0,0,0,.12);display:none;z-index:50}
   .menu.open{display:block}.menu button{display:block;width:100%;border:0;background:0;font:inherit;font-size:13px;padding:8px 9px;border-radius:7px;cursor:pointer;text-align:left;color:var(--ink)}.menu button:hover{background:var(--soft)}
   .langs{display:flex;gap:3px}
   .langs button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;font-weight:600;color:var(--muted);min-width:32px;height:30px;border-radius:8px;cursor:pointer;transition:.2s;padding:0 6px}
   .langs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-  .tabs{max-width:1020px;margin:0 auto;padding:0 18px;display:flex;gap:2px;border-bottom:1px solid var(--line);flex-wrap:wrap}
-  .tabs button{border:0;background:0;font:inherit;font-size:13px;font-weight:600;color:var(--muted);padding:13px 11px;cursor:pointer;border-bottom:2px solid transparent}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 18px 70px}
+  .hero-top{display:flex;align-items:center;gap:16px;margin:2px 0 6px}
+  .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:800}
+  h1.h{font-family:var(--display);font-weight:400;font-size:clamp(31px,4vw,47px);line-height:1.12;letter-spacing:-.01em;max-width:35ch;margin:8px 0 9px}
+  .hero-lead{color:var(--muted);font-size:15px;max-width:82ch;line-height:1.55}
+  .hero-proof{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+  .hero-proof .pc{font-size:11px;font-weight:800;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 13px;color:var(--brand-d)}
+  .hero-proof .pc b{color:var(--accent)}
+  .tabs{display:flex;gap:4px;margin:28px 0 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tabs button{border:0;background:0;font:inherit;font-size:13.5px;font-weight:700;color:var(--muted);padding:11px 12px;cursor:pointer;border-bottom:2px solid transparent}
   .tabs button.on{color:var(--brand);border-color:var(--brand)}
-  .wrap{max-width:1020px;margin:0 auto;padding:20px 18px 70px}
   h2.sec{font-family:var(--display);font-size:21px;margin-bottom:3px}.lead{color:var(--muted);font-size:13px;margin-bottom:16px}
   .panel{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:16px}
   .panel h3{font-family:var(--display);font-size:15px;margin-bottom:12px}
@@ -182,13 +187,22 @@
 </style>
 </head>
 <body>
-<header><div class="nav">
-  <div class="brand" id="brand">Blackmores<sup>®</sup></div>
-  <div class="subt" id="sub">Social Hub</div><div class="sp"></div>
-  <div class="langs" id="langs"></div>
-</div></header>
-<div class="tabs" id="tabs"></div>
-<div class="wrap" id="main"></div>
+<div class="wrap">
+  <div class="hero-top">
+    <div class="eyebrow" id="heroEye">Social Operations Hub</div><div class="sp"></div>
+    <div class="langs" id="langs"></div>
+  </div>
+  <h1 class="h" id="heroH">Run Blackmores social listening, publishing and engagement from one operating hub</h1>
+  <p class="hero-lead" id="heroL">One social command center for Blackmores: monitor conversations, create compliant content, reply across channels, coordinate account matrices and launch campaign moments when AI spots demand.</p>
+  <div class="hero-proof" id="heroProof">
+    <span class="pc" id="hp1">Listen across <b>social channels</b></span>
+    <span class="pc" id="hp2">Create and publish <b>locally</b></span>
+    <span class="pc" id="hp3">AI reply with <b>claim guardrails</b></span>
+    <span class="pc" id="hp4">Trend → campaign <b>activation</b></span>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div id="main"></div>
+</div>
 <div class="wrap" id="proofWrap" style="padding-top:0"></div>
 <div class="toast" id="toast"></div>
 <div class="fab" id="fab" title="Switch brand">🎨</div>
@@ -266,7 +280,7 @@ const AIRECS=[
    w:{en:"Reviews praise the daily habit but mention capsule size. Invite practical UGC around breakfast routines and label-led usage.",zh:"评论认可日常习惯价值,但提到胶囊大小;可邀请早餐日常 UGC 并强调按标签使用。",ja:"レビューは習慣化を評価しつつカプセルサイズにも言及。朝食ルーティンUGCとラベルに沿った使用を訴求。",th:"รีวิวชอบการใช้ประจำวันแต่พูดถึงขนาดแคปซูล ชวน UGC มื้อเช้าและใช้ตามฉลาก"},
    d:[["time",{en:"This Friday",zh:"本周五",ja:"今週金曜",th:"ศุกร์นี้"}],["target",{en:"Existing Fish Oil buyers · ANZ",zh:"澳新鱼油既有购买者",ja:"既存フィッシュオイル購入者・ANZ",th:"ผู้ซื้อ Fish Oil เดิม · ANZ"}],["mix",{en:"Fish Oil 1000 + Odourless Fish Oil",zh:"鱼油 1000 + 无腥味鱼油",ja:"フィッシュオイル1000 + におい控えめ",th:"Fish Oil 1000 + Odourless Fish Oil"}],["channels",{en:"Instagram Reels + Facebook",zh:"Instagram Reels + Facebook",ja:"Instagram Reels + Facebook",th:"Instagram Reels + Facebook"}]]}];
 const UI={
- en:{sub:"Social Hub",t_d:"Dashboard",t_c:"Create & Publish",t_e:"Engagement",t_ch:"Channels",t_cp:"Campaign Hub",
+ en:{sub:"Social Hub",heroEye:"Social Operations Hub",heroH:"Run Blackmores social listening, publishing and engagement from one operating hub",heroL:"One social command center for Blackmores: monitor conversations, create compliant content, reply across channels, coordinate account matrices and launch campaign moments when AI spots demand.",hp1:"Listen across <b>social channels</b>",hp2:"Create and publish <b>locally</b>",hp3:"AI reply with <b>claim guardrails</b>",hp4:"Trend → campaign <b>activation</b>",t_d:"Dashboard",t_c:"Create & Publish",t_e:"Engagement",t_ch:"Channels",t_cp:"Campaign Hub",
    dH:"Social Hub dashboard",dL:"Your whole social operation at a glance.",followers:"Followers",postsM:"Posts this month",engR:"Engagement rate",published:"Published all-time",
    followDist:"Follower distribution",leaderboard:"Top performers",calendar:"Upcoming content",
    cH:"Create & Publish",cL:"Three ways to start — all land in one editor.",e_tpl:"From Template",e_tplD:"Pick & tweak",e_ai:"AI Assist",e_aiD:"Describe → AI drafts",e_blank:"Blank Canvas",e_blankD:"Write it yourself",
@@ -287,7 +301,7 @@ const UI={
    tplBody0:"💙 Support your immune health this season — make Blackmores Vitamin C + Zinc part of your daily routine.",tplBody1:"🆕 Now available — rolling out across Tmall Global, RED and ANZ pharmacies.",tplBody2:"📚 Did you know? A simple daily wellness habit. Here are 3 tips to keep it going…",tplBody3:"💬 “It's become part of my morning routine” — a Blackmores customer.",
    aiDraftTitle:"💙 Support your immune health with Blackmores Vitamin C + Zinc",aiDraftBody:"Even on busy days, it starts with one simple step. Blackmores Vitamin C 1000 + Bio Zinc help support your daily wellbeing — always read the label, use only as directed. Available across Tmall Global, RED cross-border and ANZ pharmacies.",
    ongoingName:"Immunity-Season Challenge",kitLineApp:"WhatsApp / WeChat",kitOffer:"A special offer just for you — {mix}. Reply “Yes” and we'll send your coupon.",kitIgPromo:"Limited time. Check it out now"},
- zh:{sub:"Social Hub",t_d:"看板",t_c:"创作发布",t_e:"互动",t_ch:"渠道矩阵",t_cp:"活动中心",
+ zh:{sub:"Social Hub",heroEye:"Social Operations Hub",heroH:"用一个运营中心管理 Blackmores 社媒聆听、发布与互动",heroL:"一个 Blackmores 社媒指挥中心：监测对话，创作合规内容，跨渠道回复，协调账号矩阵，并在 AI 发现需求热点时快速上线 campaign。",hp1:"跨 <b>社媒渠道</b> 聆听",hp2:"本地化 <b>创作发布</b>",hp3:"AI 回复 + <b>宣称护栏</b>",hp4:"趋势 → campaign <b>激活</b>",t_d:"看板",t_c:"创作发布",t_e:"互动",t_ch:"渠道矩阵",t_cp:"活动中心",
    dH:"Social Hub 看板",dL:"整个社媒运营一眼看全。",followers:"粉丝",postsM:"本月发帖",engR:"互动率",published:"累计发布",
    followDist:"粉丝分布",leaderboard:"业绩榜",calendar:"待发内容",
    cH:"创作 & 发布",cL:"三种开始方式——都汇入同一个编辑器。",e_tpl:"用模板",e_tplD:"选了改改",e_ai:"AI 辅助",e_aiD:"描述→AI 起草",e_blank:"空白",e_blankD:"自己写",
@@ -308,7 +322,7 @@ const UI={
    tplBody0:"💙 这一季,支持你的免疫健康——让澳佳宝维C+锌成为每天的日常。",tplBody1:"🆕 全新登场——天猫国际、小红书及澳新药房陆续上架。",tplBody2:"📚 你知道吗?简单的每日养生习惯。分享 3 个坚持下去的小窍门…",tplBody3:"💬「成了我早晨的一部分」——一位澳佳宝用户的声音。",
    aiDraftTitle:"💙 用澳佳宝维C+锌,支持你的免疫健康",aiDraftBody:"再忙的日子,也从一个简单步骤开始。澳佳宝维生素C 1000 + 锌片帮助支持每日健康——请阅读标签并按说明使用。天猫国际、小红书跨境及澳新药房陆续上架中。",
    ongoingName:"免疫季挑战",kitLineApp:"WhatsApp / WeChat",kitOffer:"专属于你的特别优惠 — {mix}。回复「是」即可领取优惠券。",kitIgPromo:"限时活动,马上来看"},
- ja:{sub:"Social Hub",t_d:"ダッシュボード",t_c:"作成・配信",t_e:"エンゲージ",t_ch:"チャネル",t_cp:"キャンペーン",
+ ja:{sub:"Social Hub",heroEye:"Social Operations Hub",heroH:"Blackmores のソーシャルリスニング、配信、エンゲージメントを一つのハブで運用",heroL:"Blackmores のソーシャル司令塔。会話を監視し、コンプライアントな内容を作成、各チャネルへ返信、アカウントマトリクスを管理し、AI が需要の兆しを捉えたらキャンペーンを立ち上げます。",hp1:"ソーシャル横断の <b>リスニング</b>",hp2:"ローカル向け <b>作成・配信</b>",hp3:"AI返信 + <b>表示ガードレール</b>",hp4:"トレンド → キャンペーン <b>起動</b>",t_d:"ダッシュボード",t_c:"作成・配信",t_e:"エンゲージ",t_ch:"チャネル",t_cp:"キャンペーン",
    dH:"Social Hub ダッシュボード",dL:"ソーシャル運用を一目で。",followers:"フォロワー",postsM:"今月の投稿",engR:"エンゲージ率",published:"累計配信",
    followDist:"フォロワー分布",leaderboard:"トップ",calendar:"配信予定",
    cH:"作成 & 配信",cL:"3つの始め方 — すべて同じエディタへ。",e_tpl:"テンプレ",e_tplD:"選んで微調整",e_ai:"AI支援",e_aiD:"記述→AI下書き",e_blank:"白紙",e_blankD:"自分で書く",
@@ -329,7 +343,7 @@ const UI={
    tplBody0:"💙 このシーズン、免疫の健康をサポート — ブラックモアズ ビタミンC+亜鉛を毎日の習慣に。",tplBody1:"🆕 新登場 — 天猫国際・RED・豪州NZの薬局で順次展開。",tplBody2:"📚 ご存じですか?シンプルな毎日のウェルネス習慣。続けるコツを3つご紹介…",tplBody3:"💬「朝のルーティンになりました」— ブラックモアズ ユーザーの声。",
    aiDraftTitle:"💙 ブラックモアズ ビタミンC+亜鉛で、免疫の健康をサポート",aiDraftBody:"忙しい日にも、ひとつのシンプルな一歩から。ブラックモアズ ビタミンC 1000 + バイオ亜鉛が毎日の健康をサポート — 必ずラベルを読み、用法・用量を守ってご使用ください。天猫国際・REDクロスボーダー・豪州NZの薬局で順次展開中。",
    ongoingName:"免疫シーズン チャレンジ",kitLineApp:"WhatsApp / WeChat",kitOffer:"あなたへの特別オファー — {mix}。「はい」と返信でクーポンをお届け。",kitIgPromo:"期間限定。今すぐチェック"},
- th:{sub:"Social Hub",t_d:"แดชบอร์ด",t_c:"สร้าง & เผยแพร่",t_e:"การมีส่วนร่วม",t_ch:"ช่องทาง",t_cp:"แคมเปญ",
+ th:{sub:"Social Hub",heroEye:"Social Operations Hub",heroH:"Run Blackmores social listening, publishing and engagement from one operating hub",heroL:"One social command center for Blackmores: monitor conversations, create compliant content, reply across channels, coordinate account matrices and launch campaign moments when AI spots demand.",hp1:"Listen across <b>social channels</b>",hp2:"Create and publish <b>locally</b>",hp3:"AI reply with <b>claim guardrails</b>",hp4:"Trend → campaign <b>activation</b>",t_d:"แดชบอร์ด",t_c:"สร้าง & เผยแพร่",t_e:"การมีส่วนร่วม",t_ch:"ช่องทาง",t_cp:"แคมเปญ",
    dH:"แดชบอร์ด Social Hub",dL:"เห็นงานโซเชียลทั้งหมดในที่เดียว",followers:"ผู้ติดตาม",postsM:"โพสต์เดือนนี้",engR:"อัตรามีส่วนร่วม",published:"เผยแพร่สะสม",
    followDist:"การกระจายผู้ติดตาม",leaderboard:"ผู้นำ",calendar:"คอนเทนต์ที่จะมา",
    cH:"สร้าง & เผยแพร่",cL:"เริ่ม 3 แบบ — ไปที่เอดิเตอร์เดียวกัน",e_tpl:"จากเทมเพลต",e_tplD:"เลือกแล้วปรับ",e_ai:"ผู้ช่วย AI",e_aiD:"อธิบาย→AI ร่าง",e_blank:"หน้าว่าง",e_blankD:"เขียนเอง",
@@ -547,14 +561,22 @@ function showKit(i){const u=U();const r=AIRECS[i];
 
 function applyBrand(){const b=BRANDS[state.brand],r=document.documentElement.style;
   r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
-  $('#brand').innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');}
+  const brandEl=$('#brand');if(brandEl)brandEl.innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');}
 function renderProof(){const pw=$('#proofWrap');if(pw)pw.innerHTML='';return;const u=U();pw.innerHTML=`
 <div class="proof"><h3>\u2728 ${u.ppH}</h3>
 <div class="proof-grid"><div class="proof-card"><span class="proof-logo">[LOGO] NTT DATA</span><h4>${u.ppCase1}</h4><p>${u.ppCase1L}</p></div>
 <div class="proof-card"><h4>${u.ppCase2}</h4><p>${u.ppCase2L}</p>
 <div class="proof-stat"><div class="stat-box"><span style="font-size:13px;color:var(--muted)">${u.ppSpeedFrom}</span><div class="proof-arrow">↓</div><b style="font-size:20px">${u.ppSpeedTo}</b><span>${u.ppSpeed}</span></div>
 <div class="stat-box"><b style="font-size:16px">${u.ppReachV}</b><span>${u.ppReach}</span></div></div></div></div></div>`;}
-function applyText(){$('#sub').textContent=U().sub;
+function applyText(){const u=U();
+  const subEl=$('#sub');if(subEl)subEl.textContent=u.sub;
+  $('#heroEye').textContent=u.heroEye;
+  $('#heroH').textContent=u.heroH;
+  $('#heroL').textContent=u.heroL;
+  $('#hp1').innerHTML=u.hp1;
+  $('#hp2').innerHTML=u.hp2;
+  $('#hp3').innerHTML=u.hp3;
+  $('#hp4').innerHTML=u.hp4;
   document.documentElement.lang=state.lang;state.rlang=state.lang;render();renderProof();}
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1900);}
 
@@ -568,5 +590,6 @@ try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_l=_p.get("la
 applyBrand();applyText();renderLangs();
 (function(){var _l="";setInterval(function(){try{if(typeof state==="undefined")return;var c=(state.brand||"")+"|"+(state.lang||"");if(c!==_l){_l=c;if(window.parent&&window.parent!==window)window.parent.postMessage({t:"es",brand:state.brand||null,lang:state.lang||null},"*");}}catch(e){}},400);})();
 </script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
 </body>
 </html>

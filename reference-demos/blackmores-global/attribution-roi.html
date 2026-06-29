@@ -15,25 +15,21 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
   button{font-family:inherit;cursor:pointer}
-  header{background:var(--black);position:sticky;top:0;z-index:30}
-  .nav{display:flex;align-items:center;gap:12px;max-width:1080px;margin:0 auto;padding:13px 18px}
-  .backst{display:none;align-items:center;gap:5px;border:1px solid #2a3647;background:rgba(255,255,255,.06);color:#cdd9e6;font:inherit;font-size:12px;font-weight:700;padding:6px 11px;border-radius:9px;cursor:pointer}
-  .backst:hover{background:rgba(255,255,255,.12);color:#fff}
-  .brand{font-family:var(--display);font-weight:700;font-size:19px;color:#fff;letter-spacing:.02em}.brand sup{font-size:9px;color:#7fb2dc}
-  .sub{font-size:11px;color:#9fb4c8;border-left:1px solid #2a3647;padding-left:12px;letter-spacing:.04em}.sp{flex:1}
-  .langs{display:flex;gap:3px;background:rgba(255,255,255,.06);border:1px solid #2a3647;border-radius:9px;padding:3px}
-  .langs button{border:0;background:0;font:inherit;font-size:12px;font-weight:700;color:#9fb4c8;min-width:30px;padding:5px 8px;border-radius:6px;transition:.15s}
-  .langs button.on{background:#fff;color:var(--brand-d)}
-  .wrap{max-width:1080px;margin:0 auto;padding:22px 18px 70px}
-  .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:700}
-  h1.h{font-family:var(--display);font-weight:400;font-size:clamp(21px,4vw,28px);margin:8px 0 5px;line-height:1.18}
-  .lead{color:var(--muted);font-size:13.5px;max-width:70ch}
-  .proof{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-  .proof .pc{font-size:11px;font-weight:700;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--brand-d)}
+  .sp{flex:1}
+  .langs{display:flex;gap:3px}
+  .langs button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;font-weight:700;color:var(--muted);min-width:32px;height:30px;border-radius:8px;transition:.15s;padding:0 8px}
+  .langs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 18px 70px}
+  .hero-top{display:flex;align-items:center;gap:16px;margin:2px 0 6px}
+  .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:800}
+  h1.h{font-family:var(--display);font-weight:400;font-size:clamp(31px,4vw,47px);line-height:1.12;letter-spacing:-.01em;max-width:35ch;margin:8px 0 9px}
+  .lead{color:var(--muted);font-size:15px;max-width:82ch;line-height:1.55}
+  .proof{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+  .proof .pc{font-size:11px;font-weight:800;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 13px;color:var(--brand-d)}
   .proof .pc b{color:var(--accent)}
 
-  .tabs{display:flex;gap:4px;margin:20px 0 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
-  .tabs button{border:0;background:0;font:inherit;font-size:13.5px;font-weight:700;color:var(--muted);padding:11px 14px;border-bottom:2px solid transparent;display:flex;gap:7px;align-items:center}
+  .tabs{display:flex;gap:4px;margin:28px 0 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tabs button{border:0;background:0;font:inherit;font-size:13.5px;font-weight:700;color:var(--muted);padding:11px 12px;border-bottom:2px solid transparent;display:flex;gap:7px;align-items:center}
   .tabs button.on{color:var(--brand);border-color:var(--brand)}
   .tabs .cnt{font-size:11px;background:var(--soft);color:var(--brand-d);border-radius:999px;padding:1px 8px;font-weight:800}
 
@@ -153,15 +149,11 @@
 </style>
 </head>
 <body>
-<header><div class="nav">
-  <button class="backst" id="backStudio">← <span id="backLab">Studio</span></button>
-  <div class="brand" id="brand">Blackmores<sup>®</sup></div>
-  <div class="sub" id="sub">Attribution & ROI</div><div class="sp"></div>
-  <div class="langs" id="langs"></div>
-</div></header>
-
 <div class="wrap">
-  <div class="eyebrow" id="eye">Marketing · Multi-touch Attribution & ROI</div>
+  <div class="hero-top">
+    <div class="eyebrow" id="eye">Marketing · Multi-touch Attribution & ROI</div><div class="sp"></div>
+    <div class="langs" id="langs"></div>
+  </div>
   <h1 class="h" id="title"></h1>
   <div class="lead" id="lead"></div>
   <div class="proof" id="proofRow"></div>
@@ -382,8 +374,9 @@ function tabsBar(){
 }
 function sync(){
   document.documentElement.lang=state.lang;
-  $('#sub').textContent=L(T.sub);$('#eye').textContent=L(T.eye);$('#title').textContent=L(T.title);$('#lead').textContent=L(T.lead);
-  $('#backLab').textContent=L(T.backStudio);
+  const subEl=$('#sub');if(subEl)subEl.textContent=L(T.sub);
+  $('#eye').textContent=L(T.eye);$('#title').textContent=L(T.title);$('#lead').textContent=L(T.lead);
+  const backEl=$('#backLab');if(backEl)backEl.textContent=L(T.backStudio);
   renderProof();tabsBar();
   $$('.pane').forEach(p=>p.classList.remove('on'));$('#pane-'+state.tab).classList.add('on');
   if(state.tab==='attr')renderAttr();
@@ -538,7 +531,7 @@ function bindBudgetBtns(){
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800);}
 function applyBrand(){const b=BRANDS[state.brand],r=document.documentElement.style;
   r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
-  $('#brand').innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');}
+  const brandEl=$('#brand');if(brandEl)brandEl.innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');}
 $('#fab').onclick=()=>{const k=Object.keys(BRANDS),i=k.indexOf(state.brand);state.brand=k[(i+1)%k.length];applyBrand();toast('🎨 '+BRANDS[state.brand].logo);};
 
 const LANGS=[['en','EN'],['zh','中'],['ja','日'],['th','ไท']];
@@ -567,5 +560,6 @@ window.addEventListener("message",function(ev){
 bindBudgetBtns();
 renderLangs();applyBrand();sync();
 </script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
 </body>
 </html>

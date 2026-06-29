@@ -274,5 +274,6 @@ try{const q=new URLSearchParams(location.search);const l=q.get("lang");if(l&&dic
 render();
 (function(){let old="";setInterval(()=>{try{if(window.parent&&window.parent!==window){const sig=state.lang+"|"+state.market;if(sig!==old){old=sig;window.parent.postMessage({t:"es",lang:state.lang},"*")}}}catch(e){}},500)})();
 </script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
 </body>
 </html>

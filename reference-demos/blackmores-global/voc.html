@@ -14,20 +14,25 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
-  header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
-  .nav{display:flex;align-items:center;gap:12px;max-width:1000px;margin:0 auto;padding:13px 18px}
-  .brand{font-family:var(--display);font-weight:700;font-size:19px}.brand sup{font-size:9px;color:var(--brand)}
-  .sub{font-size:11px;color:var(--muted);border-left:1px solid var(--line);padding-left:12px}.sp{flex:1}
+  button{font-family:inherit;cursor:pointer}
+  .sp{flex:1}
   .chip{display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:12px;font-weight:600;cursor:pointer;position:relative}
   .menu{position:absolute;top:40px;right:0;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:6px;min-width:120px;box-shadow:0 12px 30px rgba(0,0,0,.12);display:none;z-index:50}
   .menu.open{display:block}.menu button{display:block;width:100%;border:0;background:0;font:inherit;font-size:13px;padding:8px 9px;border-radius:7px;cursor:pointer;text-align:left;color:var(--ink)}.menu button:hover{background:var(--soft)}
   .langs{display:flex;gap:3px}
   .langs button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;font-weight:600;color:var(--muted);min-width:32px;height:30px;border-radius:8px;cursor:pointer;transition:.2s;padding:0 6px}
   .langs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-  .tabs{max-width:1000px;margin:0 auto;padding:0 18px;display:flex;gap:4px;border-bottom:1px solid var(--line);flex-wrap:wrap}
-  .tabs button{border:0;background:0;font:inherit;font-size:13.5px;font-weight:600;color:var(--muted);padding:13px 13px;cursor:pointer;border-bottom:2px solid transparent}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 18px 70px}
+  .hero-top{display:flex;align-items:center;gap:16px;margin:2px 0 6px}
+  .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:800}
+  h1.h{font-family:var(--display);font-weight:400;font-size:clamp(31px,4vw,47px);line-height:1.12;letter-spacing:-.01em;max-width:35ch;margin:8px 0 9px}
+  .hero-lead{color:var(--muted);font-size:15px;max-width:82ch;line-height:1.55}
+  .hero-proof{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+  .hero-proof .pc{font-size:11px;font-weight:800;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 13px;color:var(--brand-d)}
+  .hero-proof .pc b{color:var(--accent)}
+  .tabs{display:flex;gap:4px;margin:28px 0 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tabs button{border:0;background:0;font:inherit;font-size:13.5px;font-weight:700;color:var(--muted);padding:11px 12px;cursor:pointer;border-bottom:2px solid transparent}
   .tabs button.on{color:var(--brand);border-color:var(--brand)}
-  .wrap{max-width:1000px;margin:0 auto;padding:20px 18px 70px}
   h2.sec{font-family:var(--display);font-size:21px;margin-bottom:3px}.lead{color:var(--muted);font-size:13px;margin-bottom:16px}
 
   .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
@@ -222,13 +227,22 @@
 </style>
 </head>
 <body>
-<header><div class="nav">
-  <div class="brand" id="brand">Blackmores<sup>®</sup></div>
-  <div class="sub" id="sub">Consumer Insight & VOC</div><div class="sp"></div>
-  <div class="langs" id="langs"></div>
-</div></header>
-<div class="tabs" id="tabs"></div>
-<div class="wrap" id="main"></div>
+<div class="wrap">
+  <div class="hero-top">
+    <div class="eyebrow" id="heroEye">Consumer Insight Center</div><div class="sp"></div>
+    <div class="langs" id="langs"></div>
+  </div>
+  <h1 class="h" id="heroH">Listen to every Blackmores consumer voice, turn VOC into action</h1>
+  <p class="hero-lead" id="heroL">One insight center for Blackmores growth: unify reviews, social comments, service chats and marketplace feedback, summarize the why behind demand, then route product, content and campaign actions into a closed loop.</p>
+  <div class="hero-proof" id="heroProof">
+    <span class="pc" id="hp1">Multi-source <b>VOC ingestion</b></span>
+    <span class="pc" id="hp2">AI root-cause <b>summary</b></span>
+    <span class="pc" id="hp3">Opportunity <b>signals</b></span>
+    <span class="pc" id="hp4">Insight → action <b>closure</b></span>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div id="main"></div>
+</div>
 <div class="wrap" id="proofWrap" style="padding-top:0"></div>
 <div class="toast" id="toast"></div>
 <div class="fab" id="fab" title="Switch brand">🎨</div>
@@ -329,6 +343,7 @@ const UI={
   en:{sub:"Consumer Insight & VOC",t_ov:"Overview",t_ai:"AI Insight Summary",t_dr:"Voice types",t_tk:"Insight Tasks",
     ovH:"Consumer insight across every channel",ovL:"64,800 consumer voices · Jan–Apr · Blackmores (ANZ · China · SEA · Japan)",totalV:"Total voice",nps:"NPS",
     pos:"Positive",neu:"Neutral",neg:"Negative",sentT:"Sentiment",srcT:"Data source",cloudP:"Positive voice cloud",negT:"Top negative voice types",tapHint:"tap to drill ↓",
+    heroEye:"Consumer Insight Center",heroH:"Listen to every Blackmores consumer voice, turn VOC into action",heroL:"One insight center for Blackmores growth: unify reviews, social comments, service chats and marketplace feedback, summarize the why behind demand, then route product, content and campaign actions into a closed loop.",hp1:"Multi-source <b>VOC ingestion</b>",hp2:"AI root-cause <b>summary</b>",hp3:"Opportunity <b>signals</b>",hp4:"Insight → action <b>closure</b>",
     aiH:"Ask the data",aiL:"Conversational VOC — turn consumer voices into product, content and campaign insight.",ask:"Ask AI",picked:"What do people say about",
     summary:"AI summary",sampleN:n=>`AI-generated from ${n} comments`,pros:"Pros",cons:"Cons",wkWell:"What\u2019s working well",needAttn:"What needs attention",mentions:"mentions",
     drH:"Voice types · root cause",drL:"Drill a negative type to its root cause, raw comments and action owner.",reasonsT:"Root-cause reasons",commentsT:"Original comments",createTask:"➕ Create insight task",
@@ -337,6 +352,7 @@ const UI={
   zh:{sub:"消费者洞察与 VOC",t_ov:"总览",t_ai:"AI 洞察总结",t_dr:"声音类型",t_tk:"洞察任务",
     ovH:"全渠道消费者洞察",ovL:"64,800 条消费者声音 · 1–4 月 · Blackmores(澳新 · 中国 · 东南亚 · 日本)",totalV:"总声量",nps:"NPS",
     pos:"正面",neu:"中性",neg:"负面",sentT:"情感分布",srcT:"数据来源",cloudP:"正面词云",negT:"高频负面声音类型",tapHint:"点击下钻 ↓",
+    heroEye:"Consumer Insight Center",heroH:"聆听每一条 Blackmores 消费者声音，把 VOC 变成行动",heroL:"一个 Blackmores 消费者洞察中心：统一评价、社媒评论、客服对话与平台反馈，自动总结需求背后的原因，再把产品、内容与活动行动推进到闭环。",hp1:"多来源 <b>VOC 接入</b>",hp2:"AI 根因 <b>总结</b>",hp3:"增长机会 <b>信号</b>",hp4:"洞察 → 行动 <b>闭环</b>",
     aiH:"问数据",aiL:"对话式 VOC——把消费者声音转成产品、内容与活动洞察。",ask:"问 AI",picked:"大家怎么评价",
     summary:"AI 总结",sampleN:n=>`基于 ${n} 条评论由 AI 生成`,pros:"优点",cons:"缺点",wkWell:"做得好的",needAttn:"需要关注的",mentions:"条提及",
     drH:"声音类型 · 根因",drL:"把负面类型下钻到根因、原始评论与行动负责人。",reasonsT:"根因排行",commentsT:"原始评论",createTask:"➕ 建洞察任务",
@@ -345,6 +361,7 @@ const UI={
   ja:{sub:"消費者インサイト・VOC",t_ov:"概要",t_ai:"AIインサイト要約",t_dr:"声の種類",t_tk:"インサイトタスク",
     ovH:"全チャネルの消費者インサイト",ovL:"64,800件の消費者ボイス · 1–4月 · Blackmores(豪NZ・中国・東南アジア・日本)",totalV:"総ボイス",nps:"NPS",
     pos:"ポジ",neu:"中立",neg:"ネガ",sentT:"感情分布",srcT:"データソース",cloudP:"ポジティブ語クラウド",negT:"上位ネガティブ種類",tapHint:"タップで深掘り ↓",
+    heroEye:"Consumer Insight Center",heroH:"Blackmores の消費者の声をすべて聴き、VOC をアクションへ変える",heroL:"Blackmores の成長に向けたインサイトセンター。レビュー、SNS コメント、サービスチャット、マーケットプレイスの声を統合し、需要の背景を AI が要約。製品・コンテンツ・キャンペーンのアクションへつなげます。",hp1:"複数ソースの <b>VOC 取込</b>",hp2:"AI 根因 <b>要約</b>",hp3:"機会 <b>シグナル</b>",hp4:"インサイト → アクション <b>完了</b>",
     aiH:"データに質問",aiL:"会話型VOC — 消費者の声を製品・コンテンツ・キャンペーンのインサイトへ。",ask:"AIに質問",picked:"評判は",
     summary:"AI要約",sampleN:n=>`${n}件のコメントからAI生成`,pros:"長所",cons:"短所",wkWell:"好調な点",needAttn:"要注意の点",mentions:"件",
     drH:"声の種類 · 根本原因",drL:"ネガティブ種類を根因・生コメント・アクション担当へ深掘り。",reasonsT:"根本原因ランキング",commentsT:"元コメント",createTask:"➕ インサイトタスク作成",
@@ -353,6 +370,7 @@ const UI={
   th:{sub:"เสียงลูกค้า",t_ov:"ภาพรวม",t_ai:"AI ข้อดีข้อเสีย",t_dr:"ประเภทเสียง",t_tk:"งาน",
     ovH:"ฟังทุกช่องทาง",ovL:"64,800 เสียง · ม.ค.–เม.ย. · Blackmores (ANZ · จีน · SEA · ญี่ปุ่น)",totalV:"เสียงรวม",nps:"NPS",
     pos:"บวก",neu:"กลาง",neg:"ลบ",sentT:"การกระจายอารมณ์",srcT:"แหล่งข้อมูล",cloudP:"คลาวด์คำบวก",negT:"ประเภทเสียงลบยอดนิยม",tapHint:"แตะเพื่อเจาะลึก ↓",
+    heroEye:"Consumer Insight Center",heroH:"Listen to every Blackmores consumer voice, turn VOC into action",heroL:"One insight center for Blackmores growth: unify reviews, social comments, service chats and marketplace feedback, summarize the why behind demand, then route product, content and campaign actions into a closed loop.",hp1:"Multi-source <b>VOC ingestion</b>",hp2:"AI root-cause <b>summary</b>",hp3:"Opportunity <b>signals</b>",hp4:"Insight → action <b>closure</b>",
     aiH:"ถามข้อมูล",aiL:"VOC เชิงสนทนา — สรุปข้อดีข้อเสียทันที",ask:"ถาม AI",picked:"คนพูดถึงอย่างไรเกี่ยวกับ",
     summary:"สรุปโดย AI",sampleN:n=>`สร้างโดย AI จาก ${n} ความเห็น`,pros:"ข้อดี",cons:"ข้อเสีย",wkWell:"สิ่งที่ดี",needAttn:"สิ่งที่ต้องดูแล",mentions:"การกล่าวถึง",
     drH:"ประเภทเสียง · สาเหตุราก",drL:"เจาะประเภทลบสู่สาเหตุรากและความเห็นดิบ",reasonsT:"อันดับสาเหตุราก",commentsT:"ความเห็นต้นฉบับ",createTask:"➕ สร้างงาน",
@@ -597,9 +615,17 @@ function closeTkModal(){const el=document.querySelector('#tkmodal');if(el)el.sty
 
 function applyBrand(){const b=BRANDS[state.brand],r=document.documentElement.style;
   r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
-  $('#brand').innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');}
+  const brandEl=$('#brand');if(brandEl)brandEl.innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');}
 function renderProof(){const pw=$('#proofWrap');if(pw)pw.innerHTML='';}
-function applyText(){$('#sub').textContent=U().sub;
+function applyText(){const u=U();
+  const subEl=$('#sub');if(subEl)subEl.textContent=u.sub;
+  $('#heroEye').textContent=u.heroEye;
+  $('#heroH').textContent=u.heroH;
+  $('#heroL').textContent=u.heroL;
+  $('#hp1').innerHTML=u.hp1;
+  $('#hp2').innerHTML=u.hp2;
+  $('#hp3').innerHTML=u.hp3;
+  $('#hp4').innerHTML=u.hp4;
   document.documentElement.lang=state.lang;render();renderProof();}
 /* ===== Potential Leads (AI-flagged opportunities) ===== */
 const SRCEM={call:"📞",social:"📱",ai:"🤖",whatsapp:"💬",review:"⭐"};
@@ -675,5 +701,6 @@ try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_m=_p.get("ma
 applyBrand();applyText();renderLangs();
 (function(){var _l="";setInterval(function(){try{if(typeof state==="undefined")return;var c=(state.brand||"")+"|"+(state.lang||"")+"|"+(state.market||"");if(c!==_l){_l=c;if(window.parent&&window.parent!==window)window.parent.postMessage({t:"es",brand:state.brand||null,lang:state.lang||null,market:state.market||null},"*");}}catch(e){}},400);})();
 </script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
 </body>
 </html>

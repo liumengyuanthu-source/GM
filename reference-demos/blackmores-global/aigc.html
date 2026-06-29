@@ -14,20 +14,25 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
-  header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
-  .nav{display:flex;align-items:center;gap:12px;max-width:1000px;margin:0 auto;padding:13px 18px}
-  .brand{font-family:var(--display);font-weight:700;font-size:19px}.brand sup{font-size:9px;color:var(--brand)}
-  .subt{font-size:11px;color:var(--muted);border-left:1px solid var(--line);padding-left:12px}.sp{flex:1}
+  button{font-family:inherit;cursor:pointer}
+  .sp{flex:1}
   .chip{display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:12px;font-weight:600;cursor:pointer;position:relative}
   .menu{position:absolute;top:40px;right:0;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:6px;min-width:120px;box-shadow:0 12px 30px rgba(0,0,0,.12);display:none;z-index:50}
   .menu.open{display:block}.menu button{display:block;width:100%;border:0;background:0;font:inherit;font-size:13px;padding:8px 9px;border-radius:7px;cursor:pointer;text-align:left;color:var(--ink)}.menu button:hover{background:var(--soft)}
   .langs{display:flex;gap:3px}
   .langs button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;font-weight:600;color:var(--muted);min-width:32px;height:30px;border-radius:8px;cursor:pointer;transition:.2s;padding:0 6px}
   .langs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-  .tabs{max-width:1000px;margin:0 auto;padding:0 18px;display:flex;gap:4px;border-bottom:1px solid var(--line);flex-wrap:wrap}
-  .tabs button{border:0;background:0;font:inherit;font-size:13.5px;font-weight:600;color:var(--muted);padding:13px 13px;cursor:pointer;border-bottom:2px solid transparent}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 18px 70px}
+  .hero-top{display:flex;align-items:center;gap:16px;margin:2px 0 6px}
+  .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:800}
+  h1.h{font-family:var(--display);font-weight:400;font-size:clamp(31px,4vw,47px);line-height:1.12;letter-spacing:-.01em;max-width:35ch;margin:8px 0 9px}
+  .hero-lead{color:var(--muted);font-size:15px;max-width:82ch;line-height:1.55}
+  .hero-proof{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+  .hero-proof .pc{font-size:11px;font-weight:800;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 13px;color:var(--brand-d)}
+  .hero-proof .pc b{color:var(--accent)}
+  .tabs{display:flex;gap:4px;margin:28px 0 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tabs button{border:0;background:0;font:inherit;font-size:13.5px;font-weight:700;color:var(--muted);padding:11px 12px;cursor:pointer;border-bottom:2px solid transparent}
   .tabs button.on{color:var(--brand);border-color:var(--brand)}
-  .wrap{max-width:1000px;margin:0 auto;padding:20px 18px 70px}
   h2.sec{font-family:var(--display);font-size:21px;margin-bottom:3px}.lead{color:var(--muted);font-size:13px;margin-bottom:16px}
 
   .ph{border-radius:12px;background:linear-gradient(135deg,var(--soft),#eef5f5);display:grid;place-items:center;font-size:34px;color:var(--brand-d);position:relative;overflow:hidden}
@@ -267,13 +272,22 @@
 </style>
 </head>
 <body>
-<header><div class="nav">
-  <div class="brand" id="brand">Blackmores<sup>®</sup></div>
-  <div class="subt" id="sub">Content Engine</div><div class="sp"></div>
-  <div class="langs" id="langs"></div>
-</div></header>
-<div class="tabs" id="tabs"></div>
-<div class="wrap" id="main"></div>
+<div class="wrap">
+  <div class="hero-top">
+    <div class="eyebrow" id="heroEye">Content Engine</div><div class="sp"></div>
+    <div class="langs" id="langs"></div>
+  </div>
+  <h1 class="h" id="heroH">Turn one Blackmores product truth into compliant, localised content for every channel</h1>
+  <p class="hero-lead" id="heroL">One content operating system for Blackmores: brief the need, shape the strategy, generate image and video variants, manage assets, govern claims and learn from performance.</p>
+  <div class="hero-proof" id="heroProof">
+    <span class="pc" id="hp1">Product truth → <b>channel content</b></span>
+    <span class="pc" id="hp2">AI image/video <b>generation</b></span>
+    <span class="pc" id="hp3">Claim and brand <b>guardrails</b></span>
+    <span class="pc" id="hp4">Asset reuse → <b>performance loop</b></span>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div id="main"></div>
+</div>
 <div class="wrap" id="proofWrap" style="padding-top:0"></div>
 <div class="fmodal" id="fmodal"></div>
 <div class="gmodal" id="gmodal"></div>
@@ -328,7 +342,7 @@ const MODELS=[{en:"Asian",zh:"亚洲",ja:"アジア",th:"เอเชีย"},{e
 const VPRESETS=[{en:"WeChat 视频号 15s",zh:"微信视频号 15秒",ja:"WeChat 動画 15秒",th:"WeChat วิดีโอ 15วิ"},{en:"IG Reels 30s",zh:"IG Reels 30秒",ja:"IG Reels 30秒",th:"IG Reels 30วิ"},
   {en:"TikTok 15s",zh:"TikTok 15秒",ja:"TikTok 15秒",th:"TikTok 15วิ"},{en:"YouTube 30s",zh:"YouTube 30秒",ja:"YouTube 30秒",th:"YouTube 30วิ"}];
 const UI={
- en:{sub:"Content Engine",t_e:"Engine Overview",t_b:"Brand Assets",t_s:"AI Studio",t_l:"My Library",t_c:"Community",
+ en:{sub:"Content Engine",heroEye:"Content Engine",heroH:"Turn one Blackmores product truth into compliant, localised content for every channel",heroL:"One content operating system for Blackmores: brief the need, shape the strategy, generate image and video variants, manage assets, govern claims and learn from performance.",hp1:"Product truth → <b>channel content</b>",hp2:"AI image/video <b>generation</b>",hp3:"Claim and brand <b>guardrails</b>",hp4:"Asset reuse → <b>performance loop</b>",t_e:"Engine Overview",t_b:"Brand Assets",t_s:"AI Studio",t_l:"My Library",t_c:"Community",
    bH:"Brand Asset Center",bL:"Official assets — every one ready in each platform format. Download, or remix with AI.",
    official:"Official",fmtsLab:"Platform-adaptive formats",dlAll:"⬇ Download all formats",addLib:"➕ Add to My Library",remix:"✨ Remix with AI",
    tagEdit:"Editable",tagNo:"Not editable",tagSocial:"Social only",
@@ -344,7 +358,7 @@ const UI={
    srcOff:"Official",srcAi:"AI-made",srcTpl:"Template",push:"📤 Push to channels",pushed:"Pushed to selected channels",share:"Share to community",
    sharedOn:"Shared to community ✓",sharedOff:"Removed from community",emptyLib:"Nothing yet — add from Brand Assets or generate in AI Studio.",
    cH:"Community ecosystem",cL:"Assets other partners created & shared. Reuse the best — the network does the work.",by:"by",usesL:"uses",useThis:"Use this",added:"Added to My Library",derived:"derived from",ppH:"Customer Proof Points",ppCase1:"Blackmores — Multi-market content demand (ANZ / China / SEA / Japan)",ppCase1L:"Supplement brands need one engine that turns product truth and VOC into compliant content, platform assets, market variants and tested creative.",ppEff:"Efficiency boost",ppEffV:"80%+",ppCost:"Cost reduction",ppCostV:"60%+",ppCap:"NTT DATA capabilities",ppCap1:"Hyper-personalized content generation",ppCap2:"AIGC asset remixing and format adaptation",ppCap3:"Dynamic creative testing with compliance guardrails"},
- zh:{sub:"Content Engine",t_e:"引擎总览",t_b:"品牌素材",t_s:"AI Studio",t_l:"我的素材库",t_c:"生态共享",
+ zh:{sub:"Content Engine",heroEye:"Content Engine",heroH:"把一个 Blackmores 产品事实，变成全渠道合规本地化内容",heroL:"一个 Blackmores 内容运营系统：定义 brief，形成策略，生成图像与视频版本，管理素材，治理功效宣称，并从表现数据中学习。",hp1:"产品事实 → <b>渠道内容</b>",hp2:"AI 图像/视频 <b>生成</b>",hp3:"宣称与品牌 <b>护栏</b>",hp4:"素材复用 → <b>表现闭环</b>",t_e:"引擎总览",t_b:"品牌素材",t_s:"AI Studio",t_l:"我的素材库",t_c:"生态共享",
    bH:"品牌素材中心",bL:"官方素材——每个都备好各平台格式,直接下载,或用 AI 二创。",
    official:"官方",fmtsLab:"多平台自适应格式",dlAll:"⬇ 下载全部格式",addLib:"➕ 加入我的素材库",remix:"✨ AI 二创",
    tagEdit:"可修改",tagNo:"不可修改",tagSocial:"仅限社媒",
@@ -360,7 +374,7 @@ const UI={
    srcOff:"官方",srcAi:"AI 生成",srcTpl:"模板",push:"📤 推送到渠道",pushed:"已推送到所选渠道",share:"分享到共享池",
    sharedOn:"已分享到共享池 ✓",sharedOff:"已从共享池移除",emptyLib:"还没有——从品牌素材加入,或在 AI Studio 生成。",
    cH:"生态共享池",cL:"其他伙伴创作并分享的素材。直接复用最好的——网络替你干活。",by:"作者",usesL:"次使用",useThis:"拿来用",added:"已加入我的素材库",derived:"二创自",ppH:"客户实证",ppCase1:"Blackmores — 多市场内容需求(澳新 / 中国 / 东南亚 / 日本)",ppCase1L:"营养品牌需要一个引擎，把产品事实与 VOC 转成合规内容、平台素材、市场版本与经过测试的创意。",ppEff:"效率提升",ppEffV:"80%+",ppCost:"成本降低",ppCostV:"60%+",ppCap:"NTT DATA 能力",ppCap1:"超个性化内容生成",ppCap2:"AIGC 素材二创与格式适配",ppCap3:"带合规护栏的动态创意测试"},
- ja:{sub:"Content Engine",t_e:"エンジン概要",t_b:"ブランドアセット",t_s:"AI Studio",t_l:"マイライブラリ",t_c:"コミュニティ",
+ ja:{sub:"Content Engine",heroEye:"Content Engine",heroH:"Blackmores の製品事実を、全チャネル向けのコンプライアントなローカルコンテンツへ",heroL:"Blackmores のためのコンテンツ運用システム。ブリーフ、戦略、画像・動画バリアント生成、アセット管理、表示ガバナンス、パフォーマンス学習までを一つにします。",hp1:"製品事実 → <b>チャネルコンテンツ</b>",hp2:"AI 画像/動画 <b>生成</b>",hp3:"表示とブランド <b>ガードレール</b>",hp4:"アセット再利用 → <b>成果ループ</b>",t_e:"エンジン概要",t_b:"ブランドアセット",t_s:"AI Studio",t_l:"マイライブラリ",t_c:"コミュニティ",
    bH:"ブランドアセットセンター",bL:"公式アセット — 各プラットフォーム形式で即利用。DLまたはAIで二次創作。",
    official:"公式",fmtsLab:"各プラットフォーム最適化形式",dlAll:"⬇ 全形式をDL",addLib:"➕ マイライブラリへ",remix:"✨ AIで二次創作",
    tagEdit:"編集可",tagNo:"編集不可",tagSocial:"SNS限定",
@@ -376,7 +390,7 @@ const UI={
    srcOff:"公式",srcAi:"AI生成",srcTpl:"テンプレ",push:"📤 チャネルへ配信",pushed:"選択チャネルへ配信",share:"コミュニティへ共有",
    sharedOn:"共有しました ✓",sharedOff:"共有を解除",emptyLib:"まだありません — アセット追加またはAI生成を。",
    cH:"コミュニティ・エコシステム",cL:"他パートナーが作って共有したアセット。良いものを再利用 — ネットワークが働く。",by:"作成",usesL:"回使用",useThis:"使う",added:"マイライブラリに追加",derived:"二次創作元",ppH:"顧客実証",ppCase1:"Blackmores — マルチ市場コンテンツ需要(ANZ / 中国 / SEA / 日本)",ppCase1L:"サプリブランドには、製品事実とVOCをコンプライアントな内容、プラットフォーム資産、市場別バリアント、検証済みクリエイティブへ変換するエンジンが必要。",ppEff:"効率向上",ppEffV:"80%+",ppCost:"コスト削減",ppCostV:"60%+",ppCap:"NTT DATA 能力",ppCap1:"ハイパーパーソナライズ内容生成",ppCap2:"AIGCリミックスと形式適応",ppCap3:"コンプラガード付き動的クリエイティブ検証"},
- th:{sub:"Content Engine",t_e:"Engine Overview",t_b:"แอสเซ็ตแบรนด์",t_s:"AI Studio",t_l:"คลังของฉัน",t_c:"คอมมูนิตี้",
+ th:{sub:"Content Engine",heroEye:"Content Engine",heroH:"Turn one Blackmores product truth into compliant, localised content for every channel",heroL:"One content operating system for Blackmores: brief the need, shape the strategy, generate image and video variants, manage assets, govern claims and learn from performance.",hp1:"Product truth → <b>channel content</b>",hp2:"AI image/video <b>generation</b>",hp3:"Claim and brand <b>guardrails</b>",hp4:"Asset reuse → <b>performance loop</b>",t_e:"Engine Overview",t_b:"แอสเซ็ตแบรนด์",t_s:"AI Studio",t_l:"คลังของฉัน",t_c:"คอมมูนิตี้",
    bH:"ศูนย์แอสเซ็ตแบรนด์",bL:"แอสเซ็ตทางการ — พร้อมทุกฟอร์แมตแพลตฟอร์ม ดาวน์โหลดหรือรีมิกซ์ด้วย AI",
    official:"ทางการ",fmtsLab:"ฟอร์แมตปรับตามแพลตฟอร์ม",dlAll:"⬇ ดาวน์โหลดทุกฟอร์แมต",addLib:"➕ เพิ่มเข้าคลัง",remix:"✨ รีมิกซ์ด้วย AI",
    tagEdit:"แก้ไขได้",tagNo:"แก้ไขไม่ได้",tagSocial:"โซเชียลเท่านั้น",
@@ -742,9 +756,17 @@ function renderC(){const u=U();
 
 function applyBrand(){const b=BRANDS[state.brand],r=document.documentElement.style;
   r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
-  $('#brand').innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');}
+  const brandEl=$('#brand');if(brandEl)brandEl.innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');}
 function renderProof(){const pw=$('#proofWrap');if(pw)pw.innerHTML='';}
-function applyText(){$('#sub').textContent=U().sub;
+function applyText(){const u=U();
+  const subEl=$('#sub');if(subEl)subEl.textContent=u.sub;
+  $('#heroEye').textContent=u.heroEye;
+  $('#heroH').textContent=u.heroH;
+  $('#heroL').textContent=u.heroL;
+  $('#hp1').innerHTML=u.hp1;
+  $('#hp2').innerHTML=u.hp2;
+  $('#hp3').innerHTML=u.hp3;
+  $('#hp4').innerHTML=u.hp4;
   document.documentElement.lang=state.lang;render();renderProof();}
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
 
@@ -758,5 +780,6 @@ try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_l=_p.get("la
 applyBrand();applyText();renderLangs();
 (function(){var _l="";setInterval(function(){try{if(typeof state==="undefined")return;var c=(state.brand||"")+"|"+(state.lang||"");if(c!==_l){_l=c;if(window.parent&&window.parent!==window)window.parent.postMessage({t:"es",brand:state.brand||null,lang:state.lang||null},"*");}}catch(e){}},400);})();
 </script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
 </body>
 </html>
