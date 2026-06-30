@@ -572,24 +572,18 @@ body.journey-zoom-mode .inline-drill .drill-panel-bench:not([hidden]){animation:
 .persona-open-btn{border:1px solid var(--accentline);border-radius:999px;background:rgba(255,255,255,.76);padding:9px 13px;font-size:12px;font-weight:750;color:var(--ink);cursor:pointer}
 @media(max-width:900px){.persona-nav-bar{flex-wrap:wrap}.persona-brand-select{flex:1;min-width:0}.persona-detail-body{grid-template-columns:1fr}.persona-side-list{border-right:none;border-bottom:1px solid var(--line);padding-bottom:12px}.persona-detail-top{grid-template-columns:100px 1fr}.persona-right-grid{grid-template-columns:1fr}}
 
-.top-actions{display:flex;align-items:center;gap:10px}
-.catalog-link{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.78);padding:9px 12px;color:var(--ink);text-decoration:none;font-size:12px;font-weight:750;white-space:nowrap;box-shadow:0 10px 28px -22px rgba(36,34,45,.35)}
-.catalog-link:hover{border-color:rgba(67,165,173,.38);color:var(--ink)}
-.catalog-entry{margin-top:18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.catalog-entry a{display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(67,165,173,.32);border-radius:999px;background:rgba(255,255,255,.84);padding:10px 14px;color:var(--ink);text-decoration:none;font-size:13px;font-weight:800;box-shadow:var(--shadow)}
-.catalog-entry span{font-size:12.5px;color:var(--ink-soft);font-weight:300}
-.catalog-jump{margin-top:14px;display:flex;justify-content:flex-end}
-.catalog-jump a{display:inline-flex;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.76);padding:9px 12px;color:var(--ink);text-decoration:none;font-size:12px;font-weight:750}
-@media(max-width:760px){.top-actions{gap:6px}.catalog-link{padding:8px 10px;font-size:11px}.catalog-entry{align-items:flex-start;flex-direction:column}}
-
 </style>
+<link rel="stylesheet" href="catalog.css">
 </head>
 <body lang-cn>
 
 <div class="topbar"><div class="wrap">
   <div class="brand"><span class="mk" id="mk"></span>
     <span>AI Scenario Navigator<small class="cn-only">通用磨坊 · 三旅程案例分享</small><small class="en-only">General Mills · Three-Journey Case Library</small></span></div>
-  <div class="top-actions"><a class="catalog-link" href="case-catalog.html"><span class="cn-only">案例与 Demo 库</span><span class="en-only">Case & Demo Catalog</span></a><div class="langtoggle"><button id="lcn" class="on" onclick="setLang('cn')">中文</button><button id="len" onclick="setLang('en')">EN</button></div></div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <button class="catalog-navbtn" onclick="GMCatalog.open()"><span class="cnb-dot"></span><span class="cn-only">案例与能力目录</span><span class="en-only">Catalog</span></button>
+    <div class="langtoggle"><button id="lcn" class="on" onclick="setLang('cn')">中文</button><button id="len" onclick="setLang('en')">EN</button></div>
+  </div>
 </div></div>
 
 <section class="hero"><div class="wrap">
@@ -943,21 +937,12 @@ function openPersona(pid,stageId,cur){
   document.getElementById('caseLayer').classList.add('open');
 }
 
-function catalogHref(kind,id){
-  return 'case-catalog.html?'+kind+'='+encodeURIComponent(id)+'&lang='+LANG;
-}
-function openCatalogCase(cid){window.location.href=catalogHref('case',cid);}
-function openCatalogNtt(nid){window.location.href=catalogHref('ntt',nid);}
-function catalogStageCta(stageCode){
-  return '<div class="catalog-jump"><a href="'+catalogHref('stage',stageCode)+'">'+(isCn()?'查看完整案例与 Demo Catalog':'View full Case & Demo Catalog')+' →</a></div>';
-}
-
 function caseCard(cid){
   const c=CASES[cid];if(!c)return'';
   const bc=brandColor[c.brand]||'#888';
   const img=c.img?`assets/${c.img}.jpg`:'';
   const tl=tierLabel[c.tier];const tlab=tl?(isCn()?tl.cn:tl.en):'';
-  return `<button class="ccard" onclick="openCatalogCase('${cid}')">
+  return `<button class="ccard" onclick="openCase('${cid}')">
     <div class="ccard-img">${img?`<img src="${img}" loading="lazy" alt="" onerror="this.style.display='none';this.parentElement.classList.add('noimg')">`:''}
       <span class="ccard-brand" style="--bc:${bc}"><span class="bd"></span>${c.brand}</span>
       ${tlab?`<span class="ccard-tier">${tlab}</span>`:''}</div>
@@ -1015,24 +1000,12 @@ function openDetail(i){
 
   const scnTags=s.scn.map((x,k)=>`<span class="scntag"><i>${String.fromCharCode(97+k)}</i>${x}</span>`).join('');
   const personaHtml = renderPersonaMatrixForStage(CUR, s.code);
-  const benchmarkRowsHtml = buildBenchmarkProofRows(s);
 
   const nttIds = s.ntt||[];
   let nttHtml='';
-  if(nttIds.length){
-    const uniq=[...new Set(nttIds)];
-    const cards=uniq.map(nid=>{const n=NTT[nid];if(!n)return'';
-      const isDemo=n.proof_status==='Demo Asset';
-      return `<button class="nttcard" onclick="openCatalogNtt('${nid}')">
-        <div class="ntt-top"><span class="ntt-badge">NTT DATA</span>
-          <span class="ntt-proof ${isDemo?'demo':'ref'}">${isDemo?(isCn()?'可复用 Demo':'Demo Asset'):(isCn()?'参考能力':'Reference')}</span></div>
-        <h4>${n.title}</h4>
-        <div class="ntt-sum">${localText(n,'summary')}</div>
-        <div class="ntt-go">${isCn()?'查看能力':'View capability'} →</div></button>`;}).join('');
-    nttHtml=`
-      <div class="layerlab"><span class="ln">03</span>${isCn()?'NTT DATA 如何帮你落地':'HOW NTT DATA HELPS'}</div>
-      <div class="nttgrid">${cards}</div>`;
-  }
+  // Stage-level case + capability preview now routes into the restructured catalog
+  const stageCatalogHtml = (window.GMCatalog&&window.GMCatalog.stageBlock)
+    ? window.GMCatalog.stageBlock(s, CUR) : '';
 
   const totalCases=(s.cases||[]).length;
   const prevDisabled=i===0?'disabled':'';
@@ -1064,35 +1037,10 @@ function openDetail(i){
         </div>
       </div>
       <p class="ddesc">${isCn()?s.desc_cn:s.desc_en}</p>
-      <div class="inline-flow-steps" aria-hidden="true">
-        <span class="inline-step-node">01 ${isCn()?'Stage meaning':'Stage meaning'}</span>
-        <span class="inline-step-node">02 ${isCn()?'Who & when':'Who & when'}</span>
-        <span class="inline-step-node">03 ${isCn()?'Scenarios':'Scenarios'}</span>
-        <span class="inline-step-node">04 ${isCn()?'Benchmark proof':'Benchmark proof'}</span>
-        <span class="inline-step-node">05 ${isCn()?'AI opportunity':'AI opportunity'}</span>
-      </div>
-      <div class="drill-toggle" role="tablist" aria-label="${isCn()?'展开内容切换':'Drill-down content switch'}">
-        <button class="active" type="button" onclick="switchDrillTab(this,'detail')">01 ${isCn()?'Journey Detail':'Journey Detail'}</button>
-        <button type="button" onclick="switchDrillTab(this,'bench')">02 ${isCn()?'Benchmark Cases':'Benchmark Cases'}</button>
-      </div>
       <div class="drill-panel drill-panel-detail">
-        <div class="drill-stage-note">
-          <div class="drill-note-card"><b>${isCn()?'Stage meaning':'Stage meaning'}</b><span>${isCn()?'这是旅程中的一个阶段页面，不是案例弹窗；用户沿着阶段继续下钻。':'This is a stage page in the journey, not a case modal; the user drills further along the journey.'}</span></div>
-          <div class="drill-note-card"><b>${isCn()?'Scenario layer':'Scenario layer'}</b><span>${isCn()?'先解释谁、在什么场景、为什么被触发。':'Explain who is involved, in what occasion, and why the need is triggered.'}</span></div>
-          <div class="drill-note-card"><b>${isCn()?'Image rule':'Image rule'}</b><span>${isCn()?'保留一张 stage 主图 + persona 小头像，避免页面变成素材库。':'Keep one stage image plus small persona thumbnails, so the page stays analytical rather than image-heavy.'}</span></div>
-        </div>
         <div class="scntagrow">${scnTags}</div>
         ${personaHtml}
-        ${nttHtml}
-        <div class="dhook"><b>${isCn()?'完整叙事：':'Full narrative: '}</b>
-          ${isCn()?'Journey stage → who & when → mapped scenarios → AI opportunity → NTT DATA 落地能力。':'Journey stage → who & when → mapped scenarios → AI opportunity → NTT DATA delivery capability.'}</div>
-      </div>
-      <div class="drill-panel drill-panel-bench" hidden>
-        <div class="layerlab"><span class="ln">02</span>${isCn()?'BENCHMARK CASES · 证据层':'BENCHMARK CASES · PROOF LAYER'}</div>
-        ${benchmarkRowsHtml}
-        ${catalogStageCta(s.code)}
-        <div class="dhook"><b>${isCn()?'使用方式：':'How to use: '}</b>
-          ${isCn()?'Benchmark Cases 只在用户切到 02 时出现，作为三排 proof layer，不抢 Journey 主线。':'Benchmark cases only appear after switching to 02, as a three-row proof layer that does not compete with the Journey narrative.'}</div>
+        ${stageCatalogHtml}
       </div>
     </div>
     <div class="dnav" style="position:static;margin-top:20px;justify-content:center">
@@ -1114,6 +1062,8 @@ function openDetail(i){
 
 /* ---- NTT capability record ---- */
 function openNtt(nid){
+  // Redirect to the restructured catalog detail (full page, not side-drawer)
+  if(window.GMCatalog){document.getElementById('catalogOverlay').classList.add('open');window.GMCatalog.openNtt(nid);return;}
   const n=NTT[nid];if(!n)return;
   const isDemo=n.proof_status==='Demo Asset';
   const pick=(obj,key)=>isCn()?(obj[key+'_cn']||obj[key]||obj[key+'_en']):(obj[key+'_en']||obj[key]||obj[key+'_cn']);
@@ -1171,7 +1121,7 @@ function openScenario(sid){
   const relatedHtml=related.length?`
     <div class="morelist" style="display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px">
       ${related.map(cid=>{const c=CASES[cid];if(!c)return'';const cbc=brandColor[c.brand]||'#888';
-        return `<button class="refrow" onclick="openCatalogCase('${cid}')">
+        return `<button class="refrow" onclick="openCase('${cid}')">
           <span class="cdot" style="background:${cbc}"></span>
           <span class="reftxt">${caseTitle(c)}</span>
           <span class="refbrand">${localName(c.brand)}</span><span class="carrow">→</span></button>`;}).join('')}
@@ -1207,6 +1157,8 @@ function openScenario(sid){
   document.getElementById('caseLayer').classList.add('open');
 }
 function openCase(cid){
+  // Redirect to the restructured catalog detail (full page, not side-drawer)
+  if(window.GMCatalog){document.getElementById('catalogOverlay').classList.add('open');window.GMCatalog.openCase(cid);return;}
   const c=CASES[cid];if(!c)return;
   const bc=brandColor[c.brand]||'#888';
   const imgPath=c.img?`assets/${c.img}.jpg`:''; // real curated image
@@ -1287,7 +1239,8 @@ function setLang(l){LANG=l;
   document.body.removeAttribute(l==='cn'?'lang-en':'lang-cn');
   document.getElementById('lcn').classList.toggle('on',l==='cn');
   document.getElementById('len').classList.toggle('on',l==='en');
-  render();}
+  render();
+  if(window.GMCatalog)window.GMCatalog.refresh();}
 
 /* ---- RENDER ALL ---- */
 function render(){document.body.classList.remove('journey-zoom-mode');forceRibbonOnNextScroll=true;applyTheme(CUR);buildTabs();renderHero();renderNav();renderStations();}
@@ -1415,5 +1368,22 @@ window.addEventListener('scroll',onScroll,{passive:true});
 window.addEventListener('resize',()=>scheduleRibbonRefresh(150));
 window.addEventListener('load',()=>{render();scheduleRibbonRefresh(200);scheduleRibbonRefresh(520);});
 </script>
+
+<!-- ===== Capability & Benchmark Catalog (restructured case + NTT layer) ===== -->
+<div class="catalog-overlay" id="catalogOverlay">
+  <div class="cat-shell">
+    <div class="cat-topbar">
+      <div class="ct-brand"><span class="ct-mk"></span>
+        <span><span class="cn-only">案例与能力目录</span><span class="en-only">Capability &amp; Benchmark Catalog</span>
+          <small class="cn-only">通用磨坊 · 标杆案例 · NTT 能力 · 可体验 Demo</small>
+          <small class="en-only">General Mills · Benchmarks · NTT capabilities · Live demos</small></span></div>
+      <button class="cat-close" onclick="GMCatalog.close()" aria-label="Close">✕</button>
+    </div>
+    <div id="catalogBody"></div>
+    <div id="catalogDetail"></div>
+  </div>
+</div>
+<script src="bm2-data.js"></script>
+<script src="catalog.js"></script>
 </body>
 </html>

@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Driven Customer Operation · Blackmores · Experience Studio</title>
+<style>
+  :root{
+    --brand:#e60012; --brand-d:#a90010; --soft:#fde9ea; --blue:#333b42; --green:#0a8f55;
+    --ink:#171b19; --muted:#747a76; --bg:#fbfaf7; --card:#fffefa; --line:#e6dfd5; --dark:#111820;
+    --display:Georgia,'Times New Roman','Hiragino Mincho ProN','Songti SC',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','PingFang SC','Microsoft YaHei','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+  header{position:sticky;top:0;z-index:20;background:#f7f3ed;color:var(--ink);border-bottom:1px solid var(--line);box-shadow:0 8px 28px rgba(17,24,32,.04)}
+  .nav{max-width:1240px;margin:0 auto;padding:18px 22px;display:flex;align-items:center;gap:14px}
+  .brand{font-family:var(--display);font-size:24px;font-weight:700;letter-spacing:.01em;display:flex;align-items:center;gap:10px}
+  .brand:before{content:"H";display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--brand);color:#fff;font-family:var(--display);font-size:21px;line-height:1}
+  .sub{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#777d78;border-left:1px solid var(--line);padding-left:13px}
+  .sp{flex:1}
+  .langs{display:flex;gap:4px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px;box-shadow:0 10px 24px rgba(17,24,32,.05)}
+  .langs button{border:0;background:transparent;color:#6f766f;font:inherit;font-size:12px;font-weight:900;min-width:34px;padding:7px 9px;border-radius:8px;cursor:pointer}
+  .langs button.on{background:var(--dark);color:#fff}
+  .wrap{max-width:1240px;margin:0 auto;padding:34px 22px 80px}
+  .hero{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:34px;align-items:end;padding:20px 0 28px}
+  .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:900}
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(38px,6.2vw,72px);line-height:.98;margin:14px 0 18px;max-width:11ch}
+  .lead{font-size:17px;color:var(--muted);max-width:72ch}
+  .hero-panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 20px 50px rgba(17,24,32,.06)}
+  .hero-panel h2{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);margin-bottom:12px}
+  .mini-flow{display:grid;gap:10px}
+  .mini-step{display:flex;align-items:flex-start;gap:11px;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 12px}
+  .mini-step b{display:grid;place-items:center;flex:0 0 28px;height:28px;border-radius:50%;background:var(--brand);color:#fff;font-size:12px}
+  .mini-step strong{display:block;font-size:13px;margin-bottom:1px}
+  .mini-step span{display:block;font-size:12px;color:var(--muted);line-height:1.45}
+
+  .section{background:#fff;border:1.5px solid color-mix(in srgb,var(--brand) 82%,#fff);border-radius:22px;padding:30px 28px;margin:24px 0;box-shadow:0 18px 50px rgba(17,24,32,.035)}
+  .section-head{display:grid;grid-template-columns:330px minmax(0,1fr);gap:34px;margin-bottom:22px;align-items:start}
+  .kicker{font-size:11px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:var(--brand)}
+  h2{font-family:var(--display);font-size:clamp(28px,3.8vw,46px);font-weight:700;line-height:1.08}
+  .section-desc{font-size:14px;color:var(--muted);max-width:76ch}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:17px;min-height:100%;box-shadow:0 10px 28px rgba(17,24,32,.035)}
+  .card .num{font-size:11px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;color:var(--brand);margin-bottom:8px}
+  .card h3{font-size:17px;line-height:1.25;margin-bottom:8px}
+  .card p{font-size:13px;color:var(--muted)}
+  .card ul{list-style:none;margin-top:10px}
+  .card li{position:relative;padding-left:14px;margin:7px 0;font-size:12.5px;color:var(--muted);line-height:1.45}
+  .card li:before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--brand)}
+  .barrier-flow{display:grid;gap:14px}
+  .barrier-row{display:grid;grid-template-columns:minmax(0,1.18fr) 48px minmax(0,1.1fr) 48px 250px;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+  .barrier-left{display:grid;grid-template-columns:54px 1fr;gap:14px;align-items:start}
+  .barrier-no{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--brand);color:#fff;font-weight:900;font-size:22px}
+  .barrier-row:nth-child(1) .barrier-no,.barrier-row:nth-child(3) .barrier-no{background:var(--brand)}
+  .barrier-left h3{font-family:var(--display);font-size:25px;line-height:1.05;color:var(--ink);margin-bottom:7px}
+  .barrier-left p{font-size:13.5px;line-height:1.45;color:var(--muted);font-style:normal}
+  .barrier-question{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:15px;line-height:1.36;color:var(--ink);font-weight:650}
+  .barrier-question b{color:var(--blue)}
+  .barrier-answer{min-height:132px;border-radius:16px;display:grid;place-items:center;text-align:center;padding:20px;background:var(--soft);color:var(--ink);font-size:17px;line-height:1.28;border:1px dashed color-mix(in srgb,var(--brand) 52%,var(--line))}
+  .barrier-row:nth-child(2) .barrier-answer,.barrier-row:nth-child(3) .barrier-answer{background:var(--soft)}
+  .barrier-answer b{display:block;font-weight:900}
+  .arrow{height:30px;position:relative}
+  .arrow:before{content:"";position:absolute;left:4px;right:13px;top:13px;height:3px;background:color-mix(in srgb,var(--brand) 55%,var(--line))}
+  .arrow:after{content:"";position:absolute;right:0;top:4px;border-left:14px solid color-mix(in srgb,var(--brand) 55%,var(--line));border-top:11px solid transparent;border-bottom:11px solid transparent}
+
+  .loop{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;position:relative}
+  .loop-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;position:relative;overflow:hidden}
+  .loop-card:after{content:"";position:absolute;top:28px;right:-18px;width:36px;height:2px;background:var(--brand);opacity:.45}
+  .loop-card:last-child:after{display:none}
+  .loop-card .idx{font-family:var(--display);font-size:32px;color:var(--brand);line-height:1;margin-bottom:10px}
+  .loop-card h3{font-size:16px;margin-bottom:8px}
+  .loop-card p{font-size:12.5px;color:var(--muted)}
+  .loop.closed{grid-template-columns:minmax(0,1fr) 280px minmax(0,1fr);grid-template-rows:auto auto;gap:16px 20px;align-items:stretch}
+  .loop.closed .loop-card{min-height:178px;border-color:var(--line);box-shadow:0 12px 28px rgba(17,24,32,.045)}
+  .loop.closed .loop-card:after{display:none}
+  .loop-card.pos1{grid-column:1;grid-row:1}.loop-card.pos2{grid-column:3;grid-row:1}
+  .loop-card.pos3{grid-column:3;grid-row:2}.loop-card.pos4{grid-column:1;grid-row:2}
+  .loop-center{grid-column:2;grid-row:1 / span 2;align-self:center;aspect-ratio:1;border-radius:50%;padding:22px;background:conic-gradient(var(--brand) 0 25%,#f8cdd1 25% 50%,#f3e8e4 50% 75%,#f7b7bd 75% 100%);display:grid;place-items:center;position:relative;box-shadow:0 18px 42px rgba(17,24,32,.06)}
+  .loop-center:before{content:"";position:absolute;inset:26px;border-radius:50%;background:var(--card);border:1px solid var(--line)}
+  .loop-center:after{content:"";position:absolute;right:26px;top:42px;border-left:18px solid var(--brand);border-top:14px solid transparent;border-bottom:14px solid transparent;transform:rotate(32deg)}
+  .loop-core{position:relative;z-index:1;text-align:center;padding:16px}
+  .loop-core b{display:block;font-family:var(--display);font-size:28px;line-height:1.05;color:var(--ink)}
+  .loop-core span{display:block;margin-top:8px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--brand-d)}
+  .foundation{margin-top:14px;border:1px dashed color-mix(in srgb,var(--brand) 45%,var(--line));background:var(--soft);border-radius:14px;padding:14px 16px;display:flex;gap:20px;align-items:center}
+  .foundation b{font-size:13px;color:var(--brand-d);white-space:nowrap}
+  .foundation span{font-size:13px;color:var(--muted)}
+
+  .architecture{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;align-items:stretch}
+  .arch-box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px;min-height:138px;position:relative;box-shadow:0 10px 26px rgba(17,24,32,.035)}
+  .arch-box:not(:last-child):after{content:"";position:absolute;right:-8px;top:50%;width:8px;height:2px;background:var(--brand);opacity:.5}
+  .arch-box h3{font-size:13px;line-height:1.25;margin-bottom:8px;color:var(--ink)}
+  .arch-box p{font-size:12px;color:var(--muted);line-height:1.45}
+  .arch-box .tag{display:inline-block;margin-bottom:9px;font-size:10px;font-weight:900;color:var(--brand);letter-spacing:.08em;text-transform:uppercase}
+
+  .method{display:grid;grid-template-columns:320px minmax(0,1fr);gap:18px}
+  .method-side{background:var(--dark);color:#fff;border-radius:16px;padding:20px}
+  .method-side h3{font-family:var(--display);font-size:25px;font-weight:500;line-height:1.15;margin-bottom:12px}
+  .method-side p{font-size:13px;color:#bdc8d1}
+  .method-list{display:grid;gap:10px}
+  .method-row{display:grid;grid-template-columns:120px minmax(0,1fr);gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px}
+  .method-row b{font-size:12px;color:var(--brand);text-transform:uppercase;letter-spacing:.08em}
+  .method-row span{font-size:13px;color:var(--muted)}
+
+  .score-wrap{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:18px}
+  .score-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .score-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 10px 26px rgba(17,24,32,.035)}
+  .score-card h3{font-size:14px;margin-bottom:6px}
+  .score-card p{font-size:12.5px;color:var(--muted)}
+  .tier{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 10px 26px rgba(17,24,32,.035)}
+  .tier-row{display:grid;grid-template-columns:56px minmax(0,1fr);border-bottom:1px solid var(--line)}
+  .tier-row:last-child{border-bottom:0}
+  .tier-row b{display:grid;place-items:center;background:var(--soft);color:var(--brand-d);font-family:var(--display);font-size:20px}
+  .tier-row span{padding:12px 13px;font-size:12.5px;color:var(--muted)}
+  .tier-row strong{display:block;color:var(--ink);font-size:13px;margin-bottom:2px}
+  .woe-model{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:18px;box-shadow:0 16px 38px rgba(17,24,32,.045)}
+  .woe-grid{display:grid;grid-template-columns:1.08fr .72fr 1fr;gap:14px;align-items:stretch}
+  .woe-panel{border:1px solid var(--line);border-radius:14px;background:#fff;padding:15px}
+  .woe-panel h3{font-size:14px;color:var(--brand-d);margin-bottom:11px}
+  .tag-table{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  .tag-head{background:var(--dark);color:#fff;border-radius:8px;padding:7px;text-align:center;font-size:12px;font-weight:900}
+  .tag-cell{background:#eef3f6;border-radius:5px;padding:8px;text-align:center;font-size:12px;color:var(--muted)}
+  .tag-cell.hot{background:var(--soft);color:var(--brand-d);font-weight:800}
+  .tag-note{margin-top:10px;color:var(--brand-d);font-size:12px;font-weight:800}
+  .woe-funnel{display:grid;grid-template-rows:auto 1fr auto;gap:10px;text-align:center}
+  .funnel-top{font-size:20px;font-weight:900;color:var(--brand-d);letter-spacing:.04em}
+  .funnel-shape{min-height:148px;border-radius:14px;background:linear-gradient(180deg,#fff4f5,#ee7b84);display:grid;place-items:center;color:#fff;font-weight:900;padding:18px;position:relative;overflow:hidden}
+  .funnel-shape:before{content:"";position:absolute;inset:18px 42px;clip-path:polygon(0 0,100% 0,58% 72%,58% 100%,42% 100%,42% 72%);background:rgba(255,255,255,.22)}
+  .funnel-shape span{position:relative;z-index:1;font-size:14px;line-height:1.35;text-shadow:0 1px 2px rgba(0,0,0,.2)}
+  .woe-samples{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .sample-box{border:1px solid color-mix(in srgb,var(--brand) 42%,var(--line));border-radius:10px;padding:9px;background:#fff;color:var(--ink);font-size:12px;font-weight:800}
+  .mechanism{display:grid;gap:10px}
+  .mech-title{display:inline-block;background:var(--dark);color:#fff;border-radius:9px;padding:7px 11px;font-weight:900;width:max-content}
+  .mech-card{background:#fff;border:1px solid var(--line);box-shadow:0 12px 28px rgba(17,24,32,.045);border-radius:14px;padding:13px}
+  .mech-card b{display:block;color:var(--brand-d);font-size:14px;margin-top:8px}
+  .mech-card span{display:block;color:var(--muted);font-size:12px;line-height:1.35}
+  .score-box{border:2px dashed var(--brand);border-radius:14px;padding:14px;color:var(--ink);font-size:13px;min-height:0;background:#fff8f8}
+  .score-box b{display:block;color:var(--brand);font-size:22px;font-family:var(--display);margin-bottom:4px}
+  .formula{margin-top:14px;background:var(--dark);color:#fff;border-radius:14px;padding:14px;text-align:center;font-family:var(--display);font-size:18px;line-height:1.25}
+  .formula small{font-family:var(--body);font-size:12px;color:#eef;display:block;margin-top:4px}
+
+  .playbooks{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+  .playbook{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px;box-shadow:0 10px 26px rgba(17,24,32,.035)}
+  .playbook h3{font-size:15px;margin-bottom:8px}
+  .playbook p{font-size:12px;color:var(--muted);min-height:74px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .chip{font-size:10.5px;font-weight:800;color:var(--brand-d);background:var(--soft);border-radius:999px;padding:4px 8px}
+
+  .ai-loop{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+  .timeline{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 26px rgba(17,24,32,.035)}
+  .tl-item{display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;padding:0 0 16px;position:relative}
+  .tl-item:before{content:"";position:absolute;left:16px;top:32px;bottom:0;width:1px;background:var(--line)}
+  .tl-item:last-child:before{display:none}
+  .tl-item i{font-style:normal;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--brand);color:#fff;font-size:12px;font-weight:900;position:relative;z-index:1}
+  .tl-item h3{font-size:14px;margin-bottom:4px}
+  .tl-item p{font-size:12.5px;color:var(--muted)}
+  .callout{background:linear-gradient(180deg,var(--soft),var(--card));border:1px solid color-mix(in srgb,var(--brand) 30%,var(--line));border-radius:16px;padding:19px}
+  .callout h3{font-family:var(--display);font-size:25px;font-weight:500;line-height:1.15;margin-bottom:10px}
+  .callout p{font-size:13px;color:var(--muted);margin-bottom:12px}
+  .callout .big{font-size:37px;font-family:var(--display);color:var(--brand);line-height:1}
+
+  .outcomes{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+  .outcome{background:var(--card);color:var(--ink);border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:14px;padding:14px;min-height:106px;box-shadow:0 10px 26px rgba(17,24,32,.035)}
+  .outcome b{display:block;font-size:24px;font-family:var(--display);color:var(--brand);margin-bottom:5px}
+  .outcome span{font-size:11.5px;color:var(--muted);line-height:1.4}
+  .srcnote{text-align:center;color:var(--muted);font-size:11px;margin-top:28px}
+
+  @media(max-width:980px){
+    .hero,.section-head,.method,.score-wrap,.ai-loop{grid-template-columns:1fr}
+    .grid4,.architecture,.outcomes{grid-template-columns:repeat(2,1fr)}
+    .loop,.playbooks{grid-template-columns:1fr 1fr}
+    .hero-panel{max-width:none}
+    .woe-grid{grid-template-columns:1fr}
+    .loop.closed{grid-template-columns:1fr 1fr}
+    .loop-card.pos1,.loop-card.pos2,.loop-card.pos3,.loop-card.pos4{grid-column:auto;grid-row:auto}
+    .loop-center{grid-column:1 / -1;grid-row:1;max-width:280px;width:100%;justify-self:center}
+    .barrier-row{grid-template-columns:1fr}
+    .arrow{height:22px;transform:rotate(90deg);width:40px;justify-self:center}
+    .barrier-answer{border-radius:8px;min-height:auto}
+  }
+  @media(max-width:680px){
+    .nav{padding:12px 14px}.sub{display:none}.wrap{padding:26px 16px 60px}
+    .grid3,.grid4,.architecture,.loop,.score-grid,.playbooks,.outcomes{grid-template-columns:1fr}
+    .tag-table{grid-template-columns:1fr}
+    .loop.closed{grid-template-columns:1fr}
+    .loop-center{grid-column:auto}
+    .foundation{display:block}.foundation b{display:block;margin-bottom:5px}
+    .method-row{grid-template-columns:1fr}
+    .arch-box:after,.loop-card:after{display:none}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <div class="brand" id="brand">Blackmores</div>
+    <div class="sub" id="navSub">Data Driven Customer Operation</div>
+    <div class="sp"></div>
+    <div class="langs" id="langs"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <div class="eyebrow" data-t="eyebrow">Customer operation consulting</div>
+      <h1 data-t="title">Data Driven Customer Operation</h1>
+      <p class="lead" data-t="lead">A consulting and implementation capability that turns fragmented customer operations into an AI-powered growth engine: define business goals, diagnose journey leakage, build data scoring, orchestrate lifecycle journeys, and convert every insight into a frontline action.</p>
+    </div>
+    <aside class="hero-panel">
+      <h2 data-t="heroPanelTitle">Operating loop</h2>
+      <div class="mini-flow" id="miniFlow"></div>
+    </aside>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div><div class="kicker" data-t="barrierKicker">What it solves</div><h2 data-t="barrierTitle">From scattered operations to a repeatable growth engine.</h2></div>
+      <p class="section-desc" data-t="barrierDesc">Most customer experience programs fail because the journey, channels and operating mechanisms are not connected. The work is to make them visible, measurable, executable and learnable.</p>
+    </div>
+    <div class="grid3" id="barriers"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div><div class="kicker" data-t="loopKicker">Core methodology</div><h2 data-t="loopTitle">The data-driven intelligent customer operation loop.</h2></div>
+      <p class="section-desc" data-t="loopDesc">The Viking reference shows a practical four-step loop. For Blackmores India, the same logic becomes a cross-journey operating model across discovery, partner follow-up, consultation, order, delivery, service and upgrade.</p>
+    </div>
+    <div class="loop" id="loop"></div>
+    <div class="foundation"><b data-t="foundationTitle">Foundation</b><span data-t="foundationDesc">CDP / OneID, marketing automation, consent, data infrastructure, AI orchestration, dashboards and frontline task systems.</span></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div><div class="kicker" data-t="archKicker">Capability architecture</div><h2 data-t="archTitle">Connect data, decisions and actions end to end.</h2></div>
+      <p class="section-desc" data-t="archDesc">This is not a dashboard project. It is a chain from touchpoint data to identity, scoring, orchestration, sales tasks, partner execution and learning.</p>
+    </div>
+    <div class="architecture" id="architecture"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div><div class="kicker" data-t="methodKicker">Planning method</div><h2 data-t="methodTitle">Translate business goals into use cases.</h2></div>
+      <p class="section-desc" data-t="methodDesc">The strongest part of this capability is not the technology list. It is the discipline of turning executive KPIs into journey hypotheses, then into measurable experiments and product backlog.</p>
+    </div>
+    <div class="method">
+      <div class="method-side"><h3 data-t="methodSideTitle">KPI to use-case discipline</h3><p data-t="methodSideDesc">Start with growth, retention, conversion and loyalty. Then locate the exact barrier in the customer journey and build a backlog that operations can actually run.</p></div>
+      <div class="method-list" id="methodRows"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div><div class="kicker" data-t="scoreKicker">Intelligent segment and scoring</div><h2 data-t="scoreTitle">Make intent visible before it is obvious.</h2></div>
+      <p class="section-desc" data-t="scoreDesc">Scoring combines rule-based business logic and statistical feature analysis. The point is not a beautiful model; the point is reliable routing: who gets nurtured, who gets a partner call, who gets reactivated, and who is ready for an upgrade conversation.</p>
+    </div>
+    <div class="woe-model" id="woeModel"></div>
+    <div class="score-wrap">
+      <div class="score-grid" id="scoreCards"></div>
+      <div class="tier" id="tiers"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div><div class="kicker" data-t="playKicker">Lifecycle playbooks</div><h2 data-t="playTitle">Orchestrate the full customer lifecycle.</h2></div>
+      <p class="section-desc" data-t="playDesc">Each playbook has a target segment, trigger, channel mix, content logic, sales task and measurement rule. That is how data stops being a report and becomes operating muscle.</p>
+    </div>
+    <div class="playbooks" id="playbooks"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div><div class="kicker" data-t="aiKicker">AI closed loop</div><h2 data-t="aiTitle">From abnormal KPI to frontline action.</h2></div>
+      <p class="section-desc" data-t="aiDesc">AI helps diagnose where the funnel is leaking, recommends the next best action, creates content or task suggestions, and monitors whether the intervention actually moved conversion.</p>
+    </div>
+    <div class="ai-loop">
+      <div class="timeline" id="timeline"></div>
+      <div class="callout"><div class="big">AI</div><h3 data-t="calloutTitle">Insight is only useful when it becomes a task.</h3><p data-t="calloutDesc">The closed loop assigns work to the right owner: marketing adjusts the audience or content, sales follows up with recommended scripts, partner managers coach lost-lead reasons, and HQ monitors adoption.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div><div class="kicker" data-t="hondaKicker">Blackmores focus</div><h2 data-t="hondaTitle">High-value retail use cases.</h2></div>
+      <p class="section-desc" data-t="hondaDesc">These use cases connect directly to the current Blackmores story: core-range base, premium-range intent, channel-partner capability, GEO and knowledge graph, lead conversion, customer ownership and VOC.</p>
+    </div>
+    <div class="grid3" id="hondaCases"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div><div class="kicker" data-t="roadmapKicker">Implementation roadmap</div><h2 data-t="roadmapTitle">A practical path on top of existing platforms.</h2></div>
+      <p class="section-desc" data-t="roadmapDesc">The recommendation is not to rebuild Blackmores's systems. Start from current CRM, LMS, DMS, CDP, app, WhatsApp and partner tools, then add orchestration and intelligence layer by layer.</p>
+    </div>
+    <div class="grid4" id="roadmap"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div><div class="kicker" data-t="outcomeKicker">Expected impact</div><h2 data-t="outcomeTitle">What changes when the loop is running.</h2></div>
+      <p class="section-desc" data-t="outcomeDesc">The business value comes from reducing leakage and increasing operating speed, not from adding another isolated analytics page.</p>
+    </div>
+    <div class="outcomes" id="outcomes"></div>
+    <div class="srcnote" data-t="srcnote">Structure adapted from the Viking Cruise customer-operation reference and reframed for Blackmores retail growth.</div>
+  </section>
+</main>
+
+<script>
+const COPY={
+  en:{
+    eyebrow:"Customer operation consulting",
+    title:"Data Driven Customer Operation",
+    lead:"A consulting and implementation capability that turns fragmented customer operations into an AI-powered growth engine: define business goals, diagnose journey leakage, build data scoring, orchestrate lifecycle journeys, and convert every insight into a frontline action.",
+    heroPanelTitle:"Operating loop",
+    mini:[
+      ["01","Define","Business goals, KPIs and use cases"],
+      ["02","Score","Customer segments, intent and value"],
+      ["03","Operate","Lifecycle journeys across channels"],
+      ["04","Act","AI recommendations and closed-loop tasks"]
+    ],
+    barrierKicker:"What it solves",barrierTitle:"From scattered operations to a repeatable growth engine.",barrierDesc:"Most customer experience programs fail because the journey, channels and operating mechanisms are not connected. The work is to make them visible, measurable, executable and learnable.",
+    barriers:[
+      ["Multiple journeys","Customers move across AI search, website, WhatsApp, app, store, consultation and customer community. Without one framework, every team optimizes its own fragment.","Answer: unified lifetime journey framework."],
+      ["Multiple channels","Media, partner accounts, WhatsApp, MyBlackmores, CRM, LMS and DMS often operate with different audiences, triggers and measurement rules.","Answer: omni-touchpoint orchestration model."],
+      ["Multiple mechanisms","Campaigns, sales follow-up, loyalty and service recovery are often run as one-off activities instead of reusable operating routines.","Answer: repeatable private-domain operating engine."]
+    ],
+    barrierFlow:[
+      ["Multiple Journeys","Customer interactions dispersed across touchpoints without continuity","How do we architect an E2E Journey that delivers a seamless, guided brand experience?","Build a unified|Lifetime Journey Framework"],
+      ["Multiple Channels","Channels operate in silos; no integrated flow across online and offline","How do we orchestrate cross-channel collaboration to ensure consistent messaging and experience?","Establish an omni-touchpoint|Orchestration Model"],
+      ["Multiple Mechanisms","Activities exist, but no scalable operating engine to sustain growth","How do we build repeatable mechanisms that motivate actions and convert behaviors into value?","Develop an automatic private-domain|Operating Engine"]
+    ],
+    loopKicker:"Core methodology",loopTitle:"The data-driven intelligent customer operation loop.",loopDesc:"The Viking reference shows a practical four-step loop. For Blackmores India, the same logic becomes a cross-journey operating model across discovery, partner follow-up, consultation, order, delivery, service and upgrade.",
+    loopCore:["Data-Empowered","Journey-Driven"],
+    loop:[
+      ["Define goals and use cases","Clarify growth, retention, conversion and loyalty KPIs. Translate them into journey barriers and use-case backlog."],
+      ["Segment and score","Use multi-source profiles, predictive tags and WOE/IV-style feature analysis to identify high-value or high-intent users."],
+      ["Orchestrate lifecycle operations","Run cross-domain journeys across media, WhatsApp, app, partner, sales and service touchpoints with automation and ownership."],
+      ["AI closed-loop action","Turn KPI anomalies, lost reasons and behavior signals into recommended content, sales tasks and recovery actions."]
+    ],
+    foundationTitle:"Foundation",foundationDesc:"CDP / OneID, marketing automation, consent, data infrastructure, AI orchestration, dashboards and frontline task systems.",
+    archKicker:"Capability architecture",archTitle:"Connect data, decisions and actions end to end.",archDesc:"This is not a dashboard project. It is a chain from touchpoint data to identity, scoring, orchestration, sales tasks, partner execution and learning.",
+    architecture:[
+      ["01 Sources","AI search, web, app, WhatsApp, campaigns, partner, consultation, order, delivery, service, VOC."],
+      ["02 Identity","OneID, consent, DPDP controls, cross-entity data wall, customer and product profiles."],
+      ["03 Intelligence","Tags, lead grade, upgrade readiness, churn risk, content affinity, next best action."],
+      ["04 Orchestration","MA flows, journey triggers, A/B tests, segment branches, frequency and suppression rules."],
+      ["05 Frontline action","Partner SLA, sales tasks, scripts, content recommendation, recovery queue, manager coaching."],
+      ["06 Learning","Dashboards, funnel leakage, lost reason analysis, VOC, experiment recap and model refresh."]
+    ],
+    methodKicker:"Planning method",methodTitle:"Translate business goals into use cases.",methodDesc:"The strongest part of this capability is not the technology list. It is the discipline of turning executive KPIs into journey hypotheses, then into measurable experiments and product backlog.",
+    methodSideTitle:"KPI to use-case discipline",methodSideDesc:"Start with growth, retention, conversion and loyalty. Then locate the exact barrier in the customer journey and build a backlog that operations can actually run.",
+    methodRows:[
+      ["Business KPI","Example: increase qualified premium-range leads, lift consultation conversion, recover lost leads, grow repeat-purchase retention."],
+      ["Journey diagnosis","Locate where the customer breaks: public-to-private, onboarding, nurturing, partner follow-up, order, delivery or service."],
+      ["Hypothesis tree","Write the reason like an operating hypothesis: profile is vague, content mismatch, SLA broken, trust gap, incentive missing."],
+      ["Use-case backlog","Convert the hypothesis into a measurable use case with segment, trigger, channel, content, owner and KPI."],
+      ["Experiment rule","Define control group, A/B content, response SLA, conversion window and what action changes after the result."]
+    ],
+    scoreKicker:"Intelligent segment and scoring",scoreTitle:"Make intent visible before it is obvious.",scoreDesc:"Scoring combines rule-based business logic and statistical feature analysis. The point is not a beautiful model; the point is reliable routing: who gets nurtured, who gets a partner call, who gets reactivated, and who is ready for an upgrade conversation.",
+    scoreCards:[
+      ["Feature engineering","Lead source, product interest, payment behavior, WhatsApp engagement, app activity, service history, location, membership tenure, event attendance and referral."],
+      ["WOE / IV analysis","Use feature distribution and information value to identify variables that truly separate high-conversion from low-conversion users."],
+      ["Predictive tags","High intent, price sensitive, family upgrade, service loyalist, dormant lead, offer ready, partner responsive, cross-entity consented."],
+      ["Action routing","Scores feed audience selection, partner task priority, content recommendation, win-back flow and management dashboard."]
+    ],
+    woe:{
+      leftTitle:"Tag values become model features",
+      heads:["Is referral","Lead type","R30 VF engage"],
+      rows:[["No = 0","Past enquiry = 2","0 time = 0"],["Yes = 1","Past PAX = 6","2 times = 2"],["No = 0","NTB = 0","3 times = 3"]],
+      note:["All leads have a complete set of tags","Each lead has different tag values"],
+      centerTop:"TAG → WOE",
+      centerText:"Business filters tags; WOE converts tag values into scoring weights.",
+      pos:"Positive sample",neg:"Negative sample",
+      mechTitle:"Mechanism",
+      mech:[["Identifying key tags","Find which user attributes impact conversion the most."],["Defining tag values","Show which specific values correspond to higher scores."],["Optimizing by conversion data","Adjust the model using actual conversion outcomes."]],
+      finalTitle:"Final Scores",finalDesc:"reflect each lead's conversion probability and priority level",
+      formula:"WOE = ln(percentage of positive outcomes in the bin / percentage of negative outcomes in the bin)",
+      formulaNote:"IV shows whether a feature is predictive; higher WOE means the value is closer to positive samples."
+    },
+    tiers:[
+      ["H","Hot intent","Partner calls now; assign SC, book consultation, confirm product/offer and monitor SLA."],
+      ["A","Active prospect","Automated nurture plus sales follow-up when behavior crosses threshold."],
+      ["B","Nurture pool","Segmented content, comparison guides, ownership value and offer education."],
+      ["C","Low activity","Low-cost reactivation through WhatsApp, SMS or app trigger."],
+      ["L","Lost / leakage","Detect lost reason and launch tailored win-back or manager coaching."]
+    ],
+    playKicker:"Lifecycle playbooks",playTitle:"Orchestrate the full customer lifecycle.",playDesc:"Each playbook has a target segment, trigger, channel mix, content logic, sales task and measurement rule. That is how data stops being a report and becomes operating muscle.",
+    playbooks:[
+      ["F2L acceleration","Move anonymous or public-domain demand into owned channels through AI chat, WhatsApp, QR, app registration and consent.","AI search","WhatsApp","QR"],
+      ["New lead onboarding","Use the first 6 days after lead creation to teach value, collect preference, assign channel and identify sales readiness.","T+1/T+6","Preference","Branching"],
+      ["Continuous nurturing","Weekly or behavior-triggered journeys with product comparison, usage cost, health education and local partner content.","MA","Content","Scoring"],
+      ["Lead conversion","High-intent behavior triggers SC task, consultation booking, offer pre-check, stock allocation promise and lost-lead recovery.","SLA","Product trial","Order"],
+      ["Ownership growth","Delivery onboarding, reorder reminders, VOC, loyalty, referral and core-to-premium upgrade readiness signals.","Service","VOC","Upgrade"]
+    ],
+    aiKicker:"AI closed loop",aiTitle:"From abnormal KPI to frontline action.",aiDesc:"AI helps diagnose where the funnel is leaking, recommends the next best action, creates content or task suggestions, and monitors whether the intervention actually moved conversion.",
+    timeline:[
+      ["Detect","Find abnormal KPI movement: lower lead acceptance, weak consultation conversion, high quote-not-book, poor service return."],
+      ["Localize","Trace the problem by segment, channel, city, partner, product, sales consultant, content and timing."],
+      ["Recommend","Suggest next best action: script, content, offer, handover, manager coaching or automated reactivation."],
+      ["Execute","Create tasks inside partner or sales workflow with owner, due time, SLA and recommended message."],
+      ["Learn","Measure the result and feed response, lost reason and VOC back into scoring and journey rules."]
+    ],
+    calloutTitle:"Insight is only useful when it becomes a task.",calloutDesc:"The closed loop assigns work to the right owner: marketing adjusts the audience or content, sales follows up with recommended scripts, partner managers coach lost-lead reasons, and HQ monitors adoption.",
+    hondaKicker:"Blackmores focus",hondaTitle:"High-value retail use cases.",hondaDesc:"These use cases connect directly to the current Blackmores story: core-range base, compliant premium-range intent, channel-partner capability, GEO and knowledge graph, lead conversion, customer ownership and VOC.",
+    hondaCases:[
+      ["Core-to-premium upgrade readiness","Score core-range customer behavior, purchase history and lifecycle stage; capture explicit DPDP consent before routing a new lead."],
+      ["GEO and AI discovery","Use knowledge graph-grounded facts so AI search and buying assistants recommend Blackmores with accurate, structured answers."],
+      ["Partner SLA and lead claiming","Prioritize high-intent leads, assign partner owner, monitor 5-minute response and detect SC handover leakage."],
+      ["Lost lead recovery","Classify lost reason: price, timing, product mismatch, offer, competitor, no response. Trigger tailored win-back."],
+      ["Post-purchase upgrade moment","When service context shows readiness, offer a compliant upgrade conversation and pass only consented signals."],
+      ["VOC to next action","Turn customer complaints, reviews and call summaries into product insight, partner coaching and journey improvements."]
+    ],
+    roadmapKicker:"Implementation roadmap",roadmapTitle:"A practical path on top of existing platforms.",roadmapDesc:"The recommendation is not to rebuild Blackmores's systems. Start from current CRM, LMS, DMS, CDP, app, WhatsApp and partner tools, then add orchestration and intelligence layer by layer.",
+    roadmap:[
+      ["Phase 1","Diagnose and prioritize","Map journeys, KPI leakage, data availability, partner process and quick-win use cases."],
+      ["Phase 2","Build data foundation","Identity, consent, event taxonomy, scoring features, dashboard baseline and governance."],
+      ["Phase 3","Launch lifecycle playbooks","F2L, onboarding, nurturing, conversion, service, VOC and upgrade journeys with task ownership."],
+      ["Phase 4","Optimize with AI","Closed-loop KPI diagnosis, recommended actions, content generation, lost reason learning and model refresh."]
+    ],
+    outcomeKicker:"Expected impact",outcomeTitle:"What changes when the loop is running.",outcomeDesc:"The business value comes from reducing leakage and increasing operating speed, not from adding another isolated analytics page.",
+    outcomes:[
+      ["More","qualified first-party leads"],
+      ["Faster","partner follow-up and SLA discipline"],
+      ["Higher","consultation and order conversion"],
+      ["Lower","lost-lead leakage"],
+      ["Better","service retention and VOC response"],
+      ["Reusable","operating engine across markets"]
+    ],
+    srcnote:"Structure adapted from the Viking Cruise customer-operation reference and reframed for Blackmores retail growth."
+  },
+  zh:{
+    eyebrow:"客户运营咨询",
+    title:"数据驱动的客户运营",
+    lead:"一项咨询与落地能力，将割裂的客户运营转变为由 AI 驱动的增长引擎：明确业务目标、诊断旅程流失、构建数据评分、编排全生命周期旅程，并把每一条洞察转化为一线行动。",
+    heroPanelTitle:"运营闭环",
+    mini:[
+      ["01","定义","业务目标、KPI 与应用场景"],
+      ["02","评分","客户分群、意向与价值"],
+      ["03","运营","跨渠道的全生命周期旅程"],
+      ["04","行动","AI 推荐与闭环任务"]
+    ],
+    barrierKicker:"它解决什么",barrierTitle:"从零散运营到可复制的增长引擎。",barrierDesc:"多数客户体验项目之所以失败，是因为旅程、渠道与运营机制彼此脱节。真正的工作，是让它们变得可见、可衡量、可执行、可学习。",
+    barriers:[
+      ["多条旅程","客户穿梭于 AI 搜索、官网、WhatsApp、App、门店、健康咨询与会员社区之间。缺少统一框架时，每个团队只会优化自己的那一段。","答案：统一的全生命周期旅程框架。"],
+      ["多个渠道","媒体、合作伙伴账号、WhatsApp、MyBlackmores、CRM、LMS 与 DMS 往往各自使用不同的受众、触发条件与衡量规则。","答案：全触点的编排模型。"],
+      ["多种机制","活动、销售跟进、会员忠诚与服务挽回常被当作一次性动作，而非可复用的运营套路。","答案：可复制的私域运营引擎。"]
+    ],
+    barrierFlow:[
+      ["多条旅程","客户互动分散在各触点之间，缺乏连续性","如何设计一条端到端旅程，提供顺畅、有引导的品牌体验？","构建统一的|全生命周期旅程框架"],
+      ["多个渠道","渠道各自为政，线上线下没有打通的流转","如何编排跨渠道协同，确保信息与体验一致？","建立全触点的|编排模型"],
+      ["多种机制","活动一直在做，却没有可规模化的运营引擎来支撑增长","如何构建可复制的机制，激发行动并把行为转化为价值？","打造自动化的私域|运营引擎"]
+    ],
+    loopKicker:"核心方法论",loopTitle:"数据驱动的智能客户运营闭环。",loopDesc:"Viking 参考案例展示了一个实用的四步闭环。对 Blackmores 而言，同样的逻辑可成为贯穿发现、伙伴跟进、健康咨询、下单、配送、服务与升级的跨旅程运营模型。",
+    loopCore:["Data-Empowered","Journey-Driven"],
+    loop:[
+      ["定义目标与应用场景","厘清增长、留存、转化与忠诚度等 KPI，再将其拆解为旅程障碍与应用场景待办清单。"],
+      ["分群与评分","利用多源画像、预测标签与 WOE/IV 式特征分析，识别高价值或高意向用户。"],
+      ["编排全生命周期运营","在媒体、WhatsApp、App、合作伙伴、销售与服务等触点上运行跨域旅程，并配以自动化与明确归属。"],
+      ["AI 闭环行动","将 KPI 异常、流失原因与行为信号，转化为推荐内容、销售任务与挽回动作。"]
+    ],
+    foundationTitle:"基础底座",foundationDesc:"CDP / OneID、营销自动化、授权同意、数据基础设施、AI 编排、看板与一线任务系统。",
+    archKicker:"能力架构",archTitle:"端到端打通数据、决策与行动。",archDesc:"这不是一个看板项目，而是一条从触点数据到身份、评分、编排、销售任务、伙伴执行与学习的完整链路。",
+    architecture:[
+      ["01 数据源","AI 搜索、Web、App、WhatsApp、营销活动、合作伙伴、健康咨询、下单、配送、服务、VOC。"],
+      ["02 身份","OneID、授权同意、合规管控、跨实体数据墙、客户与产品画像。"],
+      ["03 智能","标签、线索分级、升级就绪度、流失风险、内容偏好、下一最佳行动。"],
+      ["04 编排","MA 流程、旅程触发、A/B 测试、分群分支、频次与抑制规则。"],
+      ["05 一线行动","伙伴 SLA、销售任务、话术、内容推荐、挽回队列、管理者辅导。"],
+      ["06 学习","看板、漏斗流失、流失原因分析、VOC、实验复盘与模型迭代。"]
+    ],
+    methodKicker:"规划方法",methodTitle:"将业务目标翻译为应用场景。",methodDesc:"这项能力最强之处不在技术清单，而在一种纪律：把高管 KPI 转化为旅程假设，再变成可衡量的实验与产品待办清单。",
+    methodSideTitle:"从 KPI 到应用场景的纪律",methodSideDesc:"先从增长、留存、转化与忠诚度入手，再定位客户旅程中的确切障碍，并构建一份运营真正能落地执行的待办清单。",
+    methodRows:[
+      ["业务 KPI","例如：提升优质高意向线索、提高健康咨询转化、挽回流失线索、增长服务留存。"],
+      ["旅程诊断","定位客户在哪里断裂：公域转私域、首触引导、培育、伙伴跟进、下单、配送或服务。"],
+      ["假设树","把原因写成运营假设：画像模糊、内容错配、SLA 断裂、信任缺口、激励缺失。"],
+      ["应用场景待办","将假设转化为可衡量的应用场景，包含分群、触发、渠道、内容、归属与 KPI。"],
+      ["实验规则","定义对照组、A/B 内容、响应 SLA、转化窗口，以及结果出来后要改变的行动。"]
+    ],
+    scoreKicker:"智能分群与评分",scoreTitle:"在意向显而易见之前，先让它可见。",scoreDesc:"评分将基于规则的业务逻辑与统计特征分析结合起来。重点不是一个漂亮的模型，而是可靠的分流：谁该被培育、谁该由伙伴致电、谁该被再激活、谁已准备好进行升级对话。",
+    scoreCards:[
+      ["特征工程","线索来源、产品兴趣、支付行为、WhatsApp 互动、App 活跃、服务历史、地域、会员年限、活动参与与转介绍。"],
+      ["WOE / IV 分析","利用特征分布与信息价值，识别真正能区分高转化与低转化用户的变量。"],
+      ["预测标签","高意向、价格敏感、家庭升级、服务忠诚、沉睡线索、支付就绪、伙伴响应、跨实体已授权。"],
+      ["行动分流","评分驱动受众选择、伙伴任务优先级、内容推荐、赢回流程与管理看板。"]
+    ],
+    woe:{
+      leftTitle:"标签取值转化为模型特征",
+      heads:["是否转介绍","线索类型","R30 VF 互动"],
+      rows:[["No = 0","Past enquiry = 2","0 次 = 0"],["Yes = 1","Past PAX = 6","2 次 = 2"],["No = 0","NTB = 0","3 次 = 3"]],
+      note:["所有线索都拥有一套完整的标签","每条线索的标签取值各不相同"],
+      centerTop:"TAG → WOE",
+      centerText:"业务知识筛选标签；WOE 将标签取值转化为评分权重。",
+      pos:"正样本",neg:"负样本",
+      mechTitle:"运作机制",
+      mech:[["识别关键标签","找出哪些用户属性对转化影响最大。"],["定义标签取值","显示哪些具体取值对应更高的分数。"],["以转化数据优化","用真实转化结果来调整模型。"]],
+      finalTitle:"Final Scores",finalDesc:"反映每条线索的转化概率与优先级",
+      formula:"WOE = ln(分箱内正样本占比 / 分箱内负样本占比)",
+      formulaNote:"IV 显示某特征是否具有预测力；WOE 越高，表示该取值越接近正样本。"
+    },
+    tiers:[
+      ["H","高意向","立即由伙伴致电；指派顾问、预约健康咨询、确认产品/支付方案并监控 SLA。"],
+      ["A","活跃潜客","自动培育，并在行为越过阈值时进行销售跟进。"],
+      ["B","培育池","分群内容、对比指南、会员价值与优惠教育。"],
+      ["C","低活跃","通过 WhatsApp、短信或 App 触发的低成本再激活。"],
+      ["L","流失 / 漏出","识别流失原因，启动定制化赢回或管理者辅导。"]
+    ],
+    playKicker:"全生命周期剧本",playTitle:"编排完整的客户生命周期。",playDesc:"每套剧本都有目标分群、触发条件、渠道组合、内容逻辑、销售任务与衡量规则。正是这样，数据才不再只是报表，而成为运营的肌肉。",
+    playbooks:[
+      ["F2L 提速","通过 AI 对话、WhatsApp、二维码、App 注册与授权同意，把匿名或公域需求引入自有渠道。","AI 搜索","WhatsApp","二维码"],
+      ["新线索引导","利用线索创建后的前 6 天传递价值、收集偏好、分配渠道并识别销售就绪度。","T+1/T+6","偏好","分支"],
+      ["持续培育","以每周或行为触发的旅程，推送产品对比、使用成本、健康知识与本地伙伴内容。","MA","内容","评分"],
+      ["线索转化","高意向行为触发顾问任务、健康咨询预约、支付预审、库存承诺与流失线索挽回。","SLA","试用","下单"],
+      ["会员成长","配送引导、服务提醒、VOC、忠诚、转介绍与复购升级就绪信号。","服务","VOC","升级"]
+    ],
+    aiKicker:"AI 闭环",aiTitle:"从异常 KPI 到一线行动。",aiDesc:"AI 帮助诊断漏斗在哪里流失、推荐下一最佳行动、生成内容或任务建议，并监测干预是否真正推动了转化。",
+    timeline:[
+      ["发现","捕捉异常 KPI 波动：线索接受率下降、健康咨询转化乏力、报价未下单偏高、服务复购不佳。"],
+      ["定位","按分群、渠道、城市、伙伴、产品、销售顾问、内容与时段追踪问题所在。"],
+      ["推荐","建议下一最佳行动：话术、内容、优惠、转交、管理者辅导或自动再激活。"],
+      ["执行","在伙伴或销售工作流中创建任务，附带归属、截止时间、SLA 与推荐话术。"],
+      ["学习","衡量结果，并把反馈、流失原因与 VOC 回流到评分与旅程规则中。"]
+    ],
+    calloutTitle:"洞察只有变成任务时才有用。",calloutDesc:"闭环把工作分配给正确的负责人：市场调整受众或内容，销售用推荐话术跟进，伙伴经理就流失线索原因进行辅导，总部监控落地采纳。",
+    hondaKicker:"Blackmores 重点",hondaTitle:"高价值的零售应用场景。",hondaDesc:"这些应用场景与 Blackmores 当下的故事直接相连：会员基础、合规的复购意向、伙伴能力、GEO 与知识图谱、线索转化、会员经营与 VOC。",
+    hondaCases:[
+      ["复购升级就绪度","对会员行为、服务历史与会员阶段进行评分；在生成新线索前，先获取明确的合规授权同意。"],
+      ["GEO 与 AI 发现","以知识图谱为依据的事实，让 AI 搜索与导购助手以准确、结构化的答案推荐 Blackmores。"],
+      ["伙伴 SLA 与线索认领","优先处理高意向线索，指派伙伴负责人，监控 5 分钟响应，并发现顾问交接的漏出。"],
+      ["流失线索挽回","归类流失原因：价格、时机、产品错配、支付、竞品、无响应，并触发定制化赢回。"],
+      ["服务时刻的升级契机","当服务场景显示就绪时，提供合规的升级对话，并仅传递已授权的信号。"],
+      ["VOC 转下一行动","把会员投诉、评价与通话摘要转化为产品洞察、伙伴辅导与旅程改进。"]
+    ],
+    roadmapKicker:"落地路线图",roadmapTitle:"在既有平台之上的务实路径。",roadmapDesc:"建议不是重建 Blackmores 的系统，而是从现有的 CRM、LMS、DMS、CDP、App、WhatsApp 与伙伴工具出发，再逐层叠加编排与智能。",
+    roadmap:[
+      ["Phase 1","诊断与排序","梳理旅程、KPI 流失、数据可用性、伙伴流程与速赢场景。"],
+      ["Phase 2","构建数据底座","身份、授权同意、事件分类、评分特征、看板基线与治理。"],
+      ["Phase 3","上线生命周期剧本","以明确任务归属，运行 F2L、引导、培育、转化、服务、VOC 与升级旅程。"],
+      ["Phase 4","用 AI 持续优化","闭环 KPI 诊断、推荐行动、内容生成、流失原因学习与模型迭代。"]
+    ],
+    outcomeKicker:"预期影响",outcomeTitle:"闭环跑起来后会改变什么。",outcomeDesc:"业务价值来自减少流失、提升运营速度，而不是再增加一个孤立的分析页面。",
+    outcomes:[
+      ["更多","优质的第一方线索"],
+      ["更快","伙伴跟进与 SLA 纪律"],
+      ["更高","健康咨询与下单转化"],
+      ["更低","流失线索的漏出"],
+      ["更好","服务留存与 VOC 响应"],
+      ["可复用","跨市场的运营引擎"]
+    ],
+    srcnote:"结构改编自 Viking Cruise 客户运营参考案例，并针对 Blackmores 零售增长重新构建。"
+  },
+  ja:{
+    eyebrow:"カスタマーオペレーション・コンサルティング",
+    title:"Data Driven Customer Operation",
+    lead:"分断された顧客オペレーションを、AIを活用した成長エンジンへ変えるコンサルティング/実装能力です。事業目標の定義、ジャーニー上の漏れの診断、データスコアリング、ライフサイクル施策の編成、そして各インサイトを現場アクションへ変換します。",
+    heroPanelTitle:"オペレーションループ",
+    mini:[["01","定義","事業目標、KPI、ユースケース"],["02","スコアリング","顧客セグメント、意向、価値"],["03","運用","チャネル横断のライフサイクル施策"],["04","実行","AI推奨とクローズドループタスク"]],
+    barrierKicker:"解くべき課題",barrierTitle:"分散した運用から、再現可能な成長エンジンへ。",barrierDesc:"多くの顧客体験プログラムは、ジャーニー、チャネル、運用メカニズムが接続されていないために失速します。重要なのは、見える化、測定、実行、学習ができる状態にすることです。",
+    barriers:[["複数のジャーニー","顧客はAI検索、Web、WhatsApp、アプリ、ストア、相談、顧客コミュニティを横断します。統一フレームがなければ、各チームは断片だけを最適化します。","解：統一されたライフタイムジャーニーフレームワーク。"],["複数のチャネル","メディア、パートナーアカウント、WhatsApp、MyBlackmores、CRM、LMS、DMSは、異なるオーディエンス、トリガー、測定ルールで動きがちです。","解：全タッチポイントのオーケストレーションモデル。"],["複数のメカニズム","キャンペーン、営業フォロー、ロイヤルティ、サービス回復が、再利用可能な運用ルーチンではなく単発施策になりがちです。","解：反復可能なプライベートドメイン運用エンジン。"]],
+    barrierFlow:[
+      ["複数のジャーニー","顧客接点が分散し、継続性のある体験になっていない","シームレスでガイドされたブランド体験を届けるE2Eジャーニーをどう設計するか。","統一された|ライフタイムジャーニーフレームワーク"],
+      ["複数のチャネル","チャネルがサイロ化し、オンラインとオフラインの統合フローがない","一貫したメッセージと体験を実現するため、クロスチャネル連携をどう編成するか。","全タッチポイントの|オーケストレーションモデル"],
+      ["複数のメカニズム","活動は存在するが、成長を持続する拡張可能な運用エンジンがない","行動を促し、行動を価値へ変える再現可能な仕組みをどう構築するか。","自動化されたプライベートドメイン|運用エンジン"]
+    ],
+    loopKicker:"中核メソドロジー",loopTitle:"データドリブンな知的顧客オペレーションループ。",loopDesc:"Vikingの参照資料では、実務的な4ステップのループが示されています。Blackmoresでは同じ考え方を、発見、パートナーフォロー、相談、受注、配送、サービス、アップグレードを横断する運用モデルに置き換えます。",
+    loopCore:["Data-Empowered","Journey-Driven"],
+    loop:[["目標とユースケースを定義","成長、維持、転換、ロイヤルティKPIを明確化し、ジャーニー上の障壁とユースケースバックログへ落とし込みます。"],["セグメントとスコアを設計","複数ソースのプロファイル、予測タグ、WOE/IV型の特徴分析で、高価値・高意向ユーザーを特定します。"],["ライフサイクル施策を編成","メディア、WhatsApp、アプリ、パートナー、営業、サービスを横断し、自動化と担当責任を持たせて施策を運用します。"],["AIでアクションを閉じる","KPI異常、失注理由、行動シグナルを、推奨コンテンツ、営業タスク、回復アクションへ変換します。"]],
+    foundationTitle:"基盤",foundationDesc:"CDP / OneID、マーケティングオートメーション、同意管理、データ基盤、AIオーケストレーション、ダッシュボード、現場タスクシステム。",
+    archKicker:"能力アーキテクチャ",archTitle:"データ、意思決定、アクションを端から端まで接続する。",archDesc:"これはダッシュボード案件ではありません。タッチポイントデータからID、スコアリング、編成、営業タスク、パートナー実行、学習までをつなぐチェーンです。",
+    architecture:[["01 ソース","AI検索、Web、アプリ、WhatsApp、キャンペーン、パートナー、相談、受注、配送、サービス、VOC。"],["02 ID","OneID、同意、DPDP管理、越境データウォール、顧客/製品プロファイル。"],["03 インテリジェンス","タグ、リード評価、アップグレード準備度、離反リスク、コンテンツ親和性、次善アクション。"],["04 編成","MAフロー、ジャーニートリガー、A/Bテスト、セグメント分岐、頻度/抑制ルール。"],["05 現場アクション","パートナーSLA、営業タスク、スクリプト、コンテンツ推奨、回復キュー、マネージャーコーチング。"],["06 学習","ダッシュボード、ファネル漏れ、失注理由分析、VOC、実験レビュー、モデル更新。"]],
+    methodKicker:"計画方法",methodTitle:"事業目標をユースケースへ翻訳する。",methodDesc:"この能力の強みは、技術リストではありません。経営KPIをジャーニー仮説へ、さらに測定可能な実験とプロダクトバックログへ変える規律です。",
+    methodSideTitle:"KPIからユースケースへ",methodSideDesc:"成長、維持、転換、ロイヤルティから始めます。次に顧客ジャーニー内の具体的な障壁を特定し、現場が運用できるバックログを作ります。",
+    methodRows:[["事業KPI","例：有望なプレミアム製品リードの増加、相談転換率の向上、失注リード回復、リピート購入継続率向上。"],["ジャーニー診断","顧客がどこで離脱するかを特定：公開領域から私域、オンボーディング、育成、パートナーフォロー、受注、配送、サービス。"],["仮説ツリー","原因を運用仮説として記述：プロファイルが曖昧、コンテンツ不一致、SLA断絶、信頼不足、インセンティブ不足。"],["ユースケースバックログ","仮説を、セグメント、トリガー、チャネル、コンテンツ、担当、KPIを持つ測定可能なユースケースへ変換。"],["実験ルール","対照群、A/Bコンテンツ、応答SLA、転換ウィンドウ、結果後に変えるアクションを定義。"]],
+    scoreKicker:"知的セグメントとスコアリング",scoreTitle:"明らかになる前に、意向を見える化する。",scoreDesc:"スコアリングは、業務ルールと統計的な特徴分析を組み合わせます。目的は美しいモデルではなく、信頼できるルーティングです。誰を育成し、誰へパートナーが電話し、誰を再活性化し、誰にアップグレード会話を始めるかを決めます。",
+    scoreCards:[["特徴量設計","リードソース、製品関心、決済行動、WhatsApp反応、アプリ活動、サービス履歴、地域、会員年数、イベント参加、紹介。"],["WOE / IV分析","特徴量分布と情報価値を使い、高転換ユーザーと低転換ユーザーを本当に分ける変数を特定します。"],["予測タグ","高意向、価格敏感、家族アップグレード、サービスロイヤル、休眠リード、決済準備済み、パートナー反応良好、越境同意済み。"],["アクションルーティング","スコアはオーディエンス選定、パートナータスク優先度、コンテンツ推奨、回復フロー、管理ダッシュボードへ接続されます。"]],
+    woe:{leftTitle:"タグ値をモデル特徴量へ変換",heads:["紹介有無","リード種別","R30 VF反応"],rows:[["No = 0","Past enquiry = 2","0回 = 0"],["Yes = 1","Past PAX = 6","2回 = 2"],["No = 0","NTB = 0","3回 = 3"]],note:["すべてのリードが完全なタグセットを持つ","リードごとに異なるタグ値を持つ"],centerTop:"TAG → WOE",centerText:"業務知見でタグを選び、WOEで重みに変換。",pos:"正例サンプル",neg:"負例サンプル",mechTitle:"メカニズム",mech:[["重要タグの特定","どのユーザー属性が転換に最も影響するかを特定します。"],["タグ値の定義","どの具体的な値が高スコアに対応するかを示します。"],["転換データで最適化","実際の転換結果を使ってモデルを調整します。"]],finalTitle:"Final Scores",finalDesc:"各リードの転換確率と優先度を反映",formula:"WOE = ln(ビン内の正例比率 / ビン内の負例比率)",formulaNote:"IVは特徴量に予測力があるかを示し、WOEが高いほどその値は正例に近いことを示します。"},
+    tiers:[["H","高意向","すぐにパートナー架電。SCを割当、相談予約、製品/オファー確認、SLA監視。"],["A","アクティブ見込み","自動育成と、行動が閾値を超えた時点で営業フォロー。"],["B","育成プール","セグメント別コンテンツ、比較ガイド、保有価値、オファー教育。"],["C","低活動","WhatsApp、SMS、アプリトリガーによる低コスト再活性化。"],["L","失注/漏れ","失注理由を検知し、個別の勝ち戻しまたはマネージャー指導を実行。"]],
+    playKicker:"ライフサイクル施策",playTitle:"顧客ライフサイクル全体を編成する。",playDesc:"各プレイブックは、対象セグメント、トリガー、チャネルミックス、コンテンツロジック、営業タスク、測定ルールを持ちます。これにより、データはレポートではなく運用能力になります。",
+    playbooks:[["F2L加速","匿名または公開領域の需要を、AIチャット、WhatsApp、QR、アプリ登録、同意取得を通じて自社チャネルへ移します。","AI検索","WhatsApp","QR"],["新規リードオンボーディング","リード作成後6日間で価値を伝え、嗜好を収集し、チャネルを割当て、営業準備度を見極めます。","T+1/T+6","嗜好","分岐"],["継続育成","週次または行動トリガーで、製品比較、利用コスト、健康知識、地域パートナーコンテンツを配信。","MA","コンテンツ","スコア"],["リード転換","高意向行動をSCタスク、相談予約、オファー事前確認、在庫引当約束、失注回復へ接続します。","SLA","お試し","受注"],["保有成長","配送オンボーディング、再注文通知、VOC、ロイヤルティ、紹介、コア系列からプレミアム系列への準備度シグナル。","サービス","VOC","アップグレード"]],
+    aiKicker:"AIクローズドループ",aiTitle:"KPI異常から現場アクションへ。",aiDesc:"AIは、ファネルの漏れを診断し、次善アクションを推奨し、コンテンツやタスク案を生成し、その介入が転換を改善したかを監視します。",
+    timeline:[["検知","リード受領率低下、相談転換低下、見積後未予約、サービス再来店低下などのKPI異常を発見。"],["特定","セグメント、チャネル、都市、パートナー、製品、SC、コンテンツ、タイミング別に問題箇所を追跡。"],["推奨","スクリプト、コンテンツ、オファー、引継ぎ、マネージャー指導、自動再活性化を推奨。"],["実行","パートナー/営業ワークフロー内に、担当者、期限、SLA、推奨メッセージ付きのタスクを作成。"],["学習","結果を測定し、反応、失注理由、VOCをスコアリングとジャーニールールへ戻します。"]],
+    calloutTitle:"インサイトはタスクになって初めて価値を持つ。",calloutDesc:"クローズドループは、正しい担当者へ仕事を割り当てます。マーケティングは対象や内容を調整し、営業は推奨スクリプトでフォローし、パートナーマネージャーは失注理由を指導し、HQは定着を監視します。",
+    hondaKicker:"Blackmores重点",hondaTitle:"価値の高いリテールユースケース。",hondaDesc:"これらのユースケースは、現在のBlackmoresストーリーに直結します。コア系列基盤、合規なプレミアム系列意向、パートナー能力、GEOとナレッジグラフ、リード転換、顧客保有、VOCです。",
+    hondaCases:[["コア系列からプレミアム系列への準備度","コア系列顧客の行動、購入履歴、ライフサイクル段階をスコア化し、新規リードへ回す前に明示的なDPDP同意を取得。"],["GEOとAIディスカバリー","ナレッジグラフに基づく事実で、AI検索と購入アシスタントがBlackmoresを正確で構造化された回答として推奨。"],["パートナーSLAとリードクレーム","高意向リードを優先し、パートナー担当を割当、5分応答とSC引継ぎ漏れを監視。"],["失注リード回復","価格、時期、製品不一致、オファー、競合、無反応などの失注理由を分類し、個別の勝ち戻しを発動。"],["購入後のアップグレード瞬間","サービス文脈で準備度が見えたとき、合規なアップグレード会話を提示し、同意済みシグナルのみを渡す。"],["VOCから次アクションへ","顧客の不満、レビュー、通話要約を、商品洞察、パートナー指導、ジャーニー改善へ変換。"]],
+    roadmapKicker:"実装ロードマップ",roadmapTitle:"既存プラットフォームの上に現実的に構築する。",roadmapDesc:"Blackmoresのシステムを作り直す提案ではありません。既存のCRM、LMS、DMS、CDP、アプリ、WhatsApp、パートナーツールから始め、オーケストレーションとインテリジェンスを段階的に追加します。",
+    roadmap:[["Phase 1","診断と優先順位付け","ジャーニー、KPI漏れ、データ可用性、パートナープロセス、クイックウィンを整理。"],["Phase 2","データ基盤構築","ID、同意、イベント分類、スコア特徴量、ダッシュボード基準、ガバナンス。"],["Phase 3","ライフサイクル施策開始","F2L、オンボーディング、育成、転換、サービス、VOC、アップグレード施策を担当責任付きで運用。"],["Phase 4","AIで最適化","KPI診断、推奨アクション、コンテンツ生成、失注理由学習、モデル更新。"]],
+    outcomeKicker:"期待効果",outcomeTitle:"ループが動き始めると何が変わるか。",outcomeDesc:"価値は、孤立した分析画面を増やすことではなく、漏れを減らし、運用速度を上げることから生まれます。",
+    outcomes:[["More","有望な自社リード"],["Faster","パートナーフォローとSLA規律"],["Higher","相談・受注転換"],["Lower","失注リードの漏れ"],["Better","サービス維持とVOC対応"],["Reusable","市場横断で使える運用エンジン"]],
+    srcnote:"Viking Cruiseのカスタマーオペレーション参照資料の構造をもとに、Blackmoresのリテール成長文脈へ再構成。"
+  },
+  th:{
+    eyebrow:"Customer operation consulting",
+    title:"Data Driven Customer Operation",
+    lead:"ความสามารถด้าน consulting และ implementation ที่เปลี่ยน customer operation ที่กระจัดกระจายให้เป็น AI-powered growth engine: กำหนด business goals, วินิจฉัย journey leakage, สร้าง data scoring, orchestrate lifecycle journeys และเปลี่ยนทุก insight เป็น frontline action.",
+    heroPanelTitle:"Operating loop",
+    mini:[["01","Define","business goals, KPIs และ use cases"],["02","Score","customer segments, intent และ value"],["03","Operate","lifecycle journeys ข้าม channels"],["04","Act","AI recommendations และ closed-loop tasks"]],
+    barrierKicker:"ปัญหาที่แก้",barrierTitle:"จาก operation ที่กระจัดกระจาย สู่ growth engine ที่ทำซ้ำได้",barrierDesc:"Customer experience program จำนวนมากล้มเหลวเพราะ journey, channels และ operating mechanisms ไม่เชื่อมกัน งานสำคัญคือทำให้ทุกอย่างมองเห็นได้ วัดได้ execute ได้ และเรียนรู้ต่อได้.",
+    barriers:[["Multiple journeys","ลูกค้าเคลื่อนผ่าน AI search, website, WhatsApp, app, store, consultation และ customer community หากไม่มี framework เดียวกัน แต่ละทีมจะ optimize เฉพาะ fragment ของตัวเอง","คำตอบ: unified lifetime journey framework."],["Multiple channels","Media, partner accounts, WhatsApp, MyBlackmores, CRM, LMS และ DMS มักทำงานด้วย audience, trigger และ measurement rules ที่ต่างกัน","คำตอบ: omni-touchpoint orchestration model."],["Multiple mechanisms","Campaigns, sales follow-up, loyalty และ service recovery มักถูกทำเป็นกิจกรรมครั้งเดียว ไม่ใช่ reusable operating routines","คำตอบ: repeatable private-domain operating engine."]],
+    barrierFlow:[["Multiple Journeys","customer interactions กระจัดกระจายข้าม touchpoints โดยไม่มี continuity","เราจะออกแบบ E2E Journey ที่ส่งมอบ seamless, guided brand experience ได้อย่างไร?","สร้าง unified|Lifetime Journey Framework"],["Multiple Channels","channels ทำงานเป็น silo ไม่มี integrated flow ระหว่าง online และ offline","เราจะ orchestrate cross-channel collaboration เพื่อให้ messaging และ experience สอดคล้องกันได้อย่างไร?","สร้าง omni-touchpoint|Orchestration Model"],["Multiple Mechanisms","มีกิจกรรมอยู่แล้ว แต่ไม่มี scalable operating engine เพื่อ sustain growth","เราจะสร้าง repeatable mechanisms ที่กระตุ้น action และเปลี่ยน behavior เป็น value ได้อย่างไร?","พัฒนา automatic private-domain|Operating Engine"]],
+    loopKicker:"Core methodology",loopTitle:"Data-driven intelligent customer operation loop",loopDesc:"Viking reference แสดง loop 4 ขั้นตอนที่ใช้ได้จริง สำหรับ Blackmores India logic เดียวกันนี้จะกลายเป็น cross-journey operating model ครอบคลุม discovery, partner follow-up, consultation, order, delivery, service และ upgrade.",
+    loopCore:["Data-Empowered","Journey-Driven"],
+    loop:[["Define goals and use cases","ทำให้ growth, retention, conversion และ loyalty KPIs ชัดเจน แล้วแปลงเป็น journey barriers และ use-case backlog."],["Segment and score","ใช้ multi-source profiles, predictive tags และ WOE/IV-style feature analysis เพื่อหา high-value หรือ high-intent users."],["Orchestrate lifecycle operations","รัน cross-domain journeys ข้าม media, WhatsApp, app, partner, sales และ service touchpoints พร้อม automation และ ownership."],["AI closed-loop action","เปลี่ยน KPI anomalies, lost reasons และ behavior signals ให้เป็น recommended content, sales tasks และ recovery actions."]],
+    foundationTitle:"Foundation",foundationDesc:"CDP / OneID, marketing automation, consent, data infrastructure, AI orchestration, dashboards และ frontline task systems.",
+    archKicker:"Capability architecture",archTitle:"เชื่อม data, decisions และ actions แบบ end to end",archDesc:"นี่ไม่ใช่ dashboard project แต่เป็น chain จาก touchpoint data ไปสู่ identity, scoring, orchestration, sales tasks, partner execution และ learning.",
+    architecture:[["01 Sources","AI search, web, app, WhatsApp, campaigns, partner, consultation, order, delivery, service, VOC."],["02 Identity","OneID, consent, DPDP controls, cross-entity data wall, customer และ product profiles."],["03 Intelligence","Tags, lead grade, upgrade readiness, churn risk, content affinity, next best action."],["04 Orchestration","MA flows, journey triggers, A/B tests, segment branches, frequency และ suppression rules."],["05 Frontline action","Partner SLA, sales tasks, scripts, content recommendation, recovery queue, manager coaching."],["06 Learning","Dashboards, funnel leakage, lost reason analysis, VOC, experiment recap และ model refresh."]],
+    methodKicker:"Planning method",methodTitle:"แปลง business goals เป็น use cases",methodDesc:"จุดแข็งที่สุดของ capability นี้ไม่ใช่รายการ technology แต่คือ discipline ในการเปลี่ยน executive KPIs เป็น journey hypotheses แล้วต่อเป็น measurable experiments และ product backlog.",
+    methodSideTitle:"KPI to use-case discipline",methodSideDesc:"เริ่มจาก growth, retention, conversion และ loyalty จากนั้นระบุ barrier ที่แม่นยำใน customer journey และสร้าง backlog ที่ operation รันได้จริง.",
+    methodRows:[["Business KPI","ตัวอย่าง: เพิ่ม qualified premium-range leads, ยกระดับ consultation conversion, recover lost leads, เพิ่ม repeat-purchase retention."],["Journey diagnosis","หาจุดที่ลูกค้าหลุด: public-to-private, onboarding, nurturing, partner follow-up, order, delivery หรือ service."],["Hypothesis tree","เขียนเหตุผลเป็น operating hypothesis: profile ไม่ชัด, content ไม่ตรง, SLA หลุด, trust gap, incentive หาย."],["Use-case backlog","เปลี่ยน hypothesis เป็น measurable use case พร้อม segment, trigger, channel, content, owner และ KPI."],["Experiment rule","กำหนด control group, A/B content, response SLA, conversion window และ action ที่จะเปลี่ยนหลังเห็นผล."]],
+    scoreKicker:"Intelligent segment and scoring",scoreTitle:"ทำให้ intent มองเห็นได้ก่อนที่จะชัดเจน",scoreDesc:"Scoring รวม rule-based business logic กับ statistical feature analysis เป้าหมายไม่ใช่ model ที่สวย แต่คือ routing ที่เชื่อถือได้: ใครต้อง nurture, ใครต้องให้ partner โทร, ใครต้อง reactivate และใครพร้อมสำหรับ upgrade conversation.",
+    scoreCards:[["Feature engineering","Lead source, product interest, payment behavior, WhatsApp engagement, app activity, service history, location, membership tenure, event attendance และ referral."],["WOE / IV analysis","ใช้ feature distribution และ information value เพื่อระบุ variables ที่แยก high-conversion กับ low-conversion users ได้จริง."],["Predictive tags","High intent, price sensitive, family upgrade, service loyalist, dormant lead, offer ready, partner responsive, cross-entity consented."],["Action routing","Scores feed เข้า audience selection, partner task priority, content recommendation, win-back flow และ management dashboard."]],
+    woe:{leftTitle:"Tag values กลายเป็น model features",heads:["Is referral","Lead type","R30 VF engage"],rows:[["No = 0","Past enquiry = 2","0 time = 0"],["Yes = 1","Past PAX = 6","2 times = 2"],["No = 0","NTB = 0","3 times = 3"]],note:["ทุก lead มี tag set ครบถ้วน","แต่ละ lead มี tag values แตกต่างกัน"],centerTop:"TAG → WOE",centerText:"Business filters tags; WOE แปลง tag values เป็น scoring weights.",pos:"Positive sample",neg:"Negative sample",mechTitle:"Mechanism",mech:[["Identifying key tags","หา user attributes ที่ส่งผลต่อ conversion มากที่สุด."],["Defining tag values","แสดงว่า value ใดสัมพันธ์กับ score ที่สูงขึ้น."],["Optimizing by conversion data","ปรับ model ด้วย actual conversion outcomes."]],finalTitle:"Final Scores",finalDesc:"สะท้อน conversion probability และ priority level ของแต่ละ lead",formula:"WOE = ln(percentage of positive outcomes in the bin / percentage of negative outcomes in the bin)",formulaNote:"IV บอกว่า feature มี predictive power หรือไม่; WOE ที่สูงขึ้นแปลว่า value นั้นใกล้ positive samples มากขึ้น."},
+    tiers:[["H","Hot intent","Partner โทรทันที; assign SC, book consultation, confirm product/offer และ monitor SLA."],["A","Active prospect","Automated nurture พร้อม sales follow-up เมื่อ behavior ข้าม threshold."],["B","Nurture pool","Segmented content, comparison guides, ownership value และ offer education."],["C","Low activity","Low-cost reactivation ผ่าน WhatsApp, SMS หรือ app trigger."],["L","Lost / leakage","ตรวจจับ lost reason แล้ว launch tailored win-back หรือ manager coaching."]],
+    playKicker:"Lifecycle playbooks",playTitle:"Orchestrate customer lifecycle ทั้งหมด",playDesc:"แต่ละ playbook มี target segment, trigger, channel mix, content logic, sales task และ measurement rule นี่คือวิธีที่ data เลิกเป็นแค่ report แล้วกลายเป็น operating muscle.",
+    playbooks:[["F2L acceleration","ย้าย anonymous หรือ public-domain demand เข้าสู่ owned channels ผ่าน AI chat, WhatsApp, QR, app registration และ consent.","AI search","WhatsApp","QR"],["New lead onboarding","ใช้ 6 วันแรกหลัง lead creation เพื่อสื่อสาร value, เก็บ preference, assign channel และระบุ sales readiness.","T+1/T+6","Preference","Branching"],["Continuous nurturing","weekly หรือ behavior-triggered journeys ด้วย product comparison, usage cost, health education และ local partner content.","MA","Content","Scoring"],["Lead conversion","High-intent behavior trigger SC task, consultation booking, offer pre-check, stock allocation promise และ lost-lead recovery.","SLA","Product trial","Order"],["Ownership growth","Delivery onboarding, reorder reminders, VOC, loyalty, referral และ core-to-premium upgrade readiness signals.","Service","VOC","Upgrade"]],
+    aiKicker:"AI closed loop",aiTitle:"จาก abnormal KPI สู่ frontline action",aiDesc:"AI ช่วยวินิจฉัยว่าฟันเนลรั่วตรงไหน แนะนำ next best action สร้าง content หรือ task suggestions และ monitor ว่า intervention นั้นขยับ conversion จริงหรือไม่.",
+    timeline:[["Detect","หา abnormal KPI movement: lead acceptance ลดลง, consultation conversion อ่อน, quote-not-book สูง, service return ต่ำ."],["Localize","trace ปัญหาตาม segment, channel, city, partner, product, sales consultant, content และ timing."],["Recommend","แนะนำ next best action: script, content, offer, handover, manager coaching หรือ automated reactivation."],["Execute","สร้าง tasks ใน partner หรือ sales workflow พร้อม owner, due time, SLA และ recommended message."],["Learn","วัดผลและ feed response, lost reason และ VOC กลับเข้า scoring และ journey rules."]],
+    calloutTitle:"Insight มีค่าเมื่อกลายเป็น task เท่านั้น",calloutDesc:"Closed loop assign งานให้ owner ที่ถูกต้อง: marketing ปรับ audience หรือ content, sales follow up ด้วย recommended scripts, partner managers coach lost-lead reasons และ HQ monitor adoption.",
+    hondaKicker:"Blackmores focus",hondaTitle:"High-value retail use cases",hondaDesc:"Use cases เหล่านี้เชื่อมกับเรื่องราว Blackmores ปัจจุบันโดยตรง: core-range base, compliant premium-range intent, partner capability, GEO และ knowledge graph, lead conversion, customer ownership และ VOC.",
+    hondaCases:[["Core-to-premium upgrade readiness","score core-range customer behavior, purchase history และ lifecycle stage; ขอ explicit DPDP consent ก่อน route เป็น lead ใหม่."],["GEO and AI discovery","ใช้ knowledge graph-grounded facts เพื่อให้ AI search และ buying assistants แนะนำ Blackmores ด้วยคำตอบที่ถูกต้องและ structured."],["Partner SLA and lead claiming","prioritize high-intent leads, assign partner owner, monitor 5-minute response และ detect SC handover leakage."],["Lost lead recovery","classify lost reason: price, timing, product mismatch, offer, competitor, no response แล้ว trigger tailored win-back."],["Post-purchase upgrade moment","เมื่อ service context แสดง readiness ให้เสนอ compliant upgrade conversation และส่งต่อเฉพาะ consented signals."],["VOC to next action","เปลี่ยน customer complaints, reviews และ call summaries เป็น product insight, partner coaching และ journey improvements."]],
+    roadmapKicker:"Implementation roadmap",roadmapTitle:"เส้นทางปฏิบัติบน existing platforms",roadmapDesc:"คำแนะนำไม่ใช่การ rebuild ระบบ Blackmores แต่เริ่มจาก CRM, LMS, DMS, CDP, app, WhatsApp และ partner tools ที่มีอยู่ แล้วค่อยเพิ่ม orchestration และ intelligence ทีละ layer.",
+    roadmap:[["Phase 1","Diagnose and prioritize","map journeys, KPI leakage, data availability, partner process และ quick-win use cases."],["Phase 2","Build data foundation","identity, consent, event taxonomy, scoring features, dashboard baseline และ governance."],["Phase 3","Launch lifecycle playbooks","F2L, onboarding, nurturing, conversion, service, VOC และ upgrade journeys พร้อม task ownership."],["Phase 4","Optimize with AI","closed-loop KPI diagnosis, recommended actions, content generation, lost reason learning และ model refresh."]],
+    outcomeKicker:"Expected impact",outcomeTitle:"เมื่อ loop ทำงานแล้วอะไรจะเปลี่ยน",outcomeDesc:"Business value มาจากการลด leakage และเพิ่ม operating speed ไม่ใช่จากการเพิ่ม analytics page ที่โดดเดี่ยวอีกหน้า.",
+    outcomes:[["More","qualified first-party leads"],["Faster","partner follow-up และ SLA discipline"],["Higher","consultation และ order conversion"],["Lower","lost-lead leakage"],["Better","service retention และ VOC response"],["Reusable","operating engine ข้าม markets"]],
+    srcnote:"ดัดแปลงโครงสร้างจาก Viking Cruise customer-operation reference และปรับเป็นบริบท retail growth ของ Blackmores."
+  }
+};
+
+function params(){return new URLSearchParams(location.search)}
+let lang=params().get("lang")||"en"; if(!COPY[lang]) lang="en";
+function t(k){return (COPY[lang]&&COPY[lang][k])||COPY.en[k]}
+function setText(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll("[data-t]").forEach(el=>{el.textContent=t(el.dataset.t)});
+  renderLangs(); renderMini(); renderCards();
+}
+function renderLangs(){
+  const langs=[["en","EN"],["zh","中文"],["ja","日"],["th","ไทย"]];
+  document.getElementById("langs").innerHTML=langs.map(([k,l])=>`<button class="${k===lang?'on':''}" data-l="${k}">${l}</button>`).join("");
+  document.querySelectorAll("#langs button").forEach(b=>b.onclick=()=>{lang=b.dataset.l;setText();history.replaceState(null,"",`?lang=${lang}`);});
+}
+function renderMini(){
+  document.getElementById("miniFlow").innerHTML=t("mini").map(x=>`<div class="mini-step"><b>${x[0]}</b><div><strong>${x[1]}</strong><span>${x[2]}</span></div></div>`).join("");
+}
+function simpleCards(id,data){
+  document.getElementById(id).innerHTML=data.map(x=>`<article class="card"><div class="num">${x[0]}</div><h3>${x[1]}</h3><p>${x[2]}</p></article>`).join("");
+}
+function renderCards(){
+  document.getElementById("barriers").className="barrier-flow";
+  document.getElementById("barriers").innerHTML=t("barrierFlow").map((x,i)=>{
+    const answer=x[3].split("|");
+    return `<div class="barrier-row"><div class="barrier-left"><div class="barrier-no">${i+1}</div><div><h3>${x[0]}</h3><p>${x[1]}</p></div></div><div class="arrow"></div><div class="barrier-question">${x[2]}</div><div class="arrow"></div><div class="barrier-answer">${answer[0]}<b>${answer[1]}</b></div></div>`;
+  }).join("");
+  document.getElementById("loop").className="loop closed";
+  document.getElementById("loop").innerHTML=`<div class="loop-center"><div class="loop-core"><b>${t("loopCore")[0]}</b><span>${t("loopCore")[1]}</span></div></div>`+
+    t("loop").map((x,i)=>`<article class="loop-card pos${i+1}"><div class="idx">${String(i+1).padStart(2,"0")}</div><h3>${x[0]}</h3><p>${x[1]}</p></article>`).join("");
+  document.getElementById("architecture").innerHTML=t("architecture").map(x=>{
+    const m=String(x[0]).match(/^(\S+)\s+(.+)$/);
+    const tag=m?m[1]:x[0], title=m?m[2]:x[0];
+    return `<div class="arch-box"><span class="tag">${tag}</span><h3>${title}</h3><p>${x[1]}</p></div>`;
+  }).join("");
+  document.getElementById("methodRows").innerHTML=t("methodRows").map(x=>`<div class="method-row"><b>${x[0]}</b><span>${x[1]}</span></div>`).join("");
+  renderWoe();
+  document.getElementById("scoreCards").innerHTML=t("scoreCards").map(x=>`<article class="score-card"><h3>${x[0]}</h3><p>${x[1]}</p></article>`).join("");
+  document.getElementById("tiers").innerHTML=t("tiers").map(x=>`<div class="tier-row"><b>${x[0]}</b><span><strong>${x[1]}</strong>${x[2]}</span></div>`).join("");
+  document.getElementById("playbooks").innerHTML=t("playbooks").map(x=>`<article class="playbook"><h3>${x[0]}</h3><p>${x[1]}</p><div class="chips">${x.slice(2).map(c=>`<span class="chip">${c}</span>`).join("")}</div></article>`).join("");
+  document.getElementById("timeline").innerHTML=t("timeline").map((x,i)=>`<div class="tl-item"><i>${i+1}</i><div><h3>${x[0]}</h3><p>${x[1]}</p></div></div>`).join("");
+  document.getElementById("hondaCases").innerHTML=t("hondaCases").map((x,i)=>`<article class="card"><div class="num">UC ${String(i+1).padStart(2,"0")}</div><h3>${x[0]}</h3><p>${x[1]}</p></article>`).join("");
+  document.getElementById("roadmap").innerHTML=t("roadmap").map(x=>`<article class="card"><div class="num">${x[0]}</div><h3>${x[1]}</h3><p>${x[2]}</p></article>`).join("");
+  document.getElementById("outcomes").innerHTML=t("outcomes").map(x=>`<div class="outcome"><b>${x[0]}</b><span>${x[1]}</span></div>`).join("");
+}
+function renderWoe(){
+  const w=t("woe");
+  document.getElementById("woeModel").innerHTML=`<div class="woe-grid">
+    <div class="woe-panel">
+      <h3>${w.leftTitle}</h3>
+      <div class="tag-table">${w.heads.map(h=>`<div class="tag-head">${h}</div>`).join("")}${w.rows.flatMap((r,ri)=>r.map(c=>`<div class="tag-cell ${ri===1?'hot':''}">${c}</div>`)).join("")}</div>
+      <div class="tag-note">${w.note.map((n,i)=>`${i+1}. ${n}`).join("<br>")}</div>
+    </div>
+    <div class="woe-funnel">
+      <div class="funnel-top">${w.centerTop}</div>
+      <div class="funnel-shape"><span>${w.centerText}</span></div>
+      <div class="woe-samples"><div class="sample-box">${w.pos}</div><div class="sample-box">${w.neg}</div></div>
+    </div>
+    <div class="mechanism">
+      <div class="mech-title">${w.mechTitle}</div>
+      <div class="mech-card">${w.mech.map(x=>`<b>${x[0]}</b><span>${x[1]}</span>`).join("")}</div>
+      <div class="score-box"><b>${w.finalTitle}</b>${w.finalDesc}</div>
+    </div>
+  </div><div class="formula">${w.formula}<small>${w.formulaNote}</small></div>`;
+}
+window.addEventListener('message',function(e){ if(e.data&&e.data.t==='es'&&e.data.lang&&['en','zh','ja','th'].indexOf(e.data.lang)>=0){ lang=e.data.lang; setText(); } });
+setText();
+</script>
+<script>/*__embedHide2*/(function(){try{if(window.self!==window.top){var s=document.createElement('style');s.textContent='header,.topbar,.appbar,.langs,#__backStudio{display:none!important}';(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knowledge Graph · Blackmores · Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
+    --ink:#16201f; --muted:#6a7472; --bg:#f4f7fb; --card:#fff; --line:#e6ecf2;
+    --neg:#c0563f; --warn:#b5731a; --black:#0b1320;
+    --display:Georgia,'Times New Roman','Hiragino Mincho ProN','Songti SC',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','PingFang SC','Microsoft YaHei','Thonburi','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55}
+  button{font-family:inherit;cursor:pointer}
+  header{background:var(--black);position:sticky;top:0;z-index:30}
+  .nav{display:flex;align-items:center;gap:12px;max-width:760px;margin:0 auto;padding:14px 18px}
+  .brand{font-family:var(--display);font-weight:700;font-size:19px;color:#fff;letter-spacing:.02em}
+  .brand sup{font-size:9px;color:#7fb2dc}
+  .sub{font-size:11px;color:#9fb4c8;border-left:1px solid #2a3647;padding-left:12px;letter-spacing:.04em}
+  .sp{flex:1}
+  .langs{display:flex;gap:3px;background:rgba(255,255,255,.06);border:1px solid #2a3647;border-radius:9px;padding:3px}
+  .langs button{border:0;background:0;font:inherit;font-size:12px;font-weight:700;color:#9fb4c8;min-width:30px;padding:5px 8px;border-radius:6px;cursor:pointer;transition:.15s}
+  .langs button.on{background:#fff;color:var(--brand-d)}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 18px 70px}
+  .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:700}
+  h1.h{font-family:var(--display);font-weight:400;font-size:clamp(22px,4.8vw,30px);margin:9px 0 6px;line-height:1.18}
+  .lead{color:var(--muted);font-size:14px;max-width:60ch}
+
+  .whatis{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-top:18px}
+  .whatis .ic{font-size:22px;flex-shrink:0}
+  .whatis .wt{font-weight:700;font-size:13.5px;margin-bottom:3px}
+  .whatis .wd{font-size:12.5px;color:var(--muted);line-height:1.5}
+
+  .stagelab{display:flex;align-items:center;gap:9px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:26px 0 12px}
+  .stagelab .n{width:21px;height:21px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-size:11px;font-family:var(--display)}
+
+  /* sources */
+  .sources{display:flex;flex-wrap:wrap;gap:10px}
+  .src{flex:1 1 150px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;transition:.4s;position:relative}
+  .src .sk{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;display:flex;gap:6px;align-items:center;margin-bottom:6px}
+  .src .st{font-size:12.5px;color:var(--ink);line-height:1.45}
+  .src.adj .st{color:var(--muted);font-style:italic}
+  .src .stamp{position:absolute;top:9px;right:10px;font-size:10px;font-weight:800;color:var(--accent);opacity:0;transition:.4s}
+  .extracting .src{opacity:.6;transform:scale(.985)}
+  .extracting .src .stamp{opacity:1}
+  .extracting .src.adj{opacity:.42}
+  .extracting .src.adj .stamp{color:var(--neg)}
+
+  /* build stepper */
+  .steps{display:flex;margin:16px 0 6px}
+  .step{flex:1;text-align:center;position:relative;opacity:.4;transition:.4s}
+  .step.on{opacity:1}
+  .step .sd{width:32px;height:32px;border-radius:50%;border:2px solid var(--line);background:var(--card);display:grid;place-items:center;margin:0 auto 7px;font-weight:700;font-size:14px;color:var(--muted);transition:.3s;position:relative;z-index:2}
+  .step.on .sd{border-color:var(--brand);background:var(--brand);color:#fff}
+  .step.done .sd{border-color:var(--accent);background:var(--accent);color:#fff}
+  .step .sl{font-size:11.5px;font-weight:700;color:var(--ink)}
+  .step .ss{font-size:10px;color:var(--muted);margin-top:1px}
+  .step::after{content:"";position:absolute;top:15px;left:62%;right:-38%;height:2px;background:var(--line);z-index:1;transition:.3s}
+  .step:last-child::after{display:none}
+  .step.done::after{background:var(--accent)}
+
+  .gobtn{display:block;width:100%;max-width:340px;margin:16px auto 0;border:0;background:linear-gradient(135deg,var(--brand),var(--brand-d));color:#fff;
+    font:inherit;font-weight:700;font-size:14.5px;padding:14px;border-radius:13px;cursor:pointer;transition:.2s;letter-spacing:.01em}
+  .gobtn:hover{transform:translateY(-2px)}
+  .gobtn.hide{display:none}
+  .gobtn[disabled]{opacity:.6;cursor:default;transform:none}
+
+  /* graph */
+  .stage2{display:none}.stage2.show{display:block;animation:fin .4s ease}
+  @keyframes fin{from{opacity:0;transform:translateY(8px)}}
+  .graph{position:relative;width:100%;max-width:480px;margin:6px auto 0;aspect-ratio:36/30}
+  .graph svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .edge{stroke:var(--line);stroke-width:1.4;opacity:0;transition:opacity .5s,stroke .25s;vector-effect:non-scaling-stroke}
+  .built .edge{opacity:1}
+  .edge.hot{stroke:var(--brand);stroke-width:2.4}
+  .edge.dim{opacity:.2}
+  .node{position:absolute;transform:translate(-50%,-50%) scale(.6);opacity:0;transition:opacity .45s,transform .45s,border-color .25s,background .25s;
+    background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:12px;font-weight:600;color:var(--ink);white-space:nowrap;box-shadow:0 3px 10px rgba(22,32,31,.05)}
+  .node .k{display:block;font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:1px}
+  .built .node{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  .node.center{background:var(--ink);color:#fff;border-color:var(--ink);font-family:var(--display);font-weight:500;font-size:13.5px;padding:11px 16px;box-shadow:0 8px 22px rgba(22,32,31,.25);z-index:3}
+  .node.hot{border-color:var(--brand);background:var(--soft);color:var(--brand-d);box-shadow:0 6px 16px rgba(0,91,150,.22);z-index:2}
+  .node.dim{opacity:.4}
+  .node .lock{position:absolute;top:-8px;right:-8px;width:18px;height:18px;border-radius:50%;background:var(--accent);color:#fff;font-size:9px;display:none;place-items:center;box-shadow:0 2px 6px rgba(10,157,78,.4)}
+  .governed .node.gov .lock{display:grid}
+  .glegend{text-align:center;font-size:11px;color:var(--muted);margin-top:8px}
+  .glegend b{color:var(--accent)}
+
+  /* use cases */
+  .stage3{display:none;margin-top:8px}.stage3.show{display:block;animation:fin .4s ease}
+  .ucsub{font-size:13px;color:var(--muted);text-align:center;margin-bottom:12px}
+  .qchips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .qchip{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:999px;padding:9px 14px;font-size:12.5px;font-weight:700;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:6px}
+  .qchip . qi{font-size:14px}
+  .qchip.on{border-color:var(--brand);color:var(--brand-d);background:var(--soft)}
+  .ansbox{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:14px;min-height:120px}
+  .ansbox.empty{display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;text-align:center}
+  .ans{animation:fin .3s ease}
+  .ans .qq{font-size:12.5px;color:var(--muted);margin-bottom:7px}
+  .ans .qq b{color:var(--ink);font-weight:700}
+  .ans .a{font-size:14.5px;line-height:1.5}.ans .a b{color:var(--brand-d)}
+  .ans .a.block b{color:var(--neg)}
+  .path{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:12px;font-size:12px}
+  .path .pl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;width:100%;margin-bottom:1px}
+  .path .pn{background:var(--soft);color:var(--brand-d);border:1px solid var(--brand);border-radius:7px;padding:4px 9px;font-weight:700}
+  .path .ar{color:var(--brand)}
+  .grounded{margin-top:11px;font-size:12px;color:var(--muted);display:flex;gap:7px;align-items:center}
+  .grounded b{color:var(--ink);font-weight:600}
+  .applink{display:inline-flex;align-items:center;gap:6px;margin-top:13px;border:1px solid var(--brand);color:var(--brand-d);background:var(--soft);border-radius:9px;padding:8px 13px;font-size:12.5px;font-weight:700;text-decoration:none;transition:.15s}
+  .applink:hover{background:var(--brand);color:#fff}
+
+  .reset{display:block;margin:18px auto 0;border:0;background:0;color:var(--muted);font:inherit;font-size:13px;cursor:pointer;text-decoration:underline}
+  .foot{text-align:center;font-family:var(--display);font-weight:400;font-size:clamp(16px,3vw,21px);color:var(--ink);margin:26px auto 0;max-width:36ch;line-height:1.35}
+  .foot b{color:var(--brand);font-weight:600}
+  .srcnote{text-align:center;font-size:11px;color:var(--muted);margin-top:14px;letter-spacing:.02em}
+  .khsec{width:min(1180px,calc(100vw - 36px));margin-left:50%;transform:translateX(-50%);margin-top:44px;border-top:1px solid var(--line);padding:30px 4px 0}
+  .khhead{margin-bottom:22px}
+  .khtitle{font-family:var(--display);font-weight:400;font-size:clamp(20px,3.4vw,27px);line-height:1.2;margin:8px 0 6px}
+  .khrow{display:flex;gap:24px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+  .khimg{flex:1 1 70%;min-width:0;position:relative;display:block;text-decoration:none}
+  .khimg img{width:100%;display:block;border-radius:8px}
+  .khno{position:absolute;top:10px;left:10px;background:var(--brand);color:#fff;font-family:var(--display);font-size:12.5px;font-weight:700;padding:3px 9px;border-radius:7px;letter-spacing:.04em;box-shadow:0 1px 4px rgba(0,0,0,.18)}
+  .khtext{flex:1 1 30%;min-width:0}
+  .kht{font-family:var(--display);font-size:16.5px;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:9px}
+  .khp{font-size:13.2px;color:var(--muted);line-height:1.6;margin-bottom:8px}
+  .khp:last-child{margin-bottom:0}
+  @media(max-width:760px){.khrow{flex-direction:column;align-items:flex-start;gap:14px}.khimg,.khtext{flex:1 1 auto;width:100%}}
+  @media(max-width:560px){.step .ss{display:none}.node{font-size:11px;padding:6px 9px}.node.center{font-size:12px}}
+</style>
+</head>
+<body>
+<header><div class="nav">
+  <div class="brand" id="brand">Blackmores<sup>®</sup></div>
+  <div class="sub" id="sub">Knowledge Graph</div>
+  <div class="sp"></div>
+  <div class="langs" id="langs"></div>
+</div></header>
+
+<div class="wrap">
+  <div class="eyebrow" id="eye">Knowledge Foundation · Knowledge Graph</div>
+  <h1 class="h" id="title"></h1>
+  <div class="lead" id="lead"></div>
+
+  <div class="whatis"><span class="ic">🧩</span><div><div class="wt" id="wt"></div><div class="wd" id="wd"></div></div></div>
+
+  <div class="stagelab"><span class="n">1</span><span id="s1lab"></span></div>
+  <div class="sources" id="sources"></div>
+
+  <div class="stagelab"><span class="n">2</span><span id="s2lab"></span></div>
+  <div class="steps" id="steps"></div>
+  <button class="gobtn" id="go"></button>
+
+  <div class="stage2" id="stage2">
+    <div class="stagelab"><span class="n">3</span><span id="s3lab"></span></div>
+    <div class="graph" id="graph"></div>
+    <div class="glegend" id="glegend"></div>
+  </div>
+
+  <div class="stage3" id="stage3">
+    <div class="stagelab"><span class="n">4</span><span id="s4lab"></span></div>
+    <div class="ucsub" id="ucsub"></div>
+    <div class="qchips" id="qchips"></div>
+    <div class="ansbox empty" id="ansbox"></div>
+    <div class="foot" id="foot"></div>
+  </div>
+
+  <button class="reset" id="reset" style="display:none"></button>
+  <div class="srcnote" id="srcnote"></div>
+  <div class="khsec" id="khsec"></div>
+</div>
+
+<script>
+const T={
+  sub:{en:"Knowledge Graph",zh:"知识图谱",ja:"ナレッジグラフ",th:"Knowledge Graph"},
+  eye:{en:"Knowledge Foundation · Knowledge Graph",zh:"知识底座 · 知识图谱",ja:"ナレッジ基盤 · ナレッジグラフ",th:"ฐานความรู้ · Knowledge Graph"},
+  title:{en:"From scattered product, claim and channel facts to a graph every AI scene can trust.",zh:"从散乱的产品、宣称与渠道事实,到每个 AI 场景都能信赖的图谱。",ja:"散在する製品・表示・チャネル事実から、あらゆるAIシーンが信頼できるグラフへ。",th:"จากข้อมูลสินค้า การกล่าวอ้าง และช่องทางที่กระจัดกระจาย สู่กราฟที่ทุกซีน AI เชื่อถือได้"},
+  lead:{en:"Blackmores' product truth spans ingredient specs, TGA permitted indications, market claim rules, PDP content, FAQs, reviews, pharmacy training and marketplace operations. Build it into a governed knowledge graph once — then recommendation, GEO, AIGC, compliance review, service and channel enablement all reason over the same trusted facts.",
+    zh:"Blackmores 的产品事实分散在成分规格、TGA 许可功效、各市场宣称规则、商品详情页、FAQ、评论、药房培训和平台运营资料中。一次性把它建成受治理的知识图谱——推荐、GEO、AIGC、合规审核、客服和渠道赋能都能在同一套可信事实上推理。",
+    ja:"Blackmoresの製品事実は、成分仕様・TGA許可表示・各市場の表示規制・PDPコンテンツ・FAQ・レビュー・薬局研修・マーケットプレイス運用にまたがります。一度統制されたナレッジグラフに構築すれば、推薦・GEO・AIGC・コンプラ審査・サービス・チャネル支援が同じ信頼できる事実で動きます。",
+    th:"ข้อมูลผลิตภัณฑ์ Blackmores กระจายอยู่ในสเปก ข้อบ่งใช้ที่ TGA อนุญาต FAQ รีวิว และกฎหมาย สร้างเป็น knowledge graph ครั้งเดียว ทุกซีน AI ก็อ้างอิงข้อเท็จจริงชุดเดียวกัน"},
+  wt:{en:"What is a knowledge graph?",zh:"什么是知识图谱?",ja:"ナレッジグラフとは?",th:"Knowledge graph คืออะไร?"},
+  wd:{en:"Not a folder of files — a network of facts. Entities (product, ingredient, claim, evidence, regulation, market, channel and consumer need) are linked by relationships, so AI can trace why it recommends, approves, blocks or rewrites something.",
+    zh:"它不是一堆文件,而是一张事实网络。把产品、成分、宣称、证据、法规、市场、渠道和消费者需求用关系连起来,AI 才能解释为什么推荐、批准、拦截或改写某个内容。",
+    ja:"ファイルの集まりではなく、事実のネットワーク。製品・成分・表示・根拠・規制・市場・チャネル・顧客ニーズを関係で結び、AIが推薦・承認・ブロック・書き換えの理由を追跡できるようにします。",
+    th:"ไม่ใช่โฟลเดอร์ไฟล์ แต่เป็นเครือข่ายข้อเท็จจริง เชื่อมเอนทิตี (สินค้า ส่วนผสม การกล่าวอ้าง กฎหมาย ผู้บริโภค) ด้วยความสัมพันธ์ AI จึงไล่ตามลิงก์เพื่อให้เหตุผลแทนการเดา"},
+  s1:{en:"Scattered sources",zh:"散乱的来源",ja:"散在する情報源",th:"แหล่งข้อมูลกระจัดกระจาย"},
+  s2:{en:"Build it — step by step",zh:"一步步构建",ja:"一歩ずつ構築",th:"สร้างทีละขั้น"},
+  s3:{en:"The knowledge graph",zh:"知识图谱",ja:"ナレッジグラフ",th:"กราฟความรู้"},
+  s4:{en:"One graph · every use case",zh:"一张图谱 · 每个场景",ja:"一つのグラフ · あらゆる活用",th:"กราฟเดียว · ทุกกรณีใช้งาน"},
+  go:{en:"▶ Build the graph",zh:"▶ 开始构建",ja:"▶ グラフを構築",th:"▶ สร้างกราฟ"},
+  building:{en:"Building…",zh:"构建中…",ja:"構築中…",th:"กำลังสร้าง…"},
+  reset:{en:"↺ Run again",zh:"↺ 再来一次",ja:"↺ もう一度",th:"↺ เริ่มใหม่"},
+  extracted:{en:"✓ facts extracted",zh:"✓ 已提取事实",ja:"✓ 事実を抽出",th:"✓ สกัดข้อเท็จจริง"},
+  noparse:{en:"⚠ marketing — no parsable fact",zh:"⚠ 营销话术 — 无可解析事实",ja:"⚠ 宣伝表現 — 解析可能な事実なし",th:"⚠ การตลาด — ไม่มีข้อเท็จจริง"},
+  legend:{en:"🔒 = governed node — every claim traces to evidence & regulation.",zh:"🔒 = 受治理节点 — 每条宣称都可追溯到根据与法规。",ja:"🔒 = 治理対象ノード — 各表示は根拠と規制に追跡可能。",th:"🔒 = โหนดที่กำกับดูแล — ทุกการอ้างอิงสืบย้อนถึงหลักฐานและกฎหมาย"},
+  ucsub:{en:"Pick a scene — see which facts the graph reads, and which demo it powers.",zh:"选一个场景——看图谱读取了哪些事实,以及它驱动了哪个 demo。",ja:"シーンを選択——グラフが読む事実と、それが動かすデモを確認。",th:"เลือกซีน — ดูว่ากราฟอ่านข้อเท็จจริงใด และขับเคลื่อนเดโมไหน"},
+  pathLab:{en:"Reading path",zh:"读取路径",ja:"読み取り経路",th:"เส้นทางการอ่าน"},
+  grounded:{en:"<b>Grounded in the graph</b> — traceable, not guessed.",zh:"<b>来自图谱</b>——可追溯,不是凭猜。",ja:"<b>グラフに基づく</b>——追跡可能、当て推量なし。",th:"<b>อิงจากกราฟ</b> — สืบย้อนได้ ไม่ใช่การเดา"},
+  powers:{en:"Powers",zh:"驱动",ja:"動かすデモ",th:"ขับเคลื่อน"},
+  foot:{en:"One knowledge graph — powering <b>every scene</b>.",zh:"同一张知识图谱——驱动<b>每一个场景</b>。",ja:"一つのナレッジグラフが、<b>すべてのシーン</b>を動かす。",th:"กราฟความรู้เดียว ขับเคลื่อน<b>ทุกซีน</b>"},
+  srcnote:{en:"Illustrative demo · Blackmores · Knowledge Foundation — Knowledge Graph",zh:"演示示意 · 百立美 · 知识底座——知识图谱",ja:"デモ示意 · ブラックモアズ · ナレッジ基盤——ナレッジグラフ",th:"เดโมประกอบ · Blackmores · ฐานความรู้ — Knowledge Graph"}
+};
+const STEPS=[
+  {ic:"📥",l:{en:"Ingest",zh:"收集",ja:"収集",th:"รวบรวม"},s:{en:"gather sources",zh:"汇聚来源",ja:"情報源を集約",th:"รวมแหล่ง"}},
+  {ic:"🔎",l:{en:"Extract",zh:"抽取",ja:"抽出",th:"สกัด"},s:{en:"parse facts",zh:"解析事实",ja:"事実を解析",th:"แยกข้อเท็จจริง"}},
+  {ic:"🕸️",l:{en:"Link",zh:"连结",ja:"連結",th:"เชื่อม"},s:{en:"entities + relations",zh:"实体+关系",ja:"エンティティ+関係",th:"เอนทิตี+ความสัมพันธ์"}},
+  {ic:"🔒",l:{en:"Govern",zh:"治理",ja:"治理",th:"กำกับ"},s:{en:"evidence + regulation",zh:"根据+法规",ja:"根拠+規制",th:"หลักฐาน+กฎหมาย"}}
+];
+const SRC=[
+  {ic:"📄",k:{en:"Product master / ingredients",zh:"产品主数据 / 成分表",ja:"製品マスター / 成分表",th:"Product master / ส่วนผสม"},t:{en:"Fish Oil, Bio C, Pregnancy & Breast-Feeding Gold · active ingredients · dosage · pack size · AUST L / local SKU",zh:"鱼油、Bio C、孕期与哺乳期 Gold · 活性成分 · 剂量 · 规格 · AUST L / 本地 SKU",ja:"Fish Oil、Bio C、Pregnancy & Breast-Feeding Gold · 有効成分 · 用量 · 容量 · AUST L / ローカルSKU",th:"Fish Oil, Bio C, Pregnancy & Breast-Feeding Gold · สารออกฤทธิ์ · ขนาด · SKU"}},
+  {ic:"📑",k:{en:"Permitted claims",zh:"许可宣称",ja:"許可表示",th:"ข้อกล่าวอ้างที่อนุญาต"},t:{en:"Omega-3 supports heart health · Vitamin C supports immune system health · pregnancy nutrients support maternal health",zh:"Omega-3 支持心血管健康 · 维生素 C 支持免疫健康 · 孕期营养支持母婴健康",ja:"Omega-3は心臓の健康をサポート · Vitamin Cは免疫健康をサポート · 妊娠期栄養は母体の健康をサポート",th:"Omega-3 สนับสนุนหัวใจ · Vitamin C สนับสนุนภูมิคุ้มกัน · pregnancy nutrients สนับสนุนสุขภาพแม่"}},
+  {ic:"📕",k:{en:"Marketplace PDP / content",zh:"平台 PDP / 内容",ja:"マーケットPDP / コンテンツ",th:"Marketplace PDP / content"},adj:true,t:{en:"Australia's leading natural health brand. Daily wellness for every life stage.",zh:"澳洲领先天然健康品牌。覆盖每个人生阶段的日常健康。",ja:"オーストラリアを代表する自然健康ブランド。あらゆるライフステージの日々の健康へ。",th:"แบรนด์สุขภาพธรรมชาติชั้นนำจากออสเตรเลีย เพื่อสุขภาพทุกช่วงชีวิต"}},
+  {ic:"📝",k:{en:"Customer FAQ / service",zh:"客户 FAQ / 服务",ja:"FAQ / サービス",th:"FAQ / service"},t:{en:"Recommended intake · with food · storage · contraindications · channel-specific service answers",zh:"建议用量 · 随餐服用 · 保存方式 · 禁忌提醒 · 各渠道服务答案",ja:"推奨摂取量 · 食後に · 保管方法 · 注意事項 · チャネル別サービス回答",th:"วิธีรับประทาน · พร้อมอาหาร · การเก็บ · ข้อควรระวัง · คำตอบบริการแต่ละช่องทาง"}},
+  {ic:"💬",k:{en:"Reviews / VOC",zh:"评论 / VOC",ja:"レビュー / VOC",th:"รีวิว / VOC"},t:{en:"Immune support questions, fishy aftertaste feedback, bundle interest, repeat-purchase timing",zh:"免疫支持咨询、鱼腥味反馈、组合装兴趣、复购周期信号",ja:"免疫サポート相談、魚臭さのフィードバック、セット購入関心、再購入タイミング",th:"คำถามภูมิคุ้มกัน ฟีดแบ็กกลิ่นคาว ความสนใจ bundle สัญญาณซื้อซ้ำ"}},
+  {ic:"📚",k:{en:"Market rules",zh:"市场法规",ja:"市場ルール",th:"Market rules"},t:{en:"TGA · China health-food claim rules · SEA / Japan local rules · no disease cure or prevention claims",zh:"TGA · 中国保健食品宣称规则 · 东南亚 / 日本本地规则 · 不得宣称疾病治疗或预防",ja:"TGA · 中国保健食品表示規制 · SEA / 日本ローカルルール · 疾病治療・予防表現は不可",th:"TGA · กฎ health-food จีน · กฎ SEA / Japan · ห้ามอ้างรักษาหรือป้องกันโรค"}}
+];
+// 8 satellites around center (50,50), evenly at 45°
+const NODES=[
+  {k:"center",x:50,y:50,lab:{en:"Blackmores Product Truth",zh:"Blackmores 产品事实",ja:"Blackmores 製品ファクト",th:"Blackmores Product Truth"}},
+  {k:"func",x:50,y:10,gov:1,kk:{en:"Health goal",zh:"健康目标",ja:"健康目標",th:"เป้าหมายสุขภาพ"},lab:{en:"Heart · immune · pregnancy",zh:"心血管 · 免疫 · 孕期",ja:"心臓 · 免疫 · 妊娠期",th:"หัวใจ · ภูมิคุ้มกัน · ตั้งครรภ์"}},
+  {k:"claim",x:72.6,y:21.7,gov:1,kk:{en:"Permitted claim",zh:"许可宣称",ja:"許可表示",th:"ข้อกล่าวอ้าง"},lab:{en:"Support / maintain / assist",zh:"支持 / 维持 / 帮助",ja:"サポート / 維持 / 補助",th:"สนับสนุน / คงไว้ / ช่วย"}},
+  {k:"evid",x:82,y:50,gov:1,kk:{en:"Evidence",zh:"根据",ja:"根拠",th:"หลักฐาน"},lab:{en:"AUST L · ingredients · citations",zh:"AUST L · 成分 · 引用",ja:"AUST L · 成分 · 引用",th:"AUST L · ingredients · citations"}},
+  {k:"reg",x:72.6,y:78.3,gov:1,kk:{en:"Market rule",zh:"市场规则",ja:"市場ルール",th:"Market rule"},lab:{en:"TGA · China · SEA · Japan",zh:"TGA · 中国 · SEA · 日本",ja:"TGA · 中国 · SEA · 日本",th:"TGA · China · SEA · Japan"}},
+  {k:"sugar",x:50,y:90,kk:{en:"Product fact",zh:"产品事实",ja:"製品ファクト",th:"Product fact"},lab:{en:"Dose · SKU · pack · storage",zh:"剂量 · SKU · 规格 · 保存",ja:"用量 · SKU · 容量 · 保管",th:"Dose · SKU · pack · storage"}},
+  {k:"need",x:27.4,y:78.3,kk:{en:"Consumer need",zh:"消费者需求",ja:"顧客ニーズ",th:"Consumer need"},lab:{en:"Daily wellness · life stage",zh:"日常健康 · 人生阶段",ja:"日常健康 · ライフステージ",th:"Daily wellness · life stage"}},
+  {k:"channel",x:18,y:50,kk:{en:"Channel",zh:"渠道",ja:"チャネル",th:"ช่องทาง"},lab:{en:"Tmall · WeChat · Pharmacy",zh:"天猫 · 微信 · 药房",ja:"Tmall · WeChat · 薬局",th:"Tmall · WeChat · ร้านยา"}},
+  {k:"strain",x:27.4,y:21.7,kk:{en:"Ingredient",zh:"成分",ja:"成分",th:"Ingredient"},lab:{en:"Omega-3 · Vitamin C · Folate",zh:"Omega-3 · 维 C · 叶酸",ja:"Omega-3 · Vitamin C · 葉酸",th:"Omega-3 · Vitamin C · Folate"}}
+];
+const DEMO={
+  agentic:{f:"agentic-commerce.html",t:{en:"Agentic / Recommendation demo",zh:"智能推荐 demo",ja:"接客・推薦デモ",th:"เดโมแนะนำสินค้า"}},
+  geo:{f:"geo.html",t:{en:"GEO demo",zh:"GEO demo",ja:"GEOデモ",th:"เดโม GEO"}},
+  compliance:{f:"compliance-hub.html",t:{en:"Compliance review demo",zh:"合规审核 demo",ja:"コンプラ審査デモ",th:"เดโมตรวจสอบ"}},
+  aigc:{f:"aigc.html",t:{en:"AIGC Studio demo",zh:"AIGC 二创 demo",ja:"AIGCスタジオデモ",th:"เดโม AIGC"}},
+  merch:{f:"merchandising.html",t:{en:"In-store execution demo",zh:"店头执行 demo",ja:"店頭実行デモ",th:"เดโมหน้าร้าน"}}
+};
+const QS=[
+  {ic:"🛒",scn:{en:"Recommendation",zh:"智能推荐",ja:"接客・推薦",th:"แนะนำ"},
+   q:{en:"“Which Blackmores product fits my health goal?”",zh:"「我的健康目标适合哪款 Blackmores 产品?」",ja:"「自分の健康目標に合うBlackmores製品は?」",th:"«สินค้า Blackmores ไหนเหมาะกับเป้าหมายสุขภาพของฉัน?»"},
+   hot:["func","need","strain"],path:["center","func","need"],
+   a:{en:"Match the goal to approved product facts — e.g. heart support reads Omega-3 evidence, immune support reads Vitamin C evidence, pregnancy support reads life-stage and safety rules. Recommendation becomes explainable.",zh:"把健康目标匹配到被批准的产品事实——例如心血管读取 Omega-3 证据，免疫读取维 C 证据，孕期读取人生阶段与安全规则。推荐因此可以解释。",ja:"健康目標を承認済み製品ファクトに紐づけます。心臓サポートはOmega-3根拠、免疫サポートはVitamin C根拠、妊娠期はライフステージと安全ルールを参照。推薦が説明可能になります。",th:"จับคู่เป้าหมายกับ product facts ที่อนุมัติแล้ว เช่น หัวใจอ่านหลักฐาน Omega-3 ภูมิคุ้มกันอ่าน Vitamin C และตั้งครรภ์อ่านกฎ life-stage และ safety"},
+   demo:"agentic"},
+  {ic:"🔍",scn:{en:"AI search (GEO)",zh:"AI 搜索 (GEO)",ja:"AI検索 (GEO)",th:"ค้นหา AI (GEO)"},
+   q:{en:"Make AI search cite Blackmores correctly",zh:"让 AI 搜索正确引用 Blackmores",ja:"AI検索にBlackmoresを正しく引用させる",th:"ให้ AI ค้นหาอ้างอิง Blackmores ถูกต้อง"},
+   hot:["strain","func","claim","evid"],path:["center","strain","func","claim"],
+   a:{en:"Structured product → ingredient → permitted claim → evidence lets AI answer with citable facts, instead of blending approved claims with marketing language.",zh:"把产品→成分→许可宣称→证据结构化，AI 才能引用可追溯事实，而不是把批准宣称和营销话术混在一起。",ja:"製品→成分→許可表示→根拠を構造化することで、AIは承認表示とマーケ表現を混同せず、引用可能な事実で回答できます。",th:"โครงสร้างสินค้า→ส่วนผสม→ข้อกล่าวอ้างที่อนุญาต→หลักฐาน ทำให้ AI ตอบด้วยข้อเท็จจริงที่อ้างอิงได้"},
+   demo:"geo"},
+  {ic:"🛡️",scn:{en:"Compliance",zh:"合规审核",ja:"コンプラ審査",th:"ตรวจสอบ"},
+   q:{en:"Can a marketplace page say “cures disease”?",zh:"平台详情页能写「治疗疾病」吗?",ja:"PDPに「病気を治す」と書ける?",th:"หน้า marketplace เขียน «รักษาโรค» ได้ไหม?"},
+   hot:["func","evid","reg"],path:["func","evid","reg"],block:true,
+   a:{en:"✕ Blocked. Disease cure or prevention claims fail the market-rule node. The graph proposes approved alternatives such as <b>“supports immune system health”</b> or <b>“maintains heart health”</b>, with evidence attached.",zh:"✕ 拦截。疾病治疗或预防宣称无法通过市场规则节点。图谱会建议合规替代表达，例如 <b>「支持免疫健康」</b> 或 <b>「维持心血管健康」</b>，并附上证据。",ja:"✕ ブロック。疾病の治療・予防表現は市場ルールノードで不許可。グラフは<b>「免疫健康をサポート」</b>や<b>「心臓の健康を維持」</b>など、根拠付きの代替表現を提示します。",th:"✕ บล็อก การอ้างรักษาหรือป้องกันโรคไม่ผ่าน market-rule node กราฟจะแนะนำคำที่อนุมัติ เช่น <b>สนับสนุนภูมิคุ้มกัน</b> หรือ <b>คงสุขภาพหัวใจ</b> พร้อมหลักฐาน"},
+   demo:"compliance"},
+  {ic:"✨",scn:{en:"AIGC copy",zh:"AIGC 文案",ja:"AIGCコピー",th:"คอปปี้ AIGC"},
+   q:{en:"Generate campaign copy",zh:"生成活动文案",ja:"キャンペーン文案を生成",th:"สร้างคอปปี้แคมเปญ"},
+   hot:["func","claim","reg","sugar"],path:["center","func","claim"],
+   a:{en:"AIGC reads the same approved facts, then adapts tone and format by platform — Tmall PDP, WeChat article, pharmacy shelf card — while avoiding unsupported claims.",zh:"AIGC 读取同一套已批准事实，再按平台适配语气和格式——天猫详情页、微信文章、药房货架卡——同时避免无依据宣称。",ja:"AIGCは同じ承認済みファクトを読み、Tmall PDP・WeChat記事・薬局棚カードなどチャネル別にトーンと形式を適応し、根拠のない表示を避けます。",th:"AIGC อ่าน facts ที่อนุมัติชุดเดียวกัน แล้วปรับ tone/format ตาม platform เช่น Tmall PDP, WeChat article, pharmacy shelf card พร้อมเลี่ยง claims ที่ไม่มีหลักฐาน"},
+   demo:"aigc"},
+  {ic:"🏪",scn:{en:"Store / B2B",zh:"店头 / B2B",ja:"店頭 / B2B",th:"หน้าร้าน / B2B"},
+   q:{en:"Answer pharmacy-staff & partner questions",zh:"回答药房店员与渠道伙伴提问",ja:"薬局スタッフ・取引先の質問に",th:"ตอบคำถามพนักงานร้านยา/พาร์ทเนอร์"},
+   hot:["need","channel","sugar"],path:["center","channel","need"],
+   a:{en:"Staff and partners get the same answer on dose, storage, claims and replenishment talking points — consistent across WeCom, pharmacy training and marketplace operations.",zh:"店员和渠道伙伴在用量、保存、宣称与补货话术上得到同一套答案——贯穿 WeCom、药房培训和平台运营。",ja:"スタッフと取引先は、用量・保管・表示・補充トークについて同じ回答を得られます。WeCom、薬局研修、マーケットプレイス運用で一貫します。",th:"พนักงานและพาร์ทเนอร์ได้คำตอบเดียวกันเรื่อง dose, storage, claims และ replenishment talk track บน WeCom, training และ marketplace operations"},
+   demo:"merch"}
+];
+
+let state={lang:"en",built:false,governed:false,q:null,brand:"blackmores"};
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const L=o=>o[state.lang]||o.ja||o.en;
+const nodeByK=k=>NODES.find(n=>n.k===k);
+let _brand="blackmores",_mkt="AU";
+
+function renderStatic(){
+  $('#sub').textContent=L(T.sub);$('#eye').textContent=L(T.eye);$('#title').textContent=L(T.title);$('#lead').textContent=L(T.lead);
+  $('#wt').textContent=L(T.wt);$('#wd').textContent=L(T.wd);
+  $('#s1lab').textContent=L(T.s1);$('#s2lab').textContent=L(T.s2);$('#s3lab').textContent=L(T.s3);$('#s4lab').textContent=L(T.s4);
+  $('#go').textContent=state.built?L(T.building):L(T.go);
+  $('#reset').textContent=L(T.reset);$('#srcnote').textContent=L(T.srcnote);
+  $('#glegend').innerHTML=L(T.legend);$('#ucsub').textContent=L(T.ucsub);$('#foot').innerHTML=L(T.foot);
+  document.documentElement.lang=state.lang;
+  $('#sources').innerHTML=SRC.map(s=>`<div class="src ${s.adj?'adj':''}">
+    <div class="sk">${s.ic} ${L(s.k)}</div><div class="st">${L(s.t)}</div>
+    <div class="stamp">${s.adj?L(T.noparse):L(T.extracted)}</div></div>`).join('');
+  $('#steps').innerHTML=STEPS.map((s,i)=>`<div class="step" data-s="${i}"><div class="sd">${i+1}</div><div class="sl">${s.ic} ${L(s.l)}</div><div class="ss">${L(s.s)}</div></div>`).join('');
+  buildGraphDom();
+  renderAsk();
+}
+function buildGraphDom(){
+  const C=nodeByK('center');
+  const edges=NODES.filter(n=>n.k!=='center').map(n=>`<line class="edge" data-k="${n.k}" x1="${C.x*3.6}" y1="${C.y*3}" x2="${n.x*3.6}" y2="${n.y*3}"/>`).join('');
+  const nodes=NODES.map((n,i)=>`<div class="node ${n.k==='center'?'center':''} ${n.gov?'gov':''}" data-k="${n.k}" style="left:${n.x}%;top:${n.y}%;transition-delay:${n.k==='center'?0:0.05+i*0.05}s">
+    ${n.kk?`<span class="k">${L(n.kk)}</span>`:''}${L(n.lab)}<span class="lock">🔒</span></div>`).join('');
+  const g=$('#graph');g.innerHTML=`<svg viewBox="0 0 360 300" preserveAspectRatio="none">${edges}</svg>${nodes}`;
+  g.classList.toggle('built',state.built);g.classList.toggle('governed',state.governed);
+}
+function renderAsk(){
+  $('#qchips').innerHTML=QS.map((x,i)=>`<button class="qchip ${state.q===i?'on':''}" data-q="${i}"><span class="qi">${x.ic}</span>${L(x.scn)}</button>`).join('');
+  $$('#qchips .qchip').forEach(b=>b.onclick=()=>selectQ(+b.dataset.q));
+  const box=$('#ansbox');
+  if(state.q===null){box.className='ansbox empty';box.textContent=L(T.ucsub);highlight(null);return;}
+  const x=QS[state.q];box.className='ansbox';
+  const pn=x.path.map(k=>L(nodeByK(k).lab)).map(t=>`<span class="pn">${t}</span>`).join('<span class="ar">→</span>');
+  const d=DEMO[x.demo];
+  box.innerHTML=`<div class="ans"><div class="qq"><b>${L(x.scn)}</b> · ${L(x.q)}</div>
+    <div class="a ${x.block?'block':''}">${L(x.a)}</div>
+    <div class="path"><span class="pl">${L(T.pathLab)}</span>${pn}</div>
+    <div class="grounded">${L(T.grounded)}</div>
+    <a class="applink" href="${d.f}?brand=${_brand}&market=${_mkt}&lang=${state.lang}">${L(T.powers)}: ${L(d.t)} →</a></div>`;
+  highlight(x.hot);
+}
+function highlight(hot){
+  $$('#graph .node').forEach(n=>{const k=n.dataset.k;n.classList.remove('hot','dim');
+    if(!hot||k==='center')return; if(hot.includes(k))n.classList.add('hot');else n.classList.add('dim');});
+  $$('#graph .edge').forEach(e=>{const k=e.dataset.k;e.classList.remove('hot','dim');
+    if(!hot)return; if(hot.includes(k))e.classList.add('hot');else e.classList.add('dim');});
+}
+function selectQ(i){state.q=i;renderAsk();}
+
+function setStep(i,cls){const el=document.querySelector(`.step[data-s="${i}"]`);if(el){el.classList.remove('on','done');if(cls)el.classList.add(cls);}}
+function build(){
+  if(state.built)return;
+  const go=$('#go');go.disabled=true;go.textContent=L(T.building);
+  // step 1 ingest
+  setStep(0,'on');
+  setTimeout(()=>{ // step 2 extract
+    setStep(0,'done');setStep(1,'on');$('#sources').classList.add('extracting');
+  },650);
+  setTimeout(()=>{ // step 3 link → reveal graph
+    setStep(1,'done');setStep(2,'on');
+    state.built=true;$('#stage2').classList.add('show');$('#graph').classList.add('built');$('#reset').style.display='block';
+  },1450);
+  setTimeout(()=>{ // step 4 govern → locks
+    setStep(2,'done');setStep(3,'on');
+    state.governed=true;$('#graph').classList.add('governed');
+  },2250);
+  setTimeout(()=>{ // done → use cases
+    setStep(3,'done');go.classList.add('hide');
+    $('#stage3').classList.add('show');
+  },2900);
+}
+$('#go').onclick=build;
+$('#reset').onclick=()=>{state.built=false;state.governed=false;state.q=null;
+  $('#go').classList.remove('hide');$('#go').disabled=false;$('#go').textContent=L(T.go);
+  $('#sources').classList.remove('extracting');
+  $('#stage2').classList.remove('show');$('#stage3').classList.remove('show');$('#reset').style.display='none';
+  STEPS.forEach((_,i)=>setStep(i,null));
+  buildGraphDom();renderAsk();window.scrollTo({top:0,behavior:'smooth'});};
+
+const LANGS=[['en','EN'],['zh','中'],['ja','日'],['th','ไท']];
+function renderLangs(){const box=$('#langs');box.innerHTML='';LANGS.forEach(([k,lab])=>{const b=document.createElement('button');b.textContent=lab;if(k===state.lang)b.className='on';
+  b.onclick=()=>{state.lang=k;renderLangs();const wasBuilt=state.built,wasGov=state.governed,wasQ=state.q;renderStatic();
+    if(wasBuilt){$('#stage2').classList.add('show');$('#graph').classList.add('built');$('#reset').style.display='block';$('#go').classList.add('hide');
+      if(wasGov)$('#graph').classList.add('governed');$('#stage3').classList.add('show');
+      STEPS.forEach((_,i)=>setStep(i,'done'));}
+    state.q=wasQ;renderAsk();};box.appendChild(b);});}
+
+try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_l=_p.get("lang"),_m=_p.get("market");
+  if(_l&&["en","zh","ja","th"].indexOf(_l)>=0)state.lang=_l;if(_b)_brand=_b;if(_m)_mkt=_m;}catch(e){}
+renderLangs();renderStatic();
+</script>
+<script>
+const KH_INTRO={
+  eye:{en:"Reference Architecture · Blackmores AI Knowledge Hub",zh:"参考架构 · Blackmores AI 知识中枢",ja:"リファレンスアーキテクチャ · Blackmores AIナレッジハブ",th:"Reference Architecture · Blackmores AI Knowledge Hub"},
+  title:{en:"A governed product, claim and channel knowledge hub for every Blackmores AI scenario.",zh:"面向每个 Blackmores AI 场景的产品、宣称与渠道知识中枢。",ja:"BlackmoresのあらゆるAIシナリオを支える、統制された製品・表示・チャネルナレッジハブ。",th:"Knowledge Hub สำหรับ product, claim และ channel ที่กำกับได้ของ Blackmores"},
+  lead:{en:"The graph demo above shows the idea. This walkthrough shows the enterprise build: how Blackmores turns product files, market rules, content assets, marketplace data, service answers and channel knowledge into a governed, citable AI foundation.",
+    zh:"上面的图谱 demo 展示概念；这里展示企业级建设方式：Blackmores 如何把产品文件、市场法规、内容素材、平台数据、服务答案和渠道知识变成受治理、可引用的 AI 底座。",
+    ja:"上のグラフデモはコンセプトを示します。ここでは企業実装を示します：Blackmoresが製品ファイル・市場規制・コンテンツ資産・マーケットプレイスデータ・サービス回答・チャネル知識を、統制され引用可能なAI基盤へ変える方法です。",
+    th:"เดโมกราฟด้านบนแสดงแนวคิด ส่วนนี้แสดงการสร้างระดับองค์กร: Blackmores เปลี่ยนไฟล์สินค้า กฎตลาด คอนเทนต์ ข้อมูล marketplace คำตอบบริการ และความรู้ช่องทางให้เป็น AI foundation ที่กำกับและอ้างอิงได้"}
+};
+const KH=[
+  {img:"kh-assets/kh-01.jpg",t:{en:"Background: product truth is scattered",zh:"背景：产品事实分散在各处",ja:"背景：製品ファクトが分散している",th:"Background: product truth is scattered"},
+   p:{en:["Blackmores product knowledge lives across ingredient specifications, AUST L listings, packaging copy, PDP modules, pharmacy training, marketplace operations, FAQs and reviews.","Without a knowledge hub, every AI use case rebuilds the same facts and creates risk: inconsistent claims, outdated product details and channel-specific answers that drift."],
+      zh:["Blackmores 的产品知识分散在成分规格、AUST L 备案、包装文案、PDP 模块、药房培训、平台运营、FAQ 和评论中。","如果没有知识中枢，每个 AI 场景都会重复搭建事实，并带来风险：宣称不一致、产品细节过期、各渠道答案漂移。"],
+      ja:["Blackmoresの製品知識は、成分仕様・AUST L登録・包装コピー・PDPモジュール・薬局研修・マーケットプレイス運用・FAQ・レビューに分散しています。","ナレッジハブがなければ、各AIユースケースが同じファクトを作り直し、表示不一致・古い製品情報・チャネル別回答のずれを生みます。"],
+      th:["Product knowledge ของ Blackmores กระจายอยู่ใน ingredient specs, AUST L listings, packaging copy, PDP, pharmacy training, marketplace operations, FAQ และ reviews","ถ้าไม่มี knowledge hub ทุก AI use case ต้องสร้าง facts ใหม่ ทำให้ claims ไม่ตรง รายละเอียดสินค้าเก่า และคำตอบแต่ละช่องทาง drift"]}},
+  {img:"kh-assets/kh-02.jpg",t:{en:"Phase 1 scope: the right first domains",zh:"第一阶段范围：先抓高价值领域",ja:"フェーズ1：優先すべき領域",th:"Phase 1 scope"},
+   p:{en:["Start with high-value, high-risk domains: product master, permitted claims, market regulations, PDP content, customer FAQ and channel training.","Keep the first dataset small enough for SME review, but broad enough to power recommendation, GEO, AIGC, compliance and service demos."],
+      zh:["第一阶段先覆盖高价值、高风险领域：产品主数据、许可宣称、市场法规、PDP 内容、客户 FAQ 和渠道培训。","数据量要足够小，便于 SME 审核；同时也要足够宽，能支撑推荐、GEO、AIGC、合规和客服场景。"],
+      ja:["まず高価値・高リスク領域から始めます：製品マスター、許可表示、市場規制、PDPコンテンツ、FAQ、チャネル研修。","初期データはSMEレビュー可能な規模に抑えつつ、推薦・GEO・AIGC・コンプラ・サービスデモを支える範囲にします。"],
+      th:["เริ่มจากโดเมนที่มูลค่าสูงและเสี่ยงสูง: product master, permitted claims, market regulations, PDP content, customer FAQ และ channel training","ชุดข้อมูลแรกต้องเล็กพอให้ SME review แต่กว้างพอสำหรับ recommendation, GEO, AIGC, compliance และ service"]}},
+  {img:"kh-assets/kh-03.jpg",t:{en:"Overall architecture: governed Agentic RAG",zh:"整体架构：受治理的 Agentic RAG",ja:"全体アーキテクチャ：統制されたAgentic RAG",th:"Overall architecture"},
+   p:{en:["The hub separates touchpoints, application services, agent orchestration, knowledge governance, indexing, model services and observability.","This keeps marketplace, WeCom, service and content-generation use cases on one foundation, while allowing models, vector DB, reranker and rules to evolve independently."],
+      zh:["中枢拆成触点、应用服务、Agent 编排、知识治理、索引、模型服务和可观测性几层。","这样平台电商、WeCom、客服和内容生成都能用同一个底座，同时模型、向量库、reranker 和规则可以独立演进。"],
+      ja:["ハブは接点、アプリサービス、Agentオーケストレーション、ナレッジ統制、索引、モデルサービス、観測に分かれます。","マーケットプレイス、WeCom、サービス、コンテンツ生成が一つの基盤を使いながら、モデル・ベクタDB・reranker・ルールは独立して進化できます。"],
+      th:["Hub แยก touchpoints, application services, agent orchestration, knowledge governance, indexing, model services และ observability","ทำให้ marketplace, WeCom, service และ content generation ใช้ foundation เดียวกัน ขณะที่ model, vector DB, reranker และ rules เปลี่ยนได้"]}},
+  {img:"kh-assets/kh-04.jpg",t:{en:"Request lifecycle: answer only after verification",zh:"请求链路：验证后才回答",ja:"リクエスト：検証後に回答",th:"Request lifecycle"},
+   p:{en:["A shopper, pharmacist or platform operator asks a question; the system checks identity, intent and permissions, retrieves evidence, reranks, generates and then verifies citations and policy rules.","The answer is returned only when product facts, claim rules and channel boundaries are all satisfied."],
+      zh:["消费者、药房店员或平台运营提出问题后，系统先识别身份、意图和权限，再检索证据、rerank、生成答案，并验证引用和策略规则。","只有当产品事实、宣称规则和渠道边界都满足时，答案才会返回。"],
+      ja:["顧客・薬局スタッフ・プラットフォーム担当者の質問に対し、本人・意図・権限を確認し、証拠検索、rerank、生成、引用とルール検証を行います。","製品ファクト、表示ルール、チャネル境界を満たした場合のみ回答を返します。"],
+      th:["เมื่อ shopper, pharmacist หรือ platform operator ถาม ระบบตรวจ identity, intent, permission แล้ว retrieve evidence, rerank, generate และ verify citations/rules","คำตอบจะถูกส่งกลับเมื่อ product facts, claim rules และ channel boundaries ผ่านทั้งหมด"]}},
+  {img:"kh-assets/kh-06.jpg",t:{en:"Ingestion: parse more than text",zh:"知识导入：不只是抽文本",ja:"取り込み：テキスト抽出だけではない",th:"Ingestion"},
+   p:{en:["Blackmores knowledge includes tables, claim matrices, product images, shelf cards, training decks, PDP screenshots and review exports.","The parser must preserve structure: ingredient tables, claim-market mappings, image regions, SKU metadata, channel tags and approval status."],
+      zh:["Blackmores 知识包含表格、宣称矩阵、产品图片、货架卡、培训 PPT、PDP 截图和评论导出。","解析必须保留结构：成分表、宣称-市场映射、图片区域、SKU 元数据、渠道标签和审批状态。"],
+      ja:["Blackmoresの知識には表、表示マトリクス、製品画像、棚カード、研修資料、PDPスクリーンショット、レビューエクスポートが含まれます。","解析では成分表、表示×市場マッピング、画像領域、SKUメタデータ、チャネルタグ、承認状態を保持します。"],
+      th:["Knowledge ของ Blackmores มี tables, claim matrices, product images, shelf cards, training decks, PDP screenshots และ review exports","Parser ต้องเก็บ structure เช่น ingredient tables, claim-market mappings, image regions, SKU metadata, channel tags และ approval status"]}},
+  {img:"kh-assets/kh-08.jpg",t:{en:"Metadata schema: make every answer traceable",zh:"元数据：让每个答案可追溯",ja:"メタデータ：回答を追跡可能に",th:"Metadata schema"},
+   p:{en:["Each knowledge unit carries product_id, SKU, market, channel, claim_type, evidence_id, regulation_id, language, effective_date, owner, reviewer and approval status.","Those fields are what let AI filter by market, cite the right source and avoid using an Australia claim in a China PDP."],
+      zh:["每个知识单元都带有 product_id、SKU、市场、渠道、宣称类型、证据 ID、法规 ID、语言、生效日期、owner、reviewer 和审批状态。","这些字段让 AI 能按市场过滤、引用正确来源，并避免把澳洲宣称误用到中国 PDP。"],
+      ja:["各ナレッジ単位にproduct_id、SKU、市場、チャネル、表示種別、根拠ID、規制ID、言語、有効日、owner、reviewer、承認状態を付与します。","これによりAIは市場別にフィルタし、正しい出典を引用し、豪州の表示を中国PDPへ誤用することを避けます。"],
+      th:["แต่ละ knowledge unit มี product_id, SKU, market, channel, claim_type, evidence_id, regulation_id, language, effective_date, owner, reviewer และ approval status","ฟิลด์เหล่านี้ทำให้ AI filter ตาม market, cite source ถูก และเลี่ยงใช้ claim ของ Australia ใน China PDP"]}},
+  {img:"kh-assets/kh-10.jpg",t:{en:"Claim governance: approved wording, blocked wording",zh:"宣称治理：允许什么，拦截什么",ja:"表示統制：許可とブロック",th:"Claim governance"},
+   p:{en:["A claim is not just copy. It links product, ingredient, evidence, market rule, approved wording, prohibited wording and required disclaimer.","That turns compliance from manual review into a reusable graph capability for AIGC, marketplace PDP, social content and partner training."],
+      zh:["宣称不是一句文案，它连接产品、成分、证据、市场规则、批准表达、禁止表达和必要免责声明。","合规因此不再只是人工审核，而是能复用于 AIGC、平台 PDP、社媒内容和渠道培训的图谱能力。"],
+      ja:["表示は単なるコピーではありません。製品、成分、根拠、市場ルール、承認表現、禁止表現、必要な免責を結びます。","コンプライアンスは手作業の審査から、AIGC・PDP・SNS・チャネル研修で再利用できるグラフ能力になります。"],
+      th:["Claim ไม่ใช่แค่ copy แต่เชื่อม product, ingredient, evidence, market rule, approved wording, prohibited wording และ disclaimer","ทำให้ compliance เป็น graph capability ที่ใช้ซ้ำกับ AIGC, PDP, social content และ partner training"]}},
+  {img:"kh-assets/kh-13.jpg",t:{en:"Agent orchestration: route to the right specialist",zh:"Agent 编排：路由到正确专家",ja:"Agent編成：適切な専門家へルーティング",th:"Agent orchestration"},
+   p:{en:["Different questions need different skills: recommendation, claim review, product comparison, service answer, content generation or channel replenishment.","The orchestration layer chooses the right agent, the right retrieval scope and the right approval path before acting."],
+      zh:["不同问题需要不同能力：推荐、宣称审核、产品比较、服务回答、内容生成或渠道补货。","编排层会在行动前选择正确 Agent、正确检索范围和正确审批路径。"],
+      ja:["質問により必要なスキルは異なります：推薦、表示審査、製品比較、サービス回答、コンテンツ生成、チャネル補充。","オーケストレーション層は実行前に適切なAgent、検索範囲、承認経路を選びます。"],
+      th:["คำถามต่างกันต้องใช้ skill ต่างกัน เช่น recommendation, claim review, product comparison, service answer, content generation หรือ channel replenishment","Orchestration layer เลือก agent, retrieval scope และ approval path ก่อนลงมือ"]}},
+  {img:"kh-assets/kh-16.jpg",t:{en:"Observability: quality, risk and business impact",zh:"可观测性：质量、风险与业务影响",ja:"観測：品質・リスク・事業効果",th:"Observability"},
+   p:{en:["Monitor not only latency, but citation accuracy, claim-policy violations, no-answer rate, low-confidence answers, product data freshness and channel adoption.","Business dashboards connect graph quality to outcomes: fewer claim escalations, faster content approval, higher staff answer consistency and better marketplace content health."],
+      zh:["不仅监控延迟，还要监控引用准确率、宣称违规、无答案率、低置信答案、产品数据新鲜度和渠道采用率。","业务看板把图谱质量连接到结果：更少宣称升级、更快内容审批、更一致的店员回答和更健康的平台内容。"],
+      ja:["レイテンシだけでなく、引用精度、表示違反、回答なし率、低信頼回答、製品データ鮮度、チャネル採用率を監視します。","業務ダッシュボードはグラフ品質を、表示エスカレーション減少、承認速度向上、スタッフ回答一貫性、PDP品質に結びます。"],
+      th:["Monitor ไม่ใช่แค่ latency แต่รวม citation accuracy, claim-policy violations, no-answer rate, low-confidence answers, data freshness และ channel adoption","Dashboard เชื่อม graph quality กับ outcomes เช่น claim escalations ลดลง content approval เร็วขึ้น staff answers ตรงกัน และ marketplace content health ดีขึ้น"]}},
+  {img:"kh-assets/kh-17.jpg",t:{en:"Security, privacy and responsible AI",zh:"安全、隐私与 Responsible AI",ja:"セキュリティ・プライバシー・Responsible AI",th:"Security, privacy & Responsible AI"},
+   p:{en:["The hub must respect consumer data boundaries, partner data boundaries and internal approval roles.","SSO, RBAC, ABAC, audit logs, PII filtering, prompt-injection checks and human approval are not add-ons; they are part of the knowledge foundation."],
+      zh:["知识中枢必须尊重消费者数据边界、渠道伙伴数据边界和内部审批角色。","SSO、RBAC、ABAC、审计日志、PII 过滤、prompt injection 检查和人工审批不是附加项，而是知识底座的一部分。"],
+      ja:["ハブは顧客データ境界、パートナーデータ境界、社内承認ロールを尊重します。","SSO、RBAC、ABAC、監査ログ、PIIフィルタ、prompt injection検査、人手承認は後付けではなく、ナレッジ基盤の一部です。"],
+      th:["Hub ต้องเคารพ consumer data boundaries, partner data boundaries และ internal approval roles","SSO, RBAC, ABAC, audit logs, PII filtering, prompt-injection checks และ human approval ไม่ใช่ add-on แต่เป็นส่วนหนึ่งของ foundation"]}},
+  {img:"kh-assets/kh-05.jpg",t:{en:"Permissions: product, partner and market boundaries",zh:"权限边界：产品、伙伴与市场",ja:"権限：製品・パートナー・市場境界",th:"Permissions"},
+   p:{en:["The same hub serves brand teams, agencies, platform operators, pharmacies and distributors, but not everyone should see the same knowledge.","Permissions filter retrieval before generation and verify citations after generation, so partner data, internal approvals and market-only rules stay within the right boundary."],
+      zh:["同一个知识中枢会服务品牌团队、代理商、平台运营、药房和分销商，但不是所有人都应该看到同一套知识。","权限会在生成前过滤检索范围，并在生成后验证引用，确保伙伴数据、内部审批和市场限定规则都留在正确边界内。"],
+      ja:["同じハブがブランドチーム、代理店、プラットフォーム担当、薬局、販売店を支えますが、全員が同じ知識を見るべきではありません。","権限は生成前に検索範囲を制限し、生成後に引用を検証して、パートナーデータ・社内承認・市場限定ルールを正しい境界内に保ちます。"],
+      th:["Hub เดียวให้บริการ brand team, agency, platform operator, pharmacy และ distributor แต่ไม่ควรเห็น knowledge ชุดเดียวกันทั้งหมด","Permissions filter retrieval ก่อน generation และ verify citations หลัง generation เพื่อรักษา partner data, approvals และ market-only rules ให้อยู่ใน boundary ที่ถูกต้อง"]}},
+  {img:"kh-assets/kh-07.jpg",t:{en:"Process knowledge: claim and content approval flows",zh:"流程知识：宣称与内容审批流",ja:"プロセス知識：表示・コンテンツ承認フロー",th:"Process knowledge"},
+   p:{en:["Some knowledge is not a paragraph; it is a workflow: content brief, claim check, legal review, market approval, platform upload and post-launch monitoring.","Turning approval flows into graph structures lets AI explain where a campaign is blocked, who owns the next action and what evidence is missing."],
+      zh:["有些知识不是一段文字，而是一条流程：内容 brief、宣称检查、法务审核、市场审批、平台上架和上线后监控。","把审批流程转成图结构后，AI 可以说明活动卡在哪里、下一步归谁处理、缺少什么证据。"],
+      ja:["知識の中には文章ではなくワークフローがあります：コンテンツbrief、表示チェック、法務レビュー、市場承認、プラットフォーム掲載、公開後監視。","承認フローをグラフ化すると、AIはキャンペーンがどこで止まり、次の担当者が誰で、何の根拠が不足しているかを説明できます。"],
+      th:["Knowledge บางอย่างไม่ใช่ paragraph แต่เป็น workflow: content brief, claim check, legal review, market approval, platform upload และ post-launch monitoring","เมื่อเปลี่ยน approval flow เป็น graph AI จะอธิบายได้ว่า campaign ติดตรงไหน ใครเป็น owner และขาด evidence อะไร"]}},
+  {img:"kh-assets/kh-09.jpg",t:{en:"Hybrid retrieval: graph + vector + business rules",zh:"混合检索：图谱 + 向量 + 业务规则",ja:"ハイブリッド検索：グラフ + ベクタ + 業務ルール",th:"Hybrid retrieval"},
+   p:{en:["A plain vector search may find similar wording, but supplement use cases need exact facts, market rules and approved claims.","Hybrid retrieval combines semantic search with graph traversal and rule filtering, so the answer can be relevant and compliant at the same time."],
+      zh:["单纯向量检索可以找到相似文本，但保健品场景需要精确事实、市场规则和批准宣称。","混合检索把语义搜索、图谱路径和规则过滤结合起来，让答案既相关又合规。"],
+      ja:["単純なベクタ検索は似た表現を見つけますが、サプリ領域では正確なファクト、市場ルール、承認表示が必要です。","ハイブリッド検索は意味検索、グラフ探索、ルールフィルタを組み合わせ、関連性とコンプライアンスを同時に満たします。"],
+      th:["Vector search อย่างเดียวหา wording ที่คล้ายได้ แต่ supplement use cases ต้องการ exact facts, market rules และ approved claims","Hybrid retrieval รวม semantic search, graph traversal และ rule filtering เพื่อให้ answer ทั้ง relevant และ compliant"]}},
+  {img:"kh-assets/kh-11.jpg",t:{en:"Evaluation: test with real Blackmores questions",zh:"评估：用真实 Blackmores 问题测试",ja:"評価：実際のBlackmores質問で検証",th:"Evaluation"},
+   p:{en:["Evaluation should use real questions from consumers, pharmacists, e-commerce operators, agencies and compliance reviewers.","Score answers for citation accuracy, market-rule fit, claim safety, usefulness and whether the system refuses when evidence is missing."],
+      zh:["评估应该使用来自消费者、药房店员、电商运营、代理商和合规审核人员的真实问题。","评分维度包括引用准确率、市场规则匹配、宣称安全性、实用性，以及证据缺失时是否会拒答。"],
+      ja:["評価には、消費者・薬局スタッフ・EC担当・代理店・コンプラレビュアーの実質問を使います。","引用精度、市場ルール適合、表示安全性、実用性、根拠不足時の拒否を評価します。"],
+      th:["Evaluation ควรใช้คำถามจริงจาก consumer, pharmacist, e-commerce operator, agency และ compliance reviewer","ให้คะแนน citation accuracy, market-rule fit, claim safety, usefulness และ refusal เมื่อ evidence ไม่พอ"]}},
+  {img:"kh-assets/kh-12.jpg",t:{en:"Human review: SME approval stays in the loop",zh:"人工审核：SME 仍在闭环中",ja:"人手レビュー：SMEをループに残す",th:"Human review"},
+   p:{en:["The graph does not remove medical, regulatory or product SMEs. It makes their review focused and reusable.","Low-confidence parsing, new claims, new market rules and disputed answers route to the right reviewer, then the approved correction becomes reusable knowledge."],
+      zh:["图谱不是替代医学、法规或产品 SME，而是让他们的审核更聚焦、可复用。","低置信解析、新宣称、新市场规则和有争议答案会路由给正确审核人，审核后的修正会变成可复用知识。"],
+      ja:["グラフは医療・規制・製品SMEを置き換えません。レビューを集中させ、再利用可能にします。","低信頼の解析、新表示、新市場ルール、異議のある回答は適切なレビュアーへ回され、承認済み修正は再利用可能な知識になります。"],
+      th:["Graph ไม่ได้แทน medical, regulatory หรือ product SME แต่ทำให้ review focused และ reusable","Low-confidence parsing, new claims, new market rules และ disputed answers จะ route ไป reviewer ที่ถูกต้อง แล้ว correction ที่อนุมัติกลายเป็น reusable knowledge"]}},
+  {img:"kh-assets/kh-14.jpg",t:{en:"Skills: from answers to actions",zh:"技能：从回答走向行动",ja:"スキル：回答からアクションへ",th:"Skills"},
+   p:{en:["Once facts are trusted, agents can do more than answer: draft PDP copy, flag risky claims, generate staff scripts, create replenishment tasks or prepare a campaign approval pack.","Each skill still reads from the same graph and writes back status, evidence and audit information."],
+      zh:["事实可信之后，Agent 不只是回答问题，还能起草 PDP 文案、标记风险宣称、生成店员话术、创建补货任务或准备活动审批包。","每个 skill 仍然读取同一张图谱，并回写状态、证据和审计信息。"],
+      ja:["ファクトが信頼できれば、Agentは回答だけでなく、PDPコピー作成、リスク表示の検出、スタッフスクリプト生成、補充タスク作成、キャンペーン承認パック作成まで行えます。","各スキルは同じグラフを読み、状態・根拠・監査情報を書き戻します。"],
+      th:["เมื่อ facts เชื่อถือได้ agents ทำได้มากกว่าตอบ: draft PDP copy, flag risky claims, generate staff scripts, create replenishment tasks หรือ prepare approval pack","แต่ละ skill ยังอ่านจาก graph เดียวกันและ write back status, evidence และ audit"]}},
+  {img:"kh-assets/kh-15.jpg",t:{en:"Integration: connect to commerce and service systems",zh:"集成：连接电商与服务系统",ja:"統合：コマース・サービスシステムへ接続",th:"Integration"},
+   p:{en:["The hub should connect to PIM, DAM, CDP, e-commerce platforms, WeCom / WeChat, service knowledge base and workflow tools.","That is how a fact update becomes a corrected PDP, a safer content asset, a better service answer and a channel action."],
+      zh:["知识中枢应连接 PIM、DAM、CDP、电商平台、WeCom / 微信、客服知识库和工作流工具。","这样一次事实更新才能变成修正后的 PDP、更安全的内容素材、更好的客服答案和渠道行动。"],
+      ja:["ハブはPIM、DAM、CDP、ECプラットフォーム、WeCom / WeChat、サービスKB、ワークフローへ接続します。","ファクト更新が、修正PDP、安全なコンテンツ、より良いサービス回答、チャネルアクションへつながります。"],
+      th:["Hub ควรเชื่อม PIM, DAM, CDP, e-commerce platforms, WeCom / WeChat, service KB และ workflow tools","การอัปเดต fact หนึ่งครั้งจึงกลายเป็น PDP ที่แก้แล้ว content ที่ปลอดภัยขึ้น service answer ที่ดีขึ้น และ channel action"]}},
+  {img:"kh-assets/kh-18.jpg",t:{en:"Risk response: prevent drift and hallucination",zh:"风险应对：防止漂移与幻觉",ja:"リスク対応：ドリフトとハルシネーション防止",th:"Risk response"},
+   p:{en:["Key risks are stale claims, unapproved wording, market confusion, hallucinated evidence, wrong product matching and partner-data leakage.","Controls include versioning, evidence-required generation, refusal rules, market filters, SME review and monitoring for citation failures."],
+      zh:["关键风险包括宣称过期、未批准表达、市场混用、证据幻觉、产品匹配错误和伙伴数据泄露。","控制手段包括版本管理、必须带证据生成、拒答规则、市场过滤、SME 审核和引用失败监控。"],
+      ja:["主なリスクは古い表示、未承認表現、市場混同、根拠の幻覚、製品マッチング誤り、パートナーデータ漏えいです。","バージョン管理、根拠必須生成、拒否ルール、市場フィルタ、SMEレビュー、引用失敗監視で制御します。"],
+      th:["Risks หลักคือ stale claims, unapproved wording, market confusion, hallucinated evidence, wrong product matching และ partner-data leakage","Controls ได้แก่ versioning, evidence-required generation, refusal rules, market filters, SME review และ citation failure monitoring"]}},
+  {img:"kh-assets/kh-19.jpg",t:{en:"Implementation path: from pilot to platform",zh:"实施路径：从试点到平台",ja:"実装：パイロットからプラットフォームへ",th:"Implementation path"},
+   p:{en:["Start with a focused pilot: a few hero products, two markets, one marketplace, one service channel and one compliance workflow.","Then expand by product category, market and channel, keeping the same metadata, approval and evaluation model."],
+      zh:["先做聚焦试点：几个核心产品、两个市场、一个平台、一个服务渠道和一条合规流程。","之后按品类、市场和渠道扩展，同时保持同一套元数据、审批和评估模型。"],
+      ja:["まず主要製品、2市場、1マーケットプレイス、1サービスチャネル、1コンプラフローに絞ったパイロットから始めます。","その後、製品カテゴリ、市場、チャネルへ拡張し、同じメタデータ・承認・評価モデルを維持します。"],
+      th:["เริ่ม pilot แบบ focused: hero products ไม่กี่ตัว, 2 markets, 1 marketplace, 1 service channel และ 1 compliance workflow","จากนั้นขยายตาม category, market และ channel โดยใช้ metadata, approval และ evaluation model เดิม"]}},
+  {img:"kh-assets/kh-20.jpg",t:{en:"Work packages: build in parallel",zh:"工作包：并行建设",ja:"作業パッケージ：並行構築",th:"Work packages"},
+   p:{en:["Delivery can split into product-data ingestion, claim governance, retrieval / RAG, agent skills, workflow integration, security and analytics.","Each work package has its own test boundary, but all converge in end-to-end Blackmores scenarios."],
+      zh:["交付可拆成产品数据导入、宣称治理、检索 / RAG、Agent 技能、工作流集成、安全和分析几个工作包。","每个工作包有自己的测试边界，但最终都汇入端到端 Blackmores 场景。"],
+      ja:["納品は製品データ取り込み、表示統制、検索 / RAG、Agentスキル、ワークフロー統合、セキュリティ、分析に分けられます。","各作業パッケージにテスト境界がありますが、最終的にエンドツーエンドのBlackmoresシナリオへ統合されます。"],
+      th:["Delivery แบ่งเป็น product-data ingestion, claim governance, retrieval / RAG, agent skills, workflow integration, security และ analytics","แต่ละ work package มี test boundary แต่ทั้งหมด converge ใน end-to-end Blackmores scenarios"]}},
+  {img:"kh-assets/kh-21.jpg",t:{en:"Demo scripts: prove the system, not the slide",zh:"Demo 脚本：证明系统而不是讲概念",ja:"デモ：スライドではなくシステムを証明",th:"Demo scripts"},
+   p:{en:["Use scripted demos that expose evidence: recommend a product, block a disease claim, rewrite a PDP line, answer a pharmacy question and update a marketplace content checklist.","Every demo should show sources, graph path, approval status and what action the agent took."],
+      zh:["用可验证脚本做 demo：推荐产品、拦截疾病宣称、改写 PDP 文案、回答药房问题、更新平台内容检查表。","每个 demo 都应该显示来源、图谱路径、审批状态和 Agent 执行了什么动作。"],
+      ja:["検証可能なデモスクリプトを使います：製品推薦、疾病表示ブロック、PDP文言修正、薬局質問回答、マーケットプレイスチェックリスト更新。","各デモで出典、グラフ経路、承認状態、Agentの実行アクションを表示します。"],
+      th:["ใช้ scripted demos ที่แสดง evidence: recommend product, block disease claim, rewrite PDP line, answer pharmacy question และ update content checklist","ทุก demo ควรแสดง sources, graph path, approval status และ agent action"]}},
+  {img:"kh-assets/kh-22.jpg",t:{en:"Acceptance evidence pack",zh:"验收证据包",ja:"受入証拠パック",th:"Acceptance evidence pack"},
+   p:{en:["Acceptance should not be a meeting note. For each scenario, capture test user, question, expected behavior, actual answer, citation screenshot, graph path, policy result and defect status.","This makes go-live auditable and gives compliance teams confidence in the AI foundation."],
+      zh:["验收不能只靠会议纪要。每个场景都要记录测试用户、问题、预期行为、实际答案、引用截图、图谱路径、策略结果和缺陷状态。","这样上线决策可审计，也能让合规团队对 AI 底座有信心。"],
+      ja:["受入は議事録だけでは不十分です。各シナリオでテストユーザー、質問、期待動作、実回答、引用スクリーンショット、グラフ経路、ポリシー結果、欠陥状態を記録します。","これによりgo-live判断が監査可能になり、コンプラチームがAI基盤を信頼できます。"],
+      th:["Acceptance ไม่ควรเป็น meeting note อย่างเดียว แต่ละ scenario ต้องเก็บ test user, question, expected behavior, actual answer, citation screenshot, graph path, policy result และ defect status","ทำให้ go-live auditable และ compliance team เชื่อมั่นใน AI foundation"]}},
+  {img:"kh-assets/kh-23.jpg",t:{en:"Continuous improvement: learn from every channel",zh:"持续改进：从每个渠道学习",ja:"継続改善：各チャネルから学ぶ",th:"Continuous improvement"},
+   p:{en:["After launch, use feedback from service chats, pharmacy questions, marketplace reviews, no-answer cases and compliance escalations to improve the graph.","A weekly governance loop updates facts, fixes metadata, adds missing claims and retires outdated content."],
+      zh:["上线后，用客服对话、药房提问、平台评论、无答案案例和合规升级来持续改进图谱。","每周治理闭环会更新事实、修正元数据、补充缺失宣称并下架过期内容。"],
+      ja:["公開後は、サービスチャット、薬局質問、マーケットプレイスレビュー、回答なしケース、コンプラエスカレーションからグラフを改善します。","週次のガバナンスループでファクト更新、メタデータ修正、不足表示追加、古いコンテンツ退役を行います。"],
+      th:["หลัง launch ใช้ feedback จาก service chats, pharmacy questions, marketplace reviews, no-answer cases และ compliance escalations เพื่อ improve graph","Weekly governance loop อัปเดต facts, fix metadata, add missing claims และ retire outdated content"]}},
+  {img:"kh-assets/kh-24.jpg",t:{en:"Closing: one trusted source for every scenario",zh:"总结：每个场景共用一套可信事实",ja:"まとめ：全シナリオの信頼できる唯一のファクト",th:"Closing"},
+   p:{en:["This is the difference between a collection of AI demos and a Blackmores-ready AI platform.","One governed graph can power Consumer Growth, Platform Commerce, Retail & Channel Operations, Membership Engagement and Trust / Compliance / Data Foundation without rebuilding truth each time."],
+      zh:["这就是一组 AI demo 和真正适合 Blackmores 的 AI 平台之间的区别。","同一张受治理的图谱可以支撑消费者增长、平台电商、零售与渠道运营、会员互动以及信任/合规/数据底座，而不必每次重建事实。"],
+      ja:["これはAIデモ集と、Blackmores向けAIプラットフォームの違いです。","一つの統制されたグラフが、Consumer Growth、Platform Commerce、Retail & Channel Operations、Membership Engagement、Trust / Compliance / Data Foundationを支えます。"],
+      th:["นี่คือความต่างระหว่างชุด AI demos กับ AI platform ที่พร้อมสำหรับ Blackmores","กราฟที่กำกับได้หนึ่งชุดขับเคลื่อน Consumer Growth, Platform Commerce, Retail & Channel Operations, Membership Engagement และ Trust / Compliance / Data Foundation ได้"]}},
+  {img:"kh-assets/kh-25.jpg",t:{en:"Full architecture: the Blackmores AI Knowledge Hub",zh:"完整架构：Blackmores AI 知识中枢",ja:"全体アーキテクチャ：Blackmores AIナレッジハブ",th:"Full architecture"},
+   p:{en:["The complete picture brings together user touchpoints, agent skills, governed retrieval, product and claim graph, platform integrations, model services, security and observability.","This is the reusable foundation beneath the catalog, not just one demo page."],
+      zh:["完整架构把用户触点、Agent 技能、受治理检索、产品与宣称图谱、平台集成、模型服务、安全和可观测性放在一张图里。","它是 catalog 下面可复用的底座，而不只是一个 demo 页面。"],
+      ja:["全体像は、ユーザー接点、Agentスキル、統制検索、製品・表示グラフ、プラットフォーム統合、モデルサービス、セキュリティ、観測を一つにまとめます。","これは単なるデモページではなく、catalogの下にある再利用可能な基盤です。"],
+      th:["ภาพรวมรวม user touchpoints, agent skills, governed retrieval, product/claim graph, platform integrations, model services, security และ observability","นี่คือ reusable foundation ใต้ catalog ไม่ใช่แค่ demo page หนึ่งหน้า"]}}
+];
+function renderKH(){
+  const box=document.getElementById('khsec'); if(!box) return;
+  const lang=(typeof state!=='undefined'&&state.lang)||'en';
+  const pick=o=>o[lang]||o.en||o.ja;
+  const head='<div class="khhead"><div class="eyebrow">'+pick(KH_INTRO.eye)+'</div><h2 class="khtitle">'+pick(KH_INTRO.title)+'</h2><div class="lead">'+pick(KH_INTRO.lead)+'</div></div>';
+  const rows=KH.map((s,i)=>{
+    const ps=(s.p[lang]||s.p.en).map(p=>'<p class="khp">'+p+'</p>').join('');
+    const no=('0'+(i+1)).slice(-2);
+    return '<div class="khrow"><a class="khimg" href="'+s.img+'" target="_blank" rel="noopener"><img loading="lazy" src="'+s.img+'" alt=""><span class="khno">'+no+'</span></a><div class="khtext"><div class="kht">'+pick(s.t)+'</div>'+ps+'</div></div>';
+  }).join('');
+  box.innerHTML=head+rows;
+}
+(function(){const original=renderStatic;renderStatic=function(){original();renderKH();};})();
+renderKH();
+</script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

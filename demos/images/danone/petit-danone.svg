@@ -1,0 +1,8 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Petit Danone kids yogurt">
+  <path d="M11 30 L29 30 L27 52 Q26.8 54 24.8 54 L15.2 54 Q13.2 54 13 52 Z" fill="#ffffff" stroke="#005B96" stroke-width="2.4" stroke-linejoin="round"/>
+  <rect x="9.5" y="24" width="21" height="8" rx="2.6" fill="#00CB5D" stroke="#005B96" stroke-width="2.4"/>
+  <path d="M35 30 L53 30 L51 52 Q50.8 54 48.8 54 L39.2 54 Q37.2 54 37 52 Z" fill="#ffffff" stroke="#005B96" stroke-width="2.4" stroke-linejoin="round"/>
+  <rect x="33.5" y="24" width="21" height="8" rx="2.6" fill="#e85d75" stroke="#005B96" stroke-width="2.4"/>
+  <circle cx="17" cy="40" r="1.3" fill="#005B96"/><circle cx="23" cy="40" r="1.3" fill="#005B96"/>
+  <path d="M17.5 44 q2.5 2 5 0" fill="none" stroke="#005B96" stroke-width="1.4" stroke-linecap="round"/>
+</svg>

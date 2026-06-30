@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Discovery · Blackmores · Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
+    --ink:#16201f; --muted:#6a7472; --bg:#f5f6f8; --card:#fff; --line:#e6e8ec;
+    --neg:#c0563f; --warn:#b5731a; --ok:#1a8f4c;
+    --display:Georgia,'Times New Roman','Songti SC',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  button{font-family:inherit;cursor:pointer}
+  header{background:#101418;position:sticky;top:0;z-index:30}
+  .nav{display:flex;align-items:center;gap:12px;max-width:1180px;margin:0 auto;padding:13px 18px}
+  .backst{display:none;align-items:center;gap:5px;border:1px solid #2a3138;background:rgba(255,255,255,.06);color:#cdd4db;font:inherit;font-size:12px;font-weight:700;padding:6px 11px;border-radius:9px}
+  .backst:hover{background:rgba(255,255,255,.12);color:#fff}
+  .brand{font-family:var(--display);font-weight:700;font-size:19px;color:#fff;letter-spacing:.02em}.brand sup{font-size:9px;color:#ff9a9a}
+  .sub{font-size:11px;color:#9aa3ad;border-left:1px solid #2a3138;padding-left:12px;letter-spacing:.04em}.sp{flex:1}
+  .langs{display:flex;gap:3px;background:rgba(255,255,255,.06);border:1px solid #2a3138;border-radius:9px;padding:3px}
+  .langs button{border:0;background:0;font:inherit;font-size:12px;font-weight:700;color:#9aa3ad;min-width:30px;padding:5px 8px;border-radius:6px;transition:.15s}
+  .langs button.on{background:#fff;color:var(--brand-d)}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 18px 80px}
+  .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:700}
+  h1.h{font-family:var(--display);font-weight:400;font-size:clamp(21px,4vw,29px);margin:8px 0 6px;line-height:1.18}
+  .lead{color:var(--muted);font-size:13.5px;max-width:80ch}
+  .proof{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+  .proof .pc{font-size:11px;font-weight:700;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--brand-d)}
+  .proof .pc b{color:var(--accent)}
+  .tabs{display:flex;gap:4px;margin:22px 0 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tabs button{border:0;background:0;font:inherit;font-size:13.5px;font-weight:700;color:var(--muted);padding:11px 12px;border-bottom:2px solid transparent}
+  .tabs button.on{color:var(--brand);border-color:var(--brand)}
+  .panel{display:none;animation:fade .3s ease}.panel.on{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 17px;margin-bottom:14px}
+  .card h3{font-family:var(--display);font-weight:600;font-size:16px;margin-bottom:3px}
+  .sec-t{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--brand);margin:2px 0 10px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:900px){.grid2,.grid3{grid-template-columns:1fr}}
+  ul.list{list-style:none;margin:6px 0 0}
+  ul.list li{font-size:12.5px;padding:6px 0 6px 18px;position:relative;border-bottom:1px dashed var(--line)}
+  ul.list li:last-child{border-bottom:0}
+  ul.list li::before{content:"";position:absolute;left:2px;top:12px;width:6px;height:6px;border-radius:50%;background:var(--brand)}
+  ul.list li b{color:var(--brand-d)}
+  .insight{display:flex;gap:12px;align-items:flex-start;background:linear-gradient(180deg,#fff6f6,#fff);border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:12px;padding:13px 15px;margin:6px 0 14px}
+  .insight .ic{font-size:18px}.insight .it{font-weight:800;font-size:12.5px;color:var(--brand-d);margin-bottom:2px}.insight .id{font-size:12px;color:var(--muted)}
+  .chip{display:inline-block;font-size:11px;font-weight:700;background:var(--soft);color:var(--brand-d);border-radius:999px;padding:4px 10px;margin:0 6px 6px 0}
+  .note{font-size:11px;color:var(--muted);margin-top:8px;font-style:italic}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:#101418;color:#fff;font-size:12.5px;font-weight:600;padding:10px 16px;border-radius:10px;opacity:0;transition:.25s;z-index:60;pointer-events:none}
+  .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+  .fab{position:fixed;right:18px;bottom:18px;width:48px;height:48px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:19px;box-shadow:0 8px 22px rgba(0,0,0,.2);z-index:40;border:0}
+  .btn{border:0;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:12px;padding:8px 14px;border-radius:9px}
+  .btn.o{background:var(--soft);color:var(--brand)}
+  /* GEO */
+  .geo{display:grid;grid-template-columns:1fr 320px;gap:16px}
+  @media(max-width:900px){.geo{grid-template-columns:1fr}}
+  .toggle-row{display:flex;align-items:center;gap:12px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:11px 14px;margin-bottom:12px}
+  .toggle-row .tlab{font-size:12.5px;font-weight:700}.toggle-row .tlab.dim{color:var(--muted);font-weight:600}
+  .sw{position:relative;width:52px;height:28px;border-radius:99px;background:#cfd5db;border:0;transition:.2s;flex-shrink:0}
+  .sw.on{background:var(--ok)}
+  .sw .kn{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+  .sw.on .kn{left:27px}
+  .contentbox{border:1px solid var(--line);border-radius:12px;padding:14px;font-size:13px;line-height:1.6;min-height:230px;transition:.3s}
+  .contentbox.facts{background:#f4fbf6;border-color:#cfe9d8}
+  .contentbox.mktg{background:#fff8f4;border-color:#f3dccb}
+  .contentbox .cbh{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:9px}
+  .contentbox.mktg .cbh{color:var(--warn)}.contentbox.facts .cbh{color:var(--ok)}
+  .factrow{display:flex;gap:8px;padding:5px 0;border-bottom:1px dashed var(--line);font-size:12.5px}
+  .factrow:last-child{border-bottom:0}.factrow .fk{font-weight:700;color:var(--accent);min-width:128px}
+  .mktgp{font-size:13px;color:#7a5230;font-style:italic}
+  .contentbox p{margin:0}
+  mark.flag{background:#ffe2c2;border-bottom:2px solid var(--warn);border-radius:3px;padding:0 2px;cursor:default;transition:.15s}
+  mark.flag.hl{background:var(--warn);color:#fff}
+  mark.fact-in{background:#d8f0e0;border-bottom:2px solid var(--ok);border-radius:3px;padding:0 2px;font-weight:600;cursor:default;transition:.15s}
+  mark.fact-in.hl{background:var(--ok);color:#fff}
+  .analysis{margin-top:12px;display:grid;gap:7px}
+  .analysis .anahead{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1px}
+  .anaitem{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-size:12px;cursor:default;transition:.15s}
+  .anaitem.hl{border-color:var(--brand);box-shadow:0 4px 13px rgba(0,155,164,.1)}
+  .anaitem .atag{font-size:9px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--brand-d);background:var(--soft);border-radius:5px;padding:3px 7px;flex:none}
+  .anaitem .bad{color:var(--warn);text-decoration:line-through;opacity:.85}
+  .anaitem .arr{color:var(--muted)}
+  .anaitem .fix{color:#2e9e5b;font-weight:700}
+  /* GEO education sections */
+  .gsec{margin:0 0 24px}
+  .gsec-live{margin-bottom:10px}
+  .gse{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--brand);font-weight:800;margin-bottom:5px}
+  .gst{font-family:var(--display);font-weight:600;font-size:clamp(17px,2.5vw,21px);line-height:1.25;margin-bottom:5px}
+  .gsb{font-size:13px;color:var(--muted);line-height:1.6;max-width:66ch}
+  .gdef{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:12px;padding:13px 15px;margin-top:12px;font-size:13px;line-height:1.6}
+  .gdef b{color:var(--brand-d)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  @media(max-width:680px){.two{grid-template-columns:1fr}}
+  .vcard{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:14px}
+  .vcard.geo{border-color:var(--brand);background:var(--soft)}
+  .vcard .vt{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+  .vcard.geo .vt{color:var(--brand-d)}
+  .vcard .vq{font-size:13px;font-weight:700;margin-bottom:5px;line-height:1.35}
+  .vcard .va{font-size:12.5px;color:var(--muted);line-height:1.5}
+  .vcard .vtag{display:inline-block;margin-top:10px;font-size:10px;font-weight:800;letter-spacing:.04em;padding:3px 9px;border-radius:999px;background:var(--bg);color:var(--muted)}
+  .vcard.geo .vtag{background:var(--brand);color:#fff}
+  .why3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-top:14px}
+  @media(max-width:680px){.why3{grid-template-columns:1fr}}
+  .wcard{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:13px}
+  .wcard .wn{font-family:var(--display);font-size:21px;color:var(--brand);font-weight:600}
+  .wcard .wh{font-weight:800;font-size:13px;margin:5px 0 4px}
+  .wcard .wl{font-size:12px;color:var(--muted);line-height:1.5}
+  .plist{margin-top:14px;display:grid;gap:10px}
+  .pcard{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:13px 14px}
+  .pcard .pnum{width:26px;height:26px;border-radius:50%;background:var(--soft);color:var(--brand);font-weight:800;font-size:13px;display:grid;place-items:center;flex:none}
+  .pcard .ph{font-weight:800;font-size:13px;margin-bottom:3px}
+  .pcard .pl{font-size:12.5px;color:var(--muted);line-height:1.5}
+  .pcard .pex{font-size:12px;margin-top:8px;background:var(--bg);border-radius:8px;padding:8px 10px;color:var(--ink);line-height:1.5}
+  .scorewrap{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+  .gauge{position:relative;width:180px;height:180px;margin:6px auto 4px}
+  .gauge svg{transform:rotate(-90deg)}
+  .gauge .gnum{position:absolute;inset:0;display:grid;place-items:center;flex-direction:column;font-family:var(--display);font-size:46px;font-weight:700}
+  .gauge .gnum small{display:block;font-family:var(--body);font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.05em}
+  .scorelab{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-top:4px}
+  .scorehint{font-size:11.5px;color:var(--muted);margin-top:8px}
+  .breakdown{margin-top:14px;text-align:left}
+  .bdrow{display:flex;align-items:center;gap:9px;margin-bottom:7px;font-size:11.5px}
+  .bdrow span:first-child{width:130px;color:var(--muted);font-weight:600}
+  .bdbar{flex:1;height:9px;background:var(--bg);border-radius:99px;overflow:hidden}
+  .bdbar i{display:block;height:100%;background:var(--ok);transition:.5s}
+  .bdrow b{width:30px;text-align:right}
+  .aiquote{background:#0c1116;color:#dfe6ee;border-radius:12px;padding:13px 15px;font-size:12.5px;line-height:1.55;margin-top:14px}
+  .aiquote .aih{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#7e8a96;margin-bottom:6px}
+  .aiquote b{color:#ff9a9a}
+  /* TAGGING */
+  .tag{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:900px){.tag{grid-template-columns:1fr}}
+  .signal{text-align:left;width:100%;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:10px 12px;margin-bottom:8px;transition:.13s;display:flex;gap:10px;align-items:center}
+  .signal:hover{border-color:var(--brand)}
+  .signal.on{background:var(--soft);border-color:var(--brand)}
+  .signal .si{font-size:18px}.signal .st{font-size:12.5px;font-weight:700}.signal .sx{font-size:10.5px;color:var(--muted)}
+  .signal .sck{margin-left:auto;font-size:13px;color:var(--muted)}.signal.on .sck{color:var(--ok)}
+  .tagcloud{min-height:60px;display:flex;flex-wrap:wrap;gap:7px;margin:6px 0 14px}
+  .tagchip{font-size:11.5px;font-weight:700;background:var(--accent);color:#fff;border-radius:999px;padding:5px 12px;animation:pop .25s ease}
+  @keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+  .tagempty{font-size:12px;color:var(--muted);font-style:italic}
+  .rec{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:9px;transition:.2s}
+  .rec.top{border-color:var(--brand);box-shadow:0 4px 12px rgba(0,155,164,.08)}
+  .rec .ri{width:46px;height:46px;border-radius:10px;background:var(--soft);display:grid;place-items:center;font-size:22px;flex-shrink:0}
+  .rec .rn{font-weight:800;font-size:13.5px}.rec .rx{font-size:11px;color:var(--muted)}
+  .rec .rscore{margin-left:auto;text-align:right}.rec .rscore .rv{font-family:var(--display);font-size:22px;font-weight:700;color:var(--brand)}.rec .rscore .rl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  /* AI DISCOVERY */
+  .discover{display:grid;grid-template-columns:.9fr 1.1fr;gap:16px}
+  @media(max-width:900px){.discover{grid-template-columns:1fr}}
+  .querybank{display:flex;flex-direction:column;gap:9px}
+  .qbtn{text-align:left;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:12px 13px;transition:.16s}
+  .qbtn:hover{border-color:var(--brand)}
+  .qbtn.on{background:var(--soft);border-color:var(--brand);box-shadow:0 5px 14px rgba(0,155,164,.08)}
+  .qbtn .qt{font-size:13px;font-weight:800;line-height:1.3}.qbtn .qs{font-size:11.5px;color:var(--muted);margin-top:3px}
+  .answerbox{background:#0d1418;color:#e8f1f2;border-radius:14px;padding:15px;border:1px solid #203034}
+  .answerbox .ah{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#89a1a5;margin-bottom:7px}
+  .answerbox .abody{font-size:13px;line-height:1.65}.answerbox b{color:#8ee3df}
+  .answerbox .why{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+  .answerbox .why span{font-size:10.5px;font-weight:800;color:#d8fbfa;background:rgba(0,155,164,.18);border:1px solid rgba(142,227,223,.25);border-radius:999px;padding:4px 8px}
+  .prodgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  @media(max-width:700px){.prodgrid{grid-template-columns:1fr}}
+  .prodcard{position:relative;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:12px;min-height:184px;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+  .prodcard.top{border-color:var(--brand);box-shadow:0 6px 18px rgba(0,155,164,.1)}
+  .prodcard .rank{position:absolute;top:10px;right:10px;font-size:10px;font-weight:900;color:var(--brand);background:var(--soft);border-radius:999px;padding:4px 8px}
+  .prodcard img{height:70px;object-fit:contain;align-self:flex-start;max-width:82px}
+  .prodcard .pn{font-weight:900;font-size:12.5px;line-height:1.25;padding-right:42px}
+  .prodcard .pd{font-size:11px;color:var(--muted);line-height:1.45;flex:1}
+  .prodcard .scoreline{display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:800;color:var(--muted)}
+  .prodcard .scoreline i{height:7px;flex:1;background:var(--bg);border-radius:999px;overflow:hidden}
+  .prodcard .scoreline i b{display:block;height:100%;background:var(--brand);border-radius:inherit}
+  .handoff{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  @media(max-width:800px){.handoff{grid-template-columns:1fr 1fr}}
+  .hcard{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:11px}
+  .hcard .hi{font-size:18px}.hcard .ht{font-weight:900;font-size:12px;margin-top:4px}.hcard .hd{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.35}
+  /* LIVE COMMERCE */
+  .lc{display:grid;grid-template-columns:1.3fr 1fr;gap:16px}
+  @media(max-width:900px){.lc{grid-template-columns:1fr}}
+  .stage{background:linear-gradient(165deg,#1a1014,#27161b);border-radius:16px;overflow:hidden;border:1px solid #3a2228;color:#f0e6e8}
+  .stage-top{display:flex;align-items:center;gap:9px;padding:11px 14px;background:rgba(0,0,0,.25)}
+  .stage-top .lv{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:800;background:var(--brand);color:#fff;padding:3px 9px;border-radius:6px}
+  .stage-top .lv .d{width:6px;height:6px;border-radius:50%;background:#fff;animation:pulse 1.3s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  .stage-top .vw{margin-left:auto;font-size:11px;color:#c8b8bc}
+  .stage-body{padding:18px;min-height:240px;position:relative}
+  .host{display:flex;gap:13px;align-items:flex-start}
+  .host .ha{width:54px;height:54px;border-radius:14px;background:linear-gradient(160deg,var(--brand),var(--brand-d));display:grid;place-items:center;font-size:26px;flex-shrink:0;box-shadow:0 6px 18px rgba(0,155,164,.35)}
+  .host .hn{font-weight:800;font-size:14px}.host .hr{font-size:10.5px;color:#c8b8bc}
+  .script{margin-top:14px;font-size:13.5px;line-height:1.6;min-height:78px}
+  .script .cur{border-right:2px solid var(--brand);animation:blink 1s step-end infinite;padding-right:2px}
+  @keyframes blink{50%{border-color:transparent}}
+  .scrlab{font-size:9.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#a8909a;margin-top:14px}
+  .product{display:flex;gap:11px;align-items:center;background:rgba(255,255,255,.06);border:1px solid #3a2228;border-radius:12px;padding:11px;margin-top:8px}
+  .product .pi{font-size:28px}.product .pn{font-weight:800;font-size:13.5px}.product .pp{font-size:12px;color:#ffd2d6}
+  .lc-side .card{margin-bottom:12px}
+  .senti{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+  .senti .sl{width:74px;font-size:11px;color:var(--muted);font-weight:700}
+  .sbar{flex:1;height:10px;background:var(--bg);border-radius:99px;overflow:hidden}
+  .sbar i{display:block;height:100%;transition:.6s}
+  .senti b{width:34px;text-align:right;font-size:12px}
+  .qa{font-size:12px;border-bottom:1px dashed var(--line);padding:8px 0}
+  .qa:last-child{border-bottom:0}
+  .qa .qq{font-weight:700}.qa .qq b{color:var(--accent)}
+  .qa .aa{color:var(--muted);margin-top:2px}.qa .aa::before{content:"AI ↳ ";font-weight:800;color:var(--brand-d)}
+  .ticker{font-size:11.5px;color:var(--ok);font-weight:700;min-height:18px}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <button class="backst" id="backStudio">← <span id="backLab">Studio</span></button>
+    <div class="brand" id="brand">Blackmores<sup>®</sup></div>
+    <div class="sub" id="subLab">GEO &amp; AI Discovery</div>
+    <div class="sp"></div>
+    <div class="langs" id="langs"><button data-l="en" class="on">EN</button><button data-l="ja">日本語</button><button data-l="th">ไทย</button></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="eyebrow" data-i="eyebrow">GEO &amp; AI Discovery</div>
+  <h1 class="h" data-i="h1">Get discovered by AI — and recommended to the right buyer</h1>
+  <p class="lead" data-i="lead">Buyers increasingly ask an AI assistant "which product should I get?" before they ever visit a store. Generative Engine Optimization (GEO) makes Blackmores's products machine-readable and recommendable; behavior-based tagging turns browsing signals into a live interest profile; and a knowledge graph grounds AI answers in approved facts. Built for Blackmores across the everyday core range and the premium Gold range.</p>
+  <div class="proof">
+    <span class="pc" data-i="p1"><b>GEO score</b> 31 → 92</span>
+    <span class="pc" data-i="p2"><b>Signals → tags</b> in real time</span>
+    <span class="pc" data-i="p3"><b>24/7</b> AI live host</span>
+    <span class="pc" data-i="p4">Discovery → <b>consultation</b></span>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <!-- 1 GEO -->
+  <div class="panel on" id="p-geo">
+    <div id="geoEdu"></div>
+    <div class="card">
+      <div class="sec-t" data-i="geo_t">GEO recommendation readiness — flip content from adjectives to facts</div>
+      <div class="toggle-row">
+        <span class="tlab" id="lab1" data-i="geo_mktg">Marketing adjectives</span>
+        <button class="sw" id="geoSw"><span class="kn"></span></button>
+        <span class="tlab dim" id="lab2" data-i="geo_facts">Structured facts</span>
+      </div>
+      <div class="geo">
+        <div>
+          <div class="contentbox mktg" id="geoContent"></div>
+          <div class="analysis" id="geoAnalysis"></div>
+          <p class="note" data-i="geo_note">Same product, two ways to describe it. AI assistants can't verify adjectives — they recommend products whose ingredients, dose, evidence and availability are stated as structured, citable facts.</p>
+        </div>
+        <div>
+          <div class="scorewrap">
+            <div class="sec-t" style="margin-bottom:2px" data-i="geo_score_t">AI Recommendability</div>
+            <div class="gauge"><svg width="180" height="180" viewBox="0 0 180 180"><circle cx="90" cy="90" r="78" fill="none" stroke="#eef0f3" stroke-width="14"/><circle id="gaugeArc" cx="90" cy="90" r="78" fill="none" stroke="var(--ok)" stroke-width="14" stroke-linecap="round" stroke-dasharray="490" stroke-dashoffset="490" style="transition:stroke-dashoffset .7s, stroke .4s"/></svg><div class="gnum"><span id="geoScoreNum">31</span><small data-i="geo_outof">/ 100</small></div></div>
+            <div class="scorelab" id="geoScoreLab" data-i="geo_low">Rarely recommended</div>
+            <div class="scorehint" id="geoHint" data-i="geo_hint_lo">AI can't verify vague claims, so Blackmores is skipped in shortlists.</div>
+            <div class="breakdown" id="geoBreak"></div>
+          </div>
+          <div class="aiquote"><div class="aih" data-i="geo_sim">Simulated AI answer</div><div id="aiQuote"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 AI DISCOVERY -->
+  <div class="panel" id="p-discovery">
+    <div class="card">
+      <div class="sec-t" data-i="disc_t">AI health discovery — answer the need, then route to the right product</div>
+      <div class="discover">
+        <div>
+          <div class="sec-t" style="color:var(--accent)" data-i="disc_q">Consumer questions</div>
+          <div class="querybank" id="discQueries"></div>
+        </div>
+        <div>
+          <div class="answerbox">
+            <div class="ah" data-i="disc_answer">Grounded AI answer</div>
+            <div class="abody" id="discAnswer"></div>
+            <div class="why" id="discWhy"></div>
+          </div>
+          <div class="prodgrid" id="discProducts"></div>
+          <div class="handoff" id="discHandoff"></div>
+        </div>
+      </div>
+      <div class="insight"><div class="ic">🔎</div><div><div class="it" data-i="disc_ins_t">Discovery is the new shelf</div><div class="id" data-i="disc_ins_d">The page turns the old search path into an AI-mediated answer: understand the health goal, cite approved facts, rank products and hand off to the local channel.</div></div></div>
+    </div>
+  </div>
+
+  <!-- 3 TAGGING -->
+  <div class="panel" id="p-tag">
+    <div class="card">
+      <div class="sec-t" data-i="tag_t">Behavior-based tagging — click signals, watch the profile build</div>
+      <div class="tag">
+        <div>
+          <div class="sec-t" style="color:var(--accent)" data-i="tag_sig">Customer signals (click to add)</div>
+          <div id="sigList"></div>
+        </div>
+        <div>
+          <div class="sec-t" style="color:var(--accent)" data-i="tag_tags">AI-built interest tags</div>
+          <div class="tagcloud" id="tagCloud"><span class="tagempty" data-i="tag_empty">Click signals on the left — AI infers interest tags here.</span></div>
+          <div class="sec-t" style="color:var(--accent)" data-i="tag_recs">Personalized product recommendations</div>
+          <div id="recList"></div>
+        </div>
+      </div>
+      <div class="insight"><div class="ic">🎯</div><div><div class="it" data-i="tag_ins_t">From anonymous clicks to a ranked shortlist</div><div class="id" data-i="tag_ins_d">Browsing, search and social signals are turned into consented interest tags, which re-rank product recommendations in real time and feed the channel-partner lead engine.</div></div></div>
+    </div>
+  </div>
+
+  <!-- 4 KNOWLEDGE GRAPH -->
+  <div class="panel" id="p-kg">
+    <div class="card">
+      <div class="sec-t" data-i="kg_t">Knowledge graph grounding — make Blackmores answerable by AI</div>
+      <div class="grid3">
+        <div class="card">
+          <h3 data-i="kg_c1_t">Product facts</h3>
+          <ul class="list">
+            <li data-i="kg_c1_1">Format, dose, price, active ingredients, TGA listing and shelf-life facts are structured as citable data.</li>
+            <li data-i="kg_c1_2">Each claim links back to an approved source, not loose marketing copy.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 data-i="kg_c2_t">Partner coverage</h3>
+          <ul class="list">
+            <li data-i="kg_c2_1">Channel-partner availability, in-store samples, SLA and stock signals become part of the answer layer.</li>
+            <li data-i="kg_c2_2">AI can recommend the next best store or appointment, not just a product.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 data-i="kg_c3_t">Policy and offers</h3>
+          <ul class="list">
+            <li data-i="kg_c3_1">Offers, promotions, returns, consent and eligibility rules are normalized for RAG.</li>
+            <li data-i="kg_c3_2">Answers stay accurate when prices, offers or availability change.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="insight"><div class="ic">🧠</div><div><div class="it" data-i="kg_ins_t">GEO needs a knowledge graph behind it</div><div class="id" data-i="kg_ins_d">Once buyers ask AI before they visit a store, Blackmores needs a governed source of truth that AI assistants can retrieve, cite and recommend from.</div></div></div>
+    </div>
+  </div>
+</div>
+<button class="fab" id="fab" title="brand">🎨</button>
+<div class="toast" id="toast"></div>
+
+<script>
+const BRANDS={core:{logo:"Blackmores",sup:"®",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},gold:{logo:"Blackmores",sup:"®",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]}};
+
+const L={
+ eyebrow:["GEO & AI Discovery","GEO & AIディスカバリー","GEO & การค้นพบด้วย AI"],
+ backLab:["Studio","スタジオ","สตูดิโอ"],
+ subLab:["GEO & AI Discovery","GEO & AIディスカバリー","GEO & การค้นพบด้วย AI"],
+ h1:["Get discovered by AI — and recommended to the right buyer","AIに発見され — 適切な買い手に推奨される","ถูกค้นพบโดย AI — และแนะนำให้ผู้ซื้อที่ใช่"],
+ lead:["Buyers increasingly ask an AI assistant \"which product should I get?\" before they ever visit a store. Generative Engine Optimization (GEO) makes Blackmores's products machine-readable and recommendable; behavior-based tagging turns browsing signals into a live interest profile; and a knowledge graph grounds AI answers in approved facts. Built for Blackmores across the everyday core range and the premium Gold range.","買い手はストアを訪れる前に、AIアシスタントへ「どの製品を買うべき?」と尋ねることが増えています。生成エンジン最適化(GEO)はBlackmoresの製品を機械可読かつ推奨可能にし、行動ベースのタグ付けは閲覧シグナルをリアルタイムの興味プロファイルに変え、ナレッジグラフはAIの回答を承認済みの事実に基づかせます。Blackmoresの日常コアレンジとプレミアムGoldレンジ向けに構築されています。","ผู้ซื้อถาม AI ผู้ช่วยมากขึ้นว่า \"ควรซื้อสินค้าตัวไหนดี?\" ก่อนที่จะไปร้านค้าด้วยซ้ำ การปรับแต่งสำหรับเครื่องมือเชิงสร้างสรรค์ (GEO) ทำให้สินค้าของ Blackmores อ่านได้ด้วยเครื่องและแนะนำได้ การติดแท็กตามพฤติกรรมเปลี่ยนสัญญาณการเรียกดูให้เป็นโปรไฟล์ความสนใจแบบเรียลไทม์ และกราฟความรู้ทำให้คำตอบของ AI อ้างอิงข้อเท็จจริงที่ได้รับการอนุมัติ สร้างขึ้นสำหรับ Blackmores ทั้งกลุ่มสินค้าหลักประจำวันและกลุ่มพรีเมียม Gold"],
+ p1:["<b>GEO score</b> 31 → 92","<b>GEOスコア</b> 31 → 92","<b>คะแนน GEO</b> 31 → 92"],
+ p2:["<b>Signals → tags</b> in real time","<b>シグナル → タグ</b> リアルタイム","<b>สัญญาณ → แท็ก</b> แบบเรียลไทม์"],
+ p3:["<b>Knowledge graph</b> grounding","<b>ナレッジグラフ</b>による裏付け","การอ้างอิงด้วย<b>กราฟความรู้</b>"],
+ p4:["Discovery → <b>consultation</b>","発見 → <b>相談</b>","การค้นพบ → <b>การปรึกษา</b>"],
+ geo_t:["GEO recommendation readiness — flip content from adjectives to facts","GEO推奨準備度 — コンテンツを形容詞から事実へ転換","ความพร้อมในการแนะนำแบบ GEO — เปลี่ยนเนื้อหาจากคำคุณศัพท์เป็นข้อเท็จจริง"],
+ geo_mktg:["Marketing adjectives","マーケティング形容詞","คำคุณศัพท์การตลาด"],
+ geo_facts:["Structured facts","構造化された事実","ข้อเท็จจริงที่มีโครงสร้าง"],
+ geo_note:["Same product, two ways to describe it. AI assistants can't verify adjectives — they recommend products whose ingredients, dose, evidence and availability are stated as structured, citable facts.","同じ製品でも、2通りの記述方法があります。AIアシスタントは形容詞を検証できません — 成分、用量、エビデンス、在庫が構造化された引用可能な事実として記載されている製品を推奨します。","สินค้าตัวเดียวกัน อธิบายได้สองแบบ AI ผู้ช่วยไม่สามารถตรวจสอบคำคุณศัพท์ได้ — มันแนะนำสินค้าที่ระบุส่วนประกอบ ปริมาณ หลักฐาน และความพร้อมจำหน่ายเป็นข้อเท็จจริงที่มีโครงสร้างและอ้างอิงได้"],
+ geo_score_t:["AI Recommendability","AI推奨可能性","ความสามารถในการถูก AI แนะนำ"],
+ geo_outof:["/ 100","/ 100","/ 100"],
+ geo_low:["Rarely recommended","ほとんど推奨されない","แทบไม่ถูกแนะนำ"],
+ geo_high:["Top of AI shortlists","AI候補リストの首位","อยู่ต้นรายการคัดเลือกของ AI"],
+ geo_hint_lo:["AI can't verify vague claims, so Blackmores is skipped in shortlists.","AIは曖昧な主張を検証できないため、Blackmoresは候補リストから外されます。","AI ตรวจสอบข้ออ้างที่คลุมเครือไม่ได้ Blackmores จึงถูกข้ามในรายการคัดเลือก"],
+ geo_hint_hi:["Citable specs, price & stock make Blackmores an easy AI recommendation.","引用可能なスペック、価格、在庫により、BlackmoresはAIが容易に推奨できます。","สเปก ราคา และสต็อกที่อ้างอิงได้ ทำให้ Blackmores เป็นตัวเลือกที่ AI แนะนำได้ง่าย"],
+ geo_sim:["Simulated AI answer","AI回答のシミュレーション","ตัวอย่างคำตอบจำลองของ AI"],
+ tag_t:["Behavior-based tagging — click signals, watch the profile build","行動ベースのタグ付け — シグナルをクリックし、プロファイルの構築を確認","การติดแท็กตามพฤติกรรม — คลิกสัญญาณ ดูโปรไฟล์ก่อตัว"],
+ tag_sig:["Customer signals (click to add)","顧客シグナル(クリックで追加)","สัญญาณลูกค้า (คลิกเพื่อเพิ่ม)"],
+ tag_tags:["AI-built interest tags","AIが生成した興味タグ","แท็กความสนใจที่สร้างโดย AI"],
+ tag_recs:["Personalized product recommendations","パーソナライズされた製品推奨","คำแนะนำสินค้าเฉพาะบุคคล"],
+ tag_empty:["Click signals on the left — AI infers interest tags here.","左のシグナルをクリックすると — AIがここで興味タグを推論します。","คลิกสัญญาณทางซ้าย — AI จะอนุมานแท็กความสนใจที่นี่"],
+ tag_ins_t:["From anonymous clicks to a ranked shortlist","匿名のクリックからランク付けされた候補リストへ","จากการคลิกแบบไม่ระบุตัวตน สู่รายการคัดเลือกที่จัดอันดับ"],
+ tag_ins_d:["Browsing, search and social signals are turned into consented interest tags, which re-rank product recommendations in real time and feed the channel-partner lead engine.","閲覧、検索、ソーシャルのシグナルは同意済みの興味タグに変換され、製品推奨をリアルタイムで再ランク付けし、チャネルパートナーのリードエンジンに供給されます。","สัญญาณการเรียกดู การค้นหา และโซเชียลถูกเปลี่ยนเป็นแท็กความสนใจที่ได้รับความยินยอม ซึ่งจัดอันดับคำแนะนำสินค้าใหม่แบบเรียลไทม์และป้อนเข้าสู่เครื่องมือสร้างลีดของพาร์ทเนอร์"],
+ kg_t:["Knowledge graph grounding — make Blackmores answerable by AI","ナレッジグラフによる裏付け — BlackmoresをAIが回答できる存在に","การอ้างอิงด้วยกราฟความรู้ — ทำให้ AI ตอบเกี่ยวกับ Blackmores ได้"],
+ kg_c1_t:["Product facts","製品に関する事実","ข้อเท็จจริงเกี่ยวกับสินค้า"],
+ kg_c1_1:["Format, dose, price, active ingredients, TGA listing and shelf-life facts are structured as citable data.","形状、用量、価格、有効成分、TGA登録、賞味期限に関する事実が引用可能なデータとして構造化されます。","ข้อมูลรูปแบบ ปริมาณ ราคา ส่วนประกอบสำคัญ การขึ้นทะเบียน TGA และอายุการเก็บรักษา ถูกจัดโครงสร้างเป็นข้อมูลที่อ้างอิงได้"],
+ kg_c1_2:["Each claim links back to an approved source, not loose marketing copy.","各記述は曖昧なマーケティング文ではなく、承認済みのソースにリンクします。","แต่ละข้ออ้างเชื่อมโยงกลับไปยังแหล่งที่ได้รับการอนุมัติ ไม่ใช่ข้อความการตลาดที่หลวม"],
+ kg_c2_t:["Partner coverage","パートナーのカバレッジ","ความครอบคลุมของพาร์ทเนอร์"],
+ kg_c2_1:["Channel-partner availability, in-store samples, SLA and stock signals become part of the answer layer.","チャネルパートナーの対応状況、店頭サンプル、SLA、在庫シグナルが回答レイヤーの一部になります。","ความพร้อมของพาร์ทเนอร์ ตัวอย่างสินค้าในร้าน SLA และสัญญาณสต็อก กลายเป็นส่วนหนึ่งของชั้นคำตอบ"],
+ kg_c2_2:["AI can recommend the next best store or appointment, not just a product.","AIは製品だけでなく、最適なストアや予約も推奨できます。","AI สามารถแนะนำร้านค้าหรือการนัดหมายที่ดีที่สุด ไม่ใช่แค่ตัวสินค้า"],
+ kg_c3_t:["Policy and offers","ポリシーとオファー","นโยบายและข้อเสนอ"],
+ kg_c3_1:["Offers, promotions, returns, consent and eligibility rules are normalized for RAG.","オファー、プロモーション、返品、同意、適格性ルールがRAG向けに正規化されます。","ข้อเสนอ โปรโมชัน การคืนสินค้า ความยินยอม และเงื่อนไขคุณสมบัติ ถูกทำให้เป็นมาตรฐานสำหรับ RAG"],
+ kg_c3_2:["Answers stay accurate when prices, offers or availability change.","価格、オファー、在庫が変わっても回答は正確なままです。","คำตอบยังคงแม่นยำเมื่อราคา ข้อเสนอ หรือความพร้อมจำหน่ายเปลี่ยนแปลง"],
+ kg_ins_t:["GEO needs a knowledge graph behind it","GEOにはその裏にナレッジグラフが必要","GEO ต้องมีกราฟความรู้อยู่เบื้องหลัง"],
+ kg_ins_d:["Once buyers ask AI before they visit a store, Blackmores needs a governed source of truth that AI assistants can retrieve, cite and recommend from.","買い手がストアを訪れる前にAIへ尋ねるようになると、BlackmoresはAIアシスタントが検索・引用・推奨できる統制された信頼できる情報源を必要とします。","เมื่อผู้ซื้อถาม AI ก่อนไปร้านค้า Blackmores จำเป็นต้องมีแหล่งข้อมูลที่เชื่อถือได้และมีการกำกับดูแล ซึ่ง AI ผู้ช่วยสามารถดึง อ้างอิง และแนะนำได้"],
+ live_ch:["Blackmores · AI Store","Blackmores · AIストア","Blackmores · ร้านค้า AI"],
+ live_watching:["watching","視聴中","กำลังรับชม"],
+ live_host:["Mira · AI Digital Host","Mira · AIデジタルホスト","Mira · พิธีกรดิจิทัล AI"],
+ live_hostr:["Blackmores · auto-generated, multilingual","Blackmores · 自動生成・多言語","Blackmores · สร้างอัตโนมัติ หลายภาษา"],
+ live_scrlab:["AI-generated script (live)","AI生成スクリプト(ライブ)","สคริปต์ที่สร้างโดย AI (สด)"],
+ live_feat:["Featuring now","現在紹介中","กำลังนำเสนอ"],
+ live_cta:["Book consultation","相談を予約","จองการปรึกษา"],
+ live_senti:["Real-time sentiment","リアルタイム感情分析","ความรู้สึกแบบเรียลไทม์"],
+ live_qa:["Viewer Q&A — answered by AI","視聴者Q&A — AIが回答","ถาม-ตอบจากผู้ชม — ตอบโดย AI"],
+ toast_td:["Consultation booked — partner will confirm on WhatsApp","相談を予約しました — パートナーがWhatsAppで確認します","จองการปรึกษาแล้ว — พาร์ทเนอร์จะยืนยันทาง WhatsApp"],
+ tabs0:["GEO Recommendation Readiness","GEO推奨準備度","ความพร้อมในการแนะนำแบบ GEO"],
+ tabs1:["AI Health Discovery","AI健康ディスカバリー","การค้นพบสุขภาพด้วย AI"],
+ tabs2:["Behavior-Based Tagging","行動ベースのタグ付け","การติดแท็กตามพฤติกรรม"],
+ tabs3:["Knowledge Graph Grounding","ナレッジグラフによる裏付け","การอ้างอิงด้วยกราฟความรู้"],
+ disc_t:["AI health discovery — answer the need, then route to the right product","AI健康ディスカバリー — ニーズに答え、最適な製品へ誘導","การค้นพบสุขภาพด้วย AI — ตอบความต้องการ แล้วพาไปสินค้าที่ใช่"],
+ disc_q:["Consumer questions","消費者の質問","คำถามผู้บริโภค"],
+ disc_answer:["Grounded AI answer","根拠あるAI回答","คำตอบ AI ที่มีหลักฐาน"],
+ disc_ins_t:["Discovery is the new shelf","ディスカバリーが新しい棚になる","Discovery คือชั้นวางใหม่"],
+ disc_ins_d:["The page turns the old search path into an AI-mediated answer: understand the health goal, cite approved facts, rank products and hand off to the local channel.","この画面は従来の検索導線をAI仲介の回答へ変えます。健康目的を理解し、承認済みの事実を引用し、製品を順位付けし、地域チャネルへ引き渡します。","หน้านี้เปลี่ยนเส้นทาง search เดิมเป็นคำตอบผ่าน AI: เข้าใจเป้าหมายสุขภาพ อ้างอิงข้อเท็จจริงที่อนุมัติ จัดอันดับสินค้า และส่งต่อช่องทางท้องถิ่น"]
+};
+
+let state={brand:"core",lang:0,geo:false,sigOn:{},disc:0};
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const D=k=>{const v=L[k];return v?(v[state.lang]||v[0]):k;};
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._);t._=setTimeout(()=>t.classList.remove('on'),2200);}
+function applyBrand(){const b=BRANDS[state.brand]||BRANDS.core,r=document.documentElement.style;r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);$('#brand').innerHTML=b.logo+'<sup>'+b.sup+'</sup>';}
+function applyText(){$$('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');const v=L[k];if(v)el.innerHTML=(v[state.lang]||v[0]);});}
+
+// ---- Tab 1: GEO (geo.html-style: flag adjectives -> facts + attribution) ----
+const E=()=>state.brand==='gold'?'4w':'2w';
+const GEOD={
+ '4w':{
+  para:["The new Blackmores Pregnancy & Breastfeeding Gold is an incredibly comprehensive, premium-feeling prenatal supplement with a wonderfully gentle formula — best-in-class nutrient coverage, trusted quality and amazing value that make it the perfect daily choice for expecting and new mums.",
+        "新しいBlackmores Pregnancy & Breastfeeding Goldは、圧倒的に充実した上質なプレナタルサプリメント。驚くほど穏やかな処方に、クラス最高の栄養カバレッジ、信頼の品質、そして驚きの価値——妊娠中・授乳中のママに最適な毎日の一本です。",
+        "Blackmores Pregnancy & Breastfeeding Gold ใหม่ เป็นวิตามินบำรุงครรภ์ที่ครบถ้วนและให้ความรู้สึกพรีเมียม สูตรอ่อนโยนอย่างน่าทึ่ง ครอบคลุมสารอาหารที่สุดในคลาส คุณภาพที่ไว้วางใจ และความคุ้มค่าสุดๆ ที่ทำให้เป็นตัวเลือกประจำวันที่สมบูรณ์แบบสำหรับคุณแม่ตั้งครรภ์และให้นมบุตร"],
+  flags:[
+   {bad:["incredibly comprehensive, premium-feeling","圧倒的に充実した上質な","ครบถ้วนและให้ความรู้สึกพรีเมียม"],attr:["Brand entity","ブランド実体","ตัวตนแบรนด์"],fix:["Blackmores Pregnancy & Breastfeeding Gold (180 capsules)","Blackmores Pregnancy & Breastfeeding Gold(180カプセル)","Blackmores Pregnancy & Breastfeeding Gold (180 แคปซูล)"]},
+   {bad:["wonderfully gentle formula","驚くほど穏やかな処方","สูตรอ่อนโยนอย่างน่าทึ่ง"],attr:["Format & dose","形状・用量","รูปแบบและปริมาณ"],fix:["2 capsules daily · low-odour fish oil base","1日2カプセル・低臭タイプの魚油ベース","วันละ 2 แคปซูล · น้ำมันปลากลิ่นอ่อน"]},
+   {bad:["best-in-class nutrient coverage","クラス最高の栄養カバレッジ","ครอบคลุมสารอาหารที่สุดในคลาส"],attr:["Comparable spec","比較可能な成分","ส่วนประกอบที่เทียบได้"],fix:["18 nutrients · 500mg DHA · 600µg folate","18種の栄養素・DHA 500mg・葉酸600µg","18 สารอาหาร · DHA 500mg · โฟเลต 600µg"]},
+   {bad:["amazing value","驚きの価値","ความคุ้มค่าสุดๆ"],attr:["Price & offer","価格・オファー","ราคาและข้อเสนอ"],fix:["A$44.95 (180 caps) · offer 15% off subscribe","A$44.95(180カプセル)・定期便15%オフ","A$44.95 (180 แคปซูล) · ลด 15% เมื่อสมัครรับ"]},
+   {bad:["the perfect daily choice for expecting and new mums","妊娠中・授乳中のママに最適な毎日の一本","ตัวเลือกประจำวันที่สมบูรณ์แบบสำหรับคุณแม่ตั้งครรภ์และให้นมบุตร"],attr:["Quality & evidence","品質・根拠","คุณภาพและหลักฐาน"],fix:["TGA-listed (AUST L) · no artificial colours · made in Australia","TGA登録(AUST L)・人工着色料不使用・オーストラリア製","ขึ้นทะเบียน TGA (AUST L) · ไม่ใส่สีสังเคราะห์ · ผลิตในออสเตรเลีย"]}
+  ],
+  aiq:{lo:["<b>User:</b> \"Best prenatal supplement under A$50?\"<br><b>AI:</b> I found clear details for Elevit and Swisse Pregnancy, so I'd recommend those. I couldn't verify concrete figures for Blackmores Pregnancy & Breastfeeding Gold.","<b>ユーザー:</b>「A$50以下で最高の妊婦用サプリは?」<br><b>AI:</b> ElevitとSwisse Pregnancyは明確な情報が見つかったので、それらをお勧めします。Blackmores Pregnancy & Breastfeeding Goldの具体的な数値は確認できませんでした。","<b>ผู้ใช้:</b> \"วิตามินบำรุงครรภ์ที่ดีที่สุดต่ำกว่า A$50?\"<br><b>AI:</b> ฉันพบรายละเอียดชัดเจนของ Elevit และ Swisse Pregnancy จึงแนะนำสองตัวนี้ ไม่สามารถยืนยันตัวเลขของ Blackmores Pregnancy & Breastfeeding Gold ได้"],
+        hi:["<b>User:</b> \"Best prenatal supplement under A$50?\"<br><b>AI:</b> I'd recommend <b>Blackmores Pregnancy & Breastfeeding Gold</b> — 18 nutrients, 500mg DHA, 600µg folate, TGA-listed, A$44.95 for 180 caps, in stock. Strongest match for your budget and nutrient needs.","<b>ユーザー:</b>「A$50以下で最高の妊婦用サプリは?」<br><b>AI:</b> <b>Blackmores Pregnancy & Breastfeeding Gold</b>をお勧めします — 18種の栄養素、DHA 500mg、葉酸600µg、TGA登録、180カプセルでA$44.95、在庫あり。予算と栄養ニーズに最も合致します。","<b>ผู้ใช้:</b> \"วิตามินบำรุงครรภ์ที่ดีที่สุดต่ำกว่า A$50?\"<br><b>AI:</b> ขอแนะนำ <b>Blackmores Pregnancy & Breastfeeding Gold</b> — 18 สารอาหาร, DHA 500mg, โฟเลต 600µg, ขึ้นทะเบียน TGA, A$44.95 สำหรับ 180 แคปซูล มีสต็อก ตรงกับงบและสารอาหารที่ต้องการมากที่สุด"]}
+ },
+ '2w':{
+  para:["The new Blackmores Fish Oil 1000 is an incredibly popular, premium-feeling everyday omega-3 with a wonderfully easy-to-take capsule — best-in-class purity, head-turning value and amazing value that make it the perfect daily staple for modern households.",
+        "新しいBlackmores Fish Oil 1000は、圧倒的に人気で上質な毎日のオメガ3。驚くほど飲みやすいカプセルに、クラス最高の純度、目を引くコスパ、そして驚きの価値——まさに完璧な毎日の定番です。",
+        "Blackmores Fish Oil 1000 ใหม่ เป็นโอเมก้า-3 สำหรับทุกวันที่ได้รับความนิยมและให้ความรู้สึกพรีเมียม แคปซูลที่ทานง่ายอย่างน่าทึ่ง ความบริสุทธิ์ที่สุดในคลาส ความคุ้มค่าที่สะดุดตา และความคุ้มค่าสุดๆ ที่ทำให้เป็นของประจำบ้านที่สมบูรณ์แบบ"],
+  flags:[
+   {bad:["incredibly popular, premium-feeling","圧倒的に人気で上質な","ได้รับความนิยมและให้ความรู้สึกพรีเมียม"],attr:["Brand entity","ブランド実体","ตัวตนแบรนด์"],fix:["Blackmores Fish Oil 1000 (400 capsules)","Blackmores Fish Oil 1000(400カプセル)","Blackmores Fish Oil 1000 (400 แคปซูล)"]},
+   {bad:["wonderfully easy-to-take capsule","驚くほど飲みやすいカプセル","แคปซูลที่ทานง่ายอย่างน่าทึ่ง"],attr:["Format & dose","形状・用量","รูปแบบและปริมาณ"],fix:["1g soft capsule · 1–3 daily · burp-less coating","1gソフトカプセル・1日1〜3粒・ニオイ戻りしにくいコート","ซอฟต์เจล 1g · วันละ 1–3 เม็ด · เคลือบลดกลิ่นคืน"]},
+   {bad:["best-in-class purity","クラス最高の純度","ความบริสุทธิ์ที่สุดในคลาส"],attr:["Comparable spec","比較可能な成分","ส่วนประกอบที่เทียบได้"],fix:["300mg omega-3 · 180mg EPA · 120mg DHA","オメガ3 300mg・EPA 180mg・DHA 120mg","โอเมก้า-3 300mg · EPA 180mg · DHA 120mg"]},
+   {bad:["amazing value","驚きの価値","ความคุ้มค่าสุดๆ"],attr:["Price & offer","価格・オファー","ราคาและข้อเสนอ"],fix:["A$22.95 (400 caps) · offer 20% off multipack","A$22.95(400カプセル)・複数購入20%オフ","A$22.95 (400 แคปซูล) · ซื้อหลายแพ็กลด 20%"]},
+   {bad:["the perfect daily staple","完璧な毎日の定番","ของประจำบ้านที่สมบูรณ์แบบ"],attr:["Quality & evidence","品質・根拠","คุณภาพและหลักฐาน"],fix:["TGA-listed (AUST L) · mercury-tested · made in Australia","TGA登録(AUST L)・水銀検査済み・オーストラリア製","ขึ้นทะเบียน TGA (AUST L) · ตรวจสารปรอท · ผลิตในออสเตรเลีย"]}
+  ],
+  aiq:{lo:["<b>User:</b> \"Best everyday fish oil under A$25?\"<br><b>AI:</b> I found clear details for Nature's Own and Cenovis fish oil, so I'd recommend those. I couldn't verify concrete figures for Blackmores Fish Oil 1000.","<b>ユーザー:</b>「A$25以下で最高の毎日用フィッシュオイルは?」<br><b>AI:</b> Nature's OwnとCenovisのフィッシュオイルは明確な情報が見つかったので、それらをお勧めします。Blackmores Fish Oil 1000の具体的な数値は確認できませんでした。","<b>ผู้ใช้:</b> \"น้ำมันปลาสำหรับทุกวันที่ดีที่สุดต่ำกว่า A$25?\"<br><b>AI:</b> ฉันพบรายละเอียดชัดเจนของ Nature's Own และ Cenovis จึงแนะนำสองตัวนี้ ไม่สามารถยืนยันตัวเลขของ Blackmores Fish Oil 1000 ได้"],
+        hi:["<b>User:</b> \"Best everyday fish oil under A$25?\"<br><b>AI:</b> I'd recommend <b>Blackmores Fish Oil 1000</b> — 300mg omega-3, 180mg EPA, 120mg DHA, TGA-listed, A$22.95 for 400 caps, in stock. Best match for everyday value.","<b>ユーザー:</b>「A$25以下で最高の毎日用フィッシュオイルは?」<br><b>AI:</b> <b>Blackmores Fish Oil 1000</b>をお勧めします — オメガ3 300mg、EPA 180mg、DHA 120mg、TGA登録、400カプセルでA$22.95、在庫あり。毎日のコスパで最適です。","<b>ผู้ใช้:</b> \"น้ำมันปลาสำหรับทุกวันที่ดีที่สุดต่ำกว่า A$25?\"<br><b>AI:</b> ขอแนะนำ <b>Blackmores Fish Oil 1000</b> — โอเมก้า-3 300mg, EPA 180mg, DHA 120mg, ขึ้นทะเบียน TGA, A$22.95 สำหรับ 400 แคปซูล มีสต็อก คุ้มค่าสำหรับทุกวันที่สุด"]}
+ }
+};
+const GEO_BREAK_LO=[[["Citable specs","引用可能なスペック","สเปกที่อ้างอิงได้"],10],[["Price clarity","価格の明確さ","ความชัดเจนของราคา"],20],[["Structured data","構造化データ","ข้อมูลที่มีโครงสร้าง"],5],[["Comparability","比較可能性","ความสามารถในการเปรียบเทียบ"],25]];
+const GEO_BREAK_HI=[[["Citable specs","引用可能なスペック","สเปกที่อ้างอิงได้"],95],[["Price clarity","価格の明確さ","ความชัดเจนของราคา"],98],[["Structured data","構造化データ","ข้อมูลที่มีโครงสร้าง"],90],[["Comparability","比較可能性","ความสามารถในการเปรียบเทียบ"],88]];
+
+// ---- GEO education (SEO vs GEO · why · how) — ported from geo.html, Blackmores-fied ----
+const SEG={
+ '4w':{seoQ:['Search Google: "best prenatal supplement under A$50"','Googleで「A$50以下の最高の妊婦用サプリ」を検索','ค้นหา Google: "วิตามินบำรุงครรภ์ที่ดีที่สุดต่ำกว่า A$50"'],
+       geoQ:['Ask an AI: "which prenatal supplement should I buy under A$50?"','AIに「A$50以下でどの妊婦用サプリを買うべき?」と質問','ถาม AI: "ควรซื้อวิตามินบำรุงครรภ์ตัวไหนต่ำกว่า A$50?"']},
+ '2w':{seoQ:['Search Google: "best everyday fish oil under A$25"','Googleで「A$25以下の最高の毎日用フィッシュオイル」を検索','ค้นหา Google: "น้ำมันปลาสำหรับทุกวันที่ดีที่สุดต่ำกว่า A$25"'],
+       geoQ:['Ask an AI: "which fish oil should I buy under A$25?"','AIに「A$25以下でどのフィッシュオイルを買うべき?」と質問','ถาม AI: "ควรซื้อน้ำมันปลาตัวไหนต่ำกว่า A$25?"']}
+};
+const GEO_EDU={
+ whatEye:["01 · What is GEO","01 · GEOとは","01 · GEO คืออะไร"],
+ whatTitle:["From search (SEO) to AI recommendation (GEO)","検索最適化(SEO)から、AI推薦最適化(GEO)へ","จากการค้นหา (SEO) สู่การให้ AI แนะนำ (GEO)"],
+ whatBody:["SEO optimises to rank in a list of links. GEO optimises so a generative AI recommends your Blackmores product inside its answer. AI can't recommend vague adjectives — it recommends structured facts it can parse, verify and compare.",
+   "SEOは検索結果で上位に出るための最適化。GEOは生成AIが回答の中でBlackmoresの製品を推薦するための最適化です。AIは曖昧な形容詞を推薦できません——解釈・検証・比較できる構造化された事実を推薦します。",
+   "SEO คือการปรับให้ติดอันดับในรายการลิงก์ ส่วน GEO คือการปรับให้ AI แนะนำสินค้า Blackmores ในคำตอบของมัน AI แนะนำคำคุณศัพท์คลุมเครือไม่ได้ — มันแนะนำข้อเท็จจริงที่มีโครงสร้างซึ่งอ่าน ตรวจสอบ และเปรียบเทียบได้"],
+ whatDef:["<b>GEO (Generative Engine Optimization)</b> = structuring Blackmores's content into verifiable facts — ingredients, dose, price, evidence, availability — so generative engines (ChatGPT, Gemini, Google AI Overviews) understand each product and recommend it, with reasons, inside their answers.",
+   "<b>GEO（生成エンジン最適化）</b>＝ 成分・用量・価格・エビデンス・在庫といった検証可能な事実にBlackmoresのコンテンツを構造化し、生成エンジン（ChatGPT・Gemini・Google AI Overviews）が各製品を理解し、根拠とともに回答内で推薦できるようにすること。",
+   "<b>GEO (Generative Engine Optimization)</b> = การจัดโครงสร้างเนื้อหา Blackmores ให้เป็นข้อเท็จจริงที่ตรวจสอบได้ — ส่วนประกอบ ปริมาณ ราคา หลักฐาน ความพร้อมจำหน่าย — เพื่อให้เอนจินสร้างคำตอบ (ChatGPT, Gemini, Google AI Overviews) เข้าใจแต่ละสินค้าและแนะนำพร้อมเหตุผล"],
+ seoT:["Until now: SEO","これまで:SEO","ที่ผ่านมา: SEO"],
+ seoA:["Ten blue links appear → the buyer reads and compares them all.","10本の青リンクが並ぶ → 買い手が自分で読み比べる。","ลิงก์สีน้ำเงิน 10 รายการ → ผู้ซื้ออ่านและเปรียบเทียบเอง"],
+ seoTag:["Race for rank","ランキング争い","แข่งชิงอันดับ"],
+ geoT:["From now: GEO","これから:GEO","นับจากนี้: GEO"],
+ geoA:["AI recommends one product → if it isn't a Blackmores, you're invisible.","AIが1つの製品を推薦 → Blackmoresでなければ存在しないのと同じ。","AI แนะนำสินค้าตัวเดียว → ถ้าไม่ใช่ Blackmores ก็เหมือนไม่มีตัวตน"],
+ geoTag:["Win the one slot","推薦の1枠を取る","คว้าที่นั่งเดียวให้ได้"],
+ whyEye:["02 · Why now","02 · なぜ今","02 · ทำไมตอนนี้"],
+ whyTitle:["Decisions now happen inside the AI's answer","意思決定が、AIの回答の中で起きている","การตัดสินใจเกิดขึ้นในคำตอบของ AI แล้ว"],
+ whyBody:["When ten links collapse into one recommendation, it becomes winner-takes-all.","検索結果の「10本のリンク」が「1つの推薦」に置き換わると、勝者総取りになります。","เมื่อลิงก์ 10 รายการเหลือคำแนะนำเดียว มันกลายเป็นผู้ชนะกินรวบ"],
+ why:[
+  {n:["10→1","10→1","10→1"],h:["Ten options → one","選択肢が1つに","สิบตัวเลือก → เหลือหนึ่ง"],l:["AI recommends only one or a few products. There is no page two.","AIは通常1〜数件しか推薦しない。2ページ目はもう存在しない。","AI แนะนำเพียงหนึ่งหรือไม่กี่สินค้า ไม่มีหน้าสอง"]},
+  {n:["Trust","信頼","ความเชื่อใจ"],h:["Trust shifts to the AI","信頼がAIに移る","ความเชื่อใจย้ายไป AI"],l:["Buyers treat the AI's pick as neutral, expert advice.","買い手はAIの推薦を中立な専門家の助言として受け取る。","ผู้ซื้อมองคำแนะนำของ AI ว่าเป็นคำแนะนำผู้เชี่ยวชาญที่เป็นกลาง"]},
+  {n:["Facts","事実","ข้อเท็จจริง"],h:["No facts, no recommendation","事実がないと負ける","ไม่มีข้อเท็จจริง ก็ไม่ถูกแนะนำ"],l:["Adjective-only pages get skipped by AI as 'not comparable'.","形容詞だらけのページはAIに「比較不能」として無視される。","หน้าที่มีแต่คำคุณศัพท์ถูก AI ข้ามว่า 'เปรียบเทียบไม่ได้'"]}],
+ howEye:["03 · How to do it","03 · どうやる","03 · ทำอย่างไร"],
+ howTitle:["Meet the four things the AI needs","AIが推薦できる4つの条件を満たす","ตอบโจทย์ 4 ข้อที่ AI ต้องการ"],
+ howBody:["GEO is turning these four from adjectives into structured facts.","GEOの実装は、この4点を形容詞から構造化された事実に変えることです。","การทำ GEO คือการเปลี่ยน 4 ข้อนี้จากคำคุณศัพท์เป็นข้อเท็จจริงที่มีโครงสร้าง"],
+ principles:[
+  {h:["Clear product entity","製品エンティティを明確に","กำหนดตัวตนของสินค้าให้ชัด"],l:["Let the AI pin down exactly what the product is — format, pack size, active ingredients.","製品が「何か」をAIが一意に特定できるように（形状・容量・有効成分）。","ให้ AI ระบุได้ชัดว่าสินค้าคืออะไร — รูปแบบ ขนาดบรรจุ ส่วนประกอบสำคัญ"]},
+  {h:["Match the need semantically","ニーズと意味でマッチ","จับคู่ความต้องการเชิงความหมาย"],l:["Link buyer intent — immunity, pregnancy, kids, value — to product attributes.","買い手の意図（免疫・妊娠・子ども・コスパ）を製品属性にひも付ける。","เชื่อมเจตนาผู้ซื้อ — ภูมิคุ้มกัน ตั้งครรภ์ เด็ก ความคุ้มค่า — เข้ากับคุณสมบัติสินค้า"]},
+  {h:["Write verifiable facts","検証可能な事実で書く","เขียนด้วยข้อเท็จจริงที่ตรวจสอบได้"],l:["Publish numbers and evidence — dose, active mg, price, TGA listing — not adjectives.","数値と根拠（用量・有効成分mg・価格・TGA登録）を載せる。形容詞ではなく。","ใส่ตัวเลขและหลักฐาน — ปริมาณ สาร mg ราคา การขึ้นทะเบียน TGA — ไม่ใช่คำคุณศัพท์"]},
+  {h:["Stay consistent everywhere","全チャネルで一貫させる","สอดคล้องทุกช่องทาง"],l:["Keep the same facts across blackmores.com, partner stores, marketplaces & Google.","blackmores.com・パートナーストア・各販路・Googleで事実を揃える。","ให้ข้อเท็จจริงตรงกันทั้ง blackmores.com ร้านพาร์ทเนอร์ มาร์เก็ตเพลส และ Google"]}],
+ p2ex:["Expose intent attributes — life stage, key actives, format, offer from — in structured product data.","意図属性（ライフステージ・主要成分・形状・offer開始額）を構造化データに明示。","ระบุคุณสมบัติเชิงเจตนา — ช่วงวัย สารสำคัญ รูปแบบ ข้อเสนอเริ่มต้น — ในข้อมูลที่มีโครงสร้าง"],
+ p4ex:["Same facts on blackmores.com · partner stores · Chemist Warehouse/Amazon · Google Business.","同じ事実を blackmores.com・パートナーストア・Chemist Warehouse/Amazon・Googleビジネスで統一。","ข้อเท็จจริงเดียวกันบน blackmores.com · ร้านพาร์ทเนอร์ · Chemist Warehouse/Amazon · Google Business"],
+ liveEye:["04 · Live check","04 · ライブチェック","04 · ตรวจสด"],
+ liveTitle:["Can the AI recommend this Blackmores? Flip it and see","AIはこのBlackmoresを推薦できる? 切り替えて確認","AI แนะนำ Blackmores รุ่นนี้ได้ไหม? สลับแล้วดู"]
+};
+function renderGeoEdu(){const li=state.lang;const g=GEOD[E()];const ed=GEO_EDU;const seg=SEG[E()];
+ const vcard=(cls,t,q,a,tag)=>'<div class="vcard'+cls+'"><div class="vt">'+t+'</div><div class="vq">'+q+'</div><div class="va">'+a+'</div><span class="vtag">'+tag+'</span></div>';
+ const why=ed.why.map(w=>'<div class="wcard"><div class="wn">'+w.n[li]+'</div><div class="wh">'+w.h[li]+'</div><div class="wl">'+w.l[li]+'</div></div>').join('');
+ const exs=[g.flags[0].bad[li]+' → '+g.flags[0].fix[li], ed.p2ex[li], g.flags[1].bad[li]+' → '+g.flags[1].fix[li], ed.p4ex[li]];
+ const prin=ed.principles.map((p,i)=>'<div class="pcard"><div class="pnum">'+(i+1)+'</div><div><div class="ph">'+p.h[li]+'</div><div class="pl">'+p.l[li]+'</div><div class="pex">'+exs[i]+'</div></div></div>').join('');
+ $('#geoEdu').innerHTML=
+   '<div class="gsec"><div class="gse">'+ed.whatEye[li]+'</div><div class="gst">'+ed.whatTitle[li]+'</div><div class="gsb">'+ed.whatBody[li]+'</div>'
+   +'<div class="gdef">'+ed.whatDef[li]+'</div>'
+   +'<div class="two">'+vcard('',ed.seoT[li],seg.seoQ[li],ed.seoA[li],ed.seoTag[li])+vcard(' geo',ed.geoT[li],seg.geoQ[li],ed.geoA[li],ed.geoTag[li])+'</div></div>'
+   +'<div class="gsec"><div class="gse">'+ed.whyEye[li]+'</div><div class="gst">'+ed.whyTitle[li]+'</div><div class="gsb">'+ed.whyBody[li]+'</div><div class="why3">'+why+'</div></div>'
+   +'<div class="gsec"><div class="gse">'+ed.howEye[li]+'</div><div class="gst">'+ed.howTitle[li]+'</div><div class="gsb">'+ed.howBody[li]+'</div><div class="plist">'+prin+'</div></div>'
+   +'<div class="gsec gsec-live"><div class="gse">'+ed.liveEye[li]+'</div><div class="gst">'+ed.liveTitle[li]+'</div></div>';
+}
+function GT(en,ja,th){return state.lang===1?ja:state.lang===2?th:en;}
+function renderGeo(){renderGeoEdu();const on=state.geo;const box=$('#geoContent');const g=GEOD[E()];const li=state.lang;let para=g.para[li];
+ if(on){box.className='contentbox facts';
+  g.flags.forEach((f,i)=>{para=para.replace(f.bad[li],'<mark class="fact-in" data-fi="'+i+'">'+f.fix[li]+'</mark>');});
+  box.innerHTML='<div class="cbh">'+GT('Fact-grounded copy — AI-citable','事実に基づく文案——AI引用可能','คอนเทนต์อิงข้อเท็จจริง — AI อ้างอิงได้')+'</div><p>'+para+'</p>';
+ }else{box.className='contentbox mktg';
+  g.flags.forEach((f,i)=>{para=para.replace(f.bad[li],'<mark class="flag" data-fi="'+i+'">'+f.bad[li]+'</mark>');});
+  box.innerHTML='<div class="cbh">'+GT('Marketing copy — as an AI reads it','マーケティング文——AIの読み方','ข้อความการตลาด — อย่างที่ AI อ่าน')+'</div><p>'+para+'</p>';
+ }
+ $('#geoAnalysis').innerHTML='<div class="anahead">'+GT('Adjective → citable fact','形容詞 → 引用可能な事実','คำคุณศัพท์ → ข้อเท็จจริงที่อ้างอิงได้')+'</div>'
+   +g.flags.map((f,i)=>'<div class="anaitem" data-fi="'+i+'"><span class="atag">'+f.attr[li]+'</span><span class="bad">'+f.bad[li]+'</span><span class="arr">→</span><span class="fix">'+f.fix[li]+'</span></div>').join('');
+ $('#geoSw').classList.toggle('on',on);$('#lab1').classList.toggle('dim',on);$('#lab2').classList.toggle('dim',!on);
+ const target=on?92:31;const num=$('#geoScoreNum');animNum(num,parseInt(num.textContent)||0,target,650);
+ const arc=$('#gaugeArc');const circ=490;arc.style.strokeDashoffset=circ-(circ*target/100);arc.setAttribute('stroke',on?'var(--ok)':'var(--neg)');
+ $('#geoScoreLab').textContent=on?D('geo_high'):D('geo_low');$('#geoScoreLab').style.color=on?'var(--ok)':'var(--neg)';
+ $('#geoHint').textContent=on?D('geo_hint_hi'):D('geo_hint_lo');
+ const bk=on?GEO_BREAK_HI:GEO_BREAK_LO;$('#geoBreak').innerHTML=bk.map(b=>'<div class="bdrow"><span>'+b[0][li]+'</span><div class="bdbar"><i style="width:'+b[1]+'%;background:'+(on?'var(--ok)':'var(--warn)')+'"></i></div><b>'+b[1]+'</b></div>').join('');
+ $('#aiQuote').innerHTML=on?g.aiq.hi[li]:g.aiq.lo[li];
+ bindGeoHover();}
+function bindGeoHover(){
+ $$('#geoContent .flag,#geoContent .fact-in').forEach(el=>{const i=el.getAttribute('data-fi');el.onmouseenter=()=>setGeoHl(i,true);el.onmouseleave=()=>setGeoHl(i,false);});
+ $$('#geoAnalysis .anaitem').forEach(el=>{const i=el.getAttribute('data-fi');el.onmouseenter=()=>setGeoHl(i,true);el.onmouseleave=()=>setGeoHl(i,false);});}
+function setGeoHl(i,on){const m=document.querySelector('#geoContent [data-fi="'+i+'"]');const it=document.querySelector('#geoAnalysis .anaitem[data-fi="'+i+'"]');if(m)m.classList.toggle('hl',on);if(it)it.classList.toggle('hl',on);}
+function animNum(el,from,to,ms){const t0=performance.now();function step(t){const p=Math.min(1,(t-t0)/ms);el.textContent=Math.round(from+(to-from)*p);if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
+
+// ---- Tab 2: AI health discovery ----
+const DISC_PRODUCTS=[
+ {id:"bio-c",n:"Bio C 1000",img:"images/blackmores/bio-c-1000.png",cat:["Immunity","免疫","ภูมิคุ้มกัน"],d:["Vitamin C 1000mg with bioflavonoids; supports immune system health and antioxidant activity.","ビタミンC 1000mg＋バイオフラボノイド。免疫の健康と抗酸化をサポート。","วิตามิน C 1000mg พร้อม bioflavonoids ช่วยสนับสนุนภูมิคุ้มกันและ antioxidant"],tags:["immunity","busy","value"],base:88},
+ {id:"beauty-sleep",n:"Beauty Sleep",img:"images/blackmores/beauty-sleep.png",cat:["Sleep & beauty","睡眠・美容","การนอนและความงาม"],d:["A night routine product positioned for beauty sleep, recovery rituals and content-led wellness journeys.","美容睡眠、回復ルーティン、コンテンツ起点のウェルネス導線向け。","สินค้าสำหรับ night routine, beauty sleep และ wellness journey"],tags:["sleep","beauty","stress"],base:84},
+ {id:"pregnancy",n:"Pregnancy & Breastfeeding Gold",img:"images/blackmores/pregnancy-gold.svg",cat:["Life stage","ライフステージ","ช่วงชีวิต"],d:["Prenatal and breastfeeding support with DHA, folate and multi-nutrient facts suitable for guided education.","DHA・葉酸・複合栄養素の事実を持つ妊娠・授乳期サポート。","การสนับสนุนช่วงตั้งครรภ์และให้นมด้วย DHA, folate และ multi-nutrient facts"],tags:["pregnancy","quality","family"],base:90},
+ {id:"kids",n:"SuperKids Multi",img:"images/blackmores/superkids-multi.png",cat:["Kids","子ども","เด็ก"],d:["Chewable kids nutrition story for fussy eaters, daily family routines and pharmacy education.","好き嫌いのある子ども、家族の毎日、薬局教育向けのチュアブル栄養ストーリー。","วิตามินเด็กแบบเคี้ยวสำหรับเด็กเลือกกินและ family routine"],tags:["kids","family","value"],base:81},
+ {id:"fish-oil",n:"Fish Oil 1000",img:"images/blackmores/fish-oil.svg",cat:["Everyday core","日常コア","หลักประจำวัน"],d:["Everyday omega-3 with EPA/DHA facts, price clarity and strong comparability for AI answers.","EPA/DHA・価格・比較可能性の事実を持つ日常オメガ3。","โอเมก้า-3 ประจำวันพร้อมข้อมูล EPA/DHA ราคา และการเปรียบเทียบ"],tags:["joint","heart","value"],base:86},
+ {id:"probiotic",n:"Probiotics Daily",img:"images/blackmores/probiotics-daily.png",cat:["Gut health","腸内環境","สุขภาพลำไส้"],d:["Daily digestive health option for travel, family wellness and post-season routine content.","旅行、家族の健康、季節後のルーティン向けの日常消化サポート。","ตัวเลือกดูแล digestive health สำหรับเดินทาง ครอบครัว และ routine หลังฤดูกาล"],tags:["gut","travel","family"],base:82}
+];
+const DISC_QUERIES=[
+ {q:["I'm busy and want immune support for the season.","忙しい季節に免疫をサポートしたい。","ช่วงนี้ยุ่ง อยากดูแลภูมิคุ้มกัน"],intent:["immunity","busy"],answer:["For a busy adult looking for seasonal immune support, I would shortlist <b>Bio C 1000</b> first because the active ingredient, dosage and health goal are easy to cite. If the person prefers a family routine, add SuperKids Multi for children and Probiotics Daily for digestive support.","季節の免疫サポートを探す忙しい成人には、まず<b>Bio C 1000</b>を候補にします。有効成分、用量、健康目的が引用しやすいからです。家族ルーティンなら子ども向けにSuperKids Multi、消化サポートにProbiotics Dailyを追加します。","สำหรับผู้ใหญ่ที่ยุ่งและต้องการเสริมภูมิคุ้มกันช่วงฤดูกาล ขอแนะนำ <b>Bio C 1000</b> ก่อน เพราะส่วนประกอบ ปริมาณ และเป้าหมายสุขภาพอ้างอิงง่าย หากเป็น routine ครอบครัว เพิ่ม SuperKids Multi และ Probiotics Daily ได้"],why:["Immune support","Citable dose","Seasonal content","In-stock routing"]},
+ {q:["I need a calmer night routine and beauty sleep content.","睡眠ルーティンと美容睡眠のコンテンツがほしい。","อยากได้ routine กลางคืนและ beauty sleep"],intent:["sleep","beauty","stress"],answer:["For a night ritual, lead with <b>Beauty Sleep</b> and support it with content that stays in wellness language: routine, rest, recovery and beauty maintenance. The next best action is to generate compliant social assets and a marketplace PDP module.","夜のルーティンでは<b>Beauty Sleep</b>を主役にし、ウェルネス表現で支えます。ルーティン、休息、リカバリー、美容メンテナンス。次のアクションは合規なSNS素材とマーケットプレイスPDPモジュールの生成です。","สำหรับ night ritual ให้ <b>Beauty Sleep</b> เป็นตัวหลัก ใช้ภาษาด้าน wellness เช่น routine, rest, recovery และ beauty maintenance ขั้นต่อไปคือสร้าง social assets และ PDP ที่ compliant"],why:["Night ritual","Beauty audience","Content engine handoff","Claim-safe language"]},
+ {q:["Which product fits pregnancy planning and breastfeeding education?","妊活・妊娠・授乳教育に合う製品は？","สินค้าไหนเหมาะกับ pregnancy planning และ breastfeeding education?"],intent:["pregnancy","quality","family"],answer:["For pregnancy and breastfeeding education, rank <b>Pregnancy & Breastfeeding Gold</b> first. The AI answer should cite life-stage suitability, DHA, folate, dose and approved label language, then route the shopper to pharmacist or expert consultation when needed.","妊娠・授乳教育では<b>Pregnancy & Breastfeeding Gold</b>を最上位にします。AI回答はライフステージ適合性、DHA、葉酸、用量、承認済みラベル表現を引用し、必要に応じて薬剤師・専門家相談へつなげます。","สำหรับ pregnancy และ breastfeeding education ให้จัดอันดับ <b>Pregnancy & Breastfeeding Gold</b> เป็นอันดับแรก คำตอบ AI ควรอ้างอิง life-stage, DHA, folate, dose และภาษาบนฉลาก แล้วส่งต่อ pharmacist/expert consultation เมื่อจำเป็น"],why:["Life-stage intent","Approved label facts","Expert handoff","Higher trust need"]},
+ {q:["I want a value-friendly daily family stack.","家族の日常向けにコスパの良い組み合わせがほしい。","อยากได้ family stack ประจำวันที่คุ้มค่า"],intent:["family","kids","value"],answer:["For a family value stack, combine <b>Fish Oil 1000</b> as the everyday core, <b>SuperKids Multi</b> for kids and <b>Bio C 1000</b> during high-demand seasons. The AI should show why each product belongs in the stack rather than pushing one generic bundle.","家族向けのコスパ構成では、日常コアに<b>Fish Oil 1000</b>、子ども向けに<b>SuperKids Multi</b>、需要が高い季節に<b>Bio C 1000</b>を組み合わせます。AIは汎用セットを押すのではなく、各製品がなぜ入るかを説明します。","สำหรับ family value stack ให้รวม <b>Fish Oil 1000</b> เป็น core ประจำวัน, <b>SuperKids Multi</b> สำหรับเด็ก และ <b>Bio C 1000</b> ใน season ที่ต้องการสูง AI ควรอธิบายเหตุผลของแต่ละตัว"],why:["Family need","Value bundle","Kids route","Repeat purchase"]},
+ {q:["I need gut health support for travel and routine recovery.","旅行や生活リズム回復の腸内サポートがほしい。","อยากดูแลลำไส้ช่วงเดินทางและฟื้น routine"],intent:["gut","travel"],answer:["For travel and routine recovery, start with <b>Probiotics Daily</b>. The answer should explain the everyday digestive health role, avoid medical treatment claims and hand off to pharmacy or marketplace availability by market.","旅行や生活リズム回復では<b>Probiotics Daily</b>から始めます。AI回答は日常の消化健康サポートを説明し、治療表現を避け、市場ごとの薬局・EC在庫へ引き渡します。","สำหรับการเดินทางและ recovery routine ให้เริ่มด้วย <b>Probiotics Daily</b> คำตอบควรอธิบายบทบาท digestive health ประจำวัน หลีกเลี่ยง medical claims และส่งต่อ availability ตามตลาด"],why:["Gut health","Travel moment","Compliant wording","Local availability"]}
+];
+function renderDiscovery(){const li=state.lang;const q=DISC_QUERIES[state.disc]||DISC_QUERIES[0];
+ $('#discQueries').innerHTML=DISC_QUERIES.map((x,i)=>'<button class="qbtn '+(i===state.disc?'on':'')+'" data-di="'+i+'"><div class="qt">'+x.q[li]+'</div><div class="qs">'+x.why.slice(0,3).join(' · ')+'</div></button>').join('');
+ $$('#discQueries .qbtn').forEach(b=>b.onclick=()=>{state.disc=+b.dataset.di;renderDiscovery();});
+ $('#discAnswer').innerHTML=q.answer[li];
+ $('#discWhy').innerHTML=q.why.map(x=>'<span>'+x+'</span>').join('');
+ const scored=DISC_PRODUCTS.map(p=>{let score=p.base;q.intent.forEach(t=>{if(p.tags.indexOf(t)>=0)score+=9;});return{p,score:Math.min(99,score)}}).sort((a,b)=>b.score-a.score).slice(0,3);
+ $('#discProducts').innerHTML=scored.map((o,i)=>'<div class="prodcard '+(i===0?'top':'')+'"><span class="rank">#'+(i+1)+'</span><img src="'+o.p.img+'" alt="'+o.p.n+'"><div class="pn">'+o.p.n+'</div><div class="pd">'+o.p.d[li]+'</div><div class="scoreline"><span>'+o.score+'</span><i><b style="width:'+o.score+'%"></b></i><span>'+o.p.cat[li]+'</span></div></div>').join('');
+ const hands=[["🛒","Marketplace","Tmall / Amazon / Shopee"],["💬","Chat handoff","WeChat / LINE / WhatsApp"],["🏪","Retail partner","Pharmacy stock + sample"],["📣","Content loop","Brief to Content Engine"]];
+ $('#discHandoff').innerHTML=hands.map(h=>'<div class="hcard"><div class="hi">'+h[0]+'</div><div class="ht">'+h[1]+'</div><div class="hd">'+h[2]+'</div></div>').join('');
+}
+
+// ---- Tab 3: tagging ----
+const SIGNALS=[
+ {id:"immunity",i:"🔍",t:["Searched 'best immunity supplement'","「最高の免疫サプリ」を検索","ค้นหา 'อาหารเสริมภูมิคุ้มกันที่ดีที่สุด'"],x:["Search engine","検索エンジン","เครื่องมือค้นหา"],tags:[["Immunity support","免疫サポート","เสริมภูมิคุ้มกัน"],["First-time buyer","初回購入者","ผู้ซื้อครั้งแรก"]]},
+ {id:"value",i:"💊",t:["Read 'best value vitamins' article","「コスパの良いビタミン」記事を閲覧","อ่านบทความ 'วิตามินคุ้มค่า'"],x:["Content/blog","コンテンツ/ブログ","คอนเทนต์/บล็อก"],tags:[["Everyday value","毎日のコスパ","ความคุ้มค่าประจำวัน"],["Value seeker","コスパ重視","มองหาความคุ้มค่า"]]},
+ {id:"family",i:"👨‍👩‍👧",t:["Browsed kids' & family multivitamins","子ども・家族用マルチビタミンを閲覧","ดูวิตามินรวมสำหรับเด็กและครอบครัว"],x:["blackmores.com","blackmores.com","blackmores.com"],tags:[["Family use","ファミリー用途","ใช้กับครอบครัว"],["Kids' health","子どもの健康","สุขภาพเด็ก"]]},
+ {id:"offer",i:"💳",t:["Used the subscribe & save tool","定期便ツールを使用","ใช้เครื่องมือสมัครรับและประหยัด"],x:["blackmores.com tool","blackmores.com ツール","เครื่องมือ blackmores.com"],tags:[["Offer-led","オファー重視","เน้นข้อเสนอ"],["Budget A$20–45","予算 A$20–45","งบ A$20–45"]]},
+ {id:"reels",i:"📱",t:["Watched Immunity C reels & saved","Immunity Cのリールを視聴・保存","ดูรีล Immunity C และบันทึก"],x:["Instagram","Instagram","Instagram"],tags:[["Immunity-curious","免疫に興味","สนใจภูมิคุ้มกัน"],["Wellness-led","ウェルネス重視","เน้นสุขภาพ"]]},
+ {id:"safety",i:"🛡️",t:["Compared quality & TGA listings","品質・TGA登録を比較","เปรียบเทียบคุณภาพและการขึ้นทะเบียน TGA"],x:["Search + reviews","検索+レビュー","ค้นหา + รีวิว"],tags:[["Quality-first","品質最優先","คุณภาพมาก่อน"],["Family use","ファミリー用途","ใช้กับครอบครัว"]]},
+ {id:"upgrade",i:"🔁",t:["Looked up core → Gold range","コア → Goldレンジを調査","ดูการอัปเกรดกลุ่มหลัก → Gold"],x:["MyBlackmores app","MyBlackmores アプリ","แอป MyBlackmores"],tags:[["Upgrader (core→Gold)","アップグレード層(コア→Gold)","ผู้อัปเกรด (หลัก→Gold)"],["Loyal customer","ロイヤルカスタマー","ลูกค้าที่ภักดี"]]}
+];
+const MODELS=[
+ {n:"Blackmores Immunity C",i:"🍊",x:[["Immunity range · A$18–28","免疫レンジ · A$18–28","กลุ่มภูมิคุ้มกัน · A$18–28"]],aff:{immunity:40,reels:30,family:18,safety:14,value:6,offer:8,upgrade:10},base:18},
+ {n:"Blackmores Pregnancy & Breastfeeding Gold",i:"🤰",x:[["Premium Gold range · A$40–50","プレミアムGoldレンジ · A$40–50","กลุ่มพรีเมียม Gold · A$40–50"]],aff:{safety:24,family:16,offer:16,value:12,immunity:4,reels:8,upgrade:8},base:16},
+ {n:"Blackmores Fish Oil 1000",i:"🐟",x:[["Everyday core range · A$18–25","日常コアレンジ · A$18–25","กลุ่มหลักประจำวัน · A$18–25"]],aff:{value:28,offer:24,family:14,immunity:6,safety:12,upgrade:14,reels:4},base:20},
+ {n:"Blackmores Kids Multi",i:"🧒",x:[["Kids' range · A$14–20","子ども向けレンジ · A$14–20","กลุ่มสำหรับเด็ก · A$14–20"]],aff:{value:18,offer:10,upgrade:-8,immunity:-6,family:20},base:8}
+];
+function renderSignals(){const box=$('#sigList');box.innerHTML='';SIGNALS.forEach(s=>{const b=document.createElement('button');b.className='signal'+(state.sigOn[s.id]?' on':'');b.innerHTML='<span class="si">'+s.i+'</span><span><span class="st">'+s.t[state.lang]+'</span><br><span class="sx">'+s.x[state.lang]+'</span></span><span class="sck">'+(state.sigOn[s.id]?'✓':'+')+'</span>';b.onclick=()=>{state.sigOn[s.id]=!state.sigOn[s.id];renderSignals();renderTags();renderRecs();};box.appendChild(b);});}
+function activeTags(){const seen={},out=[];SIGNALS.forEach(s=>{if(state.sigOn[s.id])s.tags.forEach(t=>{const key=t[0];if(!seen[key]){seen[key]=1;out.push(t);}});});return out;}
+function renderTags(){const box=$('#tagCloud');const tags=activeTags();if(!tags.length){box.innerHTML='<span class="tagempty">'+D('tag_empty')+'</span>';return;}box.innerHTML=tags.map(t=>'<span class="tagchip">'+t[state.lang]+'</span>').join('');}
+function renderRecs(){const box=$('#recList');const scored=MODELS.map(m=>{let s=m.base;for(const k in m.aff){if(state.sigOn[k])s+=m.aff[k];}return{m,s:Math.max(2,Math.min(99,s))};}).sort((a,b)=>b.s-a.s);
+ box.innerHTML=scored.map((o,i)=>'<div class="rec'+(i===0?' top':'')+'"><div class="ri">'+o.m.i+'</div><div><div class="rn">'+o.m.n+(i===0?' <span style="font-size:9px;color:var(--brand);font-weight:800">★ '+(state.lang===1?'ベストマッチ':state.lang===2?'ตรงที่สุด':'BEST MATCH')+'</span>':'')+'</div><div class="rx">'+o.m.x[0][state.lang]+'</div></div><div class="rscore"><div class="rv">'+o.s+'</div><div class="rl">'+(state.lang===1?'適合度':state.lang===2?'ความตรง':'match')+'</div></div></div>').join('');}
+
+// ---- Legacy store simulator (not mounted in current GEO flow) ----
+const PRODUCTS=[
+ {icon:"🍊",name:"Blackmores Immunity C",price:["A$24.95 (150 tablets) · subscribe & save 15%","A$24.95(150錠)・定期便15%オフ","A$24.95 (150 เม็ด) · สมัครรับลด 15%"],
+  script:["Welcome back! Right now I'm showing <b>Blackmores Immunity C</b> — our high-strength vitamin C with zinc, 150 tablets and a clean, TGA-listed formula. Ask me anything in the chat and I'll answer live.","おかえりなさい!ただいまご紹介しているのは<b>Blackmores Immunity C</b> — 亜鉛配合の高含有ビタミンC、150錠、クリーンでTGA登録済みの処方です。チャットで何でもお尋ねください、ライブでお答えします。","ยินดีต้อนรับกลับมา! ตอนนี้กำลังแนะนำ <b>Blackmores Immunity C</b> — วิตามินซีเข้มข้นพร้อมซิงค์ 150 เม็ด สูตรสะอาดและขึ้นทะเบียน TGA ถามอะไรก็ได้ในแชท แล้วฉันจะตอบสด"]},
+ {icon:"🤰",name:"Blackmores Pregnancy & Breastfeeding Gold",price:["A$44.95 (180 capsules) · subscribe & save 15%","A$44.95(180カプセル)・定期便15%オフ","A$44.95 (180 แคปซูล) · สมัครรับลด 15%"],
+  script:["Switching to <b>Blackmores Pregnancy & Breastfeeding Gold</b> — our comprehensive prenatal, 18 nutrients, 500mg DHA and 600µg folate. Trusted by <b>millions of mums worldwide</b>. Want guidance on dose for your stage? Just tell me how far along you are.","続いては<b>Blackmores Pregnancy & Breastfeeding Gold</b> — 18種の栄養素、DHA 500mg、葉酸600µgを備えた充実のプレナタル。<b>世界中の何百万人ものママ</b>に選ばれています。妊娠ステージに合わせた用量のご案内が必要ですか?何週目か教えてください。","มาที่ <b>Blackmores Pregnancy & Breastfeeding Gold</b> — วิตามินบำรุงครรภ์ครบถ้วน 18 สารอาหาร DHA 500mg และโฟเลต 600µg ได้รับความไว้วางใจจาก<b>คุณแม่หลายล้านคนทั่วโลก</b> ต้องการคำแนะนำปริมาณตามช่วงครรภ์ไหม? แค่บอกว่าคุณตั้งครรภ์กี่สัปดาห์"]},
+ {icon:"🧒",name:"Blackmores Kids Multi",price:["A$17.95 (60 chewables) · subscribe & save 15%","A$17.95(60チュアブル)・定期便15%オフ","A$17.95 (60 เม็ดเคี้ยว) · สมัครรับลด 15%"],
+  script:["For families — <b>Blackmores Kids Multi</b>. A tasty chewable multivitamin with no artificial colours, made in Australia. Great for fussy eaters. I can help you start a subscription at your nearest store right now.","ご家族の皆様へ — <b>Blackmores Kids Multi</b>。人工着色料不使用、オーストラリア製のおいしいチュアブルマルチビタミン。好き嫌いの多いお子様にぴったりです。最寄りの店舗での定期便を今すぐ開始できます。","สำหรับครอบครัว — <b>Blackmores Kids Multi</b> วิตามินรวมแบบเคี้ยวรสอร่อย ไม่ใส่สีสังเคราะห์ ผลิตในออสเตรเลีย เหมาะกับเด็กที่เลือกกิน ฉันช่วยเริ่มสมัครรับที่ร้านใกล้คุณได้เลยตอนนี้"]}
+];
+let liveTimers=[],qaPool=[],qaShown=[],sentiment={love:62,curious:28,price:10},viewers=2418;
+const QA=[
+ [["Is Immunity C suitable for daily use?","Immunity Cは毎日飲んでも大丈夫?","Immunity C ทานทุกวันได้ไหม?"],["Yes — one tablet daily with food is the standard adult dose; always read the label.","はい — 成人は食後に1日1錠が目安です。必ずラベルをご確認ください。","ได้ — ผู้ใหญ่ทานวันละ 1 เม็ดพร้อมอาหาร โปรดอ่านฉลากก่อนใช้เสมอ"]],
+ [["Is it in stock right now?","今、在庫はありますか?","ตอนนี้มีสต็อกไหม?"],["Yes — in stock online and at most stores. I can reserve a pack for you now.","はい — オンラインと多くの店舗で在庫があります。今すぐ1点お取り置きできます。","มี — มีสต็อกทั้งออนไลน์และร้านส่วนใหญ่ ฉันจองสินค้าให้คุณได้เลยตอนนี้"]],
+ [["Is there an offer if I subscribe?","定期便だと割引はありますか?","สมัครรับมีส่วนลดไหม?"],["Yes — subscribe & save 15% per order, free shipping over A$50, cancel anytime.","はい — 定期便で1回あたり15%オフ、A$50以上で送料無料、いつでも解約可能です。","มี — สมัครรับลด 15% ต่อครั้ง ส่งฟรีเมื่อซื้อเกิน A$50 ยกเลิกได้ทุกเมื่อ"]],
+ [["How does it compare to Swisse?","Swisseと比べてどうですか?","เทียบกับ Swisse เป็นอย่างไร?"],["Immunity C offers high-strength vitamin C with added zinc, TGA-listed, at a lower per-tablet price.","Immunity Cは亜鉛配合の高含有ビタミンC、TGA登録済みで、1錠あたり価格も抑えられています。","Immunity C ให้วิตามินซีเข้มข้นพร้อมซิงค์ ขึ้นทะเบียน TGA ในราคาต่อเม็ดที่ต่ำกว่า"]],
+ [["What's the cost per month?","1か月あたりの費用は?","ค่าใช้จ่ายต่อเดือนเท่าไหร่?"],["Roughly A$5/month at the daily dose with subscribe & save; I can share the exact plan.","定期便を使うと、毎日服用で月約A$5です。正確なプランをお送りできます。","ราว A$5/เดือนเมื่อทานตามปริมาณรายวันพร้อมสมัครรับ ฉันส่งแผนที่ชัดเจนให้ได้"]]
+];
+let prodIdx=0,scriptTimer=null;
+function typeScript(text){const el=$('#liveScript');clearInterval(scriptTimer);
+ const parts=text.split(/(<b>.*?<\/b>)/g);el.innerHTML='';let html='',plain=[];
+ parts.forEach(p=>plain.push(p));
+ let full=text;let i=0;el.innerHTML='<span class="cur"></span>';
+ // simple reveal: strip tags for char count, but to keep bold we reveal by chunks
+ el.innerHTML='';let shown='';let chars=full.split('');let idx=0;
+ scriptTimer=setInterval(()=>{idx+=2;shown=safeSlice(full,idx);el.innerHTML=shown+'<span class="cur"></span>';if(idx>=full.length){clearInterval(scriptTimer);el.innerHTML=full;}},22);}
+function safeSlice(html,n){let out='',count=0,i=0;while(i<html.length&&count<n){if(html[i]==='<'){const close=html.indexOf('>',i);if(close>-1){out+=html.slice(i,close+1);i=close+1;continue;}}out+=html[i];count++;i++;}
+ // close any open <b>
+ const opens=(out.match(/<b>/g)||[]).length,closes=(out.match(/<\/b>/g)||[]).length;if(opens>closes)out+='</b>';return out;}
+function showProduct(){const p=PRODUCTS[prodIdx];$('#prodIcon').textContent=p.icon;$('#prodName').textContent=p.name;$('#prodPrice').textContent=p.price[state.lang];typeScript(p.script[state.lang]);}
+function renderSenti(){const box=$('#sentiBox');const rows=[[["Love it","気に入った","ชอบมาก"],sentiment.love,'var(--ok)'],[["Curious","興味あり","สนใจ"],sentiment.curious,'var(--accent)'],[["Price worry","価格が心配","กังวลเรื่องราคา"],sentiment.price,'var(--warn)']];
+ box.innerHTML=rows.map(r=>'<div class="senti"><span class="sl">'+r[0][state.lang]+'</span><div class="sbar"><i style="width:'+r[1]+'%;background:'+r[2]+'"></i></div><b>'+r[1]+'%</b></div>').join('');}
+function renderQA(){const box=$('#qaBox');if(!qaShown.length){box.innerHTML='<div class="tagempty" style="font-size:11.5px;color:var(--muted)">'+(state.lang===1?'視聴者の質問を待っています…':state.lang===2?'กำลังรอคำถามจากผู้ชม…':'Waiting for viewer questions…')+'</div>';return;}
+ box.innerHTML=qaShown.slice(-4).reverse().map(q=>'<div class="qa"><div class="qq"><b>'+q.name+':</b> '+q.q[state.lang]+'</div><div class="aa">'+q.a[state.lang]+'</div></div>').join('');}
+const VIEWERNAMES=["Emily_Well","mika.jp","Nora K","Grace","Lin_92","Ava","Mei R","Sofia"];
+function tickLive(){
+ // viewers drift
+ viewers+=Math.floor(Math.random()*40)-12;if(viewers<1800)viewers=1800;$('#viewers').textContent=viewers.toLocaleString();
+ // sentiment drift
+ sentiment.love=Math.max(48,Math.min(78,sentiment.love+(Math.floor(Math.random()*7)-3)));
+ sentiment.curious=Math.max(14,Math.min(36,sentiment.curious+(Math.floor(Math.random()*5)-2)));
+ sentiment.price=Math.max(4,100-sentiment.love-sentiment.curious);renderSenti();
+ $('#ticker').textContent=(state.lang===1?'▲ 好意的な反応 · ':state.lang===2?'▲ ความรู้สึกเชิงบวก · ':'▲ Sentiment positive · ')+(state.lang===1?'リアルタイム分析中':state.lang===2?'กำลังวิเคราะห์สด':'live analysis');
+}
+function pushQA(){const q=QA[Math.floor(Math.random()*QA.length)];const name=VIEWERNAMES[Math.floor(Math.random()*VIEWERNAMES.length)];qaShown.push({name,q:q[0],a:q[1]});if(qaShown.length>8)qaShown.shift();renderQA();}
+function startLive(){stopLive();showProduct();renderSenti();renderQA();tickLive();
+ liveTimers.push(setInterval(tickLive,2200));
+ liveTimers.push(setInterval(pushQA,3600));
+ liveTimers.push(setInterval(()=>{prodIdx=(prodIdx+1)%PRODUCTS.length;showProduct();},11000));
+ pushQA();}
+function stopLive(){liveTimers.forEach(clearInterval);liveTimers=[];clearInterval(scriptTimer);}
+
+// ---- tabs ----
+function renderTabs(){const labs=['tabs0','tabs1','tabs2','tabs3'].map(D);const ids=['p-geo','p-discovery','p-tag','p-kg'];const focusKeys=['geo','discovery','',''];const box=$('#tabs');box.innerHTML='';labs.forEach((lab,i)=>{const b=document.createElement('button');b.textContent=lab;if(i===0)b.className='on';if(focusKeys[i])b.setAttribute('data-focus',focusKeys[i]);b.onclick=()=>{$$('#tabs button').forEach(x=>x.classList.remove('on'));b.classList.add('on');$$('.panel').forEach(p=>p.classList.remove('on'));$('#'+ids[i]).classList.add('on');stopLive();};box.appendChild(b);});}
+
+$('#geoSw')&&($('#geoSw').onclick=()=>{state.geo=!state.geo;renderGeo();});
+$('#ctaBtn')&&($('#ctaBtn').onclick=()=>toast(D('toast_td')));
+
+function renderAll(){applyBrand();applyText();renderTabs();renderGeo();renderDiscovery();renderSignals();renderTags();renderRecs();stopLive();}
+$('#langs').onclick=e=>{const b=e.target.closest('button');if(!b)return;state.lang=b.dataset.l==='ja'?1:(b.dataset.l==='th'?2:0);$$('#langs button').forEach(x=>x.classList.toggle('on',x===b));renderAll();};
+$('#fab').onclick=()=>{state.brand=state.brand==='core'?'gold':'core';applyBrand();renderGeo();};
+try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_l=_p.get("lang");if(_l==='ja')state.lang=1;else if(_l==='th')state.lang=2;if(_b&&BRANDS[_b])state.brand=_b;$$('#langs button').forEach(x=>x.classList.toggle('on',x.dataset.l===['en','ja','th'][state.lang]));}catch(e){}
+(function(){var bs=$('#backStudio');var emb=false;try{emb=(window.top!==window.self);}catch(e){emb=true;}if(emb){bs.style.display='flex';bs.onclick=function(){try{(window.top||window).location.href='index.html'+location.search;}catch(e){location.href='index.html';}};}})();
+window.addEventListener('message',e=>{const d=e.data;if(!d||d.t!=='es')return;let ch=false;if(d.brand&&BRANDS[d.brand]){state.brand=d.brand;ch=true;}if(d.lang){state.lang=d.lang==='ja'?1:(d.lang==='th'?2:0);$$('#langs button').forEach(x=>x.classList.toggle('on',x.dataset.l===['en','ja','th'][state.lang]));ch=true;}if(ch)renderAll();});
+renderAll();
+(function(){try{var f=new URLSearchParams(location.search).get('focus');if(!f)return;setTimeout(function(){var el=document.querySelector('[data-focus="'+f+'"]');if(!el)return;if(typeof el.click==='function')el.click();if(el.scrollIntoView)el.scrollIntoView({behavior:'smooth',block:'center'});},350);}catch(e){}})();
+</script>
+<script>/*__embedHide2*/(function(){try{if(window.self!==window.top){var s=document.createElement('style');s.textContent='header,.topbar,.appbar,.langs,#__backStudio{display:none!important}';(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

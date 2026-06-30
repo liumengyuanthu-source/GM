@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partner Training AI · Blackmores · Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
+    --ink:#16201f; --muted:#6a7472; --bg:#f4f7fb; --card:#fff; --line:#e6ecf2;
+    --neg:#c0563f; --warn:#b5731a; --black:#0b1320;
+    --display:Georgia,'Times New Roman','Hiragino Mincho ProN','Songti SC',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','PingFang SC','Microsoft YaHei','Thonburi','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  button{font-family:inherit;cursor:pointer}
+  header{background:var(--black);position:sticky;top:0;z-index:30}
+  .nav{display:flex;align-items:center;gap:12px;max-width:1080px;margin:0 auto;padding:13px 18px}
+  .brand{font-family:var(--display);font-weight:700;font-size:19px;color:#fff;letter-spacing:.02em}.brand sup{font-size:9px;color:#7fb2dc}
+  .sub{font-size:11px;color:#9fb4c8;border-left:1px solid #2a3647;padding-left:12px;letter-spacing:.04em}.sp{flex:1}
+  .back{border:1px solid #2a3647;background:rgba(255,255,255,.06);color:#cdddec;font:inherit;font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:8px}
+  .back:hover{background:rgba(255,255,255,.12)}
+  .langs{display:flex;gap:3px;background:rgba(255,255,255,.06);border:1px solid #2a3647;border-radius:9px;padding:3px}
+  .langs button{border:0;background:0;font:inherit;font-size:12px;font-weight:700;color:#9fb4c8;min-width:30px;padding:5px 8px;border-radius:6px;transition:.15s}
+  .langs button.on{background:#fff;color:var(--brand-d)}
+  .wrap{max-width:1080px;margin:0 auto;padding:22px 18px 70px}
+  .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:700}
+  h1.h{font-family:var(--display);font-weight:400;font-size:clamp(21px,4vw,28px);margin:8px 0 5px;line-height:1.18}
+  .lead{color:var(--muted);font-size:13.5px;max-width:72ch}
+
+  /* 三感 strip */
+  .sankan{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}
+  .sankan .sk{flex:1;min-width:150px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 13px;display:flex;gap:10px;align-items:center}
+  .sankan .sk .ic{width:30px;height:30px;border-radius:8px;background:var(--soft);display:grid;place-items:center;flex-shrink:0}
+  .sankan .sk .kt{font-weight:800;font-size:13px;color:var(--brand-d)}
+  .sankan .sk .ks{font-size:10.5px;color:var(--muted)}
+
+  .tabs{display:flex;gap:4px;margin:20px 0 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tabs button{border:0;background:0;font:inherit;font-size:13.5px;font-weight:700;color:var(--muted);padding:11px 14px;border-bottom:2px solid transparent;display:flex;gap:7px;align-items:center}
+  .tabs button.on{color:var(--brand);border-color:var(--brand)}
+  .tabs .cnt{font-size:11px;background:var(--soft);color:var(--brand-d);border-radius:999px;padding:1px 8px;font-weight:800}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px}
+  .layerlab{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:4px 0 9px}
+  .grid2{display:grid;grid-template-columns:320px 1fr;gap:16px}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+  .pane{display:none}.pane.on{display:block;animation:fin .3s ease}
+  @keyframes fin{from{opacity:0;transform:translateY(6px)}}
+
+  /* scenario picker */
+  .scn{border:1px solid var(--line);border-radius:11px;padding:11px 12px;margin-bottom:8px;cursor:pointer;transition:.15s}
+  .scn:hover{border-color:var(--brand)}
+  .scn.on{border-color:var(--brand);background:var(--soft)}
+  .scn .sn{font-weight:700;font-size:13px}
+  .scn .sl{font-size:11px;color:var(--muted);margin-top:2px}
+  .scn .tag{display:inline-block;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--brand-d);background:var(--soft);border-radius:5px;padding:2px 6px;margin-top:6px}
+  .scn.on .tag{background:#fff}
+
+  /* chat */
+  .chat{display:flex;flex-direction:column;gap:10px;min-height:260px;max-height:430px;overflow-y:auto;padding:4px 2px 8px}
+  .msg{display:flex;gap:9px;max-width:88%}
+  .msg .av{width:30px;height:30px;border-radius:8px;flex-shrink:0;display:grid;place-items:center;font-size:15px}
+  .msg.cust .av{background:#fdecea}
+  .msg.staff{align-self:flex-end;flex-direction:row-reverse}
+  .msg.staff .av{background:var(--soft)}
+  .msg .bub{border-radius:12px;padding:9px 12px;font-size:13px;line-height:1.45}
+  .msg.cust .bub{background:#fff;border:1px solid var(--line);border-top-left-radius:3px}
+  .msg.staff .bub{background:var(--brand);color:#fff;border-top-right-radius:3px}
+  .msg .who{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:3px}
+  .replies{display:flex;flex-direction:column;gap:7px;margin-top:6px}
+  .reply{border:1px solid var(--line);background:var(--card);text-align:left;font:inherit;font-size:12.5px;padding:9px 12px;border-radius:10px;color:var(--ink);transition:.15s}
+  .reply:hover{border-color:var(--brand);background:var(--soft)}
+  .reply .rt{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;border-radius:4px;padding:1px 5px;margin-right:6px}
+  .reply .rt.good{background:#eafaf0;color:#077a3c}.reply .rt.ok{background:#fdf2e2;color:var(--warn)}.reply .rt.bad{background:#fdecea;color:var(--neg)}
+  .typed{display:flex;gap:7px;margin-top:8px}
+  .typed input{flex:1;border:1px solid var(--line);border-radius:10px;padding:9px 11px;font:inherit;font-size:12.5px}
+  .typed button{border:0;background:var(--soft);color:var(--brand-d);font:inherit;font-weight:700;font-size:12.5px;padding:0 14px;border-radius:10px}
+
+  /* score */
+  .scorewrap{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:center}
+  @media(max-width:620px){.scorewrap{grid-template-columns:1fr}}
+  .axes{display:flex;flex-direction:column;gap:9px}
+  .ax{}
+  .ax .al{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:4px}
+  .ax .al b{font-family:var(--display);font-size:15px}
+  .ax .at{height:8px;border-radius:99px;background:var(--soft);overflow:hidden}
+  .ax .at i{display:block;height:100%;border-radius:99px;background:var(--brand)}
+  .fbk{margin-top:12px;border-top:1px solid var(--line);padding-top:11px}
+  .fbk ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+  .fbk li{font-size:12.5px;display:flex;gap:8px}
+  .fbk li .mk{flex-shrink:0;font-weight:800}
+  .fbk li.pos .mk{color:var(--accent)}.fbk li.neg .mk{color:var(--neg)}
+  .model{margin-top:11px;background:var(--soft);border-radius:11px;padding:11px 13px}
+  .model .mt{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--brand-d);margin-bottom:4px}
+  .model .mx2{font-size:12.5px;line-height:1.5}
+
+  /* points / tierup */
+  .ptbanner{display:flex;align-items:center;gap:12px;background:#eafaf0;border:1px solid #b6e6c8;border-radius:12px;padding:12px 14px;margin:12px 0}
+  .ptbanner .pp{font-family:var(--display);font-size:26px;font-weight:600;color:#077a3c}
+  .ptbanner .pl{font-size:12px;color:#0a7a3c;font-weight:700}
+  .tierup{background:linear-gradient(120deg,#fff7e6,#fdecd2);border:1px solid #f0d49a;border-radius:12px;padding:13px 15px;margin:12px 0;display:flex;align-items:center;gap:13px}
+  .tierup .ti{font-size:30px}
+  .tierup .tt{font-family:var(--display);font-size:17px;color:var(--warn)}
+  .tierup .ts{font-size:12px;color:var(--muted)}
+
+  .btn{border:0;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:13px;padding:11px 16px;border-radius:11px}
+  .btn.o{background:var(--soft);color:var(--brand)}
+  .btn:disabled{opacity:.5}
+  .btnrow{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+
+  /* e-learning */
+  .courses{display:flex;flex-direction:column;gap:9px}
+  .ccat{font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--brand-d);margin:10px 0 4px}
+  .course{border:1px solid var(--line);border-radius:12px;padding:12px 13px}
+  .course .ch{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .course .cn{font-weight:700;font-size:13.5px}
+  .course .cmeta{font-size:11px;color:var(--muted);margin-top:2px}
+  .course .pct{font-family:var(--display);font-size:18px;font-weight:600;color:var(--brand)}
+  .course .bar{height:6px;border-radius:99px;background:var(--soft);margin-top:9px;overflow:hidden}
+  .course .bar i{display:block;height:100%;border-radius:99px;background:var(--brand)}
+  .lessons{margin-top:9px;display:flex;flex-direction:column;gap:5px}
+  .lesson{display:flex;align-items:center;gap:8px;font-size:12px;padding:5px 0;border-bottom:1px dashed var(--line)}
+  .lesson:last-child{border-bottom:0}
+  .lesson .lc{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:9px;flex-shrink:0;background:var(--soft);color:var(--muted)}
+  .lesson.done .lc{background:var(--accent);color:#fff}
+  .lesson .ll{flex:1}.lesson.done .ll{color:var(--muted)}
+  .lesson .play{border:1px solid var(--line);background:var(--card);font:inherit;font-size:10.5px;font-weight:700;color:var(--brand-d);padding:3px 9px;border-radius:7px}
+  .lesson .gate{font-size:10px;color:var(--warn);font-weight:700}
+  .streak{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:13px}
+  .streak .sf{font-size:26px}
+  .streak .sn{font-family:var(--display);font-size:22px;font-weight:600;color:var(--brand)}
+  .streak .ss{font-size:11.5px;color:var(--muted)}
+  .streak .ck{margin-left:auto;border:1px solid var(--accent);background:#eafaf0;color:#077a3c;font:inherit;font-weight:700;font-size:12px;padding:8px 13px;border-radius:10px}
+  .streak .ck:disabled{border-color:var(--line);background:var(--soft);color:var(--muted)}
+
+  /* exam config */
+  .exrow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+  @media(max-width:620px){.exrow{grid-template-columns:1fr}}
+  .exb{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
+  .exb.on{border-color:var(--brand);background:var(--soft)}
+  .exb b{font-family:var(--display);font-size:24px;display:block;color:var(--brand)}
+  .exb span{font-size:11px;color:var(--muted);display:block;margin-top:3px}
+  .qbank{display:flex;flex-direction:column;gap:7px;margin-top:8px}
+  .qb{display:flex;align-items:center;gap:10px;font-size:12px}
+  .qb .qn{flex:1;font-weight:700}
+  .qb .qt{height:7px;flex:1.4;border-radius:99px;background:var(--soft);overflow:hidden}
+  .qb .qt i{display:block;height:100%;background:var(--brand);border-radius:99px}
+  .qb .qc{width:46px;text-align:right;color:var(--muted);font-weight:700}
+  .mcq{border:1px solid var(--line);border-radius:12px;padding:13px;margin-top:8px}
+  .mcq .qh{font-weight:700;font-size:13px;margin-bottom:9px}
+  .opt{display:block;width:100%;text-align:left;border:1px solid var(--line);background:var(--card);font:inherit;font-size:12.5px;padding:9px 12px;border-radius:9px;margin-bottom:7px;transition:.12s}
+  .opt:hover{border-color:var(--brand)}
+  .opt.correct{border-color:var(--accent);background:#eafaf0}
+  .opt.wrong{border-color:var(--neg);background:#fdecea}
+  .opt .ex{display:block;font-size:11px;color:var(--muted);margin-top:4px}
+
+  /* tiers */
+  .ladder{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .rung{flex:1;min-width:120px;border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--card);position:relative}
+  .rung.cur{border-color:var(--brand);background:var(--soft)}
+  .rung.cur:after{content:"NOW";position:absolute;top:-8px;right:10px;font-size:9px;font-weight:800;background:var(--brand);color:#fff;padding:2px 7px;border-radius:99px}
+  .rung .rn{font-family:var(--display);font-size:16px;font-weight:600}
+  .rung .rp{font-size:11px;color:var(--muted);margin-top:3px}
+  .rung .rb{font-size:11px;margin-top:8px;color:var(--brand-d);font-weight:600}
+  .promo{display:flex;flex-direction:column;gap:0;margin-top:6px}
+  .pstep{display:flex;gap:11px;padding-bottom:13px;position:relative}
+  .pstep:before{content:"";position:absolute;left:9px;top:20px;bottom:-3px;width:2px;background:var(--line)}
+  .pstep:last-child:before{display:none}
+  .pstep .pd{width:20px;height:20px;border-radius:50%;border:2px solid var(--line);background:var(--card);flex-shrink:0;display:grid;place-items:center;font-size:9px;color:#fff;z-index:2}
+  .pstep.done .pd{background:var(--accent);border-color:var(--accent)}
+  .pstep.cur .pd{border-color:var(--brand);background:var(--brand)}
+  .pstep .pt2{font-weight:700;font-size:13px}.pstep.todo .pt2{color:var(--muted)}
+  .pstep .ps2{font-size:11px;color:var(--muted);margin-top:2px}
+  .cert{background:linear-gradient(135deg,#fff,#f3f8fc);border:2px solid var(--brand);border-radius:16px;padding:20px;margin-top:8px;position:relative;overflow:hidden}
+  .cert:before{content:"";position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:var(--soft);opacity:.6}
+  .cert .seal{position:absolute;top:16px;right:18px;width:54px;height:54px}
+  .cert .ceyebrow{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--brand);font-weight:800}
+  .cert .cname{font-family:var(--display);font-size:24px;margin:7px 0 3px}
+  .cert .ctier{font-size:13px;color:var(--brand-d);font-weight:700}
+  .cert .cmeta2{font-size:11px;color:var(--muted);margin-top:10px;display:flex;gap:16px;flex-wrap:wrap}
+
+  /* manager dash */
+  .stat4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+  @media(max-width:620px){.stat4{grid-template-columns:1fr 1fr}}
+  .sb{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px;text-align:center}
+  .sb b{font-family:var(--display);font-size:23px;display:block;line-height:1}
+  .sb.g b{color:var(--accent)}.sb.b b{color:var(--brand)}.sb.w b{color:var(--warn)}.sb.r b{color:var(--neg)}
+  .sb span{font-size:10.5px;color:var(--muted);display:block;margin-top:5px}
+  .gtable{width:100%;border-collapse:collapse;font-size:12px}
+  .gtable th{text-align:left;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);padding:7px 8px;border-bottom:1px solid var(--line)}
+  .gtable td{padding:8px;border-bottom:1px solid var(--line)}
+  .gtable .mini{height:6px;width:64px;border-radius:99px;background:var(--soft);overflow:hidden;display:inline-block;vertical-align:middle;margin-right:6px}
+  .gtable .mini i{display:block;height:100%;background:var(--brand);border-radius:99px}
+  .pill{font-size:10px;font-weight:800;border-radius:99px;padding:2px 8px}
+  .pill.t0{background:#f0f0f0;color:#666}.pill.t1{background:var(--soft);color:var(--brand-d)}.pill.t2{background:#e7f6ec;color:#077a3c}.pill.t3{background:#fdf2e2;color:var(--warn)}
+  .heat{width:100%;border-collapse:collapse;font-size:11.5px}
+  .heat th{padding:6px;font-size:10px;font-weight:700;color:var(--muted);text-align:center}
+  .heat th.rh{text-align:left}
+  .heat td{padding:0;text-align:center}
+  .heat td.rl{text-align:left;font-weight:700;font-size:11.5px;padding:5px 8px;white-space:nowrap}
+  .cell{display:block;margin:2px;border-radius:6px;padding:8px 0;font-weight:800;font-size:11px;color:#fff}
+  .lead2{display:flex;flex-direction:column;gap:7px}
+  .lrow{display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:11px;padding:9px 12px}
+  .lrow .rk{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:12px;background:var(--soft);color:var(--brand-d);flex-shrink:0}
+  .lrow.top .rk{background:#fdecd2;color:var(--warn)}
+  .lrow .ln{flex:1;font-weight:700;font-size:13px}
+  .lrow .lst{font-size:11px;color:var(--muted)}
+  .lrow .lp{font-family:var(--display);font-size:17px;font-weight:600;color:var(--brand)}
+  .threed{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+  .td{background:var(--soft);border-radius:12px;padding:13px;text-align:center}
+  .td b{font-family:var(--display);font-size:24px;display:block;color:var(--brand-d)}
+  .td span{font-size:11px;color:var(--muted);display:block;margin-top:3px}
+
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(50px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:11px;font-size:14px;font-weight:600;z-index:90;opacity:0;transition:.3s}
+  .toast.show{transform:translateX(-50%);opacity:1}
+  .fab{position:fixed;right:18px;bottom:18px;width:50px;height:50px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:20px;box-shadow:0 8px 22px rgba(0,0,0,.2);z-index:40}
+  .sech{font-family:var(--display);font-size:16px;margin:0 0 4px}
+  .secs{font-size:12px;color:var(--muted);margin-bottom:10px}
+</style>
+</head>
+<body>
+<header><div class="nav">
+  <div class="brand" id="brand">Blackmores<sup>®</sup></div>
+  <div class="sub" id="sub">Partner Training AI</div><div class="sp"></div>
+  <button class="back" id="backBtn" style="display:none"></button>
+  <div class="langs" id="langs"></div>
+</div></header>
+
+<div class="wrap">
+  <div class="eyebrow" id="eye">Partner Enablement · Pharmacy-Staff Training AI</div>
+  <h1 class="h" id="title"></h1>
+  <div class="lead" id="lead"></div>
+  <div class="sankan" id="sankanRow"></div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <!-- TAB 1 role-play -->
+  <div class="pane on" id="pane-roleplay">
+    <div class="grid2">
+      <div class="panel">
+        <div class="layerlab" id="scnLab"></div>
+        <div id="scnList"></div>
+      </div>
+      <div class="panel" id="rpStage"></div>
+    </div>
+  </div>
+
+  <!-- TAB 2 e-learning -->
+  <div class="pane" id="pane-learn">
+    <div id="streakBox"></div>
+    <div class="grid2">
+      <div class="panel">
+        <div class="layerlab" id="courseLab"></div>
+        <div class="courses" id="courseList"></div>
+      </div>
+      <div class="panel" id="examBox"></div>
+    </div>
+  </div>
+
+  <!-- TAB 3 tiers -->
+  <div class="pane" id="pane-tiers">
+    <div class="panel" style="margin-bottom:14px">
+      <div class="sech" id="tierH"></div><div class="secs" id="tierS"></div>
+      <div class="ladder" id="ladder"></div>
+      <div id="radarTier"></div>
+    </div>
+    <div class="grid2">
+      <div class="panel"><div class="sech" id="promoH"></div><div class="secs" id="promoS"></div><div class="promo" id="promoFlow"></div></div>
+      <div class="panel"><div class="sech" id="certH"></div><div class="secs" id="certS"></div><div id="certBox"></div></div>
+    </div>
+  </div>
+
+  <!-- TAB 4 manager dash -->
+  <div class="pane" id="pane-dash">
+    <div class="stat4" id="dashStats"></div>
+    <div class="panel" style="margin-bottom:14px">
+      <div class="sech" id="gridH"></div><div class="secs" id="gridS"></div>
+      <div style="overflow-x:auto"><table class="gtable" id="gridTable"></table></div>
+    </div>
+    <div class="grid2">
+      <div class="panel"><div class="sech" id="heatH"></div><div class="secs" id="heatS"></div><div style="overflow-x:auto"><table class="heat" id="heatTable"></table></div></div>
+      <div class="panel"><div class="sech" id="lbH"></div><div class="secs" id="lbS"></div><div class="lead2" id="lbList"></div></div>
+    </div>
+    <div class="panel" style="margin-top:14px"><div class="sech" id="engH"></div><div class="secs" id="engS"></div><div class="threed" id="engBox"></div></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="fab" id="fab" title="brand">🎨</div>
+
+<script>
+const BRANDS={blackmores:{logo:"Blackmores",sup:"®",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  bioceuticals:{logo:"BioCeuticals",sup:"",c:["#1b3a5c","#10243a","#e7edf3","#c9a24a"]},
+  paw:{logo:"PAW by Blackmores",sup:"",c:["#2e7d32","#1b5e20","#e7f3e8","#7cb342"]}};
+const L=o=>o[state.lang]||o.ja||o.en;
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+
+const T={
+ sub:{ja:"パートナー研修 AI",en:"Partner Training AI",zh:"门店培训 AI",th:"AI ฝึกพาร์ทเนอร์"},
+ back:{ja:"← スタジオに戻る",en:"← Back to studio",zh:"← 返回工作室",th:"← กลับสตูดิโอ"},
+ eye:{ja:"パートナー育成 · 薬局スタッフ研修 AI · スタッフクラブ",en:"Partner Enablement · Pharmacy-Staff Training AI · Staff Club",zh:"渠道商赋能 · 门店店员培训 AI · 店员俱乐部",th:"พัฒนาพาร์ทเนอร์ · AI ฝึกพนักงานร้านยา · สตาฟคลับ"},
+ title:{ja:"薬局・健康ストアのスタッフを、ゲーム感覚と AI ロールプレイで「Blackmores を語れる人」へ。",
+   en:"Turn pharmacy and health-retail staff into confident Blackmores advisers — gamified, tiered, AI role-play.",
+   zh:"用游戏化与 AI 实战陪练，把药房与健康门店的店员，变成会推荐 Blackmores 的人。",
+   th:"เปลี่ยนพนักงานร้านยาและร้านสุขภาพให้แนะนำ Blackmores ได้อย่างมั่นใจ ด้วยเกมและ AI โรลเพลย์"},
+ lead:{ja:"薬局・ドラッグストア・健康ストアのスタッフが、免疫・オメガ3・関節・妊娠期サプリを自信を持って薦められるように。AI 接客ロールプレイ、学習センター、等級・昇格、管理ダッシュボードを一体化。豪州 TGA 認証ブランド Blackmores の取引先・代理店スタッフ向け育成プログラムです。",
+   en:"Help pharmacy, drugstore and health-retail staff recommend Blackmores immunity, Omega-3, joint and pregnancy supplements with confidence. AI service role-play, a learning center, tiers & promotion, and a manager dashboard in one place — a staff-club training model for Blackmores' TGA-certified Australian range and its partner & distributor network.",
+   zh:"让药房、药妆店与健康门店的店员，能自信地推荐 Blackmores 免疫、Omega-3、关节与孕期营养补充品。AI 接客实战、学习中心、等级晋升、管理看板一体化——为澳洲 TGA 认证品牌 Blackmores 的渠道与代理伙伴打造的店员俱乐部式育成方案。",
+   th:"ช่วยพนักงานร้านยา ดรักสโตร์ และร้านสุขภาพแนะนำ Blackmores กลุ่มภูมิคุ้มกัน Omega-3 ข้อต่อ และตั้งครรภ์ได้อย่างมั่นใจ รวม AI โรลเพลย์ ศูนย์เรียนรู้ ระดับและเลื่อนขั้น และแดชบอร์ดผู้จัดการในที่เดียว"},
+ // 三感
+ sk1t:{ja:"参加感",en:"Participation",zh:"参与感",th:"การมีส่วนร่วม"},
+ sk1s:{ja:"毎日ログインして稼ぐ",en:"Show up daily, earn",zh:"每日打卡赚积分",th:"เช็คอินทุกวัน"},
+ sk2t:{ja:"共感",en:"Identity",zh:"认同感",th:"อัตลักษณ์"},
+ sk2s:{ja:"Blackmores を語れる誇り",en:"Pride in the brand",zh:"以品牌为荣",th:"ภูมิใจในแบรนด์"},
+ sk3t:{ja:"帰属感",en:"Belonging",zh:"归属感",th:"ความเป็นส่วนหนึ่ง"},
+ sk3s:{ja:"クラブの一員に",en:"Part of the club",zh:"俱乐部一员",th:"สมาชิกของคลับ"},
+ sanLab:{ja:"三感",en:"Three Senses",zh:"三感",th:"สามความรู้สึก"},
+ // tabs
+ t_rp:{ja:"AI 接客ロールプレイ",en:"AI Role-Play",zh:"AI 接客陪练",th:"AI โรลเพลย์"},
+ t_learn:{ja:"学習センター",en:"Learning Center",zh:"学习中心",th:"ศูนย์เรียนรู้"},
+ t_tiers:{ja:"等級と昇格",en:"Tiers & Promotion",zh:"等级与晋升",th:"ระดับและเลื่อนขั้น"},
+ t_dash:{ja:"管理ダッシュボード",en:"Manager Dashboard",zh:"管理看板",th:"แดชบอร์ดผู้จัดการ"},
+ // role-play
+ scnLab:{ja:"シナリオを選ぶ",en:"Pick a scenario",zh:"选择场景",th:"เลือกสถานการณ์"},
+ axService:{ja:"接客話術",en:"Service",zh:"接客话术",th:"การบริการ"},
+ axProduct:{ja:"商品知識",en:"Product",zh:"商品知识",th:"ความรู้สินค้า"},
+ axCompliance:{ja:"コンプライアンス",en:"Compliance",zh:"合规",th:"คอมไพลแอนซ์"},
+ scoreLab:{ja:"AI 採点",en:"AI Scoring",zh:"AI 评分",th:"คะแนน AI"},
+ fbLab:{ja:"フィードバック",en:"Feedback",zh:"反馈",th:"ฟีดแบ็ก"},
+ modelLab:{ja:"模範解答",en:"Model answer",zh:"模范话术",th:"คำตอบตัวอย่าง"},
+ startRp:{ja:"このシナリオを始める ▶",en:"Start this scenario ▶",zh:"开始此场景 ▶",th:"เริ่มสถานการณ์นี้ ▶"},
+ pickScn:{ja:"左からシナリオを選ぶと、AI のお客様が登場します。",en:"Pick a scenario on the left — an AI customer appears.",zh:"在左侧选择场景，AI 顾客将登场。",th:"เลือกสถานการณ์ด้านซ้าย AI ลูกค้าจะปรากฏ"},
+ youReply:{ja:"あなたの返答を選ぶ",en:"Choose your reply",zh:"选择你的回复",th:"เลือกคำตอบ"},
+ typeHint:{ja:"自由入力（シミュレーション）…",en:"Type a reply (simulated)…",zh:"自由输入（模拟）…",th:"พิมพ์คำตอบ (จำลอง)…"},
+ send:{ja:"送信",en:"Send",zh:"发送",th:"ส่ง"},
+ custWho:{ja:"お客様 (AI)",en:"Customer (AI)",zh:"顾客 (AI)",th:"ลูกค้า (AI)"},
+ staffWho:{ja:"あなた",en:"You",zh:"你",th:"คุณ"},
+ finishRp:{ja:"AI 採点を見る ▶",en:"See AI scoring ▶",zh:"查看 AI 评分 ▶",th:"ดูคะแนน AI ▶"},
+ again:{ja:"もう一度",en:"Try again",zh:"再来一次",th:"ลองอีกครั้ง"},
+ ptGet:{ja:"ポイント獲得",en:"Points earned",zh:"获得积分",th:"ได้คะแนน"},
+ tierUpT:{ja:"昇格！シニアスタッフに",en:"Promoted! Senior Staff",zh:"晋升！高级店员",th:"เลื่อนขั้น! พนักงานอาวุโส"},
+ tierUpS:{ja:"累計ポイントがしきい値を超えました",en:"Cumulative points crossed the threshold",zh:"累计积分已越过门槛",th:"คะแนนสะสมถึงเกณฑ์แล้ว"},
+ typedSim:{ja:"（入力内容を AI が評価しました）",en:"(AI evaluated your input)",zh:"（AI 已评估你的输入）",th:"(AI ประเมินคำตอบแล้ว)"},
+ // e-learning
+ courseLab:{ja:"コース",en:"Courses",zh:"课程",th:"คอร์ส"},
+ catProduct:{ja:"商品知識",en:"Product Knowledge",zh:"商品知识",th:"ความรู้สินค้า"},
+ catService:{ja:"接客スキル",en:"Service Skills",zh:"接客技巧",th:"ทักษะบริการ"},
+ catComp:{ja:"コンプライアンス",en:"Compliance",zh:"合规",th:"คอมไพลแอนซ์"},
+ watch:{ja:"視聴",en:"Watch",zh:"观看",th:"ดู"},
+ watched:{ja:"視聴済み",en:"Watched",zh:"已观看",th:"ดูแล้ว"},
+ markDone:{ja:"レッスンを完了しました",en:"Lesson completed",zh:"已完成本课",th:"จบบทเรียนแล้ว"},
+ gatedBy:{ja:"確認テストは",en:"Test unlocks at",zh:"测验需",th:"ทดสอบปลดล็อกที่"},
+ tierReq:{ja:"等級で解放",en:"tier",zh:"等级解锁",th:"ระดับ"},
+ streakT:{ja:"連続チェックイン",en:"Check-in streak",zh:"连续打卡",th:"เช็คอินต่อเนื่อง"},
+ streakDays:{ja:"日",en:"days",zh:"天",th:"วัน"},
+ checkin:{ja:"今日 打刻 +5pt",en:"Check in +5pt",zh:"今日打卡 +5积分",th:"เช็คอิน +5"},
+ checkedin:{ja:"✓ 打刻済み",en:"✓ Checked in",zh:"✓ 已打卡",th:"✓ เช็คอินแล้ว"},
+ examLab:{ja:"確認テスト · 題庫プレビュー",en:"Test · Question bank preview",zh:"测验 · 题库预览",th:"ทดสอบ · ตัวอย่างคลังข้อสอบ"},
+ examIntro:{ja:"問題数は等級で増えます。題庫は知識領域から自動抽出。",en:"Question count scales by tier; items are drawn from the bank by knowledge area.",zh:"题量按等级增加；题目按知识领域自动抽取。",th:"จำนวนข้อเพิ่มตามระดับ ดึงจากคลังตามหัวข้อ"},
+ tier0:{ja:"見習い",en:"Apprentice",zh:"见习",th:"ฝึกหัด"},
+ tier1:{ja:"一般",en:"Regular",zh:"一般",th:"ทั่วไป"},
+ tier2:{ja:"シニア",en:"Senior",zh:"高级",th:"อาวุโส"},
+ tier3:{ja:"マイスター",en:"Meister",zh:"大师",th:"ไมสเตอร์"},
+ questions:{ja:"問",en:"Q",zh:"题",th:"ข้อ"},
+ qbankLab:{ja:"知識領域別 出題",en:"Items by knowledge area",zh:"按知识领域出题",th:"ข้อสอบตามหัวข้อ"},
+ sampleQ:{ja:"サンプル設問",en:"Sample questions",zh:"样题",th:"ตัวอย่างข้อสอบ"},
+ correct:{ja:"正解！",en:"Correct!",zh:"答对了！",th:"ถูกต้อง!"},
+ wrong:{ja:"惜しい…",en:"Not quite…",zh:"差一点…",th:"ยังไม่ใช่…"},
+ // tiers
+ tierH:{ja:"等級ラダーと能力レーダー",en:"Tier ladder & competency radar",zh:"等级阶梯与能力雷达",th:"บันไดระดับและเรดาร์ความสามารถ"},
+ tierS:{ja:"見習い → 一般 → シニア → マイスター。各等級に特典と必要ポイント。",en:"Apprentice → Regular → Senior → Meister, each with benefits and points-to-next.",zh:"见习 → 一般 → 高级 → 大师，各级有特典与所需积分。",th:"ฝึกหัด → ทั่วไป → อาวุโส → ไมสเตอร์ แต่ละระดับมีสิทธิประโยชน์"},
+ toNext:{ja:"次の等級まで",en:"To next tier",zh:"距下一级",th:"ถึงระดับถัดไป"},
+ pts:{ja:"pt",en:"pt",zh:"分",th:"pt"},
+ promoH:{ja:"昇格試験フロー",en:"Promotion exam flow",zh:"晋升考核流程",th:"ขั้นตอนสอบเลื่อนขั้น"},
+ promoS:{ja:"学習完了から デジタル認定証 まで。",en:"From course completion to a digital certificate.",zh:"从学习完成到数字认证证书。",th:"จากเรียนจบถึงใบรับรองดิจิทัล"},
+ certH:{ja:"デジタル認定証",en:"Digital Certificate",zh:"数字认证证书",th:"ใบรับรองดิจิทัล"},
+ certS:{ja:"認定されると発行されます。",en:"Issued on certification.",zh:"认证后颁发。",th:"ออกเมื่อผ่านการรับรอง"},
+ // tier benefits
+ ben0:{ja:"基礎研修・商品サンプル",en:"Basic training · samples",zh:"基础培训·商品样品",th:"อบรมพื้นฐาน·ตัวอย่าง"},
+ ben1:{ja:"ポイント標準・全コース",en:"Standard points · all courses",zh:"标准积分·全部课程",th:"คะแนนมาตรฐาน·ทุกคอร์ส"},
+ ben2:{ja:"ポイント1.1倍・限定研修",en:"1.1× points · exclusive training",zh:"积分1.1倍·限定培训",th:"คะแนน1.1×·อบรมพิเศษ"},
+ ben3:{ja:"ポイント1.25倍・店舗指導員",en:"1.25× points · store mentor",zh:"积分1.25倍·门店导师",th:"คะแนน1.25×·พี่เลี้ยงร้าน"},
+ // promo steps
+ ps0:{ja:"学習完了",en:"Courses complete",zh:"学习完成",th:"เรียนจบ"},
+ ps1:{ja:"確認テスト合格",en:"Pass the test",zh:"通过测验",th:"ผ่านการทดสอบ"},
+ ps2:{ja:"ロールプレイ動画 提出",en:"Submit role-play video",zh:"提交实战录像",th:"ส่งวิดีโอโรลเพลย์"},
+ ps3:{ja:"認定",en:"Certified",zh:"认定",th:"รับรอง"},
+ ps4:{ja:"デジタル認定証 発行",en:"Certificate issued",zh:"颁发证书",th:"ออกใบรับรอง"},
+ ps0s:{ja:"商品・接客・コンプラ全コース 100%",en:"All product/service/compliance courses 100%",zh:"商品/接客/合规全课程100%",th:"ทุกคอร์ส 100%"},
+ ps1s:{ja:"確認テスト 80% 以上",en:"Score ≥80% on the test",zh:"测验≥80%",th:"คะแนน≥80%"},
+ ps2s:{ja:"接客ロールプレイを録画して提出",en:"Record and submit a service role-play",zh:"录制并提交接客实战",th:"บันทึกและส่งโรลเพลย์"},
+ ps3s:{ja:"店長・本部が承認",en:"Approved by manager & HQ",zh:"店长与总部审批",th:"ผู้จัดการและสำนักงานใหญ่อนุมัติ"},
+ ps4s:{ja:"クラブ証として表示",en:"Shown as your club badge",zh:"作为俱乐部徽章展示",th:"แสดงเป็นแบดจ์คลับ"},
+ certTitle:{ja:"認定 スタッフ",en:"Certified Staff",zh:"认证店员",th:"พนักงานรับรอง"},
+ certProg:{ja:"Blackmores スタッフクラブ 育成プログラム",en:"Blackmores Staff Club Training Program",zh:"Blackmores 店员俱乐部育成计划",th:"โปรแกรม Blackmores Staff Club"},
+ certName:{ja:"Emma Walker",en:"Emma Walker",zh:"Emma Walker",th:"Emma Walker"},
+ certStore:{ja:"Chemist Warehouse 悉尼",en:"Chemist Warehouse Sydney",zh:"Chemist Warehouse 悉尼",th:"Chemist Warehouse Sydney"},
+ certDate:{ja:"認定日",en:"Issued",zh:"认定日",th:"วันที่ออก"},
+ certId:{ja:"認定番号",en:"Cert. ID",zh:"认证编号",th:"รหัส"},
+ // radar axes labels for tiers
+ rA1:{ja:"商品知識",en:"Product",zh:"商品知识",th:"สินค้า"},
+ rA2:{ja:"接客",en:"Service",zh:"接客",th:"บริการ"},
+ rA3:{ja:"コンプラ",en:"Compliance",zh:"合规",th:"คอมไพลแอนซ์"},
+ rA4:{ja:"リーダーシップ",en:"Leadership",zh:"领导力",th:"ภาวะผู้นำ"},
+ // dashboard
+ dStores:{ja:"対象店舗",en:"Stores",zh:"门店",th:"ร้าน"},
+ dStaff:{ja:"登録スタッフ",en:"Staff",zh:"店员",th:"พนักงาน"},
+ dComp:{ja:"修了率",en:"Completion",zh:"完成率",th:"จบหลักสูตร"},
+ dPass:{ja:"コンプラ合格率",en:"Compliance pass",zh:"合规通过率",th:"ผ่านคอมไพลแอนซ์"},
+ gridH:{ja:"店舗 × スタッフ 進捗",en:"Store × staff progress",zh:"门店 × 店员 进度",th:"ร้าน × พนักงาน"},
+ gridS:{ja:"修了率・等級・最終ログインを一覧で。",en:"Completion %, tier and last-active at a glance.",zh:"完成率、等级、最近活跃一览。",th:"เปอร์เซ็นต์ ระดับ และล่าสุด"},
+ colStaff:{ja:"スタッフ / 店舗",en:"Staff / store",zh:"店员 / 门店",th:"พนักงาน / ร้าน"},
+ colProg:{ja:"修了率",en:"Progress",zh:"完成率",th:"ความคืบหน้า"},
+ colTier:{ja:"等級",en:"Tier",zh:"等级",th:"ระดับ"},
+ colLast:{ja:"最終ログイン",en:"Last active",zh:"最近活跃",th:"ใช้งานล่าสุด"},
+ heatH:{ja:"スキルマトリクス",en:"Skill matrix",zh:"技能矩阵",th:"เมทริกซ์ทักษะ"},
+ heatS:{ja:"弱点（赤）を店舗別に把握。",en:"Spot weak areas (red) by store.",zh:"按门店发现弱项（红）。",th:"หาจุดอ่อน(แดง)ตามร้าน"},
+ lbH:{ja:"リーダーボード",en:"Leaderboard",zh:"排行榜",th:"ลีดเดอร์บอร์ด"},
+ lbS:{ja:"今月の獲得ポイント上位。",en:"Top points earners this month.",zh:"本月积分前列。",th:"ผู้ทำคะแนนสูงสุด"},
+ engH:{ja:"三感 エンゲージメント",en:"Three-Senses engagement",zh:"三感参与度",th:"การมีส่วนร่วมสามความรู้สึก"},
+ engS:{ja:"参加感・共感・帰属感を計測。",en:"Measuring participation, identity and belonging.",zh:"度量参与、认同与归属。",th:"วัดการมีส่วนร่วม อัตลักษณ์ และความเป็นส่วนหนึ่ง"},
+ mParticip:{ja:"参加率",en:"Participation",zh:"参与率",th:"การมีส่วนร่วม"},
+ mIdentity:{ja:"共感スコア",en:"Identity",zh:"认同分",th:"อัตลักษณ์"},
+ mBelong:{ja:"帰属感",en:"Belonging",zh:"归属感",th:"ความเป็นส่วนหนึ่ง"}
+};
+
+// ---- knowledge areas ----
+const KAREAS=[
+ {k:"immunity",nm:{ja:"免疫サポート（VC・乳酸菌）",en:"Immunity (Vit C, Probiotics)",zh:"免疫支持（维C·益生菌）",th:"ภูมิคุ้มกัน (Vit C·โปรไบโอติก)"},pct:34},
+ {k:"omega",nm:{ja:"オメガ3・フィッシュオイル",en:"Omega-3 / Fish Oil",zh:"Omega-3·鱼油",th:"Omega-3·น้ำมันปลา"},pct:22},
+ {k:"pregjoint",nm:{ja:"妊娠期・関節サポート",en:"Pregnancy & Joint health",zh:"孕期·关节支持",th:"ตั้งครรภ์·ข้อต่อ"},pct:18},
+ {k:"sleepmulti",nm:{ja:"睡眠・マルチビタミン",en:"Sleep & Multivitamin",zh:"睡眠·复合维生素",th:"การนอน·มัลติวิตามิน"},pct:14},
+ {k:"comp",nm:{ja:"TGA 広告規範・保健食品表示",en:"TGA code & health-claim rules",zh:"TGA规范·保健食品声称",th:"กฎ TGA·การกล่าวอ้าง"},pct:12}
+];
+
+// ---- TAB1 scenarios ----
+const SCENARIOS=[
+ {id:"bio",tag:{ja:"提案",en:"Recommend",zh:"提案",th:"เสนอ"},
+  nm:{ja:"風邪をひきやすい客への免疫サポート",en:"Immunity for frequent colds",zh:"易感冒顾客的免疫支持",th:"ภูมิคุ้มกันสำหรับคนเป็นหวัดบ่อย"},
+  sl:{ja:"よく風邪をひくお客様に免疫サポートを薦める",en:"Suggest immunity support to a customer who catches colds often",zh:"向常感冒的顾客推荐免疫支持",th:"แนะนำภูมิคุ้มกันให้ลูกค้าที่เป็นหวัดบ่อย"},
+  open:{ja:"最近よく風邪をひいてしまって…免疫によさそうなもの、何かありますか?",en:"I keep catching colds lately — is there anything good for immunity?",zh:"我最近老感冒…有什么对免疫力好的吗?",th:"ช่วงนี้เป็นหวัดบ่อยมาก มีอะไรช่วยเรื่องภูมิคุ้มกันไหมคะ"},
+  replies:[
+   {q:"good",t:{ja:"免疫の維持をサポートしたい方には、ビタミンC や乳酸菌（プロバイオティクス）、マルチビタミンが人気です。Blackmores はオーストラリア TGA 認証で品質も安心。生活習慣と合わせて続けやすいですよ。",en:"For everyday immune support, our Vitamin C, Probiotics and Multivitamin are popular. Blackmores is TGA-certified in Australia, so quality is assured — and they're easy to keep up alongside healthy habits.",zh:"想支持免疫力维持的话，维生素C、益生菌和复合维生素都很受欢迎。Blackmores 通过澳洲 TGA 认证，品质有保障，配合作息容易坚持。",th:"สำหรับดูแลภูมิคุ้มกันประจำวัน Vitamin C โปรไบโอติก และมัลติวิตามินได้รับความนิยม Blackmores ผ่าน TGA ออสเตรเลีย คุณภาพมั่นใจ และกินต่อเนื่องง่าย"}},
+   {q:"ok",t:{ja:"こちらのビタミンC が人気です。",en:"This Vitamin C one is popular.",zh:"这款维生素C 挺受欢迎的。",th:"Vitamin C ตัวนี้ขายดีค่ะ"}},
+   {q:"bad",t:{ja:"これを飲めばもう風邪をひかなくなりますよ。",en:"Take this and you'll never catch a cold again.",zh:"吃这个你就再也不会感冒了。",th:"กินตัวนี้แล้วจะไม่เป็นหวัดอีกเลย"}}],
+  follow:{ja:"なるほど。でも毎日飲むなら値段も気になって…続けられるか不安です。",en:"I see. But if it's daily, the price matters — not sure I can keep it up.",zh:"原来如此。但每天吃的话价格也得考虑…怕坚持不了。",th:"เข้าใจแล้ว แต่ถ้ากินทุกวันก็ห่วงราคา ไม่แน่ใจว่าจะกินต่อได้"},
+  replies2:[
+   {q:"good",t:{ja:"大容量ボトルだと1日あたりお得ですし、まずは小サイズで習慣づけを。免疫は『維持をサポート』するもので、続けやすさが大切です。",en:"A larger bottle lowers the daily cost — start with a smaller size to build the habit. These support the maintenance of immune health, so consistency is what matters.",zh:"大瓶装算下来每天更划算，先用小份养成习惯。这类产品是'支持免疫力维持'，关键在于坚持。",th:"ขวดใหญ่คุ้มกว่าต่อวัน เริ่มขนาดเล็กสร้างนิสัยก่อน กลุ่มนี้ช่วย'ดูแลภูมิคุ้มกัน' ความสม่ำเสมอสำคัญ"}},
+   {q:"ok",t:{ja:"うーん、高くはないと思いますよ。",en:"Hmm, I don't think it's expensive.",zh:"嗯，我觉得不算贵。",th:"อืม ไม่แพงนะคะ"}},
+   {q:"bad",t:{ja:"健康のためなら値段は気にしない方がいいですよ、絶対に効きますから。",en:"For your health you shouldn't worry about price — it definitely works.",zh:"为了健康别在意价格，绝对有效。",th:"เพื่อสุขภาพอย่าสนราคา ได้ผลแน่นอน"}}],
+  model:{ja:"共感 → 免疫サポート（VC・乳酸菌・マルチ）を提案 → 価格・継続の不安に大容量/小サイズで応える。『風邪が治る/防げる』とは断定せず『維持をサポート』『続けやすさ』を訴求。TGA 認証は品質の裏付けとして言及可。",en:"Empathize → suggest immune support (Vit C / Probiotics / Multi) → answer the price/continuity worry with bottle size. Never claim it cures or prevents colds; say it 'supports the maintenance of immune health' and sell consistency. TGA certification may be cited as a quality credential.",zh:"先共情 → 提议免疫支持（维C/益生菌/复合维）→ 用大瓶/小份回应价格与坚持顾虑。不断言'能治/能防感冒'，主打'支持免疫力维持'与'容易坚持'。TGA 认证可作为品质背书提及。",th:"เห็นใจ → เสนอภูมิคุ้มกัน(Vit C/โปรไบโอติก/มัลติ) → ตอบเรื่องราคา/ต่อเนื่องด้วยขนาดขวด ห้ามอ้างว่ารักษา/ป้องกันหวัด ใช้คำ'ดูแลภูมิคุ้มกัน'เน้นความสม่ำเสมอ อ้าง TGA เป็นเครื่องยืนยันคุณภาพได้"}},
+ {id:"expiry",tag:{ja:"法令",en:"Compliance",zh:"合规",th:"คอมไพลแอนซ์"},
+  nm:{ja:"『フィッシュオイルで関節炎は治る?』",en:"'Does fish oil cure arthritis?'",zh:"'鱼油能治关节炎吗?'",th:"'น้ำมันปลารักษาข้ออักเสบได้ไหม'"},
+  sl:{ja:"効能を聞かれ、TGA 準拠の答え方が問われる場面",en:"A cure question that needs a TGA-compliant answer",zh:"被问疗效，需要符合TGA的回答",th:"คำถามเรื่องรักษาที่ต้องตอบให้ถูก TGA"},
+  open:{ja:"母が関節が痛いって言ってて…フィッシュオイルを飲めば関節炎が治るんですか?",en:"My mum has joint pain — does taking fish oil cure arthritis?",zh:"我妈关节痛…吃鱼油能把关节炎治好吗?",th:"แม่ปวดข้อ กินน้ำมันปลาแล้วข้ออักเสบหายไหมคะ"},
+  replies:[
+   {q:"good",t:{ja:"『治る』とは申し上げられないのですが、オメガ3（フィッシュオイル）は関節の健康の維持をサポートする栄養素として知られています。痛みが続く場合は医師にご相談を、そのうえで日々のケアとして取り入れる方が多いです。",en:"I can't say it cures arthritis, but Omega-3 (fish oil) is well known to support joint health. If the pain persists she should see a doctor — many people use it as part of their daily joint care alongside that.",zh:"不能说'能治'，但 Omega-3（鱼油）作为支持关节健康维持的营养素广为人知。若疼痛持续请就医，很多人在此基础上把它作为日常关节保养。",th:"พูดว่า'รักษา'ไม่ได้ค่ะ แต่ Omega-3(น้ำมันปลา)เป็นที่รู้จักว่าช่วยดูแลสุขภาพข้อต่อ ถ้าปวดต่อเนื่องควรพบแพทย์ หลายคนใช้เป็นการดูแลข้อประจำวันควบคู่กัน"}},
+   {q:"ok",t:{ja:"関節にはいいって言われてますよ。",en:"It's said to be good for joints.",zh:"据说对关节好。",th:"ว่ากันว่าดีต่อข้อค่ะ"}},
+   {q:"bad",t:{ja:"はい、毎日飲めば関節炎は治りますよ。",en:"Yes, take it daily and the arthritis will be cured.",zh:"会的，每天吃关节炎就能治好。",th:"ได้ค่ะ กินทุกวันข้ออักเสบหาย"}}],
+  follow:{ja:"そうなんですね。じゃあ関節にはどう役立つんですか?",en:"I see. So how does it actually help the joints?",zh:"这样啊。那它对关节到底怎么有帮助?",th:"งั้นมันช่วยข้อต่อยังไงคะ"},
+  replies2:[
+   {q:"good",t:{ja:"オメガ3 は体内で作れない必須脂肪酸で、関節の健康維持に関わる栄養素として摂取が勧められます。効果には個人差があり、特定の病気を治すという説明はできない決まりです。診断・治療はあくまで医師の領域です。",en:"Omega-3 is an essential fatty acid the body can't make, recommended as a nutrient that contributes to maintaining joint health. Effects vary by person, and the rules don't allow me to say it treats a specific disease — diagnosis and treatment are a doctor's role.",zh:"Omega-3 是人体无法自行合成的必需脂肪酸，作为有助于维持关节健康的营养素被建议摄取。效果因人而异，按规定不能说能治某种病——诊断与治疗属于医生范畴。",th:"Omega-3 เป็นกรดไขมันจำเป็นที่ร่างกายสร้างเองไม่ได้ แนะนำเป็นสารอาหารที่ช่วยดูแลสุขภาพข้อ ผลแล้วแต่บุคคล และตามกฎพูดว่ารักษาโรคไม่ได้ การวินิจฉัยรักษาเป็นหน้าที่แพทย์"}},
+   {q:"ok",t:{ja:"体にいい油らしいですよ。",en:"It's apparently a healthy kind of oil.",zh:"好像是对身体好的油。",th:"เหมือนเป็นน้ำมันที่ดีต่อร่างกาย"}},
+   {q:"bad",t:{ja:"炎症が消えて痛みもなくなって、薬もいらなくなりますよ。",en:"The inflammation goes, the pain stops, and she won't need medication.",zh:"炎症会消、疼痛会没、连药都不用吃了。",th:"การอักเสบหาย ปวดหาย ไม่ต้องใช้ยา"}}],
+  model:{ja:"『治る』『薬がいらない』等の医療的断定は TGA 広告規範に抵触。オメガ3 は『関節の健康維持をサポート』と栄養素ベースで説明し、痛みが続く場合は医師相談を促す。診断・治療は医師の領域と線引きする。",en:"Claiming a cure or 'no medication needed' breaches the TGA Advertising Code. Describe Omega-3 as a nutrient that 'supports joint health,' and direct persistent pain to a doctor — diagnosis and treatment are the doctor's domain, not the supplement's.",zh:"宣称'能治''不用吃药'等医疗性断言触犯 TGA 广告规范。应以营养素角度说明 Omega-3'支持关节健康维持'，疼痛持续则建议就医，明确诊断治疗属医生范畴。",th:"การอ้าง'รักษา'หรือ'ไม่ต้องใช้ยา'ผิด TGA Code อธิบาย Omega-3 ว่า'ช่วยดูแลสุขภาพข้อ'เชิงสารอาหาร ถ้าปวดต่อเนื่องแนะพบแพทย์ การวินิจฉัยรักษาเป็นของแพทย์"}},
+ {id:"allergy",tag:{ja:"安全",en:"Safety",zh:"安全",th:"ความปลอดภัย"},
+  nm:{ja:"妊娠中のお客様への提案",en:"Pregnancy customer",zh:"孕期顾客应对",th:"ลูกค้าตั้งครรภ์"},
+  sl:{ja:"妊娠中に飲めるサプリを聞かれたとき",en:"When asked what's safe to take during pregnancy",zh:"被问孕期能吃哪种补充品时",th:"เมื่อถามว่าตั้งครรภ์กินอะไรได้"},
+  open:{ja:"今 妊娠中なんですが…妊婦でも飲めるサプリってありますか?",en:"I'm pregnant at the moment — is there a supplement that's suitable during pregnancy?",zh:"我现在怀孕了…有适合孕妇吃的补充品吗?",th:"ตอนนี้ตั้งครรภ์อยู่ค่ะ มีอาหารเสริมที่เหมาะกับคนท้องไหม"},
+  replies:[
+   {q:"good",t:{ja:"おめでとうございます。妊娠期向けには Blackmores Pregnancy Gold（プレグナンシー ゴールド）があり、葉酸や鉄など妊娠期に必要とされる栄養素を配合しています。ただ体調は人それぞれですので、開始前に必ず医師か助産師にご相談くださいね。",en:"Congratulations! For pregnancy we have Blackmores Pregnancy Gold, formulated with folate, iron and other nutrients relevant during pregnancy. Everyone's situation differs, though, so please check with your doctor or midwife before starting.",zh:"恭喜您。孕期可看 Blackmores Pregnancy Gold（孕期黄金），含叶酸、铁等孕期所需营养素。不过每个人情况不同，开始前请务必先咨询医生或助产士。",th:"ยินดีด้วยค่ะ สำหรับตั้งครรภ์มี Blackmores Pregnancy Gold ที่มีโฟเลต ธาตุเหล็ก และสารอาหารที่จำเป็นช่วงตั้งครรภ์ แต่ละคนต่างกัน ก่อนเริ่มควรปรึกษาแพทย์หรือผดุงครรภ์ค่ะ"}},
+   {q:"ok",t:{ja:"妊婦さん向けのものならこちらですね。",en:"For expecting mums, this would be the one.",zh:"孕妇用的话是这款。",th:"สำหรับคนท้องก็ตัวนี้ค่ะ"}},
+   {q:"bad",t:{ja:"妊娠中なら何でも栄養があった方がいいので、これ全部飲んで大丈夫ですよ。",en:"While pregnant the more nutrients the better — you can take all of these, no problem.",zh:"怀孕嘛营养越多越好，这些都吃没问题。",th:"ท้องอยู่ยิ่งได้สารอาหารยิ่งดี กินหมดนี่ได้เลยไม่เป็นไร"}}],
+  follow:{ja:"葉酸が大事って聞きました。医師に相談ってことは、自己判断で増やしたりしない方がいいですか?",en:"I've heard folate matters. If I should ask a doctor, does that mean I shouldn't just increase the dose myself?",zh:"听说叶酸很重要。既然要问医生，是不是不该自己加量?",th:"ได้ยินว่าโฟเลตสำคัญ ถ้าต้องถามหมอ แปลว่าไม่ควรเพิ่มขนาดเองใช่ไหม"},
+  replies2:[
+   {q:"good",t:{ja:"はい、その通りです。用法・用量は表示どおりに守り、自己判断で重ね飲みや増量はしないでくださいね。他に服用中の薬やサプリがある場合も含めて、医師・助産師に確認いただくのが一番安心です。",en:"Exactly. Follow the dose on the label and don't stack products or increase it on your own. It's safest to confirm with your doctor or midwife — especially if you're taking any other medicines or supplements.",zh:"是的，没错。请按标示的用法用量服用，不要自行叠加或加量。若还在服用其他药物或补充品，也请一并向医生或助产士确认最稳妥。",th:"ใช่ค่ะ ทำตามขนาดบนฉลาก อย่าซ้อนหรือเพิ่มเอง ปลอดภัยที่สุดคือยืนยันกับแพทย์หรือผดุงครรภ์ โดยเฉพาะถ้ามียาหรืออาหารเสริมอื่นอยู่"}},
+   {q:"ok",t:{ja:"だいたい表示どおりで大丈夫だと思いますよ。",en:"Roughly following the label should be fine.",zh:"大致按标示来应该没问题。",th:"ทำตามฉลากคร่าวๆก็น่าจะโอเค"}},
+   {q:"bad",t:{ja:"葉酸は多いほど赤ちゃんにいいので、倍くらい飲んで大丈夫ですよ。",en:"More folate is better for the baby, so taking double is fine.",zh:"叶酸越多对宝宝越好，吃双倍也没事。",th:"โฟเลตยิ่งเยอะยิ่งดีต่อลูก กินเท่าตัวก็ได้"}}],
+  model:{ja:"妊娠期は Blackmores Pregnancy Gold を案内しつつ、必ず『医師・助産師に相談』を促す。用法用量を守り、自己判断の増量・重ね飲みは勧めない。『何でも飲んで大丈夫』『多いほどよい』等の断定は禁物=安全最優先。",en:"Recommend Blackmores Pregnancy Gold but always direct to 'consult your doctor or midwife.' Stress following the label dose; never encourage self-dosing or stacking. Avoid claims like 'take anything' or 'more is better' — safety first.",zh:"孕期可介绍 Blackmores Pregnancy Gold，但务必引导'咨询医生或助产士'。强调遵守用法用量，不鼓励自行加量或叠加。禁止'什么都能吃''越多越好'等断言——安全第一。",th:"แนะ Blackmores Pregnancy Gold แต่ต้องให้'ปรึกษาแพทย์หรือผดุงครรภ์'เสมอ เน้นทำตามขนาดบนฉลาก ไม่สนับสนุนเพิ่มเองหรือซ้อน เลี่ยงคำ'กินอะไรก็ได้''ยิ่งเยอะยิ่งดี' ปลอดภัยมาก่อน"}},
+ {id:"health",tag:{ja:"信頼",en:"Credentials",zh:"信任",th:"ความน่าเชื่อถือ"},
+  nm:{ja:"AUST L・豪州製・第三者検査の説明",en:"Explain AUST L & Aussie credentials",zh:"AUST L·澳洲制造·第三方检测说明",th:"อธิบาย AUST L·ผลิตออสเตรเลีย"},
+  sl:{ja:"『安いブランドと何が違うの?』と聞かれたとき",en:"When asked 'why is this different from cheaper brands?'",zh:"被问'和便宜的牌子有什么不同?'时",th:"เมื่อถูกถาม'ต่างจากยี่ห้อถูกๆยังไง'"},
+  open:{ja:"似たようなサプリ、もっと安いのもあるけど…Blackmores は何がそんなに違うんですか?",en:"There are cheaper supplements that look the same — what makes Blackmores so different?",zh:"差不多的补充品也有更便宜的…Blackmores 到底有什么不一样?",th:"อาหารเสริมแบบเดียวกันมีถูกกว่า Blackmores ต่างยังไงคะ"},
+  replies:[
+   {q:"good",t:{ja:"Blackmores はオーストラリア製で、パッケージの『AUST L』番号は豪州 TGA に登録された証です。原材料の品質管理や第三者試験も行っており、表示どおりの中身であることが裏付けられています。",en:"Blackmores is made in Australia, and the 'AUST L' number on the pack means it's listed with Australia's TGA. We also apply quality control on ingredients and third-party testing, so you can trust the contents match the label.",zh:"Blackmores 是澳洲制造，包装上的『AUST L』编号代表已在澳洲 TGA 登记。原料有品质管控、并经第三方检测，能佐证内容与标示一致。",th:"Blackmores ผลิตในออสเตรเลีย เลข'AUST L'บนกล่องคือขึ้นทะเบียนกับ TGA มีการควบคุมคุณภาพวัตถุดิบและทดสอบโดยบุคคลที่สาม จึงมั่นใจได้ว่าตรงตามฉลาก"}},
+   {q:"ok",t:{ja:"有名なブランドなので品質はいいと思いますよ。",en:"It's a well-known brand, so the quality should be good.",zh:"是有名的牌子，品质应该不错。",th:"เป็นแบรนด์ดัง คุณภาพน่าจะดีค่ะ"}},
+   {q:"bad",t:{ja:"高い分だけ効果も全然違いますし、安いのは効きませんよ。",en:"It costs more so it works far better — the cheap ones just don't work.",zh:"贵自然效果完全不同，便宜的没用。",th:"แพงกว่าก็ได้ผลกว่ามาก ของถูกไม่ได้ผล"}}],
+  follow:{ja:"AUST L ってよく見ますけど、それって効くって意味ですか?",en:"I see 'AUST L' a lot — does it mean the product is proven to work?",zh:"我常看到 AUST L，那是不是代表它有效?",th:"เห็น'AUST L'บ่อย แปลว่าพิสูจน์ว่าได้ผลใช่ไหม"},
+  replies2:[
+   {q:"good",t:{ja:"AUST L は『品質・安全・適正な表示』の面で TGA に登録された低リスク製品であることを示すもので、効能を保証する印ではありません。商品としては『健康の維持をサポート』する位置づけで、特定の病気を治すものではない点はお伝えしておきますね。",en:"AUST L shows the product is listed with the TGA as a lower-risk product for quality, safety and lawful labelling — it isn't a stamp that guarantees efficacy. These products are positioned to 'support the maintenance of health,' not to treat any specific disease, just so that's clear.",zh:"AUST L 表示该产品在品质、安全与合规标示方面已在 TGA 登记为低风险产品，并不是疗效保证。产品定位是『支持健康维持』，并非用于治疗特定疾病，这点先跟您说明。",th:"AUST L แสดงว่าขึ้นทะเบียน TGA เป็นผลิตภัณฑ์ความเสี่ยงต่ำด้านคุณภาพ ความปลอดภัย และฉลากถูกต้อง ไม่ใช่ตรารับประกันสรรพคุณ ผลิตภัณฑ์วางตำแหน่งเป็น'ช่วยดูแลสุขภาพ' ไม่ใช่รักษาโรคค่ะ"}},
+   {q:"ok",t:{ja:"登録されてるってことなので、まあ安心の印ですね。",en:"It means it's registered, so it's a reassurance mark of sorts.",zh:"代表有登记，算是个安心标志。",th:"แปลว่าขึ้นทะเบียน ถือเป็นเครื่องหมายอุ่นใจ"}},
+   {q:"bad",t:{ja:"はい、AUST L が付いてれば効果は国が保証してますよ。",en:"Yes — if it has AUST L, the government guarantees it works.",zh:"是的，有 AUST L 就是国家保证有效。",th:"ใช่ค่ะ มี AUST L คือรัฐรับรองว่าได้ผล"}}],
+  model:{ja:"AUST L・豪州製・第三者検査は『品質・安全・適正表示』の裏付けとして説明できる。ただし AUST L を『効能の保証』『国が効果を保証』と説明するのは誤りで TGA 規範に抵触。価格差を『安いのは効かない』と他社を貶める断定もNG。『健康維持をサポート、病気は治さない』の線引きを添える。",en:"AUST L, Australian-made and third-party testing can be cited as backing for quality, safety and lawful labelling. But framing AUST L as a guarantee of efficacy (or 'government-guaranteed results') is wrong and breaches the TGA code. Disparaging cheaper rivals as 'they don't work' is also off-limits. Add the line: supports health maintenance, not a cure.",zh:"AUST L、澳洲制造、第三方检测可作为品质、安全与合规标示的背书。但把 AUST L 说成『疗效保证』『国家保证有效』是错误的，触犯 TGA 规范。以『便宜的没用』贬低同行的断言同样不可。补一句:支持健康维持、并非治病。",th:"AUST L ผลิตออสเตรเลีย และทดสอบบุคคลที่สามใช้อ้างด้านคุณภาพ ความปลอดภัย ฉลากถูกต้องได้ แต่บอกว่า AUST L รับประกันสรรพคุณ/รัฐรับรองว่าได้ผล ผิด TGA Code การดูถูกคู่แข่งว่า'ของถูกไม่ได้ผล'ก็ไม่ได้ เสริมว่า:ช่วยดูแลสุขภาพ ไม่ใช่รักษาโรค"}}
+];
+
+// scoring profiles per reply quality: [service, product, compliance]
+function scoreFor(scn,c1,c2){
+ // base on choice qualities
+ const map={good:[34,33,33],ok:[24,22,24],bad:[14,10,8]};
+ const w={good:1,ok:.7,bad:.4};
+ // service from both, product weighted to first, compliance weighted to second
+ const a1=map[c1],a2=map[c2];
+ let svc=Math.round((a1[0]+a2[0])/2 + (w[c1]+w[c2])*2);
+ let prod=Math.round(a1[1]*0.6+a2[1]*0.4 + (w[c1])*8);
+ let comp=Math.round(a1[2]*0.4+a2[2]*0.6 + (w[c2])*10);
+ const cl=v=>Math.max(8,Math.min(98,v));
+ return {svc:cl(svc),prod:cl(prod),comp:cl(comp),c1,c2};
+}
+function fbFor(c1,c2){
+ const fb=[];
+ if(c1==="good")fb.push({pos:1,t:{ja:"冒頭で共感し、ニーズを的確に捉えた",en:"Empathized first and read the need well",zh:"开场共情，准确把握需求",th:"เห็นใจก่อนและเข้าใจความต้องการ"}});
+ else fb.push({pos:0,t:{ja:"最初の一言で共感・ニーズ把握が弱い",en:"Weak empathy/needs-reading in the opener",zh:"开场共情与需求把握偏弱",th:"การเห็นใจตอนเปิดยังอ่อน"}});
+ if(c2==="good")fb.push({pos:1,t:{ja:"反論・不安に具体策で応えた",en:"Answered the objection with a concrete option",zh:"用具体方案回应顾虑",th:"ตอบข้อกังวลด้วยทางเลือกชัดเจน"}});
+ else fb.push({pos:0,t:{ja:"不安への具体策が不足",en:"Lacked a concrete answer to the worry",zh:"对顾虑缺少具体应对",th:"ขาดทางเลือกชัดเจน"}});
+ if(c2==="bad"||c1==="bad")fb.push({pos:0,t:{ja:"断定・誇張表現の恐れ（コンプラ要注意）",en:"Risk of overstated/assertive claims (compliance)",zh:"存在断言/夸大表述风险（合规注意）",th:"เสี่ยงพูดเกินจริง(คอมไพลแอนซ์)"}});
+ else fb.push({pos:1,t:{ja:"断定を避け、表現はコンプラ的に安全",en:"Avoided assertions; phrasing was compliance-safe",zh:"避免断言，表述合规安全",th:"เลี่ยงการยืนยัน ปลอดภัยตามกฎ"}});
+ return fb;
+}
+
+// e-learning courses
+const COURSES={
+ product:[
+  {nm:{ja:"免疫サポートの基礎",en:"Immunity support basics",zh:"免疫支持基础",th:"พื้นฐานภูมิคุ้มกัน"},pct:80,
+   lessons:[{t:{ja:"ビタミンC と乳酸菌",en:"Vitamin C & probiotics",zh:"维生素C 与益生菌",th:"Vitamin C·โปรไบโอติก"},done:1},{t:{ja:"免疫ケアのトレンドと客層",en:"Immunity trend & shoppers",zh:"免疫保养趋势与客层",th:"เทรนด์ภูมิคุ้มกัน"},done:1},{t:{ja:"免疫サポートの薦め方",en:"How to recommend immunity range",zh:"如何推荐免疫产品",th:"วิธีแนะกลุ่มภูมิคุ้มกัน"},done:0}],gate:1},
+  {nm:{ja:"オメガ3・フィッシュオイル",en:"Omega-3 / Fish Oil",zh:"Omega-3·鱼油",th:"Omega-3·น้ำมันปลา"},pct:50,
+   lessons:[{t:{ja:"オメガ3 とは（EPA/DHA）",en:"What is Omega-3 (EPA/DHA)",zh:"什么是 Omega-3（EPA/DHA）",th:"Omega-3 คืออะไร"},done:1},{t:{ja:"心臓・関節の健康訴求",en:"Heart & joint health angle",zh:"心脏与关节健康卖点",th:"หัวใจ·ข้อต่อ"},done:0}],gate:1},
+  {nm:{ja:"妊娠期・関節サポート",en:"Pregnancy & joint health",zh:"孕期·关节支持",th:"ตั้งครรภ์·ข้อต่อ"},pct:33,
+   lessons:[{t:{ja:"Pregnancy Gold と葉酸",en:"Pregnancy Gold & folate",zh:"Pregnancy Gold 与叶酸",th:"Pregnancy Gold·โฟเลต"},done:1},{t:{ja:"妊婦・保護者への声かけ",en:"Talking to expecting customers",zh:"对孕期顾客的话术",th:"พูดกับลูกค้าตั้งครรภ์"},done:0},{t:{ja:"関節サポートの陳列とPOP",en:"Joint range display & POP",zh:"关节产品陈列与POP",th:"จัดวาง·POP"},done:0}],gate:1},
+  {nm:{ja:"睡眠・マルチビタミン入門",en:"Sleep & multivitamin intro",zh:"睡眠·复合维生素入门",th:"การนอน·มัลติวิตามิน"},pct:100,
+   lessons:[{t:{ja:"睡眠・ストレスケアの基礎",en:"Sleep & stress support basics",zh:"睡眠与压力保养基础",th:"การนอน·ความเครียด"},done:1},{t:{ja:"日々の栄養補給の案内",en:"Guiding everyday nutrition",zh:"引导日常营养补充",th:"โภชนาการประจำวัน"},done:1}],gate:1}],
+ service:[
+  {nm:{ja:"接客の基本動作",en:"Service fundamentals",zh:"接客基本动作",th:"พื้นฐานบริการ"},pct:67,
+   lessons:[{t:{ja:"声かけと傾聴",en:"Greeting & listening",zh:"招呼与倾听",th:"ทักทาย·ฟัง"},done:1},{t:{ja:"健康ニーズの把握",en:"Reading health needs",zh:"把握健康需求",th:"อ่านความต้องการ"},done:1},{t:{ja:"クロージング",en:"Closing",zh:"成交",th:"ปิดการขาย"},done:0}],gate:1},
+  {nm:{ja:"反論対応とアップセル",en:"Objections & upsell",zh:"异议处理与追加销售",th:"ข้อโต้แย้ง·อัพเซล"},pct:25,
+   lessons:[{t:{ja:"価格の不安に応える",en:"Handling price worries",zh:"应对价格顾虑",th:"จัดการเรื่องราคา"},done:1},{t:{ja:"大容量・定期購入の提案",en:"Bottle-size & subscription suggestion",zh:"大瓶装·定期购买提案",th:"ขนาดขวด·สมัครสมาชิก"},done:0},{t:{ja:"併用しやすい製品の薦め方",en:"Cross-sell compatible products",zh:"可搭配产品推荐",th:"ขายพ่วงที่เข้ากัน"},done:0},{t:{ja:"再来店につなぐ",en:"Driving repeat visits",zh:"促进回头",th:"ให้กลับมาซื้อ"},done:0}],gate:2}],
+ comp:[
+  {nm:{ja:"ラベルと用法用量の読み方",en:"Reading labels & dosage",zh:"标签与用法用量阅读",th:"อ่านฉลากและขนาดยา"},pct:100,
+   lessons:[{t:{ja:"AUST L・成分・用量表示",en:"AUST L, ingredients & dose",zh:"AUST L·成分·用量标示",th:"AUST L·ส่วนผสม·ขนาด"},done:1},{t:{ja:"併用・相互作用の注意",en:"Interactions & cautions",zh:"搭配·相互作用注意",th:"การใช้ร่วม·ข้อควรระวัง"},done:1}],gate:1},
+  {nm:{ja:"TGA 広告規範・保健食品声称の基礎",en:"TGA code & health-claim basics",zh:"TGA规范·保健食品声称基础",th:"กฎ TGA·การกล่าวอ้างพื้นฐาน"},pct:60,
+   lessons:[{t:{ja:"言ってよい/いけない表現",en:"OK vs not-OK phrasing",zh:"可说/不可说的表述",th:"พูดได้·ห้ามพูด"},done:1},{t:{ja:"効能・治療効果の標榜禁止",en:"No cure / treatment claims",zh:"禁止疗效·治疗宣称",th:"ห้ามอ้างรักษา"},done:1},{t:{ja:"事例で学ぶNG接客",en:"NG cases",zh:"NG接客案例",th:"กรณี NG"},done:0}],gate:1}]
+};
+// sample MCQ
+const MCQS=[
+ {q:{ja:"お客様に『フィッシュオイルを飲めば関節炎が治りますか?』と聞かれた。最も適切な対応は?",en:"A customer asks 'will fish oil cure my arthritis?' Best response?",zh:"顾客问'吃鱼油能治关节炎吗?'最合适的回应?",th:"ลูกค้าถาม'น้ำมันปลารักษาข้ออักเสบได้ไหม' ตอบแบบไหนดีที่สุด"},
+  opts:[
+   {t:{ja:"はい、毎日飲めば治りますよ",en:"Yes, take it daily and it'll cure it",zh:"会的，每天吃就能治好",th:"ได้ กินทุกวันหาย"},ok:0,ex:{ja:"治療効果の断定は TGA 広告規範に抵触",en:"Asserting a cure breaches the TGA Advertising Code",zh:"断言疗效违反 TGA 广告规范",th:"อ้างรักษาผิด TGA Code"}},
+   {t:{ja:"治るとは言えませんが、オメガ3 は関節の健康維持をサポートする栄養素です。痛みが続くなら医師にご相談を",en:"I can't say it cures, but Omega-3 supports joint health; if pain persists, please see a doctor",zh:"不能说能治，但 Omega-3 是支持关节健康维持的营养素；疼痛持续请就医",th:"พูดว่ารักษาไม่ได้ แต่ Omega-3 ช่วยดูแลสุขภาพข้อ ถ้าปวดต่อเนื่องพบแพทย์"},ok:1,ex:{ja:"栄養素として説明し効能は断定せず、医師相談を促す正解",en:"Frames it as a nutrient, avoids a cure claim, defers to a doctor — correct",zh:"以营养素说明、不断言疗效并建议就医，正确",th:"อธิบายเชิงสารอาหาร ไม่อ้างรักษา และให้พบแพทย์ ถูกต้อง"}},
+   {t:{ja:"医者じゃないので分かりません",en:"I'm not a doctor, no idea",zh:"我不是医生不知道",th:"ไม่ใช่หมอ ไม่รู้"},ok:0,ex:{ja:"接客機会を放棄。栄養素としての商品情報は提供できる",en:"Drops the service chance; you can still give product facts as a nutrient",zh:"放弃接客机会；仍可作为营养素提供商品信息",th:"ทิ้งโอกาส ยังให้ข้อมูลสินค้าเชิงสารอาหารได้"}}]},
+ {q:{ja:"妊娠中のお客様に最も適切に薦められるのは?",en:"Best to recommend for a customer who is pregnant?",zh:"对孕期顾客最适合推荐?",th:"แนะนำอะไรให้ลูกค้าตั้งครรภ์"},
+  opts:[
+   {t:{ja:"効きそうなサプリを何種類か一緒に",en:"A few different supplements together for good measure",zh:"几种看着有效的补充品一起吃",th:"อาหารเสริมหลายตัวรวมกัน"},ok:0,ex:{ja:"重ね飲み・過剰摂取の恐れ。自己判断の併用は勧めない",en:"Risk of overdosing/stacking; don't encourage self-combining",zh:"叠加/过量风险，不应鼓励自行併用",th:"เสี่ยงซ้อน/เกินขนาด ไม่ควรแนะให้ผสมเอง"}},
+   {t:{ja:"Blackmores Pregnancy Gold + 医師・助産師への相談を案内",en:"Blackmores Pregnancy Gold + advise checking with doctor/midwife",zh:"Blackmores Pregnancy Gold + 引导咨询医生/助产士",th:"Blackmores Pregnancy Gold + แนะปรึกษาแพทย์/ผดุงครรภ์"},ok:1,ex:{ja:"妊娠期向け製品を案内しつつ医療相談を促す正解",en:"Recommends the pregnancy product and defers to medical advice — correct",zh:"推荐孕期产品并引导就医咨询，正确",th:"แนะผลิตภัณฑ์ตั้งครรภ์และให้ปรึกษาแพทย์ ถูกต้อง"}},
+   {t:{ja:"葉酸は多いほどいいので倍量で",en:"More folate is better, so a double dose",zh:"叶酸越多越好，所以双倍量",th:"โฟเลตยิ่งเยอะยิ่งดี ใช้เท่าตัว"},ok:0,ex:{ja:"用量超過は危険。表示どおりの用量を守るよう案内する",en:"Exceeding the dose is risky; advise following the label dose",zh:"超量有风险，应引导遵守标示用量",th:"เกินขนาดอันตราย แนะทำตามฉลาก"}}]}
+];
+
+// tiers
+const TIERS=[
+ {k:"tier0",pts:0,next:300,ben:"ben0",lead:0},
+ {k:"tier1",pts:300,next:900,ben:"ben1",lead:0},
+ {k:"tier2",pts:900,next:1800,ben:"ben2",lead:0},
+ {k:"tier3",pts:1800,next:null,ben:"ben3",lead:0}
+];
+const EXAM_Q={tier0:50,tier1:100,tier2:150,tier3:150};
+// competency radar for current staff
+const COMPETENCY=[78,84,72,55]; // product, service, compliance, leadership
+
+// dashboard data
+const STAFF=[
+ {nm:{ja:"Emma Walker",en:"Emma Walker",zh:"Emma Walker",th:"Emma Walker"},store:{ja:"Chemist Warehouse 悉尼",en:"Chemist Warehouse Sydney",zh:"Chemist Warehouse 悉尼",th:"Chemist Warehouse Sydney"},prog:92,tier:2,last:{ja:"2時間前",en:"2h ago",zh:"2小时前",th:"2 ชม."},skills:[88,90,86,70]},
+ {nm:{ja:"Daniel Lee",en:"Daniel Lee",zh:"李 大年",th:"Daniel Lee"},store:{ja:"Priceline 墨爾本",en:"Priceline Melbourne",zh:"Priceline 墨尔本",th:"Priceline Melbourne"},prog:74,tier:1,last:{ja:"今日",en:"Today",zh:"今天",th:"วันนี้"},skills:[80,72,55,60]},
+ {nm:{ja:"Sophia Tan",en:"Sophia Tan",zh:"陈 素菲",th:"Sophia Tan"},store:{ja:"Guardian 新加坡",en:"Guardian Singapore",zh:"Guardian 新加坡",th:"Guardian Singapore"},prog:100,tier:3,last:{ja:"昨日",en:"Yesterday",zh:"昨天",th:"เมื่อวาน"},skills:[95,92,90,88]},
+ {nm:{ja:"Watcharin P.",en:"Watcharin P.",zh:"Watcharin P.",th:"วัชรินทร์"},store:{ja:"Boots 曼谷",en:"Boots Bangkok",zh:"Boots 曼谷",th:"Boots Bangkok"},prog:46,tier:1,last:{ja:"3日前",en:"3d ago",zh:"3天前",th:"3 วัน"},skills:[60,58,40,45]},
+ {nm:{ja:"Wei Chen",en:"Wei Chen",zh:"陈 伟",th:"Wei Chen"},store:{ja:"健之佳 上海",en:"Jianzhijia Shanghai",zh:"健之佳 上海",th:"Jianzhijia Shanghai"},prog:31,tier:0,last:{ja:"5日前",en:"5d ago",zh:"5天前",th:"5 วัน"},skills:[48,52,35,30]}
+];
+const COMPS=[{k:"rA1"},{k:"rA2"},{k:"rA3"},{k:"rA4"}];
+const LEADER=[
+ {nm:{ja:"Sophia Tan",en:"Sophia Tan",zh:"陈 素菲",th:"Sophia Tan"},store:{ja:"Guardian 新加坡",en:"Guardian",zh:"Guardian",th:"Guardian"},pts:2140},
+ {nm:{ja:"Emma Walker",en:"Emma Walker",zh:"Emma Walker",th:"Emma Walker"},store:{ja:"Chemist Warehouse",en:"Chemist Warehouse",zh:"Chemist Warehouse",th:"Chemist Warehouse"},pts:1680},
+ {nm:{ja:"Daniel Lee",en:"Daniel Lee",zh:"李 大年",th:"Daniel Lee"},store:{ja:"Priceline",en:"Priceline",zh:"Priceline",th:"Priceline"},pts:1120},
+ {nm:{ja:"Watcharin P.",en:"Watcharin P.",zh:"Watcharin P.",th:"วัชรินทร์"},store:{ja:"Boots",en:"Boots",zh:"Boots",th:"Boots"},pts:640}
+];
+
+let state={lang:"en",brand:"blackmores",tab:"roleplay",
+ scn:null, rpTurn:0, rpC1:null, rpC2:null, rpDone:false,
+ points:840, tier:1, // start as 一般; crossing 900 -> シニア
+ streak:12, checkedIn:false,
+ examTier:"tier1", mcqAns:{}};
+
+// ---------- shared radar ----------
+function radarSVG(vals,labels,size){
+ size=size||220;const cx=size/2,cy=size/2,R=size*0.34,n=vals.length;
+ const pt=(i,r)=>{const ang=-Math.PI/2+i*2*Math.PI/n;return[cx+r*Math.cos(ang),cy+r*Math.sin(ang)];};
+ let rings='';
+ for(let g=1;g<=4;g++){const rr=R*g/4;let p='';for(let i=0;i<n;i++){const[x,y]=pt(i,rr);p+=(i?'L':'M')+x.toFixed(1)+' '+y.toFixed(1)+' ';}rings+=`<path d="${p}Z" fill="none" stroke="var(--line)" stroke-width="1"/>`;}
+ let axes='';for(let i=0;i<n;i++){const[x,y]=pt(i,R);axes+=`<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="var(--line)" stroke-width="1"/>`;}
+ let poly='';for(let i=0;i<n;i++){const[x,y]=pt(i,R*vals[i]/100);poly+=(i?'L':'M')+x.toFixed(1)+' '+y.toFixed(1)+' ';}
+ let dots='';for(let i=0;i<n;i++){const[x,y]=pt(i,R*vals[i]/100);dots+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3" fill="var(--brand)"/>`;}
+ let labs='';for(let i=0;i<n;i++){const[x,y]=pt(i,R+18);let anc='middle';if(x>cx+8)anc='start';else if(x<cx-8)anc='end';labs+=`<text x="${x.toFixed(1)}" y="${(y+4).toFixed(1)}" text-anchor="${anc}" font-size="10.5" font-weight="700" fill="var(--muted)">${labels[i]}</text>`;}
+ return `<svg viewBox="0 0 ${size} ${size}" width="100%" style="max-width:${size}px;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg">
+   ${rings}${axes}
+   <path d="${poly}Z" fill="rgba(0,91,150,.18)" stroke="var(--brand)" stroke-width="2"/>${dots}${labs}</svg>`;
+}
+
+// ---------- TAB1 role-play ----------
+function renderScn(){
+ $('#scnLab').textContent=L(T.scnLab);
+ $('#scnList').innerHTML=SCENARIOS.map(s=>`<div class="scn ${state.scn===s.id?'on':''}" data-id="${s.id}">
+   <div class="sn">${L(s.nm)}</div><div class="sl">${L(s.sl)}</div><span class="tag">${L(s.tag)}</span></div>`).join('');
+ $$('#scnList .scn').forEach(el=>el.onclick=()=>{state.scn=el.dataset.id;state.rpTurn=0;state.rpC1=null;state.rpC2=null;state.rpDone=false;renderScn();renderStage();});
+ renderStage();
+}
+function renderStage(){
+ const box=$('#rpStage');
+ if(!state.scn){box.innerHTML=`<div style="color:var(--muted);font-size:13px;display:grid;place-items:center;min-height:240px;text-align:center">${L(T.pickScn)}</div>`;return;}
+ const s=SCENARIOS.find(x=>x.id===state.scn);
+ if(state.rpDone){renderScore(s);return;}
+ // chat thread
+ let chat=`<div class="msg cust"><div class="av">🛒</div><div><div class="who">${L(T.custWho)}</div><div class="bub">${L(s.open)}</div></div></div>`;
+ if(state.rpC1){const r=s.replies.find(x=>x.q===state.rpC1);chat+=`<div class="msg staff"><div class="av">🙂</div><div><div class="who">${L(T.staffWho)}</div><div class="bub">${L(r.t)}</div></div></div>`;
+   chat+=`<div class="msg cust"><div class="av">🛒</div><div><div class="who">${L(T.custWho)}</div><div class="bub">${L(s.follow)}</div></div></div>`;}
+ if(state.rpC2){const r=s.replies2.find(x=>x.q===state.rpC2);chat+=`<div class="msg staff"><div class="av">🙂</div><div><div class="who">${L(T.staffWho)}</div><div class="bub">${L(r.t)}</div></div></div>`;}
+ // reply options
+ let foot='';
+ if(!state.rpC1){foot=replyBlock(s.replies,1);}
+ else if(!state.rpC2){foot=replyBlock(s.replies2,2);}
+ else {foot=`<div class="btnrow"><button class="btn" id="finRp">${L(T.finishRp)}</button></div>`;}
+ box.innerHTML=`<div class="layerlab">${L(s.nm)}</div><div class="chat" id="chatThread">${chat}</div>${foot}`;
+ const ct=$('#chatThread');if(ct)ct.scrollTop=ct.scrollHeight;
+ bindReplies(s);
+ const fr=$('#finRp');if(fr)fr.onclick=()=>{state.rpDone=true;renderStage();};
+}
+function replyBlock(reps,turn){
+ const lab=`<div class="layerlab" style="margin-top:10px">${L(T.youReply)}</div>`;
+ const rs=reps.map(r=>`<button class="reply" data-q="${r.q}" data-turn="${turn}">${L(r.t)}</button>`).join('');
+ const typed=`<div class="typed"><input id="typedIn" placeholder="${L(T.typeHint)}"><button id="typedSend">${L(T.send)}</button></div>`;
+ return lab+`<div class="replies">${rs}</div>`+typed;
+}
+function bindReplies(s){
+ $$('#rpStage .reply').forEach(b=>b.onclick=()=>{
+   const q=b.dataset.q,turn=+b.dataset.turn;
+   if(turn===1)state.rpC1=q;else state.rpC2=q;renderStage();});
+ const ts=$('#typedSend');
+ if(ts)ts.onclick=()=>{
+   const v=($('#typedIn').value||'').trim();if(!v)return;
+   // simulate AI grading of free text -> 'ok'
+   if(!state.rpC1)state.rpC1='ok';else state.rpC2='ok';
+   toast(L(T.typedSim));renderStage();};
+}
+function renderScore(s){
+ const sc=scoreFor(s,state.rpC1,state.rpC2);
+ const total=Math.round((sc.svc+sc.prod+sc.comp)/3);
+ const gained=Math.round(40+total*1.2);
+ // award points + maybe tier-up (only first time we finish this run)
+ let tierUp=false;
+ if(!state.rpAwarded){const before=state.points;state.points+=gained;state.rpAwarded=true;
+   if(before<900&&state.points>=900&&state.tier<2){state.tier=2;tierUp=true;}}
+ const fb=fbFor(state.rpC1,state.rpC2);
+ const radar=radarSVG([sc.svc,sc.prod,sc.comp],[L(T.axService),L(T.axProduct),L(T.axCompliance)],200);
+ const ax=(lab,v)=>`<div class="ax"><div class="al"><span>${lab}</span><b>${v}</b></div><div class="at"><i style="width:${v}%"></i></div></div>`;
+ const box=$('#rpStage');
+ box.innerHTML=`<div class="layerlab">${L(T.scoreLab)} · ${L(s.nm)}</div>
+   <div class="scorewrap"><div>${radar}</div>
+     <div class="axes">${ax(L(T.axService),sc.svc)}${ax(L(T.axProduct),sc.prod)}${ax(L(T.axCompliance),sc.comp)}</div></div>
+   <div class="ptbanner"><div class="pp">+${gained}</div><div class="pl">${L(T.ptGet)} · ${L(T.toNext).replace(/^/,'')} ${state.points}${L(T.pts)}</div></div>
+   ${tierUp?`<div class="tierup"><div class="ti">🎖️</div><div><div class="tt">${L(T.tierUpT)}</div><div class="ts">${L(T.tierUpS)}（${state.points}${L(T.pts)}）</div></div></div>`:''}
+   <div class="fbk"><div class="layerlab">${L(T.fbLab)}</div><ul>
+     ${fb.map(f=>`<li class="${f.pos?'pos':'neg'}"><span class="mk">${f.pos?'✓':'△'}</span><span>${L(f.t)}</span></li>`).join('')}
+   </ul></div>
+   <div class="model"><div class="mt">${L(T.modelLab)}</div><div class="mx2">${L(s.model)}</div></div>
+   <div class="btnrow"><button class="btn o" id="againRp">${L(T.again)}</button></div>`;
+ $('#againRp').onclick=()=>{state.rpTurn=0;state.rpC1=null;state.rpC2=null;state.rpDone=false;state.rpAwarded=false;renderStage();};
+}
+
+// ---------- TAB2 e-learning ----------
+function tierName(i){return L(T[TIERS[i].k]);}
+function renderLearn(){
+ // streak
+ $('#streakBox').innerHTML=`<div class="streak"><div class="sf">🔥</div>
+   <div><div class="sn">${state.streak} ${L(T.streakDays)}</div><div class="ss">${L(T.streakT)} · ${L(T.sk1t)}</div></div>
+   <button class="ck" id="ckBtn" ${state.checkedIn?'disabled':''}>${state.checkedIn?L(T.checkedin):L(T.checkin)}</button></div>`;
+ const cb=$('#ckBtn');if(cb&&!state.checkedIn)cb.onclick=()=>{state.checkedIn=true;state.streak++;state.points+=5;renderLearn();toast('+5 pt 🔥 '+state.streak+' '+L(T.streakDays));};
+ // courses
+ $('#courseLab').textContent=L(T.courseLab);
+ const cats=[["product",T.catProduct],["service",T.catService],["comp",T.catComp]];
+ $('#courseList').innerHTML=cats.map(([ck,clab])=>`<div class="ccat">${L(clab)}</div>`+
+   COURSES[ck].map((c,ci)=>courseHtml(ck,ci,c)).join('')).join('');
+ $$('#courseList .play').forEach(b=>b.onclick=()=>{
+   const c=COURSES[b.dataset.cat][+b.dataset.ci];const les=c.lessons[+b.dataset.li];
+   if(les.done)return;les.done=1;c.pct=Math.round(c.lessons.filter(x=>x.done).length/c.lessons.length*100);
+   state.points+=10;renderLearn();toast(L(T.markDone)+' +10pt');});
+ renderExam();
+}
+function courseHtml(ck,ci,c){
+ const gateName=tierName(c.gate);const unlocked=state.tier>=c.gate;
+ return `<div class="course"><div class="ch"><div><div class="cn">${L(c.nm)}</div>
+   <div class="cmeta">${c.lessons.filter(x=>x.done).length}/${c.lessons.length} ${L(T.watched)}</div></div>
+   <div class="pct">${c.pct}%</div></div>
+   <div class="bar"><i style="width:${c.pct}%"></i></div>
+   <div class="lessons">${c.lessons.map((l,li)=>`<div class="lesson ${l.done?'done':''}">
+     <span class="lc">${l.done?'✓':li+1}</span><span class="ll">${L(l.t)}</span>
+     ${l.done?`<span style="font-size:10.5px;color:var(--accent);font-weight:700">${L(T.watched)}</span>`:`<button class="play" data-cat="${ck}" data-ci="${ci}" data-li="${li}">${L(T.watch)} ▶</button>`}</div>`).join('')}</div>
+   <div style="margin-top:8px;font-size:11px;${unlocked?'color:var(--accent)':'color:var(--warn)'};font-weight:700">
+     ${unlocked?'✓ '+L(T.catComp).slice(0,0)+'確認テスト'.replace('確認テスト',''):'🔒 '+L(T.gatedBy)+' '+gateName+L(T.tierReq)}
+     ${unlocked?L({ja:'確認テスト 解放中',en:'Test unlocked',zh:'测验已解锁',th:'ปลดล็อกแล้ว'}):''}</div></div>`;
+}
+function renderExam(){
+ const box=$('#examBox');
+ const tiers=["tier0","tier1","tier2","tier3"];
+ const cfg=tiers.map(t=>`<div class="exb ${state.examTier===t?'on':''}" data-t="${t}"><b>${EXAM_Q[t]}</b><span>${L(T[t])} · ${EXAM_Q[t]}${L(T.questions)}</span></div>`).join('');
+ const qb=KAREAS.map(a=>{const cnt=Math.round(EXAM_Q[state.examTier]*a.pct/100);
+   return `<div class="qb"><span class="qn">${L(a.nm)}</span><span class="qt"><i style="width:${a.pct*2.4}%"></i></span><span class="qc">${cnt}${L(T.questions)}</span></div>`;}).join('');
+ const mcq=MCQS.map((m,mi)=>{
+   const ans=state.mcqAns[mi];
+   const opts=m.opts.map((o,oi)=>{
+     let cls='';if(ans!=null){if(o.ok)cls='correct';else if(ans===oi)cls='wrong';}
+     const ex=(ans!=null&&(o.ok||ans===oi))?`<span class="ex">${L(o.ex)}</span>`:'';
+     return `<button class="opt ${cls}" data-mi="${mi}" data-oi="${oi}" ${ans!=null?'disabled':''}>${L(o.t)}${ex}</button>`;}).join('');
+   const verdict=ans!=null?`<div style="font-size:12px;font-weight:700;margin-top:6px;color:${m.opts[ans].ok?'var(--accent)':'var(--neg)'}">${m.opts[ans].ok?'✓ '+L(T.correct):'△ '+L(T.wrong)}</div>`:'';
+   return `<div class="mcq"><div class="qh">Q${mi+1}. ${L(m.q)}</div>${opts}${verdict}</div>`;}).join('');
+ box.innerHTML=`<div class="layerlab">${L(T.examLab)}</div>
+   <div class="secs">${L(T.examIntro)}</div>
+   <div class="exrow">${cfg}</div>
+   <div class="layerlab">${L(T.qbankLab)}</div><div class="qbank">${qb}</div>
+   <div class="layerlab" style="margin-top:14px">${L(T.sampleQ)}</div>${mcq}`;
+ $$('#examBox .exb').forEach(b=>b.onclick=()=>{state.examTier=b.dataset.t;renderExam();});
+ $$('#examBox .opt').forEach(b=>{if(b.disabled)return;b.onclick=()=>{
+   state.mcqAns[+b.dataset.mi]=+b.dataset.oi;
+   const ok=MCQS[+b.dataset.mi].opts[+b.dataset.oi].ok;
+   if(ok)state.points+=15;renderExam();toast(ok?L(T.correct)+' +15pt':L(T.wrong));};});
+}
+
+// ---------- TAB3 tiers ----------
+function renderTiers(){
+ $('#tierH').textContent=L(T.tierH);$('#tierS').textContent=L(T.tierS);
+ $('#ladder').innerHTML=TIERS.map((t,i)=>{
+   const cur=i===state.tier;
+   const toNext=t.next!=null?`${L(T.toNext)} ${Math.max(0,t.next-state.points)}${L(T.pts)}`:'MAX';
+   return `<div class="rung ${cur?'cur':''}"><div class="rn">${L(T[t.k])}</div>
+     <div class="rp">${t.pts}${L(T.pts)}〜 · ${cur?toNext:(t.next!=null?'→ '+t.next+L(T.pts):'MAX')}</div>
+     <div class="rb">${L(T[t.ben])}</div></div>`;}).join('');
+ $('#radarTier').innerHTML=`<div style="max-width:280px;margin:10px auto 0">${radarSVG(COMPETENCY,[L(T.rA1),L(T.rA2),L(T.rA3),L(T.rA4)],240)}</div>`;
+ // promo flow
+ $('#promoH').textContent=L(T.promoH);$('#promoS').textContent=L(T.promoS);
+ const psteps=[["ps0","ps0s"],["ps1","ps1s"],["ps2","ps2s"],["ps3","ps3s"],["ps4","ps4s"]];
+ const curStep=2; // up to video submission done, certification pending
+ $('#promoFlow').innerHTML=psteps.map(([k,s],i)=>{
+   const cls=i<curStep?'done':(i===curStep?'cur':'todo');
+   return `<div class="pstep ${cls}"><div class="pd">${i<curStep?'✓':''}</div>
+     <div><div class="pt2">${L(T[k])}</div><div class="ps2">${L(T[s])}</div></div></div>`;}).join('');
+ // certificate
+ $('#certH').textContent=L(T.certH);$('#certS').textContent=L(T.certS);
+ $('#certBox').innerHTML=`<div class="cert">
+   <svg class="seal" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><circle cx="30" cy="30" r="26" fill="none" stroke="var(--brand)" stroke-width="2"/><circle cx="30" cy="30" r="20" fill="var(--soft)"/><path d="M22 30l5 5 11-12" fill="none" stroke="var(--brand)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+   <div class="ceyebrow">${L(T.certProg)}</div>
+   <div class="cname">${L(T.certName)}</div>
+   <div class="ctier">${L(T.tier2)} · ${L(T.certTitle)}</div>
+   <div class="cmeta2"><span>${L(T.certStore)}</span><span>${L(T.certDate)}: 2026-06-21</span><span>${L(T.certId)}: BLK-STAFF-2026-0481</span></div></div>`;
+}
+
+// ---------- TAB4 dashboard ----------
+function heatColor(v){if(v>=80)return'#E91E63';if(v>=65)return'#5fae53';if(v>=50)return'#b5731a';return'#c0563f';}
+function renderDash(){
+ const avgProg=Math.round(STAFF.reduce((s,x)=>s+x.prog,0)/STAFF.length);
+ const passRate=Math.round(STAFF.reduce((s,x)=>s+x.skills[2],0)/STAFF.length);
+ $('#dashStats').innerHTML=`
+   <div class="sb b"><b>${new Set(STAFF.map(s=>L(s.store))).size}</b><span>${L(T.dStores)}</span></div>
+   <div class="sb b"><b>${STAFF.length}</b><span>${L(T.dStaff)}</span></div>
+   <div class="sb g"><b>${avgProg}%</b><span>${L(T.dComp)}</span></div>
+   <div class="sb ${passRate>=70?'g':'w'}"><b>${passRate}%</b><span>${L(T.dPass)}</span></div>`;
+ // grid
+ $('#gridH').textContent=L(T.gridH);$('#gridS').textContent=L(T.gridS);
+ $('#gridTable').innerHTML=`<thead><tr><th>${L(T.colStaff)}</th><th>${L(T.colProg)}</th><th>${L(T.colTier)}</th><th>${L(T.colLast)}</th></tr></thead>
+   <tbody>${STAFF.map(s=>`<tr><td><b>${L(s.nm)}</b><div style="font-size:10.5px;color:var(--muted)">${L(s.store)}</div></td>
+     <td><span class="mini"><i style="width:${s.prog}%"></i></span>${s.prog}%</td>
+     <td><span class="pill t${s.tier}">${tierName(s.tier)}</span></td>
+     <td style="color:var(--muted)">${L(s.last)}</td></tr>`).join('')}</tbody>`;
+ // heat
+ $('#heatH').textContent=L(T.heatH);$('#heatS').textContent=L(T.heatS);
+ $('#heatTable').innerHTML=`<thead><tr><th class="rh">${L(T.colStaff)}</th>${COMPS.map(c=>`<th>${L(T[c.k])}</th>`).join('')}</tr></thead>
+   <tbody>${STAFF.map(s=>`<tr><td class="rl">${L(s.nm)}</td>${s.skills.map(v=>`<td><span class="cell" style="background:${heatColor(v)}">${v}</span></td>`).join('')}</tr>`).join('')}</tbody>`;
+ // leaderboard
+ $('#lbH').textContent=L(T.lbH);$('#lbS').textContent=L(T.lbS);
+ $('#lbList').innerHTML=LEADER.map((l,i)=>`<div class="lrow ${i===0?'top':''}"><div class="rk">${i+1}</div>
+   <div class="ln">${L(l.nm)}<div class="lst">${L(l.store)}</div></div><div class="lp">${l.pts.toLocaleString()}</div></div>`).join('');
+ // 三感 engagement
+ $('#engH').textContent=L(T.engH);$('#engS').textContent=L(T.engS);
+ $('#engBox').innerHTML=`
+   <div class="td"><b>87%</b><span>${L(T.mParticip)} · ${L(T.sk1t)}</span></div>
+   <div class="td"><b>4.4/5</b><span>${L(T.mIdentity)} · ${L(T.sk2t)}</span></div>
+   <div class="td"><b>78%</b><span>${L(T.mBelong)} · ${L(T.sk3t)}</span></div>`;
+}
+
+// ---------- shell ----------
+function renderSankan(){
+ $('#sankanRow').innerHTML=[
+   ['🙋',T.sk1t,T.sk1s],['💙',T.sk2t,T.sk2s],['🤝',T.sk3t,T.sk3s]
+ ].map(([ic,t,s])=>`<div class="sk"><div class="ic">${ic}</div><div><div class="kt">${L(t)}</div><div class="ks">${L(s)}</div></div></div>`).join('')
+ +`<div class="sk" style="flex:0 0 auto"><div class="ic">三</div><div><div class="kt">${L(T.sanLab)}</div><div class="ks">参加 · 共感 · 帰属</div></div></div>`;
+}
+function tabsBar(){
+ const counts={roleplay:SCENARIOS.length,learn:COURSES.product.length+COURSES.service.length+COURSES.comp.length,tiers:TIERS.length,dash:STAFF.length};
+ $('#tabs').innerHTML=[["roleplay",L(T.t_rp)],["learn",L(T.t_learn)],["tiers",L(T.t_tiers)],["dash",L(T.t_dash)]]
+   .map(([k,l])=>`<button data-t="${k}" class="${state.tab===k?'on':''}">${l}<span class="cnt">${counts[k]}</span></button>`).join('');
+ $$('#tabs button').forEach(b=>b.onclick=()=>{state.tab=b.dataset.t;sync();});
+}
+function sync(){
+ document.documentElement.lang=state.lang;
+ $('#sub').textContent=L(T.sub);$('#eye').textContent=L(T.eye);$('#title').textContent=L(T.title);$('#lead').textContent=L(T.lead);
+ $('#backBtn').textContent=L(T.back);
+ renderSankan();tabsBar();
+ $$('.pane').forEach(p=>p.classList.remove('on'));$('#pane-'+state.tab).classList.add('on');
+ if(state.tab==='roleplay')renderScn();
+ if(state.tab==='learn')renderLearn();
+ if(state.tab==='tiers')renderTiers();
+ if(state.tab==='dash')renderDash();
+}
+
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800);}
+function applyBrand(){const b=BRANDS[state.brand],r=document.documentElement.style;
+ r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
+ $('#brand').innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');}
+$('#fab').onclick=()=>{const k=Object.keys(BRANDS),i=k.indexOf(state.brand);state.brand=k[(i+1)%k.length];applyBrand();toast('🎨 '+BRANDS[state.brand].logo);};
+
+const LANGS=[['en','EN'],['zh','中'],['ja','日'],['th','ไท']];
+function renderLangs(){const box=$('#langs');box.innerHTML='';LANGS.forEach(([k,lab])=>{const b=document.createElement('button');b.textContent=lab;if(k===state.lang)b.className='on';b.onclick=()=>{state.lang=k;renderLangs();sync();};box.appendChild(b);});}
+
+// embedded? show back btn + listen for studio messages
+if(window.self!==window.top){$('#backBtn').style.display='';$('#backBtn').onclick=()=>{try{location.href='index.html';}catch(e){}};}
+window.addEventListener('message',e=>{const d=e.data;if(!d||d.t!=='es')return;
+ if(d.lang&&["ja","en","zh","th"].indexOf(d.lang)>=0)state.lang=d.lang;
+ if(d.brand&&BRANDS[d.brand])state.brand=d.brand;
+ renderLangs();applyBrand();sync();});
+
+try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_l=_p.get("lang");
+ if(_l&&["ja","en","zh","th"].indexOf(_l)>=0)state.lang=_l;if(_b&&BRANDS[_b])state.brand=_b;}catch(e){}
+renderLangs();applyBrand();sync();
+</script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

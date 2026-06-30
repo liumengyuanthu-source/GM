@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conversational Commerce · Blackmores · Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
+    --ink:#16201f; --muted:#6a7472; --bg:#f4f7f7; --card:#fff; --line:#e6ecec;
+    --display:Georgia,'Times New Roman','Songti SC','Hiragino Mincho ProN',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans','Microsoft YaHei','Thonburi','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  .nav{display:flex;align-items:center;gap:12px;max-width:680px;margin:0 auto;padding:13px 18px}
+  .brand{font-family:var(--display);font-weight:700;font-size:19px}.brand sup{font-size:9px;color:var(--brand)}
+  .sub{font-size:11px;color:var(--muted);border-left:1px solid var(--line);padding-left:12px}.sp{flex:1}
+  .chip{display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:12px;font-weight:600;cursor:pointer;position:relative}
+  .menu{position:absolute;top:40px;right:0;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:6px;min-width:120px;box-shadow:0 12px 30px rgba(0,0,0,.12);display:none;z-index:50}
+  .menu.open{display:block}.menu button{display:block;width:100%;border:0;background:0;font:inherit;font-size:13px;padding:8px 9px;border-radius:7px;cursor:pointer;text-align:left;color:var(--ink)}.menu button:hover{background:var(--soft)}
+  .langs{display:flex;gap:3px}
+  .langs button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;font-weight:600;color:var(--muted);min-width:32px;height:30px;border-radius:8px;cursor:pointer;transition:.2s;padding:0 6px}
+  .langs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+  .channel{max-width:680px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12.5px}
+  .cdot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:15px;background:var(--soft)}
+  .channel b{color:var(--ink);font-size:13.5px}
+
+  .chat{max-width:680px;margin:0 auto;padding:8px 18px 220px}
+  .msg{display:flex;gap:9px;margin:12px 0;animation:fin .35s ease}
+  @keyframes fin{from{opacity:0;transform:translateY(8px)}}
+  .av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:14px;flex-shrink:0}
+  .cust .av{background:#dfe5e4}.staff .av{background:var(--brand);color:#fff}
+  .bub{border-radius:4px 15px 15px 15px;padding:11px 14px;font-size:14px;max-width:78%}
+  .cust .bub{background:var(--card);border:1px solid var(--line)}
+  .staff{flex-direction:row-reverse}.staff .bub{background:var(--brand);color:#fff;border-radius:15px 4px 15px 15px}
+  .typing .bub{display:flex;gap:4px}.typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:bl 1.1s infinite}
+  .typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+  @keyframes bl{0%,60%,100%{opacity:.25}30%{opacity:1}}
+
+  .pcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;max-width:78%;display:flex;gap:11px;align-items:center}
+  .pcard .em{font-size:30px}.pcard .em img{width:48px;height:48px;display:block}.pcard h4{font-family:var(--display);font-size:15px}.pcard .ds{font-size:11.5px;color:var(--muted)}
+  .pcard .pr{font-weight:800;color:var(--brand);font-size:15px;margin-top:2px}
+  .pcard .buy{border:0;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:11px;padding:6px 10px;border-radius:8px;margin-top:4px}
+  .sys{text-align:center;font-size:12.5px;color:var(--brand);background:var(--soft);border-radius:10px;padding:9px;margin:14px auto;max-width:70%;font-weight:600}
+
+  /* AI assist dock */
+  .dock{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(transparent,var(--bg) 22%);padding:14px 18px 18px}
+  .assist{max-width:680px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 8px 26px rgba(0,0,0,.08)}
+  .ahead{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--brand);margin-bottom:10px}
+  .ahead .badge{background:var(--soft);border-radius:6px;padding:2px 7px;font-size:10.5px}
+  .warn{background:#fdf2e2;color:#b5731a}.warn .badge{background:#f6e2c2}
+  .sug{border:1px solid var(--line);background:var(--bg);border-radius:11px;padding:11px 13px;font-size:13.5px;cursor:pointer;margin-bottom:8px;transition:.15s;line-height:1.45}
+  .sug:hover{border-color:var(--brand);background:var(--soft)}
+  .actbtn{border:0;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:14px;padding:13px;border-radius:11px;cursor:pointer;width:100%}
+
+  .report{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:10px;animation:fin .4s}
+  .report h3{font-family:var(--display);font-size:18px;margin-bottom:4px}
+  .rrow{display:flex;gap:9px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}
+  .rrow .k{color:var(--muted);width:96px;flex-shrink:0;font-weight:600}
+  .rrow.cw{color:#b5731a}
+  .toast{position:fixed;bottom:200px;left:50%;transform:translateX(-50%) translateY(40px);background:var(--ink);color:#fff;padding:11px 17px;border-radius:11px;font-size:13.5px;font-weight:600;z-index:80;opacity:0;transition:.3s}
+  .toast.show{transform:translateX(-50%);opacity:1}
+  .fab{position:fixed;right:18px;top:64px;width:44px;height:44px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:18px;box-shadow:0 8px 20px rgba(0,0,0,.18);cursor:pointer;z-index:40}
+  .scenbar{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 2px}
+  .scenbar .lbl{width:100%;font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.02em}
+  .scenchip{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;font-weight:600;color:var(--ink);padding:6px 10px;border-radius:9px;cursor:pointer;transition:.15s}
+  .scenchip:hover{border-color:var(--brand);background:var(--soft)}
+  .scenchip.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+</style>
+</head>
+<body>
+<header><div class="nav">
+  <div class="brand" id="brand">Blackmores<sup>®</sup></div>
+  <div class="sub" id="sub">Conversational Commerce</div><div class="sp"></div>
+  <div class="langs" id="langs"></div>
+</div></header>
+<div class="channel"><div class="cdot" id="cdot">💬</div>
+  <div><b id="chName">Web chat</b> · <span id="custName">Sarah · New customer</span></div></div>
+
+<div class="chat" id="chat"></div>
+
+<div class="dock"><div id="dockin"></div></div>
+<div class="toast" id="toast"></div>
+<div class="fab" id="fab" title="Switch brand">🎨</div>
+
+<script>
+const BRANDS={blackmores:{logo:"Blackmores",sup:"®",name:"Blackmores",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  lumiere:{logo:"LUMIÈRE",sup:"",name:"Lumière",c:["#a8456b","#7d2f4e","#f6e7ee","#c98a8a"]},
+  harvest:{logo:"HARVEST & CO",sup:"",name:"Harvest & Co",c:["#b5611f","#8a4715","#f6ebe0","#3d7a4f"]}};
+// Channels keyed by scenario — Blackmores meets each market in its native channel
+const CH={
+ immunity:{em:"💬",ja:"WeChat",en:"WeChat",zh:"微信",th:"WeChat"},   // China
+ joint:{em:"💬",ja:"ウェブチャット",en:"Web chat",zh:"网页聊天",th:"แชทเว็บ"},      // ANZ home
+ sleep:{em:"🟢",ja:"WhatsApp",en:"WhatsApp",zh:"WhatsApp",th:"WhatsApp"}, // SEA
+ pregnancy:{em:"💬",ja:"ウェブチャット",en:"Web chat",zh:"网页聊天",th:"แชทเว็บ"},  // ANZ home
+ eye:{em:"🟢",ja:"LINE",en:"LINE",zh:"LINE",th:"LINE"}              // Japan
+};
+const T=o=>o[state.lang]||o.en||o.ja;
+
+// ─── Full Blackmores supplements portfolio (line-art assets) ───
+const PRODS={
+ vitc:{em:"images/blackmores/vitamin-c.svg",name:"Vitamin C 1000",price:18,ds:{ja:"ビタミンC 1000 · 風邪の季節の免疫サポート",en:"Vitamin C 1000 · cold-season immune support",zh:"维生素C 1000 · 换季免疫支持",th:"วิตามินซี 1000 · เสริมภูมิช่วงปลายฝน"}},
+ probiotics:{em:"images/blackmores/probiotics.svg",name:"Probiotics+ Daily Health",price:29,ds:{ja:"益生菌 デイリー · 生きた善玉菌でお腹を整える",en:"Probiotics+ Daily · live cultures for gut balance",zh:"益生菌每日健康 · 活性益生菌支持肠道平衡",th:"โพรไบโอติกส์เดลี่ · จุลินทรีย์ดูแลลำไส้"}},
+ multi:{em:"images/blackmores/multivitamin.svg",name:"Multivitamin Daily",price:24,ds:{ja:"複合ビタミン · 毎日の栄養バランスをサポート",en:"Multivitamin · daily all-round nutrition",zh:"复合维生素 · 每日全面营养支持",th:"มัลติวิตามิน · โภชนาการรอบด้านทุกวัน"}},
+ glucosamine:{em:"images/blackmores/glucosamine.svg",name:"Glucosamine 1500",price:35,ds:{ja:"グルコサミン 1500 · 関節の動きをサポート",en:"Glucosamine 1500 · joint mobility support",zh:"维骨力关节灵 · 支持关节灵活",th:"กลูโคซามีน 1500 · บำรุงการเคลื่อนไหวข้อ"}},
+ fishoil:{em:"images/blackmores/fish-oil.svg",name:"Odourless Fish Oil 1000",price:32,ds:{ja:"無腥味フィッシュオイル · オメガ3で関節・心血管に",en:"Odourless Fish Oil · omega-3 for joints & heart",zh:"无腥味深海鱼油 · 欧米伽3支持关节与心血管",th:"น้ำมันปลาไร้กลิ่นคาว · โอเมก้า3 ข้อและหัวใจ"}},
+ sleep:{em:"images/blackmores/sleep.svg",name:"Sleep Support",price:26,ds:{ja:"スリープサポート · 自然な眠りへとサポート",en:"Sleep Support · supports restful sleep",zh:"睡眠支持 · 支持安稳睡眠",th:"สลีพซัพพอร์ต · ช่วยให้หลับสบาย"}},
+ vitb:{em:"images/blackmores/vitamin-b.svg",name:"Executive B Stress Formula",price:28,ds:{ja:"複合ビタミンB · ストレス時の活力を支える",en:"Executive B · supports energy under stress",zh:"复合维生素B · 压力时支持活力",th:"วิตามินบีรวม · เสริมพลังช่วงเครียด"}},
+ pregnancy:{em:"images/blackmores/pregnancy-gold.svg",name:"Pregnancy & Breastfeeding Gold",price:42,ds:{ja:"プレグナンシー ゴールド · 妊娠・授乳期の栄養",en:"Pregnancy & Breastfeeding Gold · prenatal nutrition",zh:"孕妇黄金营养素 · 孕期与哺乳期营养",th:"พรีกแนนซี โกลด์ · โภชนาการตั้งครรภ์/ให้นม"}},
+ lutein:{em:"images/blackmores/lutein.svg",name:"Lutein Vision",price:30,ds:{ja:"ルテイン · 画面づかれの目を労わる",en:"Lutein Vision · for tired, screen-strained eyes",zh:"叶黄素护眼 · 缓解屏幕用眼疲劳",th:"ลูทีน วิชั่น · ดูแลตาล้าจากจอ"}}
+};
+
+// Active product for the current scenario (set by SCENARIOS)
+let PROD=PRODS.vitc;
+
+// ─── Multi-brand scenarios. Each shares the same engine (typing/animation/report). ───
+const SCENARIOS={
+ // 1) Immunity / cold-season → Vitamin C + Probiotics + Multivitamin (China · WeChat)
+ immunity:{key:"vitc",picker:{em:"🛡️",ja:"免疫・季節の変わり目",en:"Immunity / cold-season",zh:"免疫・换季",th:"ภูมิคุ้มกัน / ปลายฝน"},
+  scene:[
+   {t:'cust',m:{ja:"こんにちは！季節の変わり目で家族がよく風邪をひきます😷 免疫をサポートできるサプリはありますか？",en:"Hi! The seasons are changing and my family keeps catching colds 😷 Do you have supplements to support immunity?",zh:"你好！最近换季，家里人老感冒 😷 有支持免疫力的保健品吗？",th:"สวัสดีค่ะ! ช่วงเปลี่ยนฤดู คนในบ้านเป็นหวัดบ่อย 😷 มีอาหารเสริมช่วยเรื่องภูมิไหมคะ?"}},
+   {t:'ai',hint:{ja:"AI提案の返信",en:"AI suggested replies",zh:"AI 建议话术",th:"AI แนะนำคำตอบ"},sug:[
+    {ja:"ご相談ありがとうございます💙 季節の変わり目の免疫サポートには、ブラックモアズの ビタミンC 1000 が人気です。毎日の習慣として続けやすいですよ。ご紹介してもいいですか？",en:"Thanks for reaching out 💙 For cold-season immune support, Blackmores Vitamin C 1000 is popular — easy to make a daily habit. May I share it?",zh:"谢谢咨询 💙 换季想支持免疫力，澳佳宝维生素C 1000 很受欢迎，方便每天坚持。我介绍一款给你看？",th:"ขอบคุณที่ปรึกษานะคะ 💙 สำหรับเสริมภูมิช่วงปลายฝน Blackmores วิตามินซี 1000 ได้รับความนิยม ทานต่อเนื่องเป็นกิจวัตรง่าย ขอแนะนำได้ไหมคะ?"},
+    {ja:"差し支えなければ、お一人用かご家族用か、普段サプリを摂っているか教えていただけますか?生活に合うものをお選びします🙂",en:"If you don't mind — is it for you or the whole family, and do you take supplements already? I'll pick what fits your routine 🙂",zh:"方便的话，是自己用还是全家用、平时有在吃保健品吗？我帮你挑配合作息的那款 🙂",th:"ถ้าสะดวก ใช้คนเดียวหรือทั้งครอบครัว และทานอาหารเสริมอยู่แล้วไหมคะ? จะเลือกตัวที่เข้ากับกิจวัตร 🙂"}]},
+   {t:'action',kind:'card',label:{ja:"📎 商品カード送信 · ビタミンC 1000",en:"📎 Send product card · Vitamin C 1000",zh:"📎 发产品卡 · 维生素C 1000",th:"📎 ส่งการ์ดสินค้า · วิตามินซี 1000"},hint:{ja:"AIが商品提案",en:"AI suggests sharing a product",zh:"AI 建议发一张产品卡",th:"AI แนะนำให้ส่งสินค้า"}},
+   {t:'cust',m:{ja:"よさそう🙌 私はお腹も弱くて…免疫と一緒に腸の調子も整えたいです。他にも組み合わせられますか？",en:"Looks great 🙌 My gut is also sensitive… I'd love to support digestion alongside immunity. Anything to pair it with?",zh:"看起来不错 🙌 我肠胃也比较弱…想在支持免疫的同时调理一下肠道。还能搭配别的吗？",th:"ดูดีเลย 🙌 ลำไส้ฉันก็ไวด้วย… อยากดูแลทั้งภูมิและลำไส้ มีตัวจับคู่ไหมคะ?"}},
+   {t:'ai',hint:{ja:"AI提案 — 益生菌・複合ビタミンを追加",en:"AI suggestion — add Probiotics & Multivitamin",zh:"AI 建议 — 加益生菌与复合维生素",th:"AI แนะนำ — เพิ่มโพรไบโอติกส์และมัลติวิตามิน"},sug:[
+    {ja:"いいですね🙌 腸の調子をサポートするなら 益生菌每日健康 を、毎日の栄養の土台には 複合維生素 を組み合わせる方が多いです。3点まとめてお出ししましょうか？※サプリは医薬品ではなく、毎日の栄養補助としてのご案内です。",en:"Great 🙌 For gut balance many add Probiotics+ Daily Health, and Multivitamin Daily as a nutrition base. Shall I bundle all three? (Supplements are not medicines — these support daily nutrition.)",zh:"很好 🙌 想调理肠道可以搭配 益生菌每日健康，再加 复合维生素 打好每日营养基础，很多人三件一起。要我一起发给你吗？（保健品非药品，仅作为每日营养补充支持。）",th:"เยี่ยมค่ะ 🙌 ดูแลลำไส้หลายคนเพิ่ม โพรไบโอติกส์เดลี่ และ มัลติวิตามิน เป็นฐานโภชนาการ จัดครบ 3 อย่างไหมคะ? (อาหารเสริมไม่ใช่ยา ช่วยเสริมโภชนาการประจำวัน)"}]},
+   {t:'action',kind:'card2',which:'probiotics',label:{ja:"📎 商品カード送信 · 益生菌每日健康",en:"📎 Send product card · Probiotics+ Daily",zh:"📎 发产品卡 · 益生菌每日健康",th:"📎 ส่งการ์ดสินค้า · โพรไบโอติกส์เดลี่"},hint:{ja:"AIが組み合わせ商品を提案",en:"AI suggests a complementary product",zh:"AI 建议搭配产品",th:"AI แนะนำสินค้าจับคู่"}},
+   {t:'cust',m:{ja:"完璧です🙏 3点ともお願いします！😊",en:"Perfect 🙏 I'll take all three! 😊",zh:"太好了 🙏 三件都要！😊",th:"เยี่ยมเลยค่ะ 🙏 เอาทั้งสามอย่างค่ะ! 😊"}},
+   {t:'action',kind:'checkout',label:{ja:"🔗 決済リンク送信",en:"🔗 Send checkout link",zh:"🔗 发结账链接",th:"🔗 ส่งลิงก์ชำระเงิน"},hint:{ja:"購入意欲あり — クロージング",en:"Customer is ready — close the sale",zh:"顾客已决定 — 促成成交",th:"ลูกค้าพร้อม — ปิดการขาย"}},
+   {t:'sys',m:{ja:"✅ 注文完了 · ビタミンC ×1 ・ 益生菌 ×1 ・ 複合ビタミン ×1 · A$71 — WeChat内決済",en:"✅ Order placed · Vitamin C ×1 · Probiotics+ ×1 · Multivitamin ×1 · A$71 — paid in WeChat",zh:"✅ 已下单 · 维生素C ×1 · 益生菌 ×1 · 复合维生素 ×1 · A$71 — 微信内支付",th:"✅ สั่งซื้อแล้ว · วิตามินซี ×1 · โพรไบโอติกส์ ×1 · มัลติวิตามิน ×1 · A$71 — จ่ายใน WeChat"}},
+   {t:'report'}
+  ],
+  report:{
+   ja:{need:"季節の変わり目の免疫・腸ケアの組み合わせ",moments:"免疫の相談 → ビタミンC提案 → 腸の悩みに益生菌＋複合ビタミン → 3点購入",sent:"ポジティブ 😊",comp:"支持・改善の表現に留め治癒の断定なし、サプリは医薬品ではないと明示(TGA／中国保健食品の表示)",nbaV:"2週間後に体調をフォロー · ビタミンC定期便のご案内"},
+   en:{need:"Cold-season immunity + gut care bundle",moments:"Immunity consult → suggested Vitamin C → paired Probiotics + Multivitamin for gut → bought all three",sent:"Positive 😊",comp:"Support/improve wording only, no cure claims; supplement-not-medicine stated (TGA / China health-food labeling)",nbaV:"Follow up in 2 weeks · offer Vitamin C subscription"},
+   zh:{need:"换季免疫＋肠道护理组合",moments:"免疫咨询 → 推荐维生素C → 因肠道需求搭配益生菌＋复合维生素 → 购买三件",sent:"正面 😊",comp:"仅用支持／改善措辞、不作治愈断定；明示保健品非药品（TGA／中国保健食品标示）",nbaV:"两周后回访身体状况 · 介绍维生素C定期配送"},
+   th:{need:"ชุดเสริมภูมิช่วงปลายฝน + ดูแลลำไส้",moments:"ปรึกษาภูมิ → แนะนำวิตามินซี → จับคู่โพรไบโอติกส์ + มัลติวิตามินดูแลลำไส้ → ซื้อทั้งสาม",sent:"บวก 😊",comp:"ใช้คำว่าช่วย/สนับสนุนเท่านั้น ไม่อ้างรักษา ระบุว่าอาหารเสริมไม่ใช่ยา (TGA / ฉลากอาหารเสริมจีน)",nbaV:"ติดตามผลใน 2 สัปดาห์ · เสนอสมาชิกวิตามินซี"}}},
+
+ // 2) Joint pain → Glucosamine + Fish Oil (ANZ home · Web chat)
+ joint:{key:"glucosamine",picker:{em:"🦵",ja:"関節の痛み（グルコサミン）",en:"Joint pain (Glucosamine)",zh:"关节疼痛（维骨力）",th:"ปวดข้อ (กลูโคซามีน)"},
+  scene:[
+   {t:'cust',m:{ja:"こんにちは🙂 最近ひざの関節がこわばって、階段がつらいです。動きをサポートできるものはありますか？",en:"Hi 🙂 My knees have been stiff lately and stairs are tough. Is there something to support joint mobility?",zh:"你好🙂 最近膝盖关节有点僵，上下楼挺吃力。有支持关节活动的吗？",th:"สวัสดีค่ะ🙂 ช่วงนี้เข่าฝืดๆ ขึ้นบันไดลำบาก มีตัวช่วยเรื่องการเคลื่อนไหวข้อไหมคะ?"}},
+   {t:'ai',hint:{ja:"AI提案の返信",en:"AI suggested replies",zh:"AI 建议话术",th:"AI แนะนำคำตอบ"},sug:[
+    {ja:"お辛いですね💙 関節の動きのサポートには、ブラックモアズの グルコサミン 1500 を選ばれる方が多いです。毎日続けやすい一日一回タイプですよ。ご紹介してもいいですか？",en:"Sorry to hear that 💙 For joint mobility many choose Blackmores Glucosamine 1500 — a once-a-day format that's easy to keep up. May I share it?",zh:"挺辛苦的 💙 想支持关节活动，很多人选澳佳宝维骨力关节灵 1500，每天一次方便坚持。我介绍一款给你看？",th:"เห็นใจค่ะ 💙 ดูแลการเคลื่อนไหวข้อ หลายคนเลือก Blackmores กลูโคซามีน 1500 ทานวันละครั้ง ต่อเนื่องง่าย ขอแนะนำได้ไหมคะ?"},
+    {ja:"差し支えなければ、痛みが続いている期間や、医師の診断を受けたことがあるか教えていただけますか?気になる場合はかかりつけ医にもご相談くださいね🙂",en:"If you don't mind — how long has the discomfort lasted, and have you seen a doctor about it? If it persists, please check with your GP too 🙂",zh:"方便的话，不适持续多久了、有没有看过医生？如果持续，也请咨询一下家庭医生 🙂",th:"ถ้าสะดวก ปวดมานานแค่ไหน และเคยพบแพทย์ไหมคะ? ถ้าเป็นต่อเนื่อง รบกวนปรึกษาแพทย์ด้วยนะคะ 🙂"}]},
+   {t:'action',kind:'card',label:{ja:"📎 商品カード送信 · グルコサミン 1500",en:"📎 Send product card · Glucosamine 1500",zh:"📎 发产品卡 · 维骨力关节灵",th:"📎 ส่งการ์ดสินค้า · กลูโคซามีน 1500"},hint:{ja:"AIが商品提案",en:"AI suggests sharing a product",zh:"AI 建议发一张产品卡",th:"AI แนะนำให้ส่งสินค้า"}},
+   {t:'cust',m:{ja:"いいですね🙌 一緒に摂ると良いものはありますか？関節を労わるなら何か足したいです。",en:"Nice 🙌 Anything good to take with it? I'd like to add something for joint care.",zh:"不错 🙌 有适合一起吃的吗？想再加点护关节的。",th:"ดีเลย 🙌 มีตัวที่ทานคู่กันดีไหมคะ? อยากเสริมดูแลข้อเพิ่ม"}},
+   {t:'ai',hint:{ja:"AI提案 — 深海魚油を追加",en:"AI suggestion — add Fish Oil",zh:"AI 建议 — 加深海鱼油",th:"AI แนะนำ — เพิ่มน้ำมันปลา"},sug:[
+    {ja:"よく一緒に選ばれるのが 無腥味深海鱼油 です🐟 オメガ3が関節や心血管の健康をサポートし、グルコサミンと組み合わせる方が多いですよ。2点まとめてお出ししましょうか？※サプリは医薬品ではありません。",en:"A common pairing is Odourless Fish Oil 🐟 Its omega-3 supports joints and heart health, and many take it with glucosamine. Shall I bundle both? (Supplements are not medicines.)",zh:"很多人会搭配 无腥味深海鱼油 🐟 欧米伽3支持关节与心血管健康，常和维骨力一起吃。要两件一起发给你吗？（保健品非药品。）",th:"ที่นิยมจับคู่คือ น้ำมันปลาไร้กลิ่นคาว 🐟 โอเมก้า3 ช่วยดูแลข้อและหัวใจ มักทานคู่กลูโคซามีน จัดทั้งคู่ไหมคะ? (อาหารเสริมไม่ใช่ยา)"}]},
+   {t:'action',kind:'card2',which:'fishoil',label:{ja:"📎 商品カード送信 · 深海魚油",en:"📎 Send product card · Fish Oil",zh:"📎 发产品卡 · 深海鱼油",th:"📎 ส่งการ์ดสินค้า · น้ำมันปลา"},hint:{ja:"AIが組み合わせ商品を提案",en:"AI suggests a complementary product",zh:"AI 建议搭配产品",th:"AI แนะนำสินค้าจับคู่"}},
+   {t:'cust',m:{ja:"完璧です🙏 2つともお願いします！😊",en:"Perfect 🙏 I'll take both! 😊",zh:"太好了 🙏 两款都要！😊",th:"เยี่ยมเลยค่ะ 🙏 เอาทั้งสองอย่างค่ะ! 😊"}},
+   {t:'action',kind:'checkout',label:{ja:"🔗 決済リンク送信",en:"🔗 Send checkout link",zh:"🔗 发结账链接",th:"🔗 ส่งลิงก์ชำระเงิน"},hint:{ja:"購入意欲あり — クロージング",en:"Customer is ready — close the sale",zh:"顾客已决定 — 促成成交",th:"ลูกค้าพร้อม — ปิดการขาย"}},
+   {t:'sys',m:{ja:"✅ 注文完了 · グルコサミン ×1 ・ 深海魚油 ×1 · A$67 — ウェブ決済",en:"✅ Order placed · Glucosamine ×1 · Fish Oil ×1 · A$67 — paid in web checkout",zh:"✅ 已下单 · 维骨力关节灵 ×1 · 深海鱼油 ×1 · A$67 — 网页支付",th:"✅ สั่งซื้อแล้ว · กลูโคซามีน ×1 · น้ำมันปลา ×1 · A$67 — จ่ายผ่านเว็บ"}},
+   {t:'report'}
+  ],
+  report:{
+   ja:{need:"関節のこわばり・動きのサポート",moments:"関節の相談 → 経過・受診を確認 → グルコサミン提案 → 深海魚油を追加 → 2点購入",sent:"ポジティブ 😊",comp:"持続時は医師案内、サポートの表現に留め治癒の断定なし、サプリは医薬品ではないと明示(TGA)",nbaV:"4週間後に動きの様子をフォロー · 関節ケア定期便のご案内"},
+   en:{need:"Joint stiffness & mobility support",moments:"Joint consult → checked duration / doctor → suggested Glucosamine → added Fish Oil → bought both",sent:"Positive 😊",comp:"Referred to GP if persistent, support wording only, no cure claims, supplement-not-medicine stated (TGA)",nbaV:"Follow up in 4 weeks on mobility · offer joint-care subscription"},
+   zh:{need:"关节僵硬・活动支持",moments:"关节咨询 → 确认病程／是否就医 → 推荐维骨力 → 加深海鱼油 → 购买两款",sent:"正面 😊",comp:"持续不适转家庭医生、仅用支持措辞、不作治愈断定、明示保健品非药品（TGA）",nbaV:"四周后回访活动情况 · 介绍关节护理定期配送"},
+   th:{need:"ข้อฝืด & การเคลื่อนไหวข้อ",moments:"ปรึกษาข้อ → ถามระยะเวลา/พบแพทย์ → แนะนำกลูโคซามีน → เพิ่มน้ำมันปลา → ซื้อทั้งสอง",sent:"บวก 😊",comp:"แนะนำพบแพทย์หากเป็นต่อเนื่อง ใช้คำว่าช่วยเท่านั้น ไม่อ้างรักษา ระบุอาหารเสริมไม่ใช่ยา (TGA)",nbaV:"ติดตามผลใน 4 สัปดาห์ · เสนอสมาชิกดูแลข้อ"}}},
+
+ // 3) Sleep / stress → Sleep Support + Executive B (SEA · WhatsApp)
+ sleep:{key:"sleep",picker:{em:"😴",ja:"睡眠・ストレス",en:"Sleep / stress",zh:"睡眠・压力",th:"นอนหลับ / ความเครียด"},
+  scene:[
+   {t:'cust',m:{ja:"こんにちは😴 仕事のストレスで最近よく眠れません。自然な眠りをサポートできるものはありますか？",en:"Hi 😴 Work stress has been keeping me up at night. Anything to support restful sleep?",zh:"你好😴 最近工作压力大，常常睡不好。有支持自然入睡的吗？",th:"สวัสดีค่ะ😴 ช่วงนี้เครียดงานนอนไม่ค่อยหลับ มีตัวช่วยให้หลับสบายไหมคะ?"}},
+   {t:'ai',hint:{ja:"AI提案の返信",en:"AI suggested replies",zh:"AI 建议话术",th:"AI แนะนำคำตอบ"},sug:[
+    {ja:"お疲れさまです💙 自然な眠りのサポートには、ブラックモアズの スリープサポート が人気です。就寝前の習慣に取り入れやすいですよ。ご紹介してもいいですか？",en:"Sounds tiring 💙 For restful sleep, Blackmores Sleep Support is popular — easy to add to a bedtime routine. May I share it?",zh:"辛苦了 💙 想支持自然入睡，澳佳宝睡眠支持很受欢迎，方便加入睡前习惯。我介绍一款给你看？",th:"เหนื่อยเลยนะคะ 💙 ช่วยให้หลับสบาย Blackmores สลีพซัพพอร์ต ได้รับความนิยม ใส่ในกิจวัตรก่อนนอนง่าย ขอแนะนำได้ไหมคะ?"},
+    {ja:"差し支えなければ、寝つきと途中で目が覚めるのと、どちらが気になりますか?生活に合うものをお選びします🙂",en:"If you don't mind — is it falling asleep or waking through the night that bothers you more? I'll match it to you 🙂",zh:"方便的话，是入睡难还是半夜易醒更困扰？我帮你挑配合作息的那款 🙂",th:"ถ้าสะดวก ปัญหาคือหลับยากหรือตื่นกลางดึกมากกว่าคะ? จะเลือกตัวที่เหมาะให้ 🙂"}]},
+   {t:'action',kind:'card',label:{ja:"📎 商品カード送信 · スリープサポート",en:"📎 Send product card · Sleep Support",zh:"📎 发产品卡 · 睡眠支持",th:"📎 ส่งการ์ดสินค้า · สลีพซัพพอร์ต"},hint:{ja:"AIが商品提案",en:"AI suggests sharing a product",zh:"AI 建议发一张产品卡",th:"AI แนะนำให้ส่งสินค้า"}},
+   {t:'cust',m:{ja:"よさそう🙌 日中もストレスで疲れやすくて…活力をサポートできるものも足せますか？",en:"Looks great 🙌 I'm also drained from daytime stress… can I add something for energy?",zh:"看起来不错 🙌 白天压力大也容易累…能再加点支持活力的吗？",th:"ดูดีเลย 🙌 กลางวันก็ล้าจากความเครียด… เพิ่มตัวเสริมพลังได้ไหมคะ?"}},
+   {t:'ai',hint:{ja:"AI提案 — 複合ビタミンBを追加",en:"AI suggestion — add Executive B",zh:"AI 建议 — 加复合维生素B",th:"AI แนะนำ — เพิ่มวิตามินบีรวม"},sug:[
+    {ja:"いいですね🙌 ストレス時の活力サポートには 複合維生素B（Executive B）を一緒に選ばれる方が多いです。日中はB、夜はスリープサポート、という組み合わせが人気ですよ。2点まとめてお出ししましょうか？※サプリは医薬品ではありません。",en:"Great 🙌 For energy under stress, many add Executive B (B-complex) — B by day, Sleep Support at night is a popular pairing. Shall I bundle both? (Supplements are not medicines.)",zh:"很好 🙌 压力时支持活力，很多人会搭配 复合维生素B（Executive B），白天吃B、晚上睡眠支持，是人气组合。要两件一起发给你吗？（保健品非药品。）",th:"เยี่ยมค่ะ 🙌 เสริมพลังช่วงเครียด หลายคนเพิ่ม วิตามินบีรวม (Executive B) กลางวันทานบี กลางคืนสลีพซัพพอร์ต เป็นคู่ยอดนิยม จัดทั้งคู่ไหมคะ? (อาหารเสริมไม่ใช่ยา)"}]},
+   {t:'action',kind:'card2',which:'vitb',label:{ja:"📎 商品カード送信 · 複合維生素B",en:"📎 Send product card · Executive B",zh:"📎 发产品卡 · 复合维生素B",th:"📎 ส่งการ์ดสินค้า · วิตามินบีรวม"},hint:{ja:"AIが組み合わせ商品を提案",en:"AI suggests a complementary product",zh:"AI 建议搭配产品",th:"AI แนะนำสินค้าจับคู่"}},
+   {t:'cust',m:{ja:"完璧です🙏 2つともお願いします！😊",en:"Perfect 🙏 I'll take both! 😊",zh:"太好了 🙏 两款都要！😊",th:"เยี่ยมเลยค่ะ 🙏 เอาทั้งสองอย่างค่ะ! 😊"}},
+   {t:'action',kind:'checkout',label:{ja:"🔗 決済リンク送信",en:"🔗 Send checkout link",zh:"🔗 发结账链接",th:"🔗 ส่งลิงก์ชำระเงิน"},hint:{ja:"購入意欲あり — クロージング",en:"Customer is ready — close the sale",zh:"顾客已决定 — 促成成交",th:"ลูกค้าพร้อม — ปิดการขาย"}},
+   {t:'sys',m:{ja:"✅ 注文完了 · スリープサポート ×1 ・ 複合ビタミンB ×1 · A$54 — WhatsApp内決済",en:"✅ Order placed · Sleep Support ×1 · Executive B ×1 · A$54 — paid in WhatsApp",zh:"✅ 已下单 · 睡眠支持 ×1 · 复合维生素B ×1 · A$54 — WhatsApp 内支付",th:"✅ สั่งซื้อแล้ว · สลีพซัพพอร์ต ×1 · วิตามินบีรวม ×1 · A$54 — จ่ายใน WhatsApp"}},
+   {t:'report'}
+  ],
+  report:{
+   ja:{need:"ストレスによる睡眠の悩み・日中の活力",moments:"睡眠の相談 → スリープサポート提案 → 日中の活力に複合ビタミンB → 2点購入",sent:"ポジティブ 😊",comp:"サポートの表現に留め治癒の断定なし、サプリは医薬品ではないと明示(TGA)",nbaV:"2週間後に睡眠の様子をフォロー · 夜のルーティン提案"},
+   en:{need:"Stress-related sleep trouble + daytime energy",moments:"Sleep consult → suggested Sleep Support → added Executive B for daytime energy → bought both",sent:"Positive 😊",comp:"Support wording only, no cure claims, supplement-not-medicine stated (TGA)",nbaV:"Follow up in 2 weeks on sleep · suggest evening routine"},
+   zh:{need:"压力相关睡眠困扰＋日间活力",moments:"睡眠咨询 → 推荐睡眠支持 → 日间活力搭配复合维生素B → 购买两款",sent:"正面 😊",comp:"仅用支持措辞、不作治愈断定、明示保健品非药品（TGA）",nbaV:"两周后回访睡眠情况 · 建议晚间作息"},
+   th:{need:"ปัญหานอนจากความเครียด + พลังกลางวัน",moments:"ปรึกษาการนอน → แนะนำสลีพซัพพอร์ต → เพิ่มวิตามินบีรวมเสริมพลังกลางวัน → ซื้อทั้งสอง",sent:"บวก 😊",comp:"ใช้คำว่าช่วยเท่านั้น ไม่อ้างรักษา ระบุอาหารเสริมไม่ใช่ยา (TGA)",nbaV:"ติดตามผลใน 2 สัปดาห์ · แนะนำกิจวัตรก่อนนอน"}}},
+
+ // 4) Pregnancy → Pregnancy & Breastfeeding Gold (+ consult doctor) (ANZ home · Web chat)
+ pregnancy:{key:"pregnancy",picker:{em:"🤰",ja:"妊娠・授乳期（孕妇黄金）",en:"Pregnancy (Pregnancy Gold)",zh:"孕期（孕妇黄金）",th:"ตั้งครรภ์ (พรีกแนนซี โกลด์)"},
+  scene:[
+   {t:'cust',m:{ja:"こんにちは🤰 妊娠12週です。妊娠中・授乳期にとれる栄養サプリを探しています。何かありますか？",en:"Hi 🤰 I'm 12 weeks pregnant. I'm looking for a prenatal / breastfeeding nutrition supplement — any options?",zh:"你好🤰 我怀孕12周了，想找孕期和哺乳期能吃的营养补充剂，有吗？",th:"สวัสดีค่ะ🤰 ตั้งครรภ์ 12 สัปดาห์ กำลังหาอาหารเสริมสำหรับตั้งครรภ์/ให้นม มีไหมคะ?"}},
+   {t:'ai',hint:{ja:"AI提案の返信 — 妊娠期に配慮",en:"AI suggested replies — pregnancy-aware",zh:"AI 建议话术 — 孕期注意",th:"AI แนะนำคำตอบ — ใส่ใจช่วงตั้งครรภ์"},sug:[
+    {ja:"ご懐妊おめでとうございます💙 妊娠・授乳期向けには ブラックモアズ 孕婦黄金営養素（Pregnancy & Breastfeeding Gold）がございます。葉酸や鉄分などをバランスよく配合しています。ご紹介してもいいですか？",en:"Congratulations 💙 For pregnancy and breastfeeding, we have Blackmores Pregnancy & Breastfeeding Gold — a balanced blend with folate, iron and more. May I share it?",zh:"恭喜你 💙 孕期与哺乳期可以看澳佳宝孕妇黄金营养素（Pregnancy & Breastfeeding Gold），均衡含叶酸、铁等。我介绍一款给你看？",th:"ยินดีด้วยค่ะ 💙 สำหรับตั้งครรภ์และให้นม มี Blackmores พรีกแนนซี โกลด์ ผสมโฟเลต ธาตุเหล็ก ฯลฯ อย่างสมดุล ขอแนะนำได้ไหมคะ?"}]},
+   {t:'action',kind:'card',label:{ja:"📎 商品カード送信 · 孕婦黄金営養素",en:"📎 Send product card · Pregnancy Gold",zh:"📎 发产品卡 · 孕妇黄金营养素",th:"📎 ส่งการ์ดสินค้า · พรีกแนนซี โกลด์"},hint:{ja:"AIが妊娠期向け商品を提案",en:"AI suggests a pregnancy product",zh:"AI 建议孕期产品",th:"AI แนะนำสินค้าสำหรับตั้งครรภ์"}},
+   {t:'cust',m:{ja:"よさそう🙌 ただ、つわりもあるし他の薬も少し飲んでいて…妊娠中に飲んで本当に大丈夫でしょうか？",en:"Looks great 🙌 But I have morning sickness and take some other medication… is it really safe during pregnancy?",zh:"看起来不错 🙌 不过我有孕吐，还在吃别的药…孕期吃真的没问题吗？",th:"ดูดีเลย 🙌 แต่ฉันแพ้ท้องและทานยาอื่นอยู่บ้าง… ทานตอนตั้งครรภ์ปลอดภัยจริงไหมคะ?"}},
+   {t:'ai',warn:true,hint:{ja:"⚠ 妊娠・服薬に関する質問 — 安全な返信を提案\n妊娠中／他剤併用を自動検出 → 医師・助産師への確認をフラグ。",en:"⚠ Pregnancy / medication question — AI suggests a safe reply\nAuto-detected pregnancy / other medication → flagged to confirm with doctor/midwife.",zh:"⚠ 涉及孕期・用药 — AI 建议合规话术\n自动识别孕期／合并用药 → 已标记需经医生／助产士确认。",th:"⚠ คำถามตั้งครรภ์ / ใช้ยา — AI แนะนำคำตอบที่ปลอดภัย\nตรวจพบตั้งครรภ์ / ใช้ยาอื่น → แฟล็กให้ยืนยันกับแพทย์/ผดุงครรภ์"},sug:[
+    {ja:"ご確認いただき安心です💙 妊娠中で他のお薬も飲まれているとのことですので、お召し上がり前に必ずかかりつけの医師・助産師にご相談いただくのが一番安全です。成分一覧もそのままお送りしますね。確認がとれましたら、お取り置きしておきます!",en:"Great that you checked 💙 Since you're pregnant and taking other medication, the safest is to confirm with your doctor or midwife before starting. I'll send the full ingredient list as-is — and once you've checked, I'm happy to hold one for you!",zh:"你会确认真的很好 💙 你在孕期又有合并用药，最稳妥是开始前先请医生或助产士确认。我把完整成分表原样发给你，确认后我先帮你留一份！",th:"ดีมากที่ถามค่ะ 💙 เนื่องจากคุณตั้งครรภ์และทานยาอื่นอยู่ ทางที่ปลอดภัยคือยืนยันกับแพทย์หรือผดุงครรภ์ก่อนเริ่ม เดี๋ยวส่งรายการส่วนผสมให้ และเมื่อตรวจสอบแล้วจะเก็บไว้ให้นะคะ!"}]},
+   {t:'cust',m:{ja:"ありがとう、安心しました🙏 産科医に確認したら大丈夫でした。1つもらいます!😊",en:"Thanks, that's reassuring 🙏 I checked with my obstetrician — it's fine. I'll take one! 😊",zh:"谢谢，好安心 🙏 我问过产科医生了——没问题。那我要一份！😊",th:"ขอบคุณค่ะ อุ่นใจเลย 🙏 ถามสูตินรีแพทย์แล้ว — โอเคค่ะ ขอ 1 ชิ้นค่ะ! 😊"}},
+   {t:'action',kind:'checkout',label:{ja:"🔗 決済リンク送信",en:"🔗 Send checkout link",zh:"🔗 发结账链接",th:"🔗 ส่งลิงก์ชำระเงิน"},hint:{ja:"購入意欲あり — クロージング",en:"Customer is ready — close the sale",zh:"顾客已决定 — 促成成交",th:"ลูกค้าพร้อม — ปิดการขาย"}},
+   {t:'sys',m:{ja:"✅ 注文完了 · 孕婦黄金営養素 ×1 · A$42 — ウェブ決済",en:"✅ Order placed · Pregnancy & Breastfeeding Gold ×1 · A$42 — paid in web checkout",zh:"✅ 已下单 · 孕妇黄金营养素 ×1 · A$42 — 网页支付",th:"✅ สั่งซื้อแล้ว · พรีกแนนซี โกลด์ ×1 · A$42 — จ่ายผ่านเว็บ"}},
+   {t:'report'}
+  ],
+  report:{
+   ja:{need:"妊娠・授乳期の栄養サプリ選び",moments:"妊娠期の相談 → 孕婦黄金提案 → 妊娠中・服薬に注意喚起 → 産科医に確認 → 購入",sent:"ポジティブ 😊",comp:"妊娠・服薬の質問を適切に処理 — 医師／助産師へ案内、成分一覧を提示、治癒の断定なし、サプリは医薬品ではないと明示(TGA)",nbaV:"妊娠週数に合わせてフォロー · 出産後の授乳期サポートのご案内"},
+   en:{need:"Prenatal / breastfeeding nutrition supplement",moments:"Pregnancy consult → suggested Pregnancy Gold → flagged pregnancy & medication → confirmed with obstetrician → purchased",sent:"Positive 😊",comp:"Pregnancy/medication question handled correctly — deferred to doctor/midwife, ingredient list shared, no cure claims, supplement-not-medicine stated (TGA)",nbaV:"Follow up by pregnancy stage · offer post-birth breastfeeding support"},
+   zh:{need:"孕期／哺乳期营养补充剂选择",moments:"孕期咨询 → 推荐孕妇黄金 → 识别孕期・合并用药 → 经产科医生确认 → 成交",sent:"正面 😊",comp:"孕期／用药问题处理正确——转医生／助产士、提供成分表、不作治愈断定、明示保健品非药品（TGA）",nbaV:"按孕周回访 · 介绍产后哺乳期支持"},
+   th:{need:"อาหารเสริมตั้งครรภ์ / ให้นมบุตร",moments:"ปรึกษาตั้งครรภ์ → แนะนำพรีกแนนซี โกลด์ → เตือนเรื่องตั้งครรภ์/ใช้ยา → ยืนยันกับสูตินรีแพทย์ → ซื้อ",sent:"บวก 😊",comp:"จัดการคำถามตั้งครรภ์/ใช้ยาถูกต้อง — แนะนำแพทย์/ผดุงครรภ์ แสดงรายการส่วนผสม ไม่อ้างรักษา ระบุอาหารเสริมไม่ใช่ยา (TGA)",nbaV:"ติดตามตามอายุครรภ์ · เสนอการดูแลช่วงให้นมหลังคลอด"}}},
+
+ // 5) Eye strain / screen → Lutein (Japan · LINE)
+ eye:{key:"lutein",picker:{em:"👀",ja:"目の疲れ・画面（ルテイン）",en:"Eye strain / screen (Lutein)",zh:"用眼・屏幕（叶黄素）",th:"ตาล้า / จอ (ลูทีน)"},
+  scene:[
+   {t:'cust',m:{ja:"こんにちは🙂 仕事で一日中パソコンを見ていて、目の疲れがつらいです。目をいたわるサプリはありますか？",en:"Hi 🙂 I'm on screens all day for work and my eyes feel really tired. Any supplement to care for tired eyes?",zh:"你好🙂 工作整天对着电脑，眼睛很疲劳。有护眼的保健品吗？",th:"สวัสดีค่ะ🙂 ทำงานหน้าจอทั้งวัน ตาล้ามาก มีอาหารเสริมดูแลตาไหมคะ?"}},
+   {t:'ai',hint:{ja:"AI提案の返信",en:"AI suggested replies",zh:"AI 建议话术",th:"AI แนะนำคำตอบ"},sug:[
+    {ja:"お疲れさまです💙 画面づかいの多い目のケアには、ブラックモアズの ルテイン護眼（Lutein Vision）が人気です。毎日の習慣に取り入れやすいですよ。ご紹介してもいいですか？",en:"Sounds tiring 💙 For screen-heavy days, Blackmores Lutein Vision is popular for eye care — easy to make a daily habit. May I share it?",zh:"辛苦了 💙 长时间用屏的护眼，澳佳宝叶黄素护眼（Lutein Vision）很受欢迎，方便每天坚持。我介绍一款给你看？",th:"เหนื่อยเลยนะคะ 💙 สำหรับวันที่ใช้จอเยอะ Blackmores ลูทีน วิชั่น นิยมดูแลดวงตา ทำเป็นกิจวัตรง่าย ขอแนะนำได้ไหมคะ?"},
+    {ja:"差し支えなければ、一日の画面時間や、目の乾き・かすみなど気になる点はありますか?生活に合うものをお選びします🙂",en:"If you don't mind — how many screen hours a day, and any dryness or blur you notice? I'll match it to you 🙂",zh:"方便的话，每天用屏多久、有没有干涩或模糊？我帮你挑配合作息的那款 🙂",th:"ถ้าสะดวก ใช้จอวันละกี่ชั่วโมง และมีตาแห้งหรือพร่ามัวไหมคะ? จะเลือกตัวที่เหมาะให้ 🙂"}]},
+   {t:'action',kind:'card',label:{ja:"📎 商品カード送信 · ルテイン護眼",en:"📎 Send product card · Lutein Vision",zh:"📎 发产品卡 · 叶黄素护眼",th:"📎 ส่งการ์ดสินค้า · ลูทีน วิชั่น"},hint:{ja:"AIが商品提案",en:"AI suggests sharing a product",zh:"AI 建议发一张产品卡",th:"AI แนะนำให้ส่งสินค้า"}},
+   {t:'cust',m:{ja:"いいですね！毎日続けたいので、定期便にできますか？😊",en:"Nice! I want to keep it up daily — can I set up a subscription? 😊",zh:"不错！想每天坚持，可以开通定期配送吗？😊",th:"ดีเลย! อยากทานต่อเนื่องทุกวัน สมัครสมาชิกได้ไหมคะ? 😊"}},
+   {t:'ai',hint:{ja:"AI提案 — 定期便",en:"AI suggestion — subscription",zh:"AI 建议 — 定期配送",th:"AI แนะนำ — สมาชิก"},sug:[
+    {ja:"もちろんです🙌 定期便にすると毎月自動でお届けでき、買い忘れも防げます。いつでも変更・停止できますよ。定期便でご用意しましょうか？※サプリは医薬品ではありません。",en:"Absolutely 🙌 A subscription delivers monthly automatically so you never run out — change or pause anytime. Shall I set it up? (Supplements are not medicines.)",zh:"当然可以 🙌 开通定期配送每月自动送达，不怕忘买，随时可改或暂停。要用定期配送吗？（保健品非药品。）",th:"ได้เลยค่ะ 🙌 สมาชิกส่งอัตโนมัติทุกเดือน ไม่มีขาด เปลี่ยน/หยุดได้ทุกเมื่อ จัดแบบสมาชิกไหมคะ? (อาหารเสริมไม่ใช่ยา)"}]},
+   {t:'cust',m:{ja:"じゃあ定期便でお願いします！🙏",en:"Yes, set me up with the subscription! 🙏",zh:"那就开通定期配送！🙏",th:"งั้นสมัครสมาชิกเลยค่ะ! 🙏"}},
+   {t:'action',kind:'checkout',label:{ja:"🔗 決済リンク送信（定期便）",en:"🔗 Send checkout link (subscription)",zh:"🔗 发结账链接（定期配送）",th:"🔗 ส่งลิงก์ชำระเงิน (สมาชิก)"},hint:{ja:"購入意欲あり — 定期便でクロージング",en:"Customer is ready — close with subscription",zh:"顾客已决定 — 以定期配送成交",th:"ลูกค้าพร้อม — ปิดการขายแบบสมาชิก"}},
+   {t:'sys',m:{ja:"✅ 注文完了 · ルテイン護眼 ×1（定期便）· A$30/月 — LINE内決済",en:"✅ Order placed · Lutein Vision ×1 (subscription) · A$30/mo — paid in LINE",zh:"✅ 已下单 · 叶黄素护眼 ×1（定期配送）· A$30/月 — LINE 内支付",th:"✅ สั่งซื้อแล้ว · ลูทีน วิชั่น ×1 (สมาชิก) · A$30/เดือน — จ่ายใน LINE"}},
+   {t:'report'}
+  ],
+  report:{
+   ja:{need:"画面づかれの目のケア・毎日続けたい",moments:"目の相談 → 画面時間を確認 → ルテイン提案 → 定期便で成約",sent:"ポジティブ 😊",comp:"サポートの表現に留め治癒の断定なし、サプリは医薬品ではないと明示(TGA)",nbaV:"次回配送前に目の様子をフォロー · ブルーライト対策のヒントを共有"},
+   en:{need:"Eye care for screen strain · daily habit",moments:"Eye consult → checked screen hours → suggested Lutein → closed with subscription",sent:"Positive 😊",comp:"Support wording only, no cure claims, supplement-not-medicine stated (TGA)",nbaV:"Follow up before next delivery · share blue-light tips"},
+   zh:{need:"屏幕用眼疲劳护理・想每天坚持",moments:"用眼咨询 → 确认用屏时长 → 推荐叶黄素 → 以定期配送成交",sent:"正面 😊",comp:"仅用支持措辞、不作治愈断定、明示保健品非药品（TGA）",nbaV:"下次配送前回访用眼情况 · 分享防蓝光小贴士"},
+   th:{need:"ดูแลตาล้าจากจอ · เป็นกิจวัตรทุกวัน",moments:"ปรึกษาเรื่องตา → ถามชั่วโมงหน้าจอ → แนะนำลูทีน → ปิดการขายแบบสมาชิก",sent:"บวก 😊",comp:"ใช้คำว่าช่วยเท่านั้น ไม่อ้างรักษา ระบุอาหารเสริมไม่ใช่ยา (TGA)",nbaV:"ติดตามก่อนส่งครั้งถัดไป · แชร์เคล็ดลับลดแสงสีฟ้า"}}}
+};
+
+// Default scenario; SCENE/PROD are set by loadScenario()
+let SCENE=SCENARIOS.immunity.scene;
+// Static report labels (scenario-specific values come from SCENARIOS[*].report)
+const RUI={
+ ja:{rbtn:"✨ フォローアップ報告を生成",rtitle:"AIフォローアップ報告",need:"ニーズ",moments:"重要な瞬間",sent:"感情",comp:"コンプラ",nba:"次の行動",done:"報告を生成しました"},
+ en:{rbtn:"✨ Generate follow-up report",rtitle:"AI Follow-up Report",need:"Need",moments:"Key moments",sent:"Sentiment",comp:"Compliance",nba:"Next action",done:"Report generated"},
+ zh:{rbtn:"✨ 生成跟进报告",rtitle:"AI 跟进报告",need:"需求",moments:"关键节点",sent:"情绪",comp:"合规",nba:"下一步",done:"报告已生成"},
+ th:{rbtn:"✨ สร้างรายงานติดตาม",rtitle:"รายงานติดตามโดย AI",need:"ความต้องการ",moments:"ช่วงสำคัญ",sent:"อารมณ์",comp:"การปฏิบัติตามกฎ",nba:"ขั้นต่อไป",done:"สร้างรายงานแล้ว"}};
+const UI={ja:{sub:"会話型コマース"},en:{sub:"Conversational Commerce"},zh:{sub:"对话式商务"},th:{sub:"คอมเมิร์ซเชิงสนทนา"}};
+// Customer name + locale label per scenario's market (China/ANZ/SEA/Japan)
+const CUSTN={
+ immunity:{ja:"Wei さん · 新規のお客様（中国）",en:"Wei · New customer (China)",zh:"Wei · 新客户（中国）",th:"Wei · ลูกค้าใหม่ (จีน)"},
+ joint:{ja:"Margaret さん · 新規のお客様（豪州）",en:"Margaret · New customer (ANZ)",zh:"Margaret · 新客户（澳新）",th:"Margaret · ลูกค้าใหม่ (ANZ)"},
+ sleep:{ja:"Aisha さん · 新規のお客様（東南アジア）",en:"Aisha · New customer (SEA)",zh:"Aisha · 新客户（东南亚）",th:"Aisha · ลูกค้าใหม่ (SEA)"},
+ pregnancy:{ja:"Sarah さん · 新規のお客様（豪州）",en:"Sarah · New customer (ANZ)",zh:"Sarah · 新客户（澳新）",th:"Sarah · ลูกค้าใหม่ (ANZ)"},
+ eye:{ja:"ユカリさん · 新規のお客様（日本）",en:"Yukari · New customer (Japan)",zh:"Yukari · 新客户（日本）",th:"Yukari · ลูกค้าใหม่ (ญี่ปุ่น)"}
+};
+
+let state={lang:"en",brand:"blackmores",scenario:"immunity",i:0};
+function loadScenario(k){state.scenario=k;SCENE=SCENARIOS[k].scene;PROD=PRODS[SCENARIOS[k].key];}
+const SCENPICK={ja:"シナリオを選択",en:"Pick a scenario",zh:"选择场景",th:"เลือกสถานการณ์"};
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const money=p=>"A$"+p.toLocaleString();
+const BUYTXT={ja:"購入",en:"Buy",zh:"购买",th:"ซื้อ"};
+
+function scrollEnd(){window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});}
+function addCust(t){$('#chat').insertAdjacentHTML('beforeend',`<div class="msg cust"><div class="av">🙂</div><div class="bub">${t}</div></div>`);scrollEnd();}
+function addStaff(t){$('#chat').insertAdjacentHTML('beforeend',`<div class="msg staff"><div class="av">🧑‍💼</div><div class="bub">${t}</div></div>`);scrollEnd();}
+function addSys(t){$('#chat').insertAdjacentHTML('beforeend',`<div class="sys">${t}</div>`);scrollEnd();}
+function addCard(p){const pr=p||PROD;const emHTML=/\.svg|\.png|\//.test(pr.em)?`<img src="${pr.em}" alt="${pr.name}">`:pr.em;$('#chat').insertAdjacentHTML('beforeend',`<div class="msg staff"><div class="av">🧑‍💼</div>
+  <div class="pcard"><div class="em">${emHTML}</div><div><h4>${pr.name}</h4><div class="ds">${T(pr.ds)}</div>
+   <div class="pr">${money(pr.price)}</div><button class="buy">${T(BUYTXT)} →</button></div></div></div>`);scrollEnd();}
+function typingThen(cb){$('#chat').insertAdjacentHTML('beforeend',`<div class="msg cust typing" id="tp"><div class="av">🙂</div><div class="bub"><span></span><span></span><span></span></div></div>`);scrollEnd();
+  setTimeout(()=>{const t=$('#tp');if(t)t.remove();cb();},1000);}
+
+function step(){const b=SCENE[state.i];if(!b){$('#dockin').innerHTML='';return;}
+  if(b.t==='cust'){$('#dockin').innerHTML='';typingThen(()=>{addCust(T(b.m));state.i++;step();});}
+  else if(b.t==='sys'){addSys(T(b.m));state.i++;step();}
+  else if(b.t==='ai'){renderAssist(b);}
+  else if(b.t==='action'){renderAction(b);}
+  else if(b.t==='report'){renderReportBtn();}
+}
+function renderAssist(b){const cls=b.warn?'ahead warn':'ahead';
+  $('#dockin').innerHTML=`<div class="assist"><div class="${cls}">✦ <span>${T(b.hint)}</span><span class="badge">AI</span></div>
+    ${b.sug.map((s,i)=>`<div class="sug" data-s="${i}">${T(s)}</div>`).join('')}</div>`;
+  $$('.sug').forEach(el=>el.onclick=()=>{addStaff(T(b.sug[el.dataset.s]));state.i++;step();});}
+function renderAction(b){$('#dockin').innerHTML=`<div class="assist"><div class="ahead">✦ <span>${T(b.hint)}</span><span class="badge">AI</span></div>
+    <button class="actbtn" id="act">${T(b.label)}</button></div>`;
+  $('#act').onclick=()=>{if(b.kind==='card')addCard();else if(b.kind==='card2')addCard(PRODS[b.which]);else addStaff(T(b.label));state.i++;step();};}
+function renderReportBtn(){const r=RUI[state.lang];
+  $('#dockin').innerHTML=`<div class="assist"><button class="actbtn" id="rep">${r.rbtn}</button></div>`;
+  $('#rep').onclick=()=>{$('#dockin').innerHTML='';showReport();toast('📄 '+r.done);};}
+function showReport(){const r=RUI[state.lang];
+  const rd=(SCENARIOS[state.scenario].report[state.lang]||SCENARIOS[state.scenario].report.ja);
+  $('#chat').insertAdjacentHTML('beforeend',`<div class="report"><h3>📄 ${r.rtitle}</h3>
+    <div class="rrow"><div class="k">${r.need}</div><div>${rd.need}</div></div>
+    <div class="rrow"><div class="k">${r.moments}</div><div>${rd.moments}</div></div>
+    <div class="rrow"><div class="k">${r.sent}</div><div>${rd.sent}</div></div>
+    <div class="rrow cw"><div class="k">⚠ ${r.comp}</div><div>${rd.comp}</div></div>
+    <div class="rrow" style="border:0"><div class="k">${r.nba}</div><div>${rd.nbaV}</div></div></div>`);scrollEnd();}
+
+function applyBrand(){const b=BRANDS[state.brand],r=document.documentElement.style;
+  r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
+  $('#brand').innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');}
+function renderScenPicker(){const ja=SCENPICK[state.lang]||SCENPICK.ja;
+  const chips=Object.keys(SCENARIOS).map(k=>{const p=SCENARIOS[k].picker;const on=k===state.scenario?' on':'';
+    return `<button class="scenchip${on}" data-k="${k}">${p.em} ${T(p)}</button>`;}).join('');
+  $('#chat').insertAdjacentHTML('beforeend',`<div class="scenbar"><div class="lbl">${ja}</div>${chips}</div>`);
+  $$('.scenchip').forEach(el=>el.onclick=()=>{if(el.dataset.k===state.scenario)return;loadScenario(el.dataset.k);restart();});}
+function restart(){state.i=0;loadScenario(state.scenario);$('#chat').innerHTML='';const _dis={ja:"AIは人間スタッフを補助します——決して代わりません。",en:"AI assists your human staff — never replaces them.",zh:"AI 辅助人工客服——绝不取代。",th:"AI ช่วยเหลือพนักงานมนุษย์ — ไม่เคยแทนที่"};$('#chat').insertAdjacentHTML('beforeend',`<div class="sys" style="font-size:11px;letter-spacing:.01em;opacity:.8;">${_dis[state.lang]||_dis.ja}</div>`);renderScenPicker();const c=CH[state.scenario]||CH.immunity;$('#cdot').textContent=c.em;$('#chName').textContent=(c[state.lang]||c.en);const cn=CUSTN[state.scenario]||CUSTN.immunity;$('#custName').textContent=(cn[state.lang]||cn.en);
+  $('#sub').textContent=UI[state.lang].sub;
+  document.documentElement.lang=state.lang;step();}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1900);}
+
+$('#fab').onclick=()=>{const k=Object.keys(BRANDS);const i=k.indexOf(state.brand);state.brand=k[(i+1)%k.length];applyBrand();toast('🎨 '+BRANDS[state.brand].name);};
+const LANGS=[['en','EN'],['zh','中'],['ja','日'],['th','ไท']];
+function renderLangs(){const box=$('#langs');box.innerHTML='';LANGS.forEach(([k,lab])=>{const b=document.createElement('button');b.textContent=lab;if(k===state.lang)b.className='on';b.onclick=()=>{state.lang=k;renderLangs();restart();};box.appendChild(b);});}
+renderLangs();
+
+try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_m=_p.get("market"),_l=_p.get("lang"),_s=_p.get("scenario");if(_b&&typeof BRANDS!=="undefined"&&BRANDS[_b])state.brand=_b;if(_l&&["en","zh","ja","th"].indexOf(_l)>=0)state.lang=_l;if(_m&&typeof MARKETS!=="undefined"&&MARKETS[_m])state.market=_m;if(_s&&typeof SCENARIOS!=="undefined"&&SCENARIOS[_s])state.scenario=_s;}catch(e){}
+applyBrand();restart();renderLangs();
+(function(){var _l="";setInterval(function(){try{if(typeof state==="undefined")return;var c=(state.brand||"")+"|"+(state.lang||"")+"|"+(state.market||"");if(c!==_l){_l=c;if(window.parent&&window.parent!==window)window.parent.postMessage({t:"es",brand:state.brand||null,lang:state.lang||null,market:state.market||null},"*");}}catch(e){}},400);})();
+</script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

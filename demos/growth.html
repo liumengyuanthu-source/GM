@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign Growth Studio · Blackmores · Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
+    --ink:#16201f; --muted:#6a7472; --bg:#f4f7f7; --card:#fff; --line:#e6ecec;
+    --display:Georgia,'Times New Roman','Songti SC','Hiragino Mincho ProN',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans','Microsoft YaHei','Thonburi','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  .nav{display:flex;align-items:center;gap:12px;max-width:980px;margin:0 auto;padding:13px 18px}
+  .brand{font-family:var(--display);font-weight:700;font-size:19px}.brand sup{font-size:9px;color:var(--brand)}
+  .sub{font-size:11px;color:var(--muted);border-left:1px solid var(--line);padding-left:12px}.sp{flex:1}
+  .langs{display:flex;gap:3px}
+  .langs button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;font-weight:600;color:var(--muted);min-width:32px;height:30px;border-radius:8px;cursor:pointer;transition:.2s;padding:0 6px}
+  .langs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .wrap{max-width:980px;margin:0 auto;padding:22px 18px 110px}
+
+  .stepper{display:flex;align-items:center;gap:0;margin-bottom:22px;flex-wrap:wrap}
+  .stp{display:flex;align-items:center;gap:8px;cursor:pointer;opacity:.5;transition:.2s}
+  .stp.on,.stp.done{opacity:1}
+  .stp .sn{width:29px;height:29px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:12.5px;color:var(--muted);background:var(--card);flex:none;transition:.2s}
+  .stp.on .sn{border-color:var(--brand);color:var(--brand);background:var(--soft)}
+  .stp.done .sn{border-color:var(--brand);background:var(--brand);color:#fff}
+  .stp .sl{font-size:12.5px;font-weight:600}
+  .stp.on .sl{color:var(--ink)}
+  .stp-line{flex:1;height:2px;background:var(--line);margin:0 8px;min-width:10px}
+  .stp-line.done{background:var(--brand)}
+
+  h2.step-t{font-family:var(--display);font-size:23px;font-weight:600;margin-bottom:4px}
+  .step-s{font-size:13.5px;color:var(--muted);margin-bottom:18px}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+  .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+  .opt{position:relative;background:var(--card);border:1.5px solid var(--line);border-radius:15px;padding:16px;cursor:pointer;transition:transform .16s,box-shadow .16s,border-color .16s;overflow:hidden}
+  .opt::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--brand);transform:scaleY(0);transform-origin:center;transition:transform .2s}
+  .opt:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.07);border-color:var(--brand)}
+  .opt.sel{border-color:var(--brand);background:linear-gradient(180deg,var(--soft),var(--card))}
+  .opt.sel::before{transform:scaleY(1)}
+  .opt .oi{width:42px;height:42px;border-radius:12px;background:var(--soft);display:grid;place-items:center;font-size:22px;margin-bottom:10px}
+  .opt.sel .oi{background:var(--brand)}
+  .opt .ot{font-family:var(--display);font-size:16px;font-weight:600;line-height:1.2}
+  .opt .od{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}
+  .opt .ock{position:absolute;top:13px;right:13px;width:20px;height:20px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:11px;color:#fff}
+  .opt.sel .ock{background:var(--brand);border-color:var(--brand)}
+  .opt .rec{position:absolute;top:13px;right:13px;font-size:9.5px;font-weight:700;letter-spacing:.04em;color:var(--brand);background:var(--soft);border-radius:5px;padding:3px 6px}
+  .opt .reach{display:inline-block;margin-top:9px;font-size:11px;font-weight:700;color:var(--brand-d);background:var(--soft);border-radius:6px;padding:3px 8px}
+  /* photo theme cards */
+  .opt.photo{padding:0;border-radius:16px}
+  .opt.photo .othumb{position:relative;aspect-ratio:16/10;overflow:hidden;background:linear-gradient(135deg,var(--brand),var(--brand-d))}
+  .opt.photo .oimg{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s ease}
+  .opt.photo:hover .oimg{transform:scale(1.06)}
+  .opt.photo .othumb::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 38%,rgba(20,8,8,.5) 100%)}
+  .opt.photo .obadge{position:absolute;left:12px;bottom:11px;z-index:2;width:30px;height:30px;color:#fff;display:grid;place-items:center;filter:drop-shadow(0 1px 4px rgba(0,0,0,.6))}
+  .opt.photo .obadge svg{width:27px;height:27px}
+  .opt.photo .obody{padding:12px 15px 15px}
+  .opt.photo .obody .ot{font-size:16px}
+  .opt.photo.noimg .oimg{display:none}
+  .opt.photo.noimg .othumb{display:grid;place-items:center}
+  .opt.photo.noimg .othumb::before{content:attr(data-em);font-size:46px;z-index:1;filter:drop-shadow(0 4px 10px rgba(0,0,0,.25))}
+  .opt.photo.noimg .obadge{display:none}
+  .opt.photo .ock{z-index:3;background:rgba(255,255,255,.9);color:var(--brand-d);border-color:rgba(255,255,255,.8)}
+  .opt.photo.sel{background:var(--card);box-shadow:0 10px 24px rgba(0,0,0,.12)}
+  .opt.photo.sel .ock{background:var(--brand);color:#fff;border-color:var(--brand)}
+
+  .goalbox{margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px}
+  .goalbox label{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  .field{width:100%;border:1px solid var(--line);border-radius:11px;padding:12px;font:inherit;font-size:14.5px;margin-top:8px;resize:vertical;min-height:46px}
+  .kpi{display:inline-flex;align-items:center;gap:6px;margin-top:11px;font-size:12px;font-weight:600;color:var(--accent);background:#eaf1f7;border-radius:8px;padding:6px 11px}
+
+  .chan-block{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px}
+  .cb-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .cb-ic{width:34px;height:34px;border-radius:9px;background:var(--soft);display:grid;place-items:center;font-size:17px}
+  .cb-name{font-weight:700;font-size:15px}
+  .tchips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:13px}
+  .tc{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
+  .tc:hover{border-color:var(--brand);color:var(--brand)}
+  .tc.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .regen{margin-left:auto;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 12px;font:inherit;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer}
+  .regen:hover{border-color:var(--brand);color:var(--brand)}
+
+  .poster{background:linear-gradient(135deg,var(--brand),var(--brand-d));color:#fff;border-radius:13px;padding:22px;position:relative;overflow:hidden}
+  .poster::after{content:"";position:absolute;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.08);right:-30px;bottom:-40px}
+  .poster .em{font-size:32px}.poster .ph{font-family:var(--display);font-size:22px;font-weight:700;margin:8px 0 4px;line-height:1.12}
+  .poster .psub{font-size:12.5px;opacity:.92}.poster .pcta{display:inline-block;background:#fff;color:var(--brand);font-weight:700;font-size:12px;padding:7px 13px;border-radius:8px;margin-top:13px}
+  .ptabs{display:flex;gap:6px;margin:11px 0 9px;flex-wrap:wrap}
+  .pt{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:5px 10px;font-size:12px;font-weight:600;cursor:pointer}
+  .pt.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .copybox{font-size:13px;line-height:1.6;background:var(--soft);border-radius:10px;padding:12px;white-space:pre-line}
+  .copybox .hash{color:var(--brand-d);font-size:12px;display:block;margin-top:7px}
+  .ce{outline:none;cursor:text;transition:background .14s,box-shadow .14s}
+  .ce:hover{background:rgba(0,0,0,.05);border-radius:4px;box-shadow:0 0 0 3px rgba(0,0,0,.04)}
+  .ce:focus{background:#fffceb;border-radius:4px;box-shadow:0 0 0 2px rgba(0,155,164,.28)}
+  .em-hero .ce:hover,.poster .ce:hover,.slide .ce:hover,.reel .ce:hover{background:rgba(255,255,255,.16);box-shadow:0 0 0 3px rgba(255,255,255,.1)}
+  .edit-hint{font-size:11.5px;color:var(--muted);margin:-8px 0 16px;display:flex;align-items:center;gap:6px}
+
+  /* rich email */
+  .em-doc{border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:13px;background:#fff}
+  .em-top{background:var(--bg);border-bottom:1px solid var(--line);padding:10px 13px}
+  .em-from{font-weight:700;font-size:12.5px}.em-subj{font-size:13px;margin-top:2px;font-weight:600}.em-pre{color:var(--muted);font-size:11.5px;margin-top:2px}
+  .em-hero{position:relative;overflow:hidden;color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand-d));padding:20px}
+  .em-hero::after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.08);right:-40px;bottom:-50px}
+  .em-hero .em{font-size:30px}.em-hero h3{font-family:var(--display);font-size:21px;margin:7px 0 3px;line-height:1.15}.em-hero p{font-size:12.5px;opacity:.93}
+  .em-body{padding:15px}
+  .em-body p{margin-bottom:9px;line-height:1.62;color:#33403e;font-size:12.7px}
+  .em-h{font-family:var(--display);font-size:15px;font-weight:600;margin:4px 0 8px}
+  .em-bul{list-style:none;margin:2px 0 11px}
+  .em-bul li{position:relative;padding:6px 0 6px 23px;border-bottom:1px dashed var(--line);font-size:12.5px;color:#33403e}
+  .em-bul li::before{content:'✓';position:absolute;left:0;color:var(--brand);font-weight:800}
+  .em-offer{background:var(--soft);border:1px dashed var(--brand);border-radius:10px;padding:12px 13px;margin:11px 0;display:flex;align-items:center;gap:12px}
+  .em-offer .ot{flex:1;font-weight:700;color:var(--brand-d);font-size:13px}
+  .em-offer .oc{background:var(--ink);color:#fff;border-radius:6px;padding:5px 9px;font-weight:700;letter-spacing:.08em;font-size:11.5px}
+  .em-cta{display:inline-block;background:var(--brand);color:#fff;font-weight:700;font-size:12.5px;padding:10px 18px;border-radius:9px}
+  .em-foot{background:var(--bg);border-top:1px solid var(--line);padding:10px 13px;font-size:10.5px;color:var(--muted);line-height:1.5}
+  .em-news .em-sec{border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px}
+  .em-spot{text-align:center;padding:18px}
+  .em-spot .big{font-family:var(--display);font-size:34px;font-weight:800;color:var(--brand);line-height:1}
+  .em-spot .code{display:inline-block;background:var(--ink);color:#fff;border-radius:7px;padding:5px 12px;font-weight:700;letter-spacing:.12em;font-size:13px;margin:10px 0}
+
+  .pv-wa{background:#e7ddd2;border-radius:12px;padding:12px}
+  .pv-wa .wabar{font-size:11px;font-weight:700;color:#075e54;margin-bottom:8px}
+  .pv-wa .wamsg{background:#fff;border-radius:3px 11px 11px 11px;padding:11px;max-width:90%;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+  .pv-wa .waimg{height:74px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand-d));display:grid;place-items:center;font-size:30px;color:#fff;margin-bottom:8px}
+  .pv-wa .watext{font-size:13px;line-height:1.55}.pv-wa .watext b{display:block;margin-bottom:3px}
+  .pv-wa .wal{margin:7px 0 0;padding-left:16px;font-size:12.5px}.pv-wa .wal li{margin:2px 0}
+  .pv-wa .wabtn{margin-top:9px;border-top:1px solid var(--line);padding-top:8px;text-align:center;color:#0a6cff;font-weight:700;font-size:13px}
+  .pv-wa .waopt{font-size:10.5px;color:var(--muted);margin-top:6px}
+  .qr-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+  .qr-chip{background:#fff;border:1px solid #bfe0d9;color:#075e54;border-radius:8px;padding:6px 11px;font-size:12px;font-weight:600}
+  .pv-inapp{border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;gap:12px;align-items:center;background:linear-gradient(135deg,var(--soft),var(--card))}
+  .pv-inapp .ib{width:48px;height:48px;border-radius:12px;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:23px;flex:none}
+  .pv-inapp .it b{display:block;font-size:14px}.pv-inapp .it span{font-size:12px;color:var(--muted)}
+  .pv-inapp .ix{margin-left:auto;background:var(--brand);color:#fff;font-size:12px;font-weight:700;padding:8px 13px;border-radius:8px;flex:none}
+
+  .pv-sms{max-width:320px}
+  .pv-sms .sb{background:#e9e9eb;color:#111;border-radius:15px 15px 15px 4px;padding:11px 14px;font-size:13px;line-height:1.5;white-space:pre-line}
+  .pv-sms .sb a{color:#0a6cff;text-decoration:none}
+  .pv-sms .sc{font-size:11px;color:var(--muted);margin-top:6px}
+
+  .carou{display:flex;gap:8px}
+  .slide{flex:1;min-width:0;border-radius:12px;padding:13px;color:#fff;background:linear-gradient(150deg,var(--brand),var(--brand-d));min-height:128px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+  .slide:nth-child(2){background:linear-gradient(150deg,var(--brand-d),#5e0000)}
+  .slide:nth-child(3){background:linear-gradient(150deg,var(--accent),#06243c)}
+  .slide .sn{font-size:10px;opacity:.8;font-weight:700}
+  .slide .se{font-size:22px}
+  .slide b{font-family:var(--display);font-size:13.5px;line-height:1.18;display:block;margin-top:6px}
+  .slide span{font-size:11px;opacity:.9}
+  .reel{width:152px;aspect-ratio:9/16;border-radius:15px;background:linear-gradient(165deg,var(--brand),var(--brand-d));color:#fff;padding:14px;display:flex;flex-direction:column;justify-content:flex-end;margin:0 auto;position:relative;overflow:hidden}
+  .reel .em{position:absolute;top:14px;left:14px;font-size:26px}
+  .reel b{font-family:var(--display);font-size:16px;line-height:1.15}
+  .reel span{font-size:11px;opacity:.92;margin:5px 0 9px}
+  .reel .rcta{background:#fff;color:var(--brand);font-weight:700;font-size:11.5px;padding:7px;border-radius:8px;text-align:center}
+  .reel .rdots{position:absolute;top:16px;right:14px;display:flex;gap:3px}.reel .rdots i{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5)}.reel .rdots i.on{background:#fff}
+
+  .pv-offline{display:flex;gap:14px;align-items:stretch;flex-wrap:wrap}
+  .pv-offline .poster{flex:1;min-width:200px}
+  .standee{width:120px;border-radius:13px 13px 6px 6px;background:linear-gradient(180deg,var(--brand),var(--brand-d));color:#fff;padding:14px 12px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center}
+  .standee .em{font-size:26px}.standee b{font-family:var(--display);font-size:14px;line-height:1.15}
+  /* campaign photos inside channel previews */
+  .poster>*,.reel>*,.standee>*,.slide>*,.em-hero>*{position:relative;z-index:2}
+  .bgimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;border-radius:inherit}
+  .scrim{position:absolute;inset:0;z-index:1;border-radius:inherit}
+  .poster .scrim,.slide .scrim{background:linear-gradient(150deg,rgba(110,0,0,.5),rgba(35,0,0,.82))}
+  .reel .scrim,.standee .scrim{background:linear-gradient(180deg,rgba(30,0,0,.12) 28%,rgba(25,0,0,.86))}
+  .em-hero .scrim{background:linear-gradient(135deg,rgba(110,0,0,.46),rgba(35,0,0,.8))}
+  .em-hero{min-height:132px;display:flex;flex-direction:column;justify-content:flex-end}
+  .pv-wa .waimg{padding:0;overflow:hidden;height:auto;aspect-ratio:1.9/1}
+  .pv-wa .waimg img{width:100%;height:100%;object-fit:cover;object-position:center 38%;display:block}
+  .pv-inapp .ib{overflow:hidden}
+  .pv-inapp .ib img{width:100%;height:100%;object-fit:cover;display:block}
+  /* channel line icons */
+  .opt .oi{color:var(--brand)}
+  .opt.sel .oi{color:#fff}
+  .opt .oi svg{width:23px;height:23px}
+  .cb-ic{color:var(--brand)}
+  .cb-ic svg{width:19px;height:19px}
+  .qrcard{border:1px solid var(--line);border-radius:13px;padding:13px;text-align:center;min-width:150px;background:#fff}
+  .qr{width:104px;height:104px;margin:0 auto 8px;display:grid;grid-template-columns:repeat(11,1fr);grid-template-rows:repeat(11,1fr);gap:1px}
+  .qr i{background:var(--ink);border-radius:1px}.qr i.b0{background:transparent}
+  .qrcard small{font-size:11px;color:var(--muted)}
+  .qrcard .cid{font-size:10.5px;font-weight:700;color:var(--brand-d);margin-top:4px;letter-spacing:.02em}
+  .coupon2{border:2px dashed var(--brand);border-radius:13px;padding:14px;text-align:center;min-width:170px;background:var(--soft)}
+  .coupon2 .big{font-family:var(--display);font-size:26px;font-weight:800;color:var(--brand)}
+  .coupon2 .code{background:var(--ink);color:#fff;border-radius:7px;padding:5px 11px;font-size:12px;font-weight:700;letter-spacing:.1em;display:inline-block;margin:7px 0 4px}
+
+  /* audience */
+  .aud-wrap{display:grid;grid-template-columns:1fr 280px;gap:16px;align-items:start}
+  .aud-groups{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+  .agrp{margin-bottom:15px}.agrp:last-child{margin-bottom:0}
+  .agrp .gl{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .achips{display:flex;flex-wrap:wrap;gap:7px}
+  .ac{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 13px;font-size:12.5px;font-weight:600;cursor:pointer;transition:.15s}
+  .ac:hover{border-color:var(--brand)}
+  .ac.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .aud-est{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;position:sticky;top:78px;text-align:center}
+  .aud-est .el{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  .aud-est .en{font-family:var(--display);font-size:38px;font-weight:700;color:var(--brand);margin:6px 0;transition:.2s}
+  .aud-est .ed{font-size:12px;color:var(--muted)}
+  .aud-est .bar{height:8px;border-radius:5px;background:var(--bg);margin:13px 0 4px;overflow:hidden}
+  .aud-est .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-d));transition:width .3s}
+  .presets{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+  .preset{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 11px;font-size:12px;font-weight:600;cursor:pointer}
+  .preset:hover{border-color:var(--brand);color:var(--brand)}
+
+  /* review (geo + compliance) */
+  .rev{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+  .panel h4{font-size:13.5px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px}
+  .score{display:flex;align-items:center;gap:13px;margin-bottom:13px}
+  .ring{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;flex:none}
+  .ring i{width:46px;height:46px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-weight:800;font-size:15px;color:var(--brand)}
+  .score .st b{font-size:13.5px}.score .st div{font-size:11.5px;color:var(--muted)}
+  .chk{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:12.5px}
+  .chk:last-child{border:0}
+  .chk .ci{width:19px;height:19px;border-radius:50%;display:grid;place-items:center;font-size:11px;flex:none;color:#fff;margin-top:1px}
+  .chk .ci.ok{background:#2e9e5b}.chk .ci.warn{background:#e0922f}
+  .chk .ct{flex:1;line-height:1.4}.chk .ct small{display:block;color:var(--muted);font-size:11px;margin-top:1px}
+  .chk .cfix{border:1px solid var(--brand);background:var(--card);border-radius:7px;padding:4px 10px;font:inherit;font-size:11.5px;font-weight:700;cursor:pointer;color:var(--brand);flex:none}
+  .chk .cfix:hover{background:var(--soft)}
+  .fixed{color:#2e9e5b;font-size:11.5px;font-weight:700;flex:none}
+  .geo-q{background:var(--bg);border:1px solid var(--line);border-radius:10px 10px 10px 3px;padding:9px 12px;font-size:12.5px;display:inline-block;margin:4px 0 6px}
+  .geo-a{background:linear-gradient(135deg,#f3eaff,#eaf3ff);border-radius:3px 10px 10px 10px;padding:11px 13px;font-size:12.5px;line-height:1.5}.geo-a b{color:var(--brand-d)}
+  .geo-note{font-size:11px;color:var(--muted);margin-top:9px;display:flex;gap:6px;align-items:flex-start}
+  .geo-flip{display:flex;align-items:center;gap:11px;margin-bottom:12px;font-size:12.5px;font-weight:700}
+  .gfl{transition:.2s}.gfl.dim{color:var(--muted);font-weight:600}
+  .contentbox{border-radius:11px;padding:12px;margin-bottom:12px;font-size:12.5px}
+  .contentbox.mktg{background:#fff7ef;border:1px solid #f0d8bd}
+  .contentbox.facts{background:var(--bg);border:1px solid var(--line)}
+  .cbh{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .mktgp{font-style:italic;color:#9a6b3f;margin:5px 0;line-height:1.5}
+  .factrow{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed var(--line)}
+  .factrow:last-child{border:0}.factrow .fk{color:var(--muted)}.factrow .fv{font-weight:600;text-align:right}
+  .geo-break{margin:11px 0 4px}
+  .bdrow{display:flex;align-items:center;gap:9px;font-size:11px;margin:5px 0}.bdrow .bl{width:104px;color:var(--muted)}.bdrow .bdbar{flex:1;height:7px;background:var(--bg);border-radius:4px;overflow:hidden}.bdrow .bdbar i{display:block;height:100%;transition:width .5s}.bdrow b{width:30px;text-align:right}
+  .reco-lab{font-weight:800;font-size:13px}.reco-hint{font-size:11.5px;color:var(--muted);margin-top:3px}
+
+  .sched{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .panel .row{display:flex;align-items:center;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px dashed var(--line)}
+  .panel .row:last-child{border:0}
+  .seg{display:flex;gap:7px;margin-bottom:12px}
+  .seg button{flex:1;border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:9px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+  .seg button.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .toggle{width:40px;height:23px;border-radius:13px;background:var(--line);position:relative;cursor:pointer;transition:.2s;flex:none}
+  .toggle.on{background:var(--brand)}
+  .toggle i{position:absolute;top:2px;left:2px;width:19px;height:19px;border-radius:50%;background:#fff;transition:.2s}
+  .toggle.on i{left:19px}
+  .chan-sum .cs-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:13px}
+  .chan-sum .cs-row:last-child{border:0}
+  .chan-sum .cs-n{flex:1;font-weight:600}.chan-sum .cs-c{color:var(--muted);font-size:12px}
+
+  .funnel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:4px}
+  .fstage{display:flex;align-items:center;gap:13px;margin-bottom:11px}
+  .fstage .fl{width:130px;font-size:13px;font-weight:600;flex:none}
+  .fstage .fbar{flex:1;height:30px;border-radius:8px;background:var(--bg);overflow:hidden}
+  .fstage .fbar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-d));border-radius:8px;transition:width .8s ease}
+  .fstage .fn{width:92px;text-align:right;font-weight:700;font-size:14px;flex:none}
+  .fnote{font-size:12px;color:var(--muted);margin-top:6px;display:flex;gap:7px;align-items:flex-start}
+
+  .footbar{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);z-index:35}
+  .footin{max-width:980px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;gap:12px}
+  .ftxt{font-size:12.5px;color:var(--muted);flex:1}
+  .btn{border:0;font:inherit;font-size:14px;font-weight:700;padding:11px 22px;border-radius:11px;cursor:pointer;transition:.18s}
+  .btn.ghost{background:var(--card);border:1px solid var(--line);color:var(--ink)}
+  .btn.ghost:hover{border-color:var(--brand);color:var(--brand)}
+  .btn.prim{background:var(--brand);color:#fff}.btn.prim:hover{background:var(--brand-d)}
+  .btn.prim:disabled{opacity:.5;cursor:default}
+
+  .toast{position:fixed;bottom:78px;left:50%;transform:translateX(-50%) translateY(50px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:11px;font-size:14px;font-weight:600;z-index:80;opacity:0;transition:.3s}
+  .toast.show{transform:translateX(-50%);opacity:1}
+  .fab{position:fixed;right:18px;bottom:78px;width:46px;height:46px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:19px;box-shadow:0 10px 26px rgba(0,0,0,.2);cursor:pointer;z-index:40}
+  .empty{color:var(--muted);font-size:13.5px;background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:24px;text-align:center}
+  @media(max-width:760px){.grid3,.grid2,.sched,.rev{grid-template-columns:1fr}.aud-wrap{grid-template-columns:1fr}.stp .sl{display:none}}
+</style>
+</head>
+<body>
+<header><div class="nav">
+  <div class="brand" id="brand">Blackmores</div>
+  <div class="sub" id="sub">Campaign Growth Studio</div><div class="sp"></div>
+  <div class="langs" id="langs"></div>
+</div></header>
+
+<div class="wrap">
+  <div class="stepper" id="stepper"></div>
+  <div id="stage"></div>
+</div>
+
+<div class="footbar"><div class="footin">
+  <span class="ftxt" id="ftxt"></span>
+  <button class="btn ghost" id="back"></button>
+  <button class="btn prim" id="next"></button>
+</div></div>
+
+<div class="toast" id="toast"></div>
+<div class="fab" id="fab" title="Switch Core / Premium">🔁</div>
+
+<script>
+const BRANDS={
+  honda4w:{logo:"Blackmores",sup:"®",name:"Blackmores Premium",em:"💊",ent:"4w",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  honda2w:{logo:"Blackmores",sup:"®",name:"Blackmores Core",em:"🌿",ent:"2w",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]}
+};
+const MODELS={'2w':["Fish Oil 1000","Immunity C","Vitamin D3","Magnesium+"],'4w':["Pregnancy & Breastfeeding Gold","Bio C 1000","Sustained Release Multi"]};
+const FLOW=['theme','channels','content','review','audience','launch'];
+let state={lang:"en",brand:"honda4w",market:"india",step:0,theme:"festive",chans:["wa","social"],tmpl:{},variant:{},aud:[],when:"now",attrib:true,fixed:{},geo:false,launched:false};
+
+const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
+const ENT=()=>BRANDS[state.brand].ent;
+const MODEL=()=>MODELS[ENT()][0];
+const RIDE=()=>({en:ENT()==='2w'?'product trial':'consultation',ja:ENT()==='2w'?'お試し':'相談',th:ENT()==='2w'?'ทดลองใช้':'การปรึกษา'})[state.lang]||'consultation';
+const L=o=>(o&&(o[state.lang]||o.en))||'';
+
+/* ---------------- i18n chrome ---------------- */
+const T={
+  en:{sub:"Campaign Growth Studio",steps:["Theme","Channels","Content","Review","Audience","Launch"],
+    back:"← Back",next:"Next →",launch:"🚀 Launch campaign",relaunch:"↻ Build another",
+    t_theme:"Pick a campaign theme",s_theme:"Acquisition-stage campaigns to fill the funnel — pick one and we pre-fill goal, channels and templates.",
+    t_channels:"Choose channels",s_channels:"Where this campaign runs. Recommended channels for your theme are pre-selected.",
+    t_content:"Templates & content",s_content:"Pick a template per channel — AI drafts realistic copy & creative. Hit Regenerate for a fresh variant.",
+    t_review:"GEO & compliance review",s_review:"Before launch, check AI-discovery readiness and DPDP compliance. Fix flags in one click.",
+    t_audience:"Build the audience",s_audience:"Narrow who receives it. The reach estimate updates live.",
+    t_launch:"Schedule & launch",s_launch:"Set timing, attach the campaign ID + QR, and push.",
+    goalL:"Campaign goal",goalP:"Describe the goal in one line…",kpiL:"Primary KPI",
+    reach:"reach",regen:"↻ Regenerate",pickone:"Select at least one channel to continue.",
+    audReach:"Estimated reach",audOf:"of addressable base",presetL:"Quick presets:",
+    when:"Send",now:"Send now",later:"Schedule",cid:"Campaign ID",qrL:"Unique QR · scan-to-attribute",
+    attrib:"QR + ID attribution",attribD:"Every scan / click becomes an attributed lead in Leads (LMS).",
+    summary:"Channel summary",launchHint:"Ready — campaign ID and QR are attached for end-to-end attribution.",
+    fReach:"Reach",fDeliv:"Delivered",fEng:"Scan / Click",fLead:"Attributed leads",
+    resT:"Campaign launched",resS:"Projected 14-day funnel across selected channels.",
+    flow:"Leads flow straight into Leads Management with source = this campaign ID.",
+    ftStep:"Step",ftOf:"of",
+    geoT:"GEO · AI-discovery readiness",compT:"DPDP compliance review",
+    geoScore:"GEO readiness",compScore:"Compliance score",fix:"Apply fix",fixed:"Fixed",
+    geoNote:"Structured so AI search engines cite Blackmores products, channel partners & live offers.",
+    geoMktg:"Marketing adjectives",geoFacts:"Structured facts",geoReco:"AI recommendability",
+    geoHi:"Top of AI shortlists",geoLo:"Rarely recommended",
+    geoHintHi:"AI cites concrete specs & price, so this product is recommended.",geoHintLo:"AI can't verify vague claims, so Blackmores is skipped in shortlists.",
+    geoFlipNote:"Same campaign, two ways AI reads it. Flip your copy from adjectives to citable facts and the product jumps into AI shortlists.",
+    geoMktgH:"Your campaign copy (as AI sees it)",geoFactsH:"Structured, citable facts",
+    allclear:"All checks passed — safe to launch.",subj:"Subject",unsub:"You're receiving this as a Blackmores India contact. Unsubscribe · Manage preferences",optout:"Reply STOP to opt out",
+    editHint:"Click any text in a preview to edit it manually — or hit Regenerate for a fresh AI draft.",applying:"Applying…"},
+  zh:{sub:"增长营销工作室",steps:["主题","渠道","内容","审核","受众","上线"],
+    back:"← 返回",next:"下一步 →",launch:"🚀 启动活动",relaunch:"↻ 再建一个",
+    t_theme:"选择活动主题",s_theme:"用于填充漏斗的获客阶段活动——选择后自动预填目标、渠道与模板。",
+    t_channels:"选择渠道",s_channels:"活动投放的位置。已根据主题预选推荐渠道。",
+    t_content:"模板与内容",s_content:"为每个渠道选择模板——AI 生成贴近真实的文案与创意。点击重新生成可获取新版本。",
+    t_review:"GEO 与合规审核",s_review:"上线前检查 AI 检索就绪度与 DPDP 合规性。一键修复标记项。",
+    t_audience:"构建受众",s_audience:"细分接收人群。覆盖人数预估实时更新。",
+    t_launch:"排期与上线",s_launch:"设置时间、附上活动 ID + 二维码并推送。",
+    goalL:"活动目标",goalP:"用一句话描述目标…",kpiL:"核心 KPI",
+    reach:"覆盖",regen:"↻ 重新生成",pickone:"请至少选择一个渠道以继续。",
+    audReach:"预估覆盖",audOf:"占可触达基数",presetL:"快捷预设：",
+    when:"发送",now:"立即发送",later:"定时发送",cid:"活动 ID",qrL:"专属二维码 · 扫码归因",
+    attrib:"二维码 + ID 归因",attribD:"每次扫码／点击都会成为 Leads (LMS) 中带归因的线索。",
+    summary:"渠道汇总",launchHint:"已就绪——活动 ID 与二维码已附上，实现端到端归因。",
+    fReach:"覆盖",fDeliv:"已送达",fEng:"扫码／点击",fLead:"归因线索",
+    resT:"活动已上线",resS:"所选渠道 14 天漏斗预测。",
+    flow:"线索以来源 = 本活动 ID 直接进入 Leads Management。",
+    ftStep:"步骤",ftOf:"/",
+    geoT:"GEO · AI 检索就绪度",compT:"DPDP 合规审核",
+    geoScore:"GEO 就绪度",compScore:"合规评分",fix:"应用修复",fixed:"已修复",
+    geoNote:"采用结构化处理，让 AI 搜索引擎能引用 Blackmores 的产品、渠道伙伴与实时优惠。",
+    geoMktg:"营销形容词",geoFacts:"结构化事实",geoReco:"AI 推荐可能性",
+    geoHi:"AI 候选清单首位",geoLo:"几乎不被推荐",
+    geoHintHi:"AI 会引用具体规格与价格，因此该产品被推荐。",geoHintLo:"AI 无法核实模糊表述，因此 Blackmores 在候选清单中被略过。",
+    geoFlipNote:"同一个活动，AI 有两种解读方式。把文案从形容词改为可引用的事实，产品便会跃入 AI 候选清单。",
+    geoMktgH:"你的活动文案（AI 所见）",geoFactsH:"结构化、可引用的事实",
+    allclear:"所有检查通过——可安全上线。",subj:"主题",unsub:"你作为 Blackmores India 联系人收到此信息。退订 · 管理偏好",optout:"回复 STOP 退订",
+    editHint:"点击预览中的任意文字即可手动编辑——或点击重新生成获取全新 AI 草稿。",applying:"应用中…"},
+  ja:{sub:"キャンペーングローススタジオ",steps:["テーマ","チャネル","コンテンツ","チェック","オーディエンス","配信"],
+    back:"← 戻る",next:"次へ →",launch:"🚀 キャンペーン配信",relaunch:"↻ もう一つ作る",
+    t_theme:"キャンペーンテーマを選ぶ",s_theme:"ファネル上部を満たす獲得施策。選ぶと目標・チャネル・テンプレを自動入力します。",
+    t_channels:"チャネルを選ぶ",s_channels:"配信する場所。テーマの推奨チャネルを事前選択しています。",
+    t_content:"テンプレ＆コンテンツ",s_content:"チャネルごとにテンプレを選択——AIがリアルなコピーとクリエイティブを生成。再生成で別案に。",
+    t_review:"GEO＆コンプラ チェック",s_review:"配信前にAI検索対応とDPDP遵守をチェック。フラグはワンクリックで修正。",
+    t_audience:"オーディエンス設定",s_audience:"配信対象を絞り込み。リーチ予測がリアルタイム更新。",
+    t_launch:"スケジュール＆配信",s_launch:"タイミングを設定し、キャンペーンID＋QRを付与して配信。",
+    goalL:"キャンペーン目標",goalP:"目標を一文で…",kpiL:"主要KPI",
+    reach:"リーチ",regen:"↻ 再生成",pickone:"チャネルを1つ以上選択してください。",
+    audReach:"推定リーチ",audOf:"対象母数のうち",presetL:"クイック設定:",
+    when:"配信",now:"今すぐ",later:"予約",cid:"キャンペーンID",qrL:"固有QR · スキャンで帰属",
+    attrib:"QR＋ID帰属",attribD:"スキャン・クリックがLeads(LMS)で帰属付きリードに。",
+    summary:"チャネルサマリー",launchHint:"準備完了——キャンペーンIDとQRでエンドツーエンド帰属。",
+    fReach:"リーチ",fDeliv:"到達",fEng:"スキャン/クリック",fLead:"帰属リード",
+    resT:"配信しました",resS:"選択チャネルの14日間ファネル予測。",
+    flow:"リードはソース=このキャンペーンIDでLeads Managementへ直接流入。",
+    ftStep:"ステップ",ftOf:"/",
+    geoT:"GEO · AI検索対応",compT:"DPDPコンプラチェック",
+    geoScore:"GEO対応度",compScore:"コンプラスコア",fix:"修正する",fixed:"修正済",
+    geoNote:"AI検索エンジンがBlackmoresの製品・パートナー・特典を引用できるよう構造化。",
+    geoMktg:"マーケティング形容詞",geoFacts:"構造化された事実",geoReco:"AI推奨可能性",
+    geoHi:"AI候補リストの首位",geoLo:"ほぼ推奨されない",
+    geoHintHi:"AIが具体的なスペックと価格を引用するため、この製品は推奨されます。",geoHintLo:"AIは曖昧な主張を検証できず、Blackmoresは候補から外れます。",
+    geoFlipNote:"同じキャンペーンでも、AIの読み取り方は2通り。形容詞から引用可能な事実に変えると、製品がAI候補リストに浮上します。",
+    geoMktgH:"あなたのキャンペーン文(AIの見え方)",geoFactsH:"構造化された引用可能な事実",
+    allclear:"全チェック合格——配信OK。",subj:"件名",unsub:"Blackmores Indiaの連絡先として受信しています。配信停止 · 設定",optout:"STOPで配信停止",
+    editHint:"プレビュー内のテキストをクリックして手動編集——または再生成でAI下書きを更新。",applying:"適用中…"},
+  th:{sub:"สตูดิโอแคมเปญเติบโต",steps:["ธีม","ช่องทาง","คอนเทนต์","ตรวจสอบ","กลุ่มเป้าหมาย","ส่ง"],
+    back:"← ย้อน",next:"ถัดไป →",launch:"🚀 ส่งแคมเปญ",relaunch:"↻ สร้างใหม่",
+    t_theme:"เลือกธีมแคมเปญ",s_theme:"แคมเปญหาลูกค้าเพื่อเติมกรวย — เลือกแล้วเราเติมเป้าหมาย ช่องทาง และเทมเพลตให้",
+    t_channels:"เลือกช่องทาง",s_channels:"ที่ที่แคมเปญจะรัน ช่องทางแนะนำตามธีมถูกเลือกไว้ให้แล้ว",
+    t_content:"เทมเพลตและคอนเทนต์",s_content:"เลือกเทมเพลตต่อช่องทาง — AI ร่างข้อความและครีเอทีฟจริง กด Regenerate เพื่อได้เวอร์ชันใหม่",
+    t_review:"ตรวจ GEO และ DPDP",s_review:"ก่อนส่ง ตรวจความพร้อม AI search และการปฏิบัติตาม DPDP แก้แฟลกได้ในคลิกเดียว",
+    t_audience:"สร้างกลุ่มเป้าหมาย",s_audience:"จำกัดผู้รับ ตัวเลขรีชอัปเดตสด",
+    t_launch:"ตั้งเวลาและส่ง",s_launch:"ตั้งเวลา แนบรหัสแคมเปญ + QR แล้วส่ง",
+    goalL:"เป้าหมายแคมเปญ",goalP:"อธิบายเป้าหมายในหนึ่งบรรทัด…",kpiL:"KPI หลัก",
+    reach:"รีช",regen:"↻ สร้างใหม่",pickone:"เลือกอย่างน้อยหนึ่งช่องทางเพื่อไปต่อ",
+    audReach:"รีชโดยประมาณ",audOf:"จากฐานที่เข้าถึงได้",presetL:"พรีเซ็ตด่วน:",
+    when:"ส่ง",now:"ส่งทันที",later:"ตั้งเวลา",cid:"รหัสแคมเปญ",qrL:"QR เฉพาะ · สแกนเพื่อระบุที่มา",
+    attrib:"การระบุที่มา QR + ID",attribD:"ทุกสแกน/คลิกกลายเป็นลีดที่ระบุที่มาใน Leads (LMS)",
+    summary:"สรุปช่องทาง",launchHint:"พร้อม — แนบรหัสแคมเปญและ QR เพื่อระบุที่มาครบวงจร",
+    fReach:"รีช",fDeliv:"ส่งถึง",fEng:"สแกน/คลิก",fLead:"ลีดที่ระบุที่มา",
+    resT:"ส่งแคมเปญแล้ว",resS:"คาดการณ์กรวย 14 วันข้ามช่องทางที่เลือก",
+    flow:"ลีดไหลเข้า Leads Management โดยมีแหล่งที่มา = รหัสแคมเปญนี้",
+    ftStep:"ขั้น",ftOf:"/",
+    geoT:"GEO · ความพร้อม AI search",compT:"ตรวจ DPDP",
+    geoScore:"ความพร้อม GEO",compScore:"คะแนน DPDP",fix:"แก้ไข",fixed:"แก้แล้ว",
+    geoNote:"จัดโครงสร้างให้ AI search engine อ้างอิงสินค้า พาร์ทเนอร์ และข้อเสนอของ Blackmores",
+    geoMktg:"คำคุณศัพท์การตลาด",geoFacts:"ข้อเท็จจริงที่มีโครงสร้าง",geoReco:"โอกาสถูก AI แนะนำ",
+    geoHi:"ต้นรายการคัดเลือกของ AI",geoLo:"แทบไม่ถูกแนะนำ",
+    geoHintHi:"AI อ้างอิงสเปกและราคาที่ชัดเจน สินค้านี้จึงถูกแนะนำ",geoHintLo:"AI ตรวจสอบข้ออ้างคลุมเครือไม่ได้ Blackmores จึงถูกข้าม",
+    geoFlipNote:"แคมเปญเดียวกัน AI อ่านได้สองแบบ เปลี่ยนข้อความจากคำคุณศัพท์เป็นข้อเท็จจริงที่อ้างอิงได้ แล้วสินค้าจะขึ้นรายการแนะนำของ AI",
+    geoMktgH:"ข้อความแคมเปญของคุณ (อย่างที่ AI เห็น)",geoFactsH:"ข้อเท็จจริงที่มีโครงสร้างและอ้างอิงได้",
+    allclear:"ผ่านทุกการตรวจ — ส่งได้",subj:"หัวเรื่อง",unsub:"คุณได้รับเพราะเป็นผู้ติดต่อ Blackmores India ยกเลิก · ตั้งค่า",optout:"ตอบ STOP เพื่อยกเลิก",
+    editHint:"คลิกข้อความในพรีวิวเพื่อแก้ไขเอง — หรือกด Regenerate เพื่อรับร่าง AI ใหม่",applying:"กำลังปรับใช้…"}
+};
+const U=()=>Object.assign({},T.en,T[state.lang]);
+
+/* ---------------- themes ---------------- */
+const THEMES=[
+  {id:"launch",em:"🆕",chans:["social","wa","email","offline"],kpiK:"td",
+   name:{en:"New Product Launch",ja:"新製品発表",th:"เปิดตัวสินค้าใหม่"},
+   desc:{en:"Build buzz and bookings around a new product.",ja:"新製品の話題と予約を喚起。",th:"สร้างกระแสและการจองสินค้าใหม่"},
+   goal:{en:"Launch the all-new {M} — drive {ride} bookings in Tier-2 cities among young first-time buyers",ja:"新製品{M}の発表——Tier-2都市の若い初回購入層で{ride}予約を獲得",th:"เปิดตัว {M} ใหม่ — ดันการจอง{ride}ในเมืองรองกลุ่มผู้ซื้อหน้าใหม่"}},
+  {id:"testdrive",em:"🎁",chans:["wa","sms","social"],kpiK:"td",
+   name:{en:"Consultation Rewards",ja:"相談で特典",th:"ปรึกษารับของรางวัล"},
+   desc:{en:"Assured gift for every consultation or product trial.",ja:"相談・お試しごとに必ず特典。",th:"ของรางวัลรับรองทุกการปรึกษาและทดลองใช้"},
+   goal:{en:"Every {ride} gets a guaranteed gift — convert warm prospects into store visits",ja:"{ride}ごとに必ず特典——見込み客を来店に転換",th:"ทุก{ride}รับของรางวัลแน่นอน — เปลี่ยนผู้สนใจเป็นการมาร้านค้า"}},
+  {id:"referral",em:"🤝",chans:["wa","email","sms"],kpiK:"lead",
+   name:{en:"Friend Referral",ja:"友達紹介",th:"แนะนำเพื่อน"},
+   desc:{en:"Member-get-member — give A$2,000, get A$2,000.",ja:"会員紹介——A$2,000あげてA$2,000もらう。",th:"สมาชิกแนะนำ — ให้ A$2,000 รับ A$2,000"},
+   goal:{en:"Turn happy owners into advocates — reward both sides for a successful referral",ja:"満足オーナーを紹介者に——成約紹介で双方に特典",th:"เปลี่ยนเจ้าของที่พอใจเป็นผู้บอกต่อ — ให้รางวัลทั้งสองฝ่าย"}},
+  {id:"festive",em:"🪔",chans:["social","wa","sms","offline"],kpiK:"lead",
+   name:{en:"Festive Push",ja:"フェスティブ強化",th:"ดันยอดเทศกาล"},
+   desc:{en:"Seasonal demand spike around the festivals.",ja:"祭事シーズンの需要を取り込む。",th:"จับดีมานด์ช่วงเทศกาล"},
+   goal:{en:"Festive Season — boost {M} interest with everyday wellness benefits and festive offers",ja:"フェスティブシーズン——毎日の健康メリットと特典で{M}の関心を喚起",th:"ช่วงเทศกาล — ดันความสนใจ {M} ด้วยประโยชน์เพื่อสุขภาพและข้อเสนอเทศกาล"}},
+  {id:"exchange",em:"♻️",chans:["sms","wa","offline"],kpiK:"lead",
+   name:{en:"Trade-Up & Upgrade",ja:"買い替え・アップグレード",th:"อัปเกรดแพ็กเกจ"},
+   desc:{en:"Best value when you upgrade your current pack — easy upgrade.",ja:"今の商品からお得にアップグレード。",th:"คุ้มค่าเมื่ออัปเกรดแพ็กเกจปัจจุบัน อัปเกรดง่าย"},
+   goal:{en:"Bring members in to upgrade — strong trade-up value plus an upgrade bonus",ja:"会員のアップグレードを促進——お得な買い替え＋アップグレード特典",th:"ดึงสมาชิกมาอัปเกรด — มูลค่าอัปเกรดดีพร้อมโบนัส"}},
+  {id:"emi",em:"💳",chans:["sms","social","email"],kpiK:"lead",
+   name:{en:"Subscribe & Save Offer",ja:"定期購入オファー",th:"ข้อเสนอสมัครสมาชิก"},
+   desc:{en:"Low entry price, easy monthly subscription.",ja:"お手頃価格・楽な月々定期。",th:"ราคาเริ่มต้นต่ำ สมัครรายเดือนสบาย"},
+   goal:{en:"Start from a low monthly offer — surface subscription eligibility for first-time buyers",ja:"お手頃な月々オファーで——初回購入層に定期購入の特典を訴求",th:"เริ่มจากข้อเสนอรายเดือนต่ำ — เสนอสิทธิ์สมัครสมาชิกแก่ผู้ซื้อใหม่"}},
+  {id:"reactivate",em:"🔔",chans:["wa","email","sms"],kpiK:"lead",
+   name:{en:"Reactivate Cold Leads",ja:"休眠リード再獲得",th:"ดึงลีดเก่ากลับ"},
+   desc:{en:"Win back leads that went quiet.",ja:"静かになったリードを再獲得。",th:"ดึงลีดที่เงียบหายกลับมา"},
+   goal:{en:"Re-engage cold leads on {M} with a fresh, limited-time reason to come back",ja:"{M}の休眠リードを期間限定の理由で再エンゲージ",th:"กระตุ้นลีดเก่าเรื่อง {M} ด้วยเหตุผลจำกัดเวลา"}}
+];
+const KPI={td:{en:"Test {ride} bookings",ja:"{ride}予約数",th:"การจอง{ride}"},lead:{en:"Attributed leads",ja:"帰属リード数",th:"ลีดที่ระบุที่มา"}};
+
+/* ---------------- channels ---------------- */
+const CHANS=[
+  {id:"email",em:"✉️",reach:"220K",name:{en:"Email",ja:"メール",th:"อีเมล"},
+   desc:{en:"Owner & prospect email — design, segment, send.",ja:"オーナー・見込み客メール——設計・セグメント・送信。",th:"อีเมลเจ้าของและผู้สนใจ — ออกแบบ แบ่งกลุ่ม ส่ง"},
+   tmpl:[{en:"Hero banner",ja:"ヒーローバナー",th:"แบนเนอร์ฮีโร่"},{en:"Newsletter",ja:"ニュースレター",th:"นิวส์เลตเตอร์"},{en:"Offer spotlight",ja:"特典スポット",th:"สปอตไลต์ข้อเสนอ"}]},
+  {id:"wa",em:"💬",reach:"1.6M",name:{en:"WhatsApp & In-app",ja:"WhatsApp・アプリ内",th:"WhatsApp และในแอป"},
+   desc:{en:"Broadcast + in-app banners — India's #1 reach.",ja:"ブロードキャスト＋アプリ内バナー——印度No.1リーチ。",th:"บรอดแคสต์ + แบนเนอร์ในแอป — รีชอันดับ 1"},
+   tmpl:[{en:"Broadcast card",ja:"ブロードキャストカード",th:"การ์ดบรอดแคสต์"},{en:"In-app banner",ja:"アプリ内バナー",th:"แบนเนอร์ในแอป"},{en:"Click-to-chat",ja:"クリックチャット",th:"คลิกแชต"}]},
+  {id:"social",em:"📸",reach:"3.4M",name:{en:"Social",ja:"ソーシャル",th:"โซเชียล"},
+   desc:{en:"Partner matrix across Instagram, FB, YouTube.",ja:"パートナー網でInstagram・FB・YouTube。",th:"เครือข่ายพาร์ทเนอร์บน Instagram, FB, YouTube"},
+   tmpl:[{en:"Carousel",ja:"カルーセル",th:"คารูเซล"},{en:"Reel / Story",ja:"リール/ストーリー",th:"รีล/สตอรี"},{en:"Single post",ja:"単発投稿",th:"โพสต์เดี่ยว"}]},
+  {id:"sms",em:"📱",reach:"2.1M",name:{en:"SMS",ja:"SMS",th:"SMS"},
+   desc:{en:"High-reach Tier-2/3 broadcast with short link.",ja:"Tier-2/3で高リーチ、短縮リンク付き。",th:"บรอดแคสต์รีชสูง Tier-2/3 พร้อมลิงก์สั้น"},
+   tmpl:[{en:"Promo + link",ja:"プロモ+リンク",th:"โปรโม + ลิงก์"},{en:"Flash sale",ja:"フラッシュセール",th:"แฟลชเซล"},{en:"Reminder",ja:"リマインド",th:"แจ้งเตือน"}]},
+  {id:"offline",em:"🎪",reach:"—",name:{en:"Mela / Roadshow + QR",ja:"メラ・ロードショー+QR",th:"งานแสดง/โรดโชว์ + QR"},
+   desc:{en:"On-ground events with scan-to-lead QR.",ja:"現地イベント＋スキャンでリードQR。",th:"อีเวนต์หน้างานพร้อม QR สแกนเป็นลีด"},
+   tmpl:[{en:"Mela poster + QR",ja:"メラポスター+QR",th:"โปสเตอร์งาน + QR"},{en:"Standee",ja:"スタンディ",th:"สแตนดี"},{en:"Scratch coupon",ja:"スクラッチ券",th:"คูปองขูด"}]}
+];
+const CHAN=id=>CHANS.find(c=>c.id===id);
+
+/* ---------------- rich copy (variant-aware) ---------------- */
+const COPY={
+  launch:{code:"LAUNCH25",claim:true,
+    head:[{en:"Meet the all-new {M}",ja:"新型{M}、登場",th:"พบ {M} ใหม่ล่าสุด"},
+          {en:"The {M} has arrived — be first in line",ja:"{M}がついに。誰よりも早く",th:"{M} มาแล้ว — เป็นคนแรก"},
+          {en:"{M}: a new benchmark to take home",ja:"{M}、新基準を手に",th:"{M}: มาตรฐานใหม่ที่ต้องลอง"}],
+    sub:[{en:"Book a front-row {ride} for launch week and feel the difference yourself.",ja:"発表ウィークの特別{ride}枠を予約して、その違いを体感。",th:"จอง{ride}แถวหน้าสัปดาห์เปิดตัว แล้วสัมผัสด้วยตัวคุณเอง"},
+         {en:"Reserve your launch-week {ride} slot before they fill up.",ja:"発表ウィークの{ride}枠は埋まる前にご予約を。",th:"จองสิทธิ์{ride}สัปดาห์เปิดตัวก่อนเต็ม"},
+         {en:"Walk in during launch week for priority {ride} access and gifts.",ja:"発表ウィークのご来店で{ride}を優先案内＋ギフト。",th:"แวะมาช่วงเปิดตัว รับสิทธิ์{ride}ก่อนใครพร้อมของแถม"}],
+    bullets:[{en:"Fresh formula and a refined daily routine",ja:"新フォーミュラと洗練された毎日のケア",th:"สูตรใหม่และรูทีนประจำวันที่ดีขึ้น"},
+             {en:"Launch-week benefits & priority fulfilment",ja:"発表ウィーク特典＋優先配送",th:"สิทธิประโยชน์สัปดาห์เปิดตัว + จัดส่งก่อน"},
+             {en:"Easy offer options from day one",ja:"初日から選べる楽なoffer",th:"ตัวเลือกผ่อนสบายตั้งแต่วันแรก"},
+             {en:"Book free on WhatsApp in 30 seconds",ja:"WhatsAppで30秒・無料予約",th:"จองฟรีบน WhatsApp ใน 30 วินาที"}],
+    offer:{en:"Launch-week benefits worth up to A$15,000",ja:"発表ウィーク特典 最大A$15,000相当",th:"สิทธิประโยชน์สัปดาห์เปิดตัวสูงสุด A$15,000"},
+    cta:[{en:"Reserve a slot",ja:"枠を予約",th:"จองสิทธิ์"},{en:"Book a free {ride}",ja:"無料{ride}を予約",th:"จอง{ride}ฟรี"}]},
+  testdrive:{code:"TRY2WIN",
+    head:[{en:"{ride} the {M}, win a gift",ja:"{M}を{ride}してギフトを",th:"{ride} {M} รับของรางวัล"},
+          {en:"Every {ride} gets a guaranteed gift",ja:"どの{ride}にも必ずギフト",th:"ทุก{ride}รับของรางวัลแน่นอน"},
+          {en:"Come {ride}. Leave with a reward.",ja:"{ride}して、ご褒美を持ち帰る",th:"มา{ride} กลับพร้อมรางวัล"}],
+    sub:[{en:"Book a {ride} at your nearest Blackmores channel partner and pick up an assured gift on arrival.",ja:"お近くのBlackmoresパートナー店で{ride}を予約、来店で必ずギフト。",th:"จอง{ride}ที่พาร์ทเนอร์ Blackmores ใกล้บ้าน มาถึงรับของรางวัลทันที"},
+         {en:"No purchase needed — every {ride} this week earns a reward.",ja:"購入不要——今週の{ride}にはご褒美。",th:"ไม่ต้องซื้อ — ทุก{ride}สัปดาห์นี้มีรางวัล"},
+         {en:"Bring a friend, both of you {ride} and both get gifted.",ja:"友達と一緒に{ride}、二人ともギフト。",th:"ชวนเพื่อนมา{ride}ด้วยกัน รับของทั้งคู่"}],
+    bullets:[{en:"Assured gift on every {ride}",ja:"{ride}ごとに必ずギフト",th:"ของรางวัลทุก{ride}"},
+             {en:"Slots in 30 seconds on WhatsApp",ja:"WhatsAppで30秒予約",th:"จองใน 30 วินาทีบน WhatsApp"},
+             {en:"Doorstep {ride} in select cities",ja:"対象都市は出張{ride}",th:"{ride}ถึงบ้านในบางเมือง"},
+             {en:"Exclusive offers for those who try",ja:"{ride}した方限定オファー",th:"ข้อเสนอพิเศษสำหรับผู้ที่มาลอง"}],
+    offer:{en:"Assured gift on every consultation or trial",ja:"{ride}ごとに必ずギフト",th:"ของรางวัลรับรองทุก{ride}"},
+    cta:[{en:"Book a {ride}",ja:"{ride}を予約",th:"จอง{ride}"},{en:"Grab my gift",ja:"ギフトを受け取る",th:"รับของรางวัล"}]},
+  referral:{code:"REFER2K",
+    head:[{en:"Refer a friend — both of you win",ja:"友達紹介で、二人ともお得",th:"แนะนำเพื่อน ได้ทั้งคู่"},
+          {en:"Give A$2,000, get A$2,000",ja:"A$2,000あげてA$2,000もらう",th:"ให้ A$2,000 รับ A$2,000"},
+          {en:"Your recommendation is worth A$2,000",ja:"あなたの紹介はA$2,000の価値",th:"คำแนะนำของคุณมีค่า A$2,000"}],
+    sub:[{en:"Share your code. When a friend books a {M}, you both get A$2,000.",ja:"コードを共有。友達が{M}を成約で双方にA$2,000。",th:"แชร์โค้ด เมื่อเพื่อนจอง {M} ได้ A$2,000 ทั้งคู่"},
+         {en:"Happy with your Blackmores? Pass it on and earn rewards.",ja:"Blackmoresにご満足？紹介して特典を。",th:"ชอบ Blackmores ของคุณไหม? บอกต่อแล้วรับรางวัล"},
+         {en:"One tap to send your referral link on WhatsApp.",ja:"ワンタップでWhatsApp紹介リンクを送信。",th:"แตะเดียวส่งลิงก์แนะนำบน WhatsApp"}],
+    bullets:[{en:"A$2,000 for you + A$2,000 for your friend",ja:"あなたにA$2,000＋友達にA$2,000",th:"A$2,000 ให้คุณ + A$2,000 ให้เพื่อน"},
+             {en:"Unlimited referrals, paid on booking",ja:"紹介無制限、成約で支払い",th:"แนะนำไม่จำกัด จ่ายเมื่อจอง"},
+             {en:"Track every referral in MyBlackmores",ja:"MyBlackmoresで紹介を全件管理",th:"ติดตามทุกการแนะนำใน MyBlackmores"},
+             {en:"Friends get a welcome offer too",ja:"友達にもウェルカム特典",th:"เพื่อนได้ข้อเสนอต้อนรับด้วย"}],
+    offer:{en:"A$2,000 + A$2,000 on every successful referral",ja:"成約紹介ごとにA$2,000＋A$2,000",th:"A$2,000 + A$2,000 ทุกการแนะนำสำเร็จ"},
+    cta:[{en:"Share your code",ja:"コードを共有",th:"แชร์โค้ด"},{en:"Refer now",ja:"今すぐ紹介",th:"แนะนำเลย"}]},
+  festive:{code:"FESTIVE20",claim:true,
+    head:[{en:"The Joy of Wellbeing, this festive season",ja:"このフェスティブに、健やかな喜びを",th:"ความสุขของสุขภาพดี ช่วงเทศกาลนี้"},
+          {en:"Bring home a {M} this festive season",ja:"このフェスティブに{M}を",th:"พา {M} กลับบ้านช่วงเทศกาลนี้"},
+          {en:"Festive offers on the {M} are here",ja:"{M}のフェスティブ特典、登場",th:"ข้อเสนอเทศกาลของ {M} มาแล้ว"}],
+    sub:[{en:"Trusted formulas, a wide store network and festive benefits — book a free {ride} today.",ja:"信頼のフォーミュラ、広い店舗網、フェスティブ特典——今日、無料{ride}を予約。",th:"สูตรที่ไว้ใจ เครือข่ายร้านค้ากว้าง และสิทธิ์เทศกาล — จอง{ride}ฟรีวันนี้"},
+         {en:"Celebrate with festive offers and an easy subscription on the {M}.",ja:"{M}のフェスティブ特典と楽な定期購入でお祝いを。",th:"ฉลองด้วยข้อเสนอเทศกาลและสมัครสมาชิกสบายของ {M}"},
+         {en:"This Diwali, bring home wellbeing with the {M}.",ja:"このディワリ、{M}で健やかさを持ち帰る。",th:"ดิวาลีนี้ พาสุขภาพดีกลับบ้านด้วย {M}"}],
+    bullets:[{en:"Festive offer + subscribe-&-save bonus",ja:"フェスティブ特典＋定期購入ボーナス",th:"ข้อเสนอเทศกาล + โบนัสสมัครสมาชิก"},
+             {en:"Quality you can trust, every day",ja:"毎日信頼できる品質",th:"คุณภาพที่ไว้ใจได้ทุกวัน"},
+             {en:"Trusted, widespread store network",ja:"信頼の広域店舗網",th:"เครือข่ายร้านค้ากว้างที่ไว้ใจได้"},
+             {en:"Free {ride} booked on WhatsApp",ja:"WhatsAppで無料{ride}予約",th:"จอง{ride}ฟรีบน WhatsApp"}],
+    offer:{en:"Festive benefits up to A$20,000",ja:"フェスティブ特典 最大A$20,000",th:"สิทธิ์เทศกาลสูงสุด A$20,000"},
+    cta:[{en:"Book a free {ride}",ja:"無料{ride}を予約",th:"จอง{ride}ฟรี"},{en:"See festive offers",ja:"特典を見る",th:"ดูข้อเสนอเทศกาล"}]},
+  exchange:{code:"UPGRADE",
+    head:[{en:"Upgrade to a Blackmores, the easy way",ja:"Blackmoresへ、らくらく買い替え",th:"อัปเกรดเป็น Blackmores ง่ายๆ"},
+          {en:"Your current pack is worth more here",ja:"今お使いの商品、ここならお得",th:"แพ็กเกจปัจจุบันของคุณคุ้มกว่าที่นี่"},
+          {en:"Trade up to the {M} today",ja:"今日、{M}へ買い替え",th:"อัปเกรดเป็น {M} วันนี้"}],
+    sub:[{en:"Get a strong trade-up value on your current pack plus an upgrade bonus on the {M}.",ja:"今の商品のお得な買い替え＋{M}のアップグレード特典。",th:"รับมูลค่าอัปเกรดที่ดีสำหรับแพ็กเกจปัจจุบัน พร้อมโบนัสอัปเกรดบน {M}"},
+         {en:"Free on-the-spot review — know your benefit before you decide.",ja:"その場で無料診断——決める前に特典がわかる。",th:"รีวิวฟรีหน้างาน — รู้สิทธิ์ก่อนตัดสินใจ"},
+         {en:"Easy switch, instant upgrade quote on WhatsApp.",ja:"切り替え簡単、WhatsAppで即アップグレード見積。",th:"เปลี่ยนง่าย ขอราคาอัปเกรดทันทีบน WhatsApp"}],
+    bullets:[{en:"Strong, transparent trade-up value",ja:"お得で透明な買い替え額",th:"มูลค่าอัปเกรดสูงและโปร่งใส"},
+             {en:"Upgrade bonus on top",ja:"さらにアップグレード特典",th:"โบนัสอัปเกรดเพิ่ม"},
+             {en:"Free at-home review",ja:"自宅で無料診断",th:"รีวิวถึงบ้านฟรี"},
+             {en:"Switch handled for you",ja:"面倒な切り替えは代行",th:"จัดการเปลี่ยนให้"}],
+    offer:{en:"Upgrade bonus up to A$10,000",ja:"アップグレードボーナス 最大A$10,000",th:"โบนัสอัปเกรดสูงสุด A$10,000"},
+    cta:[{en:"Get upgrade quote",ja:"アップグレード見積",th:"ขอราคาอัปเกรด"},{en:"Value my pack",ja:"商品を診断",th:"ประเมินแพ็กเกจของฉัน"}]},
+  emi:{code:"EASYoffer",finance:true,
+    head:[{en:"Start from A$39.99/month*",ja:"月々A$39.99から*",th:"เริ่มจาก A$39.99/เดือน*"},
+          {en:"Own a {M} on an easy plan",ja:"{M}を楽な定期プランで",th:"เป็นเจ้าของ {M} แบบสมัครสบาย"},
+          {en:"Low entry price on the {M}",ja:"{M}をお手頃価格で",th:"ราคาเริ่มต้นต่ำสำหรับ {M}"}],
+    sub:[{en:"Flexible terms and a low entry price make the {M} easier than ever. *T&C apply.",ja:"柔軟な期間とお手頃価格で{M}がぐっと身近に。*諸条件あり。",th:"แผนยืดหยุ่นและราคาเริ่มต้นต่ำ ทำให้ {M} ง่ายขึ้น *เงื่อนไขเป็นไปตามกำหนด"},
+         {en:"Check your offer eligibility in 2 minutes — no paperwork to start.",ja:"2分でoffer適格を確認——書類不要で開始。",th:"เช็กสิทธิ์ผ่อนใน 2 นาที — เริ่มได้โดยไม่ต้องใช้เอกสาร"},
+         {en:"Special finance schemes this month on the {M}.",ja:"今月、{M}の特別ファイナンス。",th:"แผนไฟแนนซ์พิเศษเดือนนี้สำหรับ {M}"}],
+    bullets:[{en:"Low entry-price options",ja:"お手頃価格プラン",th:"ตัวเลือกราคาเริ่มต้นต่ำ"},
+             {en:"Flexible subscription terms",ja:"柔軟な定期購入期間",th:"แผนสมัครสมาชิกยืดหยุ่น"},
+             {en:"Instant eligibility check",ja:"即時の適格チェック",th:"เช็กสิทธิ์ทันที"},
+             {en:"Partnered with leading pharmacies",ja:"大手薬局と提携",th:"ร่วมกับร้านขายยาชั้นนำ"}],
+    offer:{en:"Special offer this month — *subject to approval",ja:"今月の特別offer——*審査による",th:"offer พิเศษเดือนนี้ — *ขึ้นกับการอนุมัติ"},
+    cta:[{en:"Check eligibility",ja:"適格を確認",th:"เช็กสิทธิ์"},{en:"See offer plans",ja:"offerプランを見る",th:"ดูแผนผ่อน"}]},
+  reactivate:{code:"WELCOME",
+    head:[{en:"Still thinking about a {M}?",ja:"まだ{M}をご検討中ですか？",th:"ยังคิดถึง {M} อยู่ไหม?"},
+          {en:"We saved your spot for the {M}",ja:"{M}のお席、お取りしています",th:"เราเก็บที่ {M} ไว้ให้คุณ"},
+          {en:"A fresh reason to come back to Blackmores",ja:"Blackmoresに戻る、新しい理由",th:"เหตุผลใหม่ให้กลับมา Blackmores"}],
+    sub:[{en:"It's been a while — here's a limited-time benefit on the {M}, just for you.",ja:"お久しぶりです——あなただけの{M}期間限定特典。",th:"ไม่ได้เจอกันนาน — นี่คือสิทธิ์จำกัดเวลาสำหรับ {M} เฉพาะคุณ"},
+         {en:"Pick up where you left off — book a {ride} in one tap.",ja:"続きからどうぞ——ワンタップで{ride}予約。",th:"กลับมาต่อจากเดิม — จอง{ride}ในแตะเดียว"},
+         {en:"Your earlier enquiry now comes with an extra benefit.",ja:"以前のお問い合わせに、追加特典をご用意。",th:"การสอบถามก่อนหน้าตอนนี้มีสิทธิ์เพิ่ม"}],
+    bullets:[{en:"Limited-time welcome-back benefit",ja:"期間限定カムバック特典",th:"สิทธิ์ต้อนรับกลับจำกัดเวลา"},
+             {en:"One-tap {ride} booking",ja:"ワンタップ{ride}予約",th:"จอง{ride}แตะเดียว"},
+             {en:"Latest offers on the {M}",ja:"{M}の最新オファー",th:"ข้อเสนอล่าสุดของ {M}"},
+             {en:"No-pressure, online or in store",ja:"オンラインでも来店でも気軽に",th:"สบายๆ ออนไลน์หรือที่ร้านค้า"}],
+    offer:{en:"Limited-time welcome-back benefit",ja:"期間限定のカムバック特典",th:"สิทธิ์ต้อนรับกลับจำกัดเวลา"},
+    cta:[{en:"Claim now",ja:"今すぐ受け取る",th:"รับเลย"},{en:"Book a {ride}",ja:"{ride}を予約",th:"จอง{ride}"}]}
+};
+const PLATS=[["WhatsApp","💬"],["Instagram","📸"],["YouTube","▶️"],["Facebook","📘"]];
+let socialPlat=1;
+
+function gc(cid){
+  const v=state.variant[cid]||0;const t=COPY[state.theme]||COPY.festive;
+  const m=MODEL(),ride=RIDE();
+  const f=s=>(s||'').replace(/\{M\}/g,m).replace(/\{ride\}/g,ride);
+  const pick=(arr,k)=>f(L(arr[k%arr.length]));
+  const bl=t.bullets.map(b=>f(L(b)));const sh=v%bl.length;
+  const rb=bl.slice(sh).concat(bl.slice(0,sh));
+  return {head:pick(t.head,v),sub:pick(t.sub,v),bullets:rb,offer:f(L(t.offer)),code:t.code,cta:pick(t.cta,v),meta:t};
+}
+
+/* ---------------- render: stepper + steps ---------------- */
+let _reached=0;function maxReached(){return Math.max(_reached,state.step);}
+function curTheme(){return THEMES.find(t=>t.id===state.theme);}
+
+function renderStepper(){
+  const u=U();const box=$('#stepper');box.innerHTML='';
+  u.steps.forEach((lab,i)=>{
+    const s=document.createElement('div');
+    s.className='stp'+(i===state.step?' on':'')+(i<state.step?' done':'');
+    s.innerHTML='<div class="sn">'+(i<state.step?'✓':(i+1))+'</div><div class="sl">'+lab+'</div>';
+    s.onclick=()=>{if(i<=maxReached())goStep(i);};
+    box.appendChild(s);
+    if(i<u.steps.length-1){const ln=document.createElement('div');ln.className='stp-line'+(i<state.step?' done':'');box.appendChild(ln);}
+  });
+}
+function render(){
+  renderStepper();
+  const u=U();const st=$('#stage');const key=FLOW[state.step];
+  if(key==='theme')st.innerHTML=stepTheme();
+  else if(key==='channels')st.innerHTML=stepChannels();
+  else if(key==='content')st.innerHTML=stepContent();
+  else if(key==='review')st.innerHTML=stepReview();
+  else if(key==='audience')st.innerHTML=stepAudience();
+  else if(key==='launch')st.innerHTML=state.launched?stepResults():stepSchedule();
+  bind();
+  $('#back').style.visibility=state.step===0?'hidden':'visible';
+  $('#back').textContent=u.back;
+  const last=key==='launch';
+  $('#next').textContent=state.launched?u.relaunch:(last?u.launch:u.next);
+  $('#next').disabled=(key==='channels'&&state.chans.length===0);
+  $('#ftxt').textContent=u.ftStep+' '+(state.step+1)+' '+u.ftOf+' '+FLOW.length+' · '+L(curTheme().name);
+}
+
+// theme card photography: local file first, then a live stock fallback, then a branded gradient
+const IMGKW={launch:['vitamins,wellness',11],testdrive:['supplements,health',22],referral:['friends,handshake',33],festive:['diwali,festival,lights',44],exchange:['vitamins,pharmacy',55],emi:['payment,smartphone',66],reactivate:['smartphone,notification',77]};
+// transparent line icons for the photo badge (white stroke)
+const _SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">';
+const ICONS={
+  launch:_SVG+'<path d="M12 4l1.7 5.5L19.5 11l-5.8 1.5L12 18l-1.7-5.5L4.5 11l5.8-1.5L12 4z"/></svg>',
+  testdrive:_SVG+'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.3"/><path d="M12 14.3V20"/><path d="M10 11 4.4 8.2"/><path d="M14 11l5.6-2.8"/></svg>',
+  referral:_SVG+'<circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.4-5 5.5-5s5.5 2 5.5 5"/><circle cx="17.2" cy="9" r="2.3"/><path d="M15.8 14.1c2.5.2 4.7 1.9 4.7 4.9"/></svg>',
+  festive:_SVG+'<path d="M12 3.5c1.8 2 2.7 3.5 2.7 5a2.7 2.7 0 1 1-5.4 0c0-.8.3-1.6 1-2.5"/><path d="M4.5 13.5h15l-2.3 3.8a6 6 0 0 1-10.4 0z"/></svg>',
+  exchange:_SVG+'<path d="M4 9a8 8 0 0 1 13.6-3.6L20 8"/><path d="M20 3.5V8h-4.5"/><path d="M20 15a8 8 0 0 1-13.6 3.6L4 16"/><path d="M4 20.5V16h4.5"/></svg>',
+  emi:_SVG+'<rect x="3" y="5.5" width="18" height="13" rx="2.3"/><path d="M3 9.8h18"/><path d="M6.5 14.5h4"/></svg>',
+  reactivate:_SVG+'<path d="M6.5 9.5a5.5 5.5 0 0 1 11 0c0 4.7 1.9 6 1.9 6H4.6s1.9-1.3 1.9-6z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>'
+};
+const CHAN_ICONS={
+  email:_SVG+'<rect x="3" y="5.5" width="18" height="13" rx="2.2"/><path d="M3.6 7.2l8.4 5.6 8.4-5.6"/></svg>',
+  wa:_SVG+'<path d="M20 11.6a7.5 7.5 0 0 1-11 6.6L4.5 19.5l1.4-4.1A7.5 7.5 0 1 1 20 11.6z"/><path d="M8.6 11.6h.01M12 11.6h.01M15.4 11.6h.01"/></svg>',
+  social:_SVG+'<circle cx="6" cy="12" r="2.3"/><circle cx="17" cy="6.5" r="2.3"/><circle cx="17" cy="17.5" r="2.3"/><path d="M8.1 10.9 14.9 7.6"/><path d="M8.1 13.1 14.9 16.4"/></svg>',
+  sms:_SVG+'<rect x="6.5" y="3" width="11" height="18" rx="2.6"/><path d="M10.5 18.2h3"/></svg>',
+  offline:_SVG+'<path d="M6 3.5v17"/><path d="M6 4.8h11l-2.3 3L17 11H6"/></svg>'
+};
+function imgFallback(img,id){
+  if(!img.dataset.f){img.dataset.f='1';var k=IMGKW[id]||['wellness',1];img.src='https://loremflickr.com/640/400/'+k[0]+'?lock='+k[1];}
+  else{var c=img.closest('.opt');if(c)c.classList.add('noimg');}
+}
+function stepTheme(){
+  const u=U();
+  let cards=THEMES.map(t=>{
+    const sel=state.theme===t.id;
+    return '<div class="opt photo'+(sel?' sel':'')+'" data-theme="'+t.id+'"><div class="ock">'+(sel?'✓':'')+'</div>'
+      +'<div class="othumb" data-em="'+t.em+'"><img class="oimg" loading="lazy" alt="'+L(t.name)+'" src="assets/campaign/'+t.id+'.jpg" onerror="imgFallback(this,\''+t.id+'\')"><div class="obadge">'+(ICONS[t.id]||'')+'</div></div>'
+      +'<div class="obody"><div class="ot">'+L(t.name)+'</div><div class="od">'+L(t.desc)+'</div></div></div>';
+  }).join('');
+  const th=curTheme();
+  const goal=L(th.goal).replace(/\{M\}/g,MODEL()).replace(/\{ride\}/g,RIDE());
+  const kpi=L(KPI[th.kpiK]).replace(/\{ride\}/g,RIDE());
+  return '<h2 class="step-t">'+u.t_theme+'</h2><div class="step-s">'+u.s_theme+'</div>'
+    +'<div class="grid3">'+cards+'</div>'
+    +'<div class="goalbox"><label>'+u.goalL+'</label>'
+    +'<textarea class="field" id="goal" placeholder="'+u.goalP+'">'+goal+'</textarea>'
+    +'<span class="kpi">🎯 '+u.kpiL+': '+kpi+'</span></div>';
+}
+function stepChannels(){
+  const u=U();const th=curTheme();
+  let cards=CHANS.map(c=>{
+    const sel=state.chans.includes(c.id);const rec=th.chans.includes(c.id)&&!sel;
+    return '<div class="opt'+(sel?' sel':'')+'" data-chan="'+c.id+'">'
+      +(rec?'<div class="rec">★ '+(({en:'Recommended',ja:'推奨',th:'แนะนำ'})[state.lang]||'Recommended')+'</div>':'<div class="ock">'+(sel?'✓':'')+'</div>')
+      +'<div class="oi">'+(CHAN_ICONS[c.id]||c.em)+'</div><div class="ot">'+L(c.name)+'</div><div class="od">'+L(c.desc)+'</div>'
+      +(c.reach!=='—'?'<span class="reach">≈ '+c.reach+' '+u.reach+'</span>':'')+'</div>';
+  }).join('');
+  return '<h2 class="step-t">'+u.t_channels+'</h2><div class="step-s">'+u.s_channels+'</div><div class="grid3">'+cards+'</div>';
+}
+
+/* template-aware rich previews */
+// campaign photo for a preview block: land=16:10, social=1:1, poster=9:16; theme-keyed, hides on miss
+function bgimg(kind){var d=kind==='social'?'social/':kind==='poster'?'poster/':'';return '<img class="bgimg" loading="lazy" alt="" src="assets/campaign/'+d+state.theme+'.jpg" onerror="this.style.display=\'none\'"><span class="scrim"></span>';}
+function thumbimg(kind){var d=kind==='social'?'social/':kind==='poster'?'poster/':'';return '<img loading="lazy" alt="" src="assets/campaign/'+d+state.theme+'.jpg" onerror="this.style.display=\'none\'">';}
+function previewFor(cid){
+  const c=gc(cid),u=U();const tmpl=state.tmpl[cid]||0;const m=MODEL();const em=BRANDS[state.brand].em;
+  if(cid==='email'){
+    const foot='<div class="em-foot">'+u.unsub+'</div>';
+    if(tmpl===1){ // newsletter
+      return '<div class="em-doc em-news"><div class="em-top"><div class="em-from">Blackmores India &lt;news@blackmores.in&gt;</div><div class="em-subj">'+u.subj+': '+c.head+'</div><div class="em-pre">'+c.sub+'</div></div>'
+        +'<div class="em-body"><div class="em-sec"><div class="em-h">'+c.head+'</div><p>'+c.sub+'</p></div>'
+        +'<div class="em-sec"><div class="em-h">'+(({en:'Why '+m,ja:m+'の理由',th:'ทำไมต้อง '+m})[state.lang])+'</div><ul class="em-bul">'+c.bullets.map(b=>'<li>'+b+'</li>').join('')+'</ul></div>'
+        +'<div class="em-offer"><span class="ot">🎁 '+c.offer+'</span><span class="oc">'+c.code+'</span></div>'
+        +'<a class="em-cta">'+c.cta+' →</a></div>'+foot+'</div>';
+    }
+    if(tmpl===2){ // offer spotlight
+      return '<div class="em-doc"><div class="em-top"><div class="em-from">Blackmores India &lt;offers@blackmores.in&gt;</div><div class="em-subj">'+u.subj+': '+c.head+'</div><div class="em-pre">'+c.offer+'</div></div>'
+        +'<div class="em-spot"><div class="big">'+c.offer+'</div><div class="code">'+c.code+'</div><p style="font-size:12.7px;color:#33403e;margin:6px 0 12px">'+c.sub+'</p><a class="em-cta">'+c.cta+' →</a></div>'+foot+'</div>';
+    }
+    // hero banner (default)
+    return '<div class="em-doc"><div class="em-top"><div class="em-from">Blackmores India &lt;hello@blackmores.in&gt;</div><div class="em-subj">'+u.subj+': '+c.head+'</div><div class="em-pre">'+c.sub+'</div></div>'
+      +'<div class="em-hero">'+bgimg('land')+'<h3>'+c.head+'</h3><p>'+c.sub+'</p></div>'
+      +'<div class="em-body"><p>'+c.sub+'</p><ul class="em-bul">'+c.bullets.slice(0,3).map(b=>'<li>'+b+'</li>').join('')+'</ul>'
+      +'<div class="em-offer"><span class="ot">🎁 '+c.offer+'</span><span class="oc">'+c.code+'</span></div>'
+      +'<a class="em-cta">'+c.cta+' →</a></div>'+foot+'</div>';
+  }
+  if(cid==='wa'){
+    if(tmpl===1){ // in-app banner
+      return '<div class="pv-inapp"><div class="ib">'+thumbimg('social')+'</div><div class="it"><b>'+c.head+'</b><span>'+c.sub+'</span></div><div class="ix">'+c.cta+'</div></div>';
+    }
+    if(tmpl===2){ // click-to-chat
+      return '<div class="pv-wa"><div class="wabar">💬 WhatsApp · Blackmores</div><div class="wamsg"><div class="watext"><b>'+c.head+'</b>'+c.sub+'</div>'
+        +'<div class="qr-chips"><span class="qr-chip">'+c.cta+'</span><span class="qr-chip">'+({en:'See offers',ja:'特典を見る',th:'ดูข้อเสนอ'})[state.lang]+'</span><span class="qr-chip">'+({en:'Talk to partner',ja:'パートナーに相談',th:'คุยกับพาร์ทเนอร์'})[state.lang]+'</span></div>'
+        +'<div class="waopt">'+u.optout+'</div></div></div>';
+    }
+    // broadcast card
+    return '<div class="pv-wa"><div class="wabar">💬 WhatsApp Business · Blackmores</div>'
+      +'<div class="wamsg"><div class="waimg">'+thumbimg('land')+'</div><div class="watext"><b>'+c.head+'</b>'+c.sub+'</div>'
+      +'<ul class="wal">'+c.bullets.slice(0,2).map(b=>'<li>'+b+'</li>').join('')+'</ul>'
+      +'<div class="wabtn">'+c.cta+'</div><div class="waopt">'+u.optout+'</div></div></div>';
+  }
+  if(cid==='social'){
+    const tags='#BlackmoresIndia #'+m.replace(/ /g,'')+' #'+(ENT()==='2w'?'ProductTrial':'Consultation')+' #'+state.theme;
+    let creative;
+    if(tmpl===0){ // carousel
+      const slides=[{e:em,t:c.head,s:c.bullets[0]},{e:'✨',t:c.bullets[1],s:c.bullets[2]},{e:'🎁',t:c.offer,s:c.cta}];
+      creative='<div class="carou">'+slides.map((s,i)=>'<div class="slide">'+bgimg(i===0?'social':i===1?'land':'poster')+'<div><div class="sn">'+(i+1)+'/3</div><b>'+s.t+'</b></div><span>'+s.s+'</span></div>').join('')+'</div>';
+    }else if(tmpl===1){ // reel/story
+      creative='<div class="reel">'+bgimg('poster')+'<div class="rdots"><i class="on"></i><i></i><i></i></div><b>'+c.head+'</b><span>'+c.sub+'</span><div class="rcta">'+c.cta+' →</div></div>';
+    }else{ // single post
+      creative='<div class="poster">'+bgimg('social')+'<div class="ph">'+c.head+'</div><div class="psub">'+c.sub+'</div><span class="pcta">'+c.cta+' →</span></div>';
+    }
+    return creative
+      +'<div class="ptabs" id="ptabs">'+PLATS.map((p,i)=>'<span class="pt '+(i===socialPlat?'on':'')+'" data-p="'+i+'">'+p[1]+' '+p[0]+'</span>').join('')+'</div>'
+      +'<div class="copybox">'+c.head+' — '+c.sub+'\n\n'+c.bullets.slice(0,2).map(b=>'• '+b).join('\n')+'\n\n👉 '+c.cta+'<span class="hash">'+tags+'</span></div>';
+  }
+  if(cid==='sms'){
+    const link='bit.ly/blackmores-'+state.theme;
+    let pre='';if(tmpl===1)pre=({en:'⚡ FLASH: ',ja:'⚡ 期間限定: ',th:'⚡ แฟลช: '})[state.lang];if(tmpl===2)pre=({en:'Reminder: ',ja:'リマインド: ',th:'แจ้งเตือน: '})[state.lang];
+    const body='Blackmores: '+pre+c.head+'. '+c.sub+' '+link;
+    return '<div class="pv-sms"><div class="sb">'+body+'\n'+u.optout+' <a>'+link+'</a></div><div class="sc">'+Math.min(body.length+14,300)+' chars · sender BLKMOR · DLT-approved</div></div>';
+  }
+  if(cid==='offline'){
+    const poster='<div class="poster">'+bgimg('land')+'<div class="ph">'+c.head+'</div><div class="psub">'+c.sub+'</div><span class="pcta">'+({en:'Scan to book',ja:'スキャンで予約',th:'สแกนเพื่อจอง'})[state.lang]+' →</span></div>';
+    const qrc='<div class="qrcard">'+qrHtml()+'<small>'+u.qrL+'</small><div class="cid">'+campaignId()+'</div></div>';
+    if(tmpl===1){ // standee
+      return '<div class="pv-offline"><div class="standee">'+bgimg('poster')+'<b>'+c.head+'</b><div style="font-size:11px;opacity:.9">'+c.sub+'</div>'+qrHtml().replace('class="qr"','class="qr" style="background:#fff;padding:4px;border-radius:6px"')+'</div>'+poster+'</div>';
+    }
+    if(tmpl===2){ // scratch coupon
+      return '<div class="pv-offline"><div class="coupon2"><div style="font-size:11px;color:var(--brand-d);font-weight:700">🎟 SCRATCH & WIN</div><div class="big">'+c.offer+'</div><div class="code">'+c.code+'</div><div style="font-size:11px;color:var(--muted)">'+c.sub+'</div>'+qrHtml()+'</div>'+poster+'</div>';
+    }
+    return '<div class="pv-offline">'+poster+qrc+'</div>';
+  }
+  return '';
+}
+const CE_SEL=['.em-hero h3','.em-hero p','.em-body>p','.em-bul li','.em-cta','.em-offer .ot','.em-spot .big','.em-spot p','.em-sec .em-h','.em-sec p','.watext','.wal li','.wabtn','.pv-inapp .it b','.pv-inapp .it span','.pv-sms .sb','.poster .ph','.poster .psub','.poster .pcta','.copybox','.slide b','.slide span','.reel b','.reel span','.reel .rcta','.standee b','.coupon2 .big'];
+function makeEditable(root){if(!root)return;CE_SEL.forEach(s=>root.querySelectorAll(s).forEach(el=>{el.setAttribute('contenteditable','true');el.classList.add('ce');el.spellcheck=false;}));}
+function renderPv(cid){const pv=$('#pv-'+cid);if(pv){pv.innerHTML=previewFor(cid);makeEditable(pv);bindSocial();}return pv;}
+function stepContent(){
+  const u=U();
+  if(state.chans.length===0)return '<h2 class="step-t">'+u.t_content+'</h2><div class="empty">'+u.pickone+'</div>';
+  let blocks=state.chans.map(cid=>{
+    const c=CHAN(cid);const cur=state.tmpl[cid]||0;
+    const tchips=c.tmpl.map((t,i)=>'<span class="tc'+(i===cur?' on':'')+'" data-ct="'+cid+'" data-ti="'+i+'">'+L(t)+'</span>').join('');
+    return '<div class="chan-block" data-cb="'+cid+'"><div class="cb-head"><div class="cb-ic">'+(CHAN_ICONS[cid]||c.em)+'</div><div class="cb-name">'+L(c.name)+'</div>'
+      +'<button class="regen" data-regen="'+cid+'">'+u.regen+'</button></div>'
+      +'<div class="tchips">'+tchips+'</div>'
+      +'<div class="pv" id="pv-'+cid+'">'+previewFor(cid)+'</div></div>';
+  }).join('');
+  return '<h2 class="step-t">'+u.t_content+'</h2><div class="step-s">'+u.s_content+'</div>'
+    +'<div class="edit-hint">✎ '+u.editHint+'</div>'+blocks;
+}
+
+/* ---------------- review: GEO + compliance ---------------- */
+function compChecks(){
+  const t=COPY[state.theme];const checks=[];const has=id=>state.chans.includes(id);
+  // PASS — consent basis
+  checks.push({id:'consent',ok:true,label:{en:"DPDP consent basis on file for all recipients",ja:"全受信者にDPDP同意の根拠あり",th:"มีฐานความยินยอม DPDP สำหรับผู้รับทุกคน"}});
+  if(has('sms')||has('wa'))checks.push({id:'optout',ok:true,label:{en:"Opt-out present (Reply STOP) on SMS / WhatsApp",ja:"SMS・WhatsAppに配信停止(STOP)を明記",th:"มีตัวเลือกยกเลิก (ตอบ STOP) บน SMS / WhatsApp"}});
+  // WARN (universal) — consent freshness, always actionable
+  checks.push({id:'fresh',ok:false,label:{en:"Consent older than 90 days for 12% of the list",ja:"リストの12%で同意が90日超",th:"ความยินยอมเกิน 90 วันสำหรับ 12% ของลิสต์"},
+    fix:{en:"Suppress & queue re-consent",ja:"抑制して再同意をキュー",th:"ระงับและจัดคิวขอความยินยอมใหม่"},
+    applied:{en:"12% suppressed · re-consent flow queued",ja:"12%を抑制 · 再同意フローをキュー",th:"ระงับ 12% · จัดคิวขอความยินยอมใหม่"}});
+  // WARN — TRAI quiet hours (if SMS/WA)
+  if(has('sms')||has('wa'))checks.push({id:'quiet',ok:false,label:{en:"Send window not limited to TRAI quiet-hours (9am–9pm)",ja:"配信時間がTRAI規定(9–21時)に未制限",th:"ช่วงส่งยังไม่จำกัดตามเวลา TRAI (9–21น.)"},
+    fix:{en:"Restrict send to 09:00–21:00 IST",ja:"配信を09:00–21:00 ISTに制限",th:"จำกัดการส่ง 09:00–21:00 IST"},
+    applied:{en:"Send window set to 09:00–21:00 IST",ja:"配信時間を09:00–21:00 ISTに設定",th:"ตั้งช่วงส่ง 09:00–21:00 IST"}});
+  // WARN — DND scrub (if SMS)
+  if(has('sms'))checks.push({id:'dnd',ok:false,label:{en:"List not scrubbed against DND / NCPR registry",ja:"DND/NCPR登録の照合が未実施",th:"ยังไม่กรองกับทะเบียน DND / NCPR"},
+    fix:{en:"Scrub against DND registry",ja:"DND登録と照合",th:"กรองกับทะเบียน DND"},
+    applied:{en:"1,240 DND numbers suppressed",ja:"DND番号1,240件を抑制",th:"ระงับเบอร์ DND 1,240 หมายเลข"}});
+  // WARN — claim substantiation (theme-specific)
+  if(t.claim)checks.push({id:'claim',ok:false,label:{en:"Unsubstantiated claim — \"best / most effective\"",ja:"未実証の表現——「最高の/最も効果的」",th:"คำกล่าวอ้างไม่มีหลักฐาน — \"ดีที่สุด\""},
+    fix:{en:"Add TGA-approved wording + footnote",ja:"TGA承認の表現＋脚注を追加",th:"เพิ่มข้อความที่ TGA อนุมัติ + เชิงอรรถ"},
+    applied:{en:"TGA-approved wording + footnote added",ja:"TGA承認の表現＋脚注を追加",th:"เพิ่มข้อความที่ TGA อนุมัติ + เชิงอรรถแล้ว"}});
+  // WARN — finance disclaimer
+  if(t.finance)checks.push({id:'fin',ok:false,label:{en:"offer claim needs finance disclaimer",ja:"offer訴求にファイナンス免責が必要",th:"การอ้าง offer ต้องมีข้อความกำกับสินเชื่อ"},
+    fix:{en:"Append \"*T&C apply, subject to approval\"",ja:"「*諸条件・審査による」を追記",th:"เพิ่ม \"*เงื่อนไขฯ ขึ้นกับการอนุมัติ\""},
+    applied:{en:"\"*T&C apply, subject to approval\" appended",ja:"「*諸条件・審査による」を追記",th:"เพิ่ม \"*เงื่อนไขฯ ขึ้นกับการอนุมัติ\" แล้ว"}});
+  // WARN — exchange valuation
+  if(state.theme==='exchange')checks.push({id:'exch',ok:false,label:{en:"Upgrade value needs a disclaimer",ja:"アップグレード額に注記が必要",th:"มูลค่าอัปเกรดต้องมีหมายเหตุ"},
+    fix:{en:"Add \"value at channel partner discretion\"",ja:"「査定はパートナー判断」を追加",th:"เพิ่ม \"มูลค่าตามดุลยพินิจพาร์ทเนอร์\""},
+    applied:{en:"\"value at channel partner discretion\" added",ja:"「査定はパートナー判断」を追加",th:"เพิ่ม \"มูลค่าตามดุลยพินิจพาร์ทเนอร์\" แล้ว"}});
+  // PASS — data minimization
+  checks.push({id:'minim',ok:true,label:{en:"Data minimization — only phone + city collected",ja:"データ最小化——電話＋都市のみ収集",th:"เก็บข้อมูลน้อยที่สุด — เฉพาะเบอร์ + เมือง"}});
+  checks.forEach(c=>{if(state.fixed[c.id])c.ok=true;});
+  return checks;
+}
+const GEO_KEYS=[{en:"Product",ja:"製品",th:"สินค้า"},{en:"Price",ja:"価格",th:"ราคา"},{en:"Key ingredient",ja:"主成分",th:"ส่วนประกอบหลัก"},{en:"Dosage",ja:"用量",th:"ขนาดรับประทาน"},{en:"Certification",ja:"認証",th:"การรับรอง"},{en:"Shelf life",ja:"賞味期限",th:"อายุการเก็บ"},{en:"Availability",ja:"在庫",th:"ความพร้อมจำหน่าย"},{en:"offer from",ja:"offer開始",th:"offer เริ่มต้น"}];
+const GEO_FACTS={
+  '4w':["{M} (90 caps)","A$39.95 (RRP)","Fish oil concentrate 1000mg","2 capsules daily","TGA listed (AUST L)","36 months from manufacture","In stock · 14 channel partners","A$35.95/mo (subscribe & save)"],
+  '2w':["{M} (60 caps)","A$18.95 (RRP)","Vitamin C 1000mg","1 capsule daily","TGA listed (AUST L)","24 months from manufacture","In stock · 30 channel partners","A$16.95/mo (subscribe & save)"]
+};
+const GEO_MKTG={
+  '4w':[{en:"\"An incredibly premium-feeling supplement that's simply world-class.\"",ja:"「圧倒的に上質、まさにワールドクラスのサプリ。」",th:"\"อาหารเสริมระดับพรีเมียม คุณภาพระดับโลก\""},{en:"\"Best-in-class quality, beautiful packaging and amazing value.\"",ja:"「クラス最高の品質、美しいパッケージ、驚きの価値。」",th:"\"คุณภาพดีที่สุดในคลาส แพ็กเกจสวย คุ้มค่าสุดๆ\""},{en:"\"You'll love it every day — simply the smartest choice.\"",ja:"「毎日きっと好きになる、最も賢い選択。」",th:"\"คุณจะรักทุกวัน ตัวเลือกที่ฉลาดที่สุด\""}],
+  '2w':[{en:"\"An incredibly trusted, super-pure supplement you'll absolutely love.\"",ja:"「圧倒的に信頼でき高純度、絶対に気に入るサプリ。」",th:"\"อาหารเสริมที่ไว้ใจ บริสุทธิ์สุดๆ ที่คุณจะรัก\""},{en:"\"Best-in-class quality, beautiful packaging and amazing value.\"",ja:"「クラス最高の品質、美しいパッケージ、驚きの価値。」",th:"\"คุณภาพดีที่สุดในคลาส แพ็กเกจสวย คุ้มค่าสุดๆ\""},{en:"\"The smartest, most reliable choice you can make.\"",ja:"「最も賢く、最も信頼できる選択。」",th:"\"ตัวเลือกที่ฉลาดและน่าเชื่อถือที่สุด\""}]
+};
+const GEO_BREAK={lo:[10,18,8,22],hi:[95,98,92,90]};
+const GEO_BREAK_L=[{en:"Citable specs",ja:"引用可能なスペック",th:"สเปกที่อ้างอิงได้"},{en:"Price clarity",ja:"価格の明確さ",th:"ความชัดเจนของราคา"},{en:"Structured data",ja:"構造化データ",th:"ข้อมูลที่มีโครงสร้าง"},{en:"Comparability",ja:"比較可能性",th:"ความสามารถในการเปรียบเทียบ"}];
+function geoAIQ(on){const m=MODEL();const e=ENT();
+  if(e==='2w'){return on
+    ?{en:'<b>User:</b> "Best everyday vitamin C supplement in Australia?"<br><b>AI:</b> I\'d recommend <b>Blackmores '+m+'</b> — Vitamin C 1000mg, 1 capsule daily, TGA listed (AUST L), A$18.95 RRP, in stock at 30 channel partners. Strong match for an everyday immune-support routine.',ja:'<b>ユーザー:</b>「オーストラリアで毎日使えるビタミンCサプリのおすすめは?」<br><b>AI:</b> <b>Blackmores '+m+'</b>をお勧めします — ビタミンC1000mg、1日1カプセル、TGA登録(AUST L)、希望小売価格A$18.95、30のパートナー店に在庫。毎日の健康ケアに最適です。',th:'<b>ผู้ใช้:</b> "อาหารเสริมวิตามินซีสำหรับทุกวันที่ดีที่สุดในออสเตรเลีย?"<br><b>AI:</b> ขอแนะนำ <b>Blackmores '+m+'</b> — วิตามินซี 1000 มก., วันละ 1 แคปซูล, ขึ้นทะเบียน TGA (AUST L), ราคาแนะนำ A$18.95 มีสต็อกที่พาร์ทเนอร์ 30 แห่ง เหมาะกับรูทีนประจำวันที่สุด'}
+    :{en:'<b>User:</b> "Best everyday vitamin C supplement in Australia?"<br><b>AI:</b> I found clear label details for Nature\'s Own and Swisse, so I\'d recommend those. I couldn\'t verify concrete details for Blackmores '+m+'.',ja:'<b>ユーザー:</b>「オーストラリアで毎日使えるビタミンCサプリのおすすめは?」<br><b>AI:</b> Nature\'s OwnとSwisseは明確なラベル情報が見つかったので、それらをお勧めします。Blackmores '+m+'の具体的な情報は確認できませんでした。',th:'<b>ผู้ใช้:</b> "อาหารเสริมวิตามินซีที่ดีที่สุด?"<br><b>AI:</b> ฉันพบข้อมูลฉลากชัดเจนของ Nature\'s Own และ Swisse จึงแนะนำสองยี่ห้อนี้ ไม่สามารถยืนยันรายละเอียดของ Blackmores '+m+' ได้'};}
+  return on
+    ?{en:'<b>User:</b> "Best premium fish oil supplement under A$50 in Australia?"<br><b>AI:</b> I\'d recommend <b>Blackmores '+m+'</b> — fish oil concentrate 1000mg, 2 capsules daily, TGA listed (AUST L), A$39.95 RRP, in stock at 14 channel partners. Strongest match for your budget and quality needs.',ja:'<b>ユーザー:</b>「A$50以下で最高のプレミアム魚油サプリは?」<br><b>AI:</b> <b>Blackmores '+m+'</b>をお勧めします — 濃縮魚油1000mg、1日2カプセル、TGA登録(AUST L)、希望小売価格A$39.95、14のパートナー店に在庫。予算と品質に最も合致します。',th:'<b>ผู้ใช้:</b> "น้ำมันปลาพรีเมียมที่ดีที่สุดต่ำกว่า A$50?"<br><b>AI:</b> ขอแนะนำ <b>Blackmores '+m+'</b> — น้ำมันปลาเข้มข้น 1000 มก., วันละ 2 แคปซูล, ขึ้นทะเบียน TGA (AUST L), ราคาแนะนำ A$39.95 มีสต็อกที่พาร์ทเนอร์ 14 แห่ง ตรงกับงบและคุณภาพมากที่สุด'}
+    :{en:'<b>User:</b> "Best premium fish oil supplement under A$50 in Australia?"<br><b>AI:</b> I found clear label details for Nature\'s Own and Swisse, so I\'d recommend those. I couldn\'t verify concrete details for Blackmores '+m+'.',ja:'<b>ユーザー:</b>「A$50以下で最高のプレミアム魚油サプリは?」<br><b>AI:</b> Nature\'s OwnとSwisseは明確なラベル情報が見つかったので、それらをお勧めします。Blackmores '+m+'の具体的な情報は確認できませんでした。',th:'<b>ผู้ใช้:</b> "น้ำมันปลาพรีเมียมที่ดีที่สุดต่ำกว่า A$50?"<br><b>AI:</b> ฉันพบข้อมูลฉลากชัดเจนของ Nature\'s Own และ Swisse จึงแนะนำสองยี่ห้อนี้ ไม่สามารถยืนยันรายละเอียดของ Blackmores '+m+' ได้'};}
+function ringHtml(score,col){col=col||'var(--brand)';const deg=Math.round(score*3.6);return '<div class="ring" style="background:conic-gradient('+col+' '+deg+'deg,var(--bg) 0)"><i style="color:'+col+'">'+score+'</i></div>';}
+function geoPanel(){
+  const u=U();const on=state.geo;const m=MODEL();const e=ENT();
+  const gScore=on?92:31;const gcol=on?'#2e9e5b':'#cc3a2f';
+  // content box
+  let box;
+  if(on){
+    box='<div class="contentbox facts"><div class="cbh">'+u.geoFactsH+'</div>'
+      +GEO_FACTS[e].map((v,i)=>'<div class="factrow"><span class="fk">'+L(GEO_KEYS[i])+'</span><span class="fv">'+v.replace(/\{M\}/g,m)+'</span></div>').join('')+'</div>';
+  }else{
+    box='<div class="contentbox mktg"><div class="cbh">'+u.geoMktgH+'</div>'+GEO_MKTG[e].map(p=>'<p class="mktgp">'+L(p)+'</p>').join('')+'</div>';
+  }
+  const bvals=on?GEO_BREAK.hi:GEO_BREAK.lo;
+  const breaks=GEO_BREAK_L.map((b,i)=>'<div class="bdrow"><span class="bl">'+L(b)+'</span><div class="bdbar"><i style="width:'+bvals[i]+'%;background:'+(on?'#2e9e5b':'#e0922f')+'"></i></div><b>'+bvals[i]+'</b></div>').join('');
+  const aiq=geoAIQ(on)[state.lang];
+  return '<div class="panel"><h4>🤖 '+u.geoT+'</h4>'
+    +'<div class="geo-flip"><span class="gfl'+(on?' dim':'')+'">'+u.geoMktg+'</span>'
+    +'<div class="toggle'+(on?' on':'')+'" id="geoSw"><i></i></div>'
+    +'<span class="gfl'+(on?'':' dim')+'">'+u.geoFacts+'</span></div>'
+    +box
+    +'<div class="score">'+ringHtml(gScore,gcol)+'<div class="st"><div class="reco-lab" style="color:'+gcol+'">'+(on?u.geoHi:u.geoLo)+'</div><div class="reco-hint">'+(on?u.geoHintHi:u.geoHintLo)+'</div></div></div>'
+    +'<div class="geo-break">'+breaks+'</div>'
+    +'<div class="geo-q">'+aiq.split('<br>')[0]+'</div><div class="geo-a">'+aiq.split('<br>')[1]+'</div>'
+    +'<div class="geo-note">🧠 '+u.geoFlipNote+'</div></div>';
+}
+function stepReview(){
+  const u=U();
+  const comp=compChecks();const open=comp.filter(c=>!c.ok).length;const cScore=Math.max(60,100-open*10);
+  const compList=comp.map(c=>{
+    const isFixed=c.fix&&c.ok&&state.fixed[c.id];
+    const sub=(c.fix&&!c.ok)?'<small>→ '+L(c.fix)+'</small>':(isFixed?'<small style="color:#2e9e5b">✓ '+L(c.applied||c.fix)+'</small>':'');
+    const act=c.fix?(c.ok?'<span class="fixed">✓ '+u.fixed+'</span>':'<button class="cfix" data-fix="'+c.id+'">'+u.fix+'</button>'):'';
+    return '<div class="chk"><span class="ci '+(c.ok?'ok':'warn')+'">'+(c.ok?'✓':'!')+'</span><span class="ct">'+L(c.label)+sub+'</span>'+act+'</div>';
+  }).join('');
+  const allok=open===0;
+  return '<h2 class="step-t">'+u.t_review+'</h2><div class="step-s">'+u.s_review+'</div>'
+    +'<div class="rev">'+geoPanel()
+    +'<div class="panel"><h4>🛡️ '+u.compT+'</h4>'
+    +'<div class="score">'+ringHtml(cScore,allok?'#2e9e5b':'#e0922f')+'<div class="st"><b>'+u.compScore+'</b><div>'+(allok?u.allclear:(open+' '+({en:'flag(s) to fix',ja:'件の要対応',th:'รายการต้องแก้'})[state.lang]))+'</div></div></div>'
+    +compList+'</div></div>';
+}
+
+/* ---------------- audience ---------------- */
+const AUD_GROUPS=[
+  {id:"city",label:{en:"City tier",ja:"都市ティア",th:"ระดับเมือง"},chips:[
+    {id:"metro",f:.30,t:{en:"Metro",ja:"大都市",th:"เมืองใหญ่"}},{id:"t2",f:.38,t:{en:"Tier-2",ja:"Tier-2",th:"Tier-2"}},
+    {id:"t3",f:.22,t:{en:"Tier-3",ja:"Tier-3",th:"Tier-3"}},{id:"rural",f:.12,t:{en:"Rural",ja:"地方",th:"ชนบท"}}]},
+  {id:"rel",label:{en:"Relationship",ja:"関係",th:"ความสัมพันธ์"},chips:[
+    {id:"prospect",f:.55,t:{en:"Prospect",ja:"見込み客",th:"ผู้สนใจ"}},{id:"owner",f:.28,t:{en:"Existing owner",ja:"既存オーナー",th:"เจ้าของเดิม"}},
+    {id:"cold",f:.20,t:{en:"Cold lead",ja:"休眠リード",th:"ลีดเก่า"}}]},
+  {id:"age",label:{en:"Age band",ja:"年齢層",th:"ช่วงอายุ"},chips:[
+    {id:"a1",f:.30,t:{en:"18–25",ja:"18–25",th:"18–25"}},{id:"a2",f:.38,t:{en:"26–35",ja:"26–35",th:"26–35"}},
+    {id:"a3",f:.22,t:{en:"36–50",ja:"36–50",th:"36–50"}},{id:"a4",f:.12,t:{en:"50+",ja:"50+",th:"50+"}}]},
+  {id:"intent",label:{en:"Intent signals (optional)",ja:"インテント(任意)",th:"สัญญาณความตั้งใจ (ไม่บังคับ)"},mult:true,chips:[
+    {id:"festival",f:.6,t:{en:"Festival affinity",ja:"祭事関心",th:"สนใจเทศกาล"}},{id:"finance",f:.45,t:{en:"Finance-seeker",ja:"ファイナンス志向",th:"มองหาไฟแนนซ์"}},
+    {id:"exchange",f:.35,t:{en:"Upgrade-intent",ja:"アップグレード意向",th:"ตั้งใจอัปเกรด"}}]}
+];
+const AUD_BASE={'2w':2400000,'4w':850000};
+const PRESETS=[
+  {id:"young2",t:{en:"Young Tier-2 prospects",ja:"若年Tier-2見込み",th:"ผู้สนใจ Tier-2 วัยรุ่น"},aud:["t2","prospect","a2"]},
+  {id:"cold",t:{en:"Cold leads, all cities",ja:"全都市の休眠",th:"ลีดเก่าทุกเมือง"},aud:["cold"]},
+  {id:"upg",t:{en:"Upgrade-ready owners",ja:"乗換準備オーナー",th:"เจ้าของพร้อมอัปเกรด"},aud:["owner","exchange","a3"]}
+];
+function audSize(){let size=AUD_BASE[ENT()];
+  AUD_GROUPS.forEach(g=>{const sel=g.chips.filter(ch=>state.aud.includes(ch.id));
+    if(g.mult){sel.forEach(ch=>size*=ch.f);}else{const sh=sel.length?sel.reduce((a,ch)=>a+ch.f,0):1;size*=Math.min(sh,1);}});
+  return Math.round(size);}
+function fmt(n){return n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?Math.round(n/1e3)+'K':''+n;}
+function stepAudience(){
+  const u=U();const base=AUD_BASE[ENT()];const size=audSize();const pct=Math.max(3,Math.round(size/base*100));
+  let groups=AUD_GROUPS.map(g=>'<div class="agrp"><div class="gl">'+L(g.label)+'</div><div class="achips">'
+    +g.chips.map(ch=>'<span class="ac'+(state.aud.includes(ch.id)?' on':'')+'" data-ac="'+ch.id+'">'+L(ch.t)+'</span>').join('')+'</div></div>').join('');
+  let presets=PRESETS.map(p=>'<span class="preset" data-preset="'+p.id+'">'+L(p.t)+'</span>').join('');
+  return '<h2 class="step-t">'+u.t_audience+'</h2><div class="step-s">'+u.s_audience+'</div>'
+    +'<div style="font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:7px">'+u.presetL+'</div>'
+    +'<div class="presets">'+presets+'</div>'
+    +'<div class="aud-wrap"><div class="aud-groups">'+groups+'</div>'
+    +'<div class="aud-est"><div class="el">'+u.audReach+'</div><div class="en" id="audN">'+fmt(size)+'</div>'
+    +'<div class="ed">'+pct+'% '+u.audOf+' ('+fmt(base)+')</div><div class="bar"><i id="audBar" style="width:'+pct+'%"></i></div></div></div>';
+}
+
+/* ---------------- schedule + results ---------------- */
+function campaignId(){const pre=ENT()==='2w'?'BLKCORE':'BLKPREM';return pre+'-GRW-'+state.theme.slice(0,3).toUpperCase()+'-2606';}
+function qrHtml(){let seed=0;for(const ch of (state.theme+ENT()))seed+=ch.charCodeAt(0);
+  let cells='';for(let i=0;i<121;i++){const r=Math.floor(i/11),c=i%11;
+    const corner=(r<3&&c<3)||(r<3&&c>7)||(r>7&&c<3);
+    let on=corner?((r===0||r===2||c===0||c===2||(r===1&&c===1))||(r<3&&c>7&&(r===0||r===2||c===8||c===10||(r===1&&c===9)))||(r>7&&c<3&&(r===10||r===8||c===0||c===2||(r===9&&c===1)))):(((i*7+seed)%3)===0);
+    cells+='<i class="'+(on?'':'b0')+'"></i>';}
+  return '<div class="qr">'+cells+'</div>';}
+function stepSchedule(){
+  const u=U();const cid=campaignId();
+  const sum=state.chans.map(c=>{const ch=CHAN(c);const tn=L(ch.tmpl[state.tmpl[c]||0]);
+    return '<div class="cs-row"><span style="font-size:16px">'+ch.em+'</span><span class="cs-n">'+L(ch.name)+'</span><span class="cs-c">'+tn+(ch.reach!=='—'?' · ≈'+ch.reach:'')+'</span></div>';}).join('');
+  return '<h2 class="step-t">'+u.t_launch+'</h2><div class="step-s">'+u.s_launch+'</div>'
+    +'<div class="sched"><div class="panel"><h4>🗓 '+u.when+'</h4>'
+    +'<div class="seg"><button class="'+(state.when==='now'?'on':'')+'" data-when="now">'+u.now+'</button><button class="'+(state.when==='later'?'on':'')+'" data-when="later">'+u.later+'</button></div>'
+    +'<div class="row"><span>'+u.cid+'</span><b style="letter-spacing:.03em">'+cid+'</b></div>'
+    +'<div class="row"><span>'+u.attrib+'</span><div class="toggle'+(state.attrib?' on':'')+'" id="attribTog"><i></i></div></div>'
+    +'<div style="font-size:11.5px;color:var(--muted);margin-top:9px">'+u.attribD+'</div>'
+    +'<div style="margin-top:14px;text-align:center">'+qrHtml()+'<div style="font-size:11px;color:var(--muted);margin-top:6px">'+u.qrL+'</div></div></div>'
+    +'<div class="panel"><h4>📦 '+u.summary+'</h4><div class="chan-sum">'+sum+'</div>'
+    +'<div style="font-size:12px;color:var(--muted);margin-top:12px;border-top:1px dashed var(--line);padding-top:11px">'+u.launchHint+'</div></div></div>';
+}
+function stepResults(){
+  const u=U();
+  const reach=state.chans.reduce((a,c)=>{const r=CHAN(c).reach;return a+(r==='—'?80000:(parseFloat(r)*(r.includes('M')?1e6:1e3)));},0);
+  const aud=Math.max(audSize(),1);const eff=Math.round(Math.min(reach,aud*1.3))||reach;
+  const deliv=Math.round(eff*0.92),eng=Math.round(deliv*0.14),lead=Math.round(eng*0.22);
+  const max=eff;const fb=(lab,n)=>'<div class="fstage"><div class="fl">'+lab+'</div><div class="fbar"><i style="width:'+Math.max(6,Math.round(n/max*100))+'%"></i></div><div class="fn">'+fmt(n)+'</div></div>';
+  return '<h2 class="step-t">✅ '+u.resT+'</h2><div class="step-s">'+u.resS+'</div>'
+    +'<div class="funnel">'+fb(u.fReach,eff)+fb(u.fDeliv,deliv)+fb(u.fEng,eng)+fb(u.fLead,lead)
+    +'<div class="fnote">🔗 '+u.flow+'</div></div>';
+}
+
+/* ---------------- bindings ---------------- */
+function bind(){
+  $$('[data-theme]').forEach(o=>o.onclick=()=>{state.theme=o.dataset.theme;const th=curTheme();state.chans=th.chans.slice(0,2);state.tmpl={};state.variant={};state.fixed={};render();});
+  $$('[data-chan]').forEach(o=>o.onclick=()=>{const id=o.dataset.chan;const i=state.chans.indexOf(id);if(i>=0)state.chans.splice(i,1);else state.chans.push(id);render();});
+  $$('[data-ct]').forEach(c=>c.onclick=()=>{state.tmpl[c.dataset.ct]=+c.dataset.ti;renderPv(c.dataset.ct);
+    $$('[data-ct="'+c.dataset.ct+'"]').forEach(x=>x.classList.toggle('on',x===c));});
+  $$('[data-regen]').forEach(b=>b.onclick=()=>{const id=b.dataset.regen;state.variant[id]=(state.variant[id]||0)+1;const pv=$('#pv-'+id);
+    if(pv){pv.style.opacity=.3;setTimeout(()=>{renderPv(id);pv.style.opacity=1;},260);}toast('✨ '+L({en:'Fresh variant',ja:'別案を生成',th:'เวอร์ชันใหม่'}));});
+  bindSocial();
+  state.chans.forEach(cid=>{const pv=$('#pv-'+cid);if(pv)makeEditable(pv);});
+  $$('[data-fix]').forEach(b=>b.onclick=()=>{const id=b.dataset.fix;b.disabled=true;b.textContent=U().applying;
+    setTimeout(()=>{state.fixed[id]=1;render();toast('✅ '+L({en:'Flag fixed',ja:'修正しました',th:'แก้แล้ว'}));},480);});
+  const gsw=$('#geoSw');if(gsw)gsw.onclick=()=>{state.geo=!state.geo;render();};
+  $$('[data-ac]').forEach(c=>c.onclick=()=>{const id=c.dataset.ac;const i=state.aud.indexOf(id);if(i>=0)state.aud.splice(i,1);else state.aud.push(id);refreshAud();c.classList.toggle('on');});
+  $$('[data-preset]').forEach(p=>p.onclick=()=>{const pr=PRESETS.find(x=>x.id===p.dataset.preset);state.aud=pr.aud.slice();render();});
+  $$('[data-when]').forEach(b=>b.onclick=()=>{state.when=b.dataset.when;$$('[data-when]').forEach(x=>x.classList.toggle('on',x===b));});
+  const at=$('#attribTog');if(at)at.onclick=()=>{state.attrib=!state.attrib;at.classList.toggle('on',state.attrib);};
+}
+function bindSocial(){$$('#ptabs .pt').forEach(t=>t.onclick=()=>{socialPlat=+t.dataset.p;renderPv('social');});}
+function refreshAud(){const base=AUD_BASE[ENT()];const size=audSize();const pct=Math.max(3,Math.round(size/base*100));const n=$('#audN'),b=$('#audBar');if(n)n.textContent=fmt(size);if(b)b.style.width=pct+'%';}
+
+/* ---------------- nav ---------------- */
+function goStep(i){state.step=i;_reached=Math.max(_reached,i);render();window.scrollTo({top:0,behavior:'smooth'});}
+function nextStep(){
+  if(state.launched){state.launched=false;state.step=0;_reached=0;render();window.scrollTo({top:0,behavior:'smooth'});return;}
+  if(FLOW[state.step]==='channels'&&state.chans.length===0){toast('⚠️ '+U().pickone);return;}
+  if(FLOW[state.step]==='launch'){state.launched=true;render();toast('🚀 '+L({en:'Campaign launched',ja:'配信しました',th:'ส่งแคมเปญแล้ว'}));window.scrollTo({top:0,behavior:'smooth'});return;}
+  goStep(state.step+1);
+}
+$('#back').onclick=()=>{if(state.step>0)goStep(state.step-1);};
+$('#next').onclick=nextStep;
+
+/* ---------------- shell ---------------- */
+function applyBrand(){const b=BRANDS[state.brand],r=document.documentElement.style;
+  r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
+  $('#brand').innerHTML=b.logo+(b.sup?'<sup>'+b.sup+'</sup>':'');}
+function applyText(){$('#sub').textContent=U().sub;document.documentElement.lang=state.lang;render();}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1700);}
+const LANGS=[['en','EN'],['zh','中文'],['ja','日本語'],['th','ไทย']];
+function renderLangs(){const box=$('#langs');box.innerHTML='';LANGS.forEach(([k,lab])=>{const b=document.createElement('button');b.textContent=lab;if(k===state.lang)b.className='on';b.onclick=()=>{state.lang=k;renderLangs();applyText();};box.appendChild(b);});}
+$('#fab').onclick=()=>{const k=Object.keys(BRANDS);const i=k.indexOf(state.brand);state.brand=k[(i+1)%k.length];applyBrand();render();toast('🔁 '+BRANDS[state.brand].name);};
+
+try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_m=_p.get("market"),_l=_p.get("lang");
+  if(_b&&BRANDS[_b])state.brand=_b;if(_l&&["en","zh","ja","th"].indexOf(_l)>=0)state.lang=_l;if(_m)state.market=_m;}catch(e){}
+renderLangs();applyBrand();applyText();
+window.addEventListener('message',function(e){try{if(e.data&&e.data.t==='es'&&e.data.lang&&["en","zh","ja","th"].indexOf(e.data.lang)>=0){state.lang=e.data.lang;applyText();}}catch(err){}});
+(function(){var _l="";setInterval(function(){try{if(typeof state==="undefined")return;var c=(state.brand||"")+"|"+(state.lang||"")+"|"+(state.market||"");if(c!==_l){_l=c;if(window.parent&&window.parent!==window)window.parent.postMessage({t:"es",brand:state.brand||null,lang:state.lang||null,market:state.market||null},"*");}}catch(e){}},400);})();
+</script>
+<script>/*__embedHide2*/(function(){try{if(window.self!==window.top){var s=document.createElement('style');s.textContent='header,.topbar,.appbar,.langs,#__backStudio{display:none!important}';(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

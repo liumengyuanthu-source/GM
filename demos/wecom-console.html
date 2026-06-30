@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WeCom Console · Blackmores · Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
+    --ink:#16201f; --muted:#6a7472; --bg:#f4f7fb; --card:#fff; --line:#e6ecf2;
+    --neg:#c0563f; --warn:#b5731a; --ok:#077a3c; --black:#0b1320;
+    --display:Georgia,'Times New Roman','Hiragino Mincho ProN','Songti SC',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','PingFang SC','Microsoft YaHei','Thonburi','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  button{font-family:inherit;cursor:pointer}
+  /* desktop console top bar */
+  header{background:var(--black);position:sticky;top:0;z-index:30}
+  .nav{display:flex;align-items:center;gap:12px;max-width:1180px;margin:0 auto;padding:12px 20px}
+  .wm{width:30px;height:30px;border-radius:8px;background:var(--brand);display:grid;place-items:center;font-size:16px;flex-shrink:0}
+  .brand{font-family:var(--display);font-weight:700;font-size:18px;color:#fff;letter-spacing:.02em}.brand sup{font-size:9px;color:var(--brand)}
+  .sub{font-size:11px;color:#9fb4c8;border-left:1px solid #2a3647;padding-left:12px;letter-spacing:.04em}.sp{flex:1}
+  .who{display:flex;align-items:center;gap:8px;color:#cbd6e3;font-size:11.5px;background:rgba(255,255,255,.05);border:1px solid #2a3647;border-radius:9px;padding:5px 10px}
+  .who .av{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:10px;font-weight:800}
+  .langs{display:flex;gap:3px;background:rgba(255,255,255,.06);border:1px solid #2a3647;border-radius:9px;padding:3px}
+  .langs button{border:0;background:0;font:inherit;font-size:12px;font-weight:700;color:#9fb4c8;min-width:30px;padding:5px 8px;border-radius:6px;transition:.15s}
+  .langs button.on{background:#fff;color:var(--brand-d)}
+
+  /* WeCom explainer strip */
+  .explain{background:linear-gradient(90deg,var(--soft),#fff);border-bottom:1px solid var(--line)}
+  .explain .in{max-width:1180px;margin:0 auto;padding:11px 20px;display:flex;gap:13px;align-items:center}
+  .explain .ic{width:34px;height:34px;border-radius:9px;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:17px;flex-shrink:0}
+  .explain .tx{font-size:12.5px;color:var(--ink)}
+  .explain .tx b{color:var(--brand-d)}
+  .explain .tx .ww{font-weight:800}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:18px 20px 70px}
+  .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:700}
+  h1.h{font-family:var(--display);font-weight:400;font-size:clamp(20px,3.4vw,26px);margin:7px 0 5px;line-height:1.18}
+  .lead{color:var(--muted);font-size:13px;max-width:78ch}
+
+  /* tab bar */
+  .tabs{display:flex;gap:4px;margin:18px 0 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tabs button{border:0;background:0;font:inherit;font-size:13.5px;font-weight:700;color:var(--muted);padding:11px 14px;border-bottom:2px solid transparent;display:flex;gap:7px;align-items:center}
+  .tabs button.on{color:var(--brand);border-color:var(--brand)}
+  .tabs .cnt{font-size:11px;background:var(--soft);color:var(--brand-d);border-radius:999px;padding:1px 8px;font-weight:800}
+
+  .pane{display:none}.pane.on{display:block;animation:fin .3s ease}
+  @keyframes fin{from{opacity:0;transform:translateY(6px)}}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px}
+  .layerlab{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:2px 0 11px}
+
+  /* toolrow */
+  .toolrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+  .srch{flex:1;min-width:180px;display:flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:9px 12px}
+  .srch input{border:0;outline:0;font:inherit;font-size:13px;width:100%;background:0;color:var(--ink)}
+  .chipf{display:flex;gap:6px;flex-wrap:wrap}
+  .chipf button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;font-weight:700;color:var(--muted);padding:6px 11px;border-radius:999px}
+  .chipf button.on{border-color:var(--brand);background:var(--soft);color:var(--brand-d)}
+
+  /* SCRM split */
+  .split{display:grid;grid-template-columns:380px 1fr;gap:16px;align-items:start}
+  @media(max-width:880px){.split{grid-template-columns:1fr}}
+  .clist{display:flex;flex-direction:column;gap:8px;max-height:560px;overflow:auto}
+  .crow{display:flex;gap:11px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px 11px;cursor:pointer;transition:.15s;background:var(--card)}
+  .crow:hover{border-color:var(--brand)}
+  .crow.on{border-color:var(--brand);background:var(--soft)}
+  .crow .av{width:38px;height:38px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px;flex-shrink:0}
+  .crow.risk .av{background:var(--neg)}.crow.new .av{background:var(--accent)}
+  .crow .cb{flex:1;min-width:0}
+  .crow .cn{font-weight:700;font-size:13.5px}
+  .crow .cm{font-size:11px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .stg{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;border-radius:6px;padding:2px 7px;flex-shrink:0}
+  .stg.new{background:#fdecf3;color:var(--accent)}.stg.active{background:#eafaf0;color:var(--ok)}.stg.risk{background:#fdecea;color:var(--neg)}
+  .tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+  .tag{font-size:10px;font-weight:700;background:var(--soft);color:var(--brand-d);border-radius:5px;padding:2px 7px}
+  /* detail */
+  .dhead{display:flex;gap:13px;align-items:center;margin-bottom:14px}
+  .dhead .av{width:54px;height:54px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:20px;flex-shrink:0}
+  .dhead.risk .av{background:var(--neg)}.dhead.new .av{background:var(--accent)}
+  .dhead .dn{font-family:var(--display);font-size:19px}
+  .dhead .dm{font-size:12px;color:var(--muted);margin-top:2px}
+  .qrsrc{display:flex;gap:10px;align-items:center;background:var(--soft);border:1px dashed var(--brand);border-radius:11px;padding:10px 12px;margin-bottom:13px}
+  .qrsrc .qr{width:40px;height:40px;flex-shrink:0}
+  .qrsrc .qt{font-size:11.5px;color:var(--brand-d);font-weight:700}
+  .qrsrc .qs{font-size:11px;color:var(--muted)}
+  .dlab{font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:13px 0 8px}
+  .ohist{display:flex;flex-direction:column;gap:7px}
+  .orow{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+  .orow img{width:30px;height:30px;flex-shrink:0}
+  .orow .on{font-weight:700;font-size:12.5px}.orow .od{font-size:10.5px;color:var(--muted)}
+  .orow .op{margin-left:auto;font-weight:800;font-size:12.5px;color:var(--brand-d)}
+  .ai{background:linear-gradient(135deg,#fff,var(--soft));border:1px solid var(--brand);border-radius:12px;padding:13px;margin-top:6px}
+  .ai .al{font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--brand-d);display:flex;align-items:center;gap:6px}
+  .ai .at{font-size:13px;font-weight:600;margin:7px 0 10px}
+  .ai .at b{color:var(--accent)}
+  .btn{border:0;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:13px;padding:10px 15px;border-radius:11px}
+  .btn.o{background:var(--soft);color:var(--brand)}
+  .btn.sm{padding:8px 12px;font-size:12px}
+  .btn:disabled{opacity:.5}
+  .empty{color:var(--muted);font-size:13px;text-align:center;padding:50px 20px}
+
+  /* content push grid */
+  .cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:13px}
+  .asset{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card);display:flex;flex-direction:column}
+  .asset .pv{height:108px;display:grid;place-items:center;font-size:40px;position:relative}
+  .asset .pv.imm{background:linear-gradient(135deg,#e0f2f3,#b8e6e8)}
+  .asset .pv.prod{background:linear-gradient(135deg,#fdecf3,#f8cfe0)}
+  .asset .pv.camp{background:linear-gradient(135deg,#fff4e0,#ffe0b8)}
+  .asset .pv.edu{background:linear-gradient(135deg,#e8f0fb,#cfe0f8)}
+  .asset .ab{padding:11px 12px;flex:1;display:flex;flex-direction:column}
+  .asset .acat{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--brand-d)}
+  .asset .an{font-weight:700;font-size:13px;margin:5px 0 4px;line-height:1.3}
+  .asset .ad{font-size:11px;color:var(--muted);flex:1}
+  .appr{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;border-radius:6px;padding:3px 8px;margin-top:8px;width:fit-content}
+  .appr.ok{background:#eafaf0;color:var(--ok)}.appr.rev{background:#fff4e0;color:var(--warn)}
+  .ashares{font-size:10.5px;color:var(--muted);margin-top:8px}
+  .arow2{display:flex;gap:7px;margin-top:9px}
+  .arow2 .btn{flex:1;text-align:center}
+
+  /* assisted ordering */
+  .ord{display:grid;grid-template-columns:1fr 360px;gap:16px;align-items:start}
+  @media(max-width:880px){.ord{grid-template-columns:1fr}}
+  .recline{font-size:11.5px;color:var(--brand-d);font-weight:700;background:var(--soft);border-radius:9px;padding:8px 11px;margin-bottom:12px;display:flex;gap:7px;align-items:center}
+  .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:11px}
+  .pcard{border:1px solid var(--line);border-radius:13px;padding:11px;text-align:center;background:var(--card);position:relative}
+  .pcard.rec{border-color:var(--accent);box-shadow:0 0 0 2px rgba(233,30,99,.12)}
+  .pcard .recb{position:absolute;top:7px;right:7px;font-size:9px;font-weight:800;background:var(--accent);color:#fff;border-radius:5px;padding:2px 6px}
+  .pcard img{width:54px;height:54px;margin:4px auto}
+  .pcard .pn{font-weight:700;font-size:12.5px;margin-top:4px;line-height:1.25}
+  .pcard .pp{font-size:12px;color:var(--brand-d);font-weight:800;margin:5px 0 8px}
+  .pcard .add{border:1px solid var(--brand);background:var(--soft);color:var(--brand-d);font:inherit;font-weight:700;font-size:11.5px;padding:6px 0;border-radius:8px;width:100%}
+  .pcard .add:hover{background:var(--brand);color:#fff}
+  .cart{position:sticky;top:80px}
+  .citem{display:flex;gap:9px;align-items:center;border-bottom:1px solid var(--line);padding:9px 0}
+  .citem:last-of-type{border-bottom:0}
+  .citem img{width:30px;height:30px;flex-shrink:0}
+  .citem .ci{flex:1;min-width:0}
+  .citem .cin{font-weight:700;font-size:12px}.citem .cip{font-size:11px;color:var(--muted)}
+  .qty{display:flex;align-items:center;gap:6px}
+  .qty button{width:22px;height:22px;border-radius:6px;border:1px solid var(--line);background:var(--card);font-weight:800;color:var(--brand-d);font-size:13px;line-height:1}
+  .qty span{min-width:16px;text-align:center;font-weight:700;font-size:12.5px}
+  .crm{margin-left:4px;border:0;background:0;color:var(--muted);font-size:13px}
+  .cside{display:flex;justify-content:space-between;font-size:12.5px;margin:7px 0}
+  .cside.tot{font-weight:800;font-size:15px;border-top:1px solid var(--line);padding-top:9px;margin-top:9px}
+  .cside.disc{color:var(--accent);font-weight:700}
+  .coupon{display:flex;gap:8px;align-items:center;background:#fdecf3;border:1px dashed var(--accent);border-radius:10px;padding:9px 11px;margin:11px 0;font-size:11.5px;color:var(--accent);font-weight:700}
+  .paylink{background:var(--soft);border:1px solid var(--brand);border-radius:11px;padding:12px;margin-top:11px;text-align:center;display:none}
+  .paylink.show{display:block;animation:fin .3s}
+  .paylink .pq{width:84px;height:84px;margin:4px auto 8px}
+  .paylink .pst{font-size:11.5px;font-weight:800;color:var(--ok)}
+  .paylink .plk{font-size:10.5px;color:var(--muted);word-break:break-all;margin-top:4px}
+
+  /* dashboard */
+  .kgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:11px;margin-bottom:16px}
+  @media(max-width:880px){.kgrid{grid-template-columns:1fr 1fr}}
+  .kc{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:13px}
+  .kc .kl{font-size:10.5px;color:var(--muted);font-weight:700}
+  .kc b{font-family:var(--display);font-size:25px;display:block;line-height:1.1;margin-top:5px}
+  .kc .kt{font-size:10.5px;font-weight:800;margin-top:4px}.kt.up{color:var(--ok)}.kt.dn{color:var(--neg)}
+  .dash2{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;align-items:start}
+  @media(max-width:880px){.dash2{grid-template-columns:1fr}}
+  .lbrow{display:flex;gap:11px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+  .lbrow:last-child{border-bottom:0}
+  .lbrow .rk{width:24px;height:24px;border-radius:50%;background:var(--soft);color:var(--brand-d);display:grid;place-items:center;font-weight:800;font-size:11px;flex-shrink:0}
+  .lbrow .rk.g1{background:#ffe9a8;color:#8a6d00}.lbrow .rk.g2{background:#e3e8ee;color:#5a6573}.lbrow .rk.g3{background:#f6dcc2;color:#8a5a2a}
+  .lbrow .ln{flex:1;min-width:0}.lbrow .lnm{font-weight:700;font-size:12.5px}.lbrow .lst{font-size:10.5px;color:var(--muted)}
+  .lbrow .bb{flex:1;height:11px;background:var(--soft);border-radius:5px;overflow:hidden;max-width:130px}.lbrow .bb i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-d))}
+  .lbrow .lv{font-weight:800;font-size:12.5px;color:var(--brand-d);min-width:54px;text-align:right}
+  .funnel{display:flex;flex-direction:column;gap:9px}
+  .fstep{display:flex;align-items:center;gap:11px}
+  .fstep .fbar{flex:1;height:34px;border-radius:9px;background:linear-gradient(90deg,var(--brand),var(--brand-d));display:flex;align-items:center;padding:0 12px;color:#fff;font-weight:800;font-size:13px}
+  .fstep .flab{min-width:120px;font-size:12px;font-weight:700}
+  .fstep .fpct{font-size:11px;color:var(--muted);min-width:46px;text-align:right;font-weight:700}
+
+  /* community */
+  .ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:13px}
+  .gcard{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--card)}
+  .gcard .gh{display:flex;gap:10px;align-items:center;margin-bottom:9px}
+  .gcard .gi{width:40px;height:40px;border-radius:11px;background:var(--soft);display:grid;place-items:center;font-size:20px;flex-shrink:0}
+  .gcard .gn{font-weight:700;font-size:13.5px}.gcard .gm{font-size:11px;color:var(--muted)}
+  .gchal{font-size:11.5px;background:var(--soft);border-radius:9px;padding:8px 10px;margin:9px 0;color:var(--brand-d);font-weight:600}
+  .gact{display:flex;gap:7px}
+
+  /* donut */
+  .donutwrap{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+  .dleg{display:flex;flex-direction:column;gap:7px}
+  .dleg .dl2{display:flex;align-items:center;gap:8px;font-size:12px}
+  .dleg .sw{width:11px;height:11px;border-radius:3px;flex-shrink:0}
+
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(50px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:11px;font-size:14px;font-weight:600;z-index:90;opacity:0;transition:.3s;max-width:90vw}
+  .toast.show{transform:translateX(-50%);opacity:1}
+  .fab{position:fixed;right:18px;bottom:18px;width:50px;height:50px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:20px;box-shadow:0 8px 22px rgba(0,0,0,.2);z-index:40;border:0}
+</style>
+</head>
+<body>
+<header><div class="nav">
+  <div class="wm">💬</div>
+  <div class="brand" id="brand">Blackmores<sup>®</sup></div>
+  <div class="sub" id="sub">WeCom Console</div><div class="sp"></div>
+  <div class="who"><span class="av">LW</span><span id="whoTxt">Staff · Chemist Warehouse Sydney</span></div>
+  <div class="langs" id="langs"></div>
+</div></header>
+
+<div class="explain"><div class="in">
+  <div class="ic">📖</div>
+  <div class="tx" id="explainTxt"></div>
+</div></div>
+
+<div class="wrap">
+  <div class="eyebrow" id="eye">Private Traffic · Staff Backend</div>
+  <h1 class="h" id="title"></h1>
+  <div class="lead" id="lead"></div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <!-- SCRM -->
+  <div class="pane on" id="pane-scrm">
+    <div class="toolrow">
+      <div class="srch">🔍 <input id="scrmSearch" placeholder="Search"></div>
+      <div class="chipf" id="scrmFilter"></div>
+    </div>
+    <div class="split">
+      <div class="clist" id="clist"></div>
+      <div class="panel" id="cdetail"></div>
+    </div>
+  </div>
+
+  <!-- Content Push -->
+  <div class="pane" id="pane-content">
+    <div class="toolrow"><div class="chipf" id="contentFilter"></div></div>
+    <div class="cgrid" id="cgrid"></div>
+  </div>
+
+  <!-- Assisted Ordering -->
+  <div class="pane" id="pane-order">
+    <div class="recline" id="recline"></div>
+    <div class="ord">
+      <div>
+        <div class="layerlab" id="catalogLab"></div>
+        <div class="pgrid" id="pgrid"></div>
+      </div>
+      <div class="panel cart" id="cartPanel"></div>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="pane" id="pane-dash">
+    <div class="kgrid" id="kgrid"></div>
+    <div class="dash2">
+      <div class="panel">
+        <div class="layerlab" id="lbLab"></div>
+        <div id="lbList"></div>
+      </div>
+      <div class="panel">
+        <div class="layerlab" id="funLab"></div>
+        <div class="funnel" id="funnel"></div>
+        <div class="layerlab" style="margin-top:18px" id="mixLab"></div>
+        <div class="donutwrap"><div id="donut"></div><div class="dleg" id="dleg"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Community -->
+  <div class="pane" id="pane-comm">
+    <div class="ggrid" id="ggrid"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<button class="fab" id="fab" title="brand">🎨</button>
+
+<script>
+const BRANDS={
+  blackmores:{logo:"Blackmores",sup:"®",name:"Blackmores",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  bioceuticals:{logo:"BioCeuticals",sup:"",name:"BioCeuticals",c:["#1b3a5c","#10243a","#e7edf3","#c9a24a"]},
+  kids:{logo:"Blackmores Kids",sup:"",name:"Blackmores Kids",c:["#d63a2f","#a82a22","#fbe7e5","#1f9d57"]}};
+const L=o=>o[state.lang]||o.en||o.zh;
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const IMG="images/blackmores/line/";
+
+const T={
+ sub:{en:"WeCom Console",zh:"企业微信控制台",ja:"WeCom コンソール",th:"คอนโซล WeCom"},
+ who:{en:"Staff · Chemist Warehouse Sydney",zh:"店员 · Chemist Warehouse 悉尼",ja:"スタッフ · Chemist Warehouse シドニー",th:"พนักงาน · Chemist Warehouse Sydney"},
+ explain:{
+  en:"<span class='ww'>企业微信 / WeCom = WeChat’s enterprise edition.</span> Brand &amp; pharmacy staff use it to manage customers in their <b>private traffic (私域)</b>, push HQ-approved content, and assist orders — all wired to the consumer <b>mini-program</b>.",
+  zh:"<span class='ww'>企业微信 = 微信的企业版。</span>品牌与药房店员用它来管理<b>私域</b>客户、下发总部已审内容、辅助下单 — 全部与消费者<b>小程序</b>打通。",
+  ja:"<span class='ww'>企业微信 / WeCom = WeChat の法人版。</span>ブランド・薬局スタッフが<b>プライベートトラフィック（私域）</b>の顧客を管理し、本部承認済みコンテンツを配信、注文を支援 — すべて消費者<b>ミニプログラム</b>と連携。",
+  th:"<span class='ww'>企业微信 / WeCom = WeChat เวอร์ชันองค์กร</span> พนักงานแบรนด์และร้านขายยาใช้จัดการลูกค้าใน <b>private traffic (私域)</b> ส่งคอนเทนต์ที่ HQ อนุมัติ และช่วยสั่งซื้อ — เชื่อมกับ <b>มินิโปรแกรม</b>"},
+ eye:{en:"Private Traffic · Staff & Distributor Backend",zh:"私域 · 店员与经销商后台",ja:"私域 · スタッフ・ディーラー管理画面",th:"Private Traffic · แบ็กเอนด์พนักงาน"},
+ title:{en:"The staff backend that pairs with the consumer mini-program — manage private traffic, push approved content, assist orders.",
+   zh:"与消费者小程序配对的店员后台 — 管理私域、下发已审内容、辅助下单。",
+   ja:"消費者ミニプログラムと対をなすスタッフ後台 — 私域を管理し、承認済みコンテンツを配信、注文を支援。",
+   th:"แบ็กเอนด์พนักงานที่จับคู่กับมินิโปรแกรมผู้บริโภค — จัดการ private traffic ส่งคอนเทนต์ที่อนุมัติ ช่วยสั่งซื้อ"},
+ lead:{en:"Customers scan an in-store or on-pack mini-program QR → they’re added to a staff member’s private traffic. From there staff see health goals, push compliance-checked content, assist orders, and HQ sees attribution from scan to first order.",
+   zh:"顾客扫描店内或包装上的小程序二维码 → 被加入店员私域。店员据此看到健康目标、下发合规内容、辅助下单，总部则看到从扫码到首单的归因。",
+   ja:"顧客が店頭またはパッケージのミニプログラム QR をスキャン → スタッフの私域に追加。スタッフは健康目標を把握し、コンプラ済みコンテンツを配信、注文を支援。本部はスキャンから初回注文までの帰属を確認。",
+   th:"ลูกค้าสแกน QR มินิโปรแกรมในร้านหรือบนบรรจุภัณฑ์ → ถูกเพิ่มเข้า private traffic ของพนักงาน จากนั้นพนักงานเห็นเป้าหมายสุขภาพ ส่งคอนเทนต์ และช่วยสั่งซื้อ"},
+ // tabs
+ t_scrm:{en:"Customer SCRM",zh:"私域客户",ja:"私域顧客 SCRM",th:"ลูกค้า SCRM"},
+ t_content:{en:"Content Push",zh:"内容下发",ja:"コンテンツ配信",th:"ส่งคอนเทนต์"},
+ t_order:{en:"Assisted Ordering",zh:"辅助下单",ja:"代理注文支援",th:"ช่วยสั่งซื้อ"},
+ t_dash:{en:"Performance",zh:"业绩看板",ja:"業績ダッシュボード",th:"แดชบอร์ด"},
+ t_comm:{en:"Community Groups",zh:"社群",ja:"コミュニティ",th:"กลุ่มชุมชน"},
+ // scrm
+ fAll:{en:"All",zh:"全部",ja:"すべて",th:"ทั้งหมด"},
+ fNew:{en:"New",zh:"新客",ja:"新規",th:"ใหม่"},
+ fActive:{en:"Active",zh:"活跃",ja:"アクティブ",th:"แอคทีฟ"},
+ fRisk:{en:"At-risk",zh:"流失风险",ja:"離反リスク",th:"เสี่ยงหลุด"},
+ stgNew:{en:"New",zh:"新客",ja:"新規",th:"ใหม่"},stgActive:{en:"Active",zh:"活跃",ja:"活発",th:"แอคทีฟ"},stgRisk:{en:"At-risk",zh:"风险",ja:"リスク",th:"เสี่ยง"},
+ goalLab:{en:"Health goal",zh:"健康目标",ja:"健康目標",th:"เป้าหมายสุขภาพ"},
+ lastOrder:{en:"Last order",zh:"最近下单",ja:"最終注文",th:"สั่งล่าสุด"},
+ qrTitle:{en:"Acquired via mini-program QR",zh:"通过小程序二维码获取",ja:"ミニプログラム QR から獲得",th:"ได้มาจาก QR มินิโปรแกรม"},
+ orderHist:{en:"Order history",zh:"订单历史",ja:"注文履歴",th:"ประวัติคำสั่งซื้อ"},
+ aiNext:{en:"AI-suggested next action",zh:"AI 建议的下一步",ja:"AI 推奨アクション",th:"การกระทำถัดไป AI"},
+ sendOffer:{en:"Send restock offer",zh:"发送补货优惠",ja:"補充オファー送信",th:"ส่งโปรเติมสต็อก"},
+ startOrder:{en:"Start assisted order",zh:"开始辅助下单",ja:"代理注文を開始",th:"เริ่มช่วยสั่งซื้อ"},
+ pickCust:{en:"Select a customer to view their profile, orders and AI next-best action.",zh:"选择客户查看档案、订单与 AI 下一步建议。",ja:"顧客を選択してプロフィール・注文・AI 推奨を表示。",th:"เลือกลูกค้าเพื่อดูโปรไฟล์ คำสั่งซื้อ และ AI"},
+ offerSent:{en:"Restock offer sent via WeCom ✓",zh:"补货优惠已通过企业微信发送 ✓",ja:"補充オファーを WeCom で送信 ✓",th:"ส่งโปรเติมสต็อกผ่าน WeCom แล้ว ✓"},
+ // content
+ cAll:{en:"All",zh:"全部",ja:"すべて",th:"ทั้งหมด"},
+ cImm:{en:"Immunity",zh:"免疫",ja:"免疫",th:"ภูมิคุ้มกัน"},
+ cProd:{en:"Product",zh:"产品",ja:"製品",th:"สินค้า"},
+ cCamp:{en:"Campaign",zh:"活动",ja:"キャンペーン",th:"แคมเปญ"},
+ cEdu:{en:"Education",zh:"科普",ja:"教育",th:"ความรู้"},
+ apprOk:{en:"Compliance-checked",zh:"合规已审",ja:"コンプラ審査済",th:"ตรวจสอบแล้ว"},
+ apprRev:{en:"In review",zh:"审核中",ja:"審査中",th:"กำลังตรวจ"},
+ shares:{en:"shares",zh:"次分享",ja:"シェア",th:"แชร์"},
+ sendCust:{en:"Send to customer",zh:"发给客户",ja:"顧客へ送信",th:"ส่งให้ลูกค้า"},
+ toMoments:{en:"Share to Moments 朋友圈",zh:"分享到朋友圈",ja:"モーメンツへ 朋友圈",th:"แชร์ Moments 朋友圈"},
+ contentSent:{en:"Sent to customer via WeCom ✓",zh:"已通过企业微信发给客户 ✓",ja:"WeCom で顧客へ送信 ✓",th:"ส่งให้ลูกค้าผ่าน WeCom ✓"},
+ momentsShared:{en:"Shared to your Moments 朋友圈 ✓",zh:"已分享到朋友圈 ✓",ja:"モーメンツへ共有 ✓",th:"แชร์ไป Moments แล้ว ✓"},
+ lockedRev:{en:"Awaiting compliance approval",zh:"等待合规审核",ja:"コンプラ承認待ち",th:"รออนุมัติ"},
+ // order
+ catalogLab:{en:"Catalogue — AI-recommended for this customer’s goal",zh:"商品目录 — 按此客户目标 AI 推荐",ja:"カタログ — 顧客の目標に合わせ AI 推奨",th:"แคตตาล็อก — AI แนะนำตามเป้าหมาย"},
+ recline:{en:"Assisting <b>Wei Lin</b> · goal: immunity support — AI recommends Vitamin C + Probiotics.",zh:"正在协助 <b>魏琳</b> · 目标：免疫支持 — AI 推荐维生素C + 益生菌。",ja:"<b>Wei Lin</b> を支援中 · 目標：免疫サポート — AI が ビタミンC + プロバイオティクス を推奨。",th:"กำลังช่วย <b>Wei Lin</b> · เป้าหมาย: เสริมภูมิ — AI แนะนำ Vitamin C + Probiotics"},
+ recBadge:{en:"AI pick",zh:"AI 推荐",ja:"AI 推奨",th:"AI แนะนำ"},
+ add:{en:"Add",zh:"加入",ja:"追加",th:"เพิ่ม"},
+ cartTitle:{en:"Cart",zh:"购物车",ja:"カート",th:"ตะกร้า"},
+ cartEmpty:{en:"Cart is empty — add products from the catalogue.",zh:"购物车为空 — 从目录添加商品。",ja:"カートは空です — カタログから追加。",th:"ตะกร้าว่าง — เพิ่มสินค้าจากแคตตาล็อก"},
+ subtotal:{en:"Subtotal",zh:"小计",ja:"小計",th:"ยอดรวม"},
+ bestCoupon:{en:"Best coupon applied: 私域 member −¥",zh:"已用最优券：私域会员 −¥",ja:"最適クーポン適用：私域会員 −¥",th:"ใช้คูปองดีสุด: 私域 −¥"},
+ total:{en:"Total",zh:"合计",ja:"合計",th:"รวม"},
+ genLink:{en:"Generate WeChat Pay link",zh:"生成微信支付链接",ja:"WeChat Pay リンク生成",th:"สร้างลิงก์ WeChat Pay"},
+ payStatus:{en:"Mini-program order created · awaiting payment",zh:"小程序订单已创建 · 待支付",ja:"ミニプログラム注文作成 · 支払い待ち",th:"สร้างออเดอร์มินิโปรแกรม · รอชำระ"},
+ linkSent:{en:"Payment link sent to customer in WeCom chat ✓",zh:"支付链接已发送至企业微信对话 ✓",ja:"支払いリンクを WeCom チャットへ送信 ✓",th:"ส่งลิงก์ชำระเงินใน WeCom แล้ว ✓"},
+ // dash
+ kCust:{en:"Customers added",zh:"新增客户",ja:"追加顧客",th:"ลูกค้าใหม่"},
+ kPriv:{en:"Private-traffic size",zh:"私域规模",ja:"私域規模",th:"ขนาด private traffic"},
+ kGmv:{en:"GMV assisted",zh:"辅助 GMV",ja:"支援 GMV",th:"GMV ที่ช่วย"},
+ kConv:{en:"Conversion",zh:"转化率",ja:"転換率",th:"คอนเวอร์ชัน"},
+ kShares:{en:"Content shares",zh:"内容分享",ja:"コンテンツシェア",th:"แชร์คอนเทนต์"},
+ lbLab:{en:"Store leaderboard — GMV assisted (this month)",zh:"门店排行榜 — 本月辅助 GMV",ja:"店舗ランキング — 今月の支援 GMV",th:"อันดับร้าน — GMV เดือนนี้"},
+ funLab:{en:"QR-attribution funnel — scan → add → first order",zh:"二维码归因漏斗 — 扫码 → 加好友 → 首单",ja:"QR 帰属ファネル — スキャン → 追加 → 初回注文",th:"กรวย QR — สแกน → เพิ่ม → ออเดอร์แรก"},
+ mixLab:{en:"Private-traffic mix by lifecycle",zh:"私域生命周期构成",ja:"私域ライフサイクル構成",th:"สัดส่วน lifecycle"},
+ fScan:{en:"QR scans",zh:"扫码",ja:"QR スキャン",th:"สแกน QR"},
+ fAdd:{en:"Added to private traffic",zh:"加入私域",ja:"私域に追加",th:"เพิ่ม private traffic"},
+ fProfile:{en:"Health profile completed",zh:"完成健康档案",ja:"健康プロフィール完了",th:"กรอกโปรไฟล์"},
+ fOrder:{en:"First order placed",zh:"完成首单",ja:"初回注文完了",th:"ออเดอร์แรก"},
+ // community
+ broadcast:{en:"Broadcast approved content",zh:"群发已审内容",ja:"承認済を一斉配信",th:"กระจายคอนเทนต์"},
+ manage:{en:"Manage",zh:"管理",ja:"管理",th:"จัดการ"},
+ members:{en:"members",zh:"成员",ja:"メンバー",th:"สมาชิก"},
+ challenge:{en:"Health challenge",zh:"健康挑战",ja:"健康チャレンジ",th:"ชาเลนจ์สุขภาพ"},
+ broadcastDone:{en:"Approved content broadcast to group ✓",zh:"已审内容已群发到社群 ✓",ja:"承認済コンテンツを一斉配信 ✓",th:"กระจายคอนเทนต์ในกลุ่มแล้ว ✓"}
+};
+
+// ---- DATA ----
+const CUSTOMERS=[
+ {id:1,nm:{en:"Wei Lin",zh:"魏琳",ja:"魏琳",th:"เว่ยหลิน"},init:"WL",stage:"active",
+  goal:{en:"Immunity support",zh:"免疫支持",ja:"免疫サポート",th:"เสริมภูมิ"},
+  tags:[{en:"immunity",zh:"免疫",ja:"免疫",th:"ภูมิ"},{en:"active",zh:"上班族",ja:"会社員",th:"วัยทำงาน"}],
+  src:{en:"Scanned in-store QR · Chemist Warehouse Sydney",zh:"扫描店内二维码 · Chemist Warehouse 悉尼",ja:"店頭 QR スキャン · Chemist Warehouse シドニー",th:"สแกน QR ในร้าน"},
+  last:"vitamin-c",lastDays:25,
+  orders:[{img:"vitamin-c",nm:{en:"Vitamin C 1000",zh:"维生素C 1000",ja:"ビタミンC 1000",th:"Vitamin C 1000"},d:"25d",p:"¥189"},
+          {img:"probiotics",nm:{en:"Probiotics Daily",zh:"每日益生菌",ja:"プロバイオティクス",th:"Probiotics"},d:"58d",p:"¥258"}],
+  ai:{en:"Vitamin C runs out in <b>5 days</b> — send a restock offer with a 私域-member coupon.",zh:"维生素C 预计 <b>5 天</b>后用完 — 发送带私域会员券的补货优惠。",ja:"ビタミンC は <b>5日</b>で切れます — 私域会員クーポン付き補充オファーを送信。",th:"Vitamin C จะหมดใน <b>5 วัน</b> — ส่งโปรเติมสต็อก"}},
+ {id:2,nm:{en:"Sophie Tan",zh:"陈苏菲",ja:"陳ソフィー",th:"โซฟี"},init:"ST",stage:"new",
+  goal:{en:"Pregnancy nutrition",zh:"孕期营养",ja:"妊娠期栄養",th:"โภชนาการตั้งครรภ์"},
+  tags:[{en:"pregnant",zh:"孕期",ja:"妊娠",th:"ตั้งครรภ์"},{en:"new",zh:"新客",ja:"新規",th:"ใหม่"}],
+  src:{en:"Scanned on-pack QR · Pregnancy Gold box",zh:"扫描包装二维码 · 孕期黄金装",ja:"パッケージ QR · 妊娠ゴールド箱",th:"สแกน QR บนกล่อง"},
+  last:"pregnancy-gold",lastDays:6,
+  orders:[{img:"pregnancy-gold",nm:{en:"Pregnancy Gold",zh:"孕期黄金",ja:"妊娠ゴールド",th:"Pregnancy Gold"},d:"6d",p:"¥328"}],
+  ai:{en:"New 私域 member — send the <b>pregnancy nutrition welcome series</b> (compliance-checked), then offer a fish-oil pairing.",zh:"新私域会员 — 推送 <b>孕期营养欢迎系列</b>（合规已审），再推荐鱼油搭配。",ja:"新規私域会員 — <b>妊娠期栄養ウェルカムシリーズ</b>（審査済）を配信し、フィッシュオイル併用を提案。",th:"สมาชิกใหม่ — ส่งซีรีส์ต้อนรับโภชนาการตั้งครรภ์"}},
+ {id:3,nm:{en:"David Chen",zh:"陈大伟",ja:"陳大偉",th:"เดวิด"},init:"DC",stage:"risk",
+  goal:{en:"Joint mobility",zh:"关节灵活",ja:"関節の動き",th:"ข้อต่อ"},
+  tags:[{en:"joint",zh:"关节",ja:"関節",th:"ข้อต่อ"},{en:"senior",zh:"银发",ja:"シニア",th:"ผู้สูงวัย"}],
+  src:{en:"Scanned in-store QR · Priceline Melbourne",zh:"扫描店内二维码 · Priceline 墨尔本",ja:"店頭 QR · Priceline メルボルン",th:"สแกน QR · Priceline"},
+  last:"glucosamine",lastDays:96,
+  orders:[{img:"glucosamine",nm:{en:"Glucosamine",zh:"氨糖",ja:"グルコサミン",th:"Glucosamine"},d:"96d",p:"¥219"}],
+  ai:{en:"No order in <b>96 days</b> — win-back: send a joint-mobility tip + a returning-member glucosamine coupon.",zh:"已 <b>96 天</b>无下单 — 召回：发送关节科普 + 回归会员氨糖券。",ja:"<b>96日</b>注文なし — ウィンバック：関節科普 + 復帰会員クーポン。",th:"ไม่สั่ง <b>96 วัน</b> — ดึงกลับ"}},
+ {id:4,nm:{en:"Hana Sato",zh:"佐藤花",ja:"佐藤花",th:"ฮานะ"},init:"HS",stage:"active",
+  goal:{en:"Sleep & calm",zh:"睡眠与放松",ja:"睡眠・リラックス",th:"การนอน"},
+  tags:[{en:"sleep",zh:"睡眠",ja:"睡眠",th:"นอน"},{en:"active",zh:"活跃",ja:"活発",th:"แอคทีฟ"}],
+  src:{en:"Scanned QR · cross-border counter Shanghai",zh:"扫码 · 上海跨境专柜",ja:"QR · 上海越境カウンター",th:"สแกน QR · เคาน์เตอร์เซี่ยงไฮ้"},
+  last:"sleep",lastDays:18,
+  orders:[{img:"sleep",nm:{en:"Sleep Support",zh:"睡眠支持",ja:"睡眠サポート",th:"Sleep Support"},d:"18d",p:"¥176"},
+          {img:"multivitamin",nm:{en:"Multivitamin",zh:"复合维生素",ja:"マルチビタミン",th:"Multivitamin"},d:"40d",p:"¥142"}],
+  ai:{en:"Steady 私域 member — cross-sell a magnesium-rich multivitamin and invite to the <b>sleep challenge</b> group.",zh:"稳定私域会员 — 交叉推荐富镁复合维生素，并邀入<b>睡眠挑战</b>群。",ja:"安定私域会員 — マグネシウム配合マルチをクロスセルし、<b>睡眠チャレンジ</b>群へ招待。",th:"สมาชิกประจำ — ขายต่อ multivitamin"}},
+ {id:5,nm:{en:"Olivia Wu",zh:"吴欣怡",ja:"呉欣怡",th:"โอลิเวีย"},init:"OW",stage:"new",
+  goal:{en:"Eye & screen health",zh:"护眼用眼",ja:"目・スクリーン",th:"สุขภาพตา"},
+  tags:[{en:"eye",zh:"护眼",ja:"目",th:"ตา"},{en:"new",zh:"新客",ja:"新規",th:"ใหม่"}],
+  src:{en:"Scanned on-pack QR · Lutein box",zh:"扫描包装二维码 · 叶黄素装",ja:"パッケージ QR · ルテイン箱",th:"สแกน QR บนกล่อง Lutein"},
+  last:"lutein",lastDays:3,
+  orders:[{img:"lutein",nm:{en:"Lutein Vision",zh:"叶黄素护眼",ja:"ルテイン",th:"Lutein"},d:"3d",p:"¥198"}],
+  ai:{en:"Just joined via on-pack QR — send a <b>screen-time eye care</b> explainer and confirm her health goal to unlock tailored offers.",zh:"刚通过包装二维码加入 — 推送<b>屏幕用眼</b>科普，确认健康目标以解锁定制优惠。",ja:"パッケージ QR から加入 — <b>スクリーンアイケア</b>解説を送り、健康目標を確認。",th:"เพิ่งเข้ามา — ส่งความรู้ดูแลตา"}},
+ {id:6,nm:{en:"Marcus Lee",zh:"李俊",ja:"李俊",th:"มาร์คัส"},init:"ML",stage:"active",
+  goal:{en:"Heart & omega-3",zh:"心血管与欧米伽",ja:"心臓・オメガ3",th:"หัวใจ"},
+  tags:[{en:"heart",zh:"心血管",ja:"心臓",th:"หัวใจ"},{en:"senior",zh:"银发",ja:"シニア",th:"ผู้สูงวัย"}],
+  src:{en:"Scanned in-store QR · Chemist Warehouse Sydney",zh:"扫描店内二维码 · Chemist Warehouse 悉尼",ja:"店頭 QR · Chemist Warehouse シドニー",th:"สแกน QR ในร้าน"},
+  last:"fish-oil",lastDays:30,
+  orders:[{img:"fish-oil",nm:{en:"Fish Oil 1000",zh:"鱼油 1000",ja:"フィッシュオイル",th:"Fish Oil"},d:"30d",p:"¥165"},
+          {img:"fish-oil",nm:{en:"Fish Oil 1000",zh:"鱼油 1000",ja:"フィッシュオイル",th:"Fish Oil"},d:"90d",p:"¥165"}],
+  ai:{en:"Reorders fish oil every ~30 days — next bottle is due now. Send a <b>subscribe &amp; save</b> reminder before he lapses.",zh:"约每 30 天复购鱼油 — 现在正是补货时机。在流失前发送<b>订阅省心</b>提醒。",ja:"約30日ごとにフィッシュオイルをリピート — 今が補充時期。離反前に<b>定期便</b>リマインドを。",th:"สั่งซ้ำทุก 30 วัน — ถึงเวลาเติม"}}
+];
+
+const ASSETS=[
+ {id:1,cat:"cImm",pv:"imm",icon:"🛡️",nm:{en:"5 daily habits to support immunity",zh:"支持免疫的 5 个日常习惯",ja:"免疫をサポートする5つの習慣",th:"5 นิสัยเสริมภูมิ"},
+  d:{en:"Seasonal wellness tips card — lifestyle + Vitamin C / zinc support.",zh:"季节养护贴士卡 — 生活方式 + 维C/锌支持。",ja:"季節ケアのヒント — 生活習慣＋ビタミンC/亜鉛。",th:"การ์ดเคล็ดลับตามฤดู"},appr:"ok",shares:142},
+ {id:2,cat:"cProd",pv:"prod",icon:"🧴",nm:{en:"Vitamin C 1000 — explainer",zh:"维生素C 1000 — 产品讲解",ja:"ビタミンC 1000 解説",th:"Vitamin C 1000 อธิบาย"},
+  d:{en:"What it supports, how to take it, who it suits — no cure claims.",zh:"它支持什么、怎么吃、适合谁 — 不含治疗宣称。",ja:"何をサポート・飲み方・対象 — 治療表現なし。",th:"ช่วยอะไร กินอย่างไร"},appr:"ok",shares:96},
+ {id:3,cat:"cCamp",pv:"camp",icon:"🎁",nm:{en:"618 私域-member offer poster",zh:"618 私域会员优惠海报",ja:"618 私域会員オファー",th:"โปสเตอร์ 618"},
+  d:{en:"Limited member coupon poster for share-to-Moments.",zh:"限时会员券海报，可分享朋友圈。",ja:"期間限定会員券ポスター（モーメンツ用）。",th:"โปสเตอร์คูปองสมาชิก"},appr:"ok",shares:210},
+ {id:4,cat:"cEdu",pv:"edu",icon:"👶",nm:{en:"Pregnancy nutrition basics",zh:"孕期营养基础",ja:"妊娠期栄養の基本",th:"พื้นฐานโภชนาการตั้งครรภ์"},
+  d:{en:"Folate, iron & omega-3 during pregnancy — educational series.",zh:"孕期叶酸、铁与欧米伽3 — 科普系列。",ja:"妊娠期の葉酸・鉄・オメガ3 — 教育シリーズ。",th:"โฟเลต เหล็ก โอเมก้า"},appr:"ok",shares:74},
+ {id:5,cat:"cProd",pv:"prod",icon:"🐟",nm:{en:"Fish Oil — subscribe & save",zh:"鱼油 — 订阅省心",ja:"フィッシュオイル定期便",th:"Fish Oil สมัครสมาชิก"},
+  d:{en:"Reorder reminder card with subscription benefits.",zh:"复购提醒卡，含订阅权益。",ja:"リピートリマインド＋定期特典。",th:"การ์ดเตือนสั่งซ้ำ"},appr:"rev",shares:0},
+ {id:6,cat:"cImm",pv:"imm",icon:"🍊",nm:{en:"Winter wellness checklist",zh:"冬季养护清单",ja:"冬の養生チェックリスト",th:"เช็กลิสต์ฤดูหนาว"},
+  d:{en:"Sleep, hydration & vitamin support for the cold season.",zh:"睡眠、补水与维生素支持。",ja:"睡眠・水分・ビタミンサポート。",th:"นอน ดื่มน้ำ วิตามิน"},appr:"ok",shares:58}
+];
+
+const PRODUCTS=[
+ {id:"vitamin-c",img:"vitamin-c",nm:{en:"Vitamin C 1000",zh:"维生素C 1000",ja:"ビタミンC 1000",th:"Vitamin C 1000"},price:189,rec:true},
+ {id:"probiotics",img:"probiotics",nm:{en:"Probiotics Daily",zh:"每日益生菌",ja:"プロバイオティクス",th:"Probiotics"},price:258,rec:true},
+ {id:"fish-oil",img:"fish-oil",nm:{en:"Fish Oil 1000",zh:"鱼油 1000",ja:"フィッシュオイル",th:"Fish Oil"},price:165,rec:false},
+ {id:"multivitamin",img:"multivitamin",nm:{en:"Multivitamin",zh:"复合维生素",ja:"マルチビタミン",th:"Multivitamin"},price:142,rec:false},
+ {id:"glucosamine",img:"glucosamine",nm:{en:"Glucosamine",zh:"氨糖",ja:"グルコサミン",th:"Glucosamine"},price:219,rec:false},
+ {id:"pregnancy-gold",img:"pregnancy-gold",nm:{en:"Pregnancy Gold",zh:"孕期黄金",ja:"妊娠ゴールド",th:"Pregnancy Gold"},price:328,rec:false},
+ {id:"lutein",img:"lutein",nm:{en:"Lutein Vision",zh:"叶黄素护眼",ja:"ルテイン",th:"Lutein"},price:198,rec:false},
+ {id:"sleep",img:"sleep",nm:{en:"Sleep Support",zh:"睡眠支持",ja:"睡眠サポート",th:"Sleep Support"},price:176,rec:false}
+];
+
+const STORES=[
+ {nm:{en:"Chemist Warehouse Sydney",zh:"Chemist Warehouse 悉尼",ja:"Chemist Warehouse シドニー",th:"Chemist Warehouse Sydney"},st:{en:"Lily W. · 412 私域",zh:"Lily W. · 412 私域",ja:"Lily W. · 412 私域",th:"Lily W. · 412"},gmv:486,pct:100},
+ {nm:{en:"Priceline Melbourne",zh:"Priceline 墨尔本",ja:"Priceline メルボルン",th:"Priceline Melbourne"},st:{en:"Tom H. · 358 私域",zh:"Tom H. · 358 私域",ja:"Tom H. · 358 私域",th:"Tom H. · 358"},gmv:402,pct:83},
+ {nm:{en:"Cross-border counter Shanghai",zh:"上海跨境专柜",ja:"上海越境カウンター",th:"เคาน์เตอร์เซี่ยงไฮ้"},st:{en:"Mei C. · 290 私域",zh:"Mei C. · 290 私域",ja:"Mei C. · 290 私域",th:"Mei C. · 290"},gmv:351,pct:72},
+ {nm:{en:"Chemist Warehouse Brisbane",zh:"Chemist Warehouse 布里斯班",ja:"Chemist Warehouse ブリスベン",th:"Chemist Warehouse Brisbane"},st:{en:"Raj P. · 224 私域",zh:"Raj P. · 224 私域",ja:"Raj P. · 224 私域",th:"Raj P. · 224"},gmv:268,pct:55},
+ {nm:{en:"Priceline Perth",zh:"Priceline 珀斯",ja:"Priceline パース",th:"Priceline Perth"},st:{en:"Anna K. · 176 私域",zh:"Anna K. · 176 私域",ja:"Anna K. · 176 私域",th:"Anna K. · 176"},gmv:198,pct:41}
+];
+
+const GROUPS=[
+ {id:1,icon:"🛡️",nm:{en:"Immunity Boosters",zh:"免疫加油站",ja:"免疫サポート部",th:"กลุ่มเสริมภูมิ"},m:186,
+  chal:{en:"30-day immunity habit challenge — day 12 / 248 active",zh:"30天免疫习惯挑战 — 第12天 / 248人活跃",ja:"30日免疫習慣チャレンジ — 12日目 / 248名",th:"ชาเลนจ์ 30 วัน — วันที่ 12"}},
+ {id:2,icon:"👶",nm:{en:"Pregnancy & Mums",zh:"孕期妈妈群",ja:"妊娠ママ群",th:"กลุ่มคุณแม่"},m:142,
+  chal:{en:"Folate-week check-ins — share your daily nutrition",zh:"叶酸周打卡 — 分享每日营养",ja:"葉酸ウィーク打刻 — 毎日の栄養を共有",th:"เช็กอินสัปดาห์โฟเลต"}},
+ {id:3,icon:"😴",nm:{en:"Sleep & Calm Club",zh:"睡眠放松俱乐部",ja:"睡眠リラックス部",th:"คลับการนอน"},m:98,
+  chal:{en:"14-night wind-down challenge — 87% completing",zh:"14晚放松挑战 — 87% 完成中",ja:"14夜ワインドダウン — 87% 完了中",th:"ชาเลนจ์ 14 คืน — 87%"}}
+];
+
+let state={lang:"en",brand:"blackmores",tab:"scrm",cust:1,scrmF:"all",scrmQ:"",contentF:"all",cart:{}};
+
+// ---- helpers ----
+function tabsBar(){
+  const counts={scrm:CUSTOMERS.length,content:ASSETS.length,order:Object.keys(state.cart).length||"",dash:5,comm:GROUPS.length};
+  const order=[["scrm",L(T.t_scrm)],["content",L(T.t_content)],["order",L(T.t_order)],["dash",L(T.t_dash)],["comm",L(T.t_comm)]];
+  $('#tabs').innerHTML=order.map(([k,l])=>`<button data-t="${k}" class="${state.tab===k?'on':''}">${l}${counts[k]!==""?`<span class="cnt">${counts[k]}</span>`:''}</button>`).join('');
+  $$('#tabs button').forEach(b=>b.onclick=()=>{state.tab=b.dataset.t;sync();});
+}
+function sync(){
+  document.documentElement.lang=state.lang;
+  $('#sub').textContent=L(T.sub);$('#eye').textContent=L(T.eye);
+  $('#title').textContent=L(T.title);$('#lead').textContent=L(T.lead);
+  $('#whoTxt').textContent=L(T.who);$('#explainTxt').innerHTML=L(T.explain);
+  tabsBar();
+  $$('.pane').forEach(p=>p.classList.remove('on'));$('#pane-'+state.tab).classList.add('on');
+  if(state.tab==='scrm')renderScrm();
+  if(state.tab==='content')renderContent();
+  if(state.tab==='order')renderOrder();
+  if(state.tab==='dash')renderDash();
+  if(state.tab==='comm')renderComm();
+}
+
+// ---- SCRM ----
+function renderScrm(){
+  const filters=[["all",L(T.fAll)],["new",L(T.fNew)],["active",L(T.fActive)],["risk",L(T.fRisk)]];
+  $('#scrmFilter').innerHTML=filters.map(([k,l])=>`<button data-f="${k}" class="${state.scrmF===k?'on':''}">${l}</button>`).join('');
+  $$('#scrmFilter button').forEach(b=>b.onclick=()=>{state.scrmF=b.dataset.f;renderScrm();});
+  const sb=$('#scrmSearch');if(sb&&sb.value!==state.scrmQ)sb.value=state.scrmQ;
+  if(sb)sb.oninput=()=>{state.scrmQ=sb.value;renderScrmList();};
+  renderScrmList();renderCustDetail();
+}
+function custMatches(c){
+  if(state.scrmF!=='all'&&c.stage!==state.scrmF)return false;
+  const q=state.scrmQ.trim().toLowerCase();
+  if(!q)return true;
+  const hay=[L(c.nm),L(c.goal),...c.tags.map(t=>L(t))].join(' ').toLowerCase();
+  return hay.indexOf(q)>=0;
+}
+function renderScrmList(){
+  const list=CUSTOMERS.filter(custMatches);
+  if(!list.length){$('#clist').innerHTML=`<div class="empty">—</div>`;return;}
+  $('#clist').innerHTML=list.map(c=>{
+    const stg=c.stage,sl=stg==='new'?L(T.stgNew):(stg==='active'?L(T.stgActive):L(T.stgRisk));
+    return `<div class="crow ${stg} ${state.cust===c.id?'on':''}" data-id="${c.id}">
+      <div class="av">${c.init}</div>
+      <div class="cb"><div class="cn">${L(c.nm)}</div>
+        <div class="cm">${L(c.goal)} · ${L(T.lastOrder)} ${c.lastDays}d</div>
+        <div class="tags">${c.tags.map(t=>`<span class="tag">${L(t)}</span>`).join('')}</div></div>
+      <span class="stg ${stg}">${sl}</span></div>`;
+  }).join('');
+  $$('.crow').forEach(el=>el.onclick=()=>{state.cust=+el.dataset.id;renderScrm();});
+}
+function qrSvg(){return `<svg class="qr" viewBox="0 0 40 40"><rect width="40" height="40" rx="5" fill="#fff"/>
+  <g fill="var(--brand-d)"><rect x="5" y="5" width="11" height="11" rx="1"/><rect x="7" y="7" width="7" height="7" fill="#fff"/><rect x="9" y="9" width="3" height="3"/>
+  <rect x="24" y="5" width="11" height="11" rx="1"/><rect x="26" y="7" width="7" height="7" fill="#fff"/><rect x="28" y="9" width="3" height="3"/>
+  <rect x="5" y="24" width="11" height="11" rx="1"/><rect x="7" y="26" width="7" height="7" fill="#fff"/><rect x="9" y="28" width="3" height="3"/>
+  <rect x="20" y="20" width="3" height="3"/><rect x="26" y="20" width="3" height="3"/><rect x="32" y="20" width="3" height="3"/>
+  <rect x="20" y="26" width="3" height="3"/><rect x="23" y="29" width="3" height="3"/><rect x="29" y="26" width="3" height="3"/><rect x="32" y="32" width="3" height="3"/></g></svg>`;}
+function renderCustDetail(){
+  const c=CUSTOMERS.find(x=>x.id===state.cust);
+  if(!c||!custMatches(c)){$('#cdetail').innerHTML=`<div class="empty">${L(T.pickCust)}</div>`;return;}
+  const stg=c.stage,sl=stg==='new'?L(T.stgNew):(stg==='active'?L(T.stgActive):L(T.stgRisk));
+  $('#cdetail').innerHTML=`
+    <div class="dhead ${stg}"><div class="av">${c.init}</div>
+      <div><div class="dn">${L(c.nm)}</div><div class="dm">${L(T.goalLab)}: ${L(c.goal)} · <b>${sl}</b></div>
+      <div class="tags">${c.tags.map(t=>`<span class="tag">${L(t)}</span>`).join('')}</div></div></div>
+    <div class="qrsrc">${qrSvg()}<div><div class="qt">${L(T.qrTitle)}</div><div class="qs">${L(c.src)}</div></div></div>
+    <div class="dlab">${L(T.orderHist)}</div>
+    <div class="ohist">${c.orders.map(o=>`<div class="orow"><img src="${IMG}${o.img}.svg" alt="">
+      <div><div class="on">${L(o.nm)}</div><div class="od">${o.d}</div></div><div class="op">${o.p}</div></div>`).join('')}</div>
+    <div class="dlab">${L(T.aiNext)}</div>
+    <div class="ai"><div class="al">✨ ${L(T.aiNext)}</div><div class="at">${L(c.ai)}</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn sm" id="aiOffer">${L(T.sendOffer)}</button>
+        <button class="btn o sm" id="aiOrder">${L(T.startOrder)}</button></div></div>`;
+  $('#aiOffer').onclick=()=>toast(L(T.offerSent));
+  $('#aiOrder').onclick=()=>{state.tab='order';sync();};
+}
+
+// ---- Content ----
+function renderContent(){
+  const filters=[["all",L(T.cAll)],["cImm",L(T.cImm)],["cProd",L(T.cProd)],["cCamp",L(T.cCamp)],["cEdu",L(T.cEdu)]];
+  $('#contentFilter').innerHTML=filters.map(([k,l])=>`<button data-f="${k}" class="${state.contentF===k?'on':''}">${l}</button>`).join('');
+  $$('#contentFilter button').forEach(b=>b.onclick=()=>{state.contentF=b.dataset.f;renderContent();});
+  const list=ASSETS.filter(a=>state.contentF==='all'||a.cat===state.contentF);
+  $('#cgrid').innerHTML=list.map(a=>{
+    const ok=a.appr==='ok';
+    const catLab={cImm:L(T.cImm),cProd:L(T.cProd),cCamp:L(T.cCamp),cEdu:L(T.cEdu)}[a.cat];
+    return `<div class="asset"><div class="pv ${a.pv}">${a.icon}</div>
+      <div class="ab"><div class="acat">${catLab}</div><div class="an">${L(a.nm)}</div><div class="ad">${L(a.d)}</div>
+      <span class="appr ${ok?'ok':'rev'}">${ok?'✓':'⏳'} ${ok?L(T.apprOk):L(T.apprRev)}</span>
+      <div class="ashares">📤 ${a.shares} ${L(T.shares)}</div>
+      <div class="arow2">
+        <button class="btn sm" data-send="${a.id}" ${ok?'':'disabled'}>${L(T.sendCust)}</button>
+        <button class="btn o sm" data-mom="${a.id}" ${ok?'':'disabled'}>${L(T.toMoments)}</button></div></div></div>`;
+  }).join('');
+  $$('[data-send]').forEach(b=>b.onclick=()=>{if(b.disabled)return;const a=ASSETS.find(x=>x.id==b.dataset.send);a.shares++;renderContent();toast(L(T.contentSent));});
+  $$('[data-mom]').forEach(b=>b.onclick=()=>{if(b.disabled)return;const a=ASSETS.find(x=>x.id==b.dataset.mom);a.shares++;renderContent();toast(L(T.momentsShared));});
+}
+
+// ---- Assisted Ordering ----
+function renderOrder(){
+  $('#recline').innerHTML=`✨ ${L(T.recline)}`;
+  $('#catalogLab').textContent=L(T.catalogLab);
+  $('#pgrid').innerHTML=PRODUCTS.map(p=>`<div class="pcard ${p.rec?'rec':''}">
+    ${p.rec?`<span class="recb">✨ ${L(T.recBadge)}</span>`:''}
+    <img src="${IMG}${p.img}.svg" alt=""><div class="pn">${L(p.nm)}</div>
+    <div class="pp">¥${p.price}</div><button class="add" data-add="${p.id}">+ ${L(T.add)}</button></div>`).join('');
+  $$('[data-add]').forEach(b=>b.onclick=()=>{const id=b.dataset.add;state.cart[id]=(state.cart[id]||0)+1;renderCart();tabsBar();});
+  renderCart();
+}
+function renderCart(){
+  const ids=Object.keys(state.cart).filter(k=>state.cart[k]>0);
+  if(!ids.length){
+    $('#cartPanel').innerHTML=`<div class="layerlab">🛒 ${L(T.cartTitle)}</div><div class="empty">${L(T.cartEmpty)}</div>`;
+    return;
+  }
+  let sub=0;
+  const rows=ids.map(id=>{
+    const p=PRODUCTS.find(x=>x.id===id),q=state.cart[id];sub+=p.price*q;
+    return `<div class="citem"><img src="${IMG}${p.img}.svg" alt="">
+      <div class="ci"><div class="cin">${L(p.nm)}</div><div class="cip">¥${p.price}</div></div>
+      <div class="qty"><button data-dec="${id}">−</button><span>${q}</span><button data-inc="${id}">+</button></div>
+      <button class="crm" data-rm="${id}">✕</button></div>`;
+  }).join('');
+  const disc=Math.round(sub*0.12);const tot=sub-disc;
+  $('#cartPanel').innerHTML=`<div class="layerlab">🛒 ${L(T.cartTitle)}</div>${rows}
+    <div class="coupon">🎟️ ${L(T.bestCoupon)}${disc}</div>
+    <div class="cside"><span>${L(T.subtotal)}</span><span>¥${sub}</span></div>
+    <div class="cside disc"><span>${L(T.bestCoupon)}${disc}</span><span>−¥${disc}</span></div>
+    <div class="cside tot"><span>${L(T.total)}</span><span>¥${tot}</span></div>
+    <button class="btn" id="genLink" style="width:100%;margin-top:11px">${L(T.genLink)}</button>
+    <div class="paylink" id="paylink">
+      <svg class="pq" viewBox="0 0 60 60"><rect width="60" height="60" rx="7" fill="#fff"/>
+        <g fill="var(--brand-d)"><rect x="7" y="7" width="16" height="16" rx="1.5"/><rect x="10" y="10" width="10" height="10" fill="#fff"/><rect x="13" y="13" width="4" height="4"/>
+        <rect x="37" y="7" width="16" height="16" rx="1.5"/><rect x="40" y="10" width="10" height="10" fill="#fff"/><rect x="43" y="13" width="4" height="4"/>
+        <rect x="7" y="37" width="16" height="16" rx="1.5"/><rect x="10" y="40" width="10" height="10" fill="#fff"/><rect x="13" y="43" width="4" height="4"/>
+        <rect x="30" y="30" width="5" height="5"/><rect x="40" y="30" width="5" height="5"/><rect x="48" y="30" width="5" height="5"/>
+        <rect x="30" y="40" width="5" height="5"/><rect x="36" y="46" width="5" height="5"/><rect x="46" y="40" width="5" height="5"/><rect x="48" y="48" width="5" height="5"/></g></svg>
+      <div class="pst">✓ ${L(T.payStatus)} · ¥${tot}</div>
+      <div class="plk">weixin://wxpay/bizpayurl?pr=BM·${tot}·私域</div>
+      <button class="btn sm" id="sendLink" style="margin-top:9px">${L(T.sendCust)}</button></div>`;
+  $$('[data-inc]').forEach(b=>b.onclick=()=>{state.cart[b.dataset.inc]++;renderCart();});
+  $$('[data-dec]').forEach(b=>b.onclick=()=>{const id=b.dataset.dec;state.cart[id]=Math.max(0,state.cart[id]-1);if(!state.cart[id])delete state.cart[id];renderCart();tabsBar();});
+  $$('[data-rm]').forEach(b=>b.onclick=()=>{delete state.cart[b.dataset.rm];renderCart();tabsBar();});
+  $('#genLink').onclick=()=>{$('#paylink').classList.add('show');toast(L(T.payStatus));};
+  const sl=$('#sendLink');if(sl)sl.onclick=()=>toast(L(T.linkSent));
+}
+
+// ---- Dashboard ----
+function renderDash(){
+  const kpis=[
+    {l:L(T.kCust),v:"38",t:"+12%",up:true},
+    {l:L(T.kPriv),v:"1,260",t:"+8%",up:true},
+    {l:L(T.kGmv),v:"¥1.71m",t:"+19%",up:true},
+    {l:L(T.kConv),v:"31%",t:"+4pt",up:true},
+    {l:L(T.kShares),v:"742",t:"−3%",up:false}
+  ];
+  $('#kgrid').innerHTML=kpis.map(k=>`<div class="kc"><div class="kl">${k.l}</div><b>${k.v}</b>
+    <div class="kt ${k.up?'up':'dn'}">${k.up?'▲':'▼'} ${k.t}</div></div>`).join('');
+  $('#lbLab').textContent=L(T.lbLab);
+  $('#lbList').innerHTML=STORES.map((s,i)=>{
+    const rk=i===0?'g1':(i===1?'g2':(i===2?'g3':''));
+    return `<div class="lbrow"><div class="rk ${rk}">${i+1}</div>
+      <div class="ln"><div class="lnm">${L(s.nm)}</div><div class="lst">${L(s.st)}</div></div>
+      <div class="bb"><i style="width:${s.pct}%"></i></div>
+      <div class="lv">¥${s.gmv}k</div></div>`;
+  }).join('');
+  $('#funLab').textContent=L(T.funLab);
+  const fun=[{l:L(T.fScan),v:4820,p:100},{l:L(T.fAdd),v:2640,p:55},{l:L(T.fProfile),v:1810,p:38},{l:L(T.fOrder),v:1140,p:24}];
+  $('#funnel').innerHTML=fun.map(f=>`<div class="fstep"><div class="flab">${f.l}</div>
+    <div class="fbar" style="width:${f.p}%">${f.v.toLocaleString()}</div><div class="fpct">${f.p}%</div></div>`).join('');
+  // donut: lifecycle mix
+  $('#mixLab').textContent=L(T.mixLab);
+  const seg=[{l:L(T.fNew),v:34,c:"var(--accent)"},{l:L(T.fActive),v:48,c:"var(--brand)"},{l:L(T.fRisk),v:18,c:"var(--neg)"}];
+  let acc=0;const R=46,C=2*Math.PI*R;
+  const arcs=seg.map(s=>{const len=C*s.v/100;const dash=`${len} ${C-len}`;const off=-C*acc/100;acc+=s.v;
+    return `<circle r="${R}" cx="60" cy="60" fill="none" stroke="${s.c}" stroke-width="18" stroke-dasharray="${dash}" stroke-dashoffset="${off}" transform="rotate(-90 60 60)"/>`;}).join('');
+  $('#donut').innerHTML=`<svg viewBox="0 0 120 120" width="120" height="120">${arcs}
+    <text x="60" y="58" text-anchor="middle" font-family="var(--display)" font-size="20" fill="var(--ink)">1,260</text>
+    <text x="60" y="74" text-anchor="middle" font-size="9" fill="var(--muted)">${L(T.kPriv)}</text></svg>`;
+  $('#dleg').innerHTML=seg.map(s=>`<div class="dl2"><span class="sw" style="background:${s.c}"></span>${s.l} · <b>${s.v}%</b></div>`).join('');
+}
+
+// ---- Community ----
+function renderComm(){
+  $('#ggrid').innerHTML=GROUPS.map(g=>`<div class="gcard">
+    <div class="gh"><div class="gi">${g.icon}</div><div><div class="gn">${L(g.nm)}</div>
+      <div class="gm">${g.m} ${L(T.members)}</div></div></div>
+    <div class="gchal">🏆 ${L(T.challenge)}: ${L(g.chal)}</div>
+    <div class="gact"><button class="btn sm" data-bc="${g.id}">${L(T.broadcast)}</button>
+      <button class="btn o sm" data-mg="${g.id}">${L(T.manage)}</button></div></div>`).join('');
+  $$('[data-bc]').forEach(b=>b.onclick=()=>toast(L(T.broadcastDone)));
+  $$('[data-mg]').forEach(b=>b.onclick=()=>{state.tab='content';sync();});
+}
+
+// ---- chrome ----
+function toast(m){const t=$('#toast');t.innerHTML=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1900);}
+function applyBrand(){const b=BRANDS[state.brand],r=document.documentElement.style;
+  r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
+  $('#brand').innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');}
+$('#fab').onclick=()=>{const k=Object.keys(BRANDS),i=k.indexOf(state.brand);state.brand=k[(i+1)%k.length];applyBrand();toast('🎨 '+BRANDS[state.brand].name);};
+
+const LANGS=[['en','EN'],['zh','中'],['ja','日'],['th','ไท']];
+function renderLangs(){const box=$('#langs');box.innerHTML='';LANGS.forEach(([k,lab])=>{const b=document.createElement('button');b.textContent=lab;if(k===state.lang)b.className='on';b.onclick=()=>{state.lang=k;renderLangs();sync();};box.appendChild(b);});}
+try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_l=_p.get("lang");
+  if(_l&&["en","zh","ja","th"].indexOf(_l)>=0)state.lang=_l;if(_b&&BRANDS[_b])state.brand=_b;}catch(e){}
+renderLangs();applyBrand();sync();
+// brand/lang sync up to studio shell
+(function(){var _last="";setInterval(function(){try{if(typeof state==="undefined")return;var c=(state.brand||"")+"|"+(state.lang||"");if(c!==_last){_last=c;if(window.parent&&window.parent!==window)window.parent.postMessage({t:"es",brand:state.brand||null,lang:state.lang||null},"*");}}catch(e){}},400);})();
+</script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

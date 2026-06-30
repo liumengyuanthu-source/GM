@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compliance Hub · Blackmores · Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
+    --ink:#16201f; --muted:#6a7472; --bg:#f4f7fb; --card:#fff; --line:#e6ecf2;
+    --neg:#c0563f; --warn:#b5731a; --black:#0b1320;
+    --display:Georgia,'Times New Roman','Hiragino Mincho ProN',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','PingFang SC','Microsoft YaHei','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55}
+  button{font-family:inherit;cursor:pointer}
+  textarea,input{font-family:inherit}
+  header{background:var(--black);position:sticky;top:0;z-index:30}
+  .nav{display:flex;align-items:center;gap:12px;max-width:760px;margin:0 auto;padding:14px 18px}
+  .brand{font-family:var(--display);font-weight:700;font-size:19px;color:#fff;letter-spacing:.02em}
+  .sub{font-size:11px;color:#9fb4c8;border-left:1px solid #2a3647;padding-left:12px;letter-spacing:.04em}
+  .sp{flex:1}
+  .chip{display:flex;align-items:center;gap:5px;border:1px solid #2a3647;border-radius:8px;padding:5px 9px;font-size:12px;font-weight:600;cursor:pointer;position:relative;color:#dce6f0}
+  .menu{position:absolute;top:40px;right:0;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:6px;min-width:120px;box-shadow:0 12px 30px rgba(0,0,0,.18);display:none;z-index:50}
+  .menu.open{display:block}.menu button{display:block;width:100%;border:0;background:0;font:inherit;font-size:13px;padding:8px 9px;border-radius:7px;cursor:pointer;text-align:left;color:var(--ink)}.menu button:hover{background:var(--soft)}
+  .langs{display:flex;gap:3px;background:rgba(255,255,255,.06);border:1px solid #2a3647;border-radius:9px;padding:3px}
+  .langs button{border:0;background:0;font:inherit;font-size:12px;font-weight:700;color:#9fb4c8;min-width:30px;padding:5px 8px;border-radius:6px;cursor:pointer;transition:.15s}
+  .langs button.on{background:#fff;color:var(--brand-d)}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 18px 70px}
+  .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:700}
+  h1.h{font-family:var(--display);font-weight:400;font-size:clamp(22px,4.8vw,30px);margin:9px 0 5px;line-height:1.18}
+  .lead{color:var(--muted);font-size:14px;max-width:60ch}
+  .cov{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+  .lawchip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 11px;font-size:11.5px;font-weight:700;color:var(--ink)}
+  .lawdot{width:8px;height:8px;border-radius:50%}
+
+  /* mode tabs */
+  .modetabs{display:flex;gap:7px;background:var(--bg);border:1px solid var(--line);border-radius:13px;padding:5px;margin-top:18px}
+  .modetabs button{flex:1;border:0;background:0;font:inherit;font-size:13.5px;font-weight:700;color:var(--muted);padding:11px 8px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px}
+  .modetabs button.on{background:var(--card);color:var(--brand-d);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:16px}
+  .ptitle{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:11px;display:flex;align-items:center;gap:8px}
+
+  .types{display:flex;gap:8px;flex-wrap:wrap}
+  .typ{flex:1;min-width:108px;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 12px;cursor:pointer;transition:.15s}
+  .typ.on{border-color:var(--brand);background:var(--soft)}
+  .typ .tn{font-weight:700;font-size:13px;display:flex;align-items:center;gap:7px}
+  .typ .tm{font-size:11px;color:var(--muted);margin-top:3px}
+
+  .scorewrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .ring{--p:0;width:96px;height:96px;border-radius:50%;flex-shrink:0;
+    background:conic-gradient(var(--rc,var(--neg)) calc(var(--p)*1%),#eef2f6 0);display:grid;place-items:center;transition:.5s}
+  .ring .inner{width:74px;height:74px;border-radius:50%;background:var(--card);display:grid;place-items:center;text-align:center}
+  .ring .sv{font-family:var(--display);font-size:30px;font-weight:500;line-height:1}
+  .ring .sl{font-size:9.5px;color:var(--muted);letter-spacing:.08em}
+  .scoremeta{flex:1;min-width:200px}
+  .verdict{font-family:var(--display);font-size:18px;font-weight:500;line-height:1.25}
+  .verdict.bad{color:var(--neg)}.verdict.ok{color:var(--accent)}.verdict.mid{color:var(--warn)}
+  .counts{display:flex;gap:8px;margin-top:9px;flex-wrap:wrap}
+  .cnt{font-size:11.5px;font-weight:700;padding:4px 9px;border-radius:8px}
+  .cnt.hi{background:#fdecea;color:var(--neg)}.cnt.mi{background:#fdf2e2;color:var(--warn)}.cnt.lo{background:#eef2f6;color:var(--muted)}
+  .cnt.ok{background:#eafaf0;color:var(--accent)}
+
+  .copybox{font-size:14.5px;line-height:2;color:var(--ink);background:var(--bg);border-radius:12px;padding:15px;border:1px solid var(--line);white-space:pre-wrap}
+  .copybox mark{background:color-mix(in srgb,var(--neg) 14%,#fff);color:#8f2f22;border-bottom:2px solid var(--neg);border-radius:3px;padding:0 2px;cursor:pointer;transition:.15s}
+  .copybox mark.mid{background:color-mix(in srgb,var(--warn) 16%,#fff);color:#8a5710;border-bottom-color:var(--warn)}
+  .copybox mark.hl{background:color-mix(in srgb,var(--neg) 30%,#fff)}
+  .copybox mark.mid.hl{background:color-mix(in srgb,var(--warn) 32%,#fff)}
+  .copybox ins{background:color-mix(in srgb,var(--accent) 15%,#fff);color:#077a3c;text-decoration:none;border-radius:3px;padding:0 2px}
+
+  .ta{width:100%;min-height:128px;border:1px solid var(--line);border-radius:12px;padding:13px;font-size:14px;line-height:1.7;color:var(--ink);background:var(--bg);resize:vertical}
+  .ta:focus{outline:0;border-color:var(--brand)}
+  .frow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:11px}
+  .ghostbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:600;font-size:12.5px;padding:9px 13px;border-radius:9px}
+  .ghostbtn:hover{border-color:var(--brand);color:var(--brand-d)}
+  .fld{margin-bottom:13px}
+  .fld label{display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:5px}
+  .inp{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px;color:var(--ink);background:var(--bg)}
+  .inp:focus{outline:0;border-color:var(--brand)}
+
+  .flaghead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:18px 0 9px}
+  .flaghead .ft{font-size:12px;font-weight:800;letter-spacing:.04em;color:var(--ink)}
+  .applyall{border:0;background:var(--ink);color:#fff;font:inherit;font-weight:700;font-size:12px;padding:8px 13px;border-radius:9px}
+  .applyall:hover{background:#000}.applyall:disabled{opacity:.4}
+  .flag{border:1px solid var(--line);border-left:3px solid var(--neg);border-radius:12px;padding:12px 14px;margin-bottom:9px;background:var(--card);transition:.15s}
+  .flag.mid{border-left-color:var(--warn)}
+  .flag.done{border-left-color:var(--accent);opacity:.62}
+  .flag.hl{box-shadow:0 0 0 2px var(--soft)}
+  .frow1{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .lawtag{font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:6px;color:#fff}
+  .sev{font-size:10px;font-weight:800;padding:3px 7px;border-radius:6px;letter-spacing:.04em}
+  .sev.hi{background:#fdecea;color:var(--neg)}.sev.mid{background:#fdf2e2;color:var(--warn)}.sev.lo{background:#eef2f6;color:var(--muted)}
+  .fbad{font-weight:700;font-size:13.5px;color:#8f2f22}
+  .flag.done .fbad{color:var(--muted);text-decoration:line-through}
+  .freason{font-size:12.5px;color:var(--muted);margin:7px 0 8px;line-height:1.5}
+  .ffix{display:flex;align-items:flex-start;gap:8px;font-size:13px;background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:9px 11px}
+  .ffix .arrow{color:var(--accent);font-weight:800;flex-shrink:0}
+  .ffix .fixtext{color:#077a3c;font-weight:600}
+  .fapply{margin-left:auto;border:1px solid var(--accent);background:#eafaf0;color:#077a3c;font:inherit;font-weight:700;font-size:11.5px;padding:6px 11px;border-radius:8px;flex-shrink:0;white-space:nowrap}
+  .fapply:hover{background:var(--accent);color:#fff}
+  .fdone{font-size:11.5px;font-weight:700;color:var(--accent);display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+  .nofind{font-size:13px;color:var(--accent);background:#eafaf0;border:1px solid color-mix(in srgb,var(--accent) 30%,#fff);border-radius:10px;padding:11px 13px}
+
+  .submitbtn{width:100%;border:0;background:var(--brand);color:#fff;font:inherit;font-weight:800;font-size:15px;padding:14px;border-radius:12px;margin-top:18px;display:flex;align-items:center;justify-content:center;gap:8px}
+  .submitbtn.small{width:auto;font-size:13px;padding:10px 16px;margin-top:0;margin-left:auto}
+  .submitbtn:hover{background:var(--brand-d)}
+  .audit{margin-top:6px}
+  .astep{display:flex;gap:12px;align-items:flex-start;padding:9px 0;opacity:.3;transition:.4s}
+  .astep.on{opacity:1}
+  .astep .aic{width:26px;height:26px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:13px;flex-shrink:0}
+  .astep.bad .aic{background:#fdecea}.astep.good .aic{background:#eafaf0}
+  .astep .at{font-size:13.5px;font-weight:700}.astep .as{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.5}
+  .astamp{font-family:var(--display);font-size:12px;color:var(--muted);margin-top:2px}
+  .verdictcard{border-radius:13px;padding:14px;margin-top:8px;font-size:13.5px;line-height:1.55}
+  .verdictcard.ok{background:#eafaf0;border:1px solid color-mix(in srgb,var(--accent) 35%,#fff);color:#0a6e38}
+  .verdictcard.bad{background:#fdecea;border:1px solid color-mix(in srgb,var(--neg) 30%,#fff);color:#8f2f22}
+  .verdictcard b{font-weight:800}
+  .vnum{font-family:var(--display);font-weight:600}
+
+  /* campaign */
+  .seg{display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:11px;padding:10px 12px;margin-bottom:8px;cursor:pointer;transition:.15s}
+  .seg.on{border-color:var(--brand);background:var(--soft)}
+  .seg .sx{width:20px;height:20px;border-radius:6px;border:2px solid var(--line);display:grid;place-items:center;font-size:12px;flex-shrink:0;color:transparent}
+  .seg.on .sx{border-color:var(--brand);background:var(--brand);color:#fff}
+  .seg .sn{font-weight:700;font-size:13px}.seg .sm{font-size:11.5px;color:var(--muted);margin-top:1px}
+  .seg .sc{margin-left:auto;text-align:right;flex-shrink:0;font-size:11px;font-weight:800}
+  .seg .sc.full{color:var(--accent)}.seg .sc.part{color:var(--warn)}.seg .sc.none{color:var(--neg)}
+  .secblock{border:1px solid var(--line);border-radius:13px;padding:14px;margin-bottom:11px}
+  .secblock.warnb{border-color:color-mix(in srgb,var(--warn) 40%,#fff);background:#fffaf2}
+  .secblock.okb{border-color:color-mix(in srgb,var(--accent) 30%,#fff);background:#f5fcf8}
+  .secblock.badb{border-color:color-mix(in srgb,var(--neg) 30%,#fff);background:#fdf4f2}
+  .sech{display:flex;align-items:center;gap:9px;font-weight:800;font-size:13.5px;margin-bottom:8px}
+  .sech .sicon{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:13px;flex-shrink:0}
+  .sech .stat{margin-left:auto;font-size:11px;font-weight:800;padding:3px 9px;border-radius:999px}
+  .stat.ok{background:#eafaf0;color:var(--accent)}.stat.warn{background:#fdf2e2;color:var(--warn)}.stat.bad{background:#fdecea;color:var(--neg)}
+  .secbody{font-size:12.5px;color:var(--muted);line-height:1.55}
+  .conrow{display:flex;align-items:center;gap:8px;font-size:12.5px;padding:6px 0;border-bottom:1px dashed var(--line)}
+  .conrow:last-child{border-bottom:0}
+  .conrow .cdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+  .exclbtn{border:1px solid var(--warn);background:#fffaf2;color:var(--warn);font:inherit;font-weight:700;font-size:12px;padding:8px 13px;border-radius:9px;margin-top:9px}
+  .exclbtn:hover{background:var(--warn);color:#fff}
+  .tip{font-size:12px;color:var(--brand-d);background:var(--soft);border-radius:8px;padding:8px 11px;margin-top:7px}
+
+  .reset{display:block;margin:14px auto 0;border:0;background:0;color:var(--muted);font:inherit;font-size:13px;cursor:pointer;text-decoration:underline}
+  .editlink{margin-left:auto;border:0;background:0;color:var(--brand);font:inherit;font-size:12px;font-weight:600;text-decoration:underline;cursor:pointer;text-transform:none;letter-spacing:0}
+  .refitem{border-top:1px solid var(--line);padding:11px 0}
+  .refitem:first-child{border-top:0}
+  .refh{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+  .refl{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5;padding-left:16px}
+  .foot{text-align:center;font-family:var(--display);font-weight:300;font-size:clamp(15px,2.8vw,19px);color:var(--ink);margin:26px auto 0;max-width:40ch;line-height:1.35}
+  .foot b{color:var(--brand);font-weight:500}
+  .src{text-align:center;font-size:11px;color:var(--muted);margin-top:12px}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(50px);background:var(--ink);color:#fff;padding:11px 17px;border-radius:11px;font-size:13.5px;font-weight:600;z-index:80;opacity:0;transition:.3s}
+  .toast.show{transform:translateX(-50%);opacity:1}
+</style>
+</head>
+<body>
+<header><div class="nav">
+  <div class="brand" id="brandName">Blackmores</div>
+  <div class="sub" id="sub">Compliance Hub</div>
+  <div class="sp"></div>
+  <div class="langs" id="langs"></div>
+</div></header>
+
+<div class="wrap">
+  <div class="eyebrow" id="eye">AI COMPLIANCE REVIEW</div>
+  <h1 class="h" id="title"></h1>
+  <div class="lead" id="lead"></div>
+  <div class="cov" id="cov"></div>
+  <div class="modetabs" id="modeTabs"></div>
+  <div id="view"></div>
+  <div class="panel"><div class="ptitle" id="refTitle"></div><div id="refList"></div></div>
+  <div class="foot" id="foot"></div>
+  <div class="src" id="src"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const BRANDS={
+  blackmores:{name:"BLACKMORES",sup:"®",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  lumiere:{name:"Lumière",sup:"",c:["#a8456b","#7d2f4e","#f6e7ee","#c98a8a"]},
+  harvest:{name:"Harvest & Co",sup:"",c:["#b5611f","#8a4715","#f6ebe0","#3d7a4f"]}};
+
+const LAWS={
+  yakki:{c:"#c0563f",name:{ja:"TGA 治療効果規制",en:"TGA · No therapeutic claims",zh:"TGA·禁治疗宣称",th:"TGA · ห้ามอ้างสรรพคุณรักษา"},
+    desc:{ja:"豪 TGA 広告コード：補助食品で疾病の治療・治癒・予防を標榜することを禁止。",en:"AU TGA Advertising Code: supplements must not claim to treat, cure or prevent any disease.",zh:"澳洲 TGA 广告守则：保健食品不得宣称治疗、治愈或预防任何疾病。",th:"TGA ออสเตรเลีย: อาหารเสริมห้ามอ้างว่ารักษา บำบัด หรือป้องกันโรคใด ๆ"}},
+  keihyo:{c:"#d98f2e",name:{ja:"誤認・No.1表示",en:"Misleading / No.1 claims",zh:"误导/No.1宣称",th:"ทำให้เข้าใจผิด / No.1"},
+    desc:{ja:"豪 NZ 消費者法：根拠のない最上級・No.1表示や競合誹謗、誤認を招く表現を禁止。",en:"ANZ Consumer Law: bans unsubstantiated superiority/No.1, competitor knocking and misleading claims.",zh:"澳新消费者法：禁止无依据的最高级/No.1、贬损竞品及误导性表述。",th:"กฎหมายผู้บริโภค ANZ: ห้ามอ้าง No.1/เหนือกว่าโดยไม่มีหลักฐาน ดูถูกคู่แข่ง หรือทำให้เข้าใจผิด"}},
+  kenzo:{c:"#b5731a",name:{ja:"中国 保健食品規制",en:"China · Health-food ad rules",zh:"中国·保健食品广告",th:"จีน · กฎโฆษณาอาหารเพื่อสุขภาพ"},
+    desc:{ja:"中国 保健食品広告：「治療・治癒」禁止（「支持・有助于」のみ）、競合誹謗禁止、蓝帽子登録機能のみ表示可。",en:"China health-food rules: no '治疗/治愈' (only '支持/有助于'), no competitor disparagement, only registered 蓝帽子 functions.",zh:"中国保健食品广告：禁用「治疗/治愈」（只能「支持/有助于」），禁止贬损竞品，仅可宣传蓝帽子注册功能。",th:"กฎอาหารสุขภาพจีน: ห้าม '治疗/治愈' (ได้เฉพาะ '支持/有助于') ห้ามดูถูกคู่แข่ง อ้างได้เฉพาะฟังก์ชัน 蓝帽子 ที่ขึ้นทะเบียน"}},
+  hyoji:{c:"#8a5cc0",name:{ja:"許可表示・成分表示",en:"Permitted indications & label",zh:"许可宣称与标识",th:"ข้ออ้างที่อนุญาต & ฉลาก"},
+    desc:{ja:"TGA 許可表示リスト内の表現のみ可。成分・アレルゲン・用量を正確に表示する義務。",en:"Only TGA permitted indications allowed; accurate ingredient, allergen and dosage labelling required.",zh:"仅可使用 TGA 许可宣称清单内表述；须如实标识成分、过敏原与用量。",th:"ใช้ได้เฉพาะข้ออ้างที่ TGA อนุญาต ต้องแสดงส่วนผสม สารก่อภูมิแพ้ และปริมาณอย่างถูกต้อง"}},
+  stealth:{c:"#4a78c0",name:{ja:"広告明示・インフルエンサー",en:"Ad disclosure / influencer",zh:"广告披露/达人",th:"เปิดเผยโฆษณา / อินฟลูเอนเซอร์"},
+    desc:{ja:"ACCC・ASA：スポンサード投稿は広告である旨を明示する義務（#ad / 提供）。",en:"ACCC / ASA: sponsored posts must be clearly disclosed as advertising (#ad / paid).",zh:"ACCC/ASA：赞助内容须明示为广告（#ad/合作）。",th:"ACCC/ASA: โพสต์ที่ได้รับสนับสนุนต้องระบุชัดว่าเป็นโฆษณา (#ad / ได้รับการสนับสนุน)"}},
+  consent:{c:"#2f8f7a",name:{ja:"配信同意・プライバシー",en:"Marketing consent / privacy",zh:"营销同意/隐私",th:"ความยินยอม / ความเป็นส่วนตัว"},
+    desc:{ja:"豪 Spam Act・各国プライバシー法：配信には同意（オプトイン）が必要。未同意者への配信は不可。",en:"AU Spam Act & regional privacy law: marketing requires opt-in consent; no sending to non-consented users.",zh:"澳洲 Spam Act 及各地隐私法：营销推送需 opt-in 同意，不可发给未同意者。",th:"Spam Act ออสเตรเลีย & กฎหมายความเป็นส่วนตัว: การส่งต้องได้รับความยินยอม (opt-in) ห้ามส่งให้ผู้ที่ไม่ยินยอม"}}};
+const SEVW={hi:26,mid:14,lo:7};
+
+/* ---- authored content samples ---- */
+const SAMPLES=[
+ {key:"sns",icon:"📱",
+  label:{ja:"SNS 投稿",en:"Social post",zh:"社媒帖子",th:"โพสต์โซเชียล"},meta:{ja:"X / Instagram 向け",en:"For X / Instagram",zh:"用于 X / Instagram",th:"สำหรับ X / Instagram"},
+  who:{ja:"提出：シドニー代理店 / グリーン",en:"By: Sydney partner / Green",zh:"提交：悉尼地区代理 / 格林",th:"ส่งโดย: พาร์ทเนอร์ซิดนีย์ / กรีน"},
+  text:{ja:"【風邪が治る！】ブラックモアズ ビタミンC を毎日飲めば、免疫力が必ずアップ！業界No.1で、Swisse より効きます。インフルエンザも予防できる。#PR不要のリアルな感想",
+    en:"[Cures your cold!] Take Blackmores Vitamin C every day and your immunity will definitely rise! Industry No.1 — works better than Swisse. Prevents the flu too. #real-review-not-an-ad",
+    zh:"【感冒治好啦！】每天服用澳佳宝维生素C，免疫力一定提升！业界No.1，比Swisse更有效。还能预防流感。#真实测评非广告",
+    th:"【รักษาหวัดให้หาย!】ทาน Blackmores Vitamin C ทุกวัน ภูมิคุ้มกันเพิ่มขึ้นแน่นอน! อันดับ 1 ของวงการ ได้ผลดีกว่า Swisse ป้องกันไข้หวัดใหญ่ได้ด้วย #รีวิวจริงไม่ใช่โฆษณา"},
+  flags:[
+   {bad:{ja:"風邪が治る",en:"Cures your cold!",zh:"感冒治好啦",th:"รักษาหวัดให้หาย"},law:"yakki",sev:"hi",
+    reason:{ja:"特定の疾病（風邪）の治癒を標榜する治療効果表現。補助食品では使用不可（TGA／中国 保健食品とも禁止）。",en:"Claims to cure a specific disease (cold) — a therapeutic claim banned for supplements under TGA and China health-food rules.",zh:"宣称治愈特定疾病（感冒），属治疗宣称，保健食品不可用（TGA 与中国保健食品均禁）。",th:"อ้างรักษาโรคเฉพาะ (หวัด) เป็นข้ออ้างสรรพคุณรักษาที่อาหารเสริมใช้ไม่ได้ (ห้ามทั้ง TGA และกฎอาหารสุขภาพจีน)"},
+    fix:{ja:"免疫の健康をサポート",en:"Supports immune health",zh:"有助于支持免疫健康",th:"ช่วยสนับสนุนสุขภาพภูมิคุ้มกัน"}},
+   {bad:{ja:"必ずアップ",en:"will definitely rise",zh:"一定提升",th:"เพิ่มขึ้นแน่นอน"},law:"kenzo",sev:"hi",
+    reason:{ja:"効果を断定する誇大表現。中国 保健食品広告では効果保証が禁止、ANZ でも誤認を招く。",en:"Absolute effect guarantee — exaggerated. China health-food ads ban guaranteed efficacy; misleading under ANZ law too.",zh:"断定效果的夸大表述。中国保健食品广告禁止保证功效，澳新法亦构成误导。",th:"รับประกันผลแบบเด็ดขาด เกินจริง โฆษณาอาหารสุขภาพจีนห้ามรับประกันสรรพคุณ และทำให้เข้าใจผิดตามกฎ ANZ"},
+    fix:{ja:"毎日の習慣に",en:"as part of a daily habit",zh:"作为每日习惯",th:"เป็นส่วนหนึ่งของกิจวัตรประจำวัน"}},
+   {bad:{ja:"インフルエンザも予防できる",en:"Prevents the flu too",zh:"还能预防流感",th:"ป้องกันไข้หวัดใหญ่ได้ด้วย"},law:"yakki",sev:"hi",
+    reason:{ja:"疾病（インフルエンザ）の予防効果を標榜する治療効果表現。TGA 禁止表現。",en:"Claims to prevent a disease (flu) — a therapeutic claim prohibited by the TGA Code.",zh:"标榜预防疾病（流感）的治疗宣称，属 TGA 禁止表述。",th:"อ้างผลป้องกันโรค (ไข้หวัดใหญ่) เป็นข้ออ้างสรรพคุณที่ TGA ห้าม"},
+    fix:{ja:"季節の体調管理に",en:"a pick for seasonal wellness",zh:"用于季节性日常调理",th:"ตัวเลือกสำหรับการดูแลสุขภาพตามฤดูกาล"}},
+   {bad:{ja:"業界No.1で、Swisse より効きます",en:"Industry No.1 — works better than Swisse",zh:"业界No.1，比Swisse更有效",th:"อันดับ 1 ของวงการ ได้ผลดีกว่า Swisse"},law:"keihyo",sev:"mid",
+    reason:{ja:"根拠のないNo.1表示と競合（Swisse）の名指し比較。ANZ 消費者法の誤認、中国では競合誹謗に該当。",en:"Unsubstantiated 'No.1' plus naming a competitor (Swisse) — misleading under ANZ law; competitor disparagement under China rules.",zh:"无依据的No.1并点名竞品（Swisse）比较。违反澳新消费者法误导，且属中国规则下的贬损竞品。",th:"อ้าง No.1 โดยไม่มีหลักฐานและเอ่ยชื่อคู่แข่ง (Swisse) ทำให้เข้าใจผิดตามกฎ ANZ และเป็นการดูถูกคู่แข่งตามกฎจีน"},
+    fix:{ja:"発売以来人気のフォーミュラ",en:"a long-time favorite formula",zh:"上市以来人气配方",th:"สูตรที่ได้รับความนิยมตั้งแต่เปิดตัว"}},
+   {bad:{ja:"#PR不要のリアルな感想",en:"#real-review-not-an-ad",zh:"#真实测评非广告",th:"#รีวิวจริงไม่ใช่โฆษณา"},law:"stealth",sev:"mid",
+    reason:{ja:"広告であることを隠す表現。ACCC／ASA は広告である旨の明示を義務付け。",en:"Hides that it is an ad — ACCC/ASA require clear disclosure as advertising.",zh:"隐藏广告身份，ACCC/ASA 要求明示为广告。",th:"ปิดบังว่าเป็นโฆษณา ACCC/ASA กำหนดให้ระบุชัดว่าเป็นโฆษณา"},
+    fix:{ja:"#PR（ブラックモアズ提供）",en:"#ad (provided by Blackmores)",zh:"#广告（澳佳宝提供）",th:"#โฆษณา (สนับสนุนโดย Blackmores)"}}]},
+
+ {key:"line",icon:"💬",
+  label:{ja:"EDM 配信",en:"Email / EDM",zh:"邮件推送",th:"อีเมล / EDM"},meta:{ja:"会員向けキャンペーン",en:"Member campaign",zh:"会员活动",th:"แคมเปญสำหรับสมาชิก"},
+  who:{ja:"提出：豪 EC チーム / ウォン",en:"By: AU eComm team / Wong",zh:"提交：澳洲电商团队 / 王",th:"ส่งโดย: ทีมอีคอมเมิร์ซ AU / หว่อง"},
+  text:{ja:"会員様限定！ブラックモアズ フィッシュオイルが今だけ実質無料。関節炎を治す効果。続ければ痩せる効果でダイエットにも最適です。",
+    en:"Members only! Blackmores Fish Oil is effectively free now. It treats arthritis. Keep it up for a slimming effect — perfect for dieting.",
+    zh:"会员专属！澳佳宝鱼油现在变相免费。能治疗关节炎。坚持有减肥效果，最适合瘦身。",
+    th:"เฉพาะสมาชิก! Blackmores Fish Oil ตอนนี้แทบจะฟรี รักษาโรคข้ออักเสบได้ หากทานต่อเนื่องจะมีผลลดน้ำหนัก เหมาะกับการไดเอตอย่างยิ่ง"},
+  flags:[
+   {bad:{ja:"実質無料",en:"effectively free",zh:"变相免费",th:"แทบจะฟรี"},law:"keihyo",sev:"mid",
+    reason:{ja:"条件を伴う「実質無料」は有利誤認のおそれ。ANZ 消費者法上、条件の明示が必要。",en:"'Effectively free' with conditions risks misleading advantage — terms must be shown under ANZ Consumer Law.",zh:"附条件的「变相免费」有误导风险，澳新消费者法要求明示条件。",th:"คำว่า 'แทบจะฟรี' ที่มีเงื่อนไขอาจทำให้เข้าใจผิด ต้องระบุเงื่อนไขตามกฎหมายผู้บริโภค ANZ"},
+    fix:{ja:"初回 実質ご負担なし（条件あり）",en:"no effective first-order cost (terms apply)",zh:"首单实付为零（含条件）",th:"ครั้งแรกแทบไม่มีค่าใช้จ่าย (มีเงื่อนไข)"}},
+   {bad:{ja:"関節炎を治す効果",en:"It treats arthritis",zh:"能治疗关节炎",th:"รักษาโรคข้ออักเสบได้"},law:"yakki",sev:"hi",
+    reason:{ja:"特定疾病（関節炎）の治療を標榜する治療効果表現。TGA・中国 保健食品とも禁止。",en:"Claims to treat a specific disease (arthritis) — a therapeutic claim banned by the TGA and China health-food rules.",zh:"宣称治疗特定疾病（关节炎）的治疗宣称，TGA 与中国保健食品均禁。",th:"อ้างรักษาโรคเฉพาะ (ข้ออักเสบ) เป็นข้ออ้างสรรพคุณที่ห้ามทั้ง TGA และกฎอาหารสุขภาพจีน"},
+    fix:{ja:"関節の健康をサポート",en:"supports joint health",zh:"有助于支持关节健康",th:"ช่วยสนับสนุนสุขภาพข้อต่อ"}},
+   {bad:{ja:"痩せる効果でダイエットにも最適",en:"a slimming effect — perfect for dieting",zh:"减肥效果，最适合瘦身",th:"มีผลลดน้ำหนัก เหมาะกับการไดเอต"},law:"yakki",sev:"hi",
+    reason:{ja:"減量効果の標榜は治療効果表現で、許可表示外。中国 保健食品でも誇大に該当。",en:"A weight-loss claim is therapeutic and outside permitted indications; also exaggerated under China health-food rules.",zh:"标榜减重效果属治疗宣称，超出许可宣称范围，中国保健食品亦构成夸大。",th:"การอ้างผลลดน้ำหนักเป็นข้ออ้างสรรพคุณนอกเหนือข้ออ้างที่อนุญาต และเกินจริงตามกฎอาหารสุขภาพจีน"},
+    fix:{ja:"バランスのよい生活習慣の一品に",en:"a pick for a balanced lifestyle",zh:"均衡生活方式的一份",th:"ตัวเลือกสำหรับไลฟ์สไตล์ที่สมดุล"}}]},
+
+ {key:"pop",icon:"🏷️",
+  label:{ja:"店頭 POP",en:"In-store POP",zh:"店头POP",th:"ป้าย POP หน้าร้าน"},meta:{ja:"棚・売場用",en:"For shelf display",zh:"用于货架",th:"สำหรับชั้นวางสินค้า"},
+  who:{ja:"提出：チャイナ越境チーム / 李",en:"By: China cross-border team / Li",zh:"提交：中国跨境团队 / 李",th:"ส่งโดย: ทีมข้ามพรมแดนจีน / หลี่"},
+  text:{ja:"飲みすぎても安心！お子様にも毎日OK。フィッシュオイル配合で、記憶力を治す効果も。",
+    en:"Take as much as you like — totally safe! OK for kids every day. With fish oil, it even cures memory problems.",
+    zh:"多吃也安心！孩子也能每天吃。含鱼油，还能治好记忆力问题。",
+    th:"ทานเท่าไรก็ปลอดภัย! เด็กก็ทานได้ทุกวัน ด้วยน้ำมันปลา รักษาปัญหาความจำได้ด้วย"},
+  flags:[
+   {bad:{ja:"飲みすぎても安心",en:"Take as much as you like — totally safe!",zh:"多吃也安心",th:"ทานเท่าไรก็ปลอดภัย"},law:"hyoji",sev:"mid",
+    reason:{ja:"用量を誤認させる表現。サプリは推奨用量の表示が必須（過剰摂取の警告も）。",en:"Misleads on dosage. Supplements must state the recommended dose (and over-dose warnings).",zh:"易造成用量误认。保健食品须标示建议用量（及过量警示）。",th:"ทำให้เข้าใจผิดเรื่องปริมาณ อาหารเสริมต้องระบุปริมาณที่แนะนำ (และคำเตือนการทานเกิน)"},
+    fix:{ja:"1日2粒を目安に（用法・用量参照）",en:"2 capsules/day (see directions for use)",zh:"每日2粒为宜（详见用法用量）",th:"วันละ 2 แคปซูล (ดูวิธีใช้)"}},
+   {bad:{ja:"お子様にも毎日OK",en:"OK for kids every day",zh:"孩子也能每天吃",th:"เด็กก็ทานได้ทุกวัน"},law:"keihyo",sev:"mid",
+    reason:{ja:"対象・用量を誤認させるおそれ。成人向け製品は年齢・用量の根拠が必要。",en:"May mislead on audience/dose — an adult product needs clear age and dosage guidance.",zh:"易误导对象/用量，成人产品需注明适用年龄与用量。",th:"อาจทำให้เข้าใจผิดเรื่องกลุ่มเป้าหมาย/ปริมาณ ผลิตภัณฑ์สำหรับผู้ใหญ่ต้องระบุช่วงอายุและปริมาณ"},
+    fix:{ja:"成人向け · 12歳未満は医師に相談",en:"for adults · under 12, consult a doctor",zh:"成人适用 · 12岁以下请咨询医师",th:"สำหรับผู้ใหญ่ · อายุต่ำกว่า 12 ปีปรึกษาแพทย์"}},
+   {bad:{ja:"記憶力を治す効果",en:"it even cures memory problems",zh:"还能治好记忆力问题",th:"รักษาปัญหาความจำได้ด้วย"},law:"kenzo",sev:"hi",
+    reason:{ja:"「治す」は治療効果の標榜。中国 保健食品では「治疗/治愈」を禁止し、登録機能（蓝帽子）の範囲のみ可。",en:"'Cures' is a therapeutic claim. China health-food rules forbid '治疗/治愈' — only registered (蓝帽子) functions may be stated.",zh:"「治好」属治疗宣称。中国保健食品禁用「治疗/治愈」，仅可在注册（蓝帽子）功能范围内表述。",th:"คำว่า 'รักษา' เป็นข้ออ้างสรรพคุณ กฎอาหารสุขภาพจีนห้าม '治疗/治愈' อ้างได้เฉพาะฟังก์ชันที่ขึ้นทะเบียน (蓝帽子)"},
+    fix:{ja:"記憶・集中の健康を維持するのに役立つ",en:"helps support memory & concentration",zh:"有助于支持记忆与专注健康",th:"ช่วยสนับสนุนสุขภาพความจำและสมาธิ"}}]}
+];
+
+/* ---- risk lexicon for free text / campaign scanning ---- */
+const LEX=[
+ {re:/治る|治す|完治|治好|治愈|治疗|cures?|treats?|heals?/i,law:"yakki",sev:"hi",reason:{ja:"治療・治癒効果の標榜。TGA・中国 保健食品とも禁止。",en:"Asserts a treat/cure effect — banned for supplements under TGA and China rules.",zh:"主张治疗/治愈效果，TGA 与中国保健食品均禁。",th:"อ้างผลรักษา/บำบัด ห้ามทั้ง TGA และกฎจีน"},fix:{ja:"健康をサポート",en:"supports your health",zh:"有助于支持健康",th:"ช่วยสนับสนุนสุขภาพ"}},
+ {re:/予防(でき|します|に効|に|可能)|prevents?|预防/i,law:"yakki",sev:"hi",reason:{ja:"疾病の予防効果を標榜する治療効果表現。",en:"Claims to prevent disease — a therapeutic claim.",zh:"标榜预防疾病的治疗宣称。",th:"อ้างผลป้องกันโรค เป็นข้ออ้างสรรพคุณ"},fix:{ja:"毎日の健康管理に",en:"for daily wellness routines",zh:"用于日常调理",th:"สำหรับการดูแลสุขภาพประจำวัน"}},
+ {re:/免疫力|免疫を|immun|免疫/i,law:"yakki",sev:"mid",reason:{ja:"免疫機能への過度な効果標榜。許可表示の範囲で穏当に。",en:"Over-stated immune effect — keep within permitted indications.",zh:"对免疫功能的过度宣称，应限于许可宣称范围。",th:"อ้างผลต่อภูมิคุ้มกันเกินจริง ควรอยู่ในข้ออ้างที่อนุญาต"},fix:{ja:"免疫の健康をサポート",en:"supports immune health",zh:"有助于支持免疫健康",th:"ช่วยสนับสนุนสุขภาพภูมิคุ้มกัน"}},
+ {re:/痩せ|ダイエット|slim|减肥|瘦身|weight.?loss/i,law:"yakki",sev:"hi",reason:{ja:"減量効果の標榜は治療効果表現で許可表示外。",en:"A weight-loss claim is therapeutic and outside permitted indications.",zh:"减重效果标榜属治疗宣称，超出许可范围。",th:"การอ้างผลลดน้ำหนักเป็นข้ออ้างสรรพคุณนอกข้ออ้างที่อนุญาต"},fix:{ja:"バランスのよい生活習慣に",en:"for a balanced lifestyle",zh:"用于均衡生活方式",th:"สำหรับไลฟ์สไตล์ที่สมดุล"}},
+ {re:/必ず|絶対|確実に|definitely|一定|百分百/i,law:"kenzo",sev:"hi",reason:{ja:"効果を断定する誇大表現。中国 保健食品では効果保証を禁止。",en:"An absolute effect guarantee — exaggerated; China bans guaranteed efficacy.",zh:"断定效果的夸大表述，中国保健食品禁止保证功效。",th:"รับประกันผลแบบเด็ดขาด เกินจริง จีนห้ามรับประกันสรรพคุณ"},fix:{ja:"毎日の習慣に",en:"as a daily habit",zh:"作为每日习惯",th:"เป็นกิจวัตรประจำวัน"}},
+ {re:/高血圧|糖尿病|不眠|関節炎|関節炎|arthritis|diabetes|风湿|关节炎|高血压/i,law:"yakki",sev:"hi",reason:{ja:"特定疾病への訴求は治療効果標榜に該当。",en:"Targeting a specific disease is a therapeutic claim.",zh:"针对特定疾病诉求属治疗宣称。",th:"การมุ่งเป้าโรคเฉพาะเป็นข้ออ้างสรรพคุณ"},fix:{ja:"その部位の健康をサポート",en:"supports that area's health",zh:"有助于支持相关健康",th:"ช่วยสนับสนุนสุขภาพส่วนนั้น"}},
+ {re:/Swisse|汤臣倍健|湯臣倍健|より効|比.{0,6}更有效|better.than/i,law:"kenzo",sev:"mid",reason:{ja:"競合の名指し比較・誹謗。中国 保健食品で禁止、ANZ でも誤認のおそれ。",en:"Naming/knocking a competitor — banned under China rules and misleading under ANZ law.",zh:"点名比较/贬损竞品，中国保健食品禁止，澳新亦构成误导。",th:"เอ่ยชื่อ/ดูถูกคู่แข่ง ห้ามตามกฎจีน และทำให้เข้าใจผิดตามกฎ ANZ"},fix:{ja:"自社製品の事実のみ訴求",en:"speak only to your own product's facts",zh:"仅陈述本品事实",th:"กล่าวถึงเฉพาะข้อเท็จจริงของผลิตภัณฑ์ตนเอง"}},
+ {re:/No\.?\s?1|ナンバーワン|業界一|业界第一|世界一|#1/i,law:"keihyo",sev:"mid",reason:{ja:"客観的根拠のないNo.1表示は誤認のおそれ。",en:"Unsubstantiated 'No.1' risks misleading superiority.",zh:"无依据的No.1有误导风险。",th:"การอ้าง No.1 โดยไม่มีหลักฐานเสี่ยงทำให้เข้าใจผิด"},fix:{ja:"発売以来人気の",en:"a long-time favorite",zh:"上市以来的人气",th:"ที่ได้รับความนิยมตั้งแต่เปิดตัว"}},
+ {re:/実質無料|完全無料|無料プレゼント|免费送|变相免费|effectively.free/i,law:"keihyo",sev:"mid",reason:{ja:"条件を伴う無料表示は有利誤認のおそれ。条件の明示が必要。",en:"'Free' with conditions risks misleading advantage — show terms.",zh:"附条件的免费表示有误导风险，须明示条件。",th:"การอ้างคำว่าฟรีที่มีเงื่อนไขอาจทำให้เข้าใจผิด ต้องแสดงเงื่อนไข"},fix:{ja:"条件付きでご提供",en:"offered with terms",zh:"含条件提供",th:"เสนอแบบมีเงื่อนไข"}},
+ {re:/医師.{0,4}(推奨|推薦)|医者.{0,4}(推奨|推薦)|doctor.{0,12}recommend|医生.{0,4}推荐/i,law:"keihyo",sev:"mid",reason:{ja:"医師の推奨表示は効果を誤認させるおそれ。根拠が必要。",en:"'Doctor-recommended' may mislead about efficacy — needs basis.",zh:"医生推荐易误导功效，需依据。",th:"การอ้าง 'แพทย์แนะนำ' อาจทำให้เข้าใจผิดเรื่องสรรพคุณ ต้องมีหลักฐาน"},fix:{ja:"資格を持つ専門家監修",en:"reviewed by a qualified expert",zh:"经资质专家审定",th:"ตรวจสอบโดยผู้เชี่ยวชาญที่มีคุณวุฒิ"}},
+ {re:/アレルギーゼロ|アレルギーフリー|零过敏|无过敏|no allergen|allergen-free|飲みすぎても安心|多吃也安心|副作用.?(なし|无|沒有|ゼロ)|no side.?effects?/i,law:"hyoji",sev:"hi",reason:{ja:"成分・アレルゲン・用量の誤表示。サプリは正確な用法用量とアレルゲン表示が必須。",en:"Mislabels ingredients/allergen/dosage — supplements require accurate directions and allergen labelling.",zh:"成分/过敏原/用量错误标示。保健食品须如实标示用法用量与过敏原。",th:"แสดงส่วนผสม/สารก่อภูมิแพ้/ปริมาณผิด อาหารเสริมต้องระบุวิธีใช้และสารก่อภูมิแพ้ที่ถูกต้อง"},fix:{ja:"用法・用量とアレルゲンを表示参照",en:"see directions & allergen labelling",zh:"详见用法用量与过敏原标示",th:"ดูวิธีใช้และฉลากสารก่อภูมิแพ้"}},
+ {re:/#?PR不要|ステマ|本音レビュー|not.?an.?ad|非广告|真实测评/i,law:"stealth",sev:"mid",reason:{ja:"広告であることを隠す表現。広告である旨の明示が必要。",en:"Hides ad nature — must disclose as an ad.",zh:"隐藏广告身份，须明示为广告。",th:"ปิดบังว่าเป็นโฆษณา ต้องระบุชัดว่าเป็นโฆษณา"},fix:{ja:"#PR（提供）",en:"#ad (provided)",zh:"#广告（提供）",th:"#โฆษณา (สนับสนุน)"}}
+];
+function scanText(txt){const out=[];if(!txt)return out;
+  LEX.forEach(e=>{const m=e.re.exec(txt);if(m){const w=m[0];out.push({bad:{ja:w,en:w,zh:w},law:e.law,sev:e.sev,reason:e.reason,fix:e.fix});}});
+  // sort by appearance order
+  out.sort((a,b)=>txt.indexOf(a.bad.ja)-txt.indexOf(b.bad.ja));
+  return out;}
+/* GEO suitability: adjectives vs structured facts */
+const GEO_ADJ=/上質|こだわり|特別|健やか|プレミアム|極上|至福|最高級|premium|crafted|special|trusted|pure|上质|匠心|特别|纯净|健康每一天/g;
+const GEO_FACT=/\d|mg|IU|µg|mcg|EPA|DHA|ビタミン|vitamin|维生素|粒|capsule|錠|％|%|配合|TGA|AUST.?L|蓝帽子/gi;
+function geoScore(txt){if(!txt)return {score:40,adj:0,fact:0};
+  const a=(txt.match(GEO_ADJ)||[]).length,f=(txt.match(GEO_FACT)||[]).length;
+  return {score:Math.max(8,Math.min(100,38+f*14-a*9)),adj:a,fact:f};}
+
+/* ---- campaign sample ---- */
+const SEGMENTS=[
+ {kind:"optin",nm:{ja:"メルマガ購読者",en:"Email subscribers",zh:"邮件订阅者",th:"ผู้สมัครรับอีเมล"},detail:{ja:"登録時に配信同意済み",en:"Opt-in at sign-up",zh:"订阅时已同意推送",th:"ยินยอมรับข้อมูลตอนสมัคร"},size:8200,rate:1.0},
+ {kind:"optin",nm:{ja:"過去購入の会員",en:"Past purchasers (members)",zh:"历史购买会员",th:"สมาชิกที่เคยซื้อ"},detail:{ja:"会員登録時に同意済み",en:"Opt-in at sign-up",zh:"注册时已同意",th:"ยินยอมตอนสมัครสมาชิก"},size:3500,rate:1.0},
+ {kind:"partial",nm:{ja:"イベント来場リード",en:"Event leads",zh:"活动到场线索",th:"ลีดจากงานอีเวนต์"},detail:{ja:"一部のみ配信同意あり",en:"Only some opted in",zh:"仅部分同意",th:"ยินยอมเพียงบางส่วน"},size:1500,rate:0.62},
+ {kind:"noconsent",nm:{ja:"外部購入リスト",en:"Bought external list",zh:"外部采购名单",th:"รายชื่อที่ซื้อจากภายนอก"},detail:{ja:"配信同意の記録なし",en:"No consent on record",zh:"无同意记录",th:"ไม่มีบันทึกการยินยอม"},size:2000,rate:0.0},
+ {kind:"optout",nm:{ja:"配信停止済み",en:"Unsubscribed",zh:"已退订",th:"ยกเลิกการรับแล้ว"},detail:{ja:"オプトアウト済み → 配信不可（Spam Act）",en:"Opted out → must not send (Spam Act)",zh:"已退订 → 不可推送（Spam Act）",th:"ยกเลิกแล้ว → ห้ามส่ง (Spam Act)"},size:900,rate:0.0},
+ {kind:"overseas",nm:{ja:"対象外マーケット",en:"Out-of-market residents",zh:"非目标市场居住者",th:"ผู้พำนักนอกตลาดเป้าหมาย"},detail:{ja:"今回のマーケット対象外 · 現地の広告・データ法の確認が必要",en:"Outside this campaign's market · check local ad & data law",zh:"不在本次市场范围 · 需查当地广告与数据法",th:"อยู่นอกตลาดของแคมเปญนี้ · ต้องตรวจสอบกฎหมายโฆษณาและข้อมูลในพื้นที่"},size:600,rate:0.0}];
+const CAMP_SAMPLE={
+  name:{ja:"イミューン強化キャンペーン 2026",en:"Immunity Boost Campaign 2026",zh:"免疫强化活动 2026",th:"แคมเปญเสริมภูมิคุ้มกัน 2026"},
+  content:{ja:"ブラックモアズのビタミンC。毎日続ければ免疫力が必ずアップ。信頼のサプリを、大切なご家族へ。",
+    en:"Blackmores Vitamin C. Take it daily and your immunity will definitely rise. Give your family a trusted supplement.",
+    zh:"澳佳宝维生素C。每天坚持免疫力一定提升。把值得信赖的补剂送给重要的家人。",
+    th:"Blackmores Vitamin C ทานทุกวันภูมิคุ้มกันเพิ่มขึ้นแน่นอน มอบอาหารเสริมที่ไว้ใจได้ให้ครอบครัวคุณ"},
+  invite:{ja:"日頃の感謝を込めて。特別なオファーをお届けします。免疫力アップで、ご家族の毎日を応援。",
+    en:"With heartfelt thanks. We bring you a special offer. Boost immunity to support your family's days.",
+    zh:"满怀日常的感谢，奉上特别优惠。提升免疫力，支持全家每一天。",
+    th:"ด้วยความขอบคุณจากใจ เรามอบข้อเสนอพิเศษ เพิ่มภูมิคุ้มกันเพื่อสนับสนุนทุกวันของครอบครัวคุณ"},
+  url:"https://promo.blackmores.example/immunity",
+  lp:{ja:"信頼の製法で仕上げた、特別なギフトセット。健やかな毎日をお届けします。",
+    en:"A special gift set made with a trusted formula. Delivering healthy days.",
+    zh:"值得信赖的配方打造的特别礼盒，带来健康每一天。",
+    th:"ชุดของขวัญพิเศษที่ผลิตด้วยสูตรที่ไว้ใจได้ มอบทุกวันที่มีสุขภาพดี"}};
+
+const T={
+  sub:{ja:"AI 合規審査",en:"AI Compliance Review",zh:"AI 合规审核",th:"การตรวจสอบการปฏิบัติตามกฎหมายด้วย AI"},
+  eye:{ja:"AI COMPLIANCE REVIEW · パートナー支援",en:"AI COMPLIANCE REVIEW · PARTNER ENABLEMENT",zh:"AI COMPLIANCE REVIEW · 助力合作伙伴",th:"AI COMPLIANCE REVIEW · สนับสนุนพาร์ทเนอร์"},
+  title:{ja:"出す前に、AI が広告法をチェック。",en:"Before it ships, AI checks the ad laws.",zh:"发布前，AI 先把广告法过一遍。",th:"ก่อนเผยแพร่ AI ตรวจสอบกฎหมายโฆษณาให้"},
+  lead:{ja:"パートナーがコンテンツや活動を提出すると、AI が各市場のサプリ・治療用品の広告法規（豪 TGA・中国 保健食品・SEA／日本）に照らして自動審査。リスク表現を指摘し、合規な書き換えを提案し、承認まで記録に残します。",
+    en:"When a partner submits content or a campaign, AI auto-reviews it against each market's supplement & therapeutic-goods advertising rules (AU TGA, China health-food, SEA/Japan) — flagging risky phrases, proposing compliant rewrites, and logging the approval.",
+    zh:"合作伙伴提交内容或活动时，AI 自动对照各市场的补剂与治疗用品广告法规（澳洲 TGA、中国保健食品、东南亚/日本）审核——标出风险措辞、给出合规改写，并将审批全程留痕。",
+    th:"เมื่อพาร์ทเนอร์ส่งเนื้อหาหรือแคมเปญ AI จะตรวจสอบโดยอัตโนมัติเทียบกับกฎโฆษณาอาหารเสริมและผลิตภัณฑ์บำบัดของแต่ละตลาด (TGA ออสเตรเลีย, อาหารสุขภาพจีน, SEA/ญี่ปุ่น) โดยชี้ข้อความเสี่ยง เสนอการเขียนใหม่ที่ถูกต้อง และบันทึกการอนุมัติ"},
+  modeContent:{ja:"📄 コンテンツ審査",en:"📄 Content review",zh:"📄 内容审核",th:"📄 ตรวจสอบเนื้อหา"},
+  modeCampaign:{ja:"🎯 キャンペーン審査",en:"🎯 Campaign review",zh:"🎯 活动审核",th:"🎯 ตรวจสอบแคมเปญ"},
+  typeTitle:{ja:"① 審査するコンテンツ",en:"① Content to review",zh:"① 待审核内容",th:"① เนื้อหาที่จะตรวจสอบ"},
+  scoreTitle:{ja:"② コンプライアンス スコア",en:"② Compliance score",zh:"② 合规评分",th:"② คะแนนการปฏิบัติตามกฎหมาย"},
+  scoreL:{ja:"スコア",en:"SCORE",zh:"评分",th:"คะแนน"},
+  editorTitle:{ja:"③ AI 指摘（クリックで該当箇所）",en:"③ AI findings (click to locate)",zh:"③ AI 指摘（点击定位）",th:"③ ข้อค้นพบของ AI (คลิกเพื่อระบุตำแหน่ง)"},
+  flagTitle:{ja:"指摘と修正提案",en:"Findings & suggested fixes",zh:"指摘与改写建议",th:"ข้อค้นพบและคำแนะนำการแก้ไข"},
+  applyAll:{ja:"✦ すべて適用",en:"✦ Apply all",zh:"✦ 全部应用",th:"✦ ใช้ทั้งหมด"},
+  apply:{ja:"適用",en:"Apply",zh:"应用",th:"ใช้"},applied:{ja:"修正を適用しました",en:"Fix applied",zh:"已应用修正",th:"ใช้การแก้ไขแล้ว"},
+  noFind:{ja:"✓ リスク表現は検出されませんでした。",en:"✓ No risky phrases detected.",zh:"✓ 未检测到风险措辞。",th:"✓ ไม่พบข้อความที่มีความเสี่ยง"},
+  submit:{ja:"🛡 審査に提出",en:"🛡 Submit for review",zh:"🛡 提交审核",th:"🛡 ส่งเพื่อตรวจสอบ"},resubmit:{ja:"🛡 再提出",en:"🛡 Resubmit",zh:"🛡 重新提交",th:"🛡 ส่งใหม่"},
+  vBad:{ja:"要修正 — 重大な指摘が残っています",en:"Needs fixes — serious findings remain",zh:"需修正 — 仍有重大指摘",th:"ต้องแก้ไข — ยังมีข้อค้นพบร้ายแรงเหลืออยู่"},
+  vMid:{ja:"あと少し — 軽微な指摘が残っています",en:"Almost there — minor findings remain",zh:"快好了 — 还有轻微指摘",th:"เกือบเสร็จแล้ว — ยังมีข้อค้นพบเล็กน้อยเหลืออยู่"},
+  vOk:{ja:"合規 — 提出できます",en:"Compliant — ready to submit",zh:"合规 — 可以提交",th:"ผ่านเกณฑ์ — พร้อมส่ง"},
+  cHi:{ja:"重大",en:"High",zh:"重大",th:"ร้ายแรง"},cMi:{ja:"中",en:"Medium",zh:"中",th:"ปานกลาง"},cLo:{ja:"軽微",en:"Minor",zh:"轻微",th:"เล็กน้อย"},cOk:{ja:"指摘なし",en:"No findings",zh:"无指摘",th:"ไม่พบข้อค้นพบ"},
+  toastApplied:{ja:"✓ 修正を適用",en:"✓ Fix applied",zh:"✓ 已应用修正",th:"✓ ใช้การแก้ไขแล้ว"},toastAll:{ja:"✓ すべての修正を適用",en:"✓ All fixes applied",zh:"✓ 已应用全部修正",th:"✓ ใช้การแก้ไขทั้งหมดแล้ว"},
+  // free
+  freeLabel:{ja:"文書・貼り付け",en:"Doc / paste",zh:"文档/粘贴",th:"เอกสาร / วาง"},freeMeta:{ja:"自由入力",en:"Free input",zh:"自由输入",th:"กรอกอิสระ"},
+  freeTitle:{ja:"テキストを貼り付け、または文書をアップロード",en:"Paste text, or upload a document",zh:"粘贴文本，或上传文档",th:"วางข้อความ หรืออัปโหลดเอกสาร"},
+  freePh:{ja:"審査したい文章をここに貼り付け…",en:"Paste the text you want reviewed…",zh:"把要审核的文字粘贴到这里…",th:"วางข้อความที่ต้องการตรวจสอบที่นี่…"},
+  freeUpload:{ja:"📎 文書をアップロード",en:"📎 Upload document",zh:"📎 上传文档",th:"📎 อัปโหลดเอกสาร"},freeSample:{ja:"サンプルを入れる",en:"Insert sample",zh:"插入示例",th:"แทรกตัวอย่าง"},
+  freeClear:{ja:"クリア",en:"Clear",zh:"清空",th:"ล้าง"},freeScan:{ja:"✦ AI で審査",en:"✦ Review with AI",zh:"✦ 用 AI 审核",th:"✦ ตรวจสอบด้วย AI"},
+  freeWho:{ja:"提出：自由入力 / パートナー",en:"By: free input / partner",zh:"提交：自由输入 / 合作伙伴",th:"ส่งโดย: กรอกอิสระ / พาร์ทเนอร์"},
+  edit:{ja:"✎ テキストを編集",en:"✎ Edit text",zh:"✎ 编辑文本",th:"✎ แก้ไขข้อความ"},uploaded:{ja:"📎 文書を読み込みました（campaign_brief.txt）",en:"📎 Document loaded (campaign_brief.txt)",zh:"📎 已载入文档（campaign_brief.txt）",th:"📎 โหลดเอกสารแล้ว (campaign_brief.txt)"},
+  freeDefault:{ja:"このサプリでアレルギーが完治！毎朝飲めば免疫力が必ずアップし、業界No.1で Swisse より効いて痩せる。今だけ実質無料。#PR不要の本音レビュー",
+    en:"This supplement will completely cure your allergy! Take it every morning and your immunity will definitely rise — industry No.1, works better than Swisse and slims you down. Effectively free now. #real-review-not-an-ad",
+    zh:"这款补剂让过敏完全治愈！每天早上服用免疫力一定提升，业界No.1，比Swisse更有效还能瘦身。现在变相免费。#真实测评非广告",
+    th:"อาหารเสริมนี้รักษาภูมิแพ้ให้หายขาด! ทานทุกเช้าภูมิคุ้มกันเพิ่มขึ้นแน่นอน อันดับ 1 ของวงการ ได้ผลดีกว่า Swisse และช่วยลดน้ำหนัก ตอนนี้แทบจะฟรี #รีวิวจริงไม่ใช่โฆษณา"},
+  // audit
+  aSubmit:{ja:"提出",en:"Submitted",zh:"提交",th:"ส่งแล้ว"},aCheck:{ja:"AI 事前チェック",en:"AI pre-check",zh:"AI 事前检查",th:"การตรวจสอบล่วงหน้าด้วย AI"},aJudge:{ja:"判定",en:"Decision",zh:"判定",th:"การตัดสิน"},
+  aCheckOk:{ja:"指摘 0 件 · 法規すべて適合",en:"0 findings · clears all regulations",zh:"0 项指摘 · 全部法规合规",th:"พบ 0 รายการ · ผ่านกฎหมายทั้งหมด"},
+  aCheckBad:n=>({ja:`重大な指摘が ${n} 件残っています`,en:`${n} serious finding(s) remain`,zh:`仍有 ${n} 项重大指摘`,th:`ยังมีข้อค้นพบร้ายแรง ${n} รายการ`}),
+  approved:{ja:"承認 — 配信可",en:"Approved — cleared to publish",zh:"通过 — 可发布",th:"อนุมัติ — เผยแพร่ได้"},returned:{ja:"差戻し — 修正が必要",en:"Returned — fixes required",zh:"退回 — 需修正",th:"ตีกลับ — ต้องแก้ไข"},
+  approvedBody:{ja:"AI 事前チェックを通過。承認記録を発行しました。配信後の表現変更も再審査されます。",en:"Passed AI pre-check. An approval record has been issued. Any post-launch edits are re-reviewed.",zh:"已通过 AI 事前检查并签发审批记录。发布后如改动表述将再次审核。",th:"ผ่านการตรวจสอบล่วงหน้าด้วย AI ออกบันทึกการอนุมัติแล้ว หากมีการแก้ไขหลังเผยแพร่จะถูกตรวจสอบใหม่"},
+  returnedBody:{ja:"重大な指摘が残っているため配信できません。上の修正提案を適用して再提出してください。",en:"Cannot publish while serious findings remain. Apply the suggested fixes above and resubmit.",zh:"仍有重大指摘，暂不可发布。请应用上方改写建议后重新提交。",th:"ไม่สามารถเผยแพร่ได้ขณะที่ยังมีข้อค้นพบร้ายแรง โปรดใช้คำแนะนำการแก้ไขด้านบนแล้วส่งใหม่"},
+  refNo:{ja:"承認番号",en:"Approval no.",zh:"审批编号",th:"เลขที่อนุมัติ"},
+  reset:{ja:"↺ 別のコンテンツを審査",en:"↺ Review another piece",zh:"↺ 审核另一份",th:"↺ ตรวจสอบชิ้นอื่น"},
+  refTitle:{ja:"チェック対象の主な法規",en:"Regulations checked",zh:"覆盖的主要法规",th:"กฎหมายที่ตรวจสอบ"},
+  foot:{ja:"合規を、<b>出す前に</b>。あとからの炎上ではなく。",en:"Compliance <b>before</b> you ship — not damage control after.",zh:"合规要在<b>发布前</b>，而不是事后救火。",th:"การปฏิบัติตามกฎหมาย<b>ก่อน</b>เผยแพร่ ไม่ใช่การแก้ไขสถานการณ์ภายหลัง"},
+  src:{ja:"イラスト用デモ · 実際の審査は法務確認と併用してください",en:"Illustrative demo · pair with legal review in real use",zh:"演示示意 · 实际使用请配合法务确认",th:"เดโมเพื่อการสาธิต · ในการใช้งานจริงควรใช้ร่วมกับการตรวจสอบทางกฎหมาย"},
+  // campaign
+  campIntro:{ja:"キャンペーンを丸ごと審査します。内容・招待文・リンク（宣伝）・対象者を入れて提出すると、AI が ① GEO 適合性 ② 内容合規 ③ 配信同意（consent）の3点を確認します。",
+    en:"Review a whole campaign. Enter content, invitation, link (promo) and audience — AI checks ① GEO suitability ② content compliance ③ consent.",
+    zh:"对整个活动做审核。填入内容、邀请函、链接(宣传)与目标人群，AI 会确认 ① GEO 适合性 ② 内容合规 ③ 配信同意（consent）三点。",
+    th:"ตรวจสอบแคมเปญทั้งหมด กรอกเนื้อหา คำเชิญ ลิงก์ (โฆษณา) และกลุ่มเป้าหมาย แล้ว AI จะตรวจสอบ 3 ข้อ ① ความเหมาะสมด้าน GEO ② การปฏิบัติตามกฎหมายของเนื้อหา ③ ความยินยอม (consent)"},
+  fCampName:{ja:"キャンペーン名",en:"Campaign name",zh:"活动名称",th:"ชื่อแคมเปญ"},
+  fContent:{ja:"活動コンテンツ",en:"Campaign content",zh:"活动内容",th:"เนื้อหาแคมเปญ"},
+  fInvite:{ja:"招待文",en:"Invitation",zh:"邀请函",th:"คำเชิญ"},
+  fUrl:{ja:"ランディングURL",en:"Landing URL",zh:"落地页 URL",th:"URL หน้าแลนดิ้ง"},
+  fLp:{ja:"リンク内の宣伝文",en:"Promo copy on the link",zh:"链接内宣传文",th:"ข้อความโฆษณาในลิงก์"},
+  fSeg:{ja:"配信対象（複数選択可）",en:"Target audience (multi-select)",zh:"配信对象（可多选）",th:"กลุ่มเป้าหมาย (เลือกได้หลายรายการ)"},
+  runCamp:{ja:"🛡 キャンペーンを審査",en:"🛡 Review campaign",zh:"🛡 审核活动",th:"🛡 ตรวจสอบแคมเปญ"},
+  rerun:{ja:"↺ 入力を修正",en:"↺ Edit inputs",zh:"↺ 修改输入",th:"↺ แก้ไขข้อมูลที่กรอก"},
+  resultTitle:{ja:"AI 審査結果",en:"AI review result",zh:"AI 审核结果",th:"ผลการตรวจสอบของ AI"},
+  geoSec:{ja:"① GEO 適合性",en:"① GEO suitability",zh:"① GEO 适合性",th:"① ความเหมาะสมด้าน GEO"},
+  geoOk:{ja:"AI に推薦されやすい（構造化ファクト十分）",en:"Recommendable by AI (enough structured facts)",zh:"易被 AI 推荐（结构化事实充足）",th:"AI แนะนำได้ง่าย (มีข้อมูลเชิงโครงสร้างเพียงพอ)"},
+  geoBad:{ja:"形容詞が多く、AI が比較しにくい",en:"Adjective-heavy — hard for AI to compare",zh:"形容词偏多，AI 难比较",th:"มีคำคุณศัพท์มาก — AI เปรียบเทียบได้ยาก"},
+  geoTip:{ja:"💡 成分量・規格（例：ビタミンC 1000mg、AUST L 番号）などの検証可能な事実を追記すると、AI 推薦度が上がります。",en:"💡 Add verifiable facts (e.g. 1000mg Vitamin C, AUST L number, dose) to raise AI recommendability.",zh:"💡 补充可验证事实（如维生素C 1000mg、AUST L 编号、剂量）可提升 AI 推荐度。",th:"💡 เพิ่มข้อเท็จจริงที่ตรวจสอบได้ (เช่น วิตามินซี 1000mg, เลข AUST L, ปริมาณ) เพื่อเพิ่มโอกาสที่ AI จะแนะนำ"},
+  compSec:{ja:"② 内容合規",en:"② Content compliance",zh:"② 内容合规",th:"② การปฏิบัติตามกฎหมายของเนื้อหา"},
+  compOk:{ja:"リスク表現は検出されませんでした",en:"No risky phrases detected",zh:"未检测到风险措辞",th:"ไม่พบข้อความที่มีความเสี่ยง"},
+  compBad:n=>({ja:`${n} 件のリスク表現を検出（内容・招待文・リンク横断）`,en:`${n} risky phrase(s) found across content, invite & link`,zh:`检出 ${n} 处风险措辞（内容/邀请函/链接）`,th:`พบข้อความเสี่ยง ${n} รายการ (ทั้งเนื้อหา คำเชิญ และลิงก์)`}),
+  consentSec:{ja:"③ 配信同意（consent）",en:"③ Consent",zh:"③ 配信同意（consent）",th:"③ ความยินยอม (consent)"},
+  consentOk:{ja:"対象者は全員が配信同意済み",en:"All targets have opted in",zh:"目标人群全部已同意",th:"กลุ่มเป้าหมายทั้งหมดยินยอมแล้ว"},
+  consentBad:n=>({ja:`⚠ ${n.toLocaleString()} 人が配信同意なし — 除外が必要`,en:`⚠ ${n.toLocaleString()} recipients have not opted in — must exclude`,zh:`⚠ ${n.toLocaleString()} 人未同意配信 — 需排除`,th:`⚠ ${n.toLocaleString()} คนยังไม่ยินยอม — ต้องคัดออก`}),
+  consentReach:(t,c)=>({ja:`対象 ${t.toLocaleString()} 人中、配信可能 ${c.toLocaleString()} 人`,en:`${c.toLocaleString()} of ${t.toLocaleString()} are reachable`,zh:`目标 ${t.toLocaleString()} 人中可配信 ${c.toLocaleString()} 人`,th:`ส่งถึงได้ ${c.toLocaleString()} จาก ${t.toLocaleString()} คน`}),
+  bkLabel:{ja:"内訳",en:"Breakdown",zh:"明细",th:"รายละเอียด"},bkNo:{ja:"未同意",en:"no consent",zh:"未同意",th:"ไม่ยินยอม"},bkOut:{ja:"受信拒否",en:"opted-out",zh:"拒收",th:"ยกเลิกรับ"},bkOver:{ja:"海外",en:"overseas",zh:"海外",th:"ต่างประเทศ"},
+  exclude:{ja:"未同意 {n} 人を除外する",en:"Exclude {n} non-consented",zh:"排除 {n} 名未同意者",th:"คัดผู้ที่ไม่ยินยอม {n} คนออก"},
+  excluded:{ja:"✓ 未同意者を除外しました。配信対象は同意済みのみです。",en:"✓ Non-consented excluded. Audience is opt-in only.",zh:"✓ 已排除未同意者，配信对象仅含已同意。",th:"✓ คัดผู้ที่ไม่ยินยอมออกแล้ว กลุ่มเป้าหมายมีเฉพาะผู้ที่ยินยอม"},
+  pickSeg:{ja:"対象を1つ以上選んでください。",en:"Select at least one audience.",zh:"请至少选择一个对象。",th:"โปรดเลือกกลุ่มเป้าหมายอย่างน้อยหนึ่งรายการ"},
+  statOk:{ja:"OK",en:"OK",zh:"OK",th:"OK"},statWarn:{ja:"注意",en:"Warn",zh:"注意",th:"ระวัง"},statBad:{ja:"NG",en:"Fail",zh:"NG",th:"ไม่ผ่าน"},
+  campApproved:{ja:"承認 — 配信可",en:"Approved — cleared",zh:"通过 — 可发布",th:"อนุมัติ — เผยแพร่ได้"},
+  campReturned:{ja:"差戻し — 対応が必要",en:"Returned — action needed",zh:"退回 — 需处理",th:"ตีกลับ — ต้องดำเนินการ"},
+  campApprovedBody:{ja:"内容合規 OK・配信同意 OK。承認記録を発行しました（GEO は推奨改善点として記録）。",en:"Content & consent OK. Approval issued (GEO logged as a recommended improvement).",zh:"内容合规与配信同意均 OK，已签发审批记录（GEO 作为建议改进点记录）。",th:"เนื้อหาและความยินยอมผ่าน ออกการอนุมัติแล้ว (บันทึก GEO เป็นข้อแนะนำให้ปรับปรุง)"},
+  campReturnedBody:{ja:"重大な指摘または未同意配信が残っています。上の対応を完了して再審査してください。",en:"Serious findings or non-consented sending remain. Resolve the above and re-review.",zh:"仍有重大指摘或未同意配信。请完成上方处理后再审核。",th:"ยังมีข้อค้นพบร้ายแรงหรือการส่งถึงผู้ที่ไม่ยินยอม โปรดดำเนินการด้านบนให้เสร็จแล้วตรวจสอบใหม่"},
+  campWho:{ja:"提出：マーケティング / キャンペーン担当",en:"By: Marketing / Campaign owner",zh:"提交：市场 / 活动负责人",th:"ส่งโดย: ฝ่ายการตลาด / ผู้ดูแลแคมเปญ"}
+};
+const SUBNUM="BLK-AD-";
+
+let state={lang:"en",brand:"blackmores",mode:"content",ct:0,resolved:{},submitted:false,
+  freeText:"",freeScanned:false,freeFlags:[],
+  camp:{ran:false,segs:[0,1,2,3,4,5],resolved:{},excluded:false,c:null}};
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const L=o=>(o&&typeof o==='object')?(o[state.lang]||o.ja||o.en):o;
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+/* current content sample (authored or free) */
+function curSample(){
+  if(state.ct<3)return SAMPLES[state.ct];
+  return {key:"free",who:T.freeWho,text:{ja:state.freeText,en:state.freeText,zh:state.freeText},flags:state.freeFlags};
+}
+function scoreOf(flags,resolved){let pen=0;flags.forEach((f,i)=>{if(!resolved[i])pen+=SEVW[f.sev];});return Math.max(0,Math.min(100,100-pen));}
+function countOf(flags,resolved){let hi=0,mi=0,lo=0;flags.forEach((f,i)=>{if(!resolved[i]){if(f.sev==='hi')hi++;else if(f.sev==='mid')mi++;else lo++;}});return{hi,mi,lo};}
+function sevLab(s){return s==='hi'?L(T.cHi):s==='mid'?L(T.cMi):L(T.cLo);}
+
+/* ---------- shared renderers ---------- */
+function ringHtml(v){const rc=v>=100?'var(--accent)':v>=70?'var(--warn)':'var(--neg)';
+  return `<div class="ring" style="--p:${v};--rc:${rc}"><div class="inner"><div class="sv">${v}</div><div class="sl">${L(T.scoreL)}</div></div></div>`;}
+function flagHtml(f,i,resolved){const law=LAWS[f.law],done=resolved[i];
+  return `<div class="flag ${f.sev!=='hi'?'mid':''} ${done?'done':''}" data-i="${i}">
+    <div class="frow1"><span class="lawtag" style="background:${law.c}">${L(law.name)}</span>
+      <span class="sev ${f.sev}">${sevLab(f.sev)}</span><span class="fbad">「${L(f.bad)}」</span></div>
+    <div class="freason">${L(f.reason)}</div>
+    ${done?`<div class="fdone">✓ ${L(T.applied)} → <span style="color:#077a3c">「${L(f.fix)}」</span></div>`
+      :`<div class="ffix"><span class="arrow">→</span><span class="fixtext">「${L(f.fix)}」</span><button class="fapply" data-fx="${i}">${L(T.apply)}</button></div>`}</div>`;}
+function editorHtml(s,resolved,editLink){let html=esc(L(s.text));
+  s.flags.forEach((f,i)=>{const bad=esc(L(f.bad));
+    if(resolved[i])html=html.replace(bad,`<ins data-i="${i}">${esc(L(f.fix))}</ins>`);
+    else html=html.replace(bad,`<mark class="${f.sev!=='hi'?'mid':''}" data-i="${i}">${bad}</mark>`);});
+  return `<div class="ptitle"><span>${L(T.editorTitle)}</span>${editLink?`<button class="editlink" id="editFree">${L(T.edit)}</button>`:`<span id="subTag" style="margin-left:auto;font-weight:600;text-transform:none;letter-spacing:0">${L(s.who)}</span>`}</div>
+    <div class="copybox" id="copybox">${html}</div>`;}
+
+/* ---------- CONTENT MODE ---------- */
+function typesHtml(){
+  const tabs=SAMPLES.map((s,i)=>({i,icon:s.icon,label:s.label,meta:s.meta}));
+  tabs.push({i:3,icon:"📄",label:T.freeLabel,meta:T.freeMeta});
+  return tabs.map(t=>`<div class="typ ${t.i===state.ct?'on':''}" data-t="${t.i}"><div class="tn">${t.icon} ${L(t.label)}</div><div class="tm">${L(t.meta)}</div></div>`).join('');
+}
+function renderContent(){
+  let h=`<div class="panel"><div class="ptitle">${L(T.typeTitle)}</div><div class="types">${typesHtml()}</div></div>`;
+  const isFree=state.ct===3;
+  if(isFree && !state.freeScanned){
+    h+=`<div class="panel"><div class="ptitle">${L(T.freeTitle)}</div>
+      <textarea class="ta" id="freeInput" placeholder="${L(T.freePh)}">${esc(state.freeText||'')}</textarea>
+      <div class="frow"><button class="ghostbtn" id="freeUp">${L(T.freeUpload)}</button>
+        <button class="ghostbtn" id="freeSample">${L(T.freeSample)}</button>
+        <button class="ghostbtn" id="freeClear">${L(T.freeClear)}</button>
+        <button class="submitbtn small" id="freeScan">${L(T.freeScan)}</button></div></div>`;
+    $('#view').innerHTML=h;bindTypes();
+    $('#freeUp').onclick=()=>{state.freeText=L(T.freeDefault);toast(L(T.uploaded));renderContent();};
+    $('#freeSample').onclick=()=>{state.freeText=L(T.freeDefault);renderContent();};
+    $('#freeClear').onclick=()=>{state.freeText="";renderContent();};
+    $('#freeScan').onclick=()=>{state.freeText=$('#freeInput').value;state.freeFlags=scanText(state.freeText);state.freeScanned=true;state.resolved={};state.submitted=false;renderContent();};
+    const ta=$('#freeInput');if(ta){ta.oninput=()=>state.freeText=ta.value;}
+    return;
+  }
+  const s=curSample();
+  const sc=scoreOf(s.flags,state.resolved),ct=countOf(s.flags,state.resolved);
+  // score panel
+  let cc='';if(ct.hi)cc+=`<span class="cnt hi">${L(T.cHi)} ${ct.hi}</span>`;if(ct.mi)cc+=`<span class="cnt mi">${L(T.cMi)} ${ct.mi}</span>`;if(ct.lo)cc+=`<span class="cnt lo">${L(T.cLo)} ${ct.lo}</span>`;
+  if(!ct.hi&&!ct.mi&&!ct.lo)cc=`<span class="cnt ok">✓ ${L(T.cOk)}</span>`;
+  const vcls=ct.hi?'bad':(ct.mi+ct.lo)?'mid':'ok',vtxt=ct.hi?L(T.vBad):(ct.mi+ct.lo)?L(T.vMid):L(T.vOk);
+  h+=`<div class="panel"><div class="ptitle">${L(T.scoreTitle)}</div><div class="scorewrap">${ringHtml(sc)}
+     <div class="scoremeta"><div class="verdict ${vcls}">${vtxt}</div><div class="counts">${cc}</div></div></div></div>`;
+  // editor + flags + submit + audit
+  h+=`<div class="panel">${editorHtml(s,state.resolved,isFree)}
+     <div class="flaghead"><span class="ft">${L(T.flagTitle)}</span><button class="applyall" id="applyAll" ${s.flags.length===0||s.flags.every((f,i)=>state.resolved[i])?'disabled':''}>${L(T.applyAll)}</button></div>
+     <div id="flags">${s.flags.length?s.flags.map((f,i)=>flagHtml(f,i,state.resolved)).join(''):`<div class="nofind">${L(T.noFind)}</div>`}</div>
+     <button class="submitbtn" id="submitBtn">${state.submitted?L(T.resubmit):L(T.submit)}</button>
+     <div class="audit" id="audit"></div></div>`;
+  $('#view').innerHTML=h;
+  bindTypes();bindContentEditor(s);
+  if(state.submitted)renderAudit(s);
+}
+function bindTypes(){$$('.typ').forEach(t=>t.onclick=()=>{state.ct=+t.dataset.t;state.resolved={};state.submitted=false;
+  if(state.ct===3&&!state.freeText)state.freeText="";if(state.ct===3)state.freeScanned=false;renderContent();});}
+function bindContentEditor(s){
+  const ef=$('#editFree');if(ef)ef.onclick=()=>{state.freeScanned=false;state.submitted=false;renderContent();};
+  $$('#copybox mark').forEach(m=>{m.onmouseenter=()=>hl(m.dataset.i,true);m.onmouseleave=()=>hl(m.dataset.i,false);});
+  $$('#flags .flag').forEach(fl=>{fl.onmouseenter=()=>hl(fl.dataset.i,true);fl.onmouseleave=()=>hl(fl.dataset.i,false);});
+  $$('[data-fx]').forEach(b=>b.onclick=()=>{state.resolved[+b.dataset.fx]=true;state.submitted=false;toast(L(T.toastApplied));renderContent();});
+  const aa=$('#applyAll');if(aa)aa.onclick=()=>{s.flags.forEach((f,i)=>state.resolved[i]=true);state.submitted=false;toast(L(T.toastAll));renderContent();};
+  $('#submitBtn').onclick=()=>{state.submitted=true;renderContent();};
+}
+function hl(i,on){const m=document.querySelector('#copybox mark[data-i="'+i+'"]');const fl=document.querySelector('#flags .flag[data-i="'+i+'"]');
+  if(m)m.classList.toggle('hl',on);if(fl)fl.classList.toggle('hl',on);}
+function pad(n){return String(n).padStart(2,'0');}
+function stamp(){const d=new Date();return`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;}
+function approvalNo(seed){const d=new Date();return SUBNUM+`${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-`+String(100+seed).padStart(3,'0');}
+function renderAudit(s){
+  let hi=0;s.flags.forEach((f,i)=>{if(!state.resolved[i]&&f.sev==='hi')hi++;});
+  const ok=hi===0;const num=approvalNo(state.ct*7+Object.keys(state.resolved).length);
+  $('#audit').innerHTML=`
+    <div class="astep on" data-a="0"><div class="aic">📤</div><div><div class="at">${L(T.aSubmit)}</div><div class="as">${L(s.who)}</div><div class="astamp">${stamp()}</div></div></div>
+    <div class="astep on ${ok?'good':'bad'}"><div class="aic">${ok?'🛡':'⚠'}</div><div><div class="at">${L(T.aCheck)}</div><div class="as">${ok?L(T.aCheckOk):L(T.aCheckBad(hi))}</div></div></div>
+    <div class="astep on ${ok?'good':'bad'}"><div class="aic">${ok?'✓':'↩'}</div><div><div class="at">${L(T.aJudge)}</div><div class="as">${ok?L(T.approved):L(T.returned)}</div></div></div>
+    ${ok?`<div class="verdictcard ok"><b>✓ ${L(T.approved)}</b><br>${L(T.approvedBody)}<br><span style="display:inline-block;margin-top:7px">${L(T.refNo)}: <span class="vnum">${num}</span></span></div>`
+       :`<div class="verdictcard bad"><b>↩ ${L(T.returned)}</b><br>${L(T.returnedBody)}</div>`}`;
+}
+
+/* ---------- CAMPAIGN MODE ---------- */
+function renderCampaign(){
+  const c=state.camp;
+  if(!c.ran){
+    const segs=SEGMENTS.map((s,i)=>{const cls=s.rate>=1?'full':s.rate>0?'part':'none';const on=c.segs.includes(i);
+      return `<div class="seg ${on?'on':''}" data-seg="${i}"><div class="sx">✓</div>
+        <div style="min-width:0"><div class="sn">${L(s.nm)}</div><div class="sm">${L(s.detail)} · ${s.size.toLocaleString()}</div></div>
+        <div class="sc ${cls}">${Math.round(s.rate*100)}%</div></div>`;}).join('');
+    $('#view').innerHTML=`
+      <div class="panel"><div class="ptitle">${L(T.modeCampaign)}</div>
+        <div class="lead" style="margin-bottom:14px">${L(T.campIntro)}</div>
+        <div class="fld"><label>${L(T.fCampName)}</label><input class="inp" id="cName" value="${esc(L(CAMP_SAMPLE.name))}"></div>
+        <div class="fld"><label>${L(T.fContent)}</label><textarea class="ta" id="cContent">${esc(L(CAMP_SAMPLE.content))}</textarea></div>
+        <div class="fld"><label>${L(T.fInvite)}</label><textarea class="ta" id="cInvite" style="min-height:84px">${esc(L(CAMP_SAMPLE.invite))}</textarea></div>
+        <div class="fld"><label>${L(T.fUrl)}</label><input class="inp" id="cUrl" value="${esc(CAMP_SAMPLE.url)}"></div>
+        <div class="fld"><label>${L(T.fLp)}</label><textarea class="ta" id="cLp" style="min-height:84px">${esc(L(CAMP_SAMPLE.lp))}</textarea></div>
+        <div class="fld"><label>${L(T.fSeg)}</label>${segs}</div>
+        <button class="submitbtn" id="runCamp">${L(T.runCamp)}</button></div>`;
+    $$('.seg').forEach(s=>s.onclick=()=>{const i=+s.dataset.seg;const k=c.segs.indexOf(i);if(k<0)c.segs.push(i);else c.segs.splice(k,1);renderCampaign();});
+    $('#runCamp').onclick=()=>{
+      if(!c.segs.length){toast(L(T.pickSeg));return;}
+      const content=$('#cContent').value,invite=$('#cInvite').value,lp=$('#cLp').value,name=$('#cName').value;
+      const flags=scanText(content+'\n'+invite+'\n'+lp);
+      c.c={name,content,invite,lp,flags,geo:geoScore(lp)};c.resolved={};c.excluded=false;c.ran=true;renderCampaign();};
+    return;
+  }
+  // results
+  const cc=c.c,g=cc.geo;
+  const segList=c.segs.map(i=>SEGMENTS[i]);
+  const total=segList.reduce((a,s)=>a+s.size,0);
+  const reachable=segList.reduce((a,s)=>a+Math.round(s.size*s.rate),0);
+  const nonCon=total-reachable;
+  const compHi=cc.flags.filter((f,i)=>!c.resolved[i]&&f.sev==='hi').length;
+  const compRemain=cc.flags.filter((f,i)=>!c.resolved[i]).length;
+  const consentResolved=nonCon===0||c.excluded;
+  const overallOk=compHi===0&&consentResolved;
+  // GEO section
+  const geoOk=g.score>=70;
+  let geoStat=geoOk?'ok':'warn';
+  let h=`<div class="panel"><div class="ptitle">${L(T.resultTitle)} · ${esc(cc.name)}<button class="editlink" id="campEdit" style="margin-left:auto">${L(T.rerun)}</button></div>`;
+  h+=`<div class="secblock ${geoOk?'okb':'warnb'}"><div class="sech"><span class="sicon" style="background:var(--soft)">🎯</span>${L(T.geoSec)}
+      <span class="stat ${geoStat}">${geoOk?L(T.statOk):L(T.statWarn)}</span></div>
+      <div class="scorewrap" style="gap:14px">${ringHtml(g.score)}<div class="scoremeta"><div class="secbody">${geoOk?L(T.geoOk):L(T.geoBad)}</div>
+      ${!geoOk?`<div class="tip">${L(T.geoTip)}</div>`:''}</div></div></div>`;
+  // compliance section
+  h+=`<div class="secblock ${compHi?'badb':compRemain?'warnb':'okb'}"><div class="sech"><span class="sicon" style="background:var(--soft)">🛡</span>${L(T.compSec)}
+      <span class="stat ${compHi?'bad':compRemain?'warn':'ok'}">${compHi?L(T.statBad):compRemain?L(T.statWarn):L(T.statOk)}</span></div>`;
+  if(cc.flags.length){
+    h+=`<div class="secbody" style="margin-bottom:9px">${compRemain?L(T.compBad(compRemain)):L(T.compOk)}</div>
+      ${cc.flags.map((f,i)=>flagHtml(f,i,c.resolved)).join('')}
+      <button class="applyall" id="campApplyAll" style="margin-top:4px" ${cc.flags.every((f,i)=>c.resolved[i])?'disabled':''}>${L(T.applyAll)}</button>`;
+  }else h+=`<div class="nofind">${L(T.compOk)}</div>`;
+  h+=`</div>`;
+  // consent section
+  h+=`<div class="secblock ${nonCon&&!c.excluded?'badb':'okb'}"><div class="sech"><span class="sicon" style="background:var(--soft)">👥</span>${L(T.consentSec)}
+      <span class="stat ${consentResolved?'ok':'bad'}">${consentResolved?L(T.statOk):L(T.statBad)}</span></div>
+      <div style="margin:4px 0 8px">${segList.map(s=>{const cls=s.rate>=1?'full':s.rate>0?'part':'none',dot=s.rate>=1?'var(--accent)':s.rate>0?'var(--warn)':'var(--neg)';
+        return `<div class="conrow"><span class="cdot" style="background:${dot}"></span>${L(s.nm)} · ${s.size.toLocaleString()} <span style="margin-left:auto;font-weight:800" class="sc ${cls}">${L({ja:"同意",en:"opt-in",zh:"同意",th:"ยินยอม"})} ${Math.round(s.rate*100)}%</span></div>`;}).join('')}</div>
+      <div class="secbody">${L(T.consentReach(total,c.excluded?reachable:reachable))}</div>`;
+  if(nonCon&&!c.excluded){
+    let bkNo=0,bkOut=0,bkOver=0;segList.forEach(s=>{const non=s.size-Math.round(s.size*s.rate);
+      if(s.kind==='optout')bkOut+=non;else if(s.kind==='overseas')bkOver+=non;else bkNo+=non;});
+    const bk=[];if(bkNo)bk.push(`${L(T.bkNo)} ${bkNo.toLocaleString()}`);if(bkOut)bk.push(`${L(T.bkOut)} ${bkOut.toLocaleString()}`);if(bkOver)bk.push(`${L(T.bkOver)} ${bkOver.toLocaleString()}`);
+    h+=`<div class="secbody" style="color:var(--neg);font-weight:700;margin-top:6px">${L(T.consentBad(nonCon))}</div>
+      <div class="secbody" style="margin-top:3px">${L(T.bkLabel)}：${bk.join(' · ')}</div>
+      <button class="exclbtn" id="excl">${L(T.exclude).replace('{n}',nonCon.toLocaleString())}</button>`;}
+  else if(c.excluded){h+=`<div class="tip" style="background:#eafaf0;color:#0a6e38;margin-top:6px">${L(T.excluded)}</div>`;}
+  h+=`</div>`;
+  // overall + audit
+  h+=`<div class="audit">
+    <div class="astep on"><div class="aic">📤</div><div><div class="at">${L(T.aSubmit)}</div><div class="as">${L(T.campWho)}</div><div class="astamp">${stamp()}</div></div></div>
+    <div class="astep on ${overallOk?'good':'bad'}"><div class="aic">${overallOk?'🛡':'⚠'}</div><div><div class="at">${L(T.aCheck)}</div><div class="as">GEO ${g.score} · ${compRemain?L(T.compBad(compRemain)):L(T.compOk)} · ${consentResolved?L(T.consentOk):L(T.consentBad(nonCon))}</div></div></div>
+    <div class="astep on ${overallOk?'good':'bad'}"><div class="aic">${overallOk?'✓':'↩'}</div><div><div class="at">${L(T.aJudge)}</div><div class="as">${overallOk?L(T.campApproved):L(T.campReturned)}</div></div></div>
+    ${overallOk?`<div class="verdictcard ok"><b>✓ ${L(T.campApproved)}</b><br>${L(T.campApprovedBody)}<br><span style="display:inline-block;margin-top:7px">${L(T.refNo)}: <span class="vnum">${approvalNo(700+compRemain)}</span></span></div>`
+       :`<div class="verdictcard bad"><b>↩ ${L(T.campReturned)}</b><br>${L(T.campReturnedBody)}</div>`}</div></div>`;
+  $('#view').innerHTML=h;
+  $('#campEdit').onclick=()=>{c.ran=false;renderCampaign();};
+  $$('#view .flag [data-fx]').forEach(b=>b.onclick=()=>{c.resolved[+b.dataset.fx]=true;toast(L(T.toastApplied));renderCampaign();});
+  $$('#view [data-fx]').forEach(b=>b.onclick=()=>{c.resolved[+b.dataset.fx]=true;toast(L(T.toastApplied));renderCampaign();});
+  const ca=$('#campApplyAll');if(ca)ca.onclick=()=>{cc.flags.forEach((f,i)=>c.resolved[i]=true);toast(L(T.toastAll));renderCampaign();};
+  const ex=$('#excl');if(ex)ex.onclick=()=>{c.excluded=true;toast('✓');renderCampaign();};
+}
+
+/* ---------- shell ---------- */
+function renderCoverage(){$('#cov').innerHTML=Object.keys(LAWS).map(k=>`<span class="lawchip"><span class="lawdot" style="background:${LAWS[k].c}"></span>${L(LAWS[k].name)}</span>`).join('');}
+function renderRef(){$('#refTitle').textContent=L(T.refTitle);
+  $('#refList').innerHTML=Object.keys(LAWS).map(k=>`<div class="refitem"><div class="refh"><span class="lawdot" style="background:${LAWS[k].c}"></span>${L(LAWS[k].name)}</div><div class="refl">${L(LAWS[k].desc)}</div></div>`).join('');}
+function renderModeTabs(){$('#modeTabs').innerHTML=`
+  <button data-m="content" class="${state.mode==='content'?'on':''}">${L(T.modeContent)}</button>
+  <button data-m="campaign" class="${state.mode==='campaign'?'on':''}">${L(T.modeCampaign)}</button>`;
+  $$('#modeTabs button').forEach(b=>b.onclick=()=>{if(state.mode===b.dataset.m)return;state.mode=b.dataset.m;renderAll();});}
+function renderAll(){
+  $('#sub').textContent=L(T.sub);$('#eye').textContent=L(T.eye);$('#title').textContent=L(T.title);$('#lead').innerHTML=L(T.lead);
+  $('#foot').innerHTML=L(T.foot);$('#src').textContent=L(T.src);
+  document.documentElement.lang=state.lang;
+  renderCoverage();renderModeTabs();renderRef();
+  if(state.mode==='content')renderContent();else renderCampaign();
+}
+function applyBrand(){const b=BRANDS[state.brand],r=document.documentElement.style;
+  r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
+  $('#brandName').innerHTML=b.name+(b.sup?`<sup style="font-size:9px">${b.sup}</sup>`:'');}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1900);}
+
+function renderLangs(){const box=$('#langs');box.innerHTML='';[['en','EN'],['zh','中'],['ja','日'],['th','ไท']].forEach(([k,lab])=>{const b=document.createElement('button');b.textContent=lab;if(k===state.lang)b.className='on';b.onclick=()=>{state.lang=k;renderLangs();state.camp.ran=false;state.freeScanned=false;renderAll();};box.appendChild(b);});}
+renderLangs();
+
+try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_l=_p.get("lang");
+  if(_b&&BRANDS[_b])state.brand=_b;if(_l&&["ja","en","zh","th"].indexOf(_l)>=0)state.lang=_l;}catch(e){}
+applyBrand();renderAll();
+(function(){var _s="";setInterval(function(){try{if(window.parent&&window.parent!==window){var c=state.brand+"|"+state.lang;if(c!==_s){_s=c;window.parent.postMessage({t:"es",brand:state.brand,lang:state.lang},"*");}}}catch(e){}},400);})();
+</script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solution Cards · Experience Studio</title>
+<style>
+  :root{
+    --brand:#0a9499; --brand-d:#076e72; --soft:#e0f0f0; --accent:#e07a45;
+    --ink:#16201f; --muted:#6a7472; --bg:#f4f7f7; --card:#fff; --line:#e6ecec;
+    --display:Georgia,'Times New Roman','Songti SC','Hiragino Mincho ProN',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans','Microsoft YaHei','Thonburi','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  .nav{display:flex;align-items:center;gap:12px;max-width:1040px;margin:0 auto;padding:13px 18px}
+  .brand{font-family:var(--display);font-weight:700;font-size:19px}.brand sup{font-size:9px;color:var(--brand)}
+  .sub{font-size:11px;color:var(--muted);border-left:1px solid var(--line);padding-left:12px}.sp{flex:1}
+  .chip{display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:12px;font-weight:600;cursor:pointer;position:relative}
+  .langs{display:flex;gap:3px}
+  .langs button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;font-weight:600;color:var(--muted);min-width:32px;height:30px;border-radius:8px;cursor:pointer;transition:.2s;padding:0 6px}
+  .langs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .menu{position:absolute;top:40px;right:0;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:6px;min-width:120px;box-shadow:0 12px 30px rgba(0,0,0,.12);display:none;z-index:50}
+  .menu.open{display:block}.menu button{display:block;width:100%;border:0;background:0;font:inherit;font-size:13px;padding:8px 9px;border-radius:7px;cursor:pointer;text-align:left;color:var(--ink)}.menu button:hover{background:var(--soft)}
+  .wrap{max-width:1040px;margin:0 auto;padding:24px 18px 70px}
+  .intro{font-family:var(--display);font-size:24px;margin-bottom:3px}.lead{color:var(--muted);font-size:13.5px;margin-bottom:6px}
+
+  .layerlab{display:flex;align-items:center;gap:10px;margin:24px 0 12px}
+  .layerlab .tag{font-family:var(--display);font-size:18px;font-weight:600}
+  .layerlab .en{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .layerlab .ln{flex:1;height:1px;background:var(--line)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:13px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:17px;cursor:pointer;transition:.2s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(0,0,0,.07);border-color:var(--brand)}
+  .ctop{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .em{font-size:28px}
+  .badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;white-space:nowrap}
+  .b-card{background:var(--soft);color:var(--brand)}
+  .b-uni{background:#eef0ec;color:var(--muted)}.b-ind{background:color-mix(in srgb,var(--accent) 16%,#fff);color:var(--accent)}
+  .card h3{font-family:var(--display);font-size:17px;margin:8px 0 5px;line-height:1.15}
+  .hook{font-size:13px;color:var(--muted);line-height:1.45}
+  .caps{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+  .cap{font-size:10.5px;font-weight:600;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:4px 9px;color:var(--ink)}
+  .detail{max-height:0;overflow:hidden;transition:max-height .35s ease;margin-top:0}
+  .card.open .detail{max-height:340px;margin-top:13px}
+  .detail .row{font-size:12.5px;margin:9px 0;line-height:1.5}
+  .detail .k{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);display:block;margin-bottom:2px}
+  .detail .proof{background:var(--soft);border-radius:9px;padding:9px 11px;font-size:12px;color:var(--ink)}
+  .badges-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+  .fab{position:fixed;right:18px;bottom:18px;width:50px;height:50px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:20px;box-shadow:0 8px 22px rgba(0,0,0,.2);cursor:pointer;z-index:40}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(50px);background:var(--ink);color:#fff;padding:11px 17px;border-radius:11px;font-size:13.5px;font-weight:600;z-index:80;opacity:0;transition:.3s}
+  .toast.show{transform:translateX(-50%);opacity:1}
+</style>
+</head>
+<body>
+<header><div class="nav">
+  <div class="brand" id="brand">Blackmores</div>
+  <div class="sub" id="sub">Solution Cards</div><div class="sp"></div>
+  <div class="langs" id="langs"></div>
+</div></header>
+<div class="wrap">
+  <div class="intro" id="intro"></div><div class="lead" id="lead"></div>
+  <div id="board"></div>
+</div>
+<div class="toast" id="toast"></div>
+<div class="fab" id="fab" title="Switch brand">🎨</div>
+
+<script>
+const BRANDS={blackmores:{logo:"BLACKMORES",sup:"®",name:"Blackmores",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  lumiere:{logo:"LUMIÈRE",sup:"",name:"Lumière",c:["#a8456b","#7d2f4e","#f6e7ee","#c98a8a"]},
+  harvest:{logo:"HARVEST & CO",sup:"",name:"Harvest & Co",c:["#b5611f","#8a4715","#f6ebe0","#3d7a4f"]}};
+const LAYERS={direct:{en:"Direct 直营",zh:"直营",ja:"直営",th:"ตรง"},
+  enable:{en:"Enablement 赋能",zh:"赋能",ja:"エネーブル",th:"เสริมพลัง"},
+  back:{en:"Backbone 中台",zh:"中台",ja:"基盤",th:"แกนกลาง"}};
+const CARDS=[
+ {layer:"direct",em:"🔁",uni:1,t:{en:"Subscription & Auto-Replenish",zh:"订阅与自动复购",ja:"定期購入・自動補充",th:"สมัครสมาชิก & เติมอัตโนมัติ"},
+  hook:{en:"Predict run-out, auto-remind, one-tap re-order.",zh:"预测用完时间，自动提醒，一键续订。",ja:"在庫切れを予測し自動リマインド・即再注文。",th:"คาดการณ์ของหมด เตือนอัตโนมัติ สั่งซ้ำคลิกเดียว"},
+  pain:{en:"Repeat buyers forget to re-order; you lose the refill.",zh:"复购用户忘了续订，补货流失。",ja:"リピーターが再注文を忘れ補充を逃す。",th:"ลูกค้าลืมสั่งซ้ำ เสียยอดเติม"},
+  get:{en:"Higher repeat rate & predictable revenue.",zh:"更高复购率、更可预测的收入。",ja:"リピート率と収益の予測性向上。",th:"อัตราซื้อซ้ำสูงขึ้น รายได้คาดการณ์ได้"},
+  caps:["Cycle prediction","Auto reminder","1-tap reorder"],
+  proof:{en:"Repeat-cycle reminders are a proven retention lever in China benchmarks.",zh:"复购周期提醒在 China benchmark 中是验证有效的留存抓手。",ja:"再購入サイクル通知はChinaベンチマークで実証済。",th:"การเตือนรอบซื้อซ้ำเป็นกลไกรักษาลูกค้าที่พิสูจน์แล้ว"}},
+ {layer:"direct",em:"✉️",uni:1,t:{en:"Smart Event Invitation",zh:"智能活动邀约",ja:"スマート招待",th:"เชิญร่วมงานอัจฉริยะ"},
+  hook:{en:"AI picks who to invite to which event — automatically.",zh:"AI 自动挑选该邀谁参加哪个活动。",ja:"誰をどのイベントに招くかAIが自動選定。",th:"AI เลือกว่าใครควรเชิญไปงานไหน"},
+  pain:{en:"Blanket invites get ignored; the right members get missed.",zh:"广撒邀请被忽略，真正该请的反而漏掉。",ja:"一斉招待は無視され、適切な会員を逃す。",th:"เชิญหว่านถูกเมิน พลาดสมาชิกที่ใช่"},
+  get:{en:"Higher event turnout from the right audience.",zh:"对的人来，参与率更高。",ja:"適切な層の参加率向上。",th:"คนที่ใช่มาร่วม อัตราเข้าร่วมสูงขึ้น"},
+  caps:["Propensity scoring","Channel pick","Auto follow-up"],
+  proof:{en:"From the NTT DATA use-case pool (existing-customer growth).",zh:"出自 NTT DATA use-case 池（老客增长）。",ja:"NTT DATAユースケース集より（既存顧客成長）。",th:"จากชุดยูสเคส NTT DATA (เติบโตลูกค้าเดิม)"}},
+ {layer:"enable",em:"🪞",vert:"beauty",t:{en:"AI Virtual Try-On / Stylist",zh:"AI 虚拟试穿 / 造型师",ja:"AIバーチャル試着・スタイリスト",th:"ลองเสมือน / สไตลิสต์ AI"},
+  hook:{en:"Upload a photo → AI dresses you → one-tap buy.",zh:"上传照片 → AI 试穿/试妆 → 一键购买。",ja:"写真 → AI試着 → 即購入。",th:"อัปโหลดรูป → ลองเสมือน → ซื้อ"},
+  pain:{en:"Online beauty/fashion is guesswork → high returns.",zh:"线上美妆服饰全靠想象 → 退货高。",ja:"オンライン美容・ファッションは想像頼み→返品多。",th:"ซื้อความงาม/แฟชั่นออนไลน์ต้องเดา → คืนสินค้าสูง"},
+  get:{en:"Higher conversion, lower returns, shareable looks.",zh:"转化↑、退货↓、可分享的种草素材。",ja:"転換率↑・返品↓・共有可能なルック。",th:"คอนเวอร์ชันสูง คืนน้อย ลุคแชร์ได้"},
+  caps:["Try-on","AI stylist","Try→buy"],
+  proof:{en:"Benchmarks: Taobao Lookie stylist, Lululemon try-on, Meitu.",zh:"对标：淘宝 Lookie 造型师、Lululemon 试穿、Meitu。",ja:"ベンチマーク：淘宝Lookie、Lululemon試着、Meitu。",th:"เบนช์มาร์ก: Taobao Lookie, Lululemon, Meitu"}},
+ {layer:"enable",em:"🎓",uni:1,t:{en:"Sales Role-Play Training",zh:"销售角色扮演培训",ja:"営業ロールプレイ研修",th:"ฝึกขายแบบสวมบทบาท"},
+  hook:{en:"Staff practise with an AI customer that pushes back.",zh:"店员和会反问的 AI 顾客对练。",ja:"反論するAI顧客と店員が練習。",th:"พนักงานฝึกกับลูกค้า AI ที่โต้กลับ"},
+  pain:{en:"New staff learn on real customers — costly mistakes.",zh:"新店员拿真顾客练手——代价高。",ja:"新人が実客で学ぶ＝高コストな失敗。",th:"พนักงานใหม่ฝึกกับลูกค้าจริง — พลาดแพง"},
+  get:{en:"Faster ramp, consistent local pitch quality.",zh:"上手更快，本地话术质量一致。",ja:"立ち上がり加速、現地トーク品質均一。",th:"เริ่มงานไว คุณภาพการพูดสม่ำเสมอ"},
+  caps:["AI customer","Scenario bank","Scoring"],
+  proof:{en:"From the NTT DATA retail AI scenario map.",zh:"出自 NTT DATA 零售 AI 场景图。",ja:"NTT DATA小売AIシナリオマップより。",th:"จากแผนผังสถานการณ์ AI ค้าปลีก NTT DATA"}},
+ {layer:"back",em:"🧠",uni:1,t:{en:"Data Backbone & Governance",zh:"数据中台与治理",ja:"データ基盤・ガバナンス",th:"แกนข้อมูล & ธรรมาภิบาล"},
+  hook:{en:"The unified AI backend every tile sits on.",zh:"所有方案共用的统一 AI 后端。",ja:"全タイル共通のAI基盤。",th:"แบ็กเอนด์ AI ที่ทุกโซลูชันใช้ร่วม"},
+  pain:{en:"Siloed data → no single customer view, no AI fuel.",zh:"数据孤岛 → 没有统一客户视图、没有 AI 燃料。",ja:"サイロ化→単一顧客像なし、AIの燃料なし。",th:"ข้อมูลแยกส่วน → ไม่มีมุมมองลูกค้าเดียว"},
+  get:{en:"One customer view; AI that's accurate & governed.",zh:"统一客户视图；准确且受治理的 AI。",ja:"単一顧客像、正確で統制されたAI。",th:"มุมมองลูกค้าเดียว AI แม่นยำและกำกับได้"},
+  caps:["CDP","RAG + KG","Agent orchestration"],
+  proof:{en:"Foundation layer — the trust ammo behind every demo.",zh:"底座层——每个演示背后的信任弹药。",ja:"基盤層 — 各デモを支える信頼の弾薬。",th:"ชั้นรากฐาน — กระสุนความเชื่อมั่นของทุกเดโม"}},
+ {layer:"back",em:"🛡️",uni:1,t:{en:"Risk & Fraud Control",zh:"风控与反黄牛",ja:"リスク・不正対策",th:"ควบคุมความเสี่ยง"},
+  hook:{en:"Spot scalpers, fraud & anomalies in real time.",zh:"实时识别黄牛、欺诈与异常。",ja:"転売・不正・異常をリアルタイム検知。",th:"จับคนกักตุน ฉ้อโกง ผิดปกติแบบเรียลไทม์"},
+  pain:{en:"Promos get gamed; trust & margin leak away.",zh:"促销被薅羊毛，信任与利润流失。",ja:"販促が悪用され、信頼と利益が漏れる。",th:"โปรถูกโกง ความเชื่อมั่นและกำไรรั่ว"},
+  get:{en:"Protected promotions & clean transaction data.",zh:"促销受保护、交易数据干净。",ja:"販促を保護、取引データを健全に。",th:"ปกป้องโปรโมชัน ข้อมูลธุรกรรมสะอาด"},
+  caps:["Anomaly alerts","Anti-scalper","Compliance"],
+  proof:{en:"From the NTT DATA scenario map (loss prevention).",zh:"出自 NTT DATA 场景图（防损）。",ja:"NTT DATAシナリオマップより（ロス防止）。",th:"จากแผนผังสถานการณ์ NTT DATA (กันการสูญเสีย)"}},
+ {layer:"back",em:"💬",uni:1,t:{en:"AI Self-Service & Escalation",zh:"AI 自助 + 转人工",ja:"AIセルフサービス・エスカレ",th:"บริการตนเอง AI & ส่งต่อ"},
+  hook:{en:"AI resolves the routine, escalates the rest to a human.",zh:"AI 处理常见问题，复杂的转人工。",ja:"定型はAI解決、複雑は人へエスカレ。",th:"AI แก้เรื่องทั่วไป ที่เหลือส่งต่อคน"},
+  pain:{en:"Support is slow & costly; simple FAQs clog the queue.",zh:"客服慢且贵，简单问题堵塞队列。",ja:"サポートが遅く高コスト、FAQが詰まる。",th:"ซัพพอร์ตช้าและแพง คำถามง่ายอุดคิว"},
+  get:{en:"Faster resolution, lower cost, humans for what matters.",zh:"更快解决、更低成本、人力用在刀刃。",ja:"迅速解決・低コスト・人は重要案件へ。",th:"แก้ไว ต้นทุนต่ำ คนทำเรื่องสำคัญ"},
+  caps:["AI resolve","Smart routing","Human handoff"],
+  proof:{en:"From the use-case pool (existing-customer service).",zh:"出自 use-case 池（老客服务）。",ja:"ユースケース集より（既存顧客対応）。",th:"จากชุดยูสเคส (บริการลูกค้าเดิม)"}}];
+const UI={en:{sub:"Solution Cards",intro:"Breadth cards",lead:"Real products shown as one-pagers — the breadth around the live demos. Tap a card.",card:"▸ CARD",uni:"Universal",ind:"Industry-specific",pain:"Pain",get:"You get",sell:"Capabilities",proof:"Proof"},
+  zh:{sub:"方案卡片",intro:"广度卡片",lead:"真实产品的一页纸呈现——活演示之外的广度。点开卡片看。",card:"▸ 卡片",uni:"通用",ind:"行业专属",pain:"痛点",get:"你能得到",sell:"卖点",proof:"Proof"},
+  ja:{sub:"ソリューションカード",intro:"ブレッドスカード",lead:"実在製品を1ページで — ライブデモ周辺の広がり。カードをタップ。",card:"▸ カード",uni:"汎用",ind:"業種専用",pain:"課題",get:"得られる",sell:"機能",proof:"実績"},
+  th:{sub:"การ์ดโซลูชัน",intro:"การ์ดเสริม",lead:"ผลิตภัณฑ์จริงแบบหน้าเดียว — ความกว้างรอบเดโมสด แตะการ์ด",card:"▸ การ์ด",uni:"ทั่วไป",ind:"เฉพาะอุตสาหกรรม",pain:"ปัญหา",get:"คุณได้",sell:"ความสามารถ",proof:"พิสูจน์"}};
+
+let state={lang:"en",brand:"blackmores"};
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const U=()=>UI[state.lang],T=o=>o[state.lang]||o.en;
+
+function render(){const u=U();$('#intro').textContent=u.intro;$('#lead').textContent=u.lead;
+  const board=$('#board');board.innerHTML='';
+  ['direct','enable','back'].forEach(L=>{const cs=CARDS.filter(c=>c.layer===L);
+    const lab=document.createElement('div');lab.className='layerlab';
+    lab.innerHTML=`<span class="tag">${T(LAYERS[L])}</span><span class="en">${L}</span><span class="ln"></span>`;board.appendChild(lab);
+    const g=document.createElement('div');g.className='grid';
+    cs.forEach(c=>{const el=document.createElement('div');el.className='card';
+      el.innerHTML=`<div class="ctop"><div class="em">${c.em}</div>
+        <div class="badges-row"><span class="badge b-card">${u.card}</span>
+          <span class="badge ${c.uni?'b-uni':'b-ind'}">${c.uni?u.uni:u.ind}</span></div></div>
+        <h3>${T(c.t)}</h3><div class="hook">${T(c.hook)}</div>
+        <div class="caps">${c.caps.map(x=>`<span class="cap">${x}</span>`).join('')}</div>
+        <div class="detail"><div class="row"><span class="k">${u.pain}</span>${T(c.pain)}</div>
+          <div class="row"><span class="k">${u.get}</span>${T(c.get)}</div>
+          <div class="row"><span class="k">${u.proof}</span><div class="proof">${T(c.proof)}</div></div></div>`;
+      el.onclick=()=>el.classList.toggle('open');g.appendChild(el);});
+    board.appendChild(g);});}
+
+function applyBrand(){const b=BRANDS[state.brand],r=document.documentElement.style;
+  r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
+  $('#brand').innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');}
+function applyText(){$('#sub').textContent=U().sub;
+  document.documentElement.lang=state.lang;render();}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1700);}
+
+$('#fab').onclick=()=>{const k=Object.keys(BRANDS);const i=k.indexOf(state.brand);state.brand=k[(i+1)%k.length];applyBrand();toast('🎨 '+BRANDS[state.brand].name);};
+const LANGS=[['en','EN'],['zh','中'],['ja','日'],['th','ไท']];
+function renderLangs(){const box=document.querySelector('#langs');box.innerHTML='';LANGS.forEach(([k,lab])=>{const b=document.createElement('button');b.textContent=lab;if(k===state.lang)b.className='on';b.onclick=()=>{state.lang=k;renderLangs();applyText();};box.appendChild(b);});}
+renderLangs();
+
+try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_m=_p.get("market"),_l=_p.get("lang");if(_b&&typeof BRANDS!=="undefined"&&BRANDS[_b])state.brand=_b;if(_l&&["en","zh","ja","th"].indexOf(_l)>=0)state.lang=_l;if(_m&&typeof MARKETS!=="undefined"&&MARKETS[_m])state.market=_m;}catch(e){}
+applyBrand();applyText();
+(function(){var _l="";setInterval(function(){try{if(typeof state==="undefined")return;var c=(state.brand||"")+"|"+(state.lang||"")+"|"+(state.market||"");if(c!==_l){_l=c;if(window.parent&&window.parent!==window)window.parent.postMessage({t:"es",brand:state.brand||null,lang:state.lang||null,market:state.market||null},"*");}}catch(e){}},400);})();
+</script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

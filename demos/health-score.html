@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Health Score + Monthly Wrapped — Blackmores Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4;--brand-d:#007A82;--soft:#e0f2f3;--accent:#E91E63;--gold:#b07d12;
+    --ink:#1b1d1a;--muted:#8a8f8a;--canvas:#f6f7f4;--card:#fff;--line:#e8e6df;--ok:#1f9d6b;
+    --display:Georgia,'Times New Roman','Songti SC','Noto Serif CJK SC',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'PingFang SC','Microsoft YaHei',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:radial-gradient(900px 520px at 12% -10%,rgba(0,155,164,.08),transparent 46%),var(--canvas);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5;min-height:100vh}
+  a{color:inherit}
+  header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  .bar{display:flex;align-items:center;gap:16px;max-width:1120px;margin:0 auto;padding:11px 28px}
+  .back{font-size:13px;font-weight:800;color:var(--brand-d);text-decoration:none;border:1px solid var(--line);padding:8px 14px;border-radius:999px;transition:.18s}
+  .back:hover{border-color:var(--brand);background:var(--soft)}
+  .ptitle{font-family:var(--display);font-size:21px;font-weight:600;letter-spacing:-.01em}
+  .head{max-width:1120px;margin:18px auto 0;padding:0 28px;text-align:center}
+  .eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--brand);font-weight:800}
+  .head h1{font-family:var(--display);font-size:28px;font-weight:600;margin:8px 0 6px}
+  .head .sub{font-size:14px;color:var(--muted);max-width:620px;margin:0 auto}
+  .head .sub b{color:var(--ink);font-weight:700}
+  .stage{display:flex;gap:30px;align-items:flex-start;justify-content:center;flex-wrap:wrap;max-width:1120px;margin:22px auto 0;padding:26px;border:1px solid var(--line);border-radius:26px;background:#fff;box-shadow:0 22px 52px rgba(20,35,40,.06)}
+  /* phone */
+  .phone{width:340px;height:710px;background:#0c1320;border-radius:46px;padding:11px;box-shadow:0 34px 76px -34px rgba(20,35,40,.55),0 0 0 2px #111;flex:0 0 auto;position:relative}
+  .notch{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:120px;height:26px;background:#0c1320;border-radius:0 0 18px 18px;z-index:60}
+  .screen{position:relative;width:100%;height:100%;background:var(--canvas);border-radius:36px;overflow:hidden;color:var(--ink)}
+  .statusbar{height:42px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 24px 7px;font-size:12px;font-weight:600}
+  .screenview{position:absolute;inset:42px 0 64px 0;display:none;flex-direction:column;overflow-y:auto;animation:fade .26s ease}
+  .screenview.active{display:flex}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .pad{padding:18px 20px}
+  .h2{font-size:20px;font-weight:800}
+  .muted{color:var(--muted)}
+  .tabbar{position:absolute;left:0;right:0;bottom:0;height:64px;background:#fff;border-top:1px solid var(--line);display:flex;z-index:50}
+  .tabbar button{flex:1;background:none;border:0;font-family:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#9aa0aa;font-size:10.5px;font-weight:700}
+  .tabbar button .ic{font-size:19px}
+  .tabbar button[data-on="true"]{color:var(--brand)}
+  .btn{font-family:inherit;font-size:15px;font-weight:800;border:0;border-radius:14px;padding:14px;cursor:pointer;width:100%;transition:.15s}
+  .btn:active{transform:scale(.98)}
+  .btn.teal{background:var(--brand);color:#fff}
+  .btn.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+  .btn.dark{background:#16202a;color:#fff}
+  .btn.sm{padding:11px;font-size:13.5px;border-radius:11px}
+  .chip{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;padding:6px 11px;border-radius:999px}
+  .chip.teal{background:var(--soft);color:var(--brand-d);border:1px solid #cfe7e7}
+  .chip.gold{background:#fff6e0;color:var(--gold);border:1px solid #f0dca6}
+  /* score ring */
+  .scorecard{margin:14px 20px 0;background:#fff;border-radius:20px;padding:20px;box-shadow:0 16px 36px -22px rgba(0,0,0,.18);text-align:center}
+  .ring{width:150px;height:150px;border-radius:50%;margin:6px auto 8px;display:grid;place-items:center;background:conic-gradient(var(--brand) calc(var(--p,0)*1%),#e9e6dd 0)}
+  .ring span{width:120px;height:120px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ring .n{font-size:46px;font-weight:900;line-height:1;color:var(--brand-d);font-variant-numeric:tabular-nums}
+  .ring .l{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+  .plan{margin:14px 20px 0}
+  .planrow{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:9px;cursor:pointer;transition:.15s}
+  .planrow .ck{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);flex:0 0 auto;display:grid;place-items:center;color:#fff;font-size:14px;transition:.15s}
+  .planrow.on .ck{background:var(--ok);border-color:var(--ok)}
+  .planrow .nm{flex:1;font-weight:700;font-size:14px}
+  .planrow .gl{font-size:11.5px;color:var(--muted)}
+  .planrow.on .nm{color:var(--brand-d)}
+  .streak{margin:14px 20px 0;background:#16202a;color:#fff;border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:14px}
+  .streak .big{font-size:30px;font-weight:900}
+  .metricgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;padding:14px 20px}
+  .metric{background:#fff;border:1px solid var(--line);border-radius:15px;padding:14px}
+  .metric .v{font-size:23px;font-weight:800;font-variant-numeric:tabular-nums}
+  .metric .v.teal{color:var(--brand-d)}
+  .metric .t{font-size:11.5px;color:var(--muted);font-weight:700;margin-top:2px}
+  .segwrap{display:flex;background:#eceae3;border-radius:12px;padding:4px;margin:14px 20px 0}
+  .segwrap button{flex:1;border:0;background:none;font-family:inherit;font-size:13px;font-weight:800;color:var(--muted);padding:9px;border-radius:9px;cursor:pointer}
+  .segwrap button[data-on="true"]{background:#fff;color:var(--ink);box-shadow:0 2px 6px -3px rgba(0,0,0,.3)}
+  .sub-rep{display:none}.sub-rep.active{display:block}
+  .bars{display:flex;align-items:flex-end;gap:7px;height:74px;padding:14px 22px 0}
+  .bars .b{flex:1;background:#dfe7e7;border-radius:5px 5px 0 0;position:relative}
+  .bars .b.cur{background:var(--brand)}
+  .bars .b span{position:absolute;bottom:-18px;left:0;right:0;text-align:center;font-size:9.5px;color:#9aa0aa;font-weight:700}
+  .wrapped{margin:14px 20px 0;border-radius:22px;padding:22px;color:#fff;background:linear-gradient(150deg,#009BA4 0%,#0a6b73 55%,#16202a 100%);position:relative;overflow:hidden}
+  .wrapped:before{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.08)}
+  .wrapped .kick{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.85;font-weight:800}
+  .wrapped .hl{font-size:30px;font-weight:900;line-height:1.05;margin:6px 0 14px}
+  .wrow{display:flex;justify-content:space-between;padding:9px 0;border-top:1px solid rgba(255,255,255,.16);font-size:14px}
+  .wrow b{font-weight:800}
+  .wrapbadges{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
+  .wrapbadges span{background:rgba(255,255,255,.16);border-radius:999px;padding:5px 11px;font-size:11.5px;font-weight:800}
+  .yearbig{text-align:center;padding:22px 20px 6px}
+  .yearbig .n{font-size:54px;font-weight:900;color:var(--brand-d);line-height:1;letter-spacing:-.03em}
+  .yearbig .l{font-size:13px;color:var(--muted);font-weight:700;margin-top:4px}
+  .mileline{display:flex;align-items:center;gap:12px;padding:13px 20px;border-bottom:1px solid var(--line)}
+  .mileline .ic{font-size:20px}.mileline .t{font-size:14px;font-weight:700}.mileline .d{font-size:12px;color:var(--muted)}
+  .rankhero{background:#16202a;color:#fff;padding:18px 22px}
+  .yourrow{margin:14px 20px 0;background:var(--soft);border:1.5px solid #bfe2e2;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:14px}
+  .yourrow .rk{font-size:20px;font-weight:900;color:var(--brand-d)}
+  .lbrow{display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid var(--line)}
+  .lbrow .rk{width:26px;font-weight:800;color:var(--muted);text-align:center}
+  .lbrow .av{width:34px;height:34px;border-radius:50%;background:var(--canvas);display:flex;align-items:center;justify-content:center;font-size:15px}
+  .lbrow .nm{flex:1;font-weight:700;font-size:13.5px}
+  .lbrow .km{font-weight:800;color:var(--brand-d);font-size:13.5px}
+  .privacy{margin:14px 20px;background:#eef0ed;border-radius:14px;padding:13px 15px;font-size:11.5px;color:var(--muted);line-height:1.5;display:flex;gap:9px}
+  .footnote{padding:14px 20px 4px;font-size:11px;color:#a3a8a0;text-align:center}
+  .sharetoast{position:absolute;bottom:78px;left:20px;right:20px;background:#16202a;color:#fff;border-radius:14px;padding:13px 16px;font-size:13px;font-weight:700;display:none;align-items:center;gap:10px;z-index:65}
+  .sharetoast.show{display:flex}
+  /* lang switch */
+  .langsw{display:flex;gap:4px;background:#f4f2ec;border:1px solid var(--line);border-radius:999px;padding:3px}
+  .langsw button{border:0;background:transparent;font:inherit;font-size:12px;font-weight:800;color:var(--muted);padding:5px 11px;border-radius:999px;cursor:pointer;transition:.15s}
+  .langsw button.on{background:#fff;color:var(--brand-d);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+  .spacer{flex:1}
+  .langsw-phone{display:flex;gap:3px;background:#f4f2ec;border:1px solid var(--line);border-radius:999px;padding:2px;margin:0 20px 0;flex:0 0 auto}
+  .langsw-phone button{border:0;background:transparent;font:inherit;font-size:10.5px;font-weight:800;color:var(--muted);padding:4px 8px;border-radius:999px;cursor:pointer;transition:.15s;white-space:nowrap}
+  .langsw-phone button.on{background:#fff;color:var(--brand-d);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+  .phonetop{display:flex;align-items:center;gap:8px;padding:6px 0 2px}
+  /* side */
+  .side{flex:0 0 320px;max-width:340px}
+  .scard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px 20px;margin-bottom:14px}
+  .scard h3{font-size:14px;font-weight:800;margin-bottom:8px}
+  .try{list-style:none}
+  .try li{display:flex;gap:11px;padding:9px 0;border-top:1px solid var(--line);font-size:13px;color:#4a4f4a;line-height:1.45}
+  .try li:first-child{border-top:0}.try li .k{flex:0 0 18px;color:var(--brand);font-weight:800}
+  .tagrow{display:flex;flex-wrap:wrap;gap:7px}
+  .tag{background:var(--soft);border:1px solid #cfe7e7;color:var(--brand-d);font-size:11px;font-weight:800;padding:6px 10px;border-radius:999px}
+  .reset{font-family:inherit;background:transparent;border:1px solid var(--line);color:var(--muted);font-size:12.5px;font-weight:700;padding:9px 16px;border-radius:999px;cursor:pointer;display:block;margin:0 auto}
+  .foot{max-width:1120px;margin:24px auto 50px;padding:0 28px;text-align:center;font-size:12px;color:var(--muted);line-height:1.6}
+  .foot b{color:var(--ink)}
+  @media(max-width:760px){.stage{padding:16px}.phone{width:min(340px,92vw);height:min(710px,186vw)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <a class="back" href="index.html" data-i18n="back">← Back to studio</a>
+    <span class="ptitle" data-i18n="ptitle">Health Score · Daily Companion</span>
+    <span class="spacer"></span>
+    <div class="langsw" id="langsw">
+      <button data-lang="en" class="on">EN</button>
+      <button data-lang="zh">中文</button>
+      <button data-lang="ja">日本語</button>
+      <button data-lang="th">ไทย</button>
+    </div>
+  </div>
+</header>
+
+<div class="head">
+  <div class="eyebrow" data-i18n="eyebrow">Quick Win · daily habit loop</div>
+  <h1 data-i18n="h1">Health Score + Monthly Wrapped</h1>
+  <div class="sub" data-i18n="sub"><b>A daily reason to open the app</b> — log today's supplements, build a streak, and look back on a shareable monthly recap. Statistics &amp; encouragement only · no health claims.</div>
+</div>
+
+<div class="stage">
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="screen">
+      <div class="statusbar"><span>9:41</span><span>5G ▪ 100%</span></div>
+
+      <div class="langsw-phone" id="langswPhone" style="position:absolute;top:46px;right:14px;z-index:55">
+        <button data-lang="en" class="on">EN</button>
+        <button data-lang="zh">中</button>
+        <button data-lang="ja">日</button>
+        <button data-lang="th">ไทย</button>
+      </div>
+
+      <!-- TODAY -->
+      <div class="screenview active" data-screen="today">
+        <div class="pad" style="padding-bottom:0"><div class="h2" data-i18n="greeting">Good morning, Mei</div><div class="muted" style="font-size:13px" data-i18n="greetingSub">Keep your routine going.</div></div>
+        <div class="scorecard">
+          <div class="ring" id="ring" style="--p:0"><span><span class="n" id="scoreN">0</span><span class="l" data-i18n="scoreLabel">Health Score</span></span></div>
+          <div id="scoreNote" class="muted" style="font-size:12.5px"></div>
+        </div>
+        <div class="plan" id="plan">
+          <div class="muted" style="font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin:2px 0 8px" data-i18n="todaysPlan">Today's plan</div>
+          <div class="planrow" data-item><div class="ck">✓</div><div style="flex:1"><div class="nm">Fish Oil 1000mg</div><div class="gl" data-i18n="gl_fishoil">Heart · 1 capsule</div></div></div>
+          <div class="planrow" data-item><div class="ck">✓</div><div style="flex:1"><div class="nm">Vitamin C 1000mg</div><div class="gl" data-i18n="gl_vitc">Immunity · 1 tablet</div></div></div>
+          <div class="planrow" data-item><div class="ck">✓</div><div style="flex:1"><div class="nm">Probiotics Daily</div><div class="gl" data-i18n="gl_probiotics">Gut · 1 capsule</div></div></div>
+        </div>
+        <div class="pad"><button class="btn teal" id="logBtn" onclick="logToday()" data-i18n="logBtn">Log today ✓</button></div>
+        <div style="padding:0 20px"><span class="chip teal" id="streakChip"></span></div>
+        <div class="footnote" data-i18n="footnote1">Supportive tracking only — never a medical claim.</div>
+      </div>
+
+      <!-- REPORTS -->
+      <div class="screenview" data-screen="reports">
+        <div class="pad" style="padding-bottom:0"><div class="h2" data-i18n="reportsTitle">Your reports</div></div>
+        <div class="segwrap">
+          <button data-rep="week" data-on="true" onclick="setRep('week')" data-i18n="seg_week">Week</button>
+          <button data-rep="month" onclick="setRep('month')" data-i18n="seg_month">Month</button>
+          <button data-rep="year" onclick="setRep('year')" data-i18n="seg_year">Year</button>
+        </div>
+        <div class="sub-rep active" data-rep="week">
+          <div class="streak"><div class="big">🔥 5</div><div><div style="font-weight:800;font-size:14px" data-i18n="streakTitle">5-day streak</div><div style="font-size:12px;color:#aeb6c4" data-i18n="streakSub">Don't break the chain — keep it alive!</div></div></div>
+          <div class="metricgrid">
+            <div class="metric"><div class="v">6/7</div><div class="t" data-i18n="m_dayslogged">Days logged</div></div>
+            <div class="metric"><div class="v teal">86%</div><div class="t" data-i18n="m_adherence">Adherence</div></div>
+          </div>
+          <div style="font-size:12px;font-weight:800;color:var(--muted);padding:6px 20px 0" data-i18n="last6weeks">Last 6 weeks · adherence</div>
+          <div class="bars">
+            <div class="b" style="height:48%"><span>W21</span></div>
+            <div class="b" style="height:64%"><span>W22</span></div>
+            <div class="b" style="height:52%"><span>W23</span></div>
+            <div class="b" style="height:78%"><span>W24</span></div>
+            <div class="b" style="height:70%"><span>W25</span></div>
+            <div class="b cur" style="height:90%"><span data-i18n="bar_now">now</span></div>
+          </div>
+        </div>
+        <div class="sub-rep" data-rep="month">
+          <div class="wrapped">
+            <div class="kick" data-i18n="wrappedKick">Your June · Health Wrapped</div>
+            <div class="hl" data-i18n="wrappedHl">22 days<br>on track</div>
+            <div class="wrow"><span data-i18n="w_topgoal">Top goal</span><b data-i18n="w_immunity">Immunity</b></div>
+            <div class="wrow"><span data-i18n="w_beststreak">Best streak</span><b data-i18n="w_9days">9 days</b></div>
+            <div class="wrow"><span data-i18n="w_bundles">Bundles tried</span><b>2</b></div>
+            <div class="wrow"><span data-i18n="w_vsmay">vs May</span><b>+14%</b></div>
+            <div class="wrapbadges"><span data-i18n="badge_consistent">🏅 Consistent</span><span data-i18n="badge_immunity">🛡️ Immunity focus</span><span data-i18n="badge_streak">🔥 9-day streak</span></div>
+          </div>
+          <div class="pad"><button class="btn dark" onclick="shareToast(T('toast_wrapped'))" data-i18n="shareWrapped">Share my Wrapped</button></div>
+          <div class="footnote" data-i18n="footnote2">The shareable card is the viral hook into the chat loop (WeChat / LINE / WhatsApp).</div>
+        </div>
+        <div class="sub-rep" data-rep="year">
+          <div class="yearbig"><div class="n">142</div><div class="l" data-i18n="y_dayslogged">days logged in 2026 so far</div></div>
+          <div class="metricgrid">
+            <div class="metric"><div class="v">3</div><div class="t" data-i18n="y_plans">Plans completed</div></div>
+            <div class="metric"><div class="v teal">9</div><div class="t" data-i18n="y_badges">Badges earned</div></div>
+          </div>
+          <div style="font-size:12px;font-weight:800;color:var(--muted);padding:14px 20px 4px" data-i18n="milestones">Milestones</div>
+          <div class="mileline"><span class="ic">🔥</span><div><div class="t" data-i18n="mile1">First 30-day streak</div><div class="d">Mar 14</div></div></div>
+          <div class="mileline"><span class="ic">🛡️</span><div><div class="t" data-i18n="mile2">Completed Immunity plan</div><div class="d">Apr 2</div></div></div>
+          <div class="mileline"><span class="ic">🎯</span><div><div class="t" data-i18n="mile3">100 days logged</div><div class="d">May 9</div></div></div>
+        </div>
+      </div>
+
+      <!-- COMMUNITY -->
+      <div class="screenview" data-screen="community">
+        <div class="rankhero">
+          <div class="h2" style="color:#fff" data-i18n="commTitle">Community ranking</div>
+          <div style="font-size:12px;color:#aeb6c4;margin-top:2px" data-i18n="commSub">Anonymous · this month · by consistency</div>
+        </div>
+        <div class="yourrow">
+          <div class="rk" data-i18n="commTop">Top 12%</div>
+          <div style="flex:1"><div style="font-weight:800;font-size:14px" data-i18n="commYou">You · #842</div><div style="font-size:12px;color:var(--muted)" data-i18n="commMembers">🌏 Immunity goal · 9,610 members</div></div>
+          <div style="font-weight:800;color:var(--brand-d)">86%</div>
+        </div>
+        <div class="lbrow"><div class="rk">1</div><div class="av">🦋</div><div class="nm">CalmMornings</div><div class="km">99%</div></div>
+        <div class="lbrow"><div class="rk">2</div><div class="av">🌿</div><div class="nm">DailyGreens</div><div class="km">98%</div></div>
+        <div class="lbrow"><div class="rk">3</div><div class="av">🐝</div><div class="nm">SteadyHabits</div><div class="km">97%</div></div>
+        <div class="lbrow"><div class="rk">4</div><div class="av">🍵</div><div class="nm">TeaAndTablets</div><div class="km">95%</div></div>
+        <div class="lbrow"><div class="rk">5</div><div class="av">🌅</div><div class="nm">SunriseRoutine</div><div class="km">94%</div></div>
+        <div class="privacy" data-i18n="commPrivacy">🔒 Anonymous handles only · ranked by consistency, never by what you buy · leave anytime in Settings.</div>
+      </div>
+
+      <div class="sharetoast" id="sharetoast">✓ <span id="sharemsg">Shared</span></div>
+
+      <div class="tabbar">
+        <button data-tab="today" data-on="true" onclick="switchTab('today')"><span class="ic">🌿</span><span data-i18n="tab_today">Today</span></button>
+        <button data-tab="reports" onclick="switchTab('reports')"><span class="ic">📊</span><span data-i18n="tab_reports">Reports</span></button>
+        <button data-tab="community" onclick="switchTab('community')"><span class="ic">🏆</span><span data-i18n="tab_community">Community</span></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="side">
+    <div class="scard">
+      <h3 data-i18n="tryThis">Try this</h3>
+      <ul class="try">
+        <li><span class="k">1</span><span data-i18n="try1">Tap each supplement to tick it off → then <b>Log today</b> to lift your Health Score &amp; streak.</span></li>
+        <li><span class="k">2</span><span data-i18n="try2"><b>Reports</b> → Week (streak &amp; adherence), Month (<b>Health Wrapped</b>), Year (milestones).</span></li>
+        <li><span class="k">3</span><span data-i18n="try3">Share the Wrapped card — the viral hook into the chat loop.</span></li>
+        <li><span class="k">4</span><span data-i18n="try4"><b>Community</b> → anonymous ranking by consistency, never by spend.</span></li>
+      </ul>
+    </div>
+    <div class="scard">
+      <h3 data-i18n="guardrails">Built-in guardrails</h3>
+      <div class="tagrow">
+        <span class="tag" data-i18n="g1">✓ Supportive only · no claims</span>
+        <span class="tag" data-i18n="g2">✓ PGC content</span>
+        <span class="tag" data-i18n="g3">✓ Anonymous ranking</span>
+        <span class="tag" data-i18n="g4">✓ Consent &amp; privacy</span>
+        <span class="tag" data-i18n="g5">✓ Streak + badges</span>
+        <span class="tag" data-i18n="g6">✓ Chat-native reminders</span>
+      </div>
+    </div>
+    <button class="reset" onclick="resetAll()" data-i18n="restart">↺ Restart demo</button>
+  </div>
+</div>
+
+<div class="foot" data-i18n="foot"><b>North Star:</b> Weekly Active Health Members — the weekly trigger is a weekly open tied to a health habit, not a purchase.</div>
+
+<script>
+/* ===== i18n dictionary (single source of truth) ===== */
+var I18N={
+  en:{
+    back:"← Back to studio", ptitle:"Health Score · Daily Companion",
+    eyebrow:"Quick Win · daily habit loop", h1:"Health Score + Monthly Wrapped",
+    sub:"<b>A daily reason to open the app</b> — log today's supplements, build a streak, and look back on a shareable monthly recap. Statistics &amp; encouragement only · no health claims.",
+    greeting:"Good morning, Mei", greetingSub:"Keep your routine going.",
+    scoreLabel:"Health Score", todaysPlan:"Today's plan",
+    gl_fishoil:"Heart · 1 capsule", gl_vitc:"Immunity · 1 tablet", gl_probiotics:"Gut · 1 capsule",
+    logBtn:"Log today ✓", footnote1:"Supportive tracking only — never a medical claim.",
+    /* dynamic */
+    scoreNote_log:"Log today to update your score",
+    scoreNote_tick:"Tick all and log to lock today in",
+    scoreNote_done:"Nice — today is locked in. See you tomorrow.",
+    logBtn_done:"Logged for today ✓",
+    streak5:"🔥 5-day streak", streak6:"🔥 6-day streak",
+    toast_logged:"Today logged · streak +1", toast_wrapped:"Wrapped card shared",
+    /* reports */
+    reportsTitle:"Your reports", seg_week:"Week", seg_month:"Month", seg_year:"Year",
+    streakTitle:"5-day streak", streakSub:"Don't break the chain — keep it alive!",
+    m_dayslogged:"Days logged", m_adherence:"Adherence", last6weeks:"Last 6 weeks · adherence", bar_now:"now",
+    wrappedKick:"Your June · Health Wrapped", wrappedHl:"22 days<br>on track",
+    w_topgoal:"Top goal", w_immunity:"Immunity", w_beststreak:"Best streak", w_9days:"9 days",
+    w_bundles:"Bundles tried", w_vsmay:"vs May",
+    badge_consistent:"🏅 Consistent", badge_immunity:"🛡️ Immunity focus", badge_streak:"🔥 9-day streak",
+    shareWrapped:"Share my Wrapped", footnote2:"The shareable card is the viral hook into the chat loop (WeChat / LINE / WhatsApp).",
+    y_dayslogged:"days logged in 2026 so far", y_plans:"Plans completed", y_badges:"Badges earned",
+    milestones:"Milestones", mile1:"First 30-day streak", mile2:"Completed Immunity plan", mile3:"100 days logged",
+    /* community */
+    commTitle:"Community ranking", commSub:"Anonymous · this month · by consistency",
+    commTop:"Top 12%", commYou:"You · #842", commMembers:"🌏 Immunity goal · 9,610 members",
+    commPrivacy:"🔒 Anonymous handles only · ranked by consistency, never by what you buy · leave anytime in Settings.",
+    /* tabs */
+    tab_today:"Today", tab_reports:"Reports", tab_community:"Community",
+    /* side */
+    tryThis:"Try this",
+    try1:"Tap each supplement to tick it off → then <b>Log today</b> to lift your Health Score &amp; streak.",
+    try2:"<b>Reports</b> → Week (streak &amp; adherence), Month (<b>Health Wrapped</b>), Year (milestones).",
+    try3:"Share the Wrapped card — the viral hook into the chat loop.",
+    try4:"<b>Community</b> → anonymous ranking by consistency, never by spend.",
+    guardrails:"Built-in guardrails",
+    g1:"✓ Supportive only · no claims", g2:"✓ PGC content", g3:"✓ Anonymous ranking",
+    g4:"✓ Consent &amp; privacy", g5:"✓ Streak + badges", g6:"✓ Chat-native reminders",
+    restart:"↺ Restart demo",
+    foot:"<b>North Star:</b> Weekly Active Health Members — the weekly trigger is a weekly open tied to a health habit, not a purchase."
+  },
+  zh:{
+    back:"← 返回工作室", ptitle:"健康分 · 每日陪伴",
+    eyebrow:"快赢方案 · 每日习惯闭环", h1:"健康分 + 月度回顾（Monthly Wrapped）",
+    sub:"<b>每天打开 App 的小理由</b>——记录今天的补充剂、累积连续打卡，再回顾一份可分享的月度小结。仅统计与鼓励 · 不作健康声明。",
+    greeting:"早上好，美怡", greetingSub:"继续保持你的日常吧。",
+    scoreLabel:"健康分", todaysPlan:"今日计划",
+    gl_fishoil:"心脏 · 1 粒胶囊", gl_vitc:"免疫力 · 1 片", gl_probiotics:"肠道 · 1 粒胶囊",
+    logBtn:"记录今天 ✓", footnote1:"仅作支持性记录——绝非医疗声明。",
+    scoreNote_log:"记录今天，更新你的健康分",
+    scoreNote_tick:"全部勾选并记录，锁定今天",
+    scoreNote_done:"很棒——今天已锁定。明天见。",
+    logBtn_done:"今日已记录 ✓",
+    streak5:"🔥 连续 5 天", streak6:"🔥 连续 6 天",
+    toast_logged:"今日已记录 · 连续 +1", toast_wrapped:"回顾卡已分享",
+    reportsTitle:"你的报告", seg_week:"周", seg_month:"月", seg_year:"年",
+    streakTitle:"连续 5 天", streakSub:"别断了——把这股劲儿延续下去！",
+    m_dayslogged:"打卡天数", m_adherence:"坚持率", last6weeks:"近 6 周 · 坚持率", bar_now:"本周",
+    wrappedKick:"你的六月 · 健康回顾", wrappedHl:"22 天<br>保持在轨",
+    w_topgoal:"首要目标", w_immunity:"免疫力", w_beststreak:"最佳连续", w_9days:"9 天",
+    w_bundles:"尝试套餐", w_vsmay:"对比五月",
+    badge_consistent:"🏅 坚持如一", badge_immunity:"🛡️ 专注免疫", badge_streak:"🔥 连续 9 天",
+    shareWrapped:"分享我的回顾", footnote2:"可分享的卡片，是进入聊天闭环的传播钩子（微信 / LINE / WhatsApp）。",
+    y_dayslogged:"2026 年至今打卡天数", y_plans:"已完成计划", y_badges:"已获徽章",
+    milestones:"里程碑", mile1:"首个 30 天连续打卡", mile2:"完成免疫力计划", mile3:"累计打卡 100 天",
+    commTitle:"社区排名", commSub:"匿名 · 本月 · 按坚持度",
+    commTop:"前 12%", commYou:"你 · #842", commMembers:"🌏 免疫力目标 · 9,610 名成员",
+    commPrivacy:"🔒 仅匿名昵称 · 按坚持度排名，绝不按你买了什么 · 可随时在设置中退出。",
+    tab_today:"今天", tab_reports:"报告", tab_community:"社区",
+    tryThis:"试一试",
+    try1:"点按每种补充剂打勾 → 再点<b>记录今天</b>，提升你的健康分与连续打卡。",
+    try2:"<b>报告</b> → 周（连续与坚持率）、月（<b>健康回顾</b>）、年（里程碑）。",
+    try3:"分享回顾卡——进入聊天闭环的传播钩子。",
+    try4:"<b>社区</b> → 按坚持度匿名排名，绝不按消费金额。",
+    guardrails:"内置防护",
+    g1:"✓ 仅支持性 · 无声明", g2:"✓ PGC 内容", g3:"✓ 匿名排名",
+    g4:"✓ 同意与隐私", g5:"✓ 连续 + 徽章", g6:"✓ 聊天原生提醒",
+    restart:"↺ 重新开始演示",
+    foot:"<b>北极星指标：</b>周活跃健康成员——每周触发的是与健康习惯绑定的每周打开，而非一次购买。"
+  },
+  ja:{
+    back:"← スタジオに戻る", ptitle:"ヘルススコア · 毎日のお供",
+    eyebrow:"クイックウィン · 毎日の習慣ループ", h1:"ヘルススコア + Monthly Wrapped",
+    sub:"<b>毎日アプリを開く理由</b> — 今日のサプリを記録し、連続記録（streak）を伸ばし、シェアできる月間まとめを振り返る。統計と応援のみ · 健康効果の訴求はしません。",
+    greeting:"おはよう、メイ", greetingSub:"今日も習慣を続けましょう。",
+    scoreLabel:"ヘルススコア", todaysPlan:"今日のプラン",
+    gl_fishoil:"心臓 · カプセル1粒", gl_vitc:"免疫 · 錠剤1錠", gl_probiotics:"腸内 · カプセル1粒",
+    logBtn:"今日を記録 ✓", footnote1:"応援のための記録です — 医療上の主張ではありません。",
+    scoreNote_log:"今日を記録してスコアを更新",
+    scoreNote_tick:"すべてチェックして記録し、今日を確定",
+    scoreNote_done:"いいね — 今日は確定。また明日。",
+    logBtn_done:"今日は記録済み ✓",
+    streak5:"🔥 5日連続", streak6:"🔥 6日連続",
+    toast_logged:"今日を記録 · 連続 +1", toast_wrapped:"Wrapped カードをシェアしました",
+    reportsTitle:"あなたのレポート", seg_week:"週", seg_month:"月", seg_year:"年",
+    streakTitle:"5日連続", streakSub:"途切れさせないで — この調子で続けよう！",
+    m_dayslogged:"記録した日数", m_adherence:"継続率", last6weeks:"直近6週 · 継続率", bar_now:"今週",
+    wrappedKick:"あなたの6月 · Health Wrapped", wrappedHl:"22日<br>順調",
+    w_topgoal:"トップ目標", w_immunity:"免疫", w_beststreak:"最長連続", w_9days:"9日",
+    w_bundles:"試したセット", w_vsmay:"5月比",
+    badge_consistent:"🏅 コツコツ継続", badge_immunity:"🛡️ 免疫フォーカス", badge_streak:"🔥 9日連続",
+    shareWrapped:"私の Wrapped をシェア", footnote2:"シェアできるカードは、チャットループへ入るバイラルのフック（WeChat / LINE / WhatsApp）。",
+    y_dayslogged:"2026年これまでの記録日数", y_plans:"完了したプラン", y_badges:"獲得バッジ",
+    milestones:"マイルストーン", mile1:"初の30日連続", mile2:"免疫プランを完了", mile3:"100日記録達成",
+    commTitle:"コミュニティ ランキング", commSub:"匿名 · 今月 · 継続度で",
+    commTop:"上位12%", commYou:"あなた · #842", commMembers:"🌏 免疫の目標 · 9,610人のメンバー",
+    commPrivacy:"🔒 匿名ハンドルのみ · 継続度でランキング、購入額では一切なし · 設定からいつでも退出できます。",
+    tab_today:"今日", tab_reports:"レポート", tab_community:"コミュニティ",
+    tryThis:"試してみる",
+    try1:"各サプリをタップしてチェック → <b>今日を記録</b>でヘルススコアと連続記録をアップ。",
+    try2:"<b>レポート</b> → 週（連続と継続率）、月（<b>Health Wrapped</b>）、年（マイルストーン）。",
+    try3:"Wrapped カードをシェア — チャットループへのバイラルのフック。",
+    try4:"<b>コミュニティ</b> → 継続度による匿名ランキング、支出額では決して評価しません。",
+    guardrails:"組み込みのガードレール",
+    g1:"✓ 応援のみ · 主張なし", g2:"✓ PGC コンテンツ", g3:"✓ 匿名ランキング",
+    g4:"✓ 同意とプライバシー", g5:"✓ 連続 + バッジ", g6:"✓ チャット native のリマインド",
+    restart:"↺ デモを最初から",
+    foot:"<b>North Star：</b>週間アクティブ・ヘルスメンバー — 毎週のトリガーは購入ではなく、健康習慣に結びついた毎週のアプリ起動です。"
+  },
+  th:{
+    back:"← กลับสู่สตูดิโอ", ptitle:"Health Score · เพื่อนประจำวัน",
+    eyebrow:"ชัยชนะเร็ว · ลูปนิสัยรายวัน", h1:"Health Score + Monthly Wrapped",
+    sub:"<b>เหตุผลให้เปิดแอปทุกวัน</b> — บันทึกอาหารเสริมวันนี้ สะสม streak และย้อนดูสรุปรายเดือนที่แชร์ได้ มีแค่สถิติและกำลังใจ · ไม่อ้างสรรพคุณด้านสุขภาพ",
+    greeting:"อรุณสวัสดิ์ เหมย", greetingSub:"รักษากิจวัตรของคุณต่อไปนะ",
+    scoreLabel:"Health Score", todaysPlan:"แผนวันนี้",
+    gl_fishoil:"หัวใจ · 1 แคปซูล", gl_vitc:"ภูมิคุ้มกัน · 1 เม็ด", gl_probiotics:"ลำไส้ · 1 แคปซูล",
+    logBtn:"บันทึกวันนี้ ✓", footnote1:"เป็นการติดตามเพื่อสนับสนุนเท่านั้น — ไม่ใช่การอ้างทางการแพทย์",
+    scoreNote_log:"บันทึกวันนี้เพื่ออัปเดตคะแนนของคุณ",
+    scoreNote_tick:"ติ๊กให้ครบแล้วบันทึกเพื่อล็อกวันนี้",
+    scoreNote_done:"เยี่ยม — ล็อกวันนี้แล้ว แล้วพบกันพรุ่งนี้",
+    logBtn_done:"บันทึกวันนี้แล้ว ✓",
+    streak5:"🔥 streak 5 วัน", streak6:"🔥 streak 6 วัน",
+    toast_logged:"บันทึกวันนี้ · streak +1", toast_wrapped:"แชร์การ์ด Wrapped แล้ว",
+    reportsTitle:"รายงานของคุณ", seg_week:"สัปดาห์", seg_month:"เดือน", seg_year:"ปี",
+    streakTitle:"streak 5 วัน", streakSub:"อย่าให้ขาด — รักษาให้ต่อเนื่องไว้!",
+    m_dayslogged:"วันที่บันทึก", m_adherence:"ความสม่ำเสมอ", last6weeks:"6 สัปดาห์ล่าสุด · ความสม่ำเสมอ", bar_now:"ตอนนี้",
+    wrappedKick:"มิถุนายนของคุณ · Health Wrapped", wrappedHl:"22 วัน<br>ตามแผน",
+    w_topgoal:"เป้าหมายหลัก", w_immunity:"ภูมิคุ้มกัน", w_beststreak:"streak ดีที่สุด", w_9days:"9 วัน",
+    w_bundles:"เซตที่ลอง", w_vsmay:"เทียบ พ.ค.",
+    badge_consistent:"🏅 สม่ำเสมอ", badge_immunity:"🛡️ เน้นภูมิคุ้มกัน", badge_streak:"🔥 streak 9 วัน",
+    shareWrapped:"แชร์ Wrapped ของฉัน", footnote2:"การ์ดที่แชร์ได้คือฮุกไวรัลเข้าสู่ลูปแชต (WeChat / LINE / WhatsApp)",
+    y_dayslogged:"วันที่บันทึกในปี 2026 จนถึงตอนนี้", y_plans:"แผนที่ทำสำเร็จ", y_badges:"เหรียญที่ได้รับ",
+    milestones:"หมุดหมาย", mile1:"streak 30 วันครั้งแรก", mile2:"ทำแผนภูมิคุ้มกันสำเร็จ", mile3:"บันทึกครบ 100 วัน",
+    commTitle:"อันดับชุมชน", commSub:"ไม่ระบุชื่อ · เดือนนี้ · ตามความสม่ำเสมอ",
+    commTop:"Top 12%", commYou:"คุณ · #842", commMembers:"🌏 เป้าหมายภูมิคุ้มกัน · สมาชิก 9,610 คน",
+    commPrivacy:"🔒 ใช้ชื่อนิรนามเท่านั้น · จัดอันดับตามความสม่ำเสมอ ไม่ใช่ตามสิ่งที่คุณซื้อ · ออกได้ทุกเมื่อในการตั้งค่า",
+    tab_today:"วันนี้", tab_reports:"รายงาน", tab_community:"ชุมชน",
+    tryThis:"ลองทำดู",
+    try1:"แตะอาหารเสริมแต่ละชนิดเพื่อติ๊ก → แล้วกด <b>บันทึกวันนี้</b> เพื่อเพิ่ม Health Score และ streak",
+    try2:"<b>รายงาน</b> → สัปดาห์ (streak และความสม่ำเสมอ), เดือน (<b>Health Wrapped</b>), ปี (หมุดหมาย)",
+    try3:"แชร์การ์ด Wrapped — ฮุกไวรัลเข้าสู่ลูปแชต",
+    try4:"<b>ชุมชน</b> → จัดอันดับนิรนามตามความสม่ำเสมอ ไม่ใช่ตามยอดใช้จ่าย",
+    guardrails:"กรอบกำกับในตัว",
+    g1:"✓ สนับสนุนเท่านั้น · ไม่อ้างสรรพคุณ", g2:"✓ คอนเทนต์ PGC", g3:"✓ จัดอันดับนิรนาม",
+    g4:"✓ ความยินยอมและความเป็นส่วนตัว", g5:"✓ streak + เหรียญ", g6:"✓ การเตือนในแชต",
+    restart:"↺ เริ่มเดโมใหม่",
+    foot:"<b>North Star:</b> สมาชิกสุขภาพที่แอ็กทีฟรายสัปดาห์ — ทริกเกอร์รายสัปดาห์คือการเปิดแอปที่ผูกกับนิสัยสุขภาพ ไม่ใช่การซื้อ"
+  }
+};
+var LANGS=['en','zh','ja','th'];
+var state={lang:'en'};
+try{var _l=new URLSearchParams(location.search).get('lang');if(_l&&LANGS.indexOf(_l)>=0)state.lang=_l;}catch(e){}
+function T(k){var d=I18N[state.lang]||I18N.en;return (d[k]!=null?d[k]:(I18N.en[k]!=null?I18N.en[k]:k));}
+
+let logged=false;
+function switchTab(t){
+  document.querySelectorAll('.tabbar button').forEach(b=>b.dataset.on=(b.dataset.tab===t));
+  document.querySelectorAll('.screenview').forEach(s=>s.classList.toggle('active',s.dataset.screen===t));
+}
+function setRep(r){
+  document.querySelectorAll('.segwrap button').forEach(b=>b.dataset.on=(b.dataset.rep===r));
+  document.querySelectorAll('.sub-rep').forEach(s=>s.classList.toggle('active',s.dataset.rep===r));
+}
+document.querySelectorAll('.planrow[data-item]').forEach(row=>{
+  row.onclick=()=>{row.classList.toggle('on');updateRing();};
+});
+function taken(){return document.querySelectorAll('.planrow.on').length;}
+function total(){return document.querySelectorAll('.planrow[data-item]').length;}
+function updateRing(){
+  const base=logged?70:0;
+  const add=Math.round((taken()/total())*30);
+  const score=Math.min(100, base+ (logged?add:Math.round((taken()/total())*40)) );
+  document.getElementById('ring').style.setProperty('--p',score);
+  document.getElementById('scoreN').textContent=score;
+  const note=document.getElementById('scoreNote');
+  if(logged){ note.textContent=T('scoreNote_done'); }
+  else { note.textContent = taken()? T('scoreNote_tick') : T('scoreNote_log'); }
+}
+function logToday(){
+  logged=true;
+  document.getElementById('logBtn').textContent=T('logBtn_done');
+  document.getElementById('streakChip').textContent=T('streak6');
+  document.getElementById('scoreNote').textContent=T('scoreNote_done');
+  updateRing();
+  shareToast(T('toast_logged'));
+}
+function shareToast(m){const t=document.getElementById('sharetoast');document.getElementById('sharemsg').textContent=m;t.classList.add('show');clearTimeout(t._);t._=setTimeout(()=>t.classList.remove('show'),1800);}
+function resetAll(){logged=false;document.querySelectorAll('.planrow').forEach(r=>r.classList.remove('on'));document.getElementById('logBtn').textContent=T('logBtn');document.getElementById('streakChip').textContent=T('streak5');switchTab('today');setRep('week');updateRing();}
+
+/* apply static [data-i18n] strings + refresh JS-driven dynamic strings */
+function applyI18N(){
+  var d=I18N[state.lang]||null;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k=el.getAttribute('data-i18n');
+    if(!el.hasAttribute('data-en'))el.setAttribute('data-en',el.innerHTML);
+    if(d&&d[k]!=null)el.innerHTML=d[k];
+    else el.innerHTML=el.getAttribute('data-en');
+  });
+  document.documentElement.lang=state.lang;
+  document.querySelectorAll('#langsw button, #langswPhone button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-lang')===state.lang);});
+  /* re-render dynamic JS-driven text in current language */
+  document.getElementById('logBtn').textContent = logged? T('logBtn_done') : T('logBtn');
+  document.getElementById('streakChip').textContent = logged? T('streak6') : T('streak5');
+  updateRing();
+}
+function setLang(l){ if(LANGS.indexOf(l)<0)return; state.lang=l; applyI18N(); }
+document.querySelectorAll('#langsw button, #langswPhone button').forEach(function(b){b.addEventListener('click',function(){setLang(b.getAttribute('data-lang'));});});
+/* sync harness: studio viewer postMessage */
+window.addEventListener('message',function(e){try{if(e.data&&e.data.t==='es'&&e.data.lang&&LANGS.indexOf(e.data.lang)>=0){setLang(e.data.lang);}}catch(err){}});
+
+applyI18N();
+</script>
+<script>/*__embedHide*/(function(){try{if(window.self!==window.top){var s=document.createElement('style');s.textContent='header{display:none!important}';(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

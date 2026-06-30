@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Store Lifecycle · Blackmores · Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
+    --ink:#16201f; --muted:#6a7472; --bg:#f4f7fb; --card:#fff; --line:#e6ecf2;
+    --neg:#c0563f; --warn:#b5731a; --black:#0b1320;
+    --display:Georgia,'Times New Roman','Hiragino Mincho ProN','Songti SC',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','PingFang SC','Microsoft YaHei','Thonburi','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  button{font-family:inherit;cursor:pointer}
+  .sp{flex:1}
+  .langs{display:flex;gap:3px}
+  .langs button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;font-weight:700;color:var(--muted);min-width:32px;height:30px;border-radius:8px;transition:.15s;padding:0 8px}
+  .langs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 18px 70px}
+  .hero-top{display:flex;align-items:center;gap:16px;margin:2px 0 6px}
+  .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:800}
+  h1.h{font-family:var(--display);font-weight:400;font-size:clamp(31px,4vw,47px);line-height:1.12;letter-spacing:-.01em;max-width:35ch;margin:8px 0 9px}
+  .lead{color:var(--muted);font-size:15px;max-width:82ch;line-height:1.55}
+  .proof{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+  .proof .pc{font-size:11px;font-weight:800;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 13px;color:var(--brand-d)}
+  .proof .pc b{color:var(--accent)}
+
+  .tabs{display:flex;gap:4px;margin:28px 0 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tabs button{border:0;background:0;font:inherit;font-size:13.5px;font-weight:700;color:var(--muted);padding:11px 12px;border-bottom:2px solid transparent;display:flex;gap:7px;align-items:center}
+  .tabs button.on{color:var(--brand);border-color:var(--brand)}
+  .tabs .cnt{font-size:11px;background:var(--soft);color:var(--brand-d);border-radius:999px;padding:1px 8px;font-weight:800}
+  .module-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px}
+  .module{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;min-height:136px}
+  .module .mi{width:34px;height:34px;border-radius:10px;background:var(--soft);display:grid;place-items:center;margin-bottom:9px;font-size:17px}
+  .module>i{font-style:normal;width:34px;height:34px;border-radius:10px;background:var(--soft);display:grid;place-items:center;margin-bottom:9px;font-size:17px}
+  .module h3{font-size:13.5px;line-height:1.25;margin-bottom:6px}
+  .module p{font-size:11.5px;color:var(--muted);line-height:1.45}
+  .flowline{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:10px}
+  .flowstep{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px}
+  .flowstep b{display:block;font-size:12px;margin-bottom:3px}.flowstep span{font-size:11px;color:var(--muted);line-height:1.35}
+  .dash{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+  .metric{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px}.metric b{font-family:var(--display);font-size:24px;color:var(--brand);display:block;line-height:1}.metric span{font-size:10.5px;color:var(--muted)}
+  .split{display:grid;grid-template-columns:360px 1fr;gap:14px}
+  .formgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .field{background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:9px 10px}
+  .field small,.field label{display:block;font-size:9.5px;text-transform:uppercase;letter-spacing:.04em;font-weight:800;color:var(--muted);margin-bottom:3px}.field b{font-size:12.5px}
+  table.tbl{width:100%;border-collapse:collapse;font-size:12px;background:var(--card)}
+  table.tbl th{text-align:left;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--line);padding:8px}
+  table.tbl td{border-bottom:1px solid var(--line);padding:8px;vertical-align:top}
+  .tag{display:inline-flex;border-radius:999px;background:var(--soft);color:var(--brand-d);font-size:10px;font-weight:800;padding:3px 8px}
+  .tag.warn{background:#fdf2e2;color:var(--warn)}.tag.bad{background:#fdecea;color:var(--neg)}.tag.ok{background:#eafaf0;color:#077a3c}
+  .gantt{display:grid;gap:7px}
+  .gantt-row{display:grid;grid-template-columns:170px 1fr 54px;gap:10px;align-items:center;font-size:12px}
+  .gantt-track{height:22px;background:var(--soft);border-radius:7px;position:relative;overflow:hidden}.gantt-track i{position:absolute;top:0;bottom:0;border-radius:7px;background:linear-gradient(90deg,var(--brand),var(--brand-d))}
+  .matrix{display:grid;grid-template-columns:160px repeat(6,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .matrix div{background:var(--card);padding:9px;font-size:11px}.matrix .hd{background:var(--soft);font-weight:900;color:var(--brand-d)}.matrix .yes{text-align:center;color:#077a3c;font-weight:900}.matrix .no{text-align:center;color:var(--muted)}
+  .cards2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .screen{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:14px}
+  .screenbar{display:flex;align-items:center;gap:8px;background:#eef3f6;border-bottom:1px solid var(--line);padding:9px 12px}
+  .screenbar b{font-size:12px;margin-right:auto}.screenbar .act{border:1px solid var(--line);background:#fff;border-radius:7px;padding:5px 9px;font-size:11px;font-weight:800;color:var(--brand-d)}
+  .sysform{padding:14px}
+  .sec-title{font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--brand-d);border-bottom:1px solid var(--line);padding-bottom:7px;margin:2px 0 10px}
+  .formgrid.three{grid-template-columns:repeat(3,1fr)}
+  .formgrid.four{grid-template-columns:repeat(4,1fr)}
+  .field.wide{grid-column:span 2}.field.full{grid-column:1/-1}
+  .field b.muted{color:var(--muted);font-weight:700}.field b.good{color:#077a3c}.field b.warn{color:var(--warn)}.field b.bad{color:var(--neg)}
+  .checkgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+  .check{background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-size:12px;font-weight:700;display:flex;gap:8px;align-items:center}.check i{font-style:normal;color:var(--brand)}
+  .doc-preview{border:1px solid var(--line);border-radius:12px;background:#fff;padding:16px;min-height:220px}.doc-preview h4{font-family:var(--display);font-size:18px;margin-bottom:10px}.doc-preview p{font-size:12px;color:var(--muted);margin-bottom:8px}
+  .side-nav{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.side-nav span{font-size:11px;font-weight:800;background:var(--soft);color:var(--brand-d);border-radius:8px;padding:5px 8px}
+  .mini-note{font-size:12px;color:var(--muted);background:var(--bg);border:1px dashed var(--line);border-radius:10px;padding:10px;margin-top:10px}
+  @media(max-width:900px){.module-grid{grid-template-columns:repeat(2,1fr)}.flowline{grid-template-columns:repeat(2,1fr)}.split,.cards2{grid-template-columns:1fr}.dash{grid-template-columns:repeat(2,1fr)}.matrix{grid-template-columns:130px repeat(3,1fr);overflow-x:auto}.formgrid.three,.formgrid.four{grid-template-columns:1fr 1fr}}
+
+  /* mode + filter row */
+  .toolrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+  .seg{display:flex;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:4px}
+  .seg button{border:0;background:0;font:inherit;font-size:12.5px;font-weight:700;color:var(--muted);padding:7px 13px;border-radius:8px}
+  .seg button.on{background:var(--brand);color:#fff}
+  .chipf{display:flex;gap:6px;flex-wrap:wrap}
+  .chipf button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;font-weight:700;color:var(--muted);padding:6px 11px;border-radius:999px}
+  .chipf button.on{border-color:var(--brand);background:var(--soft);color:var(--brand-d)}
+
+  /* kanban */
+  .kan{display:grid;gap:11px;grid-auto-flow:column;grid-auto-columns:minmax(190px,1fr);overflow-x:auto;padding-bottom:8px}
+  .col{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px;min-height:120px}
+  .col h4{font-size:12px;font-weight:800;display:flex;align-items:center;gap:7px;margin-bottom:10px;color:var(--ink)}
+  .col h4 .n{width:20px;height:20px;border-radius:50%;background:var(--soft);color:var(--brand-d);display:grid;place-items:center;font-size:10px}
+  .col h4 .c{margin-left:auto;font-size:10.5px;color:var(--muted);font-weight:700}
+  .pcard{border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:10px;padding:10px;margin-bottom:8px;cursor:pointer;transition:.15s;background:var(--card)}
+  .pcard:hover{box-shadow:0 6px 16px rgba(0,60,110,.1);transform:translateY(-1px)}
+  .pcard:last-child{margin-bottom:0}
+  .pcard.delay{border-left-color:var(--neg)}
+  .pcard.done{border-left-color:var(--accent)}
+  .pcard .tp{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--brand-d);background:var(--soft);border-radius:5px;padding:2px 6px;display:inline-block}
+  .pcard.delay .tp{color:var(--neg);background:#fdecea}
+  .pcard .nm{font-weight:700;font-size:12.5px;margin:6px 0 3px;line-height:1.3}
+  .pcard .mt{font-size:10.5px;color:var(--muted)}
+  .pcard .bar{height:5px;border-radius:99px;background:var(--soft);margin-top:8px;overflow:hidden}
+  .pcard .bar i{display:block;height:100%;background:var(--brand);border-radius:99px}
+  .pcard.delay .bar i{background:var(--neg)}.pcard.done .bar i{background:var(--accent)}
+  .pcard .ft{display:flex;justify-content:space-between;align-items:center;margin-top:7px;font-size:10px;color:var(--muted)}
+  .pcard .st{font-weight:800}.st.ok{color:var(--accent)}.st.dl{color:var(--neg)}.st.done{color:var(--accent)}
+
+  /* alerts */
+  .stat3{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+  .sb{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px;text-align:center}
+  .sb b{font-family:var(--display);font-size:23px;display:block;line-height:1}
+  .sb.r b{color:var(--neg)}.sb.w b{color:var(--warn)}.sb.g b{color:var(--accent)}.sb.b b{color:var(--brand)}
+  .sb span{font-size:10.5px;color:var(--muted);display:block;margin-top:5px}
+  .alist{display:flex;flex-direction:column;gap:8px}
+  .arow{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:11px;padding:11px 13px}
+  .arow.hi{border-left-color:var(--neg)}.arow.ok{border-left-color:var(--accent);opacity:.6}
+  .arow .ai{width:34px;height:34px;border-radius:9px;background:var(--soft);display:grid;place-items:center;font-size:16px;flex-shrink:0}
+  .arow .ab{flex:1;min-width:0}
+  .arow .at{font-weight:700;font-size:13px}
+  .arow .as{font-size:11.5px;color:var(--muted);margin-top:2px}
+  .arow .cd{text-align:right;flex-shrink:0}
+  .arow .cd b{font-family:var(--display);font-size:19px;line-height:1}
+  .arow.hi .cd b{color:var(--neg)}.arow.w .cd b{color:var(--warn)}
+  .arow .cd span{font-size:9.5px;color:var(--muted);display:block}
+  .arow .rb{border:1px solid var(--accent);background:#eafaf0;color:#077a3c;font:inherit;font-weight:700;font-size:11.5px;padding:7px 12px;border-radius:9px;flex-shrink:0}
+  .arow .rb:hover{background:var(--accent);color:#fff}
+  .arow.ok .rb{border-color:var(--line);background:var(--soft);color:var(--muted)}
+
+  /* site selection */
+  .site{display:grid;grid-template-columns:300px 1fr;gap:16px}
+  @media(max-width:740px){.site{grid-template-columns:1fr}.stat3{grid-template-columns:1fr 1fr}}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px}
+  .layerlab{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:4px 0 9px}
+  .cand{border:1px solid var(--line);border-radius:11px;padding:11px 12px;margin-bottom:8px;cursor:pointer;transition:.15s}
+  .cand:hover{border-color:var(--brand)}
+  .cand.on{border-color:var(--brand);background:var(--soft)}
+  .cand .cn{font-weight:700;font-size:13px}
+  .cand .cl{font-size:11px;color:var(--muted);margin-top:2px}
+  .cand .sc{float:right;font-family:var(--display);font-size:18px;font-weight:600}
+  .sc.hi{color:var(--accent)}.sc.mid{color:var(--warn)}.sc.lo{color:var(--neg)}
+  .factor{margin-bottom:12px}
+  .factor .fl{display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:4px}
+  .factor .fl span:last-child{color:var(--muted)}
+  .ftrack{height:8px;border-radius:99px;background:var(--soft);overflow:hidden}
+  .ftrack i{display:block;height:100%;border-radius:99px;background:var(--brand)}
+  .verdict{margin-top:12px;border-radius:11px;padding:12px;font-size:13px;font-weight:600}
+  .verdict.go{background:#eafaf0;color:#077a3c}.verdict.cau{background:#fdf2e2;color:var(--warn)}.verdict.no{background:#fdecea;color:var(--neg)}
+  .scorebig{font-family:var(--display);font-size:40px;font-weight:600;line-height:1}
+
+  /* modal */
+  .modal{position:fixed;inset:0;z-index:80;display:none}
+  .modal.show{display:block}
+  .mback{position:absolute;inset:0;background:rgba(11,19,32,.55)}
+  .mcard{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(560px,93vw);max-height:88vh;overflow:auto;background:var(--card);border-radius:16px;padding:20px;box-shadow:0 30px 70px rgba(0,0,0,.3)}
+  .mx{position:absolute;top:13px;right:14px;border:0;background:var(--soft);width:30px;height:30px;border-radius:50%;font-size:14px;color:var(--ink)}
+  .mh{font-family:var(--display);font-size:18px}
+  .msub{font-size:12px;color:var(--muted);margin:2px 0 14px}
+  .steps{position:relative;margin-left:8px}
+  .step{display:flex;gap:12px;padding-bottom:14px;position:relative}
+  .step:before{content:"";position:absolute;left:8px;top:18px;bottom:-4px;width:2px;background:var(--line)}
+  .step:last-child:before{display:none}
+  .step .dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);background:var(--card);flex-shrink:0;z-index:2;display:grid;place-items:center;font-size:9px;color:#fff}
+  .step.done .dot{background:var(--accent);border-color:var(--accent)}
+  .step.cur .dot{border-color:var(--brand);background:var(--brand)}
+  .step .sb2{flex:1}
+  .step .stt{font-weight:700;font-size:13px}
+  .step.todo .stt{color:var(--muted)}
+  .step .smeta{font-size:11px;color:var(--muted);margin-top:2px;display:flex;gap:10px;flex-wrap:wrap}
+  .step .role{background:var(--soft);color:var(--brand-d);border-radius:5px;padding:1px 7px;font-weight:700}
+  .step .dl{color:var(--neg);font-weight:700}
+  .madv{display:flex;gap:9px;margin-top:8px}
+  .btn{border:0;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:13px;padding:11px 16px;border-radius:11px}
+  .btn.o{background:var(--soft);color:var(--brand)}
+  .btn:disabled{opacity:.5}
+
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(50px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:11px;font-size:14px;font-weight:600;z-index:90;opacity:0;transition:.3s}
+  .toast.show{transform:translateX(-50%);opacity:1}
+  .fab{position:fixed;right:18px;bottom:18px;width:50px;height:50px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:20px;box-shadow:0 8px 22px rgba(0,0,0,.2);z-index:40}
+  .pane{display:none}.pane.on{display:block;animation:fin .3s ease}
+  @keyframes fin{from{opacity:0;transform:translateY(6px)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero-top">
+    <div class="eyebrow" id="eye">Retail & Channel · Store Network Lifecycle</div>
+    <div class="sp"></div>
+    <div class="langs" id="langs"></div>
+  </div>
+  <h1 class="h" id="title"></h1>
+  <div class="lead" id="lead"></div>
+  <div class="proof" id="proofRow"></div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <!-- System Map -->
+  <div class="pane on" id="pane-map">
+    <div id="mapZone"></div>
+  </div>
+
+  <!-- Pipeline -->
+  <div class="pane" id="pane-pipe">
+    <div class="toolrow">
+      <div class="seg" id="modeSeg"></div>
+      <div class="chipf" id="typeFilter"></div>
+    </div>
+    <div class="kan" id="kan"></div>
+  </div>
+
+  <!-- Application -->
+  <div class="pane" id="pane-app">
+    <div id="appZone"></div>
+  </div>
+
+  <!-- Project -->
+  <div class="pane" id="pane-project">
+    <div id="projectZone"></div>
+  </div>
+
+  <!-- POP -->
+  <div class="pane" id="pane-pop">
+    <div id="popZone"></div>
+  </div>
+
+  <!-- Legal -->
+  <div class="pane" id="pane-legal">
+    <div id="legalZone"></div>
+  </div>
+
+  <!-- Visit -->
+  <div class="pane" id="pane-visit">
+    <div id="visitZone"></div>
+  </div>
+
+  <!-- Alerts -->
+  <div class="pane" id="pane-alert">
+    <div class="stat3" id="alertStats"></div>
+    <div class="alist" id="alist"></div>
+  </div>
+
+  <!-- Site -->
+  <div class="pane" id="pane-site">
+    <div class="site">
+      <div class="panel">
+        <div class="layerlab" id="siteLayerLab"></div>
+        <div id="candList"></div>
+      </div>
+      <div class="panel" id="siteDetail"></div>
+    </div>
+  </div>
+
+  <!-- Admin -->
+  <div class="pane" id="pane-admin">
+    <div id="adminZone"></div>
+  </div>
+</div>
+
+<div class="modal" id="modal"></div>
+<div class="toast" id="toast"></div>
+<div class="fab" id="fab" title="brand">🎨</div>
+
+<script>
+const BRANDS={blackmores:{logo:"Blackmores",sup:"®",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  bioceuticals:{logo:"BioCeuticals",sup:"",c:["#1b3a5c","#10243a","#e7edf3","#c9a24a"]},
+  kids:{logo:"Blackmores Kids",sup:"",c:["#d63a2f","#a82a22","#fbe7e5","#1f9d57"]}};
+const L=o=>o[state.lang]||o.ja||o.en;
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+
+const T={
+ sub:{ja:"店舗ライフサイクル",en:"Store Lifecycle",zh:"店铺生命周期",th:"วงจรชีวิตร้าน"},
+ eye:{ja:"リテール・チャネル · 店舗ネットワーク・ライフサイクル",en:"Retail & Channel · Store Network Lifecycle",zh:"零售与渠道 · 店铺网络生命周期",th:"รีเทลและช่องทาง · วงจรชีวิตเครือข่ายร้าน"},
+ title:{ja:"出店候補から退店まで、店舗・売場ネットワークを一つのパイプラインで。",en:"From site candidate to closure — the whole store & touchpoint network in one pipeline.",zh:"从选址候补到退店——整个门店与售点网络，一条 pipeline 管到底。",th:"จากทำเลถึงปิดร้าน — เครือข่ายร้านและจุดขายในไปป์ไลน์เดียว"},
+ lead:{ja:"新規出店・改装・移設・退店（O/U/C/T）と、POP・什器・契約・授権書の期限まで。各売場はフォーマット別に異なる進捗パスを辿り、マイルストーン・担当・計画/実績日を一元管理します。Blackmores では薬局チェーンへのブランドカウンター導入や、ヘルスストアでの新規上市〜撤去にそのまま適用できます。",
+   en:"New opening, refit, transfer and closure (O/U/C/T), plus the expiry of POP, fixtures, contracts and authorization letters. Each store follows a format-specific path with milestones, owners and planned-vs-actual dates — managed in one place. For Blackmores it maps directly to onboarding a brand counter at a pharmacy partner, or standing up and tearing down a health-store pop-up.",
+   zh:"新开、改装、移设、退店（O/U/C/T），再加 POP、器架、合同、授权信的到期管理。每个售点按业态走不同的进度路径，里程碑、责任人、计划/实际日期统一管控。对 Blackmores 来说，可直接套用到在药房伙伴上新品牌专柜，或健康门店快闪的搭建与撤场。",
+   th:"เปิด ปรับปรุง ย้าย ปิด (O/U/C/T) พร้อมการหมดอายุของ POP ชั้นวาง สัญญา และหนังสือมอบอำนาจ แต่ละร้านเดินตามเส้นทางตามฟอร์แมต พร้อมไมล์สโตน ผู้รับผิดชอบ และวันแผน/จริง"},
+ proof:{ja:["健康小売チェーンで<b>実証</b>","ブランドカウンター SLM","複数デバイス・多言語・自動リマインド"],en:["Proven across <b>health retail chains</b>","Brand-counter SLM","Multi-device · multilingual · auto-reminders"],zh:["健康零售连锁<b>已验证</b>","品牌专柜 SLM","多设备·多语言·自动提醒"],th:["ใช้จริงในเครือ<b>ร้านสุขภาพ</b>","SLM เคาน์เตอร์แบรนด์","หลายอุปกรณ์·หลายภาษา"]},
+ t_pipe:{ja:"パイプライン",en:"Pipeline",zh:"项目看板",th:"ไปป์ไลน์"},
+ t_map:{ja:"全体像",en:"System Map",zh:"系统全景",th:"ภาพรวมระบบ"},
+ t_app:{ja:"申請・承認",en:"Applications & Approval",zh:"申请与审批",th:"คำขอและอนุมัติ"},
+ t_project:{ja:"プロジェクト追跡",en:"Project Tracking",zh:"项目追踪",th:"ติดตามโครงการ"},
+ t_pop:{ja:"POP・什器",en:"POP, Graphics & Fixtures",zh:"POP、画面物料与器架",th:"POP และชั้นวาง"},
+ t_legal:{ja:"契約・授権",en:"Legal & Authorization",zh:"法务与授权",th:"กฎหมายและมอบอำนาจ"},
+ t_visit:{ja:"店舗訪問",en:"Site Visit",zh:"门店拜访",th:"เยี่ยมร้าน"},
+ t_admin:{ja:"主データ・報告",en:"Master Data & Reports",zh:"主数据与报表",th:"ข้อมูลหลักและรายงาน"},
+ t_alert:{ja:"期限アラート",en:"Expiry Alerts",zh:"到期预警",th:"แจ้งเตือนหมดอายุ"},
+ t_site:{ja:"出店選定",en:"Site Selection",zh:"选址",th:"เลือกทำเล"},
+ modeBuild:{ja:"新規・改装",en:"Open / Refit",zh:"新开·改装",th:"เปิด/ปรับปรุง"},
+ modeExit:{ja:"退店・移設",en:"Close / Transfer",zh:"退店·移设",th:"ปิด/ย้าย"},
+ fAll:{ja:"すべて",en:"All",zh:"全部",th:"ทั้งหมด"},
+ advance:{ja:"次のステップへ ▶",en:"Advance to next ▶",zh:"推进到下一步 ▶",zh2:"",th:"ไปขั้นถัดไป ▶"},
+ doneAll:{ja:"✓ 全工程 完了",en:"✓ All steps complete",zh:"✓ 全部完成",th:"✓ เสร็จทุกขั้น"},
+ advanced:{ja:"ステップを進めました",en:"Advanced one step",zh:"已推进一步",th:"ไปอีกขั้น"},
+ plan:{ja:"計画",en:"Plan",zh:"计划",th:"แผน"},
+ actual:{ja:"実績",en:"Actual",zh:"实际",th:"จริง"},
+ owner:{ja:"担当",en:"Owner",zh:"责任",th:"ผู้ดูแล"},
+ delayed:{ja:"遅延",en:"Delayed",zh:"延期",th:"ล่าช้า"},
+ ontrack:{ja:"順調",en:"On track",zh:"正常",th:"ปกติ"},
+ doneL:{ja:"完了",en:"Done",zh:"完成",th:"เสร็จ"},
+ stepsLab:{ja:"マイルストーン（フォーマット別パス）",en:"Milestones (format-specific path)",zh:"里程碑（按业态的路径）",th:"ไมล์สโตน"},
+ renew:{ja:"更新",en:"Renew",zh:"续期",th:"ต่ออายุ"},
+ renewed:{ja:"更新を申請しました",en:"Renewal requested",zh:"已申请续期",th:"ขอต่ออายุแล้ว"},
+ within30:{ja:"30日以内",en:"≤30 days",zh:"30天内",th:"≤30 วัน"},within60:{ja:"60日以内",en:"≤60 days",zh:"60天内",th:"≤60 วัน"},within90:{ja:"90日以内",en:"≤90 days",zh:"90天内",th:"≤90 วัน"},okCnt:{ja:"対応済み",en:"Handled",zh:"已处理",th:"จัดการแล้ว"},
+ days:{ja:"日",en:"days",zh:"天",th:"วัน"},
+ siteLayer:{ja:"出店候補 ・ 市場→都市→商圏",en:"Candidates · market → city → trade area",zh:"候补点 · 市场→都市→商圈",th:"ตัวเลือก · ตลาด→เมือง→ทำเล"},
+ score:{ja:"適合スコア",en:"Fit score",zh:"契合分",th:"คะแนน"},
+ pickHint:{ja:"左の候補を選ぶと、AI が立地適合をスコアリングします。",en:"Pick a candidate — AI scores the location fit.",zh:"选左侧候补点，AI 给立地契合评分。",th:"เลือกตัวเลือก — AI ให้คะแนนทำเล"},
+ vGo:{ja:"出店推奨",en:"Recommended",zh:"建议出店",th:"แนะนำ"},vCau:{ja:"条件付き",en:"Conditional",zh:"有条件",th:"มีเงื่อนไข"},vNo:{ja:"非推奨",en:"Not recommended",zh:"不建议",th:"ไม่แนะนำ"}
+};
+// owners/roles
+const ROLE={sp:{ja:"スペースプランナー",en:"Space Planner",zh:"空间规划",th:"นักวางพื้นที่"},vm:{ja:"VM",en:"VM",zh:"VM",th:"VM"},sales:{ja:"営業",en:"Sales",zh:"销售",th:"ขาย"},legal:{ja:"法務",en:"Legal",zh:"法务",th:"กฎหมาย"},rd:{ja:"リテール開発",en:"Retail Dev",zh:"零售开发",th:"พัฒนาร้าน"},fin:{ja:"財務",en:"Finance",zh:"财务",th:"การเงิน"}};
+// build pipeline stages
+const ST_BUILD=[
+ {k:"cand",ja:"候補",en:"Candidate",zh:"候补",th:"ตัวเลือก"},
+ {k:"site",ja:"立地確定",en:"Site Locked",zh:"选址确定",th:"ล็อกทำเล"},
+ {k:"contract",ja:"契約",en:"Contract",zh:"签约",th:"สัญญา"},
+ {k:"design",ja:"設計",en:"Design",zh:"设计",th:"ออกแบบ"},
+ {k:"build",ja:"施工",en:"Build",zh:"施工",th:"ก่อสร้าง"},
+ {k:"open",ja:"開業",en:"Open",zh:"开业",th:"เปิด"}];
+const ST_EXIT=[
+ {k:"apply",ja:"申請",en:"Apply",zh:"申请",th:"ยื่น"},
+ {k:"approve",ja:"承認",en:"Approve",zh:"审批",th:"อนุมัติ"},
+ {k:"legal",ja:"法務・資産処理",en:"Legal & Assets",zh:"法务·资产",th:"กฎหมาย·สินทรัพย์"},
+ {k:"done",ja:"完了",en:"Done",zh:"完成",th:"เสร็จ"}];
+// milestone label helper
+function MS(ja,en,zh,role,plan){return{t:{ja,en,zh,th:en},role,plan};}
+// cards
+const CARDS=[
+ {id:1,mode:"build",type:{ja:"新規",en:"New",zh:"新开",th:"ใหม่"},store:{ja:"Chemist Warehouse シドニーCBD / ブランドカウンター",en:"Chemist Warehouse Sydney CBD / brand counter",zh:"Chemist Warehouse 悉尼CBD / 品牌专柜",th:"Chemist Warehouse Sydney / เคาน์เตอร์"},stage:3,delay:false,
+  ms:[MS("出店申請","Counter request","进场申请","sales"),MS("立地適合確認","Site fit check","选址契合确认","rd"),MS("棚割・契約","Planogram & contract","棚割·签约","legal"),MS("什器・POP 設計","Fixture & POP design","器架·POP 设计","sp"),MS("施工・設置","Install","施工·设置","vm"),MS("開業・VM 確認","Open & VM check","开业·VM 确认","vm")]},
+ {id:2,mode:"build",type:{ja:"改装",en:"Refit",zh:"改装",th:"ปรับ"},store:{ja:"Priceline メルボルン / 棚拡張",en:"Priceline Melbourne / shelf expansion",zh:"Priceline 墨尔本 / 货架扩张",th:"Priceline Melbourne / ขยายชั้น"},stage:4,delay:true,
+  ms:[MS("改装申請","Refit request","改装申请","sales"),MS("現地調査","Site survey","现地调查","rd"),MS("契約更新","Contract renew","合同续签","legal"),MS("レイアウト設計","Layout design","布局设计","sp"),MS("施工","Construction","施工","vm"),MS("再開業","Re-open","重新开业","vm")]},
+ {id:3,mode:"build",type:{ja:"新規",en:"New",zh:"新开",th:"ใหม่"},store:{ja:"ポップアップ 上海環球港 / 越境ヘルス",en:"Pop-up Shanghai L'Avenue / cross-border health",zh:"快闪 上海环球港 / 跨境健康",th:"Pop-up Shanghai / cross-border"},stage:1,delay:false,
+  ms:[MS("企画申請","Plan request","企划申请","sales"),MS("区画選定","Space pick","区位选定","rd"),MS("短期契約","Short lease","短租签约","legal"),MS("空間設計","Space design","空间设计","sp"),MS("施工","Build","搭建","vm"),MS("オープン","Open","开张","vm")]},
+ {id:4,mode:"build",type:{ja:"新規",en:"New",zh:"新开",th:"ใหม่"},store:{ja:"Watsons シンガポール / 新規上市",en:"Watsons Singapore / new listing",zh:"屈臣氏 新加坡 / 新导入",th:"Watsons Singapore / สินค้าใหม่"},stage:5,delay:false,
+  ms:[MS("導入申請","Listing request","导入申请","sales"),MS("立地確認","Site check","选址确认","rd"),MS("取引契約","Trade contract","交易合同","legal"),MS("棚割設計","Planogram","棚割设计","sp"),MS("納品・陳列","Stock & display","铺货陈列","vm"),MS("導入完了","Live","导入完成","vm")]},
+ {id:5,mode:"build",type:{ja:"改装",en:"Refit",zh:"改装",th:"ปรับ"},store:{ja:"マツモトキヨシ 新宿 / 棚替え",en:"Matsumoto Kiyoshi Shinjuku / reset",zh:"松本清 新宿 / 棚替",th:"Matsumoto Kiyoshi / reset"},stage:2,delay:false,
+  ms:[MS("棚替え申請","Reset request","棚替申请","sales"),MS("現状確認","As-is check","现状确认","rd"),MS("契約条件","Terms","条件确认","legal"),MS("新棚割設計","New planogram","新棚割","sp"),MS("施工","Reset","施工","vm"),MS("完了確認","Confirm","完成确认","vm")]},
+ // exit mode
+ {id:6,mode:"exit",type:{ja:"退店",en:"Close",zh:"退店",th:"ปิด"},store:{ja:"旧専柜 広州 / 不採算 退店",en:"Guangzhou counter / unprofitable closure",zh:"旧专柜 广州 / 不盈利退店",th:"Guangzhou / ปิด"},stage:2,delay:false,
+  ms:[MS("退店申請","Closure request","退店申请","sales"),MS("地域承認","Regional approval","区域审批","fin"),MS("法務・什器回収","Legal & fixture recovery","法务·器架回收","legal"),MS("退店完了・主データ更新","Closed & master update","退店完成·主数据更新","rd")]},
+ {id:7,mode:"exit",type:{ja:"移設",en:"Transfer",zh:"移设",th:"ย้าย"},store:{ja:"ブランドカウンター ブリスベン / 別店舗へ移設",en:"Brisbane counter / transfer",zh:"品牌专柜 布里斯班 / 移设他店",th:"Brisbane counter / ย้าย"},stage:1,delay:true,
+  ms:[MS("移設申請","Transfer request","移设申请","sales"),MS("承認","Approval","审批","fin"),MS("什器移管・授権書更新","Fixture & auth transfer","器架移管·授权更新","legal"),MS("移設完了","Transferred","移设完成","rd")]}
+];
+// alerts
+const ALERTS=[
+ {id:1,kind:"lease",icon:"📄",t:{ja:"Priceline メルボルン / 賃貸契約",en:"Priceline Melbourne / lease",zh:"Priceline 墨尔本 / 租约",th:"Priceline / สัญญาเช่า"},s:{ja:"カウンター契約満了が近づいています",en:"Counter lease expiring soon",zh:"专柜租约即将到期",th:"สัญญาใกล้หมด"},days:18,done:false},
+ {id:2,kind:"auth",icon:"📜",t:{ja:"Chemist Warehouse シドニー / 授権書",en:"Chemist Warehouse Sydney / authorization",zh:"Chemist Warehouse 悉尼 / 授权信",th:"Chemist Warehouse / มอบอำนาจ"},s:{ja:"ブランドカウンターの授権書更新が必要",en:"Brand-counter authorization renewal due",zh:"品牌专柜授权信需续期",th:"ต่ออายุมอบอำนาจ"},days:34,done:false},
+ {id:3,kind:"pop",icon:"🪧",t:{ja:"ポップアップ 上海 / POP",en:"Pop-up Shanghai / POP",zh:"快闪 上海 / POP",th:"Pop-up Shanghai / POP"},s:{ja:"季節 POP の差し替え期限",en:"Seasonal POP swap deadline",zh:"季节 POP 更换期限",th:"เปลี่ยน POP ตามฤดู"},days:9,done:false},
+ {id:4,kind:"fixture",icon:"🧴",t:{ja:"マツモトキヨシ 新宿 / 什器",en:"Matsumoto Kiyoshi / fixture",zh:"松本清 / 器架",th:"Matsumoto Kiyoshi / ชั้นวาง"},s:{ja:"什器・サンプリング什器の保守時期",en:"Display & sampling fixture maintenance due",zh:"陈列/试用器架维护期",th:"บำรุงชั้นวาง"},days:52,done:false},
+ {id:5,kind:"contract",icon:"📑",t:{ja:"Watsons シンガポール / 取引契約",en:"Watsons Singapore / trade contract",zh:"屈臣氏 新加坡 / 交易合同",th:"Watsons / สัญญา"},s:{ja:"年間取引契約の更新",en:"Annual trade contract renewal",zh:"年度交易合同续签",th:"ต่อสัญญาประจำปี"},days:76,done:false}
+];
+// site candidates
+const SITES=[
+ {id:1,nm:{ja:"シドニー CBD 薬局密集区",en:"Sydney CBD pharmacy cluster",zh:"悉尼 CBD 药房密集区",th:"Sydney CBD"},loc:{ja:"豪 / 都心 / 駅前",en:"AU / urban / station",zh:"澳/都心/站前",th:"ออสเตรเลีย"},score:88,f:{traffic:90,demo:86,compete:72,transit:95,rent:78}},
+ {id:2,nm:{ja:"メルボルン郊外 SC",en:"Melbourne suburban mall",zh:"墨尔本郊外 购物中心",th:"Melbourne mall"},loc:{ja:"豪 / 郊外 / SC内",en:"AU / suburb / mall",zh:"澳/郊外/商场",th:"ชานเมือง"},score:74,f:{traffic:70,demo:80,compete:64,transit:58,rent:88}},
+ {id:3,nm:{ja:"上海 地下鉄直結モール",en:"Shanghai metro mall",zh:"上海 地铁直连商场",th:"Shanghai mall"},loc:{ja:"中 / 都心 / 地下直結",en:"CN / urban / metro-linked",zh:"中国/都心/地铁直连",th:"เซี่ยงไฮ้"},score:81,f:{traffic:92,demo:74,compete:55,transit:90,rent:62}},
+ {id:4,nm:{ja:"郊外 単独旧立地",en:"Suburban legacy spot",zh:"郊外 旧立地",th:"ชานเมือง"},loc:{ja:"豪 / 郊外 / 単独",en:"AU / suburb / standalone",zh:"澳/郊外/独立",th:"ชานเมือง"},score:48,f:{traffic:42,demo:55,compete:50,transit:38,rent:70}}
+];
+const FLAB={traffic:{ja:"人流",en:"Foot traffic",zh:"人流",th:"คนเดิน"},demo:{ja:"健康客層適合",en:"Health-shopper fit",zh:"健康客层契合",th:"กลุ่มลูกค้าสุขภาพ"},compete:{ja:"競合余地",en:"Competition room",zh:"竞争余地",th:"คู่แข่ง"},transit:{ja:"交通利便",en:"Transit access",zh:"交通便利",th:"การเดินทาง"},rent:{ja:"賃料効率",en:"Rent efficiency",zh:"租金效率",th:"ค่าเช่า"}};
+
+const MODULES=[
+ {ic:"🏪",t:{en:"POS O/U/C/T lifecycle",zh:"POS 开店/升级/移设/关店"},d:{en:"Online intake, approval, confirmation and master-data update for opening, upgrade, closure and transfer.",zh:"线上提交、审批、确认并更新主数据，覆盖开店、升级、退店与移设。"}},
+ {ic:"📑",t:{en:"Legal documents",zh:"法务文件管理"},d:{en:"Contracts, sales agreements, authorization letters, expiry reports and customer receipt confirmation.",zh:"合同、销售协议、授权信、到期报表与客户收讫确认。"}},
+ {ic:"🪧",t:{en:"POP / graphics lifecycle",zh:"POP / 画面物料生命周期"},d:{en:"Store-specific standard material lists, campaign packages, order review, installation and expiry reminders.",zh:"按门店生成标准物料清单、活动物料包、订单审核、安装确认与到期提醒。"}},
+ {ic:"🧴",t:{en:"Fixture lifecycle",zh:"器架生命周期"},d:{en:"Counter, shelf, tester and sampling fixture planning, asset tracking, replacement and disposal.",zh:"专柜、货架、试用装与采样器架的计划、资产追踪、替换与处置。"}},
+ {ic:"🧭",t:{en:"Site visit management",zh:"门店拜访管理"},d:{en:"Visit plan, VM checklist, POP condition, training needs and corrective actions.",zh:"拜访计划、VM 检核、POP 状态、培训需求与整改动作。"}},
+ {ic:"🗂️",t:{en:"Master data",zh:"主数据"},d:{en:"Store, customer, distributor, warehouse, city, format, territory and organization data.",zh:"门店、客户、分销商、仓库、城市、业态、区域与组织主数据。"}},
+ {ic:"⚙️",t:{en:"Workflow, reports & admin",zh:"工作流、报表与后台"},d:{en:"Role-based workflow engine, email templates, logs, permissions, multilingual setup and analytics service.",zh:"基于角色的工作流、邮件模板、日志、权限、多语言配置与分析报表服务。"}}
+];
+const APPLICATIONS=[
+ {id:"OUCT-24031",type:{en:"New Store",zh:"新开店"},store:{en:"Chemist Warehouse Sydney CBD brand counter",zh:"Chemist Warehouse 悉尼 CBD 品牌专柜"},region:"ANZ",customer:"Chemist Warehouse",stage:{en:"Function team approval",zh:"职能团队审批"},locked:false,owner:"Regional Sales",fields:[["Format","Pharmacy chain counter"],["Store area","18 sqm"],["Expected open","2026-08-15"],["POP package","Premium counter starter kit"],["Fixture budget","AUD 42,000"],["Authorization letter","Auto-create after approval"]]},
+ {id:"OUCT-24042",type:{en:"Refit",zh:"改装"},store:{en:"Priceline Melbourne immunity shelf expansion",zh:"Priceline 墨尔本免疫系列货架扩张"},region:"ANZ",customer:"Priceline",stage:{en:"Sales Director review",zh:"销售总监复核"},locked:true,owner:"Sales Operation",fields:[["Current format","Wall bay"],["Target format","Double bay + tester tray"],["Construction window","2026-07-18 to 2026-07-25"],["Contract impact","Addendum required"],["After approval","Applicant cannot update store info"]]},
+ {id:"OUCT-24057",type:{en:"Transfer",zh:"移设"},store:{en:"Brisbane counter transfer to higher-traffic aisle",zh:"布里斯班专柜移至高人流通道"},region:"ANZ",customer:"TerryWhite Chemmart",stage:{en:"Project owner action",zh:"项目负责人处理"},locked:false,owner:"Project Owner",fields:[["Old location","Aisle 6"],["New location","Entrance health zone"],["Fixture action","Move + repair lightbox"],["Legal action","Update authorization letter"],["Sales action","Customer confirmation required"]]}
+];
+const APPROVAL_MATRIX=[
+ ["New Store","Regional Sales","Regional Head","Sales Operation","Sales Director","Project Owner","Finance offline"],
+ ["Refit","Regional Sales","Sales Operation Manager","National Project Manager","Project Owner","GM if capex > threshold"],
+ ["Closing","Regional Sales","Regional Head","Finance offline","Legal","Sales Director"],
+ ["Transfer","Regional Sales","Sales Operation","Project Owner","Legal","Customer confirmation"],
+ ["Authorization letter","Regional Sales","Legal","Sales Operation","Customer receipt","Expiry tracking"]
+];
+const PROJECT_TASKS=[
+ {task:{en:"Retail planner approval",zh:"零售规划审批"},owner:"Sales Operation",plan:"07/02",actual:"07/02",start:0,dur:2,status:"done"},
+ {task:{en:"2D drawing confirmation",zh:"2D 图纸确认"},owner:"Space Planner",plan:"07/05",actual:"07/06",start:2,dur:4,status:"warn"},
+ {task:{en:"Store structure design confirmation",zh:"门店结构设计确认"},owner:"Project Owner",plan:"07/10",actual:"",start:6,dur:3,status:"active"},
+ {task:{en:"Renovation timetable confirmation",zh:"施工时间表确认"},owner:"Customer + Project",plan:"07/12",actual:"",start:9,dur:2,status:"active"},
+ {task:{en:"Construction drawing release",zh:"施工图发布"},owner:"Vendor",plan:"07/15",actual:"",start:11,dur:3,status:"todo"},
+ {task:{en:"Fixture arrival and asset receipt",zh:"器架到货与资产签收"},owner:"VM + Finance",plan:"07/22",actual:"",start:15,dur:4,status:"todo"},
+ {task:{en:"Opening confirmation and master-data update",zh:"开业确认与主数据更新"},owner:"Sales Bulk + Admin",plan:"07/28",actual:"",start:20,dur:2,status:"todo"}
+];
+const POP_ORDERS=[
+ {store:"Chemist Warehouse Sydney CBD",kind:{en:"New opening starter list",zh:"新开店标准物料"},items:"24",stage:{en:"Order review",zh:"订单复核"},install:"08/10",risk:{en:"Label claim proof pending",zh:"标签宣称证明待补"}},
+ {store:"Priceline Melbourne",kind:{en:"Immune Support campaign pack",zh:"免疫支持活动物料包"},items:"18",stage:{en:"Customer receipt",zh:"客户收货"},install:"07/20",risk:{en:"Shelf strip expires in 19 days",zh:"货架条 19 天后到期"}},
+ {store:"Watsons Singapore",kind:{en:"Product package refresh",zh:"产品套装陈列刷新"},items:"12",stage:{en:"Auto notification sent",zh:"已自动通知"},install:"07/30",risk:{en:"Waiting install photo",zh:"等待安装照片"}}
+];
+const LEGAL_DOCS=[
+ {doc:{en:"Annual trade contract",zh:"年度交易合同"},store:"Watsons Singapore",status:{en:"Customer review actual terms",zh:"客户复核实际条款"},expiry:"2026-09-30",next:{en:"Draft amendment",zh:"起草修订条款"}},
+ {doc:{en:"Brand-counter authorization letter",zh:"品牌专柜授权信"},store:"Chemist Warehouse Sydney CBD",status:{en:"Auto-created from opening approval",zh:"由开店审批自动生成"},expiry:"2027-08-15",next:{en:"Legal approval then print/email",zh:"法务审批后打印/邮件发送"}},
+ {doc:{en:"Counter lease addendum",zh:"专柜租赁补充协议"},store:"Priceline Melbourne",status:{en:"Finance performance level check",zh:"财务表现等级检查"},expiry:"2026-08-18",next:{en:"Expiry report + renewal decision",zh:"到期报表与续签决策"}}
+];
+const VISITS=[
+ {store:"Chemist Warehouse Sydney CBD",date:"07/12",owner:"Regional Sales",score:92,needs:{en:"Add sleep product tester and pharmacist training",zh:"增加睡眠产品试用装与药师培训"}},
+ {store:"Priceline Melbourne",date:"07/18",owner:"VM",score:76,needs:{en:"Replace campaign header, repair lightbox",zh:"替换活动头牌，维修灯箱"}},
+ {store:"Watsons Singapore",date:"07/23",owner:"Distributor field team",score:84,needs:{en:"Check product package display and QR attribution",zh:"检查套装陈列与 QR 归因"}}
+];
+const REPORTS=[
+ {name:{en:"POS O/U/C/T Application Approval Report",zh:"POS 开/改/移/关申请审批报表"},owner:"Sales Operation",freq:"Daily"},
+ {name:{en:"POP / Graphics Suggestion Analysis",zh:"POP / 画面物料建议分析"},owner:"VM",freq:"Weekly"},
+ {name:{en:"Authorization Letter Expiration Report",zh:"授权信到期报表"},owner:"Legal",freq:"Daily job"},
+ {name:{en:"Site Visit Report",zh:"门店拜访报表"},owner:"Retail Field",freq:"Weekly"},
+ {name:{en:"Contract Expiration Report",zh:"合同到期报表"},owner:"Legal + Finance",freq:"Monthly"}
+];
+const BACKEND=[
+ "Workflow engine","Role & permission management","Approval-path configuration","Email template","Organization chart","Daily job","Data dictionary","Data change log","Data migration","Multi-language"
+];
+
+let state={lang:"en",brand:"blackmores",tab:"map",mode:"build",typeF:"all",site:1};
+
+function renderProof(){$('#proofRow').innerHTML=L(T.proof).map(p=>`<span class="pc">${p}</span>`).join('');}
+function tabsBar(){
+  const counts={map:MODULES.length,pipe:CARDS.length,app:APPLICATIONS.length,project:PROJECT_TASKS.length,pop:POP_ORDERS.length,legal:LEGAL_DOCS.length,visit:VISITS.length,site:SITES.length,admin:REPORTS.length,alert:ALERTS.filter(a=>!a.done).length};
+  $('#tabs').innerHTML=[["map",L(T.t_map)],["pipe",L(T.t_pipe)],["app",L(T.t_app)],["project",L(T.t_project)],["pop",L(T.t_pop)],["legal",L(T.t_legal)],["visit",L(T.t_visit)],["site",L(T.t_site)],["admin",L(T.t_admin)],["alert",L(T.t_alert)]]
+   .map(([k,l])=>`<button data-t="${k}" class="${state.tab===k?'on':''}">${l}<span class="cnt">${counts[k]}</span></button>`).join('');
+  $$('#tabs button').forEach(b=>b.onclick=()=>{state.tab=b.dataset.t;sync();});
+}
+function sync(){
+  document.documentElement.lang=state.lang;
+  const subEl=$('#sub');if(subEl)subEl.textContent=L(T.sub);
+  $('#eye').textContent=L(T.eye);$('#title').textContent=L(T.title);$('#lead').textContent=L(T.lead);
+  renderProof();tabsBar();
+  $$('.pane').forEach(p=>p.classList.remove('on'));$('#pane-'+state.tab).classList.add('on');
+  if(state.tab==='map')renderMap();
+  if(state.tab==='pipe')renderPipe();
+  if(state.tab==='app')renderApp();
+  if(state.tab==='project')renderProject();
+  if(state.tab==='pop')renderPop();
+  if(state.tab==='legal')renderLegal();
+  if(state.tab==='visit')renderVisit();
+  if(state.tab==='alert')renderAlerts();
+  if(state.tab==='site')renderSite();
+  if(state.tab==='admin')renderAdmin();
+}
+
+function curStages(){return state.mode==='build'?ST_BUILD:ST_EXIT;}
+function renderPipe(){
+  $('#modeSeg').innerHTML=[["build",L(T.modeBuild)],["exit",L(T.modeExit)]]
+   .map(([k,l])=>`<button data-m="${k}" class="${state.mode===k?'on':''}">${l}</button>`).join('');
+  $$('#modeSeg button').forEach(b=>b.onclick=()=>{state.mode=b.dataset.m;state.typeF='all';renderPipe();});
+  // type filter from cards in this mode
+  const types=[...new Set(CARDS.filter(c=>c.mode===state.mode).map(c=>JSON.stringify(c.type)))].map(s=>JSON.parse(s));
+  $('#typeFilter').innerHTML=`<button data-f="all" class="${state.typeF==='all'?'on':''}">${L(T.fAll)}</button>`+
+    types.map(t=>`<button data-f='${L(t)}' class="${state.typeF===L(t)?'on':''}">${L(t)}</button>`).join('');
+  $$('#typeFilter button').forEach(b=>b.onclick=()=>{state.typeF=b.dataset.f;renderPipe();});
+  const stages=curStages();
+  const cards=CARDS.filter(c=>c.mode===state.mode&&(state.typeF==='all'||L(c.type)===state.typeF));
+  $('#kan').innerHTML=stages.map((s,si)=>{
+    const inCol=cards.filter(c=>c.stage===si);
+    return `<div class="col"><h4><span class="n">${si+1}</span>${L(s)}<span class="c">${inCol.length}</span></h4>
+      ${inCol.map(c=>cardHtml(c)).join('')}</div>`;
+  }).join('');
+  $$('.pcard').forEach(el=>el.onclick=()=>openCard(+el.dataset.id));
+}
+function cardHtml(c){
+  const stages=curStages();const done=c.stage>=stages.length-1;
+  const pct=Math.round(c.stage/(stages.length-1)*100);
+  const cls=done?'done':(c.delay?'delay':'');
+  const st=done?`<span class="st done">${L(T.doneL)}</span>`:(c.delay?`<span class="st dl">${L(T.delayed)}</span>`:`<span class="st ok">${L(T.ontrack)}</span>`);
+  return `<div class="pcard ${cls}" data-id="${c.id}">
+    <span class="tp">${L(c.type)}</span>
+    <div class="nm">${L(c.store)}</div>
+    <div class="mt">${c.stage+1}/${stages.length} · ${L(stages[c.stage])}</div>
+    <div class="bar"><i style="width:${pct}%"></i></div>
+    <div class="ft"><span>${pct}%</span>${st}</div></div>`;
+}
+function openCard(id){
+  const c=CARDS.find(x=>x.id===id);const stages=curStages();
+  const m=$('#modal');
+  const stepsHtml=c.ms.map((s,i)=>{
+    const done=i<c.stage, cur=i===c.stage;
+    const cls=done?'done':(cur?'cur':'todo');
+    const dl=(cur&&c.delay)?`<span class="dl">▲ ${L(T.delayed)}</span>`:'';
+    const act=done?`<span>${L(T.actual)}: ✓</span>`:'';
+    return `<div class="step ${cls}"><div class="dot">${done?'✓':''}</div>
+      <div class="sb2"><div class="stt">${L(s.t)}</div>
+      <div class="smeta"><span class="role">${L(ROLE[s.role])}</span><span>${L(T.plan)}: +${s.plan!=null?s.plan:i+1}d</span>${act}${dl}</div></div></div>`;
+  }).join('');
+  const atLast=c.stage>=stages.length-1;
+  m.innerHTML=`<div class="mback" id="mb"></div><div class="mcard"><button class="mx" id="mx">✕</button>
+    <div class="mh">${L(c.store)}</div>
+    <div class="msub">${L(c.type)} · ${state.mode==='build'?L(T.modeBuild):L(T.modeExit)} · ${c.stage+1}/${stages.length} ${L(stages[c.stage])}</div>
+    <div class="layerlab">${L(T.stepsLab)}</div>
+    <div class="steps">${stepsHtml}</div>
+    <div class="madv">${atLast?`<button class="btn" disabled>${L(T.doneAll)}</button>`:`<button class="btn" id="adv">${L(T.advance)}</button>`}
+      <button class="btn o" id="cl">✕</button></div></div>`;
+  m.classList.add('show');
+  $('#mb').onclick=$('#mx').onclick=$('#cl').onclick=()=>m.classList.remove('show');
+  const a=$('#adv');if(a)a.onclick=()=>{c.stage++;if(c.stage>=stages.length-1)c.delay=false;m.classList.remove('show');renderPipe();toast(L(T.advanced));};
+}
+
+function renderAlerts(){
+  const act=ALERTS.filter(a=>!a.done);
+  const c30=act.filter(a=>a.days<=30).length,c60=act.filter(a=>a.days>30&&a.days<=60).length,c90=act.filter(a=>a.days>60&&a.days<=90).length,ok=ALERTS.filter(a=>a.done).length;
+  $('#alertStats').innerHTML=`
+   <div class="sb r"><b>${c30}</b><span>🔴 ${L(T.within30)}</span></div>
+   <div class="sb w"><b>${c60}</b><span>🟠 ${L(T.within60)}</span></div>
+   <div class="sb b"><b>${c90}</b><span>🔵 ${L(T.within90)}</span></div>
+   <div class="sb g"><b>${ok}</b><span>✓ ${L(T.okCnt)}</span></div>`;
+  const sorted=[...ALERTS].sort((a,b)=>(a.done-b.done)||(a.days-b.days));
+  $('#alist').innerHTML=sorted.map(a=>{
+    const cls=a.done?'ok':(a.days<=30?'hi':(a.days<=60?'w':''));
+    return `<div class="arow ${cls}"><div class="ai">${a.icon}</div>
+      <div class="ab"><div class="at">${L(a.t)}</div><div class="as">${L(a.s)}</div></div>
+      <div class="cd"><b>${a.done?'✓':a.days}</b><span>${a.done?L(T.doneL):L(T.days)}</span></div>
+      <button class="rb" data-id="${a.id}" ${a.done?'disabled':''}>${L(T.renew)}</button></div>`;
+  }).join('');
+  $$('.rb').forEach(b=>{if(b.disabled)return;b.onclick=()=>{const a=ALERTS.find(x=>x.id==b.dataset.id);a.done=true;renderAlerts();tabsBar();toast(L(T.renewed));};});
+}
+
+function renderSite(){
+  $('#siteLayerLab').textContent=L(T.siteLayer);
+  $('#candList').innerHTML=SITES.map(s=>{
+    const cl=s.score>=80?'hi':(s.score>=60?'mid':'lo');
+    return `<div class="cand ${state.site===s.id?'on':''}" data-id="${s.id}"><span class="sc ${cl}">${s.score}</span>
+      <div class="cn">${L(s.nm)}</div><div class="cl">${L(s.loc)}</div></div>`;
+  }).join('');
+  $$('.cand').forEach(el=>el.onclick=()=>{state.site=+el.dataset.id;renderSite();});
+  const s=SITES.find(x=>x.id===state.site);
+  if(!s){$('#siteDetail').innerHTML=`<div style="color:var(--muted);font-size:13px">${L(T.pickHint)}</div>`;return;}
+  const vcls=s.score>=80?'go':(s.score>=60?'cau':'no');
+  const vtxt=s.score>=80?L(T.vGo):(s.score>=60?L(T.vCau):L(T.vNo));
+  const cl=s.score>=80?'hi':(s.score>=60?'mid':'lo');
+  $('#siteDetail').innerHTML=`<div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div><div class="mh">${L(s.nm)}</div><div class="msub">${L(s.loc)}</div></div>
+      <div style="text-align:right"><div class="scorebig ${cl}">${s.score}</div><div style="font-size:10px;color:var(--muted)">${L(T.score)}</div></div></div>
+    ${Object.keys(s.f).map(k=>`<div class="factor"><div class="fl"><span>${L(FLAB[k])}</span><span>${s.f[k]}</span></div>
+      <div class="ftrack"><i style="width:${s.f[k]}%"></i></div></div>`).join('')}
+    <div class="verdict ${vcls}">${vtxt}</div>`;
+}
+
+function chip(text){return `<span class="tag">${text}</span>`;}
+function field(label,value,cls=""){return `<div class="field ${cls}"><label>${label}</label><b>${value}</b></div>`;}
+function screen(title,body,actions){
+  const acts=(actions||["Save Draft","Submit","Approve","Export"]).map(a=>`<span class="act">${a}</span>`).join('');
+  return `<div class="screen"><div class="screenbar"><b>${title}</b>${acts}</div><div class="sysform">${body}</div></div>`;
+}
+function renderMap(){
+  $('#mapZone').innerHTML=`<div class="dash">
+    <div class="metric"><b>18</b><span>${state.lang==='zh'?'在途门店项目':'active lifecycle projects'}</span></div>
+    <div class="metric"><b>7</b><span>${state.lang==='zh'?'待审批申请':'pending approvals'}</span></div>
+    <div class="metric"><b>54</b><span>${state.lang==='zh'?'POP / 器架订单':'POP / fixture orders'}</span></div>
+    <div class="metric"><b>${ALERTS.filter(a=>!a.done).length}</b><span>${state.lang==='zh'?'合同与授权到期':'contract & auth alerts'}</span></div>
+  </div>
+  <div class="flowline">
+    ${["Candidate","O/U/C/T application","Role approval","Project template","Build / install","Open / transfer / close","Master-data update"].map((x,i)=>`<div class="flowstep"><b>${i+1}</b><span>${state.lang==='zh'?["候补点","开/改/移/关申请","角色审批","项目模板","施工/安装","开业/移设/退店","主数据更新"][i]:x}</span></div>`).join('')}
+  </div>
+  <div class="module-grid">${MODULES.map(m=>`<div class="module"><i>${m.ic}</i><h3>${L(m.t)}</h3><p>${L(m.d)}</p></div>`).join('')}</div>
+  <div class="split">
+    <div class="panel"><div class="layerlab">${state.lang==='zh'?'业务入口':'Business entrance'}</div>
+      <table class="tbl"><tr><th>${state.lang==='zh'?'用户':'User'}</th><th>${state.lang==='zh'?'动作':'Action'}</th><th>${state.lang==='zh'?'系统控制':'Control'}</th></tr>
+      <tr><td>Regional Sales</td><td>${state.lang==='zh'?'提交开店/改装/移设/退店申请':'Submit O/U/C/T applications'}</td><td>${state.lang==='zh'?'区域与客户决定审批路径':'Region and customer decide approval path'}</td></tr>
+      <tr><td>Legal / Finance</td><td>${state.lang==='zh'?'处理合同、授权信、财务表现等级':'Handle contracts, authorization and finance level'}</td><td>${state.lang==='zh'?'到期日报 + 操作日志':'Daily expiry job + audit log'}</td></tr>
+      <tr><td>VM / Project</td><td>${state.lang==='zh'?'管理 POP、器架、施工与安装':'Manage POP, fixtures, construction and install'}</td><td>${state.lang==='zh'?'计划/实际对比与自动提醒':'Plan-vs-actual tracking and reminders'}</td></tr></table>
+    </div>
+    <div class="panel"><div class="layerlab">${state.lang==='zh'?'系统服务':'System services'}</div>
+      <div class="cards2">${BACKEND.map(x=>`<div class="module"><h3>${x}</h3><p>${state.lang==='zh'?'支撑审批、权限、提醒、报表与审计。':'Supports approval, permission, reminders, reporting and audit.'}</p></div>`).join('')}</div>
+    </div>
+  </div>`;
+}
+
+function renderApp(){
+  const selected=APPLICATIONS[0];
+  $('#appZone').innerHTML=`<div class="split">
+    <div class="panel"><div class="layerlab">${state.lang==='zh'?'O/U/C/T 申请队列':'O/U/C/T application queue'}</div>
+      ${APPLICATIONS.map(a=>`<div class="arow"><div class="ai">🏪</div><div class="ab"><div class="at">${a.id} · ${L(a.type)}</div><div class="as">${L(a.store)}</div></div><div class="cd"><b>${a.region}</b><span>${L(a.stage)}</span></div></div>`).join('')}
+    </div>
+    <div class="panel"><div class="layerlab">${state.lang==='zh'?'申请表详情':'Application form detail'}</div>
+      <h3 style="margin:0 0 8px">${L(selected.store)}</h3>
+      <div class="formgrid">${selected.fields.map(([k,v])=>`<div class="field"><label>${k}</label><b>${v}</b></div>`).join('')}</div>
+      <div style="margin-top:12px">${chip(selected.owner)} ${chip(L(selected.stage))} ${chip(selected.locked?(state.lang==='zh'?'审批后锁定':'Locked after approval'):(state.lang==='zh'?'可编辑':'Editable'))}</div>
+    </div>
+  </div>
+  <div class="panel" style="margin-top:18px"><div class="layerlab">${state.lang==='zh'?'审批矩阵':'Approval workflow matrix'}</div>
+    <table class="tbl"><tr><th>${state.lang==='zh'?'类型':'Type'}</th><th colspan="6">${state.lang==='zh'?'审批与处理角色':'Approval and action roles'}</th></tr>
+    ${APPROVAL_MATRIX.map(r=>`<tr>${r.map((c,i)=>`<td>${i===0?`<b>${c}</b>`:c}</td>`).join('')}</tr>`).join('')}</table>
+    <p style="color:var(--muted);font-size:13px;margin:12px 0 0">${state.lang==='zh'?'规则：审批人按门店区域与客户自动带出；关键审批通过后，申请人不能再修改门店信息，只能发起变更记录。':'Rule: approvers are derived by store region and customer. Once key approval is complete, applicants cannot edit store data and must raise a change record.'}</p>
+  </div>
+  ${screen(state.lang==='zh'?'New / Refit / Transfer / Closing Application Form':'New / Refit / Transfer / Closing Application Form',`
+    <div class="sec-title">${state.lang==='zh'?'门店基本信息':'Store basic information'}</div>
+    <div class="formgrid four">
+      ${field('Application No.','OUCT-24031')}${field('Application Type',state.lang==='zh'?'新开店':'New Store')}${field('Request Date','2026-06-29')}${field('Applicant','ANZ Regional Sales')}
+      ${field('Customer / Partner','Chemist Warehouse')}${field('Region / Territory','ANZ / NSW')}${field('City','Sydney')}${field('Store Code','Auto after approval')}
+      ${field('Store Name','Chemist Warehouse Sydney CBD','wide')}${field('Store Format','Pharmacy chain brand counter')}${field('Store Grade','A / flagship counter')}
+      ${field('Address','George Street, Sydney CBD','wide')}${field('Store Area','18 sqm')}${field('Counter Area','8 sqm')}
+    </div>
+    <div class="sec-title">${state.lang==='zh'?'商业与可行性':'Business and feasibility'}</div>
+    <div class="formgrid four">
+      ${field('Expected Opening Date','2026-08-15')}${field('Expected Monthly Sell-through','AUD 86,000')}${field('Capex Budget','AUD 42,000')}${field('Payback Period','8.5 months')}
+      ${field('Primary Category','Immune + Beauty Sleep')}${field('Assortment Count','42 SKUs')}${field('Channel Campaign ID','ANZ-BM-IMM-0826')}${field('QR Attribution','Required')}
+      ${field('Feasibility Conclusion',state.lang==='zh'?'建议开店，需法务同步授权信':'Recommended, legal letter required','full')}
+    </div>
+    <div class="sec-title">${state.lang==='zh'?'审批、附件与锁定规则':'Approval, attachments and lock rule'}</div>
+    <table class="tbl"><tr><th>Step</th><th>Role</th><th>Owner</th><th>Status</th><th>Due</th></tr>
+      <tr><td>1</td><td>Regional Head</td><td>ANZ Head</td><td>${chip('Approved')}</td><td>06/30</td></tr>
+      <tr><td>2</td><td>Sales Operation</td><td>Ops Manager</td><td>${chip('In review')}</td><td>07/02</td></tr>
+      <tr><td>3</td><td>Legal</td><td>Legal Counsel</td><td>${chip('Pending auth letter')}</td><td>07/04</td></tr>
+      <tr><td>4</td><td>Project Owner</td><td>Retail PM</td><td>${chip('Waiting')}</td><td>07/05</td></tr>
+    </table>
+    <div class="side-nav"><span>Site photos.pdf</span><span>2D layout.dwg</span><span>Commercial approval.xlsx</span><span>Partner email.msg</span></div>
+    <div class="mini-note">${state.lang==='zh'?'审批通过后，Store Name、Partner、Address、Format、Area、Budget 被锁定；后续只能通过 Change Request 修改。':'After approval, Store Name, Partner, Address, Format, Area and Budget are locked. Changes require a Change Request.'}</div>
+  `,['Save Draft','Submit Application','Approve','Create Project'])}`;
+}
+
+function renderProject(){
+  $('#projectZone').innerHTML=`<div class="split">
+    <div class="panel"><div class="layerlab">${state.lang==='zh'?'项目模板设置':'Project template setting'}</div>
+      <div class="module-grid">
+        <div class="module"><i>🏬</i><h3>${state.lang==='zh'?'药房品牌专柜':'Pharmacy brand counter'}</h3><p>${state.lang==='zh'?'包含 2D 图纸、器架、授权信、施工、VM 验收。':'Includes 2D drawing, fixture, authorization, build and VM sign-off.'}</p></div>
+        <div class="module"><i>🧪</i><h3>${state.lang==='zh'?'健康门店货架升级':'Health-store shelf refit'}</h3><p>${state.lang==='zh'?'强调棚割、POP 替换、低峰期施工和销售确认。':'Focuses on planogram, POP replacement, low-traffic build window and sales confirmation.'}</p></div>
+        <div class="module"><i>✨</i><h3>${state.lang==='zh'?'快闪 / 临时陈列':'Pop-up / temporary display'}</h3><p>${state.lang==='zh'?'短租、快速审批、活动物料和撤场资产处理。':'Short lease, fast approval, campaign materials and teardown asset handling.'}</p></div>
+      </div>
+    </div>
+    <div class="panel"><div class="layerlab">${state.lang==='zh'?'计划 vs 实际甘特':'Planned vs actual Gantt'}</div>
+      <div class="gantt">${PROJECT_TASKS.map(t=>`<div class="gantt-row"><span>${L(t.task)}</span><div class="gantt-track"><i style="left:${t.start*4}%;width:${t.dur*4}%"></i></div></div>`).join('')}</div>
+    </div>
+  </div>
+  <div class="panel" style="margin-top:18px"><div class="layerlab">${state.lang==='zh'?'项目任务追踪':'Project task tracking'}</div>
+    <table class="tbl"><tr><th>${state.lang==='zh'?'任务':'Task'}</th><th>${state.lang==='zh'?'负责人':'Owner'}</th><th>${state.lang==='zh'?'计划':'Plan'}</th><th>${state.lang==='zh'?'实际':'Actual'}</th><th>${state.lang==='zh'?'提醒':'Reminder'}</th></tr>
+    ${PROJECT_TASKS.map(t=>`<tr><td><b>${L(t.task)}</b></td><td>${t.owner}</td><td>${t.plan}</td><td>${t.actual||'-'}</td><td>${t.status==='warn'?chip(state.lang==='zh'?'自动提醒：已晚 1 天':'Auto reminder: 1 day late'):chip(t.status)}</td></tr>`).join('')}</table>
+  </div>
+  ${screen(state.lang==='zh'?'Project Plan Template / Tracking Form':'Project Plan Template / Tracking Form',`
+    <div class="sec-title">${state.lang==='zh'?'模板条件':'Template condition'}</div>
+    <div class="formgrid four">
+      ${field('Project No.','PRJ-ANZ-0826-013')}${field('Source Application','OUCT-24031')}${field('Template','Pharmacy brand counter')}${field('Auto Reminder','Enabled')}
+      ${field('Store Condition','New counter inside existing pharmacy')}${field('Store Structure','Wall bay + island counter')}${field('Project Owner','Retail PM')}${field('Vendor','Instore Works AU')}
+    </div>
+    <div class="sec-title">${state.lang==='zh'?'节点维护':'Editable project nodes'}</div>
+    <table class="tbl"><tr><th>Node</th><th>Task</th><th>Dependency</th><th>Owner</th><th>Plan</th><th>Actual</th><th>Status</th></tr>
+      <tr><td>10</td><td>Retail planner approval</td><td>-</td><td>Sales Operation</td><td>07/02</td><td>07/02</td><td>${chip('Done')}</td></tr>
+      <tr><td>20</td><td>2D drawing confirmation</td><td>10</td><td>Space Planner</td><td>07/05</td><td>07/06</td><td>${chip('Delayed')}</td></tr>
+      <tr><td>30</td><td>Renovation timetable confirmation</td><td>20</td><td>Project Owner</td><td>07/12</td><td>-</td><td>${chip('Open')}</td></tr>
+      <tr><td>40</td><td>Construction drawing release</td><td>30</td><td>Vendor</td><td>07/15</td><td>-</td><td>${chip('Not started')}</td></tr>
+      <tr><td>50</td><td>Fixture arrival and asset receipt</td><td>40</td><td>VM + Finance</td><td>07/22</td><td>-</td><td>${chip('Not started')}</td></tr>
+      <tr><td>60</td><td>Opening confirmation</td><td>50</td><td>Sales Bulk</td><td>07/28</td><td>-</td><td>${chip('Not started')}</td></tr>
+    </table>
+    <div class="sec-title">${state.lang==='zh'?'实施确认':'Implementation confirmation'}</div>
+    <div class="checkgrid">
+      <div class="check"><i>✓</i>2D drawing uploaded</div><div class="check"><i>✓</i>Store application approved</div>
+      <div class="check"><i>□</i>Construction photo uploaded</div><div class="check"><i>□</i>Fixed asset receipt confirmed</div>
+      <div class="check"><i>□</i>Opening photo uploaded</div><div class="check"><i>□</i>Master data update completed</div>
+    </div>
+  `,['Add Node','Update Plan','Send Reminder','Export Gantt'])}`;
+}
+
+function renderPop(){
+  $('#popZone').innerHTML=`<div class="split">
+    <div class="panel"><div class="layerlab">${state.lang==='zh'?'POP / Graphics 订单流':'POP / graphics order flow'}</div>
+      <div class="flowline">${["Maintain master","Generate store order","Print material list","Review / edit","Customer receive","Install photo","Expiry alert"].map((x,i)=>`<div class="flowstep"><b>${i+1}</b><span>${state.lang==='zh'?["维护物料主数据","生成门店订单","打印物料清单","审核/编辑","客户收货","安装照片","到期提醒"][i]:x}</span></div>`).join('')}</div>
+      <table class="tbl"><tr><th>Store</th><th>${state.lang==='zh'?'物料包':'Package'}</th><th>${state.lang==='zh'?'件数':'Items'}</th><th>${state.lang==='zh'?'状态':'Stage'}</th><th>${state.lang==='zh'?'风险':'Risk'}</th></tr>
+      ${POP_ORDERS.map(o=>`<tr><td><b>${o.store}</b></td><td>${L(o.kind)}</td><td>${o.items}</td><td>${L(o.stage)}</td><td>${L(o.risk)}</td></tr>`).join('')}</table>
+    </div>
+    <div class="panel"><div class="layerlab">${state.lang==='zh'?'Fixture 生命周期':'Fixture lifecycle'}</div>
+      <div class="module-grid">
+        <div class="module"><i>🧴</i><h3>${state.lang==='zh'?'资产建档':'Asset register'}</h3><p>${state.lang==='zh'?'专柜、灯箱、试用装托盘、陈列器架记录资产编号、门店、保修期。':'Counters, lightboxes, tester trays and shelves carry asset ID, store and warranty.'}</p></div>
+        <div class="module"><i>🔁</i><h3>${state.lang==='zh'?'替换 / 移管':'Replace / transfer'}</h3><p>${state.lang==='zh'?'移设或退店时自动生成回收、维修、报废或移管动作。':'Transfer or closure creates recovery, repair, disposal or transfer actions.'}</p></div>
+        <div class="module"><i>⏰</i><h3>${state.lang==='zh'?'寿命预警':'Lifecycle alert'}</h3><p>${state.lang==='zh'?'按安装日期和活动周期提示画面、器架和试用装更新。':'Alerts by install date and campaign cycle for graphics, fixtures and testers.'}</p></div>
+      </div>
+    </div>
+  </div>
+  ${screen(state.lang==='zh'?'POP / Graphics / Fixture Order Form':'POP / Graphics / Fixture Order Form',`
+    <div class="sec-title">${state.lang==='zh'?'门店物料主数据':'Store material master'}</div>
+    <div class="formgrid four">
+      ${field('Store Code','Pending')}${field('Store','Chemist Warehouse Sydney CBD')}${field('Format','Premium counter')}${field('Material Standard','BM-PH-Counter-A')}
+      ${field('Campaign','Immune Support Launch')}${field('Product Package','Immune + Beauty Sleep')}${field('Install Date','2026-08-10')}${field('Expiry Rule','90 days after launch')}
+    </div>
+    <div class="sec-title">${state.lang==='zh'?'标准物料清单':'Standard material list'}</div>
+    <table class="tbl"><tr><th>Material Code</th><th>Description</th><th>Type</th><th>Qty</th><th>Claim Review</th><th>Lifecycle</th></tr>
+      <tr><td>POP-IMM-HEAD-AU</td><td>Immune Support shelf header</td><td>Graphic</td><td>2</td><td>${chip('Approved')}</td><td>90 days</td></tr>
+      <tr><td>POP-BEAUTY-STRIP</td><td>Beauty Sleep shelf strip</td><td>Graphic</td><td>6</td><td>${chip('Needs proof')}</td><td>60 days</td></tr>
+      <tr><td>FIX-COUNTER-18</td><td>18 sqm brand counter lightbox</td><td>Fixture</td><td>1</td><td>${chip('N/A')}</td><td>36 months</td></tr>
+      <tr><td>FIX-TESTER-TRAY</td><td>Tester tray and sampling fixture</td><td>Fixture</td><td>4</td><td>${chip('Approved')}</td><td>12 months</td></tr>
+      <tr><td>QR-ATTR-CARD</td><td>Campaign QR attribution card</td><td>Tracking</td><td>20</td><td>${chip('Approved')}</td><td>Campaign end</td></tr>
+    </table>
+    <div class="sec-title">${state.lang==='zh'?'订单确认':'Order confirmation'}</div>
+    <div class="formgrid four">
+      ${field('Order No.','POP-ORD-260810')}${field('Generated By','System from store master')}${field('Review Owner','VM Manager')}${field('Customer Receipt','Pending')}
+      ${field('Packing List','Ready to print')}${field('Install Photo','Required')}${field('Replacement Need','Auto if expired')}${field('Notification','Email + portal task')}
+    </div>
+  `,['Generate Order','Print List','Confirm Receipt','Create Expiry Alert'])}`;
+}
+
+function renderLegal(){
+  $('#legalZone').innerHTML=`<div class="split">
+    <div class="panel"><div class="layerlab">${state.lang==='zh'?'合同与授权信':'Contracts and authorization letters'}</div>
+      <table class="tbl"><tr><th>${state.lang==='zh'?'文件':'Document'}</th><th>Store</th><th>${state.lang==='zh'?'状态':'Status'}</th><th>${state.lang==='zh'?'到期':'Expiry'}</th><th>${state.lang==='zh'?'下一步':'Next'}</th></tr>
+      ${LEGAL_DOCS.map(d=>`<tr><td><b>${L(d.doc)}</b></td><td>${d.store}</td><td>${L(d.status)}</td><td>${d.expiry}</td><td>${L(d.next)}</td></tr>`).join('')}</table>
+    </div>
+    <div class="panel"><div class="layerlab">${state.lang==='zh'?'授权信自动化':'Authorization automation'}</div>
+      <div class="flowline">${["Confirm opening","Auto-create letter","Sales / Legal approve","Maintain final letter","Print or email","Customer receipt","Track expiry"].map((x,i)=>`<div class="flowstep"><b>${i+1}</b><span>${state.lang==='zh'?["确认开店申请","自动生成授权信","销售/法务审批","维护最终版本","打印或邮件","客户收讫","追踪到期"][i]:x}</span></div>`).join('')}</div>
+      <p style="color:var(--muted);font-size:14px">${state.lang==='zh'?'系统会把实际合同条款、财务表现等级和销售协议关联到门店主数据，并通过日报生成合同/授权信到期清单。':'The system links actual contract terms, finance performance level and sales agreement to store master data, then produces daily expiry lists for contracts and authorization letters.'}</p>
+    </div>
+  </div>
+  ${screen(state.lang==='zh'?'Legal Contract / Authorization Letter Form':'Legal Contract / Authorization Letter Form',`
+    <div class="split">
+      <div>
+        <div class="sec-title">${state.lang==='zh'?'合同条款录入':'Contract terms input'}</div>
+        <div class="formgrid two">
+          ${field('Legal Doc No.','LEG-CW-260815')}${field('Source Application','OUCT-24031')}
+          ${field('Customer Legal Name','Chemist Warehouse Pty Ltd','wide')}${field('Agreement Type','Brand counter authorization + trading terms')}
+          ${field('Contract Start','2026-08-15')}${field('Contract End','2027-08-14')}
+          ${field('Finance Review Level','A / standard')}${field('Auto Expiry Report','Yes, 90/60/30 days')}
+          ${field('Actual Sales Terms','Quarterly sell-through review; fixture remains Blackmores asset','wide')}
+        </div>
+        <div class="sec-title">${state.lang==='zh'?'审批与客户确认':'Approval and customer confirmation'}</div>
+        <table class="tbl"><tr><th>Action</th><th>Owner</th><th>Status</th><th>Date</th></tr>
+          <tr><td>Draft terms from application</td><td>System</td><td>${chip('Done')}</td><td>07/03</td></tr>
+          <tr><td>Legal review</td><td>Legal Counsel</td><td>${chip('In review')}</td><td>07/05</td></tr>
+          <tr><td>Sales confirmation</td><td>Regional Sales</td><td>${chip('Pending')}</td><td>07/06</td></tr>
+          <tr><td>Customer receipt confirmation</td><td>Partner Admin</td><td>${chip('Waiting')}</td><td>-</td></tr>
+        </table>
+      </div>
+      <div class="doc-preview">
+        <h4>Blackmores Authorization Letter</h4>
+        <p><b>To:</b> Chemist Warehouse Pty Ltd</p>
+        <p>Blackmores authorizes the listed partner store to operate an approved Blackmores brand counter, display approved POP / graphics, and sell the attached product range under agreed trading terms.</p>
+        <p><b>Authorized Store:</b> Chemist Warehouse Sydney CBD</p>
+        <p><b>Effective Period:</b> 15 Aug 2026 - 14 Aug 2027</p>
+        <p><b>Required Attachments:</b> Approved material list, fixture asset list, product range, compliance claim proof.</p>
+        <div class="mini-note">Print / email final letter after Legal + Sales approval. System tracks usage time and expiry automatically.</div>
+      </div>
+    </div>
+  `,['Generate Letter','Send to Legal','Print / Email','Confirm Receipt'])}`;
+}
+
+function renderVisit(){
+  $('#visitZone').innerHTML=`<div class="split">
+    <div class="panel"><div class="layerlab">${state.lang==='zh'?'拜访计划':'Visit plan'}</div>
+      ${VISITS.map(v=>`<div class="arow"><div class="ai">🧭</div><div class="ab"><div class="at">${v.store}</div><div class="as">${v.date} · ${v.owner} · ${L(v.needs)}</div></div><div class="cd"><b>${v.score}</b><span>VM score</span></div></div>`).join('')}
+    </div>
+    <div class="panel"><div class="layerlab">${state.lang==='zh'?'标准检查清单':'Standard checklist'}</div>
+      <div class="formgrid">
+        ${["Visual merchandising compliant","POP / graphics installed correctly","Fixture condition OK","Shelf stock and facing healthy","Price list and QR attribution visible","Staff training need identified","Replacement / addition request raised","Photos uploaded"].map((x,i)=>`<div class="field"><label>${state.lang==='zh'?["陈列符合 VM 标准","POP / 画面安装正确","器架状态正常","货架库存与排面健康","价格牌与 QR 归因可见","识别员工培训需求","发起替换/新增需求","上传照片"][i]:x}</label><b>${i<5?'✓':'Pending'}</b></div>`).join('')}
+      </div>
+    </div>
+  </div>
+  ${screen(state.lang==='zh'?'Site Visit Checklist / Corrective Action Form':'Site Visit Checklist / Corrective Action Form',`
+    <div class="sec-title">${state.lang==='zh'?'拜访基本信息':'Visit information'}</div>
+    <div class="formgrid four">
+      ${field('Visit No.','VIS-260712-CW')}${field('Visit Type','Planned monthly visit')}${field('Store','Chemist Warehouse Sydney CBD')}${field('Owner','Regional Sales')}
+      ${field('Visit Date','2026-07-12')}${field('Partner Contact','Store Pharmacist Lead')}${field('Previous Score','86')}${field('Current Score','92')}
+    </div>
+    <div class="sec-title">${state.lang==='zh'?'现场检查':'In-store inspection'}</div>
+    <table class="tbl"><tr><th>Area</th><th>Check Item</th><th>Result</th><th>Evidence / Action</th></tr>
+      <tr><td>VM</td><td>Brand block, shelf height, price visibility</td><td>${chip('Pass')}</td><td>Photo uploaded</td></tr>
+      <tr><td>POP</td><td>Campaign header and shelf strip installed</td><td>${chip('Pass')}</td><td>Header OK, strip due in 43 days</td></tr>
+      <tr><td>Fixture</td><td>Lightbox, tester tray, sampling fixture condition</td><td>${chip('Action')}</td><td>Add Beauty Sleep tester tray</td></tr>
+      <tr><td>Stock</td><td>Facing, OOS, expiry date, promo stock</td><td>${chip('Pass')}</td><td>2 SKUs below reorder point</td></tr>
+      <tr><td>Training</td><td>Staff can explain claim and dosage boundary</td><td>${chip('Action')}</td><td>Schedule pharmacist micro-training</td></tr>
+    </table>
+    <div class="sec-title">${state.lang==='zh'?'整改任务':'Corrective actions'}</div>
+    <div class="formgrid three">
+      ${field('Action 1','Create tester tray request')}${field('Owner','VM')}${field('Due','07/16')}
+      ${field('Action 2','Trigger replenishment recommendation')}${field('Owner','Channel Ops')}${field('Due','07/13')}
+      ${field('Action 3','Send micro-training content')}${field('Owner','Medical Education')}${field('Due','07/20')}
+    </div>
+  `,['Upload Photos','Create POP Request','Create Training Task','Close Visit'])}`;
+}
+
+function renderAdmin(){
+  $('#adminZone').innerHTML=`<div class="split">
+    <div class="panel"><div class="layerlab">${state.lang==='zh'?'主数据范围':'Master-data scope'}</div>
+      <div class="cards2">${["Store master","Direct customer","Secondary distributor","Warehouse & store","Group customer","City / territory","Store format","Org chart"].map((x,i)=>`<div class="module"><h3>${state.lang==='zh'?["门店主数据","直营客户","二级分销商","仓库与门店","集团客户","城市/区域","门店业态","组织架构"][i]:x}</h3><p>${state.lang==='zh'?'被申请、审批、项目、POP、合同和报表共同引用。':'Shared by applications, approval, projects, POP, legal and reports.'}</p></div>`).join('')}</div>
+    </div>
+    <div class="panel"><div class="layerlab">${state.lang==='zh'?'报表服务':'Report service'}</div>
+      <table class="tbl"><tr><th>${state.lang==='zh'?'报表':'Report'}</th><th>${state.lang==='zh'?'负责人':'Owner'}</th><th>${state.lang==='zh'?'频率':'Frequency'}</th></tr>
+      ${REPORTS.map(r=>`<tr><td><b>${L(r.name)}</b></td><td>${r.owner}</td><td>${r.freq}</td></tr>`).join('')}</table>
+    </div>
+  </div>
+  <div class="panel" style="margin-top:18px"><div class="layerlab">${state.lang==='zh'?'后台模块':'Backend modules'}</div>
+    <div>${BACKEND.map(chip).join(' ')}</div>
+  </div>
+  ${screen(state.lang==='zh'?'Store Master / System Administration Form':'Store Master / System Administration Form',`
+    <div class="sec-title">${state.lang==='zh'?'门店主数据维护':'Store master maintenance'}</div>
+    <div class="formgrid four">
+      ${field('Store Code','BM-AU-CW-SYD-001')}${field('Store Status','Pre-open')}${field('Store Type','Pharmacy brand counter')}${field('Lifecycle Status','Opening project')}
+      ${field('Customer Code','CUST-CW-AU')}${field('Direct Customer','Chemist Warehouse')}${field('Secondary Distributor','N/A')}${field('Warehouse','Sydney DC')}
+      ${field('City','Sydney')}${field('Territory','NSW CBD')}${field('Sales Owner','ANZ Regional Sales')}${field('VM Owner','VM Australia')}
+      ${field('Geo Coordinates','-33.8688, 151.2093')}${field('Store Grade','A')}${field('Default POP Standard','BM-PH-Counter-A')}${field('Language','EN / ZH')}
+    </div>
+    <div class="sec-title">${state.lang==='zh'?'后台配置':'Backend configuration'}</div>
+    <table class="tbl"><tr><th>Module</th><th>Configuration</th><th>Current Setting</th><th>Audit</th></tr>
+      <tr><td>Workflow Engine</td><td>Approval path by region/customer/type</td><td>Enabled</td><td>Change log on</td></tr>
+      <tr><td>Rights Management</td><td>Sales / Legal / VM / Finance / Vendor roles</td><td>Role based</td><td>UUMS integrated</td></tr>
+      <tr><td>Email Template</td><td>Approval, reminder, expiry, customer receipt</td><td>12 templates</td><td>Versioned</td></tr>
+      <tr><td>Daily Job</td><td>Contract, authorization, POP, fixture expiry</td><td>08:00 local time</td><td>Last run success</td></tr>
+      <tr><td>Report Service</td><td>O/U/C/T, POP suggestion, site visit, expiry</td><td>5 report packs</td><td>Export enabled</td></tr>
+    </table>
+  `,['Save Master Data','Upload Template','Run Daily Job','Export Report'])}`;
+}
+
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800);}
+function applyBrand(){const b=BRANDS[state.brand],r=document.documentElement.style;
+  r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
+  const brandEl=$('#brand');if(brandEl)brandEl.innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');}
+$('#fab').onclick=()=>{const k=Object.keys(BRANDS),i=k.indexOf(state.brand);state.brand=k[(i+1)%k.length];applyBrand();toast('🎨 '+BRANDS[state.brand].logo);};
+
+const LANGS=[['en','EN'],['zh','中'],['ja','日'],['th','ไท']];
+function renderLangs(){const box=$('#langs');box.innerHTML='';LANGS.forEach(([k,lab])=>{const b=document.createElement('button');b.textContent=lab;if(k===state.lang)b.className='on';b.onclick=()=>{state.lang=k;renderLangs();sync();};box.appendChild(b);});}
+try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_l=_p.get("lang");
+  if(_l&&["en","zh","ja","th"].indexOf(_l)>=0)state.lang=_l;if(_b&&BRANDS[_b])state.brand=_b;}catch(e){}
+renderLangs();applyBrand();sync();
+</script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

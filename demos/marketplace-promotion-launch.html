@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketplace Promotion, Bundle & Launch Control | Blackmores</title>
+  <style>
+    :root{--ink:#15211f;--muted:#667570;--line:#dfe8e5;--paper:#fff;--bg:#f6f8f7;--teal:#0f9da6;--teal-d:#075f63;--teal-soft:#e6f5f4;--green:#2f8a5b;--green-soft:#e7f3ec;--amber:#d98a1f;--amber-soft:#fdf3e2;--rose:#c0463f;--rose-soft:#fbece9;--blue:#2d6cdf;--blue-soft:#e8f0fe;--shadow:0 12px 30px rgba(8,49,46,.08);--r:8px}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.45}.wrap{max-width:1180px;margin:0 auto;padding:34px 40px 58px}.eyebrow{font-size:12px;font-weight:850;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-d);margin-bottom:10px}h1{font-size:clamp(34px,5vw,56px);line-height:1.02;margin:0 0 14px;font-weight:850;letter-spacing:0}.lead{font-size:17px;color:var(--muted);max-width:860px;margin:0}.nav{display:flex;gap:9px;flex-wrap:wrap;margin:24px 0 28px}.nav button,.link-btn{border:1px solid var(--line);background:var(--paper);border-radius:var(--r);padding:10px 14px;font:inherit;font-size:13px;font-weight:800;color:var(--ink);cursor:pointer;text-decoration:none}.nav button.active{border-color:var(--teal);background:var(--teal-soft);color:var(--teal-d)}.section{display:none}.section.active{display:block}.banner{display:grid;grid-template-columns:1fr 340px;gap:18px;background:linear-gradient(135deg,var(--teal-d),var(--teal));color:#fff;border-radius:var(--r);padding:22px;margin-bottom:20px;box-shadow:var(--shadow)}.banner h2{margin:0 0 8px;font-size:26px}.banner p{margin:0;color:rgba(255,255,255,.78)}.score{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:var(--r);padding:18px}.score b{font-size:42px;display:block;line-height:1}.score span{font-size:13px;font-weight:700;color:rgba(255,255,255,.8)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:0 2px 12px rgba(8,49,46,.05)}.card h2{font-size:21px;margin:0 0 4px}.card>p{margin:0 0 16px;color:var(--muted);font-size:14px}.table{width:100%;border-collapse:collapse}.table th{text-align:left;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#7e8c88;background:#f8fbfa;padding:11px;border-bottom:1px solid var(--line)}.table td{padding:13px 11px;border-bottom:1px solid var(--line);font-size:13.5px;vertical-align:top}.table tr:last-child td{border-bottom:0}.pill{display:inline-flex;border-radius:999px;padding:4px 9px;font-size:11px;font-weight:800}.p-green{background:var(--green-soft);color:var(--green)}.p-amber{background:var(--amber-soft);color:var(--amber)}.p-rose{background:var(--rose-soft);color:var(--rose)}.p-blue{background:var(--blue-soft);color:var(--blue)}.launch-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.check{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px}.check h3{margin:0 0 10px;font-size:16px}.check ul{margin:0;padding-left:18px;color:var(--muted);font-size:13px}.bundle-row{display:grid;grid-template-columns:1.2fr .8fr .8fr .8fr auto;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:10px}.bundle-row strong{display:block}.bundle-row small{color:var(--muted);font-weight:650}.btn{border:0;background:var(--teal-d);color:#fff;border-radius:var(--r);padding:9px 12px;font-weight:850;cursor:pointer}.approval{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.stage{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px;position:relative}.stage b{display:block;margin-bottom:7px}.stage p{margin:0;color:var(--muted);font-size:12.5px}.stage.done{border-color:#b9dec8;background:#f7fcf9}.stage.warn{border-color:#f1c982;background:#fffaf0}.stage.block{border-color:#e4aaa6;background:#fff7f6}.sim{display:grid;grid-template-columns:310px 1fr;gap:16px}.panel{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px}.field{margin-bottom:14px}.field label{display:block;font-size:12px;font-weight:850;color:var(--muted);margin-bottom:6px}.field select,.field input{width:100%;border:1px solid var(--line);border-radius:var(--r);padding:10px;font:inherit}.result{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.result .k{background:#f8fbfa;border:1px solid var(--line);border-radius:var(--r);padding:15px}.result b{display:block;font-size:26px}.result span{color:var(--muted);font-size:12px;font-weight:750}.note{margin-top:16px;background:var(--teal-soft);border:1px solid #bddfdd;border-radius:var(--r);padding:14px;color:var(--teal-d);font-weight:700}@media(max-width:900px){.wrap{padding:24px 20px 44px}.banner,.grid,.sim{grid-template-columns:1fr}.launch-grid,.approval,.result{grid-template-columns:1fr 1fr}.bundle-row{grid-template-columns:1fr}}@media(max-width:560px){.launch-grid,.approval,.result{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="eyebrow">Platform Commerce</div>
+    <h1>Marketplace Promotion, Bundle & Launch Control</h1>
+    <p class="lead">A detailed control tower for Blackmores marketplace events: promotion mechanics, bundle construction, price protection, stock readiness, claim approval, content assets, platform rules and final sign-off. This page extends the existing bundle management logic into a full launch governance workflow.</p>
+    <div class="nav">
+      <button class="active" onclick="showTab('brief',this)">Promotion brief</button>
+      <button onclick="showTab('bundle',this)">Bundle mechanics</button>
+      <button onclick="showTab('checks',this)">Price + stock check</button>
+      <button onclick="showTab('approval',this)">Launch sign-off</button>
+      <a class="link-btn" href="portal-trading/bundle-management.html">Open bundle workspace</a>
+    </div>
+
+    <section id="brief" class="section active">
+      <div class="banner"><div><h2>11.11 Immunity & Family Wellness Event</h2><p>Target: grow platform sell-out while protecting regulated health claims and avoiding over-promotion on hero SKUs.</p></div><div class="score"><b>82%</b><span>Launch readiness after AI pre-check</span></div></div>
+      <div class="grid">
+        <div class="card"><h2>Event package</h2><p>The commercial brief is translated into concrete platform-ready components.</p><table class="table"><tr><th>Area</th><th>Decision</th><th>Owner</th></tr><tr><td>Hero SKUs</td><td>Bio C 1000, Daily Immune Action, Fish Oil 1000, Kids Multi</td><td>Category</td></tr><tr><td>Platforms</td><td>Tmall Global, Shopee MY, Lazada TH, Amazon AU</td><td>Ecommerce</td></tr><tr><td>Offer type</td><td>Bundle discount, voucher stack, gift-with-purchase, live commerce flash slot</td><td>Marketplace</td></tr><tr><td>Guardrail</td><td>No disease treatment claim; keep approved immune support wording</td><td>Compliance</td></tr></table></div>
+        <div class="card"><h2>AI launch diagnosis</h2><p>What needs attention before the event package can be submitted.</p><table class="table"><tr><th>Issue</th><th>Why it matters</th><th>Status</th></tr><tr><td>Lazada stock cover below promo forecast</td><td>Bundle demand exceeds available inventory by 1,800 units</td><td><span class="pill p-rose">Blocker</span></td></tr><tr><td>Shopee banner uses unapproved wording</td><td>"Boost immunity fast" needs claim review</td><td><span class="pill p-amber">Review</span></td></tr><tr><td>Tmall bundle price below floor</td><td>Would breach partner price protection threshold</td><td><span class="pill p-rose">Blocker</span></td></tr><tr><td>Amazon AU image set complete</td><td>Hero, lifestyle, label and ingredient images ready</td><td><span class="pill p-green">Ready</span></td></tr></table></div>
+      </div>
+    </section>
+
+    <section id="bundle" class="section">
+      <div class="card">
+        <h2>Bundle mechanics builder</h2>
+        <p>Bundles are defined with SKUs, margin, claim boundaries, fulfilment rules and channel-specific copy. The detailed bundle workspace can still be opened when the team needs SKU-level editing.</p>
+        <div class="bundle-row"><div><strong>Family Immunity Starter</strong><small>Bio C 1000 + Kids Multi + Daily Immune Action</small></div><div><small>Bundle price</small><strong>RM 168</strong></div><div><small>Margin</small><strong>32%</strong></div><div><small>Claim status</small><span class="pill p-green">Approved</span></div><button class="btn">Simulate</button></div>
+        <div class="bundle-row"><div><strong>Always-On Heart Health</strong><small>Fish Oil 1000 + CoQ10 300 + Multivitamin</small></div><div><small>Bundle price</small><strong>RM 226</strong></div><div><small>Margin</small><strong>29%</strong></div><div><small>Claim status</small><span class="pill p-amber">CN wording</span></div><button class="btn">Review</button></div>
+        <div class="bundle-row"><div><strong>Beauty Sleep Social Set</strong><small>Beauty Sleep + Nails Hair Skin + Evening Primrose</small></div><div><small>Bundle price</small><strong>RM 198</strong></div><div><small>Margin</small><strong>35%</strong></div><div><small>Claim status</small><span class="pill p-rose">Sleep claim</span></div><button class="btn">Fix</button></div>
+      </div>
+      <div class="launch-grid" style="margin-top:16px">
+        <div class="check"><h3>Bundle rules</h3><ul><li>Minimum margin after voucher stack</li><li>Pack compatibility by market</li><li>Warehouse bundle or virtual bundle</li><li>Substitution fallback logic</li></ul></div>
+        <div class="check"><h3>Channel rules</h3><ul><li>Tmall event SKU template</li><li>Shopee campaign slot requirement</li><li>Lazada voucher conflict check</li><li>Amazon AU deal threshold</li></ul></div>
+        <div class="check"><h3>Content rules</h3><ul><li>Approved benefit claims</li><li>Localized product education</li><li>Ingredient and dosage module</li><li>Medical disclaimer placement</li></ul></div>
+        <div class="check"><h3>Commercial rules</h3><ul><li>Floor price protection</li><li>Partner margin guardrail</li><li>Budget burn forecast</li><li>ROI break-even simulation</li></ul></div>
+      </div>
+    </section>
+
+    <section id="checks" class="section">
+      <div class="sim">
+        <div class="panel">
+          <div class="field"><label>Platform</label><select id="platform"><option>Shopee MY</option><option>Tmall Global</option><option>Lazada TH</option><option>Amazon AU</option></select></div>
+          <div class="field"><label>Bundle</label><select id="bundleName"><option>Family Immunity Starter</option><option>Always-On Heart Health</option><option>Beauty Sleep Social Set</option></select></div>
+          <div class="field"><label>Promotion discount</label><input id="discount" type="number" value="18"></div>
+          <div class="field"><label>Forecast units</label><input id="units" type="number" value="4200"></div>
+          <button class="btn" onclick="simulate()">Run launch check</button>
+        </div>
+        <div class="panel">
+          <h2>Launch check result</h2>
+          <p style="color:var(--muted);margin-top:0">The simulator checks margin, stock cover, voucher stack conflict and claim status before marketplace submission.</p>
+          <div class="result">
+            <div class="k"><b id="margin">31%</b><span>Projected margin</span></div>
+            <div class="k"><b id="cover">18d</b><span>Stock cover</span></div>
+            <div class="k"><b id="risk">Medium</b><span>Launch risk</span></div>
+          </div>
+          <div class="note" id="recommendation">Recommendation: approve only after reserving 1,200 extra units for Shopee MY and locking voucher stack at 18%.</div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:16px"><h2>Pre-launch checklist</h2><table class="table"><tr><th>Check</th><th>Evidence</th><th>Result</th></tr><tr><td>Price floor</td><td>Net price after platform voucher and Blackmores coupon</td><td><span class="pill p-amber">2 SKUs close to floor</span></td></tr><tr><td>Inventory</td><td>Warehouse stock, reserved campaign stock, expected inbound</td><td><span class="pill p-rose">Lazada TH shortage</span></td></tr><tr><td>Claims</td><td>Approved wording library and market regulation rules</td><td><span class="pill p-amber">Sleep claim review</span></td></tr><tr><td>Assets</td><td>Hero banner, product image, PDP module, live script</td><td><span class="pill p-green">87% complete</span></td></tr></table></div>
+    </section>
+
+    <section id="approval" class="section">
+      <div class="card">
+        <h2>Approval workflow and launch sign-off</h2>
+        <p>The customer should see exactly who approves what, what is blocked, and what proof is required before a campaign can go live.</p>
+        <div class="approval">
+          <div class="stage done"><b>1. Commercial</b><p>Margin, budget, target and hero SKU scope approved by ecommerce lead.</p></div>
+          <div class="stage warn"><b>2. Supply</b><p>Needs extra allocation for Bio C on Lazada TH and Shopee MY.</p></div>
+          <div class="stage block"><b>3. Compliance</b><p>Sleep support wording needs medical claim review before publishing.</p></div>
+          <div class="stage done"><b>4. Content</b><p>All hero assets are ready except one localized Thai PDP module.</p></div>
+          <div class="stage warn"><b>5. Platform</b><p>Waiting for Tmall price floor exception approval.</p></div>
+        </div>
+      </div>
+      <div class="grid" style="margin-top:16px">
+        <div class="card"><h2>Evidence pack</h2><table class="table"><tr><th>Evidence</th><th>Used by</th><th>Status</th></tr><tr><td>Price waterfall by SKU and voucher stack</td><td>Commercial</td><td><span class="pill p-green">Ready</span></td></tr><tr><td>Claim approval screenshot and wording ID</td><td>Compliance</td><td><span class="pill p-amber">Partial</span></td></tr><tr><td>Reserved stock and inbound ETA</td><td>Supply</td><td><span class="pill p-rose">Missing</span></td></tr><tr><td>Platform submission file</td><td>Marketplace ops</td><td><span class="pill p-green">Ready</span></td></tr></table></div>
+        <div class="card"><h2>Final launch decision</h2><p>AI recommendation: conditional go. Launch Tmall Global and Amazon AU first; hold Lazada TH until stock is reserved; hold Sleep Social Set until claim wording is approved.</p><table class="table"><tr><th>Platform</th><th>Decision</th><th>Reason</th></tr><tr><td>Tmall Global</td><td><span class="pill p-amber">Conditional</span></td><td>Price floor exception required</td></tr><tr><td>Shopee MY</td><td><span class="pill p-green">Go</span></td><td>Stock acceptable after allocation</td></tr><tr><td>Lazada TH</td><td><span class="pill p-rose">Hold</span></td><td>Insufficient campaign stock</td></tr><tr><td>Amazon AU</td><td><span class="pill p-green">Go</span></td><td>Assets, stock and claims ready</td></tr></table></div>
+      </div>
+    </section>
+  </div>
+  <script>
+    function showTab(id,btn){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+    function simulate(){const d=Number(document.getElementById('discount').value||18);const u=Number(document.getElementById('units').value||4200);const margin=Math.max(18,42-d*.62);const cover=Math.max(4,Math.round(30-u/260));const risk=cover<10||margin<25?'High':cover<16||margin<30?'Medium':'Low';document.getElementById('margin').textContent=Math.round(margin)+'%';document.getElementById('cover').textContent=cover+'d';document.getElementById('risk').textContent=risk;document.getElementById('recommendation').textContent=risk==='High'?'Recommendation: hold launch until stock or price guardrail is fixed.':'Recommendation: proceed with conditional approval and monitor sell-out daily.';}
+  </script>
+  <script src="platform-commerce-i18n.js"></script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Merchandising · Blackmores · Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
+    --ink:#16201f; --muted:#6a7472; --bg:#f4f7fb; --card:#fff; --line:#e6ecf2;
+    --neg:#c0563f; --warn:#b5731a; --black:#0b1320;
+    --display:Georgia,'Times New Roman','Hiragino Mincho ProN',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','PingFang SC','Microsoft YaHei','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55}
+  button{font-family:inherit;cursor:pointer}
+  header{background:var(--black);position:sticky;top:0;z-index:30}
+  .nav{display:flex;align-items:center;gap:12px;max-width:760px;margin:0 auto;padding:14px 18px}
+  .brand{font-family:var(--display);font-weight:700;font-size:19px;color:#fff;letter-spacing:.02em}
+  .sub{font-size:11px;color:#9fb4c8;border-left:1px solid #2a3647;padding-left:12px;letter-spacing:.04em}
+  .sp{flex:1}
+  .chip{display:flex;align-items:center;gap:5px;border:1px solid #2a3647;border-radius:8px;padding:5px 9px;font-size:12px;font-weight:600;cursor:pointer;position:relative;color:#dce6f0}
+  .menu{position:absolute;top:40px;right:0;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:6px;min-width:120px;box-shadow:0 12px 30px rgba(0,0,0,.18);display:none;z-index:50}
+  .menu.open{display:block}.menu button{display:block;width:100%;border:0;background:0;font:inherit;font-size:13px;padding:8px 9px;border-radius:7px;cursor:pointer;text-align:left;color:var(--ink)}.menu button:hover{background:var(--soft)}
+  .langs{display:flex;gap:3px;background:rgba(255,255,255,.06);border:1px solid #2a3647;border-radius:9px;padding:3px}
+  .langs button{border:0;background:0;font:inherit;font-size:12px;font-weight:700;color:#9fb4c8;min-width:30px;padding:5px 8px;border-radius:6px;cursor:pointer;transition:.15s}
+  .langs button.on{background:#fff;color:var(--brand-d)}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 18px 70px}
+  .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:700}
+  h1.h{font-family:var(--display);font-weight:400;font-size:clamp(22px,4.8vw,30px);margin:9px 0 5px;line-height:1.18}
+  .lead{color:var(--muted);font-size:14px;max-width:60ch}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:16px}
+  .ptitle{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:11px;display:flex;align-items:center;gap:8px}
+
+  /* store context + compliance */
+  .ctxrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .store-sel{display:flex;gap:7px;flex-wrap:wrap}
+  .stbtn{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 11px;font:inherit;font-size:12.5px;font-weight:700;color:var(--muted)}
+  .stbtn.on{border-color:var(--brand);background:var(--soft);color:var(--brand-d)}
+  .ring{--p:0;width:88px;height:88px;border-radius:50%;flex-shrink:0;background:conic-gradient(var(--rc,var(--neg)) calc(var(--p)*1%),#eef2f6 0);display:grid;place-items:center;transition:.5s}
+  .ring .inner{width:68px;height:68px;border-radius:50%;background:var(--card);display:grid;place-items:center;text-align:center}
+  .ring .sv{font-family:var(--display);font-size:26px;font-weight:500;line-height:1}
+  .ring .sl{font-size:9px;color:var(--muted);letter-spacing:.06em}
+  .ctxmeta{flex:1;min-width:180px}
+  .ctxmeta .cm-h{font-weight:700;font-size:14px}
+  .ctxmeta .cm-s{font-size:12px;color:var(--muted);margin-top:3px}
+  .badge-done{display:inline-block;margin-top:7px;font-size:11px;font-weight:800;background:#eafaf0;color:var(--accent);padding:4px 10px;border-radius:999px}
+
+  /* view toggle */
+  .vtog{display:flex;gap:6px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:5px;margin-bottom:13px}
+  .vtog button{flex:1;border:0;background:0;font:inherit;font-size:13px;font-weight:700;color:var(--muted);padding:9px;border-radius:9px;cursor:pointer}
+  .vtog button.on{background:var(--card);color:var(--brand-d);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+
+  /* planogram */
+  .case-label{font-size:11px;color:var(--muted);font-weight:700;margin:2px 0 7px;display:flex;justify-content:space-between}
+  .shelf{background:linear-gradient(180deg,#eef2f6,#e3e9f0);border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:9px}
+  .shelf-row{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:8px;position:relative;padding-bottom:9px;border-bottom:5px solid #c7d0db;border-radius:0 0 4px 4px}
+  .shelf-row:last-child{margin-bottom:0}
+  .slot{background:var(--card);border:1px solid var(--line);border-radius:8px;min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:5px 2px;position:relative;transition:.2s}
+  .slot img{width:30px;height:30px}
+  .slot .sn{font-size:8.5px;color:var(--muted);text-align:center;line-height:1.1;font-weight:600}
+  .slot.empty{border:2px dashed var(--neg);background:#fdf3f1}
+  .slot.empty .em{font-size:16px}
+  .slot.empty .et{font-size:8.5px;color:var(--neg);font-weight:800}
+  .slot.rival{border:2px solid var(--warn);background:#fff7ec}
+  .slot.rival .rv{width:30px;height:30px;border-radius:6px;background:#d9dee5;display:grid;place-items:center;font-size:13px}
+  .slot.rival .sn{color:var(--warn)}
+  .slot.bad{box-shadow:0 0 0 2px var(--neg)}
+  .slot .corner{position:absolute;top:-7px;right:-6px;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:10px;color:#fff;font-weight:800}
+  .slot.expiry .corner{background:var(--warn)}
+  .slot.empty .corner,.slot.rival .corner{background:var(--neg)}
+  .legend{display:flex;gap:13px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:4px}
+  .legend span{display:flex;align-items:center;gap:5px}
+  .lg{width:11px;height:11px;border-radius:3px;border:1px solid}
+  .lg.e{border-color:var(--neg);background:#fdf3f1;border-style:dashed}
+  .lg.r{border-color:var(--warn);background:#fff7ec}
+  .lg.x{border-color:var(--warn);background:#fff;position:relative}
+
+  /* fixes */
+  .fixhead{font-size:12px;font-weight:800;letter-spacing:.04em;margin:4px 0 9px;display:flex;align-items:center;gap:8px}
+  .fixhead .cnt{margin-left:auto;font-size:11px;font-weight:700;background:var(--soft);color:var(--brand-d);padding:3px 9px;border-radius:999px}
+  .fix{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-left:3px solid var(--neg);border-radius:12px;padding:12px 13px;margin-bottom:9px;transition:.2s}
+  .fix.mid{border-left-color:var(--warn)}
+  .fix.done{border-left-color:var(--accent);opacity:.6}
+  .fix .fic{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:15px;flex-shrink:0;background:var(--soft)}
+  .fix .fb{min-width:0;flex:1}
+  .fix .ft{font-weight:700;font-size:13.5px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+  .sev{font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:5px}
+  .sev.hi{background:#fdecea;color:var(--neg)}.sev.mid{background:#fdf2e2;color:var(--warn)}
+  .fix .fl{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5}
+  .fix .floc{font-size:10.5px;color:var(--brand-d);font-weight:700;background:var(--soft);border-radius:6px;padding:2px 7px;display:inline-block;margin-top:5px}
+  .fix .fbtn{border:1px solid var(--accent);background:#eafaf0;color:#077a3c;font:inherit;font-weight:700;font-size:11.5px;padding:7px 12px;border-radius:9px;flex-shrink:0;align-self:center}
+  .fix .fbtn:hover{background:var(--accent);color:#fff}
+  .fix .fdone{font-size:11.5px;font-weight:700;color:var(--accent);align-self:center;flex-shrink:0;white-space:nowrap}
+  .allclear{font-size:13px;color:var(--accent);background:#eafaf0;border:1px solid color-mix(in srgb,var(--accent) 30%,#fff);border-radius:11px;padding:13px;text-align:center;font-weight:700}
+
+  /* ranking */
+  .rank{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid var(--line)}
+  .rank:last-child{border-bottom:0}
+  .rk-n{width:20px;font-family:var(--display);font-size:16px;color:var(--muted);text-align:center;flex-shrink:0}
+  .rk-b{flex:1;min-width:0}
+  .rk-name{font-size:12.5px;font-weight:700}.rk-name.me{color:var(--brand-d)}
+  .rk-bar{height:7px;background:#eef2f6;border-radius:999px;overflow:hidden;margin-top:5px}
+  .rk-bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--brand),var(--accent));transition:width .5s}
+  .rk-pct{font-family:var(--display);font-size:15px;font-weight:600;flex-shrink:0;width:44px;text-align:right}
+
+  .foot{text-align:center;font-family:var(--display);font-weight:300;font-size:clamp(15px,2.8vw,19px);color:var(--ink);margin:26px auto 0;max-width:40ch;line-height:1.35}
+  .foot b{color:var(--brand);font-weight:500}
+  .src{text-align:center;font-size:11px;color:var(--muted);margin-top:12px}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(50px);background:var(--ink);color:#fff;padding:11px 17px;border-radius:11px;font-size:13.5px;font-weight:600;z-index:80;opacity:0;transition:.3s}
+  .toast.show{transform:translateX(-50%);opacity:1}
+</style>
+</head>
+<body>
+<header><div class="nav">
+  <div class="brand" id="brandName">Blackmores</div>
+  <div class="sub" id="sub">Merchandising</div>
+  <div class="sp"></div>
+  <div class="langs" id="langs"></div>
+</div></header>
+
+<div class="wrap">
+  <div class="eyebrow" id="eye">STORE EXECUTION · PARTNER ENABLEMENT</div>
+  <h1 class="h" id="title"></h1>
+  <div class="lead" id="lead"></div>
+
+  <div class="panel">
+    <div class="ptitle" id="ctxTitle"></div>
+    <div class="ctxrow">
+      <div class="ring" id="ring"><div class="inner"><div class="sv" id="sv">0</div><div class="sl" id="sl"></div></div></div>
+      <div class="ctxmeta"><div class="cm-h" id="ctxStore"></div><div class="cm-s" id="ctxSub"></div><div id="ctxBadge"></div></div>
+    </div>
+    <div class="store-sel" id="storeSel" style="margin-top:13px"></div>
+  </div>
+
+  <div class="panel">
+    <div class="ptitle" id="shelfTitle"></div>
+    <div class="vtog" id="vtog"></div>
+    <div class="case-label"><span id="caseTop"></span><span id="caseEye"></span></div>
+    <div class="shelf" id="shelf"></div>
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <div class="panel">
+    <div class="fixhead"><span id="fixTitle"></span><span class="cnt" id="fixCnt"></span></div>
+    <div id="fixes"></div>
+  </div>
+
+  <div class="panel">
+    <div class="ptitle" id="rankTitle"></div>
+    <div id="ranking"></div>
+  </div>
+
+  <div class="foot" id="foot"></div>
+  <div class="src" id="src"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const BRANDS={
+  blackmores:{name:"BLACKMORES",sup:"®",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  lumiere:{name:"Lumière",sup:"",c:["#a8456b","#7d2f4e","#f6e7ee","#c98a8a"]},
+  harvest:{name:"Harvest & Co",sup:"",c:["#b5611f","#8a4715","#f6ebe0","#3d7a4f"]}};
+
+const PROD={
+  FSH:{nm:{ja:"フィッシュオイル",en:"Fish Oil",zh:"无腥味深海鱼油",th:"น้ำมันปลา"},img:"images/blackmores/fish-oil.svg",dn:1},
+  GLU:{nm:{ja:"グルコサミン",en:"Glucosamine",zh:"维骨力关节灵",th:"กลูโคซามีน"},img:"images/blackmores/glucosamine.svg",dn:1},
+  PRB:{nm:{ja:"プロバイオティクス",en:"Probiotics",zh:"益生菌每日健康",th:"โพรไบโอติก"},img:"images/blackmores/probiotics.svg",dn:1},
+  VTC:{nm:{ja:"ビタミンC",en:"Vitamin C",zh:"维生素C",th:"วิตามินซี"},img:"images/blackmores/vitamin-c.svg",dn:1},
+  RIV:{nm:{ja:"他社製品（競合）",en:"Competitor",zh:"竞品",th:"คู่แข่ง"},img:"",dn:0}};
+/* 12-slot vitamins shelf: row1 (eye level) idx 0-5, row2 idx 6-11 */
+const STD=['FSH','FSH','GLU','PRB','PRB','VTC','FSH','GLU','PRB','VTC','VTC','GLU'];
+/* per-store initial actual states (from store audit) */
+const STORE_ACT={
+  0:['FSH','','GLU','PRB','RIV','VTC','FSH','GLU','PRB','VTC','','GLU'],
+  1:['FSH','FSH','GLU','PRB','PRB','VTC','FSH','GLU','','VTC','VTC','GLU'],
+  2:['FSH','','GLU','RIV','PRB','VTC','FSH','','PRB','VTC','RIV','GLU']};
+const STORES=[
+ {nm:{ja:"当店 · ケミストウェアハウス CBD店",en:"This store · Chemist Warehouse CBD",zh:"本店 · Chemist Warehouse CBD店",th:"ร้านนี้ · Chemist Warehouse สาขา CBD"},me:1},
+ {nm:{ja:"プライスライン ボンダイ店",en:"Priceline Bondi",zh:"Priceline 邦迪店",th:"Priceline สาขาบอนได"},me:0},
+ {nm:{ja:"健康越境ストア 上海店",en:"Cross-border Health Store SH",zh:"跨境健康馆 上海店",th:"ร้านสุขภาพข้ามพรมแดน เซี่ยงไฮ้"},me:0}];
+/* freshness issue (not from grid) per store: slot index of a near-expiry facing */
+const FRESH={0:2,1:5,2:7};
+
+const T={
+  sub:{ja:"店頭実行 · 棚割",en:"Store Execution · Planogram",zh:"店头执行 · 货架",th:"การจัดการหน้าร้าน · ผังชั้นวาง"},
+  eye:{ja:"店頭実行 · パートナー支援",en:"STORE EXECUTION · PARTNER ENABLEMENT",zh:"店头执行 · 助力合作伙伴",th:"การจัดการหน้าร้าน · สนับสนุนพันธมิตร"},
+  title:{ja:"棚を、標準どおりに。AI が巡検する。",en:"Keep the shelf on-standard — AI audits it.",zh:"让货架照标准走，AI 来巡检。",th:"จัดชั้นวางให้ตรงมาตรฐาน — AI ตรวจสอบให้"},
+  lead:{ja:"標準棚割と店頭の実態を AI が突き合わせ、欠品・競合の侵入・フェイス不足・鮮度を検知。是正指示をその場で出し、遵守率を可視化します。",
+    en:"AI compares the standard planogram with the actual shelf — detecting out-of-stock, competitor invasion, facing gaps and freshness, issuing fixes on the spot and tracking compliance.",
+    zh:"AI 把标准货架与店头实态比对，检测欠品、竞品侵入、排面不足与鲜度，当场给出整改指示并可视化遵守率。",
+    th:"AI เปรียบเทียบผังชั้นวางมาตรฐานกับชั้นวางจริงหน้าร้าน ตรวจจับสินค้าขาดสต๊อก การรุกล้ำของคู่แข่ง หน้าสินค้าไม่ครบ และความสดใหม่ ออกคำสั่งแก้ไขทันทีและแสดงอัตราการปฏิบัติตามมาตรฐาน"},
+  ctxTitle:{ja:"巡検 · 棚割遵守率",en:"Audit · planogram compliance",zh:"巡检 · 货架遵守率",th:"ตรวจสอบ · อัตราการทำตามผังชั้นวาง"},
+  scoreL:{ja:"遵守率",en:"COMPLY",zh:"遵守率",th:"ทำตาม"},
+  ctxSub:{ja:"サプリ棚 · 健康食品 12フェイス · エリア巡検",en:"Vitamins shelf · supplements · 12 facings · area audit",zh:"保健品货架 · 膳食补充剂 12 排面 · 区域巡检",th:"ชั้นวางวิตามิน · ผลิตภัณฑ์เสริมอาหาร · 12 หน้าสินค้า · ตรวจสอบพื้นที่"},
+  allDone:{ja:"✓ 標準棚割を達成",en:"✓ Planogram restored to standard",zh:"✓ 已达标准货架",th:"✓ จัดชั้นวางได้ตามมาตรฐานแล้ว"},
+  vStd:{ja:"標準棚割",en:"Standard",zh:"标准货架",th:"ผังมาตรฐาน"},vAct:{ja:"店頭の実態",en:"Actual shelf",zh:"店头实态",th:"ชั้นวางจริง"},
+  shelfTitle:{ja:"サプリ棚 棚割",en:"Vitamins-shelf planogram",zh:"保健品货架图",th:"ผังชั้นวางวิตามิน"},
+  caseTop:{ja:"上段（ゴールデンゾーン）",en:"Top (eye level)",zh:"上层（黄金位）",th:"ชั้นบน (ระดับสายตา)"},
+  caseEye:{ja:"6フェイス × 2段",en:"6 facings × 2 shelves",zh:"6 排面 × 2 层",th:"6 หน้าสินค้า × 2 ชั้น"},
+  lgEmpty:{ja:"欠品",en:"Out of stock",zh:"欠品",th:"สินค้าขาดสต๊อก"},lgRival:{ja:"競合の侵入",en:"Competitor",zh:"竞品侵入",th:"คู่แข่งรุกล้ำ"},lgExp:{ja:"鮮度（期限近い）",en:"Near expiry",zh:"临期",th:"ใกล้หมดอายุ"},
+  fixTitle:{ja:"AI 是正指示",en:"AI corrective actions",zh:"AI 整改指示",th:"คำสั่งแก้ไขจาก AI"},
+  remain:{ja:"残 {n} 件",en:"{n} left",zh:"剩 {n} 项",th:"เหลือ {n} รายการ"},
+  fixDone:{ja:"是正済み",en:"Fixed",zh:"已整改",th:"แก้ไขแล้ว"},markFixed:{ja:"是正する",en:"Mark fixed",zh:"整改",th:"ทำเครื่องหมายแก้ไข"},
+  allClear:{ja:"✓ すべて是正しました。棚は標準どおりです。",en:"✓ All fixed — the shelf is on-standard.",zh:"✓ 全部整改完成，货架已达标准。",th:"✓ แก้ไขครบทุกรายการ — ชั้นวางตรงมาตรฐานแล้ว"},
+  // issue templates
+  tEmpty:{ja:"欠品 — 補充",en:"Out of stock — replenish",zh:"欠品 — 补货",th:"สินค้าขาดสต๊อก — เติมสินค้า"},
+  tEmptyL:p=>({ja:`${p} が欠品。バックヤード在庫を確認し、その場で補充。`,en:`${p} is out of stock. Check the backroom and replenish on the spot.`,zh:`${p} 缺货。检查后仓库存并当场补货。`,th:`${p} ขาดสต๊อก ตรวจสอบสินค้าในคลังหลังร้านและเติมทันที`}),
+  tRival:{ja:"競合の侵入 — 撤去",en:"Competitor invasion — remove",zh:"竞品侵入 — 撤除",th:"คู่แข่งรุกล้ำ — นำออก"},
+  tRivalL:(r,p)=>({ja:`${r} が Blackmores の定番棚に陳列。撤去し ${p} を戻す。エリアへ報告。`,en:`${r} is sitting in the Blackmores planogram bay. Remove it and restore ${p}. Report to the area lead.`,zh:`${r} 占了 Blackmores 的定番位。撤除并放回 ${p}，并上报区域。`,th:`${r} วางอยู่ในชั้นประจำของ Blackmores นำออกและจัด ${p} กลับเข้าที่ แล้วรายงานหัวหน้าพื้นที่`}),
+  tExp:{ja:"鮮度 — 前出し・先入れ先出し",en:"Expiry — front-face & rotate",zh:"临期 — 前置·先进先出",th:"ใกล้หมดอายุ — จัดหน้าและหมุนเวียนสต๊อก"},
+  tExpL:p=>({ja:`${p} の賞味期限が近い。先入れ先出し（FIFO）で前出しし、優先的に販売する。`,en:`${p} is near its best-before date. Rotate stock front (FIFO) and prioritize it for sale.`,zh:`${p} 临近保质期。按先进先出（FIFO）前置，优先售出。`,th:`${p} ใกล้วันหมดอายุ หมุนเวียนสต๊อกออกหน้า (FIFO) และจัดจำหน่ายเป็นลำดับแรก`}),
+  locTop:{ja:"上段",en:"Top",zh:"上层",th:"ชั้นบน"},locBot:{ja:"下段",en:"Bottom",zh:"下层",th:"ชั้นล่าง"},
+  rankTitle:{ja:"エリア巡検 ランキング（10店舗中）",en:"Area audit ranking (of 10 stores)",zh:"区域巡检排名（10 店中）",th:"อันดับการตรวจสอบพื้นที่ (จาก 10 ร้าน)"},
+  foot:{ja:"いい棚は、<b>毎日の実行</b>から。AI が現場を標準に保つ。",en:"A great shelf comes from <b>daily execution</b> — AI keeps the floor on-standard.",zh:"好货架来自<b>每天的执行</b>，AI 让店头保持标准。",th:"ชั้นวางที่ดีมาจาก<b>การลงมือทำทุกวัน</b> AI ช่วยรักษาหน้าร้านให้ตรงมาตรฐาน"},
+  src:{ja:"イラスト用デモ · 棚割は標準モデルケース",en:"Illustrative demo · planogram is a model case",zh:"演示示意 · 货架为标准示例",th:"เดโมเพื่อการสาธิต · ผังชั้นวางเป็นกรณีตัวอย่างมาตรฐาน"},
+  toastFix:{ja:"✓ 是正しました",en:"✓ Marked fixed",zh:"✓ 已整改",th:"✓ ทำเครื่องหมายแก้ไขแล้ว"}};
+
+let state={lang:"en",brand:"blackmores",store:0,view:"actual",act:STORE_ACT[0].slice(),freshFixed:false};
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const L=o=>(typeof o==='function')?o:(o&&typeof o==='object'?(o[state.lang]||o.ja||o.en):o);
+const PN=c=>L(PROD[c].nm);
+const slotLoc=i=>(i<6?L(T.locTop):L(T.locBot))+(i%6+1);
+
+function gridIssues(){const out=[];
+  STD.forEach((s,i)=>{const a=state.act[i];if(s===a)return;
+    if(a===''){out.push({id:'e'+i,slot:i,type:'empty',sev:(s==='FSH')?'hi':'mid'});}
+    else if(!PROD[a].dn){out.push({id:'c'+i,slot:i,type:'rival',sev:'hi',rival:a});}
+    else{out.push({id:'m'+i,slot:i,type:'empty',sev:'mid'});}});
+  return out;}
+function allIssues(){const out=gridIssues();if(!state.freshFixed)out.push({id:'fresh',slot:FRESH[state.store],type:'expiry',sev:'mid'});return out;}
+function compliance(){let m=0;STD.forEach((s,i)=>{if(s===state.act[i])m++;});return Math.round(m/STD.length*100);}
+
+function slotHtml(code,i,problem,corner){
+  if(code===''){return `<div class="slot empty ${problem?'bad':''}" data-i="${i}"><span class="em">📦</span><span class="et">${L(T.lgEmpty)}</span>${corner?`<span class="corner">!</span>`:''}</div>`;}
+  const p=PROD[code];
+  if(!p.dn){return `<div class="slot rival ${problem?'bad':''}" data-i="${i}"><div class="rv">💊</div><span class="sn">${PN(code)}</span>${corner?`<span class="corner">⚠</span>`:''}</div>`;}
+  const exp=corner==='exp';
+  return `<div class="slot ${exp?'expiry':''} ${problem?'bad':''}" data-i="${i}"><img src="${p.img}" alt=""><span class="sn">${PN(code)}</span>${exp?`<span class="corner">⏱</span>`:''}</div>`;}
+
+function renderShelf(){
+  const isAct=state.view==='actual';
+  const grid=isAct?state.act:STD;
+  const probSet={};if(isAct)gridIssues().forEach(x=>probSet[x.slot]=1);
+  const freshSlot=(isAct&&!state.freshFixed)?FRESH[state.store]:-1;
+  const cell=i=>{const code=grid[i];const corner=(i===freshSlot&&code!=='')?'exp':(isAct&&probSet[i]?1:0);
+    return slotHtml(code,i,isAct&&(probSet[i]||i===freshSlot),corner);};
+  let h='<div class="shelf-row">';for(let i=0;i<6;i++)h+=cell(i);h+='</div><div class="shelf-row">';for(let i=6;i<12;i++)h+=cell(i);h+='</div>';
+  $('#shelf').innerHTML=h;
+}
+function renderScore(){const v=compliance();const rc=v>=100?'var(--accent)':v>=80?'var(--warn)':'var(--neg)';
+  const r=$('#ring');r.style.setProperty('--p',v);r.style.setProperty('--rc',rc);$('#sv').textContent=v;
+  const done=v>=100&&state.freshFixed;$('#ctxBadge').innerHTML=done?`<span class="badge-done">${L(T.allDone)}</span>`:'';}
+function renderFixes(){
+  const list=allIssues();
+  $('#fixTitle').textContent=L(T.fixTitle);
+  $('#fixCnt').textContent=list.length?L(T.remain).replace('{n}',list.length):'✓';
+  if(!list.length){$('#fixes').innerHTML=`<div class="allclear">${L(T.allClear)}</div>`;return;}
+  $('#fixes').innerHTML=list.map(x=>{
+    let ic,title,body,loc=slotLoc(x.slot);
+    if(x.type==='empty'){ic='📦';title=L(T.tEmpty);body=L(T.tEmptyL)(PN(STD[x.slot]));}
+    else if(x.type==='rival'){ic='⚠';title=L(T.tRival);body=L(T.tRivalL)(PN(x.rival),PN(STD[x.slot]));}
+    else{ic='⏱';title=L(T.tExp);body=L(T.tExpL)(PN(state.act[x.slot]||STD[x.slot]));}
+    return `<div class="fix ${x.sev==='hi'?'':'mid'}" data-fix="${x.id}" data-slot="${x.slot}" data-type="${x.type}">
+      <div class="fic">${ic}</div>
+      <div class="fb"><div class="ft">${title}<span class="sev ${x.sev}">${x.sev==='hi'?'!':'·'}</span></div>
+        <div class="fl">${body}</div><span class="floc">📍 ${loc}</span></div>
+      <button class="fbtn" data-fix="${x.id}" data-slot="${x.slot}" data-type="${x.type}">${L(T.markFixed)}</button></div>`;}).join('');
+  $$('#fixes .fbtn').forEach(b=>b.onclick=()=>{
+    if(b.dataset.type==='expiry')state.freshFixed=true;
+    else state.act[+b.dataset.slot]=STD[+b.dataset.slot];
+    toast(L(T.toastFix));renderAll();});
+}
+function renderRanking(){
+  const others=[{i:1,p:92},{i:2,p:78}];
+  const rows=[{i:0,p:compliance(),me:1},...others.map(o=>({i:o.i,p:o.p,me:0}))].sort((a,b)=>b.p-a.p);
+  $('#rankTitle').textContent=L(T.rankTitle);
+  $('#ranking').innerHTML=rows.map((r,k)=>`<div class="rank"><div class="rk-n">${k+1}</div>
+    <div class="rk-b"><div class="rk-name ${r.me?'me':''}">${r.me?'📍 ':''}${L(STORES[r.i].nm)}</div>
+      <div class="rk-bar"><i style="width:${r.p}%"></i></div></div>
+    <div class="rk-pct">${r.p}%</div></div>`).join('');
+}
+function renderStores(){
+  $('#storeSel').innerHTML=STORES.map((s,i)=>`<button class="stbtn ${i===state.store?'on':''}" data-st="${i}">${L(s.nm)}</button>`).join('');
+  $$('#storeSel .stbtn').forEach(b=>b.onclick=()=>{state.store=+b.dataset.st;state.act=STORE_ACT[state.store].slice();state.freshFixed=false;state.view='actual';renderAll();});
+}
+function renderToggle(){
+  $('#vtog').innerHTML=`<button data-v="standard" class="${state.view==='standard'?'on':''}">${L(T.vStd)}</button>
+    <button data-v="actual" class="${state.view==='actual'?'on':''}">${L(T.vAct)}</button>`;
+  $$('#vtog button').forEach(b=>b.onclick=()=>{state.view=b.dataset.v;renderToggle();renderShelf();});
+}
+function renderAll(){
+  $('#sub').textContent=L(T.sub);$('#eye').textContent=L(T.eye);$('#title').textContent=L(T.title);$('#lead').textContent=L(T.lead);
+  $('#ctxTitle').textContent=L(T.ctxTitle);$('#sl').textContent=L(T.scoreL);$('#ctxStore').textContent=L(STORES[state.store].nm);$('#ctxSub').textContent=L(T.ctxSub);
+  $('#shelfTitle').textContent=L(T.shelfTitle);$('#caseTop').textContent=L(T.caseTop);$('#caseEye').textContent=L(T.caseEye);
+  $('#legend').innerHTML=`<span><span class="lg e"></span>${L(T.lgEmpty)}</span><span><span class="lg r"></span>${L(T.lgRival)}</span><span>⏱ ${L(T.lgExp)}</span>`;
+  $('#foot').innerHTML=L(T.foot);$('#src').textContent=L(T.src);
+  document.documentElement.lang=state.lang;
+  renderStores();renderToggle();renderShelf();renderScore();renderFixes();renderRanking();
+}
+function applyBrand(){const b=BRANDS[state.brand],r=document.documentElement.style;
+  r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
+  $('#brandName').innerHTML=b.name+(b.sup?`<sup style="font-size:9px">${b.sup}</sup>`:'');}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1700);}
+
+function renderLangs(){const box=$('#langs');box.innerHTML='';[['en','EN'],['zh','中'],['ja','日'],['th','ไท']].forEach(([k,lab])=>{const b=document.createElement('button');b.textContent=lab;if(k===state.lang)b.className='on';b.onclick=()=>{state.lang=k;renderLangs();renderAll();};box.appendChild(b);});}
+renderLangs();
+try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_l=_p.get("lang");
+  if(_b&&BRANDS[_b])state.brand=_b;if(_l&&["ja","en","zh","th"].indexOf(_l)>=0)state.lang=_l;}catch(e){}
+applyBrand();renderAll();
+(function(){var _s="";setInterval(function(){try{if(window.parent&&window.parent!==window){var c=state.brand+"|"+state.lang;if(c!==_s){_s=c;window.parent.postMessage({t:"es",brand:state.brand,lang:state.lang},"*");}}}catch(e){}},400);})();
+</script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

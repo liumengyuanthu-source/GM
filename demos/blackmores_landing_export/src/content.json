@@ -1,0 +1,68 @@
+{
+  "brand": "BLACKMORES",
+  "studioName": "EXPERIENCE STUDIO",
+  "navigation": ["Journey", "Capability Catalog", "Case Library", "About NTT DATA"],
+  "hero": {
+    "eyebrow": "GLOBAL CONSISTENCY. LOCAL RELEVANCE.",
+    "headline": "One Brand.\nFive Market Realities.\nOne Scalable\nOperating Model.",
+    "body": "Helping Blackmores deliver locally relevant experiences through one scalable operating model.",
+    "poweredBy": "NTT DATA"
+  },
+  "model": [
+    {"title": "One Brand", "body": "Global consistency in strategy and standards."},
+    {"title": "Five Market Realities", "body": "Different ecosystems. Different consumers. Different journeys."},
+    {"title": "One Scalable Operating Model", "body": "Unified by data. Governed by trust. Powered by AI."}
+  ],
+  "section": {
+    "eyebrow": "REGIONAL EXPERIENCE LANDSCAPE",
+    "headline": "Every market has its own ecosystem. We design for what matters locally."
+  },
+  "markets": [
+    {
+      "id": "anz",
+      "flag": "🇦🇺",
+      "title": "Australia & New Zealand",
+      "positioning": "Retail-led Health Ecosystem",
+      "evidence": ["Pharmacy as primary channel", "Retail & loyalty growth", "Health & wellness focus"],
+      "tags": ["Retail", "Pharmacy", "Loyalty"],
+      "theme": "blue"
+    },
+    {
+      "id": "china",
+      "flag": "🇨🇳",
+      "title": "China",
+      "positioning": "WeChat-native Customer Journey",
+      "evidence": ["Service Account & CRM", "Mini Program & Commerce", "WeCom & Community"],
+      "tags": ["WeChat", "Mini Program", "CRM"],
+      "theme": "wechat"
+    },
+    {
+      "id": "japan",
+      "flag": "🇯🇵",
+      "title": "Japan",
+      "positioning": "LINE-driven Daily Care",
+      "evidence": ["LINE Official Account", "Points & Loyalty Program", "Care & Content Engagement"],
+      "tags": ["LINE OA", "Points", "Care"],
+      "theme": "line"
+    },
+    {
+      "id": "sea",
+      "flag": "🌏",
+      "title": "Southeast Asia",
+      "positioning": "LINE + WhatsApp Ecosystem",
+      "evidence": ["LINE engagement", "WhatsApp conversations", "Partner & retail network"],
+      "tags": ["LINE", "WhatsApp", "Partners"],
+      "theme": "multi"
+    },
+    {
+      "id": "future",
+      "flag": "🌐",
+      "title": "Future Markets",
+      "positioning": "Composable by Design",
+      "evidence": ["India", "Middle East", "Europe", "and more"],
+      "tags": ["Onboard", "Localize", "Scale"],
+      "theme": "future",
+      "footer": "Built to onboard any future market with speed and consistency."
+    }
+  ]
+}

@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blackmores · WeChat Mini-Program · Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63; --wx-green:#07c160;
+    --ink:#16201f; --muted:#6a7480; --bg:#f4f7fb; --card:#fff; --line:#e6ecf2;
+    --display:Georgia,'Times New Roman','Hiragino Mincho ProN',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','PingFang SC','Microsoft YaHei','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55}
+  button{font-family:inherit;cursor:pointer}
+  header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  .nav{display:flex;align-items:center;gap:11px;max-width:960px;margin:0 auto;padding:13px 18px}
+  .brand{font-family:var(--display);font-weight:700;font-size:18px}.brand sup{font-size:9px;color:var(--brand)}
+  .subt{font-size:11px;color:var(--muted);border-left:1px solid var(--line);padding-left:11px}.sp{flex:1}
+  .wxbadge{display:inline-flex;align-items:center;gap:4px;background:var(--wx-green);color:#fff;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:7px}
+  .backst{display:none;align-items:center;gap:5px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:12px;font-weight:700;padding:6px 11px;border-radius:9px;cursor:pointer}
+  .backst:hover{background:var(--soft);border-color:var(--brand)}
+  .langs{display:flex;gap:3px}
+  .langs button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;font-weight:600;color:var(--muted);min-width:32px;height:30px;border-radius:8px;cursor:pointer;transition:.2s;padding:0 6px}
+  .langs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .wrap{max-width:960px;margin:0 auto;padding:24px 18px 64px}
+  .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brand);font-weight:700}
+  h1{font-family:var(--display);font-weight:400;font-size:clamp(21px,4.4vw,29px);margin:9px 0 5px;line-height:1.2}
+  .lead{color:var(--muted);font-size:14px;max-width:64ch}
+
+  .stage{display:grid;grid-template-columns:264px minmax(0,1fr);justify-content:center;gap:32px;align-items:start;margin-top:24px}
+  @media(max-width:760px){.stage{grid-template-columns:1fr;justify-items:center}}
+  .phone{width:264px;border:9px solid #18202c;border-radius:36px;overflow:hidden;background:#fff;box-shadow:0 16px 38px rgba(0,0,0,.22);position:sticky;top:78px}
+  .ph-notch{height:22px;background:#18202c;display:flex;justify-content:center;align-items:flex-start}
+  .ph-notch i{width:80px;height:15px;background:#18202c;border-radius:0 0 12px 12px;margin-top:-2px}
+  .ph-bar{background:#1f2733;color:#fff;font-size:11.5px;font-weight:700;padding:8px 12px;display:flex;align-items:center;gap:7px}
+  .ph-bar .dot{width:6px;height:6px;border-radius:50%;background:#fff;opacity:.8}
+  .ph-bar .clk{margin-left:auto;font-weight:600;opacity:.85}
+  .ph-body{height:470px;overflow:auto;background:#eef1f5;padding:10px 10px 6px}
+  .ph-card{background:#fff;border-radius:12px;padding:11px;margin-bottom:9px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  .ph-cap{font-size:10px;color:var(--muted);margin-top:6px}
+  .ph-sech{font-size:11px;font-weight:800;color:var(--ink);margin:2px 0 7px;display:flex;align-items:center;gap:5px}
+  .ph-sech .more{margin-left:auto;font-size:9.5px;color:var(--muted);font-weight:600}
+  .ph-btn{width:100%;border:0;border-radius:9px;padding:9px;font-size:12px;font-weight:700;color:#fff;background:var(--brand);margin-top:8px;cursor:pointer;transition:.15s}
+  .ph-btn:active{transform:scale(.97)}
+  .ph-btn.wx{background:var(--wx-green)}
+  .ph-btn.acc{background:var(--accent)}
+  .ph-btn.done{background:var(--soft);color:var(--brand-d)}
+  .ph-btn.ghost{background:#fff;color:var(--brand-d);border:1px solid var(--line)}
+  .ph-btn:disabled{opacity:.45;cursor:default}
+
+  /* legend chips for AU viewers */
+  .ph-leg{display:flex;flex-wrap:wrap;gap:5px;margin:0 0 9px}
+  .ph-leg .lg{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:3px 8px;font-size:9px;font-weight:700;color:var(--muted);cursor:help}
+  .ph-leg .lg b{color:var(--brand-d)}
+  .ecoTag{display:inline-flex;align-items:center;gap:3px;background:var(--soft);color:var(--brand-d);font-size:8.5px;font-weight:800;padding:1px 6px;border-radius:6px;vertical-align:middle}
+
+  /* home banner */
+  .ph-banner{position:relative;height:96px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand-d));display:flex;flex-direction:column;justify-content:center;padding:12px 13px;color:#fff;overflow:hidden;margin-bottom:9px}
+  .ph-banner::after{content:'❄️';position:absolute;right:-6px;top:-8px;font-size:64px;opacity:.18}
+  .ph-banner .bt{font-family:var(--display);font-size:15px;font-weight:600;line-height:1.2;position:relative}
+  .ph-banner .bs{font-size:10px;opacity:.92;margin-top:4px;position:relative}
+  .ph-banner .bb{display:inline-block;margin-top:8px;background:#fff;color:var(--brand-d);font-size:9.5px;font-weight:800;padding:4px 10px;border-radius:999px;position:relative;width:fit-content}
+
+  .ph-goals{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  .ph-goal{background:var(--soft);border-radius:10px;padding:8px 3px;text-align:center;cursor:pointer;transition:.12s}
+  .ph-goal:active{transform:scale(.95)}
+  .ph-goal:hover{background:var(--brand);color:#fff}
+  .ph-goal .gi{font-size:18px}.ph-goal .gn{font-size:9px;font-weight:700;margin-top:2px;line-height:1.1}
+
+  .ph-quiz .qq{font-size:11.5px;font-weight:700;line-height:1.35;margin-bottom:8px}
+  .ph-quiz .opt{border:1px solid var(--line);background:#fff;border-radius:9px;padding:8px 10px;font-size:11px;font-weight:600;margin-bottom:6px;cursor:pointer;transition:.12s}
+  .ph-quiz .opt:hover{border-color:var(--brand);background:var(--soft)}
+  .ph-prog{height:5px;border-radius:99px;background:var(--soft);overflow:hidden;margin-bottom:9px}
+  .ph-prog i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:.3s}
+
+  .ph-content{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .ph-cw{background:#fff;border:1px solid var(--line);border-radius:11px;overflow:hidden;cursor:pointer;transition:.15s}
+  .ph-cw:hover{border-color:var(--brand);box-shadow:0 3px 10px rgba(0,0,0,.06)}
+  .ph-cw .thumb{position:relative;height:74px;background:linear-gradient(135deg,#0f6fb4,#009BA4);display:grid;place-items:center;font-size:30px}
+  .ph-cw .thumb.v2{background:linear-gradient(135deg,#E91E63,#ff8a5c)}
+  .ph-cw .thumb.v3{background:linear-gradient(135deg,#7b5cff,#009BA4)}
+  .ph-cw .thumb.v4{background:linear-gradient(135deg,#0f9b6c,#009BA4)}
+  .ph-cw .play{position:absolute;inset:0;margin:auto;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center;font-size:12px;color:var(--brand-d)}
+  .ph-cw .tg{position:absolute;top:5px;left:5px;background:rgba(0,0,0,.55);color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:5px}
+  .ph-cw .ct{font-size:10px;font-weight:700;line-height:1.25;padding:7px 7px 2px;min-height:34px}
+  .ph-cw .cm{display:flex;align-items:center;gap:8px;font-size:8.5px;color:var(--muted);padding:0 7px 7px}
+  .ph-cw .cm button{border:0;background:0;font:inherit;font-size:8.5px;color:var(--muted);cursor:pointer;padding:0}
+  .ph-cw .cm button.on{color:var(--accent)}
+
+  .ph-live{position:relative;height:88px;border-radius:11px;background:linear-gradient(135deg,#E91E63,#7b1fa2);display:flex;align-items:flex-end;padding:9px;overflow:hidden;cursor:pointer}
+  .ph-live .ld{position:absolute;top:7px;left:7px;background:#ff3b3b;color:#fff;font-size:8.5px;font-weight:800;padding:2px 7px;border-radius:5px;display:flex;align-items:center;gap:3px}
+  .ph-live .ld i{width:5px;height:5px;border-radius:50%;background:#fff;animation:bl 1s infinite}
+  @keyframes bl{50%{opacity:.3}}
+  .ph-live .lv{position:absolute;top:7px;right:7px;background:rgba(0,0,0,.4);color:#fff;font-size:8.5px;font-weight:700;padding:2px 7px;border-radius:5px}
+  .ph-live .ltx{color:#fff;font-size:10.5px;font-weight:800;line-height:1.25;text-shadow:0 1px 4px rgba(0,0,0,.4)}
+
+  .ph-store{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid var(--line)}
+  .ph-store:last-child{border-bottom:0}
+  .ph-store .si{width:34px;height:34px;border-radius:9px;background:var(--soft);display:grid;place-items:center;font-size:17px;flex-shrink:0}
+  .ph-store .sn{flex:1;font-size:11px}.ph-store .sn b{font-weight:700}.ph-store .sn span{display:block;color:var(--muted);font-size:9px;margin-top:1px}
+  .ph-store .stk{font-size:9px;font-weight:800;color:var(--brand-d);background:var(--soft);padding:2px 7px;border-radius:6px}
+  .ph-store .stk.low{color:#c2410c;background:#fff2e8}
+
+  /* shop */
+  .ph-stbar{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 7px}
+  .ph-stback{border:none;background:none;color:var(--brand);font-weight:700;font-size:12px;cursor:pointer;font-family:inherit}
+  .ph-stcart{border:1px solid var(--line);background:#fff;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer;color:var(--ink)}
+  .ph-search{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 11px;font-size:11px;color:var(--muted);margin-bottom:8px}
+  .ph-cats{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px}
+  .ph-cat{flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:14px;padding:4px 10px;font-size:10px;font-weight:700;color:var(--muted);cursor:pointer;font-family:inherit;white-space:nowrap;transition:.12s}
+  .ph-cat.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .ph-catlbl{font-size:9px;font-weight:800;color:var(--muted);margin:2px 0 5px;letter-spacing:.04em}
+  .ph-pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .ph-pcard{background:#fff;border:1px solid var(--line);border-radius:11px;padding:9px 8px;text-align:center;cursor:pointer;transition:.15s}
+  .ph-pcard:active{transform:scale(.97)}
+  .ph-pcard:hover{border-color:var(--accent);box-shadow:0 3px 10px rgba(0,0,0,.06)}
+  .ph-pcard img{width:46px;height:46px;object-fit:contain}
+  .ph-pcn{font-size:10px;font-weight:700;color:var(--ink);line-height:1.25;margin:5px 0 3px;min-height:26px}
+  .ph-ptags{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;margin-bottom:4px}
+  .ph-ptag{font-size:8px;font-weight:700;color:var(--brand-d);background:var(--soft);padding:1px 5px;border-radius:5px}
+  .ph-pcp{font-size:13px;font-weight:800;color:var(--accent)}
+  .ph-pcp s{font-size:9px;color:var(--muted);font-weight:600;margin-left:3px}
+  .ph-pcr{font-size:8.5px;color:#f5a623;font-weight:700}
+
+  .ph-detail .dimg{width:96px;height:96px;object-fit:contain;margin:0 auto;display:block}
+  .ph-dtags{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin:6px 0}
+  .ph-dtag{font-size:9px;font-weight:700;color:#fff;background:var(--brand);padding:2px 8px;border-radius:6px}
+  .ph-price{display:flex;align-items:baseline;gap:8px;justify-content:center;margin:8px 0}
+  .ph-price .mp{font-size:20px;font-weight:800;color:var(--accent)}
+  .ph-price .lp{font-size:11px;color:var(--muted);text-decoration:line-through}
+  .ph-price .mb{font-size:8.5px;font-weight:800;color:var(--brand-d);background:var(--soft);padding:2px 6px;border-radius:5px}
+  .ph-spec{border-top:1px solid var(--line);padding:8px 0;font-size:10.5px}
+  .ph-spec .row{display:flex;gap:8px;padding:3px 0}
+  .ph-spec .row .k{color:var(--muted);min-width:62px;flex-shrink:0;font-weight:700}
+  .ph-spec .row .v{flex:1;line-height:1.4}
+  .ph-cert{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+  .ph-cert div{display:flex;align-items:center;gap:4px;border:1px solid var(--line);border-radius:8px;padding:5px 8px;font-size:9px;font-weight:700;color:var(--brand-d);background:#fafdfd}
+  .ph-rev{border-top:1px solid var(--line);padding:8px 0 0}
+  .ph-rev .rv{padding:6px 0;border-bottom:1px solid var(--line);font-size:10px}
+  .ph-rev .rv:last-child{border-bottom:0}
+  .ph-rev .rv .rh{display:flex;align-items:center;gap:6px;font-weight:700}
+  .ph-rev .rv .rh .st{color:#f5a623;font-size:9px;margin-left:auto}
+  .ph-rev .rv .rt{color:var(--muted);margin-top:2px;line-height:1.4}
+  .ph-pair{border:1px dashed var(--accent);background:#fff5f8;border-radius:9px;padding:8px;margin-top:8px;font-size:10px}
+  .ph-pair b{color:var(--accent)}
+  .ph-dbar{display:flex;gap:6px;margin-top:9px}
+  .ph-dbar .ph-btn{margin-top:0}
+
+  .ph-prow{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+  .ph-prow:last-of-type{border-bottom:0}
+  .ph-pimg{width:32px;height:32px;flex-shrink:0;object-fit:contain}
+  .ph-pn{flex:1;font-size:11px;font-weight:600;line-height:1.2}
+  .ph-pp{font-size:10px;color:var(--accent);font-weight:800;margin-top:2px}
+  .ph-qty{display:flex;align-items:center;gap:6px}
+  .ph-qty button{width:21px;height:21px;border:1px solid var(--line);background:var(--bg);border-radius:6px;font-size:13px;line-height:1;color:var(--brand);cursor:pointer}
+  .ph-qty b{min-width:14px;text-align:center;font-size:12px}
+  .ph-row{display:flex;justify-content:space-between;font-size:11px;padding:5px 0;color:var(--muted)}
+  .ph-row.tot{color:var(--ink);font-weight:800;font-size:13px}
+  .ph-row .disc{color:var(--accent);font-weight:700}
+  .ph-field{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:11px}
+  .ph-field .fi{font-size:15px}.ph-field .ft{flex:1}.ph-field .ft b{font-weight:700}.ph-field .ft span{display:block;color:var(--muted);font-size:9px}
+  .ph-field .fa{color:var(--muted);font-size:14px}
+  .ph-couponrow{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#fff5f8;border:1px dashed var(--accent);border-radius:9px;padding:8px 10px;margin:8px 0;font-size:10.5px;font-weight:700;color:var(--accent)}
+  .ph-couponrow button{border:0;background:var(--accent);color:#fff;border-radius:7px;padding:5px 10px;font-size:10px;font-weight:700;cursor:pointer}
+  .ph-couponrow button.done{background:var(--soft);color:var(--brand-d)}
+
+  /* AI */
+  .ph-aimode{display:flex;gap:5px;margin-bottom:9px}
+  .ph-aimode button{flex:1;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 4px;font-size:10px;font-weight:700;color:var(--muted);cursor:pointer;transition:.12s}
+  .ph-aimode button.on{background:var(--brand);border-color:var(--brand);color:#fff}
+  .ph-disc{background:#fffbe8;border:1px solid #f0e2a8;border-radius:9px;padding:8px 10px;font-size:9.5px;color:#8a6d1a;line-height:1.4;margin-bottom:9px}
+  .ph-chat{display:flex;flex-direction:column;gap:8px}
+  .ph-msg{max-width:85%;font-size:11px;line-height:1.45;padding:8px 10px;border-radius:12px}
+  .ph-msg.bot{background:#fff;border:1px solid var(--line);border-bottom-left-radius:3px;align-self:flex-start}
+  .ph-msg.me{background:var(--brand);color:#fff;border-bottom-right-radius:3px;align-self:flex-end}
+  .ph-msg .av{font-weight:800;color:var(--brand-d);font-size:10px;display:block;margin-bottom:2px}
+  .ph-quick{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+  .ph-quick button{border:1px solid var(--brand);background:#fff;color:var(--brand-d);border-radius:14px;padding:5px 10px;font-size:10px;font-weight:700;cursor:pointer}
+  .ph-quick button:active{transform:scale(.96)}
+  .ph-pcardmini{border:1px solid var(--line);border-radius:10px;padding:8px;display:flex;gap:8px;align-items:center;background:#fafdfd}
+  .ph-pcardmini img{width:38px;height:38px;object-fit:contain}
+  .ph-pcardmini .nm{flex:1;font-size:10.5px;font-weight:700;line-height:1.2}
+  .ph-pcardmini .nm .pp{color:var(--accent);font-weight:800;margin-top:2px}
+  .ph-cmp{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px}
+  .ph-cmp .col{border:1px solid var(--line);border-radius:9px;padding:8px;font-size:9.5px;text-align:center}
+  .ph-cmp .col img{width:34px;height:34px;object-fit:contain}
+  .ph-cmp .col .cn{font-weight:800;font-size:10px;margin:3px 0}
+  .ph-cmp .col .cr{padding:2px 0;color:var(--muted)}
+  .ph-cmp .col .cr b{color:var(--ink)}
+  .ph-agent{border:1px solid var(--accent);background:#fff5f8;border-radius:11px;padding:10px}
+  .ph-agent .ah{font-size:10px;font-weight:800;color:var(--accent);display:flex;align-items:center;gap:5px;margin-bottom:6px}
+  .ph-agent .at{font-size:11px;line-height:1.5}
+  .ph-agent .at b{color:var(--accent)}
+  .ph-inbar{display:flex;gap:6px;align-items:center;margin-top:9px;padding-top:9px;border-top:1px solid var(--line)}
+  .ph-inbar .ic{width:30px;height:30px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:14px;color:var(--brand-d);flex-shrink:0}
+  .ph-inbar .box{flex:1;border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:10.5px;color:var(--muted);background:#fff}
+  .ph-voice{text-align:center;padding:14px 0}
+  .ph-voice .mic{width:64px;height:64px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:28px;margin:0 auto;box-shadow:0 6px 18px rgba(0,155,164,.4);cursor:pointer;transition:.15s}
+  .ph-voice .mic:active{transform:scale(.92)}
+  .ph-voice .mic.rec{background:var(--accent);animation:pulse 1.1s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(233,30,99,.45)}50%{box-shadow:0 0 0 12px rgba(233,30,99,0)}}
+
+  /* health twin */
+  .ph-avatar{position:relative;height:150px;border-radius:14px;display:grid;place-items:center;overflow:hidden;transition:.5s;background:linear-gradient(160deg,#cfd8e0,#aeb8c2)}
+  .ph-avatar.lv1{background:linear-gradient(160deg,#cfd8e0,#aeb8c2)}
+  .ph-avatar.lv2{background:linear-gradient(160deg,#bfe3e6,#7fc9cf)}
+  .ph-avatar.lv3{background:linear-gradient(160deg,#9fe6c9,#4fd0b0)}
+  .ph-avatar.lv4{background:linear-gradient(160deg,#ffe27a,#ffb74d)}
+  .ph-avatar .face{font-size:58px;filter:grayscale(.5);transition:.5s;position:relative;z-index:2}
+  .ph-avatar.lv2 .face{filter:grayscale(.2)}
+  .ph-avatar.lv3 .face,.ph-avatar.lv4 .face{filter:none}
+  .ph-avatar .shield{position:absolute;font-size:120px;opacity:0;transition:.5s;z-index:1}
+  .ph-avatar.lv3 .shield{opacity:.18}.ph-avatar.lv4 .shield{opacity:.32}
+  .ph-avatar .lvtag{position:absolute;top:8px;left:8px;background:rgba(255,255,255,.85);color:var(--brand-d);font-size:9px;font-weight:800;padding:3px 8px;border-radius:999px;z-index:3}
+  .ph-avatar .vit{position:absolute;bottom:8px;right:8px;background:rgba(255,255,255,.85);color:var(--ink);font-size:9px;font-weight:800;padding:3px 8px;border-radius:999px;z-index:3}
+  .ph-dims{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}
+  .ph-dim{background:var(--soft);border-radius:9px;padding:7px 8px}
+  .ph-dim .dn{font-size:9.5px;font-weight:700;display:flex;align-items:center;gap:4px}
+  .ph-dim .db{height:5px;border-radius:99px;background:#fff;overflow:hidden;margin-top:4px}
+  .ph-dim .db i{display:block;height:100%;background:var(--brand);border-radius:99px;transition:.5s}
+  .ph-checkin{display:flex;align-items:center;gap:9px}
+  .ph-checkin .cir{width:46px;height:46px;border-radius:50%;border:3px solid var(--accent);display:grid;place-items:center;font-size:14px;font-weight:800;color:var(--accent);flex-shrink:0}
+  .ph-stamp{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:8px 0 2px}
+  .ph-stamp i{aspect-ratio:1;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--brand);cursor:pointer}
+  .ph-stamp i.done{background:var(--accent);color:#fff}
+  .ph-stamp i.today{outline:2px solid var(--brand);outline-offset:-2px}
+  .ph-badges{display:flex;gap:7px;flex-wrap:wrap}
+  .ph-badge{flex:0 0 auto;text-align:center;width:52px}
+  .ph-badge .bi{width:42px;height:42px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:20px;margin:0 auto;filter:grayscale(1);opacity:.4;transition:.2s}
+  .ph-badge.on .bi{filter:none;opacity:1;background:linear-gradient(135deg,#fff0c4,#ffd86b)}
+  .ph-badge .bn{font-size:8px;font-weight:700;margin-top:3px;line-height:1.1;color:var(--muted)}
+  .ph-rec{display:flex;gap:6px}
+  .ph-rec .rc{flex:1;text-align:center;border:1px solid var(--line);border-radius:9px;padding:7px 3px;cursor:pointer;transition:.12s}
+  .ph-rec .rc:hover{border-color:var(--brand);background:var(--soft)}
+  .ph-rec .rc.on{border-color:var(--accent);background:#fff5f8}
+  .ph-rec .rc .ri{font-size:20px}.ph-rec .rc .rl{font-size:8.5px;font-weight:700;margin-top:2px}
+  .ph-predict{border:1px solid var(--brand);background:#f3fbfb;border-radius:10px;padding:9px;font-size:10.5px;line-height:1.5}
+  .ph-predict b{color:var(--brand-d)}
+
+  /* my / member */
+  .ph-mcard{border-radius:14px;padding:13px;color:#fff;background:linear-gradient(135deg,#b8860b,#daa520);position:relative;overflow:hidden}
+  .ph-mcard::after{content:'💎';position:absolute;right:-4px;bottom:-10px;font-size:62px;opacity:.18}
+  .ph-mcard .mh{display:flex;align-items:center;gap:9px;position:relative}
+  .ph-mcard .ava{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.25);display:grid;place-items:center;font-size:20px}
+  .ph-mcard .mn{font-weight:800;font-size:13px}.ph-mcard .mt{font-size:10px;opacity:.92}
+  .ph-mcard .pts{margin-left:auto;text-align:right}.ph-mcard .pts b{font-size:18px;font-family:var(--display)}.ph-mcard .pts span{font-size:9px;opacity:.9;display:block}
+  .ph-mcard .mbar{height:6px;border-radius:99px;background:rgba(255,255,255,.3);overflow:hidden;margin:10px 0 5px;position:relative}
+  .ph-mcard .mbar i{display:block;height:100%;background:#fff;border-radius:99px}
+  .ph-mcard .mnx{font-size:9.5px;opacity:.95;position:relative}
+  .ph-tiers{display:flex;gap:5px;margin-top:9px}
+  .ph-tier{flex:1;text-align:center;border:1px solid var(--line);border-radius:9px;padding:7px 2px;font-size:8.5px;font-weight:700;color:var(--muted)}
+  .ph-tier.on{border-color:var(--accent);background:#fff5f8;color:var(--accent)}
+  .ph-tier .te{font-size:16px}
+  .ph-grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  .ph-g4{background:var(--soft);border-radius:10px;padding:9px 3px;text-align:center;cursor:pointer;transition:.12s}
+  .ph-g4:hover{background:var(--brand);color:#fff}
+  .ph-g4:active{transform:scale(.95)}
+  .ph-g4 .gi{font-size:18px}.ph-g4 .gn{font-size:8.5px;font-weight:700;margin-top:2px}
+  .ph-task{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid var(--line)}
+  .ph-task:last-child{border-bottom:0}
+  .ph-task .ti{font-size:16px}.ph-task .tt{flex:1;font-size:10.5px;font-weight:600;line-height:1.2}.ph-task .tt span{display:block;color:var(--muted);font-size:8.5px}
+  .ph-task .tb{border:1px solid var(--brand);background:#fff;color:var(--brand-d);border-radius:14px;padding:4px 10px;font-size:9.5px;font-weight:700;cursor:pointer;flex-shrink:0}
+  .ph-task .tb.done{border-color:var(--line);color:var(--muted);background:var(--bg)}
+  .ph-act{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+  .ph-actc{border:1px solid var(--line);border-radius:10px;padding:9px;font-size:10px;cursor:pointer;transition:.12s;display:flex;align-items:center;gap:7px}
+  .ph-actc:hover{border-color:var(--accent)}
+  .ph-actc .ai{font-size:18px}.ph-actc .at b{display:block;font-weight:700}.ph-actc .at span{color:var(--muted);font-size:8.5px}
+  .ph-coupon{border:1px dashed var(--accent);background:#fff5f8;border-radius:10px;padding:9px;display:flex;align-items:center;gap:9px;margin-bottom:7px}
+  .ph-coupon .cv{font-family:var(--display);font-size:20px;color:var(--accent);font-weight:600;flex-shrink:0}
+  .ph-coupon .cn{flex:1;font-size:10px}.ph-coupon .cn b{font-weight:700}.ph-coupon .cn span{display:block;color:var(--muted);font-size:8.5px}
+  .ph-coupon .cb{border:1px solid var(--accent);color:var(--accent);background:#fff;border-radius:14px;padding:4px 9px;font-size:9px;font-weight:700;cursor:pointer}
+  .ph-coupon .cb.done{border-color:var(--line);color:var(--muted)}
+  .ph-orders{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;text-align:center}
+  .ph-orders .o{cursor:pointer}.ph-orders .oi{font-size:18px}.ph-orders .ol{font-size:8.5px;font-weight:600;margin-top:2px;color:var(--muted)}
+  .ph-ar{position:relative;height:96px;border-radius:11px;background:radial-gradient(circle at 30% 30%,#7b5cff,#1a1140);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer}
+  .ph-ar .mol{font-size:40px;animation:spin 8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media(prefers-reduced-motion:reduce){.ph-ar .mol,.ph-ar2{animation:none}}
+  .ph-ar .art{position:absolute;bottom:8px;left:0;right:0;text-align:center;color:#fff;font-size:9.5px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+
+  /* bottom nav */
+  .ph-tabbar{display:flex;background:#fff;border-top:1px solid var(--line)}
+  .ph-tab{flex:1;border:0;background:0;padding:7px 0 8px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;color:var(--muted);font-family:inherit}
+  .ph-tab .ic{font-size:18px;filter:grayscale(1);opacity:.6;transition:.12s}
+  .ph-tab .lb{font-size:8.5px;font-weight:700}
+  .ph-tab.on{color:var(--brand)}.ph-tab.on .ic{filter:none;opacity:1}
+
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(16px);background:rgba(22,32,31,.95);color:#fff;font-size:13px;font-weight:600;padding:10px 16px;border-radius:11px;z-index:90;opacity:0;transition:.25s;max-width:88%}
+  .toast.show{opacity:1;transform:translateX(-50%)}
+
+  /* side explainer for AU audience */
+  .side{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+  .side h3{font-family:var(--display);font-weight:500;font-size:18px;margin-bottom:4px}
+  .side .sb{font-size:12.5px;color:var(--muted);line-height:1.55;margin-bottom:14px}
+  .eco{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:760px){.eco{grid-template-columns:1fr}}
+  .ecard{background:#fafdfd;border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:11px;padding:11px}
+  .ecard .ei{font-size:18px}.ecard .et{font-weight:800;font-size:12px;margin-top:5px}.ecard .et small{color:var(--brand-d);font-weight:700}
+  .ecard .es{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.45}
+  .tabnote{margin-top:16px;border-top:1px solid var(--line);padding-top:14px}
+  .tabnote .te{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:800}
+  .tabnote h4{font-family:var(--display);font-weight:500;font-size:16px;margin:4px 0 5px}
+  .tabnote .td{font-size:12.5px;color:var(--muted);line-height:1.55}
+  .tabnote ul{margin:8px 0 0 16px;font-size:12px;color:var(--ink);line-height:1.6}
+  .compliance{margin-top:14px;background:#fffbe8;border:1px solid #f0e2a8;border-radius:11px;padding:11px;font-size:11px;color:#8a6d1a;line-height:1.5}
+  .compliance b{color:#6b540f}
+</style>
+</head>
+<body>
+<header><div class="nav">
+  <span class="brand" id="brand">Blackmores<sup>®</sup></span>
+  <span class="subt" id="subt">WeChat Mini-Program · China direct-operate</span>
+  <span class="wxbadge">WeChat 微信</span><span class="sp"></span>
+  <button class="backst" id="backStudio">← <span id="backLab">Studio</span></button>
+  <div class="langs" id="langs"></div>
+</div></header>
+
+<div class="wrap">
+  <div class="eyebrow" id="eye">China · Direct-operate channel</div>
+  <h1 id="title"></h1>
+  <div class="lead" id="lead"></div>
+
+  <div class="stage">
+    <div class="phone" id="phone"></div>
+    <div class="side">
+      <h3 id="sideTitle"></h3>
+      <div class="sb" id="sideBody"></div>
+      <div class="eco" id="eco"></div>
+      <div class="tabnote" id="tabnote"></div>
+      <div class="compliance" id="compliance"></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="phToast"></div>
+
+<script>
+/* ============ i18n ============ */
+const T={
+  subt:{en:"WeChat Mini-Program · China direct-operate",zh:"微信小程序 · 中国直营阵地",ja:"WeChat ミニプログラム · 中国直営",th:"WeChat Mini-Program · จีน (ดำเนินการเอง)"},
+  eye:{en:"China · Direct-operate channel",zh:"中国 · 直营阵地",ja:"中国 · 直営チャネル",th:"จีน · ช่องทางดำเนินการเอง"},
+  title:{en:"Blackmores' flagship China experience, inside WeChat",zh:"Blackmores 中国直营标杆，全在微信里",ja:"WeChat の中にある Blackmores 中国の標杆体験",th:"ประสบการณ์เรือธงของ Blackmores ในจีน ภายใน WeChat"},
+  lead:{en:"In China, the whole journey — discover, content, buy, AI advice, loyalty — happens inside WeChat with no app to download. Tap the 5 tabs and try the interactions. The cards on the right translate the WeChat ecosystem for an Australian audience.",
+    zh:"在中国，发现→内容→购买→AI建议→会员全程在微信内完成，无需下载App。点击5个标签页试试交互。右侧卡片为澳洲读者解释微信生态。",
+    ja:"中国では、発見・コンテンツ・購入・AI助言・ロイヤルティのすべてが WeChat の中で完結し、アプリDLは不要。5つのタブをタップして操作を試せます。右のカードは WeChat 生態を豪州読者向けに説明します。",
+    th:"ในจีน เส้นทางทั้งหมด — ค้นพบ เนื้อหา ซื้อ คำแนะนำ AI สมาชิก — เกิดขึ้นภายใน WeChat โดยไม่ต้องดาวน์โหลดแอป แตะแท็บทั้ง 5 และลองโต้ตอบ การ์ดด้านขวาอธิบายระบบนิเวศ WeChat สำหรับผู้ชมชาวออสเตรเลีย"},
+  sideTitle:{en:"The WeChat ecosystem, explained",zh:"微信生态解读",ja:"WeChat 生態の解説",th:"ระบบนิเวศ WeChat อธิบาย"},
+  sideBody:{en:"WeChat isn't just chat — it's the operating system of Chinese daily life. Blackmores' direct channel plugs into four of its building blocks:",
+    zh:"微信不只是聊天，更是中国日常生活的操作系统。Blackmores 直营接入其四大组件：",
+    ja:"WeChat はチャットだけではなく、中国の生活のOSです。Blackmores 直営はその4つの部品に接続します：",
+    th:"WeChat ไม่ใช่แค่แชท แต่เป็นระบบปฏิบัติการของชีวิตประจำวันชาวจีน ช่องทางตรงของ Blackmores เชื่อมต่อกับองค์ประกอบสี่อย่าง:"},
+  compliance:{en:"<b>China compliance:</b> supplements use “supports / helps” wording — never “treats / cures”. No competitor names. All content is official/expert (PGC), reviewed before publishing. Disclaimer: wellness advice, not medical diagnosis.",
+    zh:"<b>中国合规：</b>保健品只讲「支持/有助于」，不讲「治疗/治愈」。不提竞品名称。内容均为官方/专家（PGC），发布前审核。免责：保健建议，非医疗诊断。",
+    ja:"<b>中国コンプライアンス：</b>サプリは「支持/有助于（サポート/役立つ）」のみで「治疗/治愈（治療/治癒）」は不可。競合名なし。コンテンツは公式/専門家（PGC）、公開前審査。免責：ウェルネス助言であり医療診断ではありません。",
+    th:"<b>การปฏิบัติตามกฎจีน:</b> ผลิตภัณฑ์เสริมใช้คำว่า “สนับสนุน/ช่วย” ไม่ใช้ “รักษา/หายขาด” ไม่มีชื่อคู่แข่ง เนื้อหาทั้งหมดเป็นทางการ/ผู้เชี่ยวชาญ (PGC) ตรวจก่อนเผยแพร่ ข้อจำกัด: คำแนะนำสุขภาพ ไม่ใช่การวินิจฉัยทางการแพทย์"}
+};
+const ECO=[
+  {ic:"📣",zh:"公众号",t:{en:"Official Account",zh:"公众号 Official Account",ja:"公式アカウント",th:"บัญชีทางการ"},s:{en:"The brand's owned media — articles & push messages to followers.",zh:"品牌自有媒体——向粉丝推送文章与消息。",ja:"ブランドのオウンドメディア。記事と配信。",th:"สื่อของแบรนด์ — บทความและข้อความถึงผู้ติดตาม"}},
+  {ic:"📱",zh:"小程序",t:{en:"Mini-Program",zh:"小程序 Mini-Program",ja:"ミニプログラム",th:"มินิโปรแกรม"},s:{en:"An app inside WeChat — no install. This whole shop runs here.",zh:"微信内的应用，免安装。整个商城就跑在这里。",ja:"WeChat 内のアプリ、DL不要。この商城はここで動く。",th:"แอปภายใน WeChat — ไม่ต้องติดตั้ง ร้านนี้ทำงานที่นี่"}},
+  {ic:"▶",zh:"视频号",t:{en:"Channels (video & live)",zh:"视频号 Channels",ja:"チャンネル（動画・ライブ）",th:"ช่อง (วิดีโอ & ไลฟ์)"},s:{en:"WeChat's short-video & livestream feed — like TikTok, public reach.",zh:"微信的短视频与直播——类抖音，公域流量。",ja:"WeChat のショート動画・ライブ。公域リーチ。",th:"ฟีดวิดีโอสั้นและไลฟ์ของ WeChat — เข้าถึงสาธารณะ"}},
+  {ic:"💳",zh:"微信支付",t:{en:"WeChat Pay",zh:"微信支付 WeChat Pay",ja:"WeChat ペイ",th:"WeChat Pay"},s:{en:"One-tap payment built in — no card entry, fingerprint to confirm.",zh:"内置一键支付——免输卡号，指纹确认。",ja:"内蔵のワンタップ決済。カード入力不要、指紋で確認。",th:"ชำระเงินในตัวแตะเดียว — ไม่ต้องกรอกบัตร ยืนยันด้วยลายนิ้วมือ"}}
+];
+const TABNOTES={
+  home:{e:{en:"Tab 1 · Home / Discover",zh:"标签1 · 首页/发现",ja:"タブ1 · ホーム/発見",th:"แท็บ 1 · หน้าแรก/ค้นพบ"},h:{en:"Content first, not products",zh:"先内容，后产品",ja:"商品より先にコンテンツ",th:"เนื้อหาก่อน ไม่ใช่สินค้า"},
+    d:{en:"The home tab opens with health content, not a product wall. An AI quiz, an expert-content waterfall (官方/专家 PGC), nearby-pharmacy stock via LBS, and a 视频号 live entry all pull users in before they ever see a price.",zh:"首页打开是健康内容而非货架。AI问卷、专家内容瀑布流（官方/专家PGC）、LBS附近门店库存、视频号直播入口——在看到价格前先把用户拉进来。",ja:"ホームは商品棚ではなく健康コンテンツで開く。AI診断、専門家コンテンツ、LBS近隣在庫、視频号ライブで価格より先に引き込む。",th:"แท็บหน้าแรกเปิดด้วยเนื้อหาสุขภาพ ไม่ใช่กำแพงสินค้า แบบทดสอบ AI, เนื้อหาผู้เชี่ยวชาญ, สต็อกร้านใกล้เคียง LBS และไลฟ์ 视频号"},
+    l:{en:["Naturopath assessment: pick a goal → 5–8 Qs → personalised plan + matching bundle","PGC waterfall: expert short-video ▶ & articles","Nearby pharmacy (LBS) stock + reserve","视频号 Channels live entry"],zh:["自然疗法测评：选目标 → 5-8题 → 专属方案+匹配套装","PGC瀑布流：专家短视频▶与图文","附近药房(LBS)库存+预约","视频号直播入口"],ja:["ナチュロパス診断：目標選択 → 5〜8問 → 専属プラン+おすすめバンドル","PGCウォーターフォール：専門家動画▶と記事","近隣薬局(LBS)在庫+予約","視频号ライブ入口"],th:["ประเมินแบบธรรมชาติบำบัด: เลือกเป้าหมาย → 5-8 คำถาม → แผนเฉพาะ+ชุดที่เข้ากัน","PGC: วิดีโอผู้เชี่ยวชาญ ▶ และบทความ","สต็อกร้านยาใกล้เคียง (LBS) + จอง","ทางเข้าไลฟ์ 视频号"]}},
+  shop:{e:{en:"Tab 2 · Shop",zh:"标签2 · 商城",ja:"タブ2 · 商城",th:"แท็บ 2 · ร้านค้า"},h:{en:"Solutions, not a product list",zh:"健康方案，而非产品列表",ja:"商品リストでなく解決策",th:"โซลูชัน ไม่ใช่รายการสินค้า"},
+    d:{en:"Filter by efficacy (immunity / sleep / gut…) and by audience (kids / pregnant / senior). Tap a product for a rich detail card: key ingredient mg, suitable / not-suitable groups, TGA & AUST L certifications, reviews, an AI pairing suggestion, then WeChat Pay checkout.",zh:"按功效（免疫/睡眠/肠道…）和人群（儿童/孕妇/银发）筛选。点产品看富详情：核心成分mg、适用/禁忌人群、TGA与AUST L认证、评价、AI搭配建议，微信支付结算。",ja:"効能（免疫/睡眠/腸…）と対象（子供/妊婦/シニア）で絞り込み。商品をタップしてリッチ詳細：成分mg、適用/禁忌、TGA・AUST L認証、レビュー、AI組合せ、WeChat Pay決済。",th:"กรองตามสรรพคุณและกลุ่มผู้ใช้ แตะสินค้าเพื่อดูรายละเอียด: มก.ส่วนผสม กลุ่มที่เหมาะ/ไม่เหมาะ ใบรับรอง TGA & AUST L รีวิว คำแนะนำคู่ AI แล้วชำระด้วย WeChat Pay"},
+    l:{en:["Efficacy + audience filter chips","🎁 Bundles / 套装组合: family combos, bundle price vs singles, save %","Rich detail: ingredient mg, certs, reviews + AI pairing","WeChat Pay checkout → points earned"],zh:["功效+人群筛选标签","🎁 套装组合：家庭组合，套装价对比单买，省%","富详情：成分mg、认证、评价+AI搭配","微信支付结算 → 获得积分"],ja:["効能+対象フィルター","🎁 バンドル/套装：ファミリーコンボ、バンドル価vs単品、節約%","リッチ詳細：成分mg、認証、レビュー+AI組合せ","WeChat Pay決済 → ポイント獲得"],th:["ชิปกรองสรรพคุณ+กลุ่มผู้ใช้","🎁 ชุดคอมโบ/套装: ชุดครอบครัว ราคาชุดเทียบซื้อแยก ประหยัด%","รายละเอียด: มก. ใบรับรอง รีวิว+คู่ AI","ชำระ WeChat Pay → ได้แต้ม"]}},
+  ai:{e:{en:"Tab 3 · AI Health Advisor",zh:"标签3 · AI健康顾问",ja:"タブ3 · AI健康顧問",th:"แท็บ 3 · ที่ปรึกษาสุขภาพ AI"},h:{en:"Blackie 小B — a nutritionist friend who can buy",zh:"小B——会买货的营养师朋友",ja:"小B——買い物もできる栄養士の友人",th:"Blackie 小B — เพื่อนนักโภชนาการที่ซื้อของได้"},
+    d:{en:"The showpiece. Three modes: Chat, Agentic, Voice. Blackie consults, compares products, picks the best coupon and one-tap orders. The Agentic mode proactively warns when your Vitamin C is running low and restocks on your say-so — invisible commerce. Every session shows a non-medical disclaimer.",zh:"showpiece。三模式：对话/Agentic/语音。小B咨询、对比产品、选最优券一键下单。Agentic主动提醒维C快用完并经你同意补货——隐形购买。每次对话显示非医疗免责。",ja:"showpiece。3モード：チャット/Agentic/音声。小Bが相談・比較・最適券で一键注文。AgenticはビタミンC残量を予測し同意で補充——インビジブルコマース。毎回非医療の免責表示。",th:"จุดเด่น สามโหมด: แชท Agentic เสียง Blackie ให้คำปรึกษา เปรียบเทียบ เลือกคูปองดีที่สุดและสั่งแตะเดียว โหมด Agentic เตือนเมื่อวิตามินซีใกล้หมดและเติมตามที่คุณบอก แสดงข้อจำกัดทุกครั้ง"},
+    l:{en:["Chat / Agentic / Voice modes","Product comparison card","Smart ordering — AI picks best coupon","Agentic restock: 'VitC ~7 days left, restock?' → Yes → auto-order"],zh:["对话/Agentic/语音 模式","产品对比卡","智能下单——AI选最优券","Agentic补货：'维C剩约7天，补货?'→好→自动下单"],ja:["チャット/Agentic/音声 モード","商品比較カード","スマート注文——最適券をAIが選ぶ","Agentic補充：'VitC残約7日、補充?'→はい→自動注文"],th:["โหมดแชท/Agentic/เสียง","การ์ดเปรียบเทียบสินค้า","สั่งอัจฉริยะ — AI เลือกคูปอง","เติม Agentic: 'VitC เหลือ ~7 วัน?' → ใช่ → สั่งอัตโนมัติ"]}},
+  health:{e:{en:"Tab 4 · Health Twin 健康分身",zh:"标签4 · 健康分身",ja:"タブ4 · 健康分身",th:"แท็บ 4 · ฝาแฝดสุขภาพ"},h:{en:"A wellness avatar you raise by showing up",zh:"靠坚持养成的健康Avatar",ja:"続けるほど育つ健康Avatar",th:"อวตารสุขภาพที่คุณเลี้ยงด้วยการมาทุกวัน"},
+    d:{en:"Not a chart — a living avatar that brightens and levels up as you check in across vitality / immunity / sleep / gut. Daily supplement check-in builds a streak with badges; weekly AI advice; and a health prediction that forecasts run-out and offers auto-restock. Shareable monthly report (private to-self).",zh:"不是图表，而是随打卡（活力/免疫/睡眠/肠道）变亮升级的Avatar。每日打卡累计连续与勋章；每周AI建议；健康预测run-out并自动补货。可分享月度报告。",ja:"図表でなく、打卡（活力/免疫/睡眠/腸）で明るくレベルアップするAvatar。連続打卡とバッジ、週次AI助言、枯渇予測と自動補充。月次レポート共有可。",th:"ไม่ใช่กราฟ แต่เป็นอวตารที่สว่างขึ้นเมื่อคุณเช็คอิน เช็คอินอาหารเสริมรายวันสร้างสตรีคและตรา คำแนะนำ AI รายสัปดาห์ และทำนายของหมดพร้อมเติมอัตโนมัติ"},
+    l:{en:["Avatar levels up across 4 dimensions","Daily check-in → streak + badges","Weekly AI health advice","Health prediction → auto-restock"],zh:["Avatar按4维度升级","每日打卡→连续+勋章","每周AI健康建议","健康预测→自动补货"],ja:["Avatarが4次元で成長","毎日打卡→連続+バッジ","週次AI健康助言","健康予測→自動補充"],th:["อวตารเลเวลอัป 4 มิติ","เช็คอินรายวัน → สตรีค + ตรา","คำแนะนำ AI รายสัปดาห์","ทำนายสุขภาพ → เติมอัตโนมัติ"]}},
+  my:{e:{en:"Tab 5 · My",zh:"标签5 · 我的",ja:"タブ5 · マイ",th:"แท็บ 5 · ของฉัน"},h:{en:"Membership, points, activities & coupons",zh:"会员、积分、活动与卡包",ja:"会員・ポイント・活動・クーポン",th:"สมาชิก แต้ม กิจกรรม คูปอง"},
+    d:{en:"A 4-tier membership (Member → Silver → Gold → Black Gold) with progress, a points mall, a task center, an activity hub (flash sale / group-buy 拼团 / referral 裂变 / sign-in / lottery), and a coupon wallet that syncs to 微信卡包 WeChat Card Pack. Plus an AR ingredient scan that pops a molecule card.",zh:"4级会员（普通→银→金→黑金）带进度、积分商城、任务中心、活动聚合（闪购/拼团/裂变/签到/抽奖），卡包与微信卡包打通。还有AR成分扫描分子卡。",ja:"4段階会員（普通→銀→金→黒金）+進度、ポイントモール、タスク、活動ハブ（闪购/拼团/裂变/签到/抽奖）、微信卡包と同期するクーポン。AR成分スキャンの分子カードも。",th:"สมาชิก 4 ระดับพร้อมความคืบหน้า ห้างแต้ม ศูนย์ภารกิจ ฮับกิจกรรม (แฟลชเซล/拼团/裂变/เช็คอิน/ลอตเตอรี) และกระเป๋าคูปองซิงค์กับ 微信卡包 พร้อมสแกน AR ส่วนผสม"},
+    l:{en:["4-tier membership + progress","Points mall & task center","Activity hub: 拼团 group-buy / 裂变 referral / lottery","Coupon wallet → 微信卡包 · AR ingredient scan"],zh:["4级会员+进度","积分商城与任务中心","活动：拼团/裂变/抽奖","卡包→微信卡包 · AR成分扫描"],ja:["4段階会員+進度","ポイントモールとタスク","活動：拼团/裂变/抽選","クーポン→微信卡包 · AR成分スキャン"],th:["สมาชิก 4 ระดับ + ความคืบหน้า","ห้างแต้มและศูนย์ภารกิจ","กิจกรรม: 拼团/裂变/ลอตเตอรี","กระเป๋าคูปอง→微信卡包 · สแกน AR"]}}
+};
+
+/* ============ products ============ */
+const PRODS=[
+  {k:'fish-oil',cat:['immunity'],aud:['adult','senior'],img:'images/blackmores/fish-oil.svg',
+    nm:{en:"Odourless Fish Oil 1000",zh:"无腥味深海鱼油",ja:"無臭フィッシュオイル 1000",th:"น้ำมันปลาไร้กลิ่น 1000"},
+    tags:{en:["Heart","Joints","Brain"],zh:["心血管","关节","脑力"],ja:["心血管","関節","脳"],th:["หัวใจ","ข้อต่อ","สมอง"]},
+    p:289,mp:259,r:4.8,rev:1842,ing:{en:"EPA 300mg + DHA 200mg per capsule",zh:"每粒 EPA 300mg + DHA 200mg",ja:"1粒 EPA 300mg + DHA 200mg",th:"ต่อแคปซูล EPA 300mg + DHA 200mg"},
+    fit:{en:"Adults; supports heart, joints & brain",zh:"成人；支持心血管、关节与脑力",ja:"成人；心血管・関節・脳をサポート",th:"ผู้ใหญ่ สนับสนุนหัวใจ ข้อต่อ สมอง"},
+    nofit:{en:"Pregnant women consult a doctor first",zh:"孕妇请先咨询医生",ja:"妊婦は医師に相談を",th:"สตรีมีครรภ์ปรึกษาแพทย์ก่อน"},
+    dose:{en:"1–2 capsules daily with food",zh:"每日1-2粒，随餐服用",ja:"1日1〜2粒、食事と共に",th:"วันละ 1-2 แคปซูลพร้อมอาหาร"},
+    d:{en:"Concentrated, odourless deep-sea fish oil — supports heart, joint & brain health.",zh:"高浓度无腥味深海鱼油——支持心血管、关节与脑部健康。",ja:"高濃度・無臭の深海フィッシュオイル。心血管・関節・脳をサポート。",th:"น้ำมันปลาทะเลลึกเข้มข้นไร้กลิ่น สนับสนุนหัวใจ ข้อต่อ สมอง"}},
+  {k:'glucosamine',cat:['joint'],aud:['adult','senior'],img:'images/blackmores/glucosamine.svg',
+    nm:{en:"Glucosamine Joint Care",zh:"维骨力关节灵",ja:"グルコサミン関節ケア",th:"กลูโคซามีนดูแลข้อ"},
+    tags:{en:["Joints","Mobility"],zh:["关节","活动力"],ja:["関節","可動性"],th:["ข้อต่อ","การเคลื่อนไหว"]},
+    p:329,mp:299,r:4.7,rev:1206,ing:{en:"Glucosamine sulfate 1500mg per tablet",zh:"每片硫酸氨基葡萄糖 1500mg",ja:"1錠 グルコサミン硫酸塩 1500mg",th:"กลูโคซามีนซัลเฟต 1500mg ต่อเม็ด"},
+    fit:{en:"Adults & seniors; supports joint comfort",zh:"成人与银发族；支持关节舒适",ja:"成人・シニア；関節の快適さをサポート",th:"ผู้ใหญ่และผู้สูงอายุ สนับสนุนข้อต่อ"},
+    nofit:{en:"Shellfish allergy — avoid",zh:"贝类过敏者请勿服用",ja:"甲殻類アレルギーは避ける",th:"แพ้หอย หลีกเลี่ยง"},
+    dose:{en:"1 tablet daily with food",zh:"每日1片，随餐服用",ja:"1日1錠、食事と共に",th:"วันละ 1 เม็ดพร้อมอาหาร"},
+    d:{en:"Supports joint mobility & comfort for active and older adults.",zh:"支持关节活动力与舒适，适合活跃及年长人群。",ja:"関節の可動性と快適さをサポート。",th:"สนับสนุนการเคลื่อนไหวและความสบายของข้อต่อ"}},
+  {k:'probiotics',cat:['gut'],aud:['adult','kids'],img:'images/blackmores/probiotics.svg',
+    nm:{en:"Probiotics+ Daily Health",zh:"益生菌每日健康",ja:"プロバイオティクス+ デイリー",th:"โปรไบโอติกส์+ รายวัน"},
+    tags:{en:["Gut","Immunity"],zh:["肠道","免疫"],ja:["腸","免疫"],th:["ลำไส้","ภูมิคุ้มกัน"]},
+    p:259,mp:229,r:4.9,rev:2531,ing:{en:"6 billion CFU, multi-strain per capsule",zh:"每粒60亿CFU 多菌株",ja:"1粒60億CFU マルチ株",th:"6 พันล้าน CFU หลายสายพันธุ์ต่อแคปซูล"},
+    fit:{en:"Adults & kids; supports gut & immunity",zh:"成人与儿童；支持肠道与免疫",ja:"成人・子供；腸と免疫をサポート",th:"ผู้ใหญ่และเด็ก สนับสนุนลำไส้และภูมิคุ้มกัน"},
+    nofit:{en:"Severely immunocompromised — ask a doctor",zh:"严重免疫低下者请咨询医生",ja:"重度免疫低下は医師に相談",th:"ภูมิคุ้มกันต่ำมาก ปรึกษาแพทย์"},
+    dose:{en:"1 capsule daily, any time",zh:"每日1粒，随时服用",ja:"1日1粒、いつでも",th:"วันละ 1 แคปซูล เวลาใดก็ได้"},
+    d:{en:"Multi-strain probiotics — supports digestive balance & everyday immunity.",zh:"多菌株益生菌——支持消化平衡与日常免疫。",ja:"マルチ株プロバイオティクス。消化バランスと日常免疫をサポート。",th:"โปรไบโอติกส์หลายสายพันธุ์ สนับสนุนสมดุลย่อยและภูมิคุ้มกัน"}},
+  {k:'multivitamin',cat:['immunity'],aud:['adult'],img:'images/blackmores/multivitamin.svg',
+    nm:{en:"Multivitamin Complete",zh:"复合维生素",ja:"マルチビタミン コンプリート",th:"มัลติวิตามินครบ"},
+    tags:{en:["Energy","Immunity"],zh:["能量","免疫"],ja:["エネルギー","免疫"],th:["พลังงาน","ภูมิคุ้มกัน"]},
+    p:299,mp:269,r:4.6,rev:984,ing:{en:"23 vitamins & minerals per tablet",zh:"每片23种维生素与矿物质",ja:"1錠 23種のビタミン・ミネラル",th:"วิตามินและแร่ธาตุ 23 ชนิดต่อเม็ด"},
+    fit:{en:"Busy adults; supports daily energy",zh:"忙碌成人；支持日常能量",ja:"忙しい成人；日常エネルギーをサポート",th:"ผู้ใหญ่ที่ยุ่ง สนับสนุนพลังงานรายวัน"},
+    nofit:{en:"Not a substitute for a varied diet",zh:"不能替代多样化饮食",ja:"多様な食事の代替ではない",th:"ไม่ใช่สิ่งทดแทนอาหารหลากหลาย"},
+    dose:{en:"1 tablet daily with breakfast",zh:"每日1片，早餐时服用",ja:"1日1錠、朝食時",th:"วันละ 1 เม็ดมื้อเช้า"},
+    d:{en:"A broad daily foundation — supports energy & immunity for busy lives.",zh:"全面日常基础——支持忙碌生活的能量与免疫。",ja:"幅広い日常基盤。エネルギーと免疫をサポート。",th:"พื้นฐานรายวันครบ สนับสนุนพลังงานและภูมิคุ้มกัน"}},
+  {k:'vitamin-c',cat:['immunity'],aud:['adult','kids'],img:'images/blackmores/vitamin-c.svg',
+    nm:{en:"Vitamin C 1000",zh:"维生素C",ja:"ビタミンC 1000",th:"วิตามินซี 1000"},
+    tags:{en:["Immunity","Antioxidant"],zh:["免疫","抗氧化"],ja:["免疫","抗酸化"],th:["ภูมิคุ้มกัน","ต้านอนุมูลอิสระ"]},
+    p:99,mp:89,r:4.8,rev:3470,ing:{en:"Vitamin C 1000mg per tablet",zh:"每片维生素C 1000mg",ja:"1錠 ビタミンC 1000mg",th:"วิตามินซี 1000mg ต่อเม็ด"},
+    fit:{en:"Everyone 12+; immune season support",zh:"12岁以上；免疫季支持",ja:"12歳以上；免疫の季節サポート",th:"อายุ 12+ สนับสนุนช่วงภูมิคุ้มกัน"},
+    nofit:{en:"High doses may upset sensitive stomachs",zh:"大剂量可能刺激敏感肠胃",ja:"高用量は敏感な胃に注意",th:"ปริมาณสูงอาจระคายกระเพาะ"},
+    dose:{en:"1 tablet daily",zh:"每日1片",ja:"1日1錠",th:"วันละ 1 เม็ด"},
+    d:{en:"High-strength Vitamin C — supports immune defences & is a daily antioxidant.",zh:"高强度维生素C——支持免疫防御，每日抗氧化。",ja:"高含有ビタミンC。免疫防御をサポート、日常の抗酸化。",th:"วิตามินซีเข้มข้น สนับสนุนภูมิคุ้มกันและต้านอนุมูลอิสระ"}},
+  {k:'pregnancy-gold',cat:['pregnancy'],aud:['pregnant'],img:'images/blackmores/pregnancy-gold.svg',
+    nm:{en:"Pregnancy & Breastfeeding Gold",zh:"孕妇黄金营养素",ja:"プレグナンシー ゴールド",th:"ทองคำตั้งครรภ์"},
+    tags:{en:["Pregnancy","Folate"],zh:["孕期","叶酸"],ja:["妊娠","葉酸"],th:["ตั้งครรภ์","โฟเลต"]},
+    p:399,mp:359,r:4.9,rev:1577,ing:{en:"Folic acid 500µg, DHA, iron, iodine",zh:"叶酸500µg、DHA、铁、碘",ja:"葉酸500µg、DHA、鉄、ヨウ素",th:"กรดโฟลิก 500µg, DHA, เหล็ก, ไอโอดีน"},
+    fit:{en:"Trying to conceive, pregnant & breastfeeding",zh:"备孕、孕期与哺乳期",ja:"妊活・妊娠・授乳期",th:"เตรียมตั้งครรภ์ ตั้งครรภ์ ให้นม"},
+    nofit:{en:"Take alongside obstetric advice",zh:"请配合产科医生建议服用",ja:"産科の助言と併せて",th:"ใช้ร่วมกับคำแนะนำสูติแพทย์"},
+    dose:{en:"1 capsule daily",zh:"每日1粒",ja:"1日1粒",th:"วันละ 1 แคปซูล"},
+    d:{en:"Complete prenatal nutrition — supports mum & baby through pregnancy & breastfeeding.",zh:"完整孕产营养——支持孕期与哺乳期的妈妈与宝宝。",ja:"完全な妊娠期栄養。妊娠・授乳期の母子をサポート。",th:"โภชนาการก่อนคลอดครบ สนับสนุนแม่และลูก"}},
+  {k:'lutein',cat:['eye'],aud:['adult','senior'],img:'images/blackmores/lutein.svg',
+    nm:{en:"Lutein Eye Care",zh:"叶黄素护眼",ja:"ルテイン アイケア",th:"ลูทีนบำรุงตา"},
+    tags:{en:["Eyes","Screens"],zh:["护眼","用屏"],ja:["目","画面"],th:["ตา","หน้าจอ"]},
+    p:269,mp:239,r:4.7,rev:862,ing:{en:"Lutein 10mg + zeaxanthin per capsule",zh:"每粒叶黄素10mg+玉米黄质",ja:"1粒 ルテイン10mg+ゼアキサンチン",th:"ลูทีน 10mg + ซีแซนทีนต่อแคปซูล"},
+    fit:{en:"Screen-heavy adults & seniors; eye support",zh:"重度用屏成人与银发族；护眼支持",ja:"画面の多い成人・シニア；目をサポート",th:"ผู้ใหญ่ใช้จอมาก สนับสนุนตา"},
+    nofit:{en:"Not a treatment for eye disease",zh:"不能治疗眼部疾病",ja:"眼疾患の治療ではない",th:"ไม่ใช่การรักษาโรคตา"},
+    dose:{en:"1 capsule daily",zh:"每日1粒",ja:"1日1粒",th:"วันละ 1 แคปซูล"},
+    d:{en:"Lutein & zeaxanthin — supports eye health for screen-heavy days.",zh:"叶黄素与玉米黄质——支持长时间用屏的眼睛健康。",ja:"ルテインとゼアキサンチン。画面の多い日の目をサポート。",th:"ลูทีนและซีแซนทีน สนับสนุนสุขภาพตา"}},
+  {k:'vitamin-b',cat:['brain'],aud:['adult'],img:'images/blackmores/vitamin-b.svg',
+    nm:{en:"Vitamin B Complex",zh:"复合维生素B",ja:"ビタミンB コンプレックス",th:"วิตามินบีรวม"},
+    tags:{en:["Energy","Stress","Brain"],zh:["能量","压力","脑力"],ja:["エネルギー","ストレス","脳"],th:["พลังงาน","ความเครียด","สมอง"]},
+    p:189,mp:169,r:4.6,rev:741,ing:{en:"8 B-vitamins, full spectrum per tablet",zh:"每片8种B族维生素全谱",ja:"1錠 8種のBビタミン",th:"วิตามินบี 8 ชนิดต่อเม็ด"},
+    fit:{en:"Stressed, busy adults; energy & focus",zh:"高压忙碌成人；能量与专注",ja:"ストレスの多い成人；エネルギーと集中",th:"ผู้ใหญ่ที่เครียด พลังงานและสมาธิ"},
+    nofit:{en:"May tint urine yellow (harmless)",zh:"可能使尿液变黄（无害）",ja:"尿が黄色くなることあり（無害）",th:"ปัสสาวะอาจเหลือง (ไม่อันตราย)"},
+    dose:{en:"1 tablet daily with food",zh:"每日1片，随餐服用",ja:"1日1錠、食事と共に",th:"วันละ 1 เม็ดพร้อมอาหาร"},
+    d:{en:"Full-spectrum B vitamins — supports energy production & stress resilience.",zh:"全谱B族维生素——支持能量代谢与抗压。",ja:"全スペクトルのBビタミン。エネルギー産生とストレス耐性をサポート。",th:"วิตามินบีครบ สนับสนุนพลังงานและความทนเครียด"}},
+  {k:'sleep',cat:['sleep'],aud:['adult'],img:'images/blackmores/sleep.svg',
+    nm:{en:"Sleep Support",zh:"睡眠支持",ja:"スリープ サポート",th:"สนับสนุนการนอน"},
+    tags:{en:["Sleep","Calm"],zh:["睡眠","放松"],ja:["睡眠","リラックス"],th:["การนอน","ผ่อนคลาย"]},
+    p:249,mp:219,r:4.8,rev:1993,ing:{en:"Magnesium + valerian + hops per tablet",zh:"每片镁+缬草+啤酒花",ja:"1錠 マグネシウム+バレリアン+ホップ",th:"แมกนีเซียม+วาเลอเรียน+ฮ็อปต่อเม็ด"},
+    fit:{en:"Adults with restless nights; calm support",zh:"夜间易醒成人；放松支持",ja:"眠りの浅い成人；リラックスをサポート",th:"ผู้ใหญ่นอนไม่หลับ สนับสนุนความผ่อนคลาย"},
+    nofit:{en:"Avoid before driving; not for pregnancy",zh:"驾驶前勿服；孕期不宜",ja:"運転前は避ける；妊娠期不可",th:"เลี่ยงก่อนขับรถ ไม่ใช่สำหรับตั้งครรภ์"},
+    dose:{en:"1 tablet 1 hour before bed",zh:"睡前1小时服1片",ja:"就寝1時間前に1錠",th:"1 เม็ดก่อนนอน 1 ชม."},
+    d:{en:"Magnesium & traditional herbs — supports restful sleep & relaxation.",zh:"镁与传统草本——支持安稳睡眠与放松。",ja:"マグネシウムと伝統ハーブ。安らかな睡眠とリラックスをサポート。",th:"แมกนีเซียมและสมุนไพร สนับสนุนการนอนหลับ"}},
+  {k:'evening-primrose',cat:['skin'],aud:['adult'],img:'images/blackmores/evening-primrose.svg',
+    nm:{en:"Evening Primrose Oil",zh:"月见草油",ja:"イブニングプリムローズオイル",th:"น้ำมันอีฟนิ่งพริมโรส"},
+    tags:{en:["Skin","Hormone balance"],zh:["皮肤","内分泌平衡"],ja:["肌","ホルモン"],th:["ผิว","สมดุลฮอร์โมน"]},
+    p:229,mp:199,r:4.7,rev:1108,ing:{en:"GLA-rich oil 1000mg per capsule",zh:"每粒富含GLA油1000mg",ja:"1粒 GLA豊富オイル1000mg",th:"น้ำมัน GLA สูง 1000mg ต่อแคปซูล"},
+    fit:{en:"Adult women; skin & monthly comfort",zh:"成年女性；皮肤与经期舒适",ja:"成人女性；肌と月経期の快適さ",th:"หญิงผู้ใหญ่ ผิวและรอบเดือน"},
+    nofit:{en:"Not for pregnancy without advice",zh:"孕期未经咨询勿用",ja:"妊娠期は相談の上",th:"ไม่ใช่สำหรับตั้งครรภ์โดยไม่ปรึกษา"},
+    dose:{en:"1–2 capsules daily",zh:"每日1-2粒",ja:"1日1〜2粒",th:"วันละ 1-2 แคปซูล"},
+    d:{en:"GLA-rich oil — supports skin health & monthly hormonal comfort.",zh:"富含GLA的油——支持皮肤健康与经期内分泌舒适。",ja:"GLA豊富なオイル。肌の健康と月経期の快適さをサポート。",th:"น้ำมัน GLA สูง สนับสนุนผิวและความสบายรอบเดือน"}},
+  {k:'vitamin-e-cream',cat:['skin'],aud:['adult'],img:'images/blackmores/vitamin-e-cream.svg',
+    nm:{en:"Natural Vitamin E Cream",zh:"天然维生素E面霜",ja:"ナチュラル ビタミンEクリーム",th:"ครีมวิตามินอีธรรมชาติ"},
+    tags:{en:["Skin","Moisture"],zh:["皮肤","保湿"],ja:["肌","保湿"],th:["ผิว","ความชุ่มชื้น"]},
+    p:159,mp:139,r:4.8,rev:2204,ing:{en:"Natural vitamin E 1000 IU per jar",zh:"每瓶天然维生素E 1000 IU",ja:"1瓶 天然ビタミンE 1000 IU",th:"วิตามินอีธรรมชาติ 1000 IU ต่อกระปุก"},
+    fit:{en:"All skin types; daily moisture",zh:"所有肤质；日常保湿",ja:"全肌質；日常の保湿",th:"ทุกสภาพผิว ความชุ่มชื้นรายวัน"},
+    nofit:{en:"Patch-test if sensitive skin",zh:"敏感肌请先做皮试",ja:"敏感肌はパッチテストを",th:"ผิวแพ้ง่ายทดสอบก่อน"},
+    dose:{en:"Apply morning & night",zh:"早晚涂抹",ja:"朝晩に塗布",th:"ทาเช้าและกลางคืน"},
+    d:{en:"A classic — natural vitamin E cream that nourishes & moisturises skin.",zh:"经典之选——天然维生素E面霜，滋养保湿肌肤。",ja:"定番。天然ビタミンEクリームで肌に潤いと栄養を。",th:"คลาสสิก ครีมวิตามินอีธรรมชาติบำรุงและให้ความชุ่มชื้น"}},
+  {k:'coq10',cat:['heart'],aud:['adult','senior'],img:'images/blackmores/coq10.svg',
+    nm:{en:"CoQ10 Heart Health",zh:"辅酶Q10心血管",ja:"コエンザイムQ10 ハート",th:"โคคิวเทนบำรุงหัวใจ"},
+    tags:{en:["Heart","Energy"],zh:["心血管","能量"],ja:["心血管","エネルギー"],th:["หัวใจ","พลังงาน"]},
+    p:359,mp:319,r:4.8,rev:1320,ing:{en:"Coenzyme Q10 150mg per capsule",zh:"每粒辅酶Q10 150mg",ja:"1粒 コエンザイムQ10 150mg",th:"โคเอนไซม์คิวเทน 150mg ต่อแคปซูล"},
+    fit:{en:"Adults 40+; supports heart & cellular energy",zh:"40岁以上成人；支持心脏与细胞能量",ja:"40歳以上；心臓と細胞エネルギーをサポート",th:"ผู้ใหญ่ 40+ สนับสนุนหัวใจและพลังงาน"},
+    nofit:{en:"On blood thinners — consult a doctor",zh:"服用抗凝药者请咨询医生",ja:"抗凝固薬服用中は医師に相談",th:"ใช้ยาละลายลิ่มเลือด ปรึกษาแพทย์"},
+    dose:{en:"1 capsule daily with food",zh:"每日1粒，随餐服用",ja:"1日1粒、食事と共に",th:"วันละ 1 แคปซูลพร้อมอาหาร"},
+    d:{en:"High-strength CoQ10 — supports heart function & natural cellular energy.",zh:"高含量辅酶Q10——支持心脏功能与细胞能量。",ja:"高含有CoQ10。心臓機能と細胞エネルギーをサポート。",th:"โคคิวเทนเข้มข้น สนับสนุนการทำงานของหัวใจและพลังงานเซลล์"}},
+  {k:'kids-multi',cat:['immunity'],aud:['kids'],img:'images/blackmores/kids-multi.svg',
+    nm:{en:"Kids Multivitamin Chewable",zh:"儿童复合维生素咀嚼片",ja:"キッズ マルチビタミン",th:"มัลติวิตามินเด็กแบบเคี้ยว"},
+    tags:{en:["Kids","Immunity"],zh:["儿童","免疫"],ja:["子供","免疫"],th:["เด็ก","ภูมิคุ้มกัน"]},
+    p:179,mp:159,r:4.9,rev:1456,ing:{en:"12 vitamins & minerals, fruit-flavoured chewable",zh:"12种维矿，水果味咀嚼片",ja:"12種のビタミン・ミネラル、果実味チュアブル",th:"วิตามินและแร่ธาตุ 12 ชนิด แบบเคี้ยวรสผลไม้"},
+    fit:{en:"Kids 2–12; supports growth & immunity",zh:"2-12岁儿童；支持成长与免疫",ja:"2〜12歳；成長と免疫をサポート",th:"เด็ก 2-12 ปี สนับสนุนการเติบโตและภูมิคุ้มกัน"},
+    nofit:{en:"Keep out of reach; one serve a day",zh:"请置于儿童无法触及处；每日一份",ja:"手の届かない所に；1日1回",th:"เก็บให้พ้นมือเด็ก วันละ 1 ครั้ง"},
+    dose:{en:"1 chewable daily",zh:"每日1片咀嚼",ja:"1日1錠チュアブル",th:"เคี้ยววันละ 1 เม็ด"},
+    d:{en:"Fruit-flavoured chewable multi — supports kids' growth & everyday immunity.",zh:"水果味咀嚼复合维生素——支持儿童成长与日常免疫。",ja:"果実味チュアブルマルチ。子供の成長と日常免疫をサポート。",th:"มัลติวิตามินเคี้ยวรสผลไม้ สนับสนุนการเติบโตและภูมิคุ้มกันของเด็ก"}}
+];
+const PMAP={};PRODS.forEach(p=>PMAP[p.k]=p);
+
+/* ============ bundles (family combos) ============ */
+const BUNDLES=[
+  {k:'family-immunity',img:'images/blackmores/kids-multi.svg',comp:['multivitamin','vitamin-c','probiotics','kids-multi'],price:710,save:15,goal:'immunity',
+    nm:{en:"Family Immunity Bundle",zh:"全家免疫组合",ja:"ファミリー免疫バンドル",th:"ชุดภูมิคุ้มกันทั้งครอบครัว"},
+    d:{en:"A whole-family kit — supports everyday immunity for adults & kids through the season.",zh:"全家适用——支持成人与儿童的换季日常免疫。",ja:"家族みんなのキット。大人も子供も季節の日常免疫をサポート。",th:"ชุดสำหรับทั้งครอบครัว สนับสนุนภูมิคุ้มกันรายวันของผู้ใหญ่และเด็ก"}},
+  {k:'heart-essentials',img:'images/blackmores/coq10.svg',comp:['fish-oil','coq10'],price:570,save:12,goal:'heart',
+    nm:{en:"Heart Health Essentials",zh:"心血管基础",ja:"ハートヘルス エッセンシャル",th:"ชุดพื้นฐานหัวใจ"},
+    d:{en:"Fish Oil + CoQ10 — supports heart function & healthy circulation.",zh:"鱼油+辅酶Q10——支持心脏功能与健康循环。",ja:"フィッシュオイル+CoQ10。心臓機能と健康な循環をサポート。",th:"น้ำมันปลา + โคคิวเทน สนับสนุนการทำงานของหัวใจและการไหลเวียน"}},
+  {k:'joint-heart',img:'images/blackmores/glucosamine.svg',comp:['glucosamine','fish-oil','coq10'],price:830,save:15,goal:'joint',
+    nm:{en:"Joint & Heart Care Pack",zh:"关节·心血管",ja:"関節・ハートケアパック",th:"แพ็กดูแลข้อและหัวใจ"},
+    d:{en:"Glucosamine + Fish Oil + CoQ10 — supports joint comfort, mobility & heart health.",zh:"维骨力+鱼油+辅酶Q10——支持关节舒适、活动力与心脏健康。",ja:"グルコサミン+フィッシュオイル+CoQ10。関節の快適さ・可動性と心臓をサポート。",th:"กลูโคซามีน + น้ำมันปลา + โคคิวเทน สนับสนุนข้อต่อ การเคลื่อนไหวและหัวใจ"}},
+  {k:'pregnancy-baby',img:'images/blackmores/pregnancy-gold.svg',comp:['pregnancy-gold','probiotics'],price:592,save:10,goal:'pregnancy',
+    nm:{en:"Pregnancy & Baby Bundle",zh:"孕产组合",ja:"プレグナンシー＆ベビー バンドル",th:"ชุดตั้งครรภ์และทารก"},
+    d:{en:"Pregnancy Gold + Probiotics — supports mum & baby and digestive balance.",zh:"孕妇黄金+益生菌——支持妈妈与宝宝及消化平衡。",ja:"プレグナンシーゴールド+プロバイオティクス。母子と消化バランスをサポート。",th:"ทองคำตั้งครรภ์ + โปรไบโอติกส์ สนับสนุนแม่ลูกและสมดุลย่อย"}},
+  {k:'healthy-ageing',img:'images/blackmores/coq10.svg',comp:['multivitamin','glucosamine','coq10','lutein'],price:1030,save:18,goal:'ageing',
+    nm:{en:"Healthy Ageing Bundle",zh:"健康老龄组合",ja:"ヘルシーエイジング バンドル",th:"ชุดสูงวัยอย่างมีสุขภาพ"},
+    d:{en:"Multivitamin + Glucosamine + CoQ10 + Lutein — supports energy, joints, heart & eyes as you age.",zh:"复合维生素+维骨力+辅酶Q10+叶黄素——支持随龄的能量、关节、心脏与眼睛。",ja:"マルチビタミン+グルコサミン+CoQ10+ルテイン。加齢に伴うエネルギー・関節・心臓・目をサポート。",th:"มัลติวิตามิน + กลูโคซามีน + โคคิวเทน + ลูทีน สนับสนุนพลังงาน ข้อ หัวใจและตาเมื่อสูงวัย"}},
+  {k:'sleep-stress',img:'images/blackmores/sleep.svg',comp:['sleep','vitamin-b'],price:385,save:12,goal:'sleep',
+    nm:{en:"Sleep & Stress Bundle",zh:"睡眠减压组合",ja:"スリープ＆ストレス バンドル",th:"ชุดนอนหลับและคลายเครียด"},
+    d:{en:"Sleep Support + Executive B — supports restful sleep & stress resilience.",zh:"睡眠支持+精英B族——支持安稳睡眠与抗压。",ja:"スリープサポート+エグゼクティブB。安らかな睡眠とストレス耐性をサポート。",th:"สนับสนุนการนอน + บีรวม สนับสนุนการนอนหลับและความทนเครียด"}},
+  {k:'wellness-starter',img:'images/blackmores/multivitamin.svg',comp:['multivitamin','vitamin-c','fish-oil'],price:605,save:12,goal:'energy',
+    nm:{en:"Wellness Starter Pack",zh:"健康入门套装",ja:"ウェルネス スターターパック",th:"ชุดเริ่มต้นสุขภาพ"},
+    d:{en:"Multivitamin + Vitamin C + Fish Oil — a simple daily foundation for energy & immunity.",zh:"复合维生素+维C+鱼油——能量与免疫的简单日常基础。",ja:"マルチビタミン+ビタミンC+フィッシュオイル。エネルギーと免疫の日常基盤。",th:"มัลติวิตามิน + วิตามินซี + น้ำมันปลา พื้นฐานรายวันเพื่อพลังงานและภูมิคุ้มกัน"}}
+];
+const BMAP={};BUNDLES.forEach(b=>BMAP[b.k]=b);
+function bundleSum(b){return b.comp.reduce((a,k)=>a+(PMAP[k]?PMAP[k].p:0),0);}
+
+/* ============ phone UI strings ============ */
+const PT={
+  bannerT:{en:"Winter Immunity Season",zh:"冬季免疫力季",ja:"冬の免疫シーズン",th:"ฤดูเสริมภูมิคุ้มกันหน้าหนาว"},
+  bannerS:{en:"Stock up before the cold snap",zh:"换季前备一备",ja:"寒波の前に備える",th:"เตรียมก่อนอากาศเย็น"},
+  bannerB:{en:"Up to 25% off →",zh:"低至75折 →",ja:"最大25%OFF →",th:"ลดสูงสุด 25% →"},
+  goals:{en:["Immunity","Sleep","Gut","Joint","Pregnancy","Skin","Eye","Brain"],zh:["免疫力","睡眠","肠道","关节","孕期","皮肤","护眼","脑力"],ja:["免疫","睡眠","腸","関節","妊娠","肌","目","脳"],th:["ภูมิคุ้มกัน","การนอน","ลำไส้","ข้อต่อ","ตั้งครรภ์","ผิว","ตา","สมอง"]},
+  quizT:{en:"Check your immunity",zh:"测测你的免疫力",ja:"免疫をチェック",th:"เช็คภูมิคุ้มกัน"},
+  quizSub:{en:"3 quick questions · AI suggests a fit",zh:"3道快题 · AI推荐适合你的",ja:"3問 · AIが合うものを提案",th:"3 คำถาม · AI แนะนำ"},
+  quizGo:{en:"Start the quiz",zh:"开始测评",ja:"診断を始める",th:"เริ่มแบบทดสอบ"},
+  quizQ:{en:["How often do you catch colds?","How's your sleep lately?","How many serves of veggies a day?"],zh:["你多久感冒一次？","最近睡眠如何？","每天吃几份蔬菜？"],ja:["風邪をひく頻度は？","最近の睡眠は？","1日の野菜は何皿？"],th:["คุณเป็นหวัดบ่อยแค่ไหน?","การนอนช่วงนี้?","กินผักวันละกี่ส่วน?"]},
+  quizA:{en:[["Often","Sometimes","Rarely"],["Poor","OK","Great"],["0–1","2","3+"]],zh:[["经常","有时","很少"],["差","一般","很好"],["0-1份","2份","3份+"]],ja:[["よく","時々","まれ"],["悪い","普通","良い"],["0〜1","2","3+"]],th:[["บ่อย","บางครั้ง","แทบไม่"],["แย่","พอใช้","ดีมาก"],["0-1","2","3+"]]},
+  quizResult:{en:"Based on your answers, Blackie suggests:",zh:"根据你的回答，小B建议：",ja:"回答に基づき、小Bの提案：",th:"จากคำตอบ Blackie แนะนำ:"},
+  quizRetry:{en:"Retake",zh:"重测",ja:"再診断",th:"ทำใหม่"},
+  pgcT:{en:"Expert content",zh:"专家内容",ja:"専門家コンテンツ",th:"เนื้อหาผู้เชี่ยวชาญ"},
+  pgcBadge:{en:"Official / expert",zh:"官方/专家",ja:"公式/専門家",th:"ทางการ/ผู้เชี่ยวชาญ"},
+  c1:{en:"5 signs your immunity is low",zh:"免疫力低下的5个信号",ja:"免疫低下の5つのサイン",th:"5 สัญญาณภูมิคุ้มกันต่ำ"},
+  c2:{en:"Dietitian: how to take Vitamin C",zh:"营养师：维C怎么吃",ja:"栄養士：ビタミンCの摂り方",th:"นักโภชนาการ: กินวิตามินซีอย่างไร"},
+  c3:{en:"Why we choose 1000mg",zh:"为什么选1000mg",ja:"なぜ1000mgなのか",th:"ทำไมเลือก 1000mg"},
+  c4:{en:"Gut health, simply explained",zh:"肠道健康，一文讲清",ja:"腸の健康をやさしく",th:"สุขภาพลำไส้ อธิบายง่ายๆ"},
+  vid:{en:"Video",zh:"视频",ja:"動画",th:"วิดีโอ"},art:{en:"Article",zh:"图文",ja:"記事",th:"บทความ"},
+  like:{en:"Like",zh:"赞",ja:"いいね",th:"ถูกใจ"},save:{en:"Save",zh:"收藏",ja:"保存",th:"บันทึก"},saved:{en:"Saved",zh:"已收藏",ja:"保存済み",th:"บันทึกแล้ว"},
+  nearT:{en:"Nearby pharmacy",zh:"附近药房",ja:"近隣の薬局",th:"ร้านยาใกล้เคียง"},
+  lbs:{en:"LBS · within 1.2 km",zh:"LBS · 1.2公里内",ja:"LBS · 1.2km以内",th:"LBS · ภายใน 1.2 กม."},
+  inStock:{en:"In stock",zh:"有货",ja:"在庫あり",th:"มีสินค้า"},low:{en:"Low",zh:"紧张",ja:"残少",th:"เหลือน้อย"},
+  reserve:{en:"Reserve",zh:"预约到店",ja:"取り置き",th:"จอง"},reserved:{en:"Reserved ✓",zh:"已预约 ✓",ja:"取置済 ✓",th:"จองแล้ว ✓"},
+  newT:{en:"New launch · pre-order",zh:"新品首发 · 预约",ja:"新製品 · 予約",th:"เปิดตัวใหม่ · จอง"},
+  newP:{en:"Magnesium+ Sleep — first-run price",zh:"镁+睡眠 — 首发价",ja:"マグネシウム+睡眠 — 先行価格",th:"แมกนีเซียม+ การนอน — ราคาเปิดตัว"},
+  notify:{en:"Notify me",zh:"提醒我",ja:"通知する",th:"แจ้งเตือน"},notified:{en:"We'll notify you ✓",zh:"将提醒你 ✓",ja:"通知します ✓",th:"จะแจ้งเตือน ✓"},
+  liveT:{en:"Nutritionist live now",zh:"营养师正在直播",ja:"栄養士がライブ中",th:"นักโภชนาการไลฟ์อยู่"},
+  liveSub:{en:"Watch & shop · Wed 8pm series",zh:"边看边买 · 每周三晚8点",ja:"見ながら買う · 毎週水20時",th:"ดูและช้อป · พุธ 2 ทุ่ม"},
+  livehint:{en:"This is a 视频号 (Channels) livestream — WeChat's TikTok-style public video, embedded in the mini-program.",zh:"这是视频号直播——微信的类抖音公域视频，内嵌在小程序中。",ja:"これは視频号ライブ——WeChatの抖音風公域動画、ミニプログラム内蔵。",th:"นี่คือไลฟ์ 视频号 — วิดีโอสาธารณะสไตล์ TikTok ของ WeChat ฝังในมินิโปรแกรม"},
+  /* shop */
+  search:{en:"Search efficacy, ingredient, product…",zh:"搜功效/成分/产品…",ja:"効能・成分・商品を検索…",th:"ค้นหาสรรพคุณ ส่วนผสม สินค้า…"},
+  byEff:{en:"BY EFFICACY",zh:"按功效",ja:"効能で",th:"ตามสรรพคุณ"},byAud:{en:"BY AUDIENCE",zh:"按人群",ja:"対象で",th:"ตามกลุ่ม"},
+  catAll:{en:"All",zh:"全部",ja:"全て",th:"ทั้งหมด"},
+  effImm:{en:"Immunity",zh:"免疫力",ja:"免疫",th:"ภูมิคุ้มกัน"},effSleep:{en:"Sleep",zh:"睡眠",ja:"睡眠",th:"การนอน"},effGut:{en:"Gut",zh:"肠道",ja:"腸",th:"ลำไส้"},effJoint:{en:"Joint",zh:"关节",ja:"関節",th:"ข้อต่อ"},effPreg:{en:"Pregnancy",zh:"孕期",ja:"妊娠",th:"ตั้งครรภ์"},effSkin:{en:"Skin",zh:"皮肤",ja:"肌",th:"ผิว"},effEye:{en:"Eye",zh:"护眼",ja:"目",th:"ตา"},effBrain:{en:"Brain",zh:"脑力",ja:"脳",th:"สมอง"},
+  audKids:{en:"Kids",zh:"儿童",ja:"子供",th:"เด็ก"},audAdult:{en:"Adult",zh:"成人",ja:"成人",th:"ผู้ใหญ่"},audPreg:{en:"Pregnant",zh:"孕妇",ja:"妊婦",th:"ตั้งครรภ์"},audSenior:{en:"Senior",zh:"银发",ja:"シニア",th:"ผู้สูงอายุ"},
+  memberP:{en:"member",zh:"会员价",ja:"会員",th:"สมาชิก"},
+  back:{en:"Back",zh:"返回",ja:"戻る",th:"กลับ"},
+  ingredient:{en:"Key ingredient",zh:"核心成分",ja:"主成分",th:"ส่วนผสมหลัก"},
+  suitable:{en:"Suitable",zh:"适用人群",ja:"適する",th:"เหมาะกับ"},notSuit:{en:"Take care",zh:"注意/禁忌",ja:"注意",th:"ระวัง"},
+  dosage:{en:"Dosage",zh:"服用方法",ja:"用法",th:"วิธีใช้"},
+  certs:{en:"Certifications",zh:"认证",ja:"認証",th:"ใบรับรอง"},
+  reviews:{en:"Reviews",zh:"真实评价",ja:"レビュー",th:"รีวิว"},
+  pair:{en:"AI pairing",zh:"AI搭配",ja:"AI組合せ",th:"คู่ AI"},
+  addCart:{en:"Add to cart",zh:"加入购物车",ja:"カートに追加",th:"ใส่ตะกร้า"},buyNow:{en:"Buy now",zh:"立即购买",ja:"今すぐ購入",th:"ซื้อเลย"},
+  added:{en:"Added to cart",zh:"已加入购物车",ja:"カートに追加",th:"ใส่ตะกร้าแล้ว"},
+  cartT:{en:"Cart",zh:"购物车",ja:"カート",th:"ตะกร้า"},empty:{en:"Cart is empty",zh:"购物车为空",ja:"カートは空",th:"ตะกร้าว่าง"},
+  checkout:{en:"Checkout",zh:"去结算",ja:"会計へ",th:"ชำระเงิน"},
+  addr:{en:"Delivery address",zh:"配送地址",ja:"配送先",th:"ที่อยู่จัดส่ง"},addrV:{en:"Li · Shanghai, Jing'an",zh:"小李 · 上海静安区",ja:"李 · 上海静安区",th:"Li · เซี่ยงไฮ้"},
+  coupon:{en:"Coupon −¥30 (over ¥199)",zh:"优惠券 满199减30",ja:"クーポン 199で30引",th:"คูปอง −¥30 (เกิน ¥199)"},use:{en:"Use",zh:"使用",ja:"使う",th:"ใช้"},applied:{en:"Applied",zh:"已用",ja:"適用",th:"ใช้แล้ว"},
+  points:{en:"Points −¥10",zh:"积分抵 ¥10",ja:"ポイント ¥10",th:"แต้ม −¥10"},
+  subtotal:{en:"Subtotal",zh:"小计",ja:"小計",th:"ยอดรวมย่อย"},total:{en:"Total",zh:"合计",ja:"合計",th:"รวม"},
+  pay:{en:"Pay with WeChat Pay",zh:"微信支付",ja:"WeChat Payで支払う",th:"จ่ายด้วย WeChat Pay"},
+  payHint:{en:"💳 WeChat Pay = one-tap payment built into WeChat (fingerprint to confirm — no card entry).",zh:"💳 微信支付 = 内置一键支付（指纹确认，免输卡号）。",ja:"💳 WeChat Pay = 内蔵ワンタップ決済（指紋確認、カード入力不要）。",th:"💳 WeChat Pay = ชำระแตะเดียวในตัว (ยืนยันลายนิ้วมือ)"},
+  orderDone:{en:"Order placed",zh:"下单完成",ja:"注文完了",th:"สั่งซื้อสำเร็จ"},earned:{en:"Points earned",zh:"获得积分",ja:"獲得ポイント",th:"ได้แต้ม"},
+  again:{en:"Shop again",zh:"再逛逛",ja:"もう一度",th:"ช้อปอีก"},items:{en:"items",zh:"件",ja:"点",th:"ชิ้น"},
+  /* AI */
+  aiName:{en:"Blackie 小B · AI Health Advisor",zh:"小B · AI健康顾问",ja:"小B · AI健康顧問",th:"Blackie 小B · ที่ปรึกษาสุขภาพ AI"},
+  mChat:{en:"💬 Chat",zh:"💬 对话",ja:"💬 チャット",th:"💬 แชท"},mAgent:{en:"⚡ Agentic",zh:"⚡ Agentic",ja:"⚡ Agentic",th:"⚡ Agentic"},mVoice:{en:"🎙 Voice",zh:"🎙 语音",ja:"🎙 音声",th:"🎙 เสียง"},
+  disc:{en:"⚠️ I'm a wellness advisor — my suggestions support healthy habits and are not a medical diagnosis. See a doctor for symptoms.",zh:"⚠️ 我提供保健建议——支持健康习惯，非医疗诊断。如有症状请就医。",ja:"⚠️ ウェルネス助言です——健康習慣をサポート、医療診断ではありません。症状があれば受診を。",th:"⚠️ ฉันเป็นที่ปรึกษาสุขภาพ — คำแนะนำสนับสนุนนิสัยดี ไม่ใช่การวินิจฉัย พบแพทย์หากมีอาการ"},
+  aiHello:{en:"Hi! I'm Blackie — your nutritionist friend. Ask me anything, compare products, or let me handle ordering.",zh:"嗨！我是小B——你的营养师朋友。问我任何问题、对比产品，或让我帮你下单。",ja:"こんにちは！小Bです——栄養士の友人。質問、比較、注文までお任せください。",th:"สวัสดี! ฉัน Blackie เพื่อนนักโภชนาการ ถามได้ทุกอย่าง เปรียบเทียบ หรือให้ฉันสั่งซื้อ"},
+  q1:{en:"I sleep badly lately",zh:"我最近睡不好",ja:"最近眠れない",th:"ช่วงนี้นอนไม่ดี"},
+  q2:{en:"Compare VitC vs VitE",zh:"对比维C和维E",ja:"VitCとVitEを比較",th:"เทียบ VitC กับ VitE"},
+  q3:{en:"Buy me immunity, cheapest",zh:"帮我买免疫力，最划算",ja:"免疫を最安で買って",th:"ซื้อภูมิคุ้มกันถูกสุด"},
+  q4:{en:"A combo for my whole family",zh:"给全家来个组合",ja:"家族みんなのセット",th:"ชุดสำหรับทั้งครอบครัว"},
+  a4:{en:"Great idea — a bundle is the easy (and cheaper) way to cover everyone. For your household I'd suggest the Family Immunity Bundle — adults & kids covered:",zh:"好主意——套装是覆盖全家最省心也更省钱的方式。给你家我推荐全家免疫组合，成人与儿童都覆盖：",ja:"いいですね——バンドルは家族みんなを手軽に（そしてお得に）カバー。ご家庭にはファミリー免疫バンドルがおすすめ、大人も子供も：",th:"ความคิดดี — ชุดคอมโบเป็นวิธีง่ายและถูกกว่าในการดูแลทุกคน สำหรับบ้านคุณแนะนำชุดภูมิคุ้มกันทั้งครอบครัว ครอบคลุมผู้ใหญ่และเด็ก:"},
+  aiAddedBundle:{en:"Family Immunity Bundle added by Blackie ✓",zh:"小B已加入全家免疫组合 ✓",ja:"小Bがファミリー免疫バンドルを追加 ✓",th:"Blackie เพิ่มชุดภูมิคุ้มกันครอบครัวแล้ว ✓"},
+  a1:{en:"Sorry to hear that. Busy/stressed lately? Magnesium with valerian can support restful sleep. Based on your profile, I'd suggest:",zh:"辛苦了。最近压力大吗？镁+缬草有助于安稳睡眠。根据你的档案，我建议：",ja:"お疲れ様。最近ストレスは？マグネシウム+バレリアンが安眠をサポート。あなたの档案から：",th:"เสียใจด้วย ช่วงนี้เครียดไหม? แมกนีเซียม+วาเลอเรียนช่วยการนอน จากโปรไฟล์ ฉันแนะนำ:"},
+  a2:{en:"Here's a side-by-side. Quick take: choose Vitamin C for immune-season support, Vitamin E cream for skin moisture.",zh:"这是并排对比。一句话：免疫季选维C，护肤保湿选维E面霜。",ja:"並べて比較。一言：免疫の季節は维C、肌の保湿は维Eクリーム。",th:"นี่คือการเทียบ สรุป: ภูมิคุ้มกันเลือก VitC ผิวเลือกครีม VitE"},
+  a3:{en:"On it. I scanned your wallet — the 满199减30 coupon applies. Best basket: Vitamin C + Probiotics+, coupon auto-picked.",zh:"好的。我扫了你的卡包——满199减30券可用。最优组合：维C+益生菌，已自动选券。",ja:"了解。卡包を確認——満199減30クーポン適用。最適：维C+益生菌、券は自動選択。",th:"ได้เลย ฉันสแกนกระเป๋าคูปอง — คูปอง 满199减30 ใช้ได้ ชุดดีสุด: VitC + โปรไบโอติกส์"},
+  bestCoupon:{en:"AI picked the best coupon",zh:"AI已选最优券",ja:"AIが最適券を選択",th:"AI เลือกคูปองดีสุด"},
+  oneTap:{en:"One-tap order",zh:"一键下单",ja:"一键注文",th:"สั่งแตะเดียว"},
+  ordering:{en:"Order placed by Blackie ✓",zh:"小B已下单 ✓",ja:"小Bが注文 ✓",th:"Blackie สั่งแล้ว ✓"},
+  agentTitle:{en:"Proactive reminder",zh:"主动提醒",ja:"プロアクティブ通知",th:"การเตือนเชิงรุก"},
+  agentMsg:{en:"Hey Li — your <b>Vitamin C</b> has about <b>7 days</b> left based on your check-ins. With your coupon it's <b>¥80</b> after discount. Restock so you don't run out?",zh:"小李——根据打卡，你的<b>维生素C</b>大约还剩<b>7天</b>。用券后约<b>¥80</b>。要补货避免断档吗？",ja:"李さん——打卡から<b>ビタミンC</b>は残り<b>約7日</b>。クーポンで<b>約¥89</b>。切らさないよう補充しますか？",th:"Li — <b>วิตามินซี</b> เหลือ <b>~7 วัน</b> จากการเช็คอิน ใช้คูปองแล้ว <b>¥80</b> เติมไหม?"},
+  yes:{en:"Yes, restock",zh:"好，补货",ja:"はい、補充",th:"ใช่ เติมเลย"},later:{en:"Not now",zh:"暂时不用",ja:"今はいい",th:"ยังไม่"},
+  agentDone:{en:"Done! 1× Vitamin C ordered (¥80 after coupon). SF Express, arriving tomorrow. Synced to your check-in plan. ✓",zh:"搞定！已下单维C×1（券后¥80）。顺丰预计明天送达，已同步到打卡计划。✓",ja:"完了！维C×1注文（券後¥80）。順丰で明日着、打卡計画に同期。✓",th:"เสร็จ! สั่ง VitC ×1 (¥80 หลังคูปอง) SF Express พรุ่งนี้ถึง ซิงค์แผนเช็คอินแล้ว ✓"},
+  voiceHint:{en:"Hold to speak — e.g. “restock my Vitamin C”",zh:"按住说话——如「给我补点维C」",ja:"押して話す——例「ビタミンCを補充して」",th:"กดค้างเพื่อพูด — เช่น “เติมวิตามินซี”"},
+  voiceRec:{en:"Listening…",zh:"聆听中…",ja:"聞いています…",th:"กำลังฟัง…"},
+  voiceHeard:{en:"Heard: “restock my Vitamin C, cheapest”",zh:"已识别：「给我补点维C，最划算」",ja:"認識：「ビタミンCを最安で補充」",th:"ได้ยิน: “เติมวิตามินซีถูกสุด”"},
+  voiceReply:{en:"Got it. Best price found, coupon auto-applied — confirm to order with WeChat Pay.",zh:"收到。已找到最优价并自动用券——确认即用微信支付下单。",ja:"了解。最安+券を自動適用——確認でWeChat Pay注文。",th:"รับทราบ ราคาดีสุด+คูปองอัตโนมัติ — ยืนยันสั่งด้วย WeChat Pay"},
+  voiceConfirm:{en:"Confirm & pay",zh:"确认并支付",ja:"確認して支払う",th:"ยืนยันและจ่าย"},
+  typeHint:{en:"Message Blackie…",zh:"和小B说点什么…",ja:"小Bにメッセージ…",th:"ส่งข้อความถึง Blackie…"},
+  /* health twin */
+  twinT:{en:"Health Twin 健康分身",zh:"健康分身",ja:"健康分身",th:"ฝาแฝดสุขภาพ"},
+  twinName:{en:"Mei · your health twin",zh:"小美 · 你的健康分身",ja:"メイ · 健康分身",th:"เหมย · ฝาแฝดสุขภาพ"},
+  vitality:{en:"Vitality",zh:"活力",ja:"活力",th:"พลังชีวิต"},
+  dimVit:{en:"Vitality",zh:"活力",ja:"活力",th:"พลัง"},dimImm:{en:"Immunity",zh:"免疫",ja:"免疫",th:"ภูมิคุ้มกัน"},dimSleep:{en:"Sleep",zh:"睡眠",ja:"睡眠",th:"การนอน"},dimGut:{en:"Gut",zh:"肠道",ja:"腸",th:"ลำไส้"},
+  lvl:{en:["Tired","Waking up","Glowing","Radiant"],zh:["疲惫","渐入佳境","容光焕发","活力满满"],ja:["疲れ","回復中","輝き","活力満々"],th:["เหนื่อย","ฟื้นตัว","เปล่งปลั่ง","สดใส"]},
+  checkinT:{en:"Daily supplement check-in",zh:"每日服用打卡",ja:"毎日のサプリ打卡",th:"เช็คอินอาหารเสริมรายวัน"},
+  streak:{en:"day streak",zh:"天连续",ja:"日連続",th:"วันต่อเนื่อง"},
+  checkin:{en:"Check in today",zh:"今日打卡",ja:"今日打卡",th:"เช็คอินวันนี้"},checkedin:{en:"Checked in ✓",zh:"已打卡 ✓",ja:"打卡済 ✓",th:"เช็คอินแล้ว ✓"},
+  checkinMsg:{en:"+5 pts · your twin brightened!",zh:"+5积分 · 分身变亮了！",ja:"+5pt · 分身が明るく！",th:"+5 แต้ม · ฝาแฝดสว่างขึ้น!"},
+  badgesT:{en:"Badges",zh:"勋章",ja:"バッジ",th:"ตรา"},
+  bWeek:{en:"7-day",zh:"周达人",ja:"7日",th:"7 วัน"},bMonth:{en:"30-day",zh:"月达人",ja:"30日",th:"30 วัน"},bImm:{en:"Immune",zh:"免疫盾",ja:"免疫",th:"ภูมิคุ้มกัน"},bSleep:{en:"Sleep",zh:"睡眠",ja:"睡眠",th:"การนอน"},
+  recordsT:{en:"Today's records",zh:"今日记录",ja:"今日の記録",th:"บันทึกวันนี้"},
+  recEnergy:{en:"Energy",zh:"精力",ja:"活力",th:"พลังงาน"},recSleep:{en:"Sleep",zh:"睡眠",ja:"睡眠",th:"การนอน"},recMood:{en:"Mood",zh:"心情",ja:"気分",th:"อารมณ์"},
+  recSaved:{en:"Logged ✓",zh:"已记录 ✓",ja:"記録 ✓",th:"บันทึก ✓"},
+  weeklyT:{en:"Weekly AI advice",zh:"每周AI建议",ja:"週次AI助言",th:"คำแนะนำ AI รายสัปดาห์"},
+  weeklyMsg:{en:"Your sleep dimension dipped 12% this week. Sleep Support could help — and keep up your Probiotics streak for gut balance.",zh:"本周睡眠维度下降12%。睡眠支持或有帮助——也请保持益生菌连续打卡。",ja:"今週、睡眠次元が12%低下。スリープサポートが役立つかも——益生菌の連続も維持を。",th:"มิติการนอนลดลง 12% สัปดาห์นี้ Sleep Support อาจช่วย — รักษาสตรีคโปรไบโอติกส์"},
+  predictT:{en:"Health prediction → auto-restock",zh:"健康预测 → 自动补货",ja:"健康予測 → 自動補充",th:"ทำนายสุขภาพ → เติมอัตโนมัติ"},
+  predictMsg:{en:"At your pace, <b>Vitamin C runs out in ~7 days</b>. I can auto-reorder 3 days before — never miss a dose.",zh:"按你的速度，<b>维C约7天后用完</b>。我可在用完前3天自动补货——不断档。",ja:"このペースだと<b>维Cは約7日で枯渇</b>。3日前に自動再注文できます——切らさない。",th:"ตามจังหวะ <b>วิตามินซีหมดใน ~7 วัน</b> ฉันสั่งล่วงหน้า 3 วันได้"},
+  enableRestock:{en:"Enable auto-restock",zh:"开启自动补货",ja:"自動補充を有効化",th:"เปิดเติมอัตโนมัติ"},enabledRestock:{en:"Auto-restock on ✓",zh:"已开启 ✓",ja:"有効 ✓",th:"เปิดแล้ว ✓"},
+  reportT:{en:"Monthly report",zh:"月度报告",ja:"月次レポート",th:"รายงานรายเดือน"},
+  reportMsg:{en:"23 check-ins · vitality +12% · 2 badges earned",zh:"23次打卡 · 活力+12% · 获2勋章",ja:"23回打卡 · 活力+12% · バッジ2",th:"เช็คอิน 23 · พลัง +12% · 2 ตรา"},
+  share:{en:"Share report",zh:"分享报告",ja:"レポート共有",th:"แชร์รายงาน"},shared:{en:"Shared ✓",zh:"已分享 ✓",ja:"共有 ✓",th:"แชร์แล้ว ✓"},
+  /* my */
+  tierMember:{en:"Member",zh:"普通",ja:"会員",th:"สมาชิก"},tierSilver:{en:"Silver",zh:"银卡",ja:"シルバー",th:"เงิน"},tierGold:{en:"Gold",zh:"金卡",ja:"ゴールド",th:"ทอง"},tierBlack:{en:"Black Gold",zh:"黑金",ja:"ブラックゴールド",th:"ทองดำ"},
+  goldMember:{en:"Gold member",zh:"金卡会员",ja:"ゴールド会員",th:"สมาชิกทอง"},
+  ptsLabel:{en:"points",zh:"积分",ja:"ポイント",th:"แต้ม"},
+  nextTier:{en:"¥1,000 more to Black Gold 💎",zh:"再消费¥1,000升黑金 💎",ja:"あと¥1,000で黒金 💎",th:"อีก ¥1,000 ถึงทองดำ 💎"},
+  gPoints:{en:"Points mall",zh:"积分商城",ja:"ポイントモール",th:"ห้างแต้ม"},gTask:{en:"Tasks",zh:"任务",ja:"タスク",th:"ภารกิจ"},gWallet:{en:"Coupons",zh:"卡包",ja:"クーポン",th:"คูปอง"},gOrders:{en:"Orders",zh:"订单",ja:"注文",th:"คำสั่งซื้อ"},
+  taskT:{en:"Task center",zh:"任务中心",ja:"タスクセンター",th:"ศูนย์ภารกิจ"},
+  taskDaily:{en:"DAILY",zh:"每日",ja:"デイリー",th:"รายวัน"},taskGrow:{en:"GROWTH",zh:"成长",ja:"成長",th:"เติบโต"},
+  t1:{en:"Browse 3 products",zh:"浏览3个产品",ja:"3商品を見る",th:"ดูสินค้า 3 ชิ้น"},t2:{en:"Share an article",zh:"分享1篇文章",ja:"記事をシェア",th:"แชร์บทความ"},t3:{en:"Complete health profile",zh:"完善健康档案",ja:"健康档案を完成",th:"กรอกโปรไฟล์สุขภาพ"},
+  taskDo:{en:"Go",zh:"去",ja:"行く",th:"ไป"},taskDone:{en:"Done",zh:"完成",ja:"完了",th:"เสร็จ"},taskGet:{en:"pts",zh:"分",ja:"pt",th:"แต้ม"},
+  actT:{en:"Activity hub",zh:"活动中心",ja:"活動ハブ",th:"ฮับกิจกรรม"},
+  aFlash:{en:"Flash sale",zh:"限时闪购",ja:"フラッシュセール",th:"แฟลชเซล"},aFlashS:{en:"Ends in 02:14:30",zh:"02:14:30后结束",ja:"02:14:30で終了",th:"จบใน 02:14:30"},
+  aGroup:{en:"Group-buy 拼团",zh:"拼团",ja:"拼团",th:"ซื้อกลุ่ม 拼团"},aGroupS:{en:"2-person team · 10% off",zh:"2人团 · 9折",ja:"2人団 · 10%OFF",th:"ทีม 2 คน · ลด 10%"},
+  aRefer:{en:"Referral 裂变",zh:"裂变邀请",ja:"裂变",th:"แนะนำ 裂变"},aReferS:{en:"Invite 3 → unlock coupon",zh:"邀3人 → 解锁大额券",ja:"3人招待 → クーポン解放",th:"ชวน 3 → ปลดคูปอง"},
+  aSign:{en:"Daily sign-in",zh:"每日签到",ja:"毎日サインイン",th:"เช็คอินรายวัน"},aSignS:{en:"Day 4 · +5 pts",zh:"第4天 · +5分",ja:"4日目 · +5pt",th:"วันที่ 4 · +5"},
+  aLottery:{en:"Lucky draw 抽奖",zh:"幸运抽奖",ja:"抽選",th:"จับรางวัล 抽奖"},aLotteryS:{en:"1 free spin today",zh:"今日1次免费",ja:"本日1回無料",th:"วันนี้หมุนฟรี 1"},
+  walletT:{en:"Coupon wallet",zh:"我的卡包",ja:"クーポン",th:"กระเป๋าคูปอง"},
+  walletSync:{en:"synced to 微信卡包 WeChat Card Pack",zh:"已与微信卡包打通",ja:"微信卡包と同期",th:"ซิงค์กับ 微信卡包"},
+  cpn1:{en:"Over ¥199, save ¥30",zh:"满199减30",ja:"199で30引",th:"เกิน ¥199 ลด ¥30"},cpn1s:{en:"Expires Jun 30",zh:"6月30日到期",ja:"6/30まで",th:"หมดอายุ 30 มิ.ย."},
+  cpn2:{en:"Gold 10% off",zh:"金卡9折",ja:"ゴールド10%OFF",th:"ทองลด 10%"},cpn2s:{en:"Member benefit",zh:"会员权益",ja:"会員特典",th:"สิทธิสมาชิก"},
+  claim:{en:"Claim",zh:"领取",ja:"受取",th:"รับ"},claimed:{en:"In wallet ✓",zh:"已入卡包 ✓",ja:"取得済 ✓",th:"ในกระเป๋า ✓"},
+  ordersT:{en:"My orders",zh:"我的订单",ja:"注文",th:"คำสั่งซื้อ"},
+  oPay:{en:"To pay",zh:"待付款",ja:"未払い",th:"รอจ่าย"},oShip:{en:"To ship",zh:"待发货",ja:"発送待ち",th:"รอส่ง"},oReceive:{en:"To receive",zh:"待收货",ja:"受取待ち",th:"รอรับ"},oDone:{en:"Done",zh:"已完成",ja:"完了",th:"เสร็จ"},
+  arT:{en:"AR ingredient lab",zh:"AR成分实验室",ja:"AR成分ラボ",th:"แล็บส่วนผสม AR"},
+  arHint:{en:"Scan a pack → see the molecule in AR",zh:"扫包装 → AR查看分子结构",ja:"パッケージをスキャン → AR分子",th:"สแกนแพ็ก → ดูโมเลกุล AR"},
+  scan:{en:"Scan a pack",zh:"扫描包装",ja:"スキャン",th:"สแกน"},
+  arMol:{en:"Vitamin C · ascorbic acid C₆H₈O₆",zh:"维生素C · 抗坏血酸 C₆H₈O₆",ja:"ビタミンC · アスコルビン酸 C₆H₈O₆",th:"วิตามินซี · กรดแอสคอร์บิก C₆H₈O₆"},
+  legAcct:{en:"Official Account",zh:"公众号",ja:"公式アカウント",th:"บัญชีทางการ"},
+  legMini:{en:"Mini-Program",zh:"小程序",ja:"ミニプログラム",th:"มินิโปรแกรม"},
+  legCh:{en:"Channels",zh:"视频号",ja:"チャンネル",th:"ช่อง"},
+  legPay:{en:"WeChat Pay",zh:"微信支付",ja:"WeChat Pay",th:"WeChat Pay"},
+  /* assessment (naturopath-style, goal-based) */
+  asTitle:{en:"Naturopath check-in",zh:"自然疗法测评",ja:"ナチュロパス チェックイン",th:"แบบประเมินแบบธรรมชาติบำบัด"},
+  asSub:{en:"Pick a goal · answer a few questions · get a personalised plan",zh:"选目标 · 答几道题 · 获专属方案",ja:"目標を選ぶ · 数問に答える · 専属プランを取得",th:"เลือกเป้าหมาย · ตอบคำถาม · รับแผนเฉพาะคุณ"},
+  asStart:{en:"Start assessment",zh:"开始测评",ja:"診断を始める",th:"เริ่มประเมิน"},
+  asPickGoal:{en:"What would you like to support?",zh:"你想支持哪方面健康？",ja:"どの健康をサポートしたい？",th:"คุณอยากสนับสนุนเรื่องใด?"},
+  asResult:{en:"Your personalised plan",zh:"你的专属方案",ja:"あなたの専属プラン",th:"แผนเฉพาะของคุณ"},
+  asRecP:{en:"Recommended for you",zh:"为你推荐",ja:"あなたへのおすすめ",th:"แนะนำสำหรับคุณ"},
+  asBundle:{en:"Matching bundle · save more",zh:"匹配套装 · 更省",ja:"おすすめバンドル · もっとお得",th:"ชุดที่เข้ากัน · ประหยัดกว่า"},
+  asContent:{en:"Reading for you",zh:"为你精选",ja:"あなたへの記事",th:"อ่านสำหรับคุณ"},
+  asPlanT:{en:"Daily plan & check-in",zh:"每日计划与打卡",ja:"毎日のプランと打卡",th:"แผนรายวันและเช็คอิน"},
+  asRetake:{en:"Retake",zh:"重测",ja:"再診断",th:"ทำใหม่"},
+  asViewP:{en:"View product",zh:"查看产品",ja:"商品を見る",th:"ดูสินค้า"},
+  asAddBundle:{en:"Add bundle to plan",zh:"加入方案",ja:"プランに追加",th:"เพิ่มชุดในแผน"},
+  asNaturo:{en:"Naturopath note",zh:"自然疗法师建议",ja:"ナチュロパスのメモ",th:"บันทึกธรรมชาติบำบัด"},
+  asStep:{en:"of",zh:"/",ja:"/",th:"/"},
+  goalImmunity:{en:"Immunity",zh:"免疫力",ja:"免疫",th:"ภูมิคุ้มกัน"},
+  goalEnergy:{en:"Energy & Stress",zh:"能量·压力",ja:"エネルギー・ストレス",th:"พลังงาน·ความเครียด"},
+  goalSleep:{en:"Sleep",zh:"睡眠",ja:"睡眠",th:"การนอน"},
+  goalJoint:{en:"Joint & Bones",zh:"关节·骨骼",ja:"関節・骨",th:"ข้อต่อ·กระดูก"},
+  goalHeart:{en:"Heart",zh:"心血管",ja:"心臓",th:"หัวใจ"},
+  goalGut:{en:"Gut",zh:"肠道",ja:"腸",th:"ลำไส้"},
+  goalPregnancy:{en:"Pregnancy",zh:"孕期",ja:"妊娠",th:"ตั้งครรภ์"},
+  goalAgeing:{en:"Healthy Ageing",zh:"健康老龄",ja:"健康な加齢",th:"สูงวัยสุขภาพดี"},
+  goalSkin:{en:"Skin",zh:"皮肤",ja:"肌",th:"ผิว"},
+  goalEye:{en:"Eye",zh:"护眼",ja:"目",th:"ตา"},
+  /* bundles */
+  bundlesT:{en:"Bundles 套装组合",zh:"套装组合",ja:"バンドル 套装",th:"ชุดคอมโบ 套装组合"},
+  bundlesSub:{en:"Family combos · save more vs buying singles",zh:"家庭组合 · 比单买更省",ja:"ファミリーコンボ · 単品より節約",th:"ชุดครอบครัว · ประหยัดกว่าซื้อแยก"},
+  bSingles:{en:"singles",zh:"单买",ja:"単品",th:"ซื้อแยก"},
+  bSave:{en:"save",zh:"省",ja:"節約",th:"ประหยัด"},
+  bIncl:{en:"Includes",zh:"包含",ja:"含む",th:"ประกอบด้วย"},
+  addBundle:{en:"Add bundle to cart",zh:"套装加入购物车",ja:"バンドルをカートへ",th:"ใส่ชุดลงตะกร้า"},
+  bundleAdded:{en:"Bundle added to cart",zh:"套装已加入购物车",ja:"バンドルをカートに追加",th:"เพิ่มชุดลงตะกร้าแล้ว"},
+  catBundles:{en:"Bundles",zh:"套装",ja:"バンドル",th:"ชุด"}
+};
+
+/* ============ goal-based assessment (Blackmores naturopath flow) ============ */
+/* GOAL_LIST = order of the 10 goals shown in Step A */
+const GOAL_LIST=[
+  {k:'immunity',ic:'🛡️',t:'goalImmunity'},
+  {k:'energy',ic:'⚡',t:'goalEnergy'},
+  {k:'sleep',ic:'😴',t:'goalSleep'},
+  {k:'joint',ic:'🦴',t:'goalJoint'},
+  {k:'heart',ic:'❤️',t:'goalHeart'},
+  {k:'gut',ic:'🦠',t:'goalGut'},
+  {k:'pregnancy',ic:'🤰',t:'goalPregnancy'},
+  {k:'ageing',ic:'🌿',t:'goalAgeing'},
+  {k:'skin',ic:'✨',t:'goalSkin'},
+  {k:'eye',ic:'👁️',t:'goalEye'}
+];
+/* helper for a 4-lang question with options */
+function QQ(q,opts){return {q:q,a:opts};}
+/* Each goal: questions[] (q + a options) ; plan = product keys, bundle key, content lines (4-lang), naturopath note, daily plan steps */
+const ASSESS={
+  immunity:{
+    questions:[
+      QQ({en:"How often do you catch colds?",zh:"你多久感冒一次？",ja:"風邪をひく頻度は？",th:"คุณเป็นหวัดบ่อยแค่ไหน?"},[{en:"Often",zh:"经常",ja:"よく",th:"บ่อย"},{en:"Sometimes",zh:"有时",ja:"時々",th:"บางครั้ง"},{en:"Rarely",zh:"很少",ja:"まれ",th:"แทบไม่"}]),
+      QQ({en:"Serves of fruit & veg per day?",zh:"每天几份果蔬？",ja:"1日の果物・野菜は？",th:"ผักผลไม้ต่อวันกี่ส่วน?"},[{en:"0–1",zh:"0-1份",ja:"0〜1",th:"0-1"},{en:"2–3",zh:"2-3份",ja:"2〜3",th:"2-3"},{en:"4+",zh:"4份+",ja:"4+",th:"4+"}]),
+      QQ({en:"Recent stress level?",zh:"近期压力？",ja:"最近のストレスは？",th:"ระดับความเครียดล่าสุด?"},[{en:"High",zh:"高",ja:"高い",th:"สูง"},{en:"Moderate",zh:"中",ja:"中",th:"ปานกลาง"},{en:"Low",zh:"低",ja:"低い",th:"ต่ำ"}]),
+      QQ({en:"Who is this plan for?",zh:"方案为谁？",ja:"このプランは誰用？",th:"แผนนี้สำหรับใคร?"},[{en:"Just me",zh:"只我",ja:"自分だけ",th:"แค่ฉัน"},{en:"Me & partner",zh:"我和伴侣",ja:"自分とパートナー",th:"ฉันและคู่"},{en:"Whole family",zh:"全家",ja:"家族全員",th:"ทั้งครอบครัว"}]),
+      QQ({en:"Sleep quality lately?",zh:"最近睡眠？",ja:"最近の睡眠は？",th:"คุณภาพการนอนล่าสุด?"},[{en:"Poor",zh:"差",ja:"悪い",th:"แย่"},{en:"OK",zh:"一般",ja:"普通",th:"พอใช้"},{en:"Good",zh:"好",ja:"良い",th:"ดี"}]),
+      QQ({en:"Life stage?",zh:"生命阶段？",ja:"ライフステージ？",th:"ช่วงชีวิต?"},[{en:"Under 40",zh:"40岁以下",ja:"40歳未満",th:"ต่ำกว่า 40"},{en:"40–60",zh:"40-60岁",ja:"40〜60歳",th:"40-60"},{en:"60+",zh:"60岁以上",ja:"60歳以上",th:"60+"}])
+    ],
+    prods:['vitamin-c','multivitamin','probiotics'],bundle:'family-immunity',
+    content:[{en:"5 signs your immunity is low",zh:"免疫力低下的5个信号",ja:"免疫低下の5つのサイン",th:"5 สัญญาณภูมิคุ้มกันต่ำ"},{en:"Dietitian: how to take Vitamin C",zh:"营养师：维C怎么吃",ja:"栄養士：ビタミンCの摂り方",th:"นักโภชนาการ: กินวิตามินซี"}],
+    note:{en:"Daily Vitamin C plus a multi lays a foundation, and probiotics support gut-based immunity — together they help maintain your defences through the season.",zh:"每日维C加复合维生素打底，益生菌支持以肠道为本的免疫——一起帮助你在换季时维持防御力。",ja:"毎日のビタミンCとマルチが土台、プロバイオティクスが腸由来の免疫をサポート——季節を通じて防御力の維持に役立ちます。",th:"วิตามินซีรายวันกับมัลติเป็นพื้นฐาน และโปรไบโอติกส์สนับสนุนภูมิคุ้มกันจากลำไส้ — ช่วยรักษาการป้องกันตลอดฤดู"},
+    plan:[{en:"Morning: Vitamin C + multivitamin with breakfast",zh:"早晨：维C+复合维生素，随早餐",ja:"朝：ビタミンC+マルチを朝食と",th:"เช้า: วิตามินซี+มัลติพร้อมมื้อเช้า"},{en:"Anytime: 1 probiotic capsule daily",zh:"随时：每日1粒益生菌",ja:"いつでも：益生菌1粒/日",th:"เวลาใดก็ได้: โปรไบโอติกส์ 1 แคปซูล/วัน"},{en:"Check in daily to keep your streak",zh:"每日打卡保持连续",ja:"毎日打卡で連続維持",th:"เช็คอินทุกวันเพื่อรักษาสตรีค"}]
+  },
+  sleep:{
+    questions:[
+      QQ({en:"How long to fall asleep?",zh:"入睡需多久？",ja:"寝つきは？",th:"ใช้เวลานานแค่ไหนกว่าจะหลับ?"},[{en:">45 min",zh:">45分",ja:">45分",th:">45 นาที"},{en:"15–45 min",zh:"15-45分",ja:"15〜45分",th:"15-45 นาที"},{en:"<15 min",zh:"<15分",ja:"<15分",th:"<15 นาที"}]),
+      QQ({en:"Wake during the night?",zh:"夜间会醒吗？",ja:"夜中に目覚める？",th:"ตื่นกลางดึกไหม?"},[{en:"Often",zh:"经常",ja:"よく",th:"บ่อย"},{en:"Sometimes",zh:"有时",ja:"時々",th:"บางครั้ง"},{en:"Rarely",zh:"很少",ja:"まれ",th:"แทบไม่"}]),
+      QQ({en:"Screen time before bed?",zh:"睡前用屏？",ja:"就寝前の画面時間？",th:"ใช้จอก่อนนอน?"},[{en:"A lot",zh:"很多",ja:"多い",th:"มาก"},{en:"Some",zh:"一些",ja:"少し",th:"บ้าง"},{en:"None",zh:"没有",ja:"なし",th:"ไม่"}]),
+      QQ({en:"Caffeine after 2pm?",zh:"下午2点后咖啡因？",ja:"14時以降のカフェイン？",th:"คาเฟอีนหลังบ่าย 2?"},[{en:"Daily",zh:"每天",ja:"毎日",th:"ทุกวัน"},{en:"Sometimes",zh:"有时",ja:"時々",th:"บางครั้ง"},{en:"Never",zh:"从不",ja:"なし",th:"ไม่เคย"}]),
+      QQ({en:"Stress at bedtime?",zh:"睡前压力？",ja:"就寝時のストレス？",th:"ความเครียดก่อนนอน?"},[{en:"High",zh:"高",ja:"高い",th:"สูง"},{en:"Moderate",zh:"中",ja:"中",th:"ปานกลาง"},{en:"Low",zh:"低",ja:"低い",th:"ต่ำ"}]),
+      QQ({en:"Age / life-stage?",zh:"年龄阶段？",ja:"年齢層？",th:"ช่วงอายุ?"},[{en:"Under 40",zh:"40岁以下",ja:"40歳未満",th:"ต่ำกว่า 40"},{en:"40–60",zh:"40-60岁",ja:"40〜60歳",th:"40-60"},{en:"60+",zh:"60岁以上",ja:"60歳以上",th:"60+"}])
+    ],
+    prods:['sleep','vitamin-b'],bundle:'sleep-stress',
+    content:[{en:"Wind-down routine: magnesium & calm",zh:"睡前放松：镁与平静",ja:"就寝ルーティン：マグネシウムと安らぎ",th:"กิจวัตรผ่อนคลาย: แมกนีเซียมและความสงบ"},{en:"Why stress steals your sleep",zh:"为什么压力偷走睡眠",ja:"なぜストレスが睡眠を奪うか",th:"ทำไมความเครียดขโมยการนอน"}],
+    note:{en:"Magnesium with traditional herbs supports a calmer wind-down, while a B-complex supports daytime stress resilience so nights feel easier — a gentle, non-sedative routine.",zh:"镁配传统草本支持更平静的睡前放松，B族支持白天抗压，让夜晚更轻松——温和不依赖镇静。",ja:"マグネシウムと伝統ハーブが穏やかな就寝準備を、Bコンプレックスが日中のストレス耐性を支え、夜が楽に——穏やかで非鎮静のルーティン。",th:"แมกนีเซียมกับสมุนไพรช่วยให้ผ่อนคลายก่อนนอน ส่วนบีรวมช่วยความทนเครียดกลางวัน ทำให้คืนสบายขึ้น"},
+    plan:[{en:"Evening: 1 Sleep Support tablet 1h before bed",zh:"傍晚：睡前1小时1片睡眠支持",ja:"夜：就寝1時間前にスリープサポート1錠",th:"เย็น: Sleep Support 1 เม็ดก่อนนอน 1 ชม."},{en:"Morning: 1 Executive B with breakfast",zh:"早晨：早餐时1片精英B族",ja:"朝：朝食時にエグゼクティブB 1錠",th:"เช้า: บีรวม 1 เม็ดมื้อเช้า"},{en:"No screens 30 min before bed",zh:"睡前30分钟不用屏",ja:"就寝30分前は画面オフ",th:"ไม่ใช้จอ 30 นาทีก่อนนอน"}]
+  },
+  joint:{
+    questions:[
+      QQ({en:"Joint stiffness in the morning?",zh:"晨起关节僵硬？",ja:"朝の関節のこわばり？",th:"ข้อแข็งตอนเช้า?"},[{en:"Often",zh:"经常",ja:"よく",th:"บ่อย"},{en:"Sometimes",zh:"有时",ja:"時々",th:"บางครั้ง"},{en:"Rarely",zh:"很少",ja:"まれ",th:"แทบไม่"}]),
+      QQ({en:"Active or on your feet?",zh:"是否多活动/久站？",ja:"よく動く/立ち仕事？",th:"เคลื่อนไหว/ยืนนานไหม?"},[{en:"Very",zh:"很多",ja:"とても",th:"มาก"},{en:"Somewhat",zh:"一般",ja:"まあまあ",th:"ปานกลาง"},{en:"Sedentary",zh:"久坐",ja:"座りがち",th:"นั่งมาก"}]),
+      QQ({en:"Any shellfish allergy?",zh:"贝类过敏？",ja:"甲殻類アレルギー？",th:"แพ้หอยไหม?"},[{en:"Yes",zh:"是",ja:"はい",th:"ใช่"},{en:"No",zh:"否",ja:"いいえ",th:"ไม่"},{en:"Unsure",zh:"不确定",ja:"不明",th:"ไม่แน่ใจ"}]),
+      QQ({en:"Oily fish in your diet?",zh:"饮食含深海鱼吗？",ja:"青魚を食べる？",th:"กินปลามันในอาหาร?"},[{en:"Rarely",zh:"很少",ja:"まれ",th:"แทบไม่"},{en:"Weekly",zh:"每周",ja:"週1",th:"รายสัปดาห์"},{en:"Often",zh:"经常",ja:"よく",th:"บ่อย"}]),
+      QQ({en:"Age / life-stage?",zh:"年龄阶段？",ja:"年齢層？",th:"ช่วงอายุ?"},[{en:"Under 40",zh:"40岁以下",ja:"40歳未満",th:"ต่ำกว่า 40"},{en:"40–60",zh:"40-60岁",ja:"40〜60歳",th:"40-60"},{en:"60+",zh:"60岁以上",ja:"60歳以上",th:"60+"}])
+    ],
+    prods:['glucosamine','fish-oil','coq10'],bundle:'joint-heart',
+    content:[{en:"Move easier: joints & daily habits",zh:"轻松活动：关节与日常习惯",ja:"楽に動く：関節と日々の習慣",th:"เคลื่อนไหวง่าย: ข้อและนิสัยประจำวัน"},{en:"Omega-3 and joint comfort",zh:"Omega-3与关节舒适",ja:"オメガ3と関節の快適さ",th:"โอเมก้า-3 และความสบายข้อ"}],
+    note:{en:"Glucosamine supports joint comfort and mobility, fish oil adds omega-3 for everyday flexibility, and CoQ10 supports the heart for active years — taken with food.",zh:"维骨力支持关节舒适与活动力，鱼油补充omega-3助日常灵活，辅酶Q10支持心脏迎接活力年华——随餐服用。",ja:"グルコサミンが関節の快適さと可動性を、フィッシュオイルがオメガ3で日々の柔軟性を、CoQ10が活動的な心臓をサポート——食事と共に。",th:"กลูโคซามีนสนับสนุนข้อ น้ำมันปลาเพิ่มโอเมก้า-3 เพื่อความยืดหยุ่น และโคคิวเทนสนับสนุนหัวใจ — ทานพร้อมอาหาร"},
+    plan:[{en:"Daily: 1 Glucosamine tablet with food",zh:"每日：随餐1片维骨力",ja:"毎日：食事と共にグルコサミン1錠",th:"ทุกวัน: กลูโคซามีน 1 เม็ดพร้อมอาหาร"},{en:"Daily: 1–2 Fish Oil capsules",zh:"每日：鱼油1-2粒",ja:"毎日：フィッシュオイル1〜2粒",th:"ทุกวัน: น้ำมันปลา 1-2 แคปซูล"},{en:"Daily: 1 CoQ10 with a meal",zh:"每日：随餐1粒辅酶Q10",ja:"毎日：食事とCoQ10 1粒",th:"ทุกวัน: โคคิวเทน 1 แคปซูลพร้อมมื้อ"}]
+  },
+  pregnancy:{
+    questions:[
+      QQ({en:"Current stage?",zh:"目前阶段？",ja:"現在の段階？",th:"ระยะปัจจุบัน?"},[{en:"Trying",zh:"备孕",ja:"妊活",th:"เตรียม"},{en:"Pregnant",zh:"孕期",ja:"妊娠中",th:"ตั้งครรภ์"},{en:"Breastfeeding",zh:"哺乳",ja:"授乳",th:"ให้นม"}]),
+      QQ({en:"Digestive comfort lately?",zh:"近期消化舒适？",ja:"最近の消化は？",th:"ความสบายย่อยล่าสุด?"},[{en:"Poor",zh:"差",ja:"悪い",th:"แย่"},{en:"OK",zh:"一般",ja:"普通",th:"พอใช้"},{en:"Good",zh:"好",ja:"良い",th:"ดี"}]),
+      QQ({en:"Taking a prenatal already?",zh:"已在服孕产营养？",ja:"既に妊娠期サプリ？",th:"ทานวิตามินก่อนคลอดอยู่?"},[{en:"No",zh:"否",ja:"いいえ",th:"ไม่"},{en:"Sometimes",zh:"有时",ja:"時々",th:"บางครั้ง"},{en:"Yes",zh:"是",ja:"はい",th:"ใช่"}]),
+      QQ({en:"Under obstetric care?",zh:"有产科医生跟进？",ja:"産科のケア中？",th:"อยู่ในการดูแลสูติแพทย์?"},[{en:"Yes",zh:"是",ja:"はい",th:"ใช่"},{en:"Booking soon",zh:"即将预约",ja:"予約予定",th:"กำลังนัด"},{en:"Not yet",zh:"还没",ja:"まだ",th:"ยัง"}]),
+      QQ({en:"Energy levels?",zh:"能量水平？",ja:"エネルギーは？",th:"ระดับพลังงาน?"},[{en:"Low",zh:"低",ja:"低い",th:"ต่ำ"},{en:"OK",zh:"一般",ja:"普通",th:"พอใช้"},{en:"Good",zh:"好",ja:"良い",th:"ดี"}])
+    ],
+    prods:['pregnancy-gold','probiotics'],bundle:'pregnancy-baby',
+    content:[{en:"Folate & DHA in pregnancy",zh:"孕期叶酸与DHA",ja:"妊娠期の葉酸とDHA",th:"โฟเลตและ DHA ในการตั้งครรภ์"},{en:"Gut balance for mums-to-be",zh:"准妈妈的肠道平衡",ja:"プレママの腸バランス",th:"สมดุลลำไส้สำหรับว่าที่คุณแม่"}],
+    note:{en:"Pregnancy Gold provides folate, DHA, iron and iodine to support mum and baby, while a daily probiotic supports digestive balance — always taken alongside your obstetric advice.",zh:"孕妇黄金提供叶酸、DHA、铁与碘，支持妈妈与宝宝；每日益生菌支持消化平衡——请配合产科建议服用。",ja:"プレグナンシーゴールドは葉酸・DHA・鉄・ヨウ素で母子をサポート、毎日のプロバイオティクスが消化バランスをサポート——産科の助言と併せて。",th:"ทองคำตั้งครรภ์ให้โฟเลต DHA เหล็กและไอโอดีนสนับสนุนแม่ลูก โปรไบโอติกส์รายวันสนับสนุนสมดุลย่อย — ใช้ร่วมกับคำแนะนำสูติแพทย์"},
+    plan:[{en:"Daily: 1 Pregnancy Gold capsule",zh:"每日：1粒孕妇黄金",ja:"毎日：プレグナンシーゴールド1粒",th:"ทุกวัน: ทองคำตั้งครรภ์ 1 แคปซูล"},{en:"Daily: 1 Probiotic capsule",zh:"每日：1粒益生菌",ja:"毎日：益生菌1粒",th:"ทุกวัน: โปรไบโอติกส์ 1 แคปซูล"},{en:"Discuss with your obstetrician",zh:"与产科医生沟通",ja:"産科医に相談を",th:"ปรึกษาสูติแพทย์"}]
+  },
+  ageing:{
+    questions:[
+      QQ({en:"Daily energy?",zh:"日常能量？",ja:"日常のエネルギー？",th:"พลังงานรายวัน?"},[{en:"Low",zh:"低",ja:"低い",th:"ต่ำ"},{en:"OK",zh:"一般",ja:"普通",th:"พอใช้"},{en:"Good",zh:"好",ja:"良い",th:"ดี"}]),
+      QQ({en:"Joint comfort?",zh:"关节舒适？",ja:"関節の快適さ？",th:"ความสบายข้อ?"},[{en:"Stiff",zh:"僵硬",ja:"こわばる",th:"แข็ง"},{en:"OK",zh:"一般",ja:"普通",th:"พอใช้"},{en:"Good",zh:"好",ja:"良い",th:"ดี"}]),
+      QQ({en:"Screen / reading strain?",zh:"用屏/阅读疲劳？",ja:"画面・読書の疲れ？",th:"ตาล้าจากจอ/อ่าน?"},[{en:"Often",zh:"经常",ja:"よく",th:"บ่อย"},{en:"Sometimes",zh:"有时",ja:"時々",th:"บางครั้ง"},{en:"Rarely",zh:"很少",ja:"まれ",th:"แทบไม่"}]),
+      QQ({en:"On heart-related medication?",zh:"服用心血管相关药物？",ja:"心臓関連の薬は？",th:"ใช้ยาเกี่ยวกับหัวใจ?"},[{en:"Yes",zh:"是",ja:"はい",th:"ใช่"},{en:"No",zh:"否",ja:"いいえ",th:"ไม่"},{en:"Unsure",zh:"不确定",ja:"不明",th:"ไม่แน่ใจ"}]),
+      QQ({en:"Age band?",zh:"年龄段？",ja:"年齢帯？",th:"ช่วงอายุ?"},[{en:"50–60",zh:"50-60岁",ja:"50〜60歳",th:"50-60"},{en:"60–70",zh:"60-70岁",ja:"60〜70歳",th:"60-70"},{en:"70+",zh:"70岁以上",ja:"70歳以上",th:"70+"}])
+    ],
+    prods:['multivitamin','glucosamine','coq10','lutein'],bundle:'healthy-ageing',
+    content:[{en:"Ageing well: energy, joints & eyes",zh:"优雅老龄：能量、关节与眼睛",ja:"よく老いる：エネルギー・関節・目",th:"สูงวัยอย่างดี: พลังงาน ข้อ ตา"},{en:"Why CoQ10 matters as we age",zh:"为什么辅酶Q10随龄重要",ja:"なぜ加齢でCoQ10が大切か",th:"ทำไมโคคิวเทนสำคัญเมื่อสูงวัย"}],
+    note:{en:"A multi covers daily nutrient gaps, glucosamine supports joint mobility, CoQ10 supports heart and cellular energy, and lutein supports eye health — a balanced foundation for the years ahead.",zh:"复合维生素补足日常营养缺口，维骨力支持关节活动力，辅酶Q10支持心脏与细胞能量，叶黄素支持眼睛健康——为未来岁月打下均衡基础。",ja:"マルチが日々の栄養ギャップを、グルコサミンが関節可動性を、CoQ10が心臓と細胞エネルギーを、ルテインが目をサポート——これからの年月への均衡な土台。",th:"มัลติเติมช่องว่างสารอาหาร กลูโคซามีนสนับสนุนการเคลื่อนไหวข้อ โคคิวเทนสนับสนุนหัวใจและพลังงานเซลล์ ลูทีนสนับสนุนตา"},
+    plan:[{en:"Morning: multivitamin + CoQ10 with breakfast",zh:"早晨：复合维生素+辅酶Q10，随早餐",ja:"朝：マルチ+CoQ10を朝食と",th:"เช้า: มัลติ+โคคิวเทนมื้อเช้า"},{en:"Daily: 1 Glucosamine + 1 Lutein",zh:"每日：维骨力1片+叶黄素1粒",ja:"毎日：グルコサミン1+ルテイン1",th:"ทุกวัน: กลูโคซามีน 1 + ลูทีน 1"},{en:"Check in daily — track your vitality",zh:"每日打卡——追踪活力",ja:"毎日打卡——活力を記録",th:"เช็คอินทุกวัน — ติดตามพลัง"}]
+  }
+};
+/* goals without a full quiz map to a sensible default plan */
+function assessFor(goal){
+  if(ASSESS[goal])return ASSESS[goal];
+  const def={
+    energy:{prods:['multivitamin','vitamin-b','fish-oil'],bundle:'wellness-starter'},
+    heart:{prods:['fish-oil','coq10'],bundle:'heart-essentials'},
+    gut:{prods:['probiotics','multivitamin'],bundle:'wellness-starter'},
+    skin:{prods:['evening-primrose','vitamin-e-cream'],bundle:'wellness-starter'},
+    eye:{prods:['lutein','fish-oil'],bundle:'healthy-ageing'}
+  }[goal]||{prods:['multivitamin','vitamin-c','fish-oil'],bundle:'wellness-starter'};
+  return {
+    questions:ASSESS.immunity.questions,
+    prods:def.prods,bundle:def.bundle,
+    content:[{en:"Building a simple daily routine",zh:"建立简单日常routine",ja:"シンプルな日々の習慣作り",th:"สร้างกิจวัตรรายวันง่ายๆ"},{en:"Supplements 101: where to start",zh:"保健品入门：从哪开始",ja:"サプリ入門：どこから",th:"อาหารเสริม 101: เริ่มตรงไหน"}],
+    note:{en:"A simple, balanced foundation supports your everyday wellbeing — start steady and check in daily so we can tune your plan over time.",zh:"简单均衡的基础支持你的日常健康——稳步开始，每日打卡，我们会随时间优化方案。",ja:"シンプルでバランスの取れた土台が日常の健康を支えます——着実に始め、毎日打卡を、時間とともにプランを調整します。",th:"พื้นฐานที่สมดุลสนับสนุนสุขภาพรายวัน — เริ่มอย่างมั่นคงและเช็คอินทุกวันเพื่อปรับแผน"},
+    plan:[{en:"Morning: take your core supplement with food",zh:"早晨：随餐服用核心补充",ja:"朝：核となるサプリを食事と",th:"เช้า: ทานอาหารเสริมหลักพร้อมอาหาร"},{en:"Add the second item once it feels routine",zh:"形成习惯后加入第二项",ja:"習慣化したら2つ目を追加",th:"เพิ่มรายการที่สองเมื่อเป็นกิจวัตร"},{en:"Check in daily to keep your streak",zh:"每日打卡保持连续",ja:"毎日打卡で連続維持",th:"เช็คอินทุกวันเพื่อรักษาสตรีค"}]
+  };
+}
+const TABS=[
+  {k:'home',ic:'🏠',lb:{en:'Home',zh:'首页',ja:'ホーム',th:'หน้าแรก'}},
+  {k:'shop',ic:'🛍️',lb:{en:'Shop',zh:'商城',ja:'商城',th:'ร้านค้า'}},
+  {k:'ai',ic:'🤖',lb:{en:'AI',zh:'AI',ja:'AI',th:'AI'}},
+  {k:'health',ic:'💚',lb:{en:'Health',zh:'健康',ja:'健康',th:'สุขภาพ'}},
+  {k:'my',ic:'💬',lb:{en:'My',zh:'我的',ja:'マイ',th:'ของฉัน'}}
+];
+
+/* ============ state ============ */
+let state={lang:"en",brand:"blackmores",tab:"home"};
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const L=o=>(o&&(o[state.lang]||o.en))||"";
+function P(k){return L(PT[k]);}
+let ph={
+  quizStep:-1,quizPick:null,saved:{},reserved:false,notified:false,points:1250,
+  asGoal:null,asStep:-1,asAns:[],
+  twinAsGoal:null,twinAsStep:-1,twinAsAns:[],twinOnboarded:false,
+  shopView:'list',shopCat:'all',shopCatType:'eff',detailSku:null,bundleSku:null,cart:{},coupon:false,ordered:false,
+  aiMode:'chat',chat:[],aiOrdered:false,agentDone:false,bundleOrdered:false,voiceState:0,
+  twinLevel:1,checkedin:false,streak:6,records:{energy:false,sleep:false,mood:false},restock:false,reportShared:false,
+  taskDone:{t1:false,t2:false,t3:false},claimed:{},signed:false,arScan:false
+};
+function cartCount(){return Object.values(ph.cart).reduce((a,b)=>a+b,0);}
+function cartSub(){return Object.keys(ph.cart).reduce((a,k)=>a+PMAP[k].mp*ph.cart[k],0);}
+function phToast(m){const t=$('#phToast');if(!t)return;t.innerHTML=m;t.classList.add('show');clearTimeout(phToast._t);phToast._t=setTimeout(()=>t.classList.remove('show'),1700);}
+function addCart(k,n){ph.cart[k]=(ph.cart[k]||0)+(n||1);}
+function addBundle(bk){const b=BMAP[bk];if(!b)return;b.comp.forEach(k=>{if(PMAP[k])addCart(k,1);});}
+
+/* ============ shared assessment renderer ============ */
+/* prefix: 'as' for home, 'twinAs' for health-twin onboarding. Returns inner HTML. */
+function renderAssessment(prefix){
+  const goal=ph[prefix+'Goal'], step=ph[prefix+'Step'];
+  // Step A — pick a goal
+  if(step===-1||!goal){
+    return `<div class="ph-sech">🌿 ${ecoTag('AI')} ${P('asTitle')}</div>
+    <div class="ph-cap" style="margin-top:0">${P('asPickGoal')}</div>
+    <div class="ph-goals" style="grid-template-columns:repeat(5,1fr);margin-top:7px">${GOAL_LIST.map(g=>`<div class="ph-goal" data-${prefix}goal="${g.k}"><div class="gi">${g.ic}</div><div class="gn">${P(g.t)}</div></div>`).join('')}</div>`;
+  }
+  const A=assessFor(goal), qs=A.questions, gName=P(GOAL_LIST.find(g=>g.k===goal).t);
+  // Step B — questions
+  if(step<qs.length){
+    const q=qs[step];
+    return `<div class="ph-sech">🌿 ${gName}</div>
+    <div class="ph-prog"><i style="width:${Math.round(step/qs.length*100)}%"></i></div>
+    <div class="ph-quiz"><div class="qq">${step+1} ${P('asStep')} ${qs.length} · ${L(q.q)}</div>${q.a.map((o,i)=>`<div class="opt" data-${prefix}qa="${i}">${L(o)}</div>`).join('')}</div>`;
+  }
+  // Step C — personalised plan
+  const prods=A.prods.map(k=>PMAP[k]).filter(Boolean);
+  const bundle=BMAP[A.bundle];
+  const sum=bundle?bundleSum(bundle):0;
+  return `<div class="ph-sech" style="color:var(--accent)">✓ ${P('asResult')} · ${gName}</div>
+  <div class="ph-predict" style="border-color:var(--brand);background:#f3fbfb;margin-bottom:9px"><b>🌿 ${P('asNaturo')}:</b> ${L(A.note)}</div>
+  <div class="ph-catlbl" style="margin-bottom:5px">${P('asRecP')}</div>
+  ${prods.map(p=>`<div class="ph-pcardmini" style="margin-bottom:6px" data-${prefix}jump="${p.k}"><img src="${p.img}" alt=""><div class="nm">${L(p.nm)}<div class="pp">¥${p.mp} · ${L(p.dose)}</div></div><span style="color:var(--brand);font-weight:800">›</span></div>`).join('')}
+  ${bundle?`<div class="ph-catlbl" style="margin:9px 0 5px">${P('asBundle')}</div>
+  <div class="ph-pair" style="margin-top:0"><b>🎁 ${L(bundle.nm)}</b><div style="margin:4px 0;display:flex;flex-wrap:wrap;gap:4px">${bundle.comp.map(k=>`<span class="ph-ptag">${PMAP[k]?L(PMAP[k].nm):k}</span>`).join('')}</div>
+    <div style="display:flex;align-items:baseline;gap:6px;margin-top:4px"><span style="font-size:15px;font-weight:800;color:var(--accent)">¥${bundle.price}</span><s style="color:var(--muted);font-size:10px">¥${sum}</s><span class="ph-ptag" style="color:#fff;background:var(--accent)">−${bundle.save}%</span></div>
+    <button class="ph-btn acc" data-${prefix}bundle="${bundle.k}" style="margin-top:7px">🎁 ${P('asAddBundle')}</button></div>`:''}
+  <div class="ph-catlbl" style="margin:9px 0 5px">📋 ${P('asPlanT')}</div>
+  <div class="ph-spec" style="border-top:0;padding-top:0">${A.plan.map((s,i)=>`<div class="row"><span class="k" style="min-width:18px;color:var(--accent)">${i+1}.</span><span class="v">${L(s)}</span></div>`).join('')}</div>
+  <div class="ph-catlbl" style="margin:9px 0 5px">📖 ${P('asContent')}</div>
+  ${A.content.map(c=>`<div class="ph-store" style="padding:6px 0"><div class="si" style="font-size:14px">📄</div><div class="sn"><b>${L(c)}</b></div><span style="color:var(--brand);font-weight:800">›</span></div>`).join('')}
+  ${prefix==='twinAs'?`<button class="ph-btn" data-${prefix}done="1" style="margin-top:9px">🌱 ${L({en:'Start my health twin',zh:'开启我的健康分身',ja:'健康分身を始める',th:'เริ่มฝาแฝดสุขภาพ'})}</button>`:''}
+  <button class="ph-btn ghost" data-${prefix}retake="1" style="margin-top:7px">↺ ${P('asRetake')}</button>`;
+}
+/* shared assessment event binding */
+function bindAssessment(prefix){
+  const all=(sel,fn)=>$$('#phone '+sel).forEach(el=>el.onclick=()=>fn(el));
+  all(`[data-${prefix}goal]`,el=>{ph[prefix+'Goal']=el.dataset[prefix+'goal']||el.getAttribute('data-'+prefix+'goal');ph[prefix+'Step']=0;ph[prefix+'Ans']=[];renderPhone();});
+  all(`[data-${prefix}qa]`,el=>{ph[prefix+'Ans'].push(+el.getAttribute('data-'+prefix+'qa'));ph[prefix+'Step']++;renderPhone();});
+  all(`[data-${prefix}done]`,el=>{ph.twinOnboarded=true;phToast('🌱 '+L({en:'Twin set up!',zh:'分身已设置！',ja:'分身を設定！',th:'ตั้งค่าฝาแฝดแล้ว!'}));renderPhone();});
+  all(`[data-${prefix}jump]`,el=>{ph.detailSku=el.getAttribute('data-'+prefix+'jump');state.tab='shop';ph.shopView='detail';renderPhone();renderSide();});
+  all(`[data-${prefix}bundle]`,el=>{addBundle(el.getAttribute('data-'+prefix+'bundle'));phToast('🎁 '+P('added'));renderPhone();});
+  all(`[data-${prefix}retake]`,el=>{ph[prefix+'Goal']=null;ph[prefix+'Step']=-1;ph[prefix+'Ans']=[];if(prefix==='twinAs')ph.twinOnboarded=false;renderPhone();});
+}
+
+/* ============ legend ============ */
+function legend(){
+  return `<div class="ph-leg">
+    <span class="lg" title="公众号 — brand's owned articles & push">📣 <b>${P('legAcct')}</b> 公众号</span>
+    <span class="lg" title="小程序 — app inside WeChat, no install">📱 <b>${P('legMini')}</b> 小程序</span>
+    <span class="lg" title="视频号 — WeChat's short-video & live feed">▶ <b>${P('legCh')}</b> 视频号</span>
+    <span class="lg" title="微信支付 — built-in one-tap pay">💳 <b>${P('legPay')}</b></span>
+  </div>`;
+}
+function ecoTag(t){return `<span class="ecoTag">${t}</span>`;}
+
+/* ============ HOME ============ */
+function quizResultSku(){
+  // map answers loosely; default vitamin-c (immunity)
+  if(ph.quizPick&&ph.quizPick[1]===0)return 'sleep';
+  if(ph.quizPick&&ph.quizPick[2]===0)return 'multivitamin';
+  return 'vitamin-c';
+}
+function renderHome(){
+  const goals=PT.goals[state.lang]||PT.goals.en;
+  const goalSku={0:'vitamin-c',1:'sleep',2:'probiotics',3:'glucosamine',4:'pregnancy-gold',5:'evening-primrose',6:'lutein',7:'vitamin-b'};
+  let quizBlock='';
+  if(ph.asStep===-1){
+    quizBlock=`<div class="ph-sech">🌿 ${ecoTag('AI')} ${P('asTitle')}</div><div class="ph-cap" style="margin-top:0">${P('asSub')}</div><button class="ph-btn" id="quizGo">${P('asStart')}</button>`;
+  } else {
+    quizBlock=renderAssessment('as');
+  }
+  const liked=ph.saved, contents=[
+    {id:'c1',type:'art',th:'v4',ic:'🛡️',t:P('c1'),m:'3 min'},
+    {id:'c2',type:'vid',th:'',ic:'🍊',t:P('c2'),m:'0:58'},
+    {id:'c3',type:'art',th:'v3',ic:'💊',t:P('c3'),m:'4 min'},
+    {id:'c4',type:'vid',th:'v2',ic:'🦠',t:P('c4'),m:'1:12'}
+  ];
+  return legend()+`
+  <div class="ph-banner"><div class="bt">❄️ ${P('bannerT')}</div><div class="bs">${P('bannerS')}</div><span class="bb">${P('bannerB')}</span></div>
+  <div class="ph-card"><div class="ph-sech">🎯 ${L({en:'Health goals',zh:'健康目标',ja:'健康目標',th:'เป้าหมายสุขภาพ'})}</div><div class="ph-goals">${goals.map((g,i)=>`<div class="ph-goal" data-goal="${i}"><div class="gi">${['🛡️','😴','🦠','🦴','🤰','✨','👁️','🧠'][i]}</div><div class="gn">${g}</div></div>`).join('')}</div></div>
+  <div class="ph-card ph-quiz">${quizBlock}</div>
+  <div class="ph-card"><div class="ph-sech">📖 ${P('pgcT')} <span class="more">${ecoTag('公众号 PGC')} ${P('pgcBadge')}</span></div>
+    <div class="ph-content">${contents.map(c=>`
+      <div class="ph-cw"><div class="thumb ${c.th}">${c.ic}${c.type==='vid'?`<div class="play">▶</div>`:''}<div class="tg">${c.type==='vid'?P('vid'):P('art')} · ${c.m}</div></div>
+      <div class="ct">${c.t}</div><div class="cm"><button data-like="${c.id}" class="${liked[c.id+'_l']?'on':''}">${liked[c.id+'_l']?'❤️':'♡'} ${P('like')}</button><button data-save="${c.id}" class="${liked[c.id+'_s']?'on':''}">${liked[c.id+'_s']?'★ '+P('saved'):'☆ '+P('save')}</button></div></div>`).join('')}</div></div>
+  <div class="ph-card"><div class="ph-sech">📍 ${P('nearT')} <span class="more">${P('lbs')}</span></div>
+    <div class="ph-store"><div class="si">🏥</div><div class="sn"><b>HealthPlus Pharmacy</b><span>Jing'an · 0.4 km</span></div><span class="stk">${P('inStock')}</span></div>
+    <div class="ph-store"><div class="si">💊</div><div class="sn"><b>City Wellness Chemist</b><span>Xuhui · 1.1 km</span></div><span class="stk low">${P('low')}</span></div>
+    <button class="ph-btn ghost" id="reserveBtn">${ph.reserved?P('reserved'):'📦 '+P('reserve')}</button></div>
+  <div class="ph-card"><div class="ph-sech">🆕 ${P('newT')}</div><div class="ph-store" style="border:0;padding-top:2px"><div class="si">🌙</div><div class="sn"><b>${P('newP')}</b><span>${P('newT')}</span></div></div><button class="ph-btn acc" id="notifyBtn">${ph.notified?P('notified'):'🔔 '+P('notify')}</button></div>
+  <div class="ph-card"><div class="ph-sech">▶ ${ecoTag('视频号 Channels')} ${L({en:'Live',zh:'直播',ja:'ライブ',th:'ไลฟ์'})}</div>
+    <div class="ph-live" id="liveCard"><div class="ld"><i></i>LIVE</div><div class="lv">👁 2.4k</div><div class="ltx">${P('liveT')}<br><span style="font-weight:600;font-size:9px;opacity:.9">${P('liveSub')}</span></div></div>
+    <div class="ph-cap">${P('livehint')}</div></div>`;
+}
+
+/* ============ SHOP ============ */
+function renderShop(){
+  if(ph.ordered){return renderOrderDone();}
+  if(ph.shopView==='detail'&&ph.detailSku){return renderDetail();}
+  if(ph.shopView==='cart'){return renderCart();}
+  const effCats=[['all',P('catAll')],['bundles','🎁 '+P('catBundles')],['immunity',P('effImm')],['sleep',P('effSleep')],['gut',P('effGut')],['joint',P('effJoint')],['pregnancy',P('effPreg')],['skin',P('effSkin')],['eye',P('effEye')],['brain',P('effBrain')]];
+  const audCats=[['kids',P('audKids')],['adult',P('audAdult')],['pregnant',P('audPreg')],['senior',P('audSenior')]];
+  const cat=ph.shopCat, type=ph.shopCatType;
+  const list=PRODS.filter(p=>{
+    if(cat==='all'||cat==='bundles')return cat==='all';
+    if(type==='eff')return p.cat.includes(cat);
+    return p.aud.includes(cat);
+  });
+  const head=`<div class="ph-stbar"><b style="font-size:12px">🛍️ ${ecoTag('小程序')} ${P('cartT')==='Cart'?'Shop':P('cartT')}</b><button class="ph-stcart" id="shopCart">🛒 ${cartCount()}</button></div>
+  <div class="ph-search">🔍 <span>${P('search')}</span></div>
+  <div class="ph-catlbl">${P('byEff')}</div>
+  <div class="ph-cats">${effCats.map(c=>`<button class="ph-cat${type==='eff'&&cat===c[0]?' on':''}" data-cat="${c[0]}" data-ctype="eff">${c[1]}</button>`).join('')}</div>
+  <div class="ph-catlbl">${P('byAud')}</div>
+  <div class="ph-cats">${audCats.map(c=>`<button class="ph-cat${type==='aud'&&cat===c[0]?' on':''}" data-cat="${c[0]}" data-ctype="aud">${c[1]}</button>`).join('')}</div>`;
+  // Bundles-only view
+  if(cat==='bundles'){
+    return head+`<div class="ph-sech" style="margin-top:6px">🎁 ${P('bundlesT')}</div><div class="ph-cap" style="margin-top:0">${P('bundlesSub')}</div>${bundleCards()}`;
+  }
+  return head+
+  `<div class="ph-pgrid">${list.map(p=>`<div class="ph-pcard" data-sku="${p.k}"><img src="${p.img}" alt=""><div class="ph-ptags">${(L(p.tags)?L(p.tags):p.tags.en).slice(0,2).map(t=>`<span class="ph-ptag">${t}</span>`).join('')}</div><div class="ph-pcn">${L(p.nm)}</div><div class="ph-pcp">¥${p.mp}<s>¥${p.p}</s></div><div class="ph-pcr">★ ${p.r} · ${p.rev}</div></div>`).join('')}</div>
+  <div class="ph-sech" style="margin-top:12px">🎁 ${P('bundlesT')} <span class="more" data-cat="bundles" data-ctype="eff" style="cursor:pointer">${L({en:'See all ›',zh:'查看全部 ›',ja:'すべて見る ›',th:'ดูทั้งหมด ›'})}</span></div><div class="ph-cap" style="margin-top:0">${P('bundlesSub')}</div>${bundleCards(3)}`;
+}
+function bundleCards(limit){
+  const list=limit?BUNDLES.slice(0,limit):BUNDLES;
+  return list.map(b=>{
+    const sum=bundleSum(b);
+    return `<div class="ph-card" style="border:1px solid var(--line);box-shadow:none;padding:10px;margin-bottom:8px">
+      <div style="display:flex;gap:9px;align-items:center">
+        <img src="${b.img}" alt="" style="width:44px;height:44px;object-fit:contain;flex-shrink:0">
+        <div style="flex:1"><div style="font-weight:800;font-size:12px;line-height:1.2">🎁 ${L(b.nm)}</div>
+          <div style="display:flex;align-items:baseline;gap:6px;margin-top:3px"><span style="font-size:16px;font-weight:800;color:var(--accent)">¥${b.price}</span><s style="color:var(--muted);font-size:10px">¥${sum} ${P('bSingles')}</s><span class="ph-ptag" style="color:#fff;background:var(--accent)">${P('bSave')} ${b.save}%</span></div>
+        </div>
+      </div>
+      <div class="ph-cap" style="text-align:left;margin:6px 0 4px">${L(b.d)}</div>
+      <div class="ph-catlbl" style="margin:0 0 4px">${P('bIncl')}</div>
+      <div class="ph-ptags" style="justify-content:flex-start;margin-bottom:0">${b.comp.map(k=>`<span class="ph-ptag" data-bjump="${k}" style="cursor:pointer">${PMAP[k]?L(PMAP[k].nm):k}</span>`).join('')}</div>
+      <button class="ph-btn acc" data-addbundle="${b.k}" style="margin-top:8px">🎁 ${P('addBundle')} · ¥${b.price}</button>
+    </div>`;
+  }).join('');
+}
+function renderDetail(){
+  const p=PMAP[ph.detailSku];
+  const tags=L(p.tags)||p.tags.en;
+  // pairing: suggest a complementary product
+  const pairMap={'fish-oil':'multivitamin','vitamin-c':'probiotics','sleep':'multivitamin','probiotics':'vitamin-c','glucosamine':'fish-oil','multivitamin':'vitamin-c','pregnancy-gold':'probiotics','lutein':'fish-oil','vitamin-b':'multivitamin','evening-primrose':'vitamin-e-cream','vitamin-e-cream':'evening-primrose'};
+  const pair=PMAP[pairMap[p.k]];
+  const revs=[
+    {n:'Wei L.',r:5,t:{en:'Two weeks in, feeling steadier through the season. No fishy aftertaste.',zh:'吃了两周，换季更稳了，完全没腥味。',ja:'2週間で季節を安定して過ごせています。生臭さなし。',th:'สองสัปดาห์ รู้สึกมั่นคงขึ้น ไม่มีกลิ่นคาว'}},
+    {n:'Min Z.',r:5,t:{en:'Easy to swallow, and the AUST L number checks out. Repurchasing.',zh:'好吞咽，AUST L编号可查，回购了。',ja:'飲みやすく、AUST L番号も確認済み。リピート。',th:'กลืนง่าย เลข AUST L ตรวจสอบได้ ซื้อซ้ำ'}}
+  ];
+  return `<div class="ph-stbar"><button class="ph-stback" id="detBack">‹ ${P('back')}</button><button class="ph-stcart" id="shopCart">🛒 ${cartCount()}</button></div>
+  <div class="ph-card ph-detail">
+    <img class="dimg" src="${p.img}" alt="">
+    <div style="text-align:center;font-weight:800;font-size:13px;margin-top:4px">${L(p.nm)}</div>
+    <div class="ph-dtags">${tags.map(t=>`<span class="ph-dtag">${t}</span>`).join('')}</div>
+    <div class="ph-price"><span class="mp">¥${p.mp}</span><span class="lp">¥${p.p}</span><span class="mb">${P('memberP')}</span></div>
+    <div style="text-align:center;font-size:9px;color:#f5a623;font-weight:700">★ ${p.r} · ${p.rev} ${P('reviews')}</div>
+    <div class="ph-cap" style="text-align:center;margin:6px 4px 0">${L(p.d)}</div>
+    <div class="ph-spec">
+      <div class="row"><span class="k">🧪 ${P('ingredient')}</span><span class="v">${L(p.ing)}</span></div>
+      <div class="row"><span class="k">✅ ${P('suitable')}</span><span class="v">${L(p.fit)}</span></div>
+      <div class="row"><span class="k">⚠️ ${P('notSuit')}</span><span class="v">${L(p.nofit)}</span></div>
+      <div class="row"><span class="k">📋 ${P('dosage')}</span><span class="v">${L(p.dose)}</span></div>
+    </div>
+    <div class="ph-sech" style="margin-top:6px">🏅 ${P('certs')}</div>
+    <div class="ph-cert"><div>🇦🇺 Australian Made</div><div>✔ TGA approved</div><div>🔖 AUST L 12${(p.k.length*7)%900+100}</div><div>🌿 GMP facility</div></div>
+    <div class="ph-rev"><div class="ph-sech" style="margin-top:8px">💬 ${P('reviews')}</div>${revs.map(r=>`<div class="rv"><div class="rh">${r.n}<span class="st">${'★'.repeat(r.r)}</span></div><div class="rt">${L(r.t)}</div></div>`).join('')}</div>
+    <div class="ph-pair"><b>🤖 ${P('pair')} ·</b> ${L({en:'Pairs well with',zh:'建议搭配',ja:'おすすめ組合せ',th:'เข้าคู่กับ'})} <b>${L(pair.nm)}</b> (¥${pair.mp}) ${L({en:'for broader daily support.',zh:'获得更全面日常支持。',ja:'より広い日常サポートに。',th:'เพื่อการสนับสนุนที่ครบ'})}</div>
+    <div class="ph-dbar"><button class="ph-btn ghost" id="detAdd" style="flex:1">＋ ${P('addCart')}</button><button class="ph-btn acc" id="detBuy" style="flex:1">${P('buyNow')}</button></div>
+  </div>`;
+}
+function renderCart(){
+  const rows=Object.keys(ph.cart).filter(k=>ph.cart[k]>0);
+  if(!rows.length){return `<div class="ph-stbar"><button class="ph-stback" id="cartBack">‹ ${P('back')}</button><b style="font-size:12px">🛒 ${P('cartT')}</b></div><div class="ph-card" style="text-align:center;color:var(--muted);padding:30px 0">${P('empty')}</div>`;}
+  const sub=cartSub(),disc=ph.coupon?30:0,pts=10,tot=Math.max(0,sub-disc-pts),earned=Math.floor(tot*0.1);
+  return `<div class="ph-stbar"><button class="ph-stback" id="cartBack">‹ ${P('back')}</button><b style="font-size:12px">🛒 ${P('cartT')}</b></div>
+  <div class="ph-card">${rows.map(k=>{const p=PMAP[k];return `<div class="ph-prow"><img class="ph-pimg" src="${p.img}" alt=""><div class="ph-pn">${L(p.nm)}<div class="ph-pp">¥${p.mp}</div></div><div class="ph-qty"><button data-dec="${k}">−</button><b>${ph.cart[k]}</b><button data-inc="${k}">＋</button></div></div>`;}).join('')}</div>
+  <div class="ph-card">
+    <div class="ph-field"><span class="fi">📍</span><div class="ft"><b>${P('addr')}</b><span>${P('addrV')}</span></div><span class="fa">›</span></div>
+    <div class="ph-couponrow"><span>🎟️ ${P('coupon')}</span><button class="${ph.coupon?'done':''}" id="cartCoupon">${ph.coupon?P('applied'):P('use')}</button></div>
+    <div class="ph-row"><span>${P('subtotal')}</span><span>¥${sub}</span></div>
+    ${disc?`<div class="ph-row"><span>${P('coupon')}</span><span class="disc">− ¥${disc}</span></div>`:''}
+    <div class="ph-row"><span>${P('points')}</span><span class="disc">− ¥${pts}</span></div>
+    <div class="ph-row tot"><span>${P('total')}</span><span>¥${tot}</span></div>
+    <div class="ph-cap" style="text-align:left">${P('payHint')}</div>
+    <button class="ph-btn wx" id="cartPay">💳 ${P('pay')} · ¥${tot}</button></div>`;
+}
+function renderOrderDone(){
+  const earned=Math.floor(cartSub()*0.1)||126;
+  return `<div class="ph-card" style="text-align:center;padding-top:24px"><div style="font-size:40px">🎉</div><div style="font-weight:800;font-size:15px;margin:8px 0 4px">${P('orderDone')}</div><div class="ph-cap">${cartCount()} ${P('items')} · WeChat Pay</div><div class="ph-cap" style="color:var(--accent);font-weight:800">⭐ ${P('earned')} +${earned} ${P('ptsLabel')}</div><div class="ph-cap">SF Express · ${L({en:'arriving tomorrow',zh:'预计明天送达',ja:'明日到着予定',th:'พรุ่งนี้ถึง'})}</div><button class="ph-btn" id="orderAgain" style="margin-top:18px">↺ ${P('again')}</button></div>`;
+}
+
+/* ============ AI ============ */
+function renderAI(){
+  const modes=[['chat',P('mChat')],['agent',P('mAgent')],['voice',P('mVoice')]];
+  let inner='';
+  if(ph.aiMode==='chat'){
+    let bubbles=`<div class="ph-msg bot"><span class="av">🤖 ${L({en:'Blackie',zh:'小B',ja:'小B',th:'Blackie'})}</span>${P('aiHello')}</div>`;
+    ph.chat.forEach(c=>{
+      if(c==='q1'){bubbles+=`<div class="ph-msg me">${P('q1')}</div><div class="ph-msg bot"><span class="av">🤖</span>${P('a1')}</div>`+chatProductCard('sleep');}
+      if(c==='q2'){bubbles+=`<div class="ph-msg me">${P('q2')}</div><div class="ph-msg bot"><span class="av">🤖</span>${P('a2')}</div>`+chatCompare();}
+      if(c==='q3'){bubbles+=`<div class="ph-msg me">${P('q3')}</div><div class="ph-msg bot"><span class="av">🤖</span>${P('a3')}</div>`+chatSmartOrder();}
+      if(c==='q4'){bubbles+=`<div class="ph-msg me">${P('q4')}</div><div class="ph-msg bot"><span class="av">🤖</span>${P('a4')}</div>`+chatBundleCard('family-immunity');}
+    });
+    inner=`<div class="ph-chat">${bubbles}</div>
+    <div class="ph-quick">${ph.chat.includes('q1')?'':`<button data-q="q1">${P('q1')}</button>`}${ph.chat.includes('q2')?'':`<button data-q="q2">${P('q2')}</button>`}${ph.chat.includes('q3')?'':`<button data-q="q3">${P('q3')}</button>`}${ph.chat.includes('q4')?'':`<button data-q="q4">${P('q4')}</button>`}</div>
+    <div class="ph-inbar"><div class="box">${P('typeHint')}</div><div class="ic">🎙</div></div>`;
+  } else if(ph.aiMode==='agent'){
+    inner=`<div class="ph-agent"><div class="ah">⚡ ${ecoTag('Agentic')} ${P('agentTitle')}</div>
+      <div class="ph-pcardmini" style="margin-bottom:8px;background:#fff"><img src="${PMAP['vitamin-c'].img}" alt=""><div class="nm">${L(PMAP['vitamin-c'].nm)}<div class="pp">¥${PMAP['vitamin-c'].mp} · ${L({en:'~7 days left',zh:'剩约7天',ja:'残約7日',th:'เหลือ ~7 วัน'})}</div></div></div>
+      <div class="at">${P('agentMsg')}</div>
+      ${ph.agentDone?`<div class="ph-msg bot" style="margin-top:9px;max-width:100%"><span class="av">🤖</span>${P('agentDone')}</div>`:`<div style="display:flex;gap:6px;margin-top:9px"><button class="ph-btn acc" id="agentYes" style="margin-top:0;flex:1">${P('yes')}</button><button class="ph-btn ghost" id="agentNo" style="margin-top:0;flex:1">${P('later')}</button></div>`}
+    </div>`;
+  } else {
+    const rec=ph.voiceState>=1, heard=ph.voiceState>=2, replied=ph.voiceState>=3, paid=ph.voiceState>=4;
+    inner=`<div class="ph-voice"><div class="mic${rec&&!heard?' rec':''}" id="voiceMic">🎙</div><div class="ph-cap" style="text-align:center;margin-top:10px">${rec&&!heard?P('voiceRec'):P('voiceHint')}</div></div>
+    ${heard?`<div class="ph-msg me" style="margin-left:auto">${P('voiceHeard')}</div>`:''}
+    ${replied?`<div class="ph-msg bot" style="margin-top:8px"><span class="av">🤖</span>${P('voiceReply')}</div>`+chatProductCard('vitamin-c',true):''}
+    ${replied&&!paid?`<button class="ph-btn wx" id="voicePay">💳 ${P('voiceConfirm')}</button>`:''}
+    ${paid?`<div class="ph-msg bot" style="margin-top:8px"><span class="av">🤖</span>${P('ordering')} · WeChat Pay ✓</div>`:''}`;
+  }
+  return `<div class="ph-card" style="display:flex;align-items:center;gap:8px;padding:9px 11px"><div style="width:30px;height:30px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:16px">🤖</div><div style="font-size:11.5px;font-weight:800;line-height:1.2">${P('aiName')}</div></div>
+  <div class="ph-aimode">${modes.map(m=>`<button class="${ph.aiMode===m[0]?'on':''}" data-mode="${m[0]}">${m[1]}</button>`).join('')}</div>
+  <div class="ph-disc">${P('disc')}</div>
+  <div class="ph-card">${inner}</div>`;
+}
+function chatProductCard(sku,noBtn){
+  const p=PMAP[sku];
+  return `<div class="ph-msg bot" style="max-width:100%;padding:8px"><div class="ph-pcardmini"><img src="${p.img}" alt=""><div class="nm">${L(p.nm)}<div class="pp">¥${p.mp} <s style="color:var(--muted);font-weight:600">¥${p.p}</s></div></div></div>${noBtn?'':`<div style="display:flex;gap:6px;margin-top:7px"><button class="ph-btn ghost" data-aiadd="${sku}" style="margin-top:0">＋ ${P('addCart')}</button><button class="ph-btn" data-aijump="${sku}" style="margin-top:0">${P('buyNow')}</button></div>`}</div>`;
+}
+function chatBundleCard(bk){
+  const b=BMAP[bk];if(!b)return'';
+  const sum=bundleSum(b);
+  return `<div class="ph-msg bot" style="max-width:100%;padding:8px"><div class="ph-pcardmini" style="align-items:flex-start"><img src="${b.img}" alt=""><div class="nm">🎁 ${L(b.nm)}
+    <div style="margin:3px 0;display:flex;flex-wrap:wrap;gap:3px">${b.comp.map(k=>`<span class="ph-ptag">${PMAP[k]?L(PMAP[k].nm):k}</span>`).join('')}</div>
+    <div class="pp">¥${b.price} <s style="color:var(--muted);font-weight:600">¥${sum}</s> · ${P('bSave')} ${b.save}%</div></div></div>
+    ${ph.bundleOrdered?`<div class="ph-msg bot" style="max-width:100%;background:#eafaf0;margin-top:7px"><span class="av">🤖</span>${P('aiAddedBundle')}</div>`:`<button class="ph-btn acc" id="aiAddBundle" data-bk="${bk}" style="margin-top:7px">🎁 ${P('addBundle')} · ¥${b.price}</button>`}</div>`;
+}
+function chatCompare(){
+  const a=PMAP['vitamin-c'],b=PMAP['vitamin-e-cream'];
+  return `<div class="ph-msg bot" style="max-width:100%;padding:8px"><div class="ph-cmp">
+    <div class="col"><img src="${a.img}" alt=""><div class="cn">${L(a.nm)}</div><div class="cr">¥${a.mp}</div><div class="cr"><b>${L({en:'Immunity',zh:'免疫',ja:'免疫',th:'ภูมิ'})}</b></div><div class="cr">★ ${a.r}</div></div>
+    <div class="col"><img src="${b.img}" alt=""><div class="cn">${L(b.nm)}</div><div class="cr">¥${b.mp}</div><div class="cr"><b>${L({en:'Skin',zh:'护肤',ja:'肌',th:'ผิว'})}</b></div><div class="cr">★ ${b.r}</div></div>
+  </div></div>`;
+}
+function chatSmartOrder(){
+  const a=PMAP['vitamin-c'],b=PMAP['probiotics'];
+  const sub=a.mp+b.mp,tot=sub-30;
+  return `<div class="ph-msg bot" style="max-width:100%;padding:8px"><div class="ph-pcardmini" style="margin-bottom:6px"><img src="${a.img}" alt=""><div class="nm">${L(a.nm)}<div class="pp">¥${a.mp}</div></div></div><div class="ph-pcardmini"><img src="${b.img}" alt=""><div class="nm">${L(b.nm)}<div class="pp">¥${b.mp}</div></div></div>
+    <div class="ph-couponrow" style="margin:8px 0 4px"><span>🎟️ ${P('bestCoupon')} −¥30</span><span style="color:var(--brand-d)">¥${tot}</span></div>
+    ${ph.aiOrdered?`<div class="ph-msg bot" style="max-width:100%;background:#eafaf0"><span class="av">🤖</span>${P('ordering')} · WeChat Pay ✓</div>`:`<button class="ph-btn wx" id="aiOneTap">💳 ${P('oneTap')} · ¥${tot}</button>`}</div>`;
+}
+
+/* ============ HEALTH TWIN ============ */
+function renderHealth(){
+  // Health-Twin onboarding: a goal-based naturopath assessment that sets the twin's focus
+  if(!ph.twinOnboarded){
+    const intro=(ph.twinAsStep===-1||!ph.twinAsGoal)?`<div class="ph-cap" style="margin:0 0 7px">🌱 ${L({en:'Set up your health twin — start with a goal.',zh:'设置你的健康分身——先选一个目标。',ja:'健康分身を設定——目標から始めましょう。',th:'ตั้งค่าฝาแฝดสุขภาพ — เริ่มจากเป้าหมาย'})}</div>`:'';
+    return `<div class="ph-card">${intro}${renderAssessment('twinAs')}</div>`;
+  }
+  const lv=ph.twinLevel, faces=['😪','🙂','😊','🤩'], lvls=PT.lvl[state.lang]||PT.lvl.en;
+  const vit=[42,60,78,92][lv-1];
+  const dims=[
+    {n:P('dimVit'),ic:'⚡',v:[42,60,78,92][lv-1]},
+    {n:P('dimImm'),ic:'🛡️',v:[38,55,72,88][lv-1]},
+    {n:P('dimSleep'),ic:'😴',v:[50,52,66,80][lv-1]},
+    {n:P('dimGut'),ic:'🦠',v:[45,62,75,85][lv-1]}
+  ];
+  let stamp='';for(let d=1;d<=7;d++){const done=d<=ph.streak%8||(ph.streak>=7&&d<=7),today=(d===((ph.streak)%7)+1);stamp+=`<i class="${d<=Math.min(7,ph.streak)?'done':''}">${d<=Math.min(7,ph.streak)?'✓':d}</i>`;}
+  const badges=[['bWeek','🥇',ph.streak>=7],['bMonth','🏆',false],['bImm','🛡️',ph.records.energy],['bSleep','🌙',ph.records.sleep]];
+  const rec=ph.records;
+  return `<div class="ph-card">
+    <div class="ph-avatar lv${lv}"><div class="lvtag">${P('twinName')}</div><div class="shield">🛡️</div><div class="face">${faces[lv-1]}</div><div class="vit">⚡ ${P('vitality')} ${vit}% · ${lvls[lv-1]}</div></div>
+    <div class="ph-dims">${dims.map(d=>`<div class="ph-dim"><div class="dn">${d.ic} ${d.n}</div><div class="db"><i style="width:${d.v}%"></i></div></div>`).join('')}</div>
+  </div>
+  <div class="ph-card"><div class="ph-sech">📅 ${P('checkinT')}</div>
+    <div class="ph-checkin"><div class="cir">🔥${ph.streak}</div><div style="flex:1"><div style="font-weight:800;font-size:12px">${ph.streak} ${P('streak')}</div><div class="ph-stamp" style="margin-top:5px">${stamp}</div></div></div>
+    <button class="ph-btn acc${ph.checkedin?' done':''}" id="checkinBtn">${ph.checkedin?P('checkedin'):'✓ '+P('checkin')}</button></div>
+  <div class="ph-card"><div class="ph-sech">🏅 ${P('badgesT')}</div><div class="ph-badges">${badges.map(b=>`<div class="ph-badge${b[2]?' on':''}"><div class="bi">${b[1]}</div><div class="bn">${P(b[0])}</div></div>`).join('')}</div></div>
+  <div class="ph-card"><div class="ph-sech">📝 ${P('recordsT')}</div><div class="ph-rec">
+    <div class="rc${rec.energy?' on':''}" data-rec="energy"><div class="ri">⚡</div><div class="rl">${P('recEnergy')}</div></div>
+    <div class="rc${rec.sleep?' on':''}" data-rec="sleep"><div class="ri">😴</div><div class="rl">${P('recSleep')}</div></div>
+    <div class="rc${rec.mood?' on':''}" data-rec="mood"><div class="ri">😊</div><div class="rl">${P('recMood')}</div></div>
+  </div></div>
+  <div class="ph-card"><div class="ph-sech">🤖 ${ecoTag('AI')} ${P('weeklyT')}</div><div class="ph-predict" style="border-color:var(--accent);background:#fff5f8">${P('weeklyMsg')}</div></div>
+  <div class="ph-card"><div class="ph-sech">🔮 ${P('predictT')}</div><div class="ph-predict">${P('predictMsg')}</div><button class="ph-btn${ph.restock?' done':''}" id="restockBtn">${ph.restock?P('enabledRestock'):'🔄 '+P('enableRestock')}</button></div>
+  <div class="ph-card"><div class="ph-sech">📊 ${P('reportT')}</div><div class="ph-cap" style="text-align:left;font-weight:700;color:var(--ink)">${P('reportMsg')}</div><button class="ph-btn ghost${ph.reportShared?' done':''}" id="reportBtn">${ph.reportShared?P('shared'):'📤 '+P('share')}</button></div>`;
+}
+
+/* ============ MY ============ */
+function renderMy(){
+  const tiers=[['tierMember','🌱'],['tierSilver','🥈'],['tierGold','🥇'],['tierBlack','💎']];
+  const tasks=[['t1','📦',5,'taskDaily'],['t2','📤',10,'taskDaily'],['t3','📋',50,'taskGrow']];
+  const acts=[
+    ['aFlash','aFlashS','⚡'],['aGroup','aGroupS','👥'],['aRefer','aReferS','🌐'],['aSign','aSignS','📅'],['aLottery','aLotteryS','🎰']
+  ];
+  const cpns=[['cpn1','cpn1s','-7'],['cpn2','cpn2s','9折']];
+  return `<div class="ph-card" style="padding:0;background:none;box-shadow:none">
+    <div class="ph-mcard"><div class="mh"><div class="ava">👩</div><div><div class="mn">Li Mei</div><div class="mt">🥇 ${P('goldMember')}</div></div><div class="pts"><b>${ph.points.toLocaleString()}</b><span>${P('ptsLabel')}</span></div></div>
+    <div class="mbar"><i style="width:68%"></i></div><div class="mnx">${P('nextTier')}</div></div></div>
+  <div class="ph-card"><div class="ph-tiers">${tiers.map((t,i)=>`<div class="ph-tier${i===2?' on':''}"><div class="te">${t[1]}</div>${P(t[0])}</div>`).join('')}</div>
+    <div class="ph-grid4" style="margin-top:9px"><div class="ph-g4" data-jumptab="ai"><div class="gi">🎁</div><div class="gn">${P('gPoints')}</div></div><div class="ph-g4" id="myTask"><div class="gi">✅</div><div class="gn">${P('gTask')}</div></div><div class="ph-g4" id="myWallet"><div class="gi">🎟️</div><div class="gn">${P('gWallet')}</div></div><div class="ph-g4" data-jumptab="shop"><div class="gi">📦</div><div class="gn">${P('gOrders')}</div></div></div></div>
+  <div class="ph-card"><div class="ph-sech">✅ ${P('taskT')}</div>
+    ${tasks.map(t=>`<div class="ph-task"><span class="ti">${t[1]}</span><div class="tt">${P(t[0])}<span>${P(t[3])} · +${t[2]} ${P('taskGet')}</span></div><button class="tb${ph.taskDone[t[0]]?' done':''}" data-task="${t[0]}" data-pts="${t[2]}">${ph.taskDone[t[0]]?'✓ '+P('taskDone'):P('taskDo')}</button></div>`).join('')}</div>
+  <div class="ph-card"><div class="ph-sech">🎪 ${P('actT')}</div><div class="ph-act">${acts.map(a=>`<div class="ph-actc" data-act="${a[0]}"><span class="ai">${a[2]}</span><div class="at"><b>${P(a[0])}</b><span>${P(a[1])}</span></div></div>`).join('')}</div></div>
+  <div class="ph-card"><div class="ph-sech">🎟️ ${P('walletT')} <span class="more">${ecoTag('微信卡包')} ${P('walletSync')}</span></div>
+    ${cpns.map(c=>`<div class="ph-coupon"><div class="cv">${c[2]}</div><div class="cn"><b>${P(c[0])}</b><span>${P(c[1])}</span></div><button class="cb${ph.claimed[c[0]]?' done':''}" data-claim="${c[0]}">${ph.claimed[c[0]]?P('claimed'):P('claim')}</button></div>`).join('')}</div>
+  <div class="ph-card"><div class="ph-sech">📦 ${P('ordersT')}</div><div class="ph-orders"><div class="o"><div class="oi">💰</div><div class="ol">${P('oPay')}</div></div><div class="o"><div class="oi">📦</div><div class="ol">${P('oShip')}</div></div><div class="o"><div class="oi">🚚</div><div class="ol">${P('oReceive')}</div></div><div class="o"><div class="oi">✅</div><div class="ol">${P('oDone')}</div></div></div></div>
+  <div class="ph-card"><div class="ph-sech">🔬 ${P('arT')}</div><div class="ph-cap" style="text-align:left;margin-top:0">${P('arHint')}</div>
+    <div class="ph-ar" id="arCard">${ph.arScan?`<div class="mol">🧬</div><div class="art">${P('arMol')}</div>`:`<div style="color:#fff;font-size:11px;font-weight:700">📷 ${P('scan')}</div>`}</div></div>`;
+}
+
+/* ============ render + events ============ */
+function renderPhone(){
+  const tab=state.tab, tIdx=TABS.findIndex(t=>t.k===tab);
+  let body='';
+  if(tab==='home')body=renderHome();
+  else if(tab==='shop')body=renderShop();
+  else if(tab==='ai')body=renderAI();
+  else if(tab==='health')body=renderHealth();
+  else body=renderMy();
+  const tabbar=`<div class="ph-tabbar">${TABS.map(t=>`<button class="ph-tab${t.k===tab?' on':''}" data-tab="${t.k}"><span class="ic">${t.ic}</span><span class="lb">${L(t.lb)}</span></button>`).join('')}</div>`;
+  $('#phone').innerHTML=`<div class="ph-notch"><i></i></div><div class="ph-bar"><span class="dot"></span>WeChat 微信 · ${L(TABS[tIdx].lb)}<span class="clk">9:41</span></div><div class="ph-body" id="phBody">${body}</div>${tabbar}`;
+  bindEvents();
+}
+function bindEvents(){
+  const on=(id,fn)=>{const e=$('#'+id);if(e)e.onclick=fn;};
+  const all=(sel,fn)=>$$('#phone '+sel).forEach(el=>el.onclick=()=>fn(el));
+  // tabbar
+  all('[data-tab]',el=>{state.tab=el.dataset.tab;renderPhone();renderSide();});
+  all('[data-jumptab]',el=>{state.tab=el.dataset.jumptab;renderPhone();renderSide();});
+  // home
+  on('quizGo',()=>{ph.asGoal=null;ph.asStep=0;ph.asAns=[];renderPhone();});
+  bindAssessment('as');
+  all('[data-jump]',el=>{ph.detailSku=el.dataset.jump;state.tab='shop';ph.shopView='detail';renderPhone();renderSide();});
+  all('[data-goal]',el=>{const m={0:'immunity',1:'sleep',2:'gut',3:'joint',4:'pregnancy',5:'skin',6:'eye',7:'brain'};state.tab='shop';ph.shopView='list';ph.shopCat=m[+el.dataset.goal];ph.shopCatType='eff';renderPhone();renderSide();phToast('🛍️ '+L(PT.goals)[+el.dataset.goal]);});
+  all('[data-like]',el=>{const id=el.dataset.like;ph.saved[id+'_l']=!ph.saved[id+'_l'];renderPhone();});
+  all('[data-save]',el=>{const id=el.dataset.save;ph.saved[id+'_s']=!ph.saved[id+'_s'];phToast(ph.saved[id+'_s']?'★ '+P('saved'):P('save'));renderPhone();});
+  on('reserveBtn',()=>{ph.reserved=true;phToast('📦 '+P('reserved'));renderPhone();});
+  on('notifyBtn',()=>{ph.notified=true;phToast('🔔 '+P('notified'));renderPhone();});
+  on('liveCard',()=>phToast('▶ '+P('liveT')));
+  // shop
+  on('shopCart',()=>{ph.shopView='cart';renderPhone();});
+  all('[data-cat]',el=>{ph.shopCat=el.dataset.cat;ph.shopCatType=el.dataset.ctype;renderPhone();});
+  all('[data-addbundle]',el=>{addBundle(el.dataset.addbundle);phToast('🎁 '+P('bundleAdded'));renderPhone();});
+  all('[data-bjump]',el=>{ph.detailSku=el.dataset.bjump;ph.shopView='detail';renderPhone();});
+  all('[data-sku]',el=>{ph.detailSku=el.dataset.sku;ph.shopView='detail';renderPhone();});
+  on('detBack',()=>{ph.shopView='list';renderPhone();});
+  on('cartBack',()=>{ph.shopView='list';renderPhone();});
+  on('detAdd',()=>{addCart(ph.detailSku,1);phToast('🛒 '+P('added'));renderPhone();});
+  on('detBuy',()=>{addCart(ph.detailSku,1);ph.shopView='cart';renderPhone();});
+  all('[data-inc]',el=>{ph.cart[el.dataset.inc]++;renderPhone();});
+  all('[data-dec]',el=>{ph.cart[el.dataset.dec]=Math.max(0,ph.cart[el.dataset.dec]-1);renderPhone();});
+  on('cartCoupon',()=>{ph.coupon=true;phToast('🎟️ '+P('applied'));renderPhone();});
+  on('cartPay',()=>{const e=Math.floor(cartSub()*0.1);ph.ordered=true;ph.points+=e;phToast('🎉 '+P('orderDone'));renderPhone();});
+  on('orderAgain',()=>{ph.ordered=false;ph.cart={};ph.coupon=false;ph.shopView='list';ph.shopCat='all';renderPhone();});
+  // AI
+  all('[data-mode]',el=>{ph.aiMode=el.dataset.mode;renderPhone();});
+  all('[data-q]',el=>{if(!ph.chat.includes(el.dataset.q))ph.chat.push(el.dataset.q);renderPhone();setTimeout(()=>{const b=$('#phBody');if(b)b.scrollTop=b.scrollHeight;},30);});
+  all('[data-aiadd]',el=>{addCart(el.dataset.aiadd,1);phToast('🛒 '+P('added'));});
+  all('[data-aijump]',el=>{ph.detailSku=el.dataset.aijump;state.tab='shop';ph.shopView='detail';renderPhone();renderSide();});
+  on('aiOneTap',()=>{ph.aiOrdered=true;ph.points+=35;phToast('💳 '+P('ordering'));renderPhone();});
+  on('aiAddBundle',()=>{const e=$('#aiAddBundle');if(e){addBundle(e.dataset.bk);ph.bundleOrdered=true;phToast('🎁 '+P('bundleAdded'));renderPhone();}});
+  on('agentYes',()=>{ph.agentDone=true;ph.points+=18;phToast('✅ '+P('ordering'));renderPhone();});
+  on('agentNo',()=>{phToast('👌 '+P('later'));});
+  on('voiceMic',()=>{if(ph.voiceState===0){ph.voiceState=1;renderPhone();setTimeout(()=>{ph.voiceState=2;renderPhone();setTimeout(()=>{ph.voiceState=3;renderPhone();},700);},900);}});
+  on('voicePay',()=>{ph.voiceState=4;ph.points+=9;phToast('💳 '+P('ordering'));renderPhone();});
+  // health
+  bindAssessment('twinAs');
+  on('checkinBtn',()=>{if(!ph.checkedin){ph.checkedin=true;ph.streak++;ph.points+=5;if(ph.twinLevel<4)ph.twinLevel++;phToast('🔥 '+P('checkinMsg'));renderPhone();}});
+  all('[data-rec]',el=>{const k=el.dataset.rec;ph.records[k]=!ph.records[k];if(ph.records[k])phToast('📝 '+P('recSaved'));renderPhone();});
+  on('restockBtn',()=>{ph.restock=true;phToast('🔄 '+P('enabledRestock'));renderPhone();});
+  on('reportBtn',()=>{ph.reportShared=true;phToast('📤 '+P('shared'));renderPhone();});
+  // my
+  all('[data-task]',el=>{const k=el.dataset.task;if(!ph.taskDone[k]){ph.taskDone[k]=true;ph.points+=+el.dataset.pts;phToast('✅ +'+el.dataset.pts+' '+P('ptsLabel'));renderPhone();}});
+  all('[data-act]',el=>{phToast('🎪 '+P(el.dataset.act));});
+  all('[data-claim]',el=>{const k=el.dataset.claim;if(!ph.claimed[k]){ph.claimed[k]=true;phToast('🎟️ '+P('claimed')+' → 微信卡包');renderPhone();}});
+  on('myTask',()=>{const b=$('#phBody');if(b)b.scrollTop=260;});
+  on('myWallet',()=>{const b=$('#phBody');if(b)b.scrollTop=b.scrollHeight;});
+  on('arCard',()=>{ph.arScan=!ph.arScan;if(ph.arScan)phToast('🔬 '+P('arMol'));renderPhone();});
+}
+
+/* ============ side panel ============ */
+function renderSide(){
+  $('#sideTitle').textContent=L(T.sideTitle);
+  $('#sideBody').textContent=L(T.sideBody);
+  $('#eco').innerHTML=ECO.map(e=>`<div class="ecard"><div class="ei">${e.ic}</div><div class="et"><small>${e.zh}</small> · ${L(e.t).split(' ').slice(e.t.zh?0:0).join(' ')}</div><div class="es">${L(e.s)}</div></div>`).join('');
+  // simpler eco rendering for clarity
+  $('#eco').innerHTML=ECO.map(e=>`<div class="ecard"><div class="ei">${e.ic} <span style="font-size:12px;font-weight:800;color:var(--brand-d)">${e.zh}</span></div><div class="et">${L(e.t)}</div><div class="es">${L(e.s)}</div></div>`).join('');
+  const n=TABNOTES[state.tab];
+  $('#tabnote').innerHTML=`<div class="te">${L(n.e)}</div><h4>${L(n.h)}</h4><div class="td">${L(n.d)}</div><ul>${(L(n.l)).map(x=>`<li>${x}</li>`).join('')}</ul>`;
+  $('#compliance').innerHTML=L(T.compliance);
+}
+
+/* ============ static / brand / lang ============ */
+const BRANDS={
+  blackmores:{c:['#009BA4','#007A82','#e0f2f3','#E91E63'],logo:'Blackmores',sup:'®'}
+};
+function applyBrand(){const b=BRANDS[state.brand]||BRANDS.blackmores,r=document.documentElement.style;
+  r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
+  $('#brand').innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');}
+function renderStatic(){
+  $('#subt').textContent=L(T.subt);$('#eye').textContent=L(T.eye);$('#title').textContent=L(T.title);$('#lead').textContent=L(T.lead);
+  $('#backLab').textContent={en:'Studio',zh:'门面',ja:'スタジオ',th:'สตูดิโอ'}[state.lang]||'Studio';
+  document.documentElement.lang=state.lang;
+  applyBrand();renderPhone();renderSide();
+}
+const LANGS=[['en','EN'],['zh','中'],['ja','日'],['th','ไท']];
+function renderLangs(){const box=$('#langs');box.innerHTML='';LANGS.forEach(([k,lab])=>{const b=document.createElement('button');b.textContent=lab;if(k===state.lang)b.className='on';b.onclick=()=>{state.lang=k;renderLangs();renderStatic();};box.appendChild(b);});}
+
+/* URL ?lang= whitelist */
+try{var _l=new URLSearchParams(location.search).get("lang");if(_l&&["en","zh","ja","th"].indexOf(_l)>=0)state.lang=_l;}catch(e){}
+try{var _b=new URLSearchParams(location.search).get("brand");if(_b&&BRANDS[_b])state.brand=_b;}catch(e){}
+
+/* back-to-studio: only when embedded */
+(function(){var bs=$('#backStudio');if(!bs)return;var embedded=false;try{embedded=window.self!==window.top;}catch(e){embedded=true;}
+  if(embedded){bs.style.display='flex';bs.onclick=function(){location.href='index.html'+location.search;};}})();
+
+/* inbound brand/lang sync from parent studio */
+window.addEventListener('message',function(e){var m=e.data;if(!m||m.t!=='es')return;var ch=false;
+  if(m.brand&&BRANDS[m.brand]&&m.brand!==state.brand){state.brand=m.brand;ch=true;}
+  if(m.lang&&["en","zh","ja","th"].indexOf(m.lang)>=0&&m.lang!==state.lang){state.lang=m.lang;ch=true;}
+  if(ch){renderLangs();renderStatic();}});
+
+/* outbound sync */
+(function(){var _p="";setInterval(function(){try{if(window.parent&&window.parent!==window){var c=state.brand+"|"+state.lang;if(c!==_p){_p=c;window.parent.postMessage({t:"es",brand:state.brand,lang:state.lang},"*");}}}catch(e){}},400);})();
+
+renderLangs();
+renderStatic();
+</script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

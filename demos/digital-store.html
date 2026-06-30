@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blackmores Digital Store Solution</title>
+  <style>
+    :root{
+      --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
+      --bg:#f7f3ed;--paper:#fffdf8;--ink:#1c1d1b;--muted:#70766e;--line:#ded8ce;
+      --red:var(--brand);--red2:var(--brand-d);--pink:var(--soft);--navy:#0c1420;--blue:var(--accent);--teal:#79bcc9;--gray:#696a6e;
+      --shadow:0 18px 50px rgba(20,20,18,.08);
+      --serif:Georgia,"Times New Roman",serif;--sans:Inter,Arial,"Helvetica Neue",sans-serif;
+    }
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+    header{position:sticky;top:0;z-index:20;height:72px;background:var(--navy);color:white;display:flex;align-items:center;gap:18px;padding:0 clamp(18px,4vw,64px)}
+    .brand{font:700 30px var(--serif);letter-spacing:.01em}.divider{width:1px;height:28px;background:#344151}.section-name{letter-spacing:.24em;text-transform:uppercase;color:#aeb8c6;font-size:14px;font-weight:800}
+    .sp{flex:1}
+    .langs{display:flex;gap:3px;background:rgba(255,255,255,.06);border:1px solid #2a3138;border-radius:9px;padding:3px}
+    .langs button{border:0;background:0;font:inherit;font-size:12px;font-weight:700;color:#9aa3ad;min-width:34px;padding:5px 9px;border-radius:6px;cursor:pointer}
+    .langs button.on{background:#fff;color:var(--brand-d)}
+    main{padding:52px clamp(16px,4vw,64px) 84px}.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,520px);gap:42px;align-items:end;border-bottom:1px solid var(--line);padding-bottom:44px}
+    .eyebrow{color:var(--red);font-weight:900;letter-spacing:.28em;text-transform:uppercase;font-size:13px;margin:0 0 12px}
+    h1{font:700 clamp(50px,7vw,104px)/.95 var(--serif);letter-spacing:-.02em;margin:0}h2{font:700 clamp(36px,4.5vw,66px)/1 var(--serif);margin:0 0 14px}h3{font-size:22px;margin:0 0 8px}
+    .lead,.copy{font-size:18px;line-height:1.58;color:var(--muted);margin:0}.hero-card,.card,.panel{background:var(--paper);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow)}
+    .hero-card{padding:26px}.hero-card b{color:var(--red2)}.pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.pill{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 12px;color:#596059;font-weight:800;font-size:13px}
+    section{margin-top:66px}.split{display:grid;grid-template-columns:340px minmax(0,1fr);gap:42px;align-items:start}.section-rule{border-top:1px solid var(--line);padding-top:46px}
+    .icons{display:grid;grid-template-columns:repeat(8,1fr);gap:12px;margin-bottom:26px}.icon-tile{text-align:center;background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px 8px}.ico{font-size:30px;color:var(--blue);display:block;margin-bottom:8px}.icon-tile b{font-size:13px;line-height:1.2;display:block}
+    .overview{display:grid;grid-template-columns:1.25fr .85fr .95fr;gap:18px}.domain{border:1px solid var(--line);background:#fff;border-radius:8px;overflow:hidden}.domain-head{background:var(--teal);color:white;text-align:center;font-weight:900;font-size:26px;padding:14px}.domain-body{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:14px}.domain.car .domain-body,.domain.store .domain-body{grid-template-columns:repeat(2,1fr)}.mini-card{border:1px solid var(--line);border-radius:8px;background:#fffdf8;overflow:hidden}.mini-card h4{margin:0;background:var(--blue);color:white;text-align:center;padding:11px 8px;font-size:17px;line-height:1.15}.mini-card .mini-in{padding:13px}.mini-card b{display:block;margin:7px 0 5px;font-size:14px}.mini-card ul{margin:0 0 12px;padding-left:17px;color:#304050;font-size:13px;line-height:1.45}.mini-card li::marker{color:var(--red)}
+    .note-row{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-top:14px}.note{background:rgba(255,255,255,.72);border-left:3px solid var(--red);padding:12px;border-radius:6px;color:#565b55;line-height:1.4;font-size:14px}
+    .matrix-wrap{overflow:auto;border:1px solid var(--line);border-radius:8px;background:#fff}.feature-matrix{width:100%;border-collapse:collapse;min-width:1120px}.feature-matrix th,.feature-matrix td{border:1px solid #fff;padding:12px;text-align:center}.feature-matrix thead th{background:#111;color:white;font-size:15px;line-height:1.15}.feature-matrix thead th:first-child{background:#f7f3ed;color:#111;text-align:left;font-size:20px}.feature-matrix tbody th{text-align:left;background:#f9f7f2;width:230px}.feature-matrix tbody tr:nth-child(odd) td{background:#e7e7e6}.feature-matrix tbody tr:nth-child(even) td{background:#f0f1f2}.feature-name{display:flex;gap:12px;align-items:center}.feature-name .fi{font-size:28px;color:var(--blue);width:36px;text-align:center}.feature-name b{display:block}.feature-name span{display:block;color:var(--blue);font-size:13px}.check{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#6b9ed8;color:#fff;font-size:25px;font-weight:900}.scenario-label{display:inline-block;background:#f6c548;color:#111;border-radius:5px;padding:4px 9px;margin-bottom:5px;font-size:12px}
+    .journey-scroll{overflow:auto}.journey{min-width:1280px}.stage-row{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end}.stage-top{min-height:150px;border-left:2px solid #c8c8c8;padding:0 12px;color:#404247;font-weight:800;line-height:1.35}.stage-top ul{margin:0;padding-left:18px}.arrow-row{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin:8px 0}.arrow-stage{position:relative;background:#66676a;color:white;font-weight:900;text-align:center;padding:17px 8px;font-size:20px;clip-path:polygon(0 0,88% 0,100% 50%,88% 100%,0 100%,10% 50%)}.journey-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.jcell{background:#f2f2f0;padding:14px;min-height:190px;color:#202326;line-height:1.38;font-size:14px}.jcell ul{margin:0;padding-left:18px}.jcell li{margin:0 0 7px}.jblue{background:#5f9fd5;color:white;min-height:135px}.jteal{background:#7bbcc9;color:white;min-height:140px}.side-lab{display:grid;grid-template-columns:84px 1fr;gap:14px}.vertical-labels{display:grid;grid-template-rows:160px 72px 190px 135px 140px;gap:8px;color:#0a3764;font-weight:900;text-align:center}.vertical-labels div{writing-mode:vertical-rl;text-orientation:mixed;display:grid;place-items:center;font-size:20px}
+    .swim{display:grid;gap:12px}.swim-head{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.swim-head span{background:var(--gray);color:#fff;font-weight:900;text-align:center;padding:12px;border-radius:6px}.lane{display:grid;grid-template-columns:120px repeat(7,1fr);gap:8px;align-items:stretch}.lane-label{background:var(--navy);color:#fff;border-radius:6px;display:grid;place-items:center;font-weight:900;text-align:center;padding:10px}.flow-card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px;min-height:92px;position:relative}.flow-card strong{display:block;color:var(--red2);font-size:14px;margin-bottom:5px}.flow-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.35}.flow-card:after{content:"";position:absolute;right:-11px;top:50%;width:14px;height:2px;background:#d0676b}.lane .flow-card:last-child:after{display:none}.scenario-title{display:flex;align-items:center;gap:12px;margin-bottom:16px}.badge{display:inline-grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--red);color:#fff;font-weight:900}
+    .heatmap{display:grid;grid-template-columns:1fr 1fr;gap:18px}.store{background:#fff;border:1px solid var(--line);border-radius:8px;padding:18px;min-height:360px;position:relative;overflow:hidden}.zone{position:absolute;border-radius:8px;border:1px solid rgba(255,255,255,.7);display:grid;place-items:center;text-align:center;color:#fff;font-weight:900}.z1{left:7%;top:14%;width:28%;height:24%;background:#86b7d7}.z2{left:39%;top:12%;width:25%;height:36%;background:#e29b46}.z3{right:7%;top:15%;width:23%;height:25%;background:#cb474c}.z4{left:9%;bottom:12%;width:31%;height:30%;background:#5f9fd5}.z5{right:13%;bottom:12%;width:34%;height:28%;background:#7bbcc9}.car-shape{position:absolute;left:35%;bottom:34%;width:130px;height:48px;border-radius:50px 70px 18px 18px;background:#26394b;box-shadow:inset 0 -12px 0 rgba(255,255,255,.12)}.heat-list{display:grid;gap:12px}.heat-list .card{padding:18px}.metric{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding:9px 0;color:var(--muted)}.metric b{color:var(--ink)}
+    .strength{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.strength .card{padding:18px}.strength .card h3{color:#0b3765;font-size:18px}.strength .card p{color:var(--muted);line-height:1.45;font-size:14px;margin:0}
+    .aud-core{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:18px;align-items:center}.aud-box{background:#fff;border:1px solid var(--line);border-radius:8px;padding:20px;min-height:210px}.aud-box h3{color:#0b3765}.aud-box ul{margin:10px 0 0;padding-left:18px;color:var(--muted);line-height:1.55}.aud-center{background:linear-gradient(180deg,#fff,#fff6f6);border:1px solid #f0b2b5;border-radius:8px;padding:28px;text-align:center}.aud-center b{display:block;font-size:28px;color:var(--red);margin-bottom:6px}.aud-center span{display:block;color:var(--muted);line-height:1.5}
+    .architecture{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:14px}.arch-col{display:grid;gap:10px}.arch-card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px;text-align:center}.arch-card b{color:#0b3765}.arch-flow{display:grid;gap:8px;align-content:center}.arch-step{background:var(--navy);color:white;border-radius:6px;padding:12px;text-align:center;font-weight:900}.arch-chip-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.arch-chip{background:var(--pink);color:var(--red2);border-radius:999px;padding:7px 10px;font-size:12px;font-weight:800}
+    .implementation{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.impl{background:#fff;border:1px solid var(--line);border-radius:8px;padding:18px}.impl b{display:block;font-size:22px;color:var(--red);margin-bottom:8px}.impl p{margin:0;color:var(--muted);line-height:1.45}
+    @media(max-width:1180px){.overview,.heatmap,.aud-core,.architecture{grid-template-columns:1fr}.domain-body,.domain.car .domain-body,.domain.store .domain-body{grid-template-columns:1fr 1fr}.icons,.strength,.implementation{grid-template-columns:1fr 1fr 1fr}.note-row{grid-template-columns:1fr 1fr}.hero,.split{grid-template-columns:1fr}}
+    @media(max-width:720px){header{height:64px}.brand{font-size:24px}.section-name{font-size:11px}.icons,.strength,.implementation,.domain-body,.domain.car .domain-body,.domain.store .domain-body,.note-row{grid-template-columns:1fr}.lane{grid-template-columns:1fr}.swim-head{display:none}.flow-card:after{display:none}.side-lab{grid-template-columns:1fr}.vertical-labels{display:none}main{padding-inline:16px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand" id="brand">Blackmores</div>
+    <div class="divider"></div>
+    <div class="section-name" data-i="hd_section">Digital Store</div>
+    <div class="sp"></div>
+    <div class="langs" id="langs"><button data-l="en" class="on">EN</button><button data-l="ja">日本語</button><button data-l="th">ไทย</button></div>
+  </header>
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow" data-i="hero_eyebrow">NTT DATA Digital Store</p>
+        <h1 data-i="hero_h1">Make the store measurable from walk-in to order.</h1>
+      </div>
+      <div class="hero-card">
+        <p class="lead" data-i="hero_p1">This solution turns a Blackmores partner store into a data-driven sales floor: customer traffic, product barcode and category recognition, smart screens, voice badge, store inspection, heatmap, smart sales agent and remote follow-up.</p>
+        <p class="lead" data-i="hero_p2">The focus is health-supplement retail: <b>visitor identification, product interest, sales reception quality, consultation control, quote and registration, order conversion and store operation improvement.</b></p>
+        <div class="pills"><span class="pill" data-i="pill_ped">Pedestrian recognition</span><span class="pill" data-i="pill_plate">Product barcode recognition</span><span class="pill" data-i="pill_heat">Product heatmap</span><span class="pill" data-i="pill_disp">Smart display</span><span class="pill" data-i="pill_voice">Voice badge</span><span class="pill" data-i="pill_agent">Smart sales agent</span></div>
+      </div>
+    </section>
+
+    <section class="section-rule">
+      <p class="eyebrow" data-i="s1_eyebrow">01 Solution Overview</p>
+      <h2 data-i="s1_h2">Consumer, product and store become one measurable system.</h2>
+      <div class="icons">
+        <div class="icon-tile"><span class="ico">♟</span><b data-i="ic_ped">Pedestrian recognition</b></div>
+        <div class="icon-tile"><span class="ico">▦</span><b data-i="ic_count">Multiple areas people counting</b></div>
+        <div class="icon-tile"><span class="ico">123</span><b data-i="ic_plate">Product barcode recognition</b></div>
+        <div class="icon-tile"><span class="ico">▰</span><b data-i="ic_model">Product category recognition</b></div>
+        <div class="icon-tile"><span class="ico">▣</span><b data-i="ic_disp">Smart Display</b></div>
+        <div class="icon-tile"><span class="ico">◉</span><b data-i="ic_inspect">Employee / Store Inspection</b></div>
+        <div class="icon-tile"><span class="ico">▤</span><b data-i="ic_aud">Intelligent audience</b></div>
+        <div class="icon-tile"><span class="ico">⌘</span><b data-i="ic_agent">Smart Sales Agent</b></div>
+      </div>
+      <div class="overview">
+        <div class="domain">
+          <div class="domain-head" data-i="dm_consumer">Consumer</div>
+          <div class="domain-body">
+            <div class="mini-card"><h4 data-i="mc1_h">Intelligent consumer flow</h4><div class="mini-in"><b data-i="mc1_b1">Step-in consumer</b><ul><li data-i="mc1_l1">Entry count</li><li data-i="mc1_l2">Peak time</li><li data-i="mc1_l3">Movement patterns</li></ul><b data-i="mc1_b2">Conversion</b><ul><li data-i="mc1_l4">Amount</li><li data-i="mc1_l5">Visiting times</li><li data-i="mc1_l6">Register and product-trial consumer image</li></ul></div></div>
+            <div class="mini-card"><h4 data-i="mc2_h">Smart Screen</h4><div class="mini-in"><b data-i="mc2_b1">Interaction preference</b><ul><li data-i="mc2_l1">Material selection</li><li data-i="mc2_l2">Browsing path</li></ul><b data-i="mc2_b2">Offer preference</b><ul><li data-i="mc2_l3">Bundle amount</li><li data-i="mc2_l4">Offer calculation</li><li data-i="mc2_l5">Trial result</li></ul></div></div>
+            <div class="mini-card"><h4 data-i="mc3_h">Intelligent audience</h4><div class="mini-in"><b data-i="mc3_b1">Service engagement</b><ul><li data-i="mc3_l1">Sales interaction frequency</li><li data-i="mc3_l2">Response speed</li></ul><b data-i="mc3_b2">Sales promotion</b><ul><li data-i="mc3_l3">Preferred configuration</li><li data-i="mc3_l4">Offer effectiveness</li></ul></div></div>
+          </div>
+        </div>
+        <div class="domain car">
+          <div class="domain-head" data-i="dm_car">Product</div>
+          <div class="domain-body">
+            <div class="mini-card"><h4 data-i="mc4_h">Product barcode recognition</h4><div class="mini-in"><b data-i="mc4_b1">Consumer product</b><ul><li data-i="mc4_l1">Amount</li><li data-i="mc4_l2">Peak time</li><li data-i="mc4_l3">Consumer cluster</li></ul><b data-i="mc4_b2">In-store product</b><ul><li data-i="mc4_l4">Product trial in and out</li><li data-i="mc4_l5">Product trial conversion</li></ul></div></div>
+            <div class="mini-card"><h4 data-i="mc5_h">Product category recognition</h4><div class="mini-in"><b data-i="mc5_b1">Consumer product</b><ul><li data-i="mc5_l1">Product category preference</li><li data-i="mc5_l2">Prospect consumer product preference</li></ul></div></div>
+          </div>
+        </div>
+        <div class="domain store">
+          <div class="domain-head" data-i="dm_store">Store</div>
+          <div class="domain-body">
+            <div class="mini-card"><h4 data-i="mc6_h">In-store tracking</h4><div class="mini-in"><b data-i="mc6_b1">Customer movement</b><ul><li data-i="mc6_l1">Key pathways</li><li data-i="mc6_l2">Attraction areas</li></ul><b data-i="mc6_b2">High-engage zones</b><ul><li data-i="mc6_l3">Popular area</li><li data-i="mc6_l4">Dwell time</li></ul><b data-i="mc6_b3">Security check</b><ul><li data-i="mc6_l5">Unusual visitor</li><li data-i="mc6_l6">Fire alarm</li></ul></div></div>
+            <div class="mini-card"><h4 data-i="mc7_h">Store operation</h4><div class="mini-in"><b data-i="mc7_b1">Store operation</b><ul><li data-i="mc7_l1">Operation management</li><li data-i="mc7_l2">Operation analysis</li><li data-i="mc7_l3">Sales performance</li></ul><b data-i="mc7_b2">Sales conversion</b><ul><li data-i="mc7_l4">Improve sales strategy</li><li data-i="mc7_l5">Improve consumer experience</li></ul></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="note-row">
+        <div class="note" data-i="note1">Track pedestrian movement and interaction to capture engagement behavior and assist sales performance.</div>
+        <div class="note" data-i="note2">Use interactive screens to track browsing behavior and configuration preferences.</div>
+        <div class="note" data-i="note3">Track reception, interaction and conversation insight for service optimization.</div>
+        <div class="note" data-i="note4">Recognize products near store areas to identify engagement trends and consultation interest.</div>
+        <div class="note" data-i="note5">Analyze store product engagement to understand dwell time and preference trends.</div>
+        <div class="note" data-i="note6">Track store traffic, attraction zones and sales-floor optimization.</div>
+        <div class="note" data-i="note7">Integrate AI sales tools for operations, performance monitoring and conversion tracking.</div>
+      </div>
+    </section>
+
+    <section class="split section-rule">
+      <div><p class="eyebrow" data-i="s2_eyebrow">02 Feature Matrix</p><h2 data-i="s2_h2">Seven scenarios reuse eight core features.</h2><p class="copy" data-i="s2_copy">The matrix clarifies which AI capability supports each store scenario, from product recognition to smart sales agent.</p></div>
+      <div class="matrix-wrap">
+        <table class="feature-matrix">
+          <thead><tr><th data-i="fm_key">Key Features</th><th><span class="scenario-label" data-i="sc1_lbl">Scenario 1</span><br><span data-i="sc1_t">Product Barcode and Category Recognition</span></th><th><span class="scenario-label" data-i="sc2_lbl">Scenario 2</span><br><span data-i="sc2_t">Traffic Statistics and Conversion Analysis</span></th><th><span class="scenario-label" data-i="sc3_lbl">Scenario 3</span><br><span data-i="sc3_t">Unified Marketing Asset - Smart Screen</span></th><th><span class="scenario-label" data-i="sc4_lbl">Scenario 4</span><br><span data-i="sc4_t">Product Popularity Analysis & Heatmap</span></th><th><span class="scenario-label" data-i="sc5_lbl">Scenario 5</span><br><span data-i="sc5_t">Intelligent Audience</span></th><th><span class="scenario-label" data-i="sc6_lbl">Scenario 6</span><br><span data-i="sc6_t">Store Operations and Management</span></th><th><span class="scenario-label" data-i="sc7_lbl">Scenario 7</span><br><span data-i="sc7_t">Smart Sales Agent</span></th></tr></thead>
+          <tbody>
+            <tr><th><div class="feature-name"><span class="fi">♟</span><div><span data-i="fr1_s">Pedestrian recognition</span><b data-i="fr1_b">Pedestrian recognition</b></div></div></th><td></td><td><span class="check">✓</span></td><td></td><td><span class="check">✓</span></td><td></td><td><span class="check">✓</span></td><td></td></tr>
+            <tr><th><div class="feature-name"><span class="fi">▦</span><div><span data-i="fr2_s">Multiple areas people counting</span><b data-i="fr2_b">Multiple areas people counting</b></div></div></th><td></td><td><span class="check">✓</span></td><td></td><td><span class="check">✓</span></td><td></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+            <tr><th><div class="feature-name"><span class="fi">123</span><div><span data-i="fr3_s">Product barcode recognition</span><b data-i="fr3_b">Product barcode recognition</b></div></div></th><td><span class="check">✓</span></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><th><div class="feature-name"><span class="fi">▰</span><div><span data-i="fr4_s">Product category recognition</span><b data-i="fr4_b">Product category recognition</b></div></div></th><td><span class="check">✓</span></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><th><div class="feature-name"><span class="fi">▣</span><div><span data-i="fr5_s">Smart Display</span><b data-i="fr5_b">Smart Display</b></div></div></th><td></td><td></td><td><span class="check">✓</span></td><td></td><td></td><td></td><td></td></tr>
+            <tr><th><div class="feature-name"><span class="fi">▤</span><div><span data-i="fr6_s">Intelligent audience</span><b data-i="fr6_b">Intelligent audience</b></div></div></th><td></td><td><span class="check">✓</span></td><td></td><td></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+            <tr><th><div class="feature-name"><span class="fi">◉</span><div><span data-i="fr7_s">Employee / Store Inspection</span><b data-i="fr7_b">Employee / Store Inspection</b></div></div></th><td></td><td></td><td></td><td></td><td></td><td><span class="check">✓</span></td><td></td></tr>
+            <tr><th><div class="feature-name"><span class="fi">⌘</span><div><span data-i="fr8_s">Smart Sales Agent</span><b data-i="fr8_b">Smart Sales Agent</b></div></div></th><td></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section-rule">
+      <p class="eyebrow" data-i="s3_eyebrow">03 In-store Customer Journey</p>
+      <h2 data-i="s3_h2">Every store step has data collection, sales performance and store operation outputs.</h2>
+      <div class="side-lab">
+        <div class="vertical-labels"><div data-i="vl_key">Key scenario</div><div data-i="vl_journey">Customer journey</div><div data-i="vl_data">Data collection</div><div data-i="vl_perf">Sales performance</div><div data-i="vl_ops">Store operation</div></div>
+        <div class="journey-scroll">
+          <div class="journey">
+            <div class="stage-row">
+              <div class="stage-top"><ul><li data-i="st1_1">Traffic Statistics and Conversion Analysis</li><li data-i="st1_2">Product Barcode and Category Recognition</li></ul></div>
+              <div class="stage-top"><ul><li data-i="st2_1">Product Popularity Analysis & Heatmap</li><li data-i="st2_2">Unified Marketing Asset - Smart Screen</li></ul></div>
+              <div class="stage-top"><ul><li data-i="st3_1">Intelligent Audience</li><li data-i="st3_2">Store Operation and Management</li></ul></div>
+              <div class="stage-top"><ul><li data-i="st4_1">Barcode recognition</li><li data-i="st4_2">Intelligent audience</li><li data-i="st4_3">Store Operation and Management</li></ul></div>
+              <div class="stage-top"><ul><li data-i="st5_1">Unified Marketing Asset - Smart Screen</li><li data-i="st5_2">Intelligent audience</li><li data-i="st5_3">Store operation</li></ul></div>
+              <div class="stage-top"><ul><li data-i="st6_1">Store Operation and Management</li><li data-i="st6_2">Smart Sales Agent</li></ul></div>
+              <div class="stage-top"><ul><li data-i="st7_1">Traffic Statistics and Conversion Analysis</li><li data-i="st7_2">Product barcode recognition</li><li data-i="st7_3">Store Operation and Management</li></ul></div>
+            </div>
+            <div class="arrow-row"><div class="arrow-stage" data-i="ar1">Walk-in</div><div class="arrow-stage" data-i="ar2">In-store explore</div><div class="arrow-stage" data-i="ar3">Reception</div><div class="arrow-stage" data-i="ar4">Product trial</div><div class="arrow-stage" data-i="ar5">Quote &amp; Register</div><div class="arrow-stage" data-i="ar6">Analysis &amp; Remote contact</div><div class="arrow-stage" data-i="ar7">Place the Order</div></div>
+            <div class="journey-grid">
+              <div class="jcell"><ul><li data-i="jd1_1"><b>Pedestrian detection</b> - entry count, new vs. returning visitors</li><li data-i="jd1_2"><b>Customer movement tracking</b> - initial footpath inside store</li><li data-i="jd1_3"><b>Dwell time at entrance</b> - interest level upon entry</li></ul></div>
+              <div class="jcell"><ul><li data-i="jd2_1"><b>Dwell time tracking</b> - engagement levels in store areas</li><li data-i="jd2_2"><b>Customer movement analysis</b> - key browsing paths</li><li data-i="jd2_3"><b>Interactive screen usage</b> - digital display engagement</li></ul></div>
+              <div class="jcell"><ul><li data-i="jd3_1"><b>Queue monitoring</b> - wait times</li><li data-i="jd3_2"><b>Customer-staff interaction</b> - response efficiency</li><li data-i="jd3_3"><b>Reception dwell time</b> - engagement length</li></ul></div>
+              <div class="jcell"><ul><li data-i="jd4_1"><b>Pedestrian tracking at consultation area</b> - entry/exit patterns</li><li data-i="jd4_2"><b>Dwell time analysis</b> - engagement in consultation zones</li><li data-i="jd4_3"><b>Waiting time monitoring</b> - wait before consultation</li></ul></div>
+              <div class="jcell"><ul><li data-i="jd5_1"><b>Customer-staff interaction analysis</b> - consultation duration</li><li data-i="jd5_2"><b>Self-service registration tracking</b> - QR registration conversion</li></ul></div>
+              <div class="jcell"><ul><li data-i="jd6_1"><b>Follow-up response tracking</b> - Smart sales and NBA solution</li><li data-i="jd6_2"><b>Precision marketing</b> - content interaction rate</li><li data-i="jd6_3"><b>Online re-engagement</b> - return visits across channels</li></ul></div>
+              <div class="jcell"><ul><li data-i="jd7_1"><b>Returning customer detection</b> - repeat visits</li><li data-i="jd7_2"><b>Purchase area dwell time</b> - decision duration</li><li data-i="jd7_3"><b>Checkout interaction monitoring</b> - POS engagement</li></ul></div>
+              <div class="jcell jblue"><ul><li data-i="jp1_1">In-store reminders</li><li data-i="jp1_2">Employee response monitoring</li><li data-i="jp1_3">Real-time engagement</li></ul></div>
+              <div class="jcell jblue"><ul><li data-i="jp2_1">Sales reception analysis</li><li data-i="jp2_2">Employee engagement monitoring</li><li data-i="jp2_3">Sales dialogue structure analysis</li></ul></div>
+              <div class="jcell jblue"><ul><li data-i="jp3_1">Reminders for consultation scheduling</li><li data-i="jp3_2">Process management for product handover</li><li data-i="jp3_3">Consultation result tracking</li></ul></div>
+              <div class="jcell jblue"><ul><li data-i="jp4_1">Guided registration via QR code</li><li data-i="jp4_2">Sales terms clarification and assistance</li></ul></div>
+              <div class="jcell jblue"><ul><li data-i="jp5_1">Remote communication efficiency monitoring</li><li data-i="jp5_2">Personalized marketing content delivery</li></ul></div>
+              <div class="jcell jblue"><ul><li data-i="jp6_1">In-store reminders for returning customers</li><li data-i="jp6_2">Final conversion assistance prompts</li></ul></div>
+              <div class="jcell jblue"><ul><li data-i="jp7_1">Order conversion prompt</li><li data-i="jp7_2">Checkout engagement support</li></ul></div>
+              <div class="jcell jteal"><ul><li data-i="jt1_1">Store heatmap</li><li data-i="jt1_2">Dwell time distribution</li><li data-i="jt1_3">Customer preference analysis</li></ul></div>
+              <div class="jcell jteal"><ul><li data-i="jt2_1">Thermal map</li><li data-i="jt2_2">Dwell time distribution</li><li data-i="jt2_3">Preference analysis</li><li data-i="jt2_4">Interactive large screen record</li></ul></div>
+              <div class="jcell jteal"><ul><li data-i="jt3_1">Reception process analysis</li><li data-i="jt3_2">Response time tracking</li><li data-i="jt3_3">Customer engagement frequency</li></ul></div>
+              <div class="jcell jteal"><ul><li data-i="jt4_1">Consultation area congestion analysis</li><li data-i="jt4_2">Employee engagement monitoring</li><li data-i="jt4_3">Follow-up efficiency tracking</li></ul></div>
+              <div class="jcell jteal"><ul><li data-i="jt5_1">Sales reception process analysis</li><li data-i="jt5_2">Bundle consultation tracking</li><li data-i="jt5_3">Offer consultation efficiency</li></ul></div>
+              <div class="jcell jteal"><ul><li data-i="jt6_1">Online marketing activity analysis</li><li data-i="jt6_2">Sales follow-up efficiency tracking</li></ul></div>
+              <div class="jcell jteal"><ul><li data-i="jt7_1">Purchase-zone consumer flow analysis</li><li data-i="jt7_2">Order conversion tracking</li><li data-i="jt7_3">Sales completion efficiency monitoring</li></ul></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="split section-rule">
+      <div><p class="eyebrow" data-i="s4_eyebrow">04 Scenario Flows</p><h2 data-i="s4_h2">Five retail process flows from the deck.</h2><p class="copy" data-i="s4_copy">These sections translate pages 9, 11, 17, 30 and 43 into store operating flows.</p></div>
+      <div class="swim">
+        <div class="scenario-title"><span class="badge">1</span><h3 data-i="sf1_h">Product barcode and category recognition: consumer visiting in person</h3></div>
+        <div class="lane"><div class="lane-label" data-i="ll_consumer">Consumer</div><div class="flow-card"><strong data-i="f1c1_t">Arrive at store</strong><p data-i="f1c1_p">Consumer arrives and enters the store.</p></div><div class="flow-card"><strong data-i="f1c2_t">First-time arrival?</strong><p data-i="f1c2_p">Member and profile recognition match previous data.</p></div><div class="flow-card"><strong data-i="f1c3_t">Walk in</strong><p data-i="f1c3_p">Customer enters store journey.</p></div><div class="flow-card"><strong data-i="f1c4_t">Reception</strong><p data-i="f1c4_p">Sales receives reminder before reception.</p></div><div class="flow-card"><strong data-i="f1c5_t">Product trial</strong><p data-i="f1c5_p">Intent and product interest are captured.</p></div><div class="flow-card"><strong data-i="f1c6_t">Quote &amp; register</strong><p data-i="f1c6_p">Customer information updated.</p></div><div class="flow-card"><strong data-i="f1c7_t">Order</strong><p data-i="f1c7_p">Record completes the loop.</p></div></div>
+        <div class="lane"><div class="lane-label" data-i="ll_syssales">System / Sales</div><div class="flow-card"><strong data-i="f1d1_t">Record product data</strong><p data-i="f1d1_p">Barcode and category are stored.</p></div><div class="flow-card"><strong data-i="f1d2_t">Match previous data</strong><p data-i="f1d2_p">Existing customer triggers previous sales reminder.</p></div><div class="flow-card"><strong data-i="f1d3_t">Create / update profile</strong><p data-i="f1d3_p">New walk-in becomes a profile.</p></div><div class="flow-card"><strong data-i="f1d4_t">Assign reception</strong><p data-i="f1d4_p">Previous sales or new sales receives task.</p></div><div class="flow-card"><strong data-i="f1d5_t">Scenario 2 / 7</strong><p data-i="f1d5_p">Traffic analysis or Smart Sales Agent can take over.</p></div><div class="flow-card"><strong data-i="f1d6_t">Follow-up</strong><p data-i="f1d6_p">Salesforce stores intent and response.</p></div><div class="flow-card"><strong data-i="f1d7_t">Finish</strong><p data-i="f1d7_p">Closed customer visit record.</p></div></div>
+
+        <div class="scenario-title"><span class="badge">2</span><h3 data-i="sf2_h">Product trial: arrangement, sample permission and automatic checkout</h3></div>
+        <div class="lane"><div class="lane-label" data-i="ll_consumer2">Consumer</div><div class="flow-card"><strong data-i="f2c1_t">Submit application</strong><p data-i="f2c1_p">Customer applies for consultation.</p></div><div class="flow-card"><strong data-i="f2c2_t">Find product</strong><p data-i="f2c2_p">Instruction guides customer to the trial product.</p></div><div class="flow-card"><strong data-i="f2c3_t">Get permission</strong><p data-i="f2c3_p">Product information and permission issued.</p></div><div class="flow-card"><strong data-i="f2c4_t">Checkout / exit</strong><p data-i="f2c4_p">Barcode recognition automatically releases the product.</p></div><div class="flow-card"><strong data-i="f2c5_t">Trial journey</strong><p data-i="f2c5_p">Routine is tracked.</p></div><div class="flow-card"><strong data-i="f2c6_t">Return entry</strong><p data-i="f2c6_p">Automatic release for entry.</p></div><div class="flow-card"><strong data-i="f2c7_t">Evaluate service</strong><p data-i="f2c7_p">Consultation service is evaluated.</p></div></div>
+        <div class="lane"><div class="lane-label" data-i="ll_salesforce">Salesforce</div><div class="flow-card"><strong data-i="f2d1_t">Check arrangement</strong><p data-i="f2d1_p">Validate the consultation plan.</p></div><div class="flow-card"><strong data-i="f2d2_t">Arrange product and barcode</strong><p data-i="f2d2_p">Bind product, barcode and customer.</p></div><div class="flow-card"><strong data-i="f2d3_t">Assist trial</strong><p data-i="f2d3_p">Sales supports product handover.</p></div><div class="flow-card"><strong data-i="f2d4_t">Product barcode recognition</strong><p data-i="f2d4_p">Exit event captured.</p></div><div class="flow-card"><strong data-i="f2d5_t">Track routine</strong><p data-i="f2d5_p">Trial path becomes consultation record.</p></div><div class="flow-card"><strong data-i="f2d6_t">Update record</strong><p data-i="f2d6_p">Consumer record is updated.</p></div><div class="flow-card"><strong data-i="f2d7_t">Scenario 7</strong><p data-i="f2d7_p">Sales agent recommends next action.</p></div></div>
+
+        <div class="scenario-title"><span class="badge">3</span><h3 data-i="sf3_h">Traffic statistics and marketing data analysis: online consultation campaign</h3></div>
+        <div class="lane"><div class="lane-label" data-i="ll_marketing">Marketing</div><div class="flow-card"><strong data-i="f3c1_t">Launch campaign</strong><p data-i="f3c1_p">Online campaign invites consultation applications.</p></div><div class="flow-card"><strong data-i="f3c2_t">Collect leads</strong><p data-i="f3c2_p">Submitted applications become leads.</p></div><div class="flow-card"><strong data-i="f3c3_t">Invite to store</strong><p data-i="f3c3_p">Sales invites customer to store.</p></div><div class="flow-card"><strong data-i="f3c4_t">Walk in match</strong><p data-i="f3c4_p">Pedestrian recognition checks if online lead arrives.</p></div><div class="flow-card"><strong data-i="f3c5_t">Existing customer?</strong><p data-i="f3c5_p">Match previous record or create account.</p></div><div class="flow-card"><strong data-i="f3c6_t">Demonstrate lead info</strong><p data-i="f3c6_p">Sales sees previous interaction data.</p></div><div class="flow-card"><strong data-i="f3c7_t">Finish</strong><p data-i="f3c7_p">Traffic and marketing data are analyzed.</p></div></div>
+
+        <div class="scenario-title"><span class="badge">4</span><h3 data-i="sf4_h">Product popularity analysis and heatmap: exploration inside store</h3></div>
+        <div class="heatmap">
+          <div class="store"><div class="zone z1" data-i="z1">Entrance<br>traffic</div><div class="zone z2" data-i="z2">Vitamins zone<br>dwell high</div><div class="zone z3" data-i="z3">Hero product<br>hot</div><div class="zone z4" data-i="z4">New launch display<br>screen usage</div><div class="zone z5" data-i="z5">Consultation desk<br>quote area</div><div class="car-shape"></div></div>
+          <div class="heat-list">
+            <div class="card"><h3 data-i="hl_proc_h">Process</h3><p class="copy" data-i="hl_proc_p">Walk in → explore first product → sales introduction → in-store tracking → satisfied? → consultation or explore another product → report and analysis.</p></div>
+            <div class="card"><h3 data-i="hl_data_h">Data outputs</h3><div class="metric"><span data-i="hl_m1_l">Dwell time near product</span><b data-i="hl_m1_v">High</b></div><div class="metric"><span data-i="hl_m2_l">Interactive screen usage</span><b data-i="hl_m2_v">Tracked</b></div><div class="metric"><span data-i="hl_m3_l">Product popularity distribution</span><b data-i="hl_m3_v">Product-level</b></div><div class="metric"><span data-i="hl_m4_l">Consultation interest signal</span><b data-i="hl_m4_v">Generated</b></div></div>
+          </div>
+        </div>
+
+        <div class="scenario-title"><span class="badge">5</span><h3 data-i="sf5_h">Intelligent audience: reception, quote and remote follow-up</h3></div>
+        <div class="lane"><div class="lane-label" data-i="ll_sales">Sales</div><div class="flow-card"><strong data-i="f5c1_t">Receive customer</strong><p data-i="f5c1_p">Reception based on customer needs.</p></div><div class="flow-card"><strong data-i="f5c2_t">Voice badge</strong><p data-i="f5c2_p">Dialogue recognition and NLP model capture conversation.</p></div><div class="flow-card"><strong data-i="f5c3_t">Product trial</strong><p data-i="f5c3_p">Provide consultation service and capture experience.</p></div><div class="flow-card"><strong data-i="f5c4_t">Quote</strong><p data-i="f5c4_p">Inquiry based on product demand and offer scheme.</p></div><div class="flow-card"><strong data-i="f5c5_t">Profile</strong><p data-i="f5c5_p">Sales creates or updates consumer profile in app.</p></div><div class="flow-card"><strong data-i="f5c6_t">Analysis</strong><p data-i="f5c6_p">Customer labels and attributes are calculated.</p></div><div class="flow-card"><strong data-i="f5c7_t">Remote follow-up</strong><p data-i="f5c7_p">Smart sales strategy guides customer back to store.</p></div></div>
+      </div>
+    </section>
+
+    <section class="section-rule">
+      <p class="eyebrow" data-i="s5_eyebrow">05 Intelligent Audience</p>
+      <h2 data-i="s5_h2">Voice badge and NLP turn offline sales conversations into operating data.</h2>
+      <div class="strength">
+        <div class="card"><h3 data-i="str1_h">Audio review</h3><p data-i="str1_p">Automated quality inspection using ASR speech-to-text conversion eliminates manual audit blind spots.</p></div>
+        <div class="card"><h3 data-i="str2_h">Intelligent modeling</h3><p data-i="str2_p">Simple operations quickly build AI recognition models and respond to business changes.</p></div>
+        <div class="card"><h3 data-i="str3_h">Intelligent rules</h3><p data-i="str3_p">Flexible rule templates support voice-badge recognition and automated scoring.</p></div>
+        <div class="card"><h3 data-i="str4_h">Intelligent detection</h3><p data-i="str4_p">NLP and real-time speech analysis detect sensitive or forbidden content.</p></div>
+        <div class="card"><h3 data-i="str5_h">Customer preference</h3><p data-i="str5_p">Audio review can be customized by business requirement and checked easily.</p></div>
+        <div class="card"><h3 data-i="str6_h">New intelligent mode</h3><p data-i="str6_p">Customer interaction analysis integrates voice-badge data to optimize profiling and service strategies.</p></div>
+      </div>
+    </section>
+
+    <section class="split section-rule">
+      <div><p class="eyebrow" data-i="s6_eyebrow">06 Core Functional Value</p><h2 data-i="s6_h2">Evaluation, analysis and training reinforce each other.</h2></div>
+      <div class="aud-core">
+        <div class="aud-box"><h3 data-i="ab1_h">Big Data Analysis</h3><ul><li data-i="ab1_l1">Service analysis</li><li data-i="ab1_l2">Correlation analysis</li><li data-i="ab1_l3">Clustering analysis</li><li data-i="ab1_l4">Word frequency statistics</li></ul></div>
+        <div class="aud-center"><b data-i="ac1_b">Digitalization of Offline Processes</b><span data-i="ac1_s">Offline data → data analysis and customer profiling → partner assessment and training → brand script and case library → customer lead management.</span></div>
+        <div class="aud-box"><h3 data-i="ab2_h">Training & Assistance</h3><ul><li data-i="ab2_l1">Evaluation feedback</li><li data-i="ab2_l2">Experience sharing</li><li data-i="ab2_l3">Simulation training</li><li data-i="ab2_l4">Smart assistant</li></ul></div>
+        <div class="aud-box"><h3 data-i="ab3_h">Sales Service Evaluation</h3><ul><li data-i="ab3_l1">Keyword detection</li><li data-i="ab3_l2">Standard compliance detection</li><li data-i="ab3_l3">Sentiment detection</li><li data-i="ab3_l4">Semantic detection</li></ul></div>
+        <div class="aud-center"><b data-i="ac2_b">Who Benefits</b><span data-i="ac2_s">Corporate headquarters, 4S partnerships, sales managers and frontline sales staff share the same evidence base.</span></div>
+        <div class="aud-box"><h3 data-i="ab4_h">Business Impact</h3><ul><li data-i="ab4_l1">Brand enhancement</li><li data-i="ab4_l2">Sales growth</li><li data-i="ab4_l3">Lead tracking</li><li data-i="ab4_l4">Service evaluation</li></ul></div>
+      </div>
+    </section>
+
+    <section class="split section-rule">
+      <div><p class="eyebrow" data-i="s7_eyebrow">07 Intelligent Audience Architecture</p><h2 data-i="s7_h2">From conversation collection to AI-driven coaching and strategy.</h2></div>
+      <div class="architecture">
+        <div class="arch-col">
+          <div class="arch-card"><b data-i="arc1_b">Offline sales</b><p class="copy" data-i="arc1_p">Online traffic generation → customer arrival → transaction completion → customer departure.</p></div>
+          <div class="arch-card"><b data-i="arc2_b">Conversation collection</b><p class="copy" data-i="arc2_p">Smart voice badge, assistant app, WeCom/IM and call center.</p></div>
+          <div class="arch-card"><b data-i="arc3_b">Enterprise systems</b><p class="copy" data-i="arc3_p">Sales assistant, data platform, marketing system, customer service system and CRM.</p></div>
+        </div>
+        <div class="arch-flow">
+          <div class="arch-step" data-i="as1">ASR</div>
+          <div class="arch-step" data-i="as2">Semantic Recognition</div>
+          <div class="arch-step" data-i="as3">Sentiment Analysis</div>
+          <div class="arch-step" data-i="as4">Speech Interruption Detection</div>
+          <div class="arch-step" data-i="as5">Performance Evaluation & Continuous Learning</div>
+        </div>
+        <div class="arch-col">
+          <div class="arch-card"><b data-i="arc4_b">Action & optimization</b><div class="arch-chip-row"><span class="arch-chip" data-i="ach1">Quality inspection</span><span class="arch-chip" data-i="ach2">Best-practice script</span><span class="arch-chip" data-i="ach3">Hotspot issue</span><span class="arch-chip" data-i="ach4">Intent insight</span></div></div>
+          <div class="arch-card"><b data-i="arc5_b">Core value proposition</b><div class="arch-chip-row"><span class="arch-chip" data-i="ach5">Real-time sales assistance</span><span class="arch-chip" data-i="ach6">AI coaching</span><span class="arch-chip" data-i="ach7">Content optimization</span><span class="arch-chip" data-i="ach8">KPI monitoring</span></div></div>
+          <div class="arch-card"><b data-i="arc6_b">Model iteration</b><p class="copy" data-i="arc6_p">Best practice extraction and analytics for future strategy.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-rule">
+      <p class="eyebrow" data-i="s8_eyebrow">08 Blackmores Store Implementation</p>
+      <h2 data-i="s8_h2">How to make it real without rebuilding the partner stack.</h2>
+      <div class="implementation">
+        <div class="impl"><b>1</b><h3 data-i="im1_h">Connect existing cameras</h3><p data-i="im1_p">Use existing store CCTV first; add entrance, consultation exit and hot-zone cameras only where coverage is missing.</p></div>
+        <div class="impl"><b>2</b><h3 data-i="im2_h">Map store zones</h3><p data-i="im2_p">Define entrance, hero product, new-launch area, consultation desk, product handover and order desk as measurable zones.</p></div>
+        <div class="impl"><b>3</b><h3 data-i="im3_h">Bind sales workflow</h3><p data-i="im3_p">Connect recognition events to LMS/CRM tasks: reception reminder, consultation prompt, quote follow-up and return-visit alert.</p></div>
+        <div class="impl"><b>4</b><h3 data-i="im4_h">Coach the sales team</h3><p data-i="im4_p">Use Intelligent Audience to evaluate scripts, capture needs, detect lost reasons and feed best practices back into training.</p></div>
+      </div>
+    </section>
+  </main>
+
+<script>
+const LI={en:0,ja:1,th:2};
+const BRANDS={
+  honda4w:{logo:"Blackmores",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  honda2w:{logo:"Blackmores",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]}
+};
+let state={brand:"honda4w",lang:0};
+const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
+
+const L={
+hd_section:["Digital Store","デジタルストア","ดิจิทัลสโตร์"],
+hero_eyebrow:["NTT DATA Digital Store","NTT DATA デジタルストア","NTT DATA Digital Store"],
+hero_h1:["Make the store measurable from walk-in to order.","来店からオーダーまで、ストアを計測可能に。","ทำให้ร้านค้าวัดผลได้ตั้งแต่เดินเข้าจนถึงสั่งซื้อ"],
+hero_p1:["This solution turns a Blackmores partner store into a data-driven sales floor: customer traffic, product barcode and category recognition, smart screens, voice badge, store inspection, heatmap, smart sales agent and remote follow-up.","本ソリューションは、Blackmores パートナー店舗をデータドリブンな販売フロアに変えます。来店客の動線、製品バーコード・カテゴリー認識、スマートスクリーン、音声バッジ、店舗巡検、ヒートマップ、スマート営業アシスタント、リモートフォローを実現します。","โซลูชันนี้เปลี่ยนร้านค้าพาร์ทเนอร์ Blackmores ให้เป็นพื้นที่ขายที่ขับเคลื่อนด้วยข้อมูล ทั้งทราฟฟิกลูกค้า การรู้จำบาร์โค้ดและหมวดสินค้า สมาร์ทสกรีน วอยซ์แบดจ์ การตรวจร้าน ฮีตแมป ผู้ช่วยขายอัจฉริยะ และการติดตามทางไกล"],
+hero_p2:["The focus is health-supplement retail: <b>visitor identification, product interest, sales reception quality, consultation control, quote and registration, order conversion and store operation improvement.</b>","焦点は健康サプリメントのリテールです。<b>来店客の識別、製品への関心、接客品質、相談管理、見積りと登録、オーダー転換、店舗オペレーション改善。</b>","มุ่งเน้นที่ค้าปลีกผลิตภัณฑ์เสริมอาหารเพื่อสุขภาพ ได้แก่ <b>การระบุผู้มาเยือน ความสนใจในสินค้า คุณภาพการต้อนรับการขาย การควบคุมการปรึกษา การเสนอราคาและลงทะเบียน การปิดการสั่งซื้อ และการพัฒนาการดำเนินงานร้าน</b>"],
+pill_ped:["Pedestrian recognition","歩行者認識","การรู้จำคนเดิน"],
+pill_plate:["Product barcode recognition","製品バーコード認識","การรู้จำบาร์โค้ดสินค้า"],
+pill_heat:["Product heatmap","製品ヒートマップ","ฮีตแมปสินค้า"],
+pill_disp:["Smart display","スマートディスプレイ","สมาร์ทดิสเพลย์"],
+pill_voice:["Voice badge","音声バッジ","วอยซ์แบดจ์"],
+pill_agent:["Smart sales agent","スマート営業アシスタント","ผู้ช่วยขายอัจฉริยะ"],
+
+s1_eyebrow:["01 Solution Overview","01 ソリューション概要","01 ภาพรวมโซลูชัน"],
+s1_h2:["Consumer, product and store become one measurable system.","顧客・製品・店舗を一つの計測可能なシステムに。","ลูกค้า สินค้า และร้าน รวมเป็นระบบเดียวที่วัดผลได้"],
+ic_ped:["Pedestrian recognition","歩行者認識","การรู้จำคนเดิน"],
+ic_count:["Multiple areas people counting","複数エリアの人数カウント","การนับคนหลายพื้นที่"],
+ic_plate:["Product barcode recognition","製品バーコード認識","การรู้จำบาร์โค้ดสินค้า"],
+ic_model:["Product category recognition","製品カテゴリー認識","การรู้จำหมวดสินค้า"],
+ic_disp:["Smart Display","スマートディスプレイ","สมาร์ทดิสเพลย์"],
+ic_inspect:["Employee / Store Inspection","従業員・店舗巡検","การตรวจพนักงาน / ร้าน"],
+ic_aud:["Intelligent audience","インテリジェント傾聴","ออดิเอนซ์อัจฉริยะ"],
+ic_agent:["Smart Sales Agent","スマート営業アシスタント","ผู้ช่วยขายอัจฉริยะ"],
+dm_consumer:["Consumer","顧客","ลูกค้า"],
+dm_car:["Product","製品","สินค้า"],
+dm_store:["Store","店舗","ร้าน"],
+mc1_h:["Intelligent consumer flow","インテリジェント来店動線","โฟลว์ลูกค้าอัจฉริยะ"],
+mc1_b1:["Step-in consumer","入店した顧客","ลูกค้าที่เดินเข้า"],
+mc1_l1:["Entry count","入店数","จำนวนผู้เข้า"],
+mc1_l2:["Peak time","ピーク時間帯","ช่วงเวลาพีค"],
+mc1_l3:["Movement patterns","動線パターン","รูปแบบการเคลื่อนที่"],
+mc1_b2:["Conversion","コンバージョン","การแปลงผล"],
+mc1_l4:["Amount","数量","จำนวน"],
+mc1_l5:["Visiting times","来店回数","จำนวนครั้งที่มา"],
+mc1_l6:["Register and product-trial consumer image","登録・お試し顧客像","ภาพลูกค้าที่ลงทะเบียนและทดลองใช้"],
+mc2_h:["Smart Screen","スマートスクリーン","สมาร์ทสกรีน"],
+mc2_b1:["Interaction preference","操作の嗜好","ความชอบในการโต้ตอบ"],
+mc2_l1:["Material selection","コンテンツ選択","การเลือกเนื้อหา"],
+mc2_l2:["Browsing path","閲覧経路","เส้นทางการดู"],
+mc2_b2:["Offer preference","オファーの嗜好","ความชอบด้านข้อเสนอ"],
+mc2_l3:["Bundle amount","バンドル金額","มูลค่าชุดสินค้า"],
+mc2_l4:["Offer calculation","オファー試算","การคำนวณข้อเสนอ"],
+mc2_l5:["Trial result","試算結果","ผลการคำนวณ"],
+mc3_h:["Intelligent audience","インテリジェント傾聴","ออดิเอนซ์อัจฉริยะ"],
+mc3_b1:["Service engagement","接客エンゲージメント","การมีส่วนร่วมในการบริการ"],
+mc3_l1:["Sales interaction frequency","接客回数","ความถี่ในการโต้ตอบของพนักงานขาย"],
+mc3_l2:["Response speed","応答速度","ความเร็วในการตอบสนอง"],
+mc3_b2:["Sales promotion","販売促進","การส่งเสริมการขาย"],
+mc3_l3:["Preferred configuration","好まれる構成","การกำหนดค่าที่ลูกค้าชอบ"],
+mc3_l4:["Offer effectiveness","オファー効果","ประสิทธิภาพข้อเสนอ"],
+mc4_h:["Product barcode recognition","製品バーコード認識","การรู้จำบาร์โค้ดสินค้า"],
+mc4_b1:["Consumer product","顧客の製品","สินค้าของลูกค้า"],
+mc4_l1:["Amount","数量","จำนวน"],
+mc4_l2:["Peak time","ピーク時間帯","ช่วงเวลาพีค"],
+mc4_l3:["Consumer cluster","顧客クラスター","กลุ่มลูกค้า"],
+mc4_b2:["In-store product","店内の製品","สินค้าในร้าน"],
+mc4_l4:["Product trial in and out","お試し品の入出庫","การเข้าออกสินค้าทดลองใช้"],
+mc4_l5:["Product trial conversion","お試しコンバージョン","การแปลงผลการทดลองใช้"],
+mc5_h:["Product category recognition","製品カテゴリー認識","การรู้จำหมวดสินค้า"],
+mc5_b1:["Consumer product","顧客の製品","สินค้าของลูกค้า"],
+mc5_l1:["Product category preference","製品カテゴリーの嗜好","ความชอบหมวดสินค้า"],
+mc5_l2:["Prospect consumer product preference","見込み顧客の製品嗜好","ความชอบสินค้าของผู้ที่คาดว่าจะเป็นลูกค้า"],
+mc6_h:["In-store tracking","店内トラッキング","การติดตามในร้าน"],
+mc6_b1:["Customer movement","顧客の動線","การเคลื่อนที่ของลูกค้า"],
+mc6_l1:["Key pathways","主要動線","เส้นทางหลัก"],
+mc6_l2:["Attraction areas","注目エリア","พื้นที่ดึงดูด"],
+mc6_b2:["High-engage zones","高エンゲージメントゾーン","โซนที่มีส่วนร่วมสูง"],
+mc6_l3:["Popular area","人気エリア","พื้นที่ยอดนิยม"],
+mc6_l4:["Dwell time","滞在時間","เวลาที่ใช้"],
+mc6_b3:["Security check","セキュリティチェック","การตรวจสอบความปลอดภัย"],
+mc6_l5:["Unusual visitor","不審な来訪者","ผู้มาเยือนผิดปกติ"],
+mc6_l6:["Fire alarm","火災警報","สัญญาณเตือนไฟไหม้"],
+mc7_h:["Store operation","店舗オペレーション","การดำเนินงานร้าน"],
+mc7_b1:["Store operation","店舗オペレーション","การดำเนินงานร้าน"],
+mc7_l1:["Operation management","運営管理","การจัดการการดำเนินงาน"],
+mc7_l2:["Operation analysis","運営分析","การวิเคราะห์การดำเนินงาน"],
+mc7_l3:["Sales performance","営業実績","ผลการขาย"],
+mc7_b2:["Sales conversion","販売コンバージョン","การแปลงผลการขาย"],
+mc7_l4:["Improve sales strategy","販売戦略の改善","ปรับปรุงกลยุทธ์การขาย"],
+mc7_l5:["Improve consumer experience","顧客体験の改善","ปรับปรุงประสบการณ์ลูกค้า"],
+note1:["Track pedestrian movement and interaction to capture engagement behavior and assist sales performance.","歩行者の動線とインタラクションを追跡し、エンゲージメント行動を把握して営業実績を支援します。","ติดตามการเคลื่อนที่และการโต้ตอบของคนเดิน เพื่อจับพฤติกรรมการมีส่วนร่วมและช่วยผลการขาย"],
+note2:["Use interactive screens to track browsing behavior and configuration preferences.","インタラクティブスクリーンで閲覧行動と構成の嗜好を追跡します。","ใช้สกรีนแบบโต้ตอบเพื่อติดตามพฤติกรรมการดูและความชอบในการกำหนดค่า"],
+note3:["Track reception, interaction and conversation insight for service optimization.","接客・対話・会話インサイトを追跡し、サービスを最適化します。","ติดตามการต้อนรับ การโต้ตอบ และอินไซต์บทสนทนาเพื่อปรับการบริการ"],
+note4:["Recognize products near store areas to identify engagement trends and consultation interest.","店内の製品を認識し、エンゲージメント傾向とお試し意欲を把握します。","รู้จำสินค้าบริเวณร้านเพื่อระบุแนวโน้มการมีส่วนร่วมและความสนใจทดลองใช้"],
+note5:["Analyze store product engagement to understand dwell time and preference trends.","店内製品へのエンゲージメントを分析し、滞在時間と嗜好傾向を把握します。","วิเคราะห์การมีส่วนร่วมกับสินค้าในร้านเพื่อเข้าใจเวลาที่ใช้และแนวโน้มความชอบ"],
+note6:["Track store traffic, attraction zones and sales-floor optimization.","店舗トラフィック、注目ゾーン、販売フロアの最適化を追跡します。","ติดตามทราฟฟิกร้าน โซนดึงดูด และการปรับพื้นที่ขาย"],
+note7:["Integrate AI sales tools for operations, performance monitoring and conversion tracking.","AI 営業ツールを統合し、運営・実績モニタリング・コンバージョン追跡を行います。","ผสานเครื่องมือ AI ด้านการขายสำหรับการดำเนินงาน การติดตามผล และการติดตามการแปลงผล"],
+
+s2_eyebrow:["02 Feature Matrix","02 機能マトリクス","02 ตารางฟีเจอร์"],
+s2_h2:["Seven scenarios reuse eight core features.","7 つのシナリオが 8 つのコア機能を再利用します。","เจ็ดสถานการณ์ใช้แปดฟีเจอร์หลักร่วมกัน"],
+s2_copy:["The matrix clarifies which AI capability supports each store scenario, from product recognition to smart sales agent.","本マトリクスは、製品認識からスマート営業アシスタントまで、各ストアシナリオを支える AI 機能を明確にします。","ตารางนี้ชี้ชัดว่าความสามารถ AI ใดรองรับแต่ละสถานการณ์ในร้าน ตั้งแต่การรู้จำสินค้าจนถึงผู้ช่วยขายอัจฉริยะ"],
+fm_key:["Key Features","主要機能","ฟีเจอร์หลัก"],
+sc1_lbl:["Scenario 1","シナリオ 1","สถานการณ์ 1"],
+sc2_lbl:["Scenario 2","シナリオ 2","สถานการณ์ 2"],
+sc3_lbl:["Scenario 3","シナリオ 3","สถานการณ์ 3"],
+sc4_lbl:["Scenario 4","シナリオ 4","สถานการณ์ 4"],
+sc5_lbl:["Scenario 5","シナリオ 5","สถานการณ์ 5"],
+sc6_lbl:["Scenario 6","シナリオ 6","สถานการณ์ 6"],
+sc7_lbl:["Scenario 7","シナリオ 7","สถานการณ์ 7"],
+sc1_t:["Product Barcode and Category Recognition","製品バーコードとカテゴリーの認識","การรู้จำบาร์โค้ดและหมวดสินค้า"],
+sc2_t:["Traffic Statistics and Conversion Analysis","来店統計とコンバージョン分析","สถิติทราฟฟิกและการวิเคราะห์การแปลงผล"],
+sc3_t:["Unified Marketing Asset - Smart Screen","統合マーケティングアセット - スマートスクリーン","แอสเซตการตลาดรวม - สมาร์ทสกรีน"],
+sc4_t:["Product Popularity Analysis & Heatmap","製品人気分析とヒートマップ","การวิเคราะห์ความนิยมสินค้าและฮีตแมป"],
+sc5_t:["Intelligent Audience","インテリジェント傾聴","ออดิเอนซ์อัจฉริยะ"],
+sc6_t:["Store Operations and Management","店舗運営と管理","การดำเนินงานและการจัดการร้าน"],
+sc7_t:["Smart Sales Agent","スマート営業アシスタント","ผู้ช่วยขายอัจฉริยะ"],
+fr1_s:["Pedestrian recognition","歩行者認識","การรู้จำคนเดิน"],
+fr1_b:["Pedestrian recognition","歩行者認識","การรู้จำคนเดิน"],
+fr2_s:["Multiple areas people counting","複数エリアの人数カウント","การนับคนหลายพื้นที่"],
+fr2_b:["Multiple areas people counting","複数エリアの人数カウント","การนับคนหลายพื้นที่"],
+fr3_s:["Product barcode recognition","製品バーコード認識","การรู้จำบาร์โค้ดสินค้า"],
+fr3_b:["Product barcode recognition","製品バーコード認識","การรู้จำบาร์โค้ดสินค้า"],
+fr4_s:["Product category recognition","製品カテゴリー認識","การรู้จำหมวดสินค้า"],
+fr4_b:["Product category recognition","製品カテゴリー認識","การรู้จำหมวดสินค้า"],
+fr5_s:["Smart Display","スマートディスプレイ","สมาร์ทดิสเพลย์"],
+fr5_b:["Smart Display","スマートディスプレイ","สมาร์ทดิสเพลย์"],
+fr6_s:["Intelligent audience","インテリジェント傾聴","ออดิเอนซ์อัจฉริยะ"],
+fr6_b:["Intelligent audience","インテリジェント傾聴","ออดิเอนซ์อัจฉริยะ"],
+fr7_s:["Employee / Store Inspection","従業員・店舗巡検","การตรวจพนักงาน / ร้าน"],
+fr7_b:["Employee / Store Inspection","従業員・店舗巡検","การตรวจพนักงาน / ร้าน"],
+fr8_s:["Smart Sales Agent","スマート営業アシスタント","ผู้ช่วยขายอัจฉริยะ"],
+fr8_b:["Smart Sales Agent","スマート営業アシスタント","ผู้ช่วยขายอัจฉริยะ"],
+
+s3_eyebrow:["03 In-store Customer Journey","03 店内カスタマージャーニー","03 เส้นทางลูกค้าในร้าน"],
+s3_h2:["Every store step has data collection, sales performance and store operation outputs.","ストアの各ステップに、データ収集・営業実績・店舗運営のアウトプットがあります。","ทุกขั้นตอนในร้านมีผลลัพธ์ด้านการเก็บข้อมูล ผลการขาย และการดำเนินงานร้าน"],
+vl_key:["Key scenario","主要シナリオ","สถานการณ์หลัก"],
+vl_journey:["Customer journey","カスタマージャーニー","เส้นทางลูกค้า"],
+vl_data:["Data collection","データ収集","การเก็บข้อมูล"],
+vl_perf:["Sales performance","営業実績","ผลการขาย"],
+vl_ops:["Store operation","店舗運営","การดำเนินงานร้าน"],
+st1_1:["Traffic Statistics and Conversion Analysis","来店統計とコンバージョン分析","สถิติทราฟฟิกและการวิเคราะห์การแปลงผล"],
+st1_2:["Product Barcode and Category Recognition","製品バーコードとカテゴリーの認識","การรู้จำบาร์โค้ดและหมวดสินค้า"],
+st2_1:["Product Popularity Analysis & Heatmap","製品人気分析とヒートマップ","การวิเคราะห์ความนิยมสินค้าและฮีตแมป"],
+st2_2:["Unified Marketing Asset - Smart Screen","統合マーケティングアセット - スマートスクリーン","แอสเซตการตลาดรวม - สมาร์ทสกรีน"],
+st3_1:["Intelligent Audience","インテリジェント傾聴","ออดิเอนซ์อัจฉริยะ"],
+st3_2:["Store Operation and Management","店舗運営と管理","การดำเนินงานและการจัดการร้าน"],
+st4_1:["Barcode recognition","バーコード認識","การรู้จำบาร์โค้ด"],
+st4_2:["Intelligent audience","インテリジェント傾聴","ออดิเอนซ์อัจฉริยะ"],
+st4_3:["Store Operation and Management","店舗運営と管理","การดำเนินงานและการจัดการร้าน"],
+st5_1:["Unified Marketing Asset - Smart Screen","統合マーケティングアセット - スマートスクリーン","แอสเซตการตลาดรวม - สมาร์ทสกรีน"],
+st5_2:["Intelligent audience","インテリジェント傾聴","ออดิเอนซ์อัจฉริยะ"],
+st5_3:["Store operation","店舗運営","การดำเนินงานร้าน"],
+st6_1:["Store Operation and Management","店舗運営と管理","การดำเนินงานและการจัดการร้าน"],
+st6_2:["Smart Sales Agent","スマート営業アシスタント","ผู้ช่วยขายอัจฉริยะ"],
+st7_1:["Traffic Statistics and Conversion Analysis","来店統計とコンバージョン分析","สถิติทราฟฟิกและการวิเคราะห์การแปลงผล"],
+st7_2:["Product barcode recognition","製品バーコード認識","การรู้จำบาร์โค้ดสินค้า"],
+st7_3:["Store Operation and Management","店舗運営と管理","การดำเนินงานและการจัดการร้าน"],
+ar1:["Walk-in","来店","เดินเข้าร้าน"],
+ar2:["In-store explore","店内回遊","สำรวจในร้าน"],
+ar3:["Reception","接客","การต้อนรับ"],
+ar4:["Product trial","お試し","ทดลองใช้"],
+ar5:["Quote & Register","見積りと登録","เสนอราคาและลงทะเบียน"],
+ar6:["Analysis & Remote contact","分析とリモート連絡","วิเคราะห์และติดต่อทางไกล"],
+ar7:["Place the Order","オーダー確定","สั่งซื้อ"],
+jd1_1:["<b>Pedestrian detection</b> - entry count, new vs. returning visitors","<b>歩行者検知</b> - 入店数、新規・再来の判別","<b>การตรวจจับคนเดิน</b> - จำนวนผู้เข้า ลูกค้าใหม่กับลูกค้าเก่า"],
+jd1_2:["<b>Customer movement tracking</b> - initial footpath inside store","<b>顧客動線トラッキング</b> - ストア内の初動経路","<b>การติดตามการเคลื่อนที่ของลูกค้า</b> - เส้นทางเริ่มต้นในร้าน"],
+jd1_3:["<b>Dwell time at entrance</b> - interest level upon entry","<b>入口での滞在時間</b> - 入店時の関心度","<b>เวลาที่ใช้บริเวณทางเข้า</b> - ระดับความสนใจเมื่อเข้า"],
+jd2_1:["<b>Dwell time tracking</b> - engagement levels in store areas","<b>滞在時間トラッキング</b> - 各エリアのエンゲージメント","<b>การติดตามเวลาที่ใช้</b> - ระดับการมีส่วนร่วมในพื้นที่ร้าน"],
+jd2_2:["<b>Customer movement analysis</b> - key browsing paths","<b>顧客動線分析</b> - 主要な回遊経路","<b>การวิเคราะห์การเคลื่อนที่ของลูกค้า</b> - เส้นทางการดูหลัก"],
+jd2_3:["<b>Interactive screen usage</b> - digital display engagement","<b>インタラクティブスクリーン利用</b> - デジタルサイネージのエンゲージメント","<b>การใช้สกรีนแบบโต้ตอบ</b> - การมีส่วนร่วมกับจอดิจิทัล"],
+jd3_1:["<b>Queue monitoring</b> - wait times","<b>待機列モニタリング</b> - 待ち時間","<b>การติดตามคิว</b> - เวลารอ"],
+jd3_2:["<b>Customer-staff interaction</b> - response efficiency","<b>顧客とスタッフの対話</b> - 応対効率","<b>การโต้ตอบระหว่างลูกค้ากับพนักงาน</b> - ประสิทธิภาพการตอบสนอง"],
+jd3_3:["<b>Reception dwell time</b> - engagement length","<b>接客滞在時間</b> - 対応の長さ","<b>เวลาที่ใช้ในการต้อนรับ</b> - ระยะเวลาการมีส่วนร่วม"],
+jd4_1:["<b>Pedestrian tracking at consultation area</b> - entry/exit patterns","<b>相談エリアでの歩行者追跡</b> - 入退場パターン","<b>การติดตามคนเดินที่พื้นที่ปรึกษา</b> - รูปแบบการเข้า/ออก"],
+jd4_2:["<b>Dwell time analysis</b> - engagement in consultation zones","<b>滞在時間分析</b> - 相談ゾーンのエンゲージメント","<b>การวิเคราะห์เวลาที่ใช้</b> - การมีส่วนร่วมในโซนปรึกษา"],
+jd4_3:["<b>Waiting time monitoring</b> - wait before consultation","<b>待機時間モニタリング</b> - 相談前の待ち時間","<b>การติดตามเวลารอ</b> - การรอก่อนปรึกษา"],
+jd5_1:["<b>Customer-staff interaction analysis</b> - consultation duration","<b>顧客とスタッフの対話分析</b> - 商談時間","<b>การวิเคราะห์การโต้ตอบลูกค้ากับพนักงาน</b> - ระยะเวลาให้คำปรึกษา"],
+jd5_2:["<b>Self-service registration tracking</b> - QR registration conversion","<b>セルフ登録トラッキング</b> - QR 登録のコンバージョン","<b>การติดตามลงทะเบียนด้วยตนเอง</b> - การแปลงผลลงทะเบียนผ่าน QR"],
+jd6_1:["<b>Follow-up response tracking</b> - Smart sales and NBA solution","<b>フォローアップ応答トラッキング</b> - スマート営業と NBA ソリューション","<b>การติดตามการตอบกลับ</b> - โซลูชันสมาร์ทเซลส์และ NBA"],
+jd6_2:["<b>Precision marketing</b> - content interaction rate","<b>精密マーケティング</b> - コンテンツの反応率","<b>การตลาดแม่นยำ</b> - อัตราการโต้ตอบกับเนื้อหา"],
+jd6_3:["<b>Online re-engagement</b> - return visits across channels","<b>オンライン再エンゲージメント</b> - チャネル横断の再訪","<b>การกลับมามีส่วนร่วมออนไลน์</b> - การกลับมาเยี่ยมข้ามช่องทาง"],
+jd7_1:["<b>Returning customer detection</b> - repeat visits","<b>再来顧客の検知</b> - リピート来店","<b>การตรวจจับลูกค้าที่กลับมา</b> - การมาซ้ำ"],
+jd7_2:["<b>Purchase area dwell time</b> - decision duration","<b>購入エリアの滞在時間</b> - 意思決定の長さ","<b>เวลาที่ใช้ในพื้นที่ซื้อ</b> - ระยะเวลาการตัดสินใจ"],
+jd7_3:["<b>Checkout interaction monitoring</b> - POS engagement","<b>会計インタラクションのモニタリング</b> - POS エンゲージメント","<b>การติดตามการโต้ตอบช่วงปิดการขาย</b> - การมีส่วนร่วมกับ POS"],
+jp1_1:["In-store reminders","店内リマインド","การแจ้งเตือนในร้าน"],
+jp1_2:["Employee response monitoring","従業員応対のモニタリング","การติดตามการตอบสนองของพนักงาน"],
+jp1_3:["Real-time engagement","リアルタイムエンゲージメント","การมีส่วนร่วมแบบเรียลไทม์"],
+jp2_1:["Sales reception analysis","接客分析","การวิเคราะห์การต้อนรับการขาย"],
+jp2_2:["Employee engagement monitoring","従業員エンゲージメントのモニタリング","การติดตามการมีส่วนร่วมของพนักงาน"],
+jp2_3:["Sales dialogue structure analysis","営業対話の構造分析","การวิเคราะห์โครงสร้างบทสนทนาการขาย"],
+jp3_1:["Reminders for consultation scheduling","相談予約のリマインド","การแจ้งเตือนนัดปรึกษา"],
+jp3_2:["Process management for product handover","製品受け渡しのプロセス管理","การจัดการกระบวนการส่งมอบสินค้า"],
+jp3_3:["Consultation result tracking","相談結果のトラッキング","การติดตามผลการปรึกษา"],
+jp4_1:["Guided registration via QR code","QR コードによる登録ガイド","การลงทะเบียนแบบมีคำแนะนำผ่าน QR"],
+jp4_2:["Sales terms clarification and assistance","販売条件の説明とサポート","การอธิบายเงื่อนไขการขายและช่วยเหลือ"],
+jp5_1:["Remote communication efficiency monitoring","リモートコミュニケーション効率のモニタリング","การติดตามประสิทธิภาพการสื่อสารทางไกล"],
+jp5_2:["Personalized marketing content delivery","パーソナライズされたマーケティング配信","การส่งเนื้อหาการตลาดแบบเฉพาะบุคคล"],
+jp6_1:["In-store reminders for returning customers","再来顧客への店内リマインド","การแจ้งเตือนในร้านสำหรับลูกค้าที่กลับมา"],
+jp6_2:["Final conversion assistance prompts","最終コンバージョン支援プロンプト","พรอมต์ช่วยปิดการขายขั้นสุดท้าย"],
+jp7_1:["Order conversion prompt","オーダー転換プロンプト","พรอมต์การแปลงผลคำสั่งซื้อ"],
+jp7_2:["Checkout engagement support","会計エンゲージメント支援","การสนับสนุนการมีส่วนร่วมช่วงปิดการขาย"],
+jt1_1:["Store heatmap","店舗ヒートマップ","ฮีตแมปร้าน"],
+jt1_2:["Dwell time distribution","滞在時間分布","การกระจายเวลาที่ใช้"],
+jt1_3:["Customer preference analysis","顧客嗜好分析","การวิเคราะห์ความชอบลูกค้า"],
+jt2_1:["Thermal map","サーマルマップ","แผนที่ความร้อน"],
+jt2_2:["Dwell time distribution","滞在時間分布","การกระจายเวลาที่ใช้"],
+jt2_3:["Preference analysis","嗜好分析","การวิเคราะห์ความชอบ"],
+jt2_4:["Interactive large screen record","インタラクティブ大型スクリーン記録","บันทึกจอใหญ่แบบโต้ตอบ"],
+jt3_1:["Reception process analysis","接客プロセス分析","การวิเคราะห์กระบวนการต้อนรับ"],
+jt3_2:["Response time tracking","応答時間トラッキング","การติดตามเวลาตอบสนอง"],
+jt3_3:["Customer engagement frequency","顧客エンゲージメント頻度","ความถี่การมีส่วนร่วมของลูกค้า"],
+jt4_1:["Consultation area congestion analysis","相談エリアの混雑分析","การวิเคราะห์ความหนาแน่นพื้นที่ปรึกษา"],
+jt4_2:["Employee engagement monitoring","従業員エンゲージメントのモニタリング","การติดตามการมีส่วนร่วมของพนักงาน"],
+jt4_3:["Follow-up efficiency tracking","フォローアップ効率トラッキング","การติดตามประสิทธิภาพการติดตามผล"],
+jt5_1:["Sales reception process analysis","接客プロセス分析","การวิเคราะห์กระบวนการต้อนรับการขาย"],
+jt5_2:["Bundle consultation tracking","バンドル相談トラッキング","การติดตามการปรึกษาชุดสินค้า"],
+jt5_3:["Offer consultation efficiency","オファー相談の効率","ประสิทธิภาพการปรึกษาด้านข้อเสนอ"],
+jt6_1:["Online marketing activity analysis","オンラインマーケ施策の分析","การวิเคราะห์กิจกรรมการตลาดออนไลน์"],
+jt6_2:["Sales follow-up efficiency tracking","営業フォローアップ効率トラッキング","การติดตามประสิทธิภาพการติดตามการขาย"],
+jt7_1:["Purchase-zone consumer flow analysis","購入ゾーンの顧客フロー分析","การวิเคราะห์โฟลว์ลูกค้าในโซนซื้อ"],
+jt7_2:["Order conversion tracking","オーダー転換トラッキング","การติดตามการแปลงผลคำสั่งซื้อ"],
+jt7_3:["Sales completion efficiency monitoring","成約効率のモニタリング","การติดตามประสิทธิภาพการปิดการขาย"],
+
+s4_eyebrow:["04 Scenario Flows","04 シナリオフロー","04 โฟลว์สถานการณ์"],
+s4_h2:["Five retail process flows from the deck.","資料から抜粋した 5 つのリテールプロセスフロー。","โฟลว์กระบวนการค้าปลีกห้าแบบจากเอกสาร"],
+s4_copy:["These sections translate pages 9, 11, 17, 30 and 43 into store operating flows.","本セクションは 9・11・17・30・43 ページをストア運用フローに展開します。","ส่วนนี้แปลงหน้า 9, 11, 17, 30 และ 43 เป็นโฟลว์การดำเนินงานในร้าน"],
+sf1_h:["Product barcode and category recognition: consumer visiting in person","製品バーコード・カテゴリー認識：来店する顧客","การรู้จำบาร์โค้ดและหมวดสินค้า: ลูกค้ามาด้วยตนเอง"],
+ll_consumer:["Consumer","顧客","ลูกค้า"],
+f1c1_t:["Arrive at store","来店","มาที่ร้าน"],
+f1c1_p:["Consumer arrives and enters the store.","顧客が来店しストアに入店。","ลูกค้ามาถึงและเข้าร้าน"],
+f1c2_t:["First-time arrival?","初回来店か？","มาครั้งแรกหรือไม่?"],
+f1c2_p:["Member and profile recognition match previous data.","会員・プロファイル認識を過去データと照合。","การรู้จำสมาชิกและโปรไฟล์จับคู่กับข้อมูลเดิม"],
+f1c3_t:["Walk in","入店","เดินเข้าร้าน"],
+f1c3_p:["Customer enters store journey.","顧客がストアジャーニーに入る。","ลูกค้าเริ่มเส้นทางในร้าน"],
+f1c4_t:["Reception","接客","การต้อนรับ"],
+f1c4_p:["Sales receives reminder before reception.","接客前に営業へリマインドが届く。","พนักงานขายได้รับการแจ้งเตือนก่อนต้อนรับ"],
+f1c5_t:["Product trial","お試し","ทดลองใช้"],
+f1c5_p:["Intent and product interest are captured.","意向と製品への関心を把握。","จับความตั้งใจและความสนใจในสินค้า"],
+f1c6_t:["Quote & register","見積りと登録","เสนอราคาและลงทะเบียน"],
+f1c6_p:["Customer information updated.","顧客情報を更新。","อัปเดตข้อมูลลูกค้า"],
+f1c7_t:["Order","オーダー","สั่งซื้อ"],
+f1c7_p:["Record completes the loop.","記録がループを完了する。","บันทึกปิดวงจร"],
+ll_syssales:["System / Sales","システム / 営業","ระบบ / ฝ่ายขาย"],
+f1d1_t:["Record product data","製品データを記録","บันทึกข้อมูลสินค้า"],
+f1d1_p:["Barcode and category are stored.","バーコードとカテゴリーを保存。","จัดเก็บบาร์โค้ดและหมวดสินค้า"],
+f1d2_t:["Match previous data","過去データと照合","จับคู่ข้อมูลเดิม"],
+f1d2_p:["Existing customer triggers previous sales reminder.","既存顧客なら担当営業へリマインド。","ลูกค้าเดิมกระตุ้นการแจ้งเตือนพนักงานขายเดิม"],
+f1d3_t:["Create / update profile","プロファイル作成・更新","สร้าง / อัปเดตโปรไฟล์"],
+f1d3_p:["New walk-in becomes a profile.","新規来店をプロファイル化。","ลูกค้าใหม่กลายเป็นโปรไฟล์"],
+f1d4_t:["Assign reception","接客の割当","มอบหมายการต้อนรับ"],
+f1d4_p:["Previous sales or new sales receives task.","担当営業または新規営業へタスクを付与。","พนักงานขายเดิมหรือใหม่รับงาน"],
+f1d5_t:["Scenario 2 / 7","シナリオ 2 / 7","สถานการณ์ 2 / 7"],
+f1d5_p:["Traffic analysis or Smart Sales Agent can take over.","来店分析またはスマート営業アシスタントが引き継ぎ可能。","การวิเคราะห์ทราฟฟิกหรือผู้ช่วยขายอัจฉริยะรับช่วงต่อได้"],
+f1d6_t:["Follow-up","フォローアップ","ติดตามผล"],
+f1d6_p:["Salesforce stores intent and response.","営業が意向と反応を記録。","ฝ่ายขายจัดเก็บความตั้งใจและการตอบสนอง"],
+f1d7_t:["Finish","完了","เสร็จสิ้น"],
+f1d7_p:["Closed customer visit record.","来店記録をクローズ。","ปิดบันทึกการมาเยือนของลูกค้า"],
+sf2_h:["Product trial: arrangement, sample permission and automatic checkout","お試し：手配・サンプル許可・自動チェックアウト","ทดลองใช้: การจัดเตรียม การอนุญาตตัวอย่าง และการชำระเงินอัตโนมัติ"],
+ll_consumer2:["Consumer","顧客","ลูกค้า"],
+f2c1_t:["Submit application","申込","ยื่นคำขอ"],
+f2c1_p:["Customer applies for consultation.","顧客がお試しを申し込む。","ลูกค้าขอทดลองใช้"],
+f2c2_t:["Find product","製品を探す","หาสินค้า"],
+f2c2_p:["Instruction guides customer to the trial product.","案内に従ってお試し品へ誘導。","คำแนะนำพาลูกค้าไปยังสินค้าทดลองใช้"],
+f2c3_t:["Get permission","許可取得","รับการอนุญาต"],
+f2c3_p:["Product information and permission issued.","製品情報と許可が発行される。","ออกข้อมูลสินค้าและการอนุญาต"],
+f2c4_t:["Checkout / exit","チェックアウト","ชำระเงิน / ออก"],
+f2c4_p:["Barcode recognition automatically releases the product.","バーコード認識で自動的に製品を引き渡し。","การรู้จำบาร์โค้ดปล่อยสินค้าออกอัตโนมัติ"],
+f2c5_t:["Trial journey","お試しの流れ","เส้นทางทดลองใช้"],
+f2c5_p:["Routine is tracked.","利用の流れを記録。","มีการติดตามเส้นทาง"],
+f2c6_t:["Return entry","再来入店","กลับเข้า"],
+f2c6_p:["Automatic release for entry.","入店時も自動処理。","ปล่อยเข้าอัตโนมัติ"],
+f2c7_t:["Evaluate service","サービス評価","ประเมินบริการ"],
+f2c7_p:["Consultation service is evaluated.","お試しサービスを評価。","มีการประเมินบริการทดลองใช้"],
+ll_salesforce:["Salesforce","営業","ฝ่ายขาย"],
+f2d1_t:["Check arrangement","手配の確認","ตรวจสอบการจัดเตรียม"],
+f2d1_p:["Validate the consultation plan.","お試し計画を確認。","ตรวจสอบแผนทดลองใช้"],
+f2d2_t:["Arrange product and barcode","製品とバーコードを手配","จัดเตรียมสินค้าและบาร์โค้ด"],
+f2d2_p:["Bind product, barcode and customer.","製品・バーコード・顧客を紐付け。","ผูกสินค้า บาร์โค้ด และลูกค้า"],
+f2d3_t:["Assist trial","お試しを補助","ช่วยทดลองใช้"],
+f2d3_p:["Sales supports product handover.","営業が製品受け渡しを支援。","พนักงานขายช่วยส่งมอบสินค้า"],
+f2d4_t:["Product barcode recognition","製品バーコード認識","การรู้จำบาร์โค้ดสินค้า"],
+f2d4_p:["Exit event captured.","引き渡しイベントを取得。","จับเหตุการณ์ออก"],
+f2d5_t:["Track routine","利用を追跡","ติดตามเส้นทาง"],
+f2d5_p:["Trial path becomes consultation record.","利用経路をお試し記録化。","เส้นทางทดลองใช้กลายเป็นบันทึกการปรึกษา"],
+f2d6_t:["Update record","記録を更新","อัปเดตบันทึก"],
+f2d6_p:["Consumer record is updated.","顧客記録を更新。","อัปเดตบันทึกลูกค้า"],
+f2d7_t:["Scenario 7","シナリオ 7","สถานการณ์ 7"],
+f2d7_p:["Sales agent recommends next action.","営業アシスタントが次のアクションを提案。","ผู้ช่วยขายแนะนำการกระทำถัดไป"],
+sf3_h:["Traffic statistics and marketing data analysis: online consultation campaign","来店統計とマーケティングデータ分析：オンライン相談キャンペーン","สถิติทราฟฟิกและการวิเคราะห์ข้อมูลการตลาด: แคมเปญปรึกษาออนไลน์"],
+ll_marketing:["Marketing","マーケティング","การตลาด"],
+f3c1_t:["Launch campaign","キャンペーン開始","เปิดแคมเปญ"],
+f3c1_p:["Online campaign invites consultation applications.","オンラインキャンペーンで相談申込を募集。","แคมเปญออนไลน์เชิญชวนลงทะเบียนปรึกษา"],
+f3c2_t:["Collect leads","リード獲得","รวบรวมลีด"],
+f3c2_p:["Submitted applications become leads.","申込がリードになる。","คำขอที่ส่งกลายเป็นลีด"],
+f3c3_t:["Invite to store","来店招待","เชิญมาที่ร้าน"],
+f3c3_p:["Sales invites customer to store.","営業がストアへ招待。","พนักงานขายเชิญลูกค้ามาร้าน"],
+f3c4_t:["Walk in match","来店照合","จับคู่เมื่อเข้าร้าน"],
+f3c4_p:["Pedestrian recognition checks if online lead arrives.","歩行者認識でオンラインリードの来店を確認。","การรู้จำคนเดินตรวจว่าลีดออนไลน์มาถึงหรือไม่"],
+f3c5_t:["Existing customer?","既存顧客か？","ลูกค้าเดิมหรือไม่?"],
+f3c5_p:["Match previous record or create account.","過去記録と照合、または新規作成。","จับคู่บันทึกเดิมหรือสร้างบัญชี"],
+f3c6_t:["Demonstrate lead info","リード情報を提示","แสดงข้อมูลลีด"],
+f3c6_p:["Sales sees previous interaction data.","営業が過去の接点データを確認。","พนักงานขายเห็นข้อมูลการโต้ตอบเดิม"],
+f3c7_t:["Finish","完了","เสร็จสิ้น"],
+f3c7_p:["Traffic and marketing data are analyzed.","来店とマーケティングデータを分析。","วิเคราะห์ข้อมูลทราฟฟิกและการตลาด"],
+sf4_h:["Product popularity analysis and heatmap: exploration inside store","製品人気分析とヒートマップ：ストア内の回遊","การวิเคราะห์ความนิยมสินค้าและฮีตแมป: การสำรวจภายในร้าน"],
+z1:["Entrance<br>traffic","入口<br>来店数","ทางเข้า<br>ทราฟฟิก"],
+z2:["Vitamins zone<br>dwell high","ビタミンゾーン<br>滞在多","โซนวิตามิน<br>อยู่นาน"],
+z3:["Hero product<br>hot","主力製品<br>注目","สินค้าเด่น<br>ฮอต"],
+z4:["New launch display<br>screen usage","新商品展示<br>スクリーン利用","จัดแสดงสินค้าใหม่<br>ใช้สกรีน"],
+z5:["Consultation desk<br>quote area","相談窓口<br>見積りエリア","เคาน์เตอร์ปรึกษา<br>พื้นที่เสนอราคา"],
+hl_proc_h:["Process","プロセス","กระบวนการ"],
+hl_proc_p:["Walk in → explore first product → sales introduction → in-store tracking → satisfied? → consultation or explore another product → report and analysis.","入店 → 最初の製品を見る → 営業紹介 → 店内トラッキング → 満足？ → 相談または別の製品を見る → レポートと分析。","เดินเข้าร้าน → ดูสินค้าชิ้นแรก → พนักงานแนะนำ → ติดตามในร้าน → พอใจหรือไม่? → ปรึกษาหรือดูสินค้าชิ้นอื่น → รายงานและวิเคราะห์"],
+hl_data_h:["Data outputs","データアウトプット","ผลลัพธ์ข้อมูล"],
+hl_m1_l:["Dwell time near product","製品付近の滞在時間","เวลาที่ใช้ใกล้สินค้า"],
+hl_m1_v:["High","高","สูง"],
+hl_m2_l:["Interactive screen usage","インタラクティブスクリーン利用","การใช้สกรีนแบบโต้ตอบ"],
+hl_m2_v:["Tracked","記録済み","ติดตามแล้ว"],
+hl_m3_l:["Product popularity distribution","製品人気の分布","การกระจายความนิยมสินค้า"],
+hl_m3_v:["Product-level","製品単位","ระดับสินค้า"],
+hl_m4_l:["Consultation interest signal","相談意欲シグナル","สัญญาณความสนใจปรึกษา"],
+hl_m4_v:["Generated","生成済み","สร้างแล้ว"],
+sf5_h:["Intelligent audience: reception, quote and remote follow-up","インテリジェント傾聴：接客・見積り・リモートフォロー","ออดิเอนซ์อัจฉริยะ: การต้อนรับ การเสนอราคา และการติดตามทางไกล"],
+ll_sales:["Sales","営業","ฝ่ายขาย"],
+f5c1_t:["Receive customer","顧客を接客","ต้อนรับลูกค้า"],
+f5c1_p:["Reception based on customer needs.","顧客ニーズに基づく接客。","ต้อนรับตามความต้องการลูกค้า"],
+f5c2_t:["Voice badge","音声バッジ","วอยซ์แบดจ์"],
+f5c2_p:["Dialogue recognition and NLP model capture conversation.","対話認識と NLP モデルが会話を取得。","การรู้จำบทสนทนาและโมเดล NLP จับการสนทนา"],
+f5c3_t:["Product trial","お試し","ทดลองใช้"],
+f5c3_p:["Provide consultation service and capture experience.","お試しサービスを提供し体験を取得。","ให้บริการทดลองใช้และเก็บประสบการณ์"],
+f5c4_t:["Quote","見積り","เสนอราคา"],
+f5c4_p:["Inquiry based on product demand and offer scheme.","製品ニーズとオファー内容に基づく見積り。","สอบถามตามความต้องการสินค้าและแผนข้อเสนอ"],
+f5c5_t:["Profile","プロファイル","โปรไฟล์"],
+f5c5_p:["Sales creates or updates consumer profile in app.","営業がアプリで顧客プロファイルを作成・更新。","พนักงานขายสร้างหรืออัปเดตโปรไฟล์ลูกค้าในแอป"],
+f5c6_t:["Analysis","分析","วิเคราะห์"],
+f5c6_p:["Customer labels and attributes are calculated.","顧客ラベルと属性を算出。","คำนวณป้ายและคุณลักษณะของลูกค้า"],
+f5c7_t:["Remote follow-up","リモートフォロー","ติดตามทางไกล"],
+f5c7_p:["Smart sales strategy guides customer back to store.","スマート営業戦略が顧客を再来店へ誘導。","กลยุทธ์การขายอัจฉริยะนำลูกค้ากลับมาที่ร้าน"],
+
+s5_eyebrow:["05 Intelligent Audience","05 インテリジェント傾聴","05 ออดิเอนซ์อัจฉริยะ"],
+s5_h2:["Voice badge and NLP turn offline sales conversations into operating data.","音声バッジと NLP が、オフラインの営業会話を運用データに変えます。","วอยซ์แบดจ์และ NLP เปลี่ยนบทสนทนาการขายออฟไลน์ให้เป็นข้อมูลปฏิบัติการ"],
+str1_h:["Audio review","音声レビュー","การตรวจสอบเสียง"],
+str1_p:["Automated quality inspection using ASR speech-to-text conversion eliminates manual audit blind spots.","ASR による音声テキスト化を用いた自動品質検査で、手動監査の死角を解消します。","การตรวจสอบคุณภาพอัตโนมัติด้วยการแปลงเสียงเป็นข้อความ ASR ขจัดจุดบอดของการตรวจด้วยมือ"],
+str2_h:["Intelligent modeling","インテリジェントモデリング","การสร้างโมเดลอัจฉริยะ"],
+str2_p:["Simple operations quickly build AI recognition models and respond to business changes.","シンプルな操作で AI 認識モデルを素早く構築し、業務変化に対応します。","การใช้งานง่ายช่วยสร้างโมเดลรู้จำ AI ได้รวดเร็วและตอบสนองการเปลี่ยนแปลงธุรกิจ"],
+str3_h:["Intelligent rules","インテリジェントルール","กฎอัจฉริยะ"],
+str3_p:["Flexible rule templates support voice-badge recognition and automated scoring.","柔軟なルールテンプレートが音声バッジ認識と自動スコアリングを支援します。","เทมเพลตกฎที่ยืดหยุ่นรองรับการรู้จำวอยซ์แบดจ์และการให้คะแนนอัตโนมัติ"],
+str4_h:["Intelligent detection","インテリジェント検知","การตรวจจับอัจฉริยะ"],
+str4_p:["NLP and real-time speech analysis detect sensitive or forbidden content.","NLP とリアルタイム音声分析で、機微・禁止コンテンツを検知します。","NLP และการวิเคราะห์เสียงเรียลไทม์ตรวจจับเนื้อหาที่อ่อนไหวหรือต้องห้าม"],
+str5_h:["Customer preference","顧客の嗜好","ความชอบของลูกค้า"],
+str5_p:["Audio review can be customized by business requirement and checked easily.","音声レビューは業務要件に応じてカスタマイズでき、容易に確認できます。","การตรวจสอบเสียงปรับแต่งได้ตามความต้องการธุรกิจและตรวจสอบได้ง่าย"],
+str6_h:["New intelligent mode","新しいインテリジェントモード","โหมดอัจฉริยะใหม่"],
+str6_p:["Customer interaction analysis integrates voice-badge data to optimize profiling and service strategies.","顧客接点分析が音声バッジデータを統合し、プロファイリングとサービス戦略を最適化します。","การวิเคราะห์การโต้ตอบลูกค้าผสานข้อมูลวอยซ์แบดจ์เพื่อปรับการทำโปรไฟล์และกลยุทธ์บริการ"],
+
+s6_eyebrow:["06 Core Functional Value","06 コア機能価値","06 คุณค่าฟังก์ชันหลัก"],
+s6_h2:["Evaluation, analysis and training reinforce each other.","評価・分析・トレーニングが相互に強化し合います。","การประเมิน การวิเคราะห์ และการฝึกอบรมเสริมซึ่งกันและกัน"],
+ab1_h:["Big Data Analysis","ビッグデータ分析","การวิเคราะห์บิ๊กดาต้า"],
+ab1_l1:["Service analysis","サービス分析","การวิเคราะห์บริการ"],
+ab1_l2:["Correlation analysis","相関分析","การวิเคราะห์สหสัมพันธ์"],
+ab1_l3:["Clustering analysis","クラスタリング分析","การวิเคราะห์การจัดกลุ่ม"],
+ab1_l4:["Word frequency statistics","語句頻度統計","สถิติความถี่คำ"],
+ac1_b:["Digitalization of Offline Processes","オフラインプロセスのデジタル化","การทำให้กระบวนการออฟไลน์เป็นดิจิทัล"],
+ac1_s:["Offline data → data analysis and customer profiling → partner assessment and training → brand script and case library → customer lead management.","オフラインデータ → データ分析と顧客プロファイリング → パートナー評価とトレーニング → ブランドスクリプトと事例ライブラリ → 顧客リード管理。","ข้อมูลออฟไลน์ → การวิเคราะห์ข้อมูลและทำโปรไฟล์ลูกค้า → การประเมินและฝึกพาร์ทเนอร์ → สคริปต์แบรนด์และคลังเคส → การจัดการลีดลูกค้า"],
+ab2_h:["Training & Assistance","トレーニングと支援","การฝึกอบรมและช่วยเหลือ"],
+ab2_l1:["Evaluation feedback","評価フィードバック","ฟีดแบ็กการประเมิน"],
+ab2_l2:["Experience sharing","経験共有","การแบ่งปันประสบการณ์"],
+ab2_l3:["Simulation training","シミュレーション研修","การฝึกจำลองสถานการณ์"],
+ab2_l4:["Smart assistant","スマートアシスタント","ผู้ช่วยอัจฉริยะ"],
+ab3_h:["Sales Service Evaluation","販売サービス評価","การประเมินบริการการขาย"],
+ab3_l1:["Keyword detection","キーワード検出","การตรวจจับคำสำคัญ"],
+ab3_l2:["Standard compliance detection","標準遵守検出","การตรวจจับการปฏิบัติตามมาตรฐาน"],
+ab3_l3:["Sentiment detection","感情検出","การตรวจจับอารมณ์"],
+ab3_l4:["Semantic detection","意味検出","การตรวจจับความหมาย"],
+ac2_b:["Who Benefits","受益者","ใครได้ประโยชน์"],
+ac2_s:["Corporate headquarters, channel partner stores, sales managers and frontline sales staff share the same evidence base.","本社、チャネルパートナー店舗、営業マネージャー、現場の営業スタッフが同じエビデンスを共有します。","สำนักงานใหญ่ ร้านพาร์ทเนอร์ ผู้จัดการฝ่ายขาย และพนักงานขายหน้างานใช้ฐานข้อมูลหลักฐานเดียวกัน"],
+ab4_h:["Business Impact","ビジネスインパクト","ผลกระทบทางธุรกิจ"],
+ab4_l1:["Brand enhancement","ブランド強化","การเสริมสร้างแบรนด์"],
+ab4_l2:["Sales growth","売上成長","การเติบโตของยอดขาย"],
+ab4_l3:["Lead tracking","リード追跡","การติดตามลีด"],
+ab4_l4:["Service evaluation","サービス評価","การประเมินบริการ"],
+
+s7_eyebrow:["07 Intelligent Audience Architecture","07 インテリジェント傾聴アーキテクチャ","07 สถาปัตยกรรมออดิเอนซ์อัจฉริยะ"],
+s7_h2:["From conversation collection to AI-driven coaching and strategy.","会話収集から AI 主導のコーチングと戦略まで。","ตั้งแต่การเก็บบทสนทนาไปจนถึงการโค้ชและกลยุทธ์ที่ขับเคลื่อนด้วย AI"],
+arc1_b:["Offline sales","オフライン販売","การขายออฟไลน์"],
+arc1_p:["Online traffic generation → customer arrival → transaction completion → customer departure.","オンライン集客 → 来店 → 成約 → 退店。","การสร้างทราฟฟิกออนไลน์ → ลูกค้ามาถึง → ปิดการขาย → ลูกค้ากลับ"],
+arc2_b:["Conversation collection","会話収集","การเก็บบทสนทนา"],
+arc2_p:["Smart voice badge, assistant app, WeCom/IM and call center.","スマート音声バッジ、アシスタントアプリ、WeCom/IM、コールセンター。","วอยซ์แบดจ์อัจฉริยะ แอปผู้ช่วย WeCom/IM และคอลเซ็นเตอร์"],
+arc3_b:["Enterprise systems","業務システム","ระบบองค์กร"],
+arc3_p:["Sales assistant, data platform, marketing system, customer service system and CRM.","営業アシスタント、データ基盤、マーケティングシステム、カスタマーサービスシステム、CRM。","ผู้ช่วยขาย แพลตฟอร์มข้อมูล ระบบการตลาด ระบบบริการลูกค้า และ CRM"],
+as1:["ASR","ASR","ASR"],
+as2:["Semantic Recognition","意味認識","การรู้จำความหมาย"],
+as3:["Sentiment Analysis","感情分析","การวิเคราะห์อารมณ์"],
+as4:["Speech Interruption Detection","発話割り込み検出","การตรวจจับการขัดจังหวะการพูด"],
+as5:["Performance Evaluation & Continuous Learning","パフォーマンス評価と継続学習","การประเมินผลและการเรียนรู้ต่อเนื่อง"],
+arc4_b:["Action & optimization","アクションと最適化","การกระทำและการปรับให้เหมาะสม"],
+ach1:["Quality inspection","品質検査","การตรวจสอบคุณภาพ"],
+ach2:["Best-practice script","ベストプラクティススクリプト","สคริปต์แนวปฏิบัติที่ดีที่สุด"],
+ach3:["Hotspot issue","注目課題","ประเด็นร้อน"],
+ach4:["Intent insight","意向インサイト","อินไซต์ความตั้งใจ"],
+arc5_b:["Core value proposition","コアバリュー","คุณค่าหลัก"],
+ach5:["Real-time sales assistance","リアルタイム営業支援","การช่วยขายแบบเรียลไทม์"],
+ach6:["AI coaching","AI コーチング","การโค้ชด้วย AI"],
+ach7:["Content optimization","コンテンツ最適化","การปรับเนื้อหาให้เหมาะสม"],
+ach8:["KPI monitoring","KPI モニタリング","การติดตาม KPI"],
+arc6_b:["Model iteration","モデルの反復改善","การปรับปรุงโมเดล"],
+arc6_p:["Best practice extraction and analytics for future strategy.","今後の戦略に向けたベストプラクティス抽出と分析。","การสกัดแนวปฏิบัติที่ดีที่สุดและการวิเคราะห์เพื่อกลยุทธ์ในอนาคต"],
+
+s8_eyebrow:["08 Blackmores Store Implementation","08 Blackmores ストア導入","08 การนำไปใช้ในร้าน Blackmores"],
+s8_h2:["How to make it real without rebuilding the partner stack.","パートナーシステムを作り直さずに実現する方法。","วิธีทำให้เป็นจริงโดยไม่ต้องสร้างระบบพาร์ทเนอร์ใหม่"],
+im1_h:["Connect existing cameras","既存カメラを接続","เชื่อมต่อกล้องที่มีอยู่"],
+im1_p:["Use existing store CCTV first; add entrance, consultation exit and hot-zone cameras only where coverage is missing.","まず既存のストア CCTV を活用し、入口・相談出口・注目ゾーンのカメラは不足箇所のみ追加します。","ใช้กล้องวงจรปิดในร้านที่มีอยู่ก่อน เพิ่มกล้องทางเข้า ทางออกพื้นที่ปรึกษา และโซนยอดนิยมเฉพาะจุดที่ยังไม่ครอบคลุม"],
+im2_h:["Map store zones","ストアゾーンを定義","กำหนดโซนร้าน"],
+im2_p:["Define entrance, hero product, new-launch area, consultation desk, product handover and order desk as measurable zones.","入口、主力製品、新商品エリア、相談窓口、製品受け渡し、オーダーデスクを計測可能なゾーンとして定義します。","กำหนดทางเข้า สินค้าเด่น พื้นที่สินค้าใหม่ เคาน์เตอร์ปรึกษา จุดส่งมอบสินค้า และโต๊ะสั่งซื้อ ให้เป็นโซนที่วัดผลได้"],
+im3_h:["Bind sales workflow","営業ワークフローと連携","ผูกกับเวิร์กโฟลว์การขาย"],
+im3_p:["Connect recognition events to LMS/CRM tasks: reception reminder, consultation prompt, quote follow-up and return-visit alert.","認識イベントを LMS/CRM タスクに接続します：接客リマインド、相談プロンプト、見積りフォロー、再来アラート。","เชื่อมเหตุการณ์การรู้จำกับงาน LMS/CRM ได้แก่ แจ้งเตือนการต้อนรับ พรอมต์การปรึกษา ติดตามการเสนอราคา และแจ้งเตือนการกลับมา"],
+im4_h:["Coach the sales team","営業チームを育成","โค้ชทีมขาย"],
+im4_p:["Use Intelligent Audience to evaluate scripts, capture needs, detect lost reasons and feed best practices back into training.","インテリジェント傾聴でスクリプトを評価し、ニーズを把握し、失注理由を検出し、ベストプラクティスをトレーニングに還元します。","ใช้ออดิเอนซ์อัจฉริยะประเมินสคริปต์ จับความต้องการ ตรวจหาสาเหตุการเสียลูกค้า และนำแนวปฏิบัติที่ดีกลับไปฝึกอบรม"]
+};
+
+function applyBrand(){
+  const b=BRANDS[state.brand]||BRANDS.honda4w,r=document.documentElement.style;
+  r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
+  $('#brand').textContent=b.logo;
+}
+function applyText(){
+  $$('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');const v=L[k];if(v)el.innerHTML=v[state.lang]||v[0];});
+  document.documentElement.lang=['en','ja','th'][state.lang];
+}
+function renderAll(){applyBrand();applyText();}
+function syncLangButtons(){$$('#langs button').forEach(x=>x.classList.toggle('on',x.dataset.l===['en','ja','th'][state.lang]));}
+
+$('#langs').onclick=e=>{const b=e.target.closest('button');if(!b)return;state.lang=LI[b.dataset.l];syncLangButtons();renderAll();};
+
+try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_l=_p.get("lang");if(_l==='ja')state.lang=1;else if(_l==='th')state.lang=2;if(_b&&BRANDS[_b])state.brand=_b;}catch(e){}
+syncLangButtons();
+window.addEventListener('message',e=>{const d=e.data;if(!d||d.t!=='es')return;let ch=false;if(d.brand&&BRANDS[d.brand]){state.brand=d.brand;ch=true;}if(d.lang){state.lang=LI[d.lang]!=null?LI[d.lang]:0;syncLangButtons();ch=true;}if(ch)renderAll();});
+renderAll();
+</script>
+<script>/*__embedHide2*/(function(){try{if(window.self!==window.top){var s=document.createElement('style');s.textContent='header,.topbar,.appbar,.langs,#__backStudio{display:none!important}';(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

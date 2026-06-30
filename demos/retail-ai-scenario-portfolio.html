@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Retail AI Scenario Portfolio · Blackmores</title>
+<style>
+  :root{
+    --brand:#009BA4;--brand-d:#007A82;--soft:#e0f2f3;--accent:#E91E63;
+    --ink:#16201f;--muted:#66706d;--bg:#f6f8f7;--card:#fff;--line:#e2e8e5;
+    --display:Georgia,'Times New Roman','Songti SC','Noto Serif CJK SC',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans','Microsoft YaHei','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
+  .bar{max-width:1180px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;gap:14px}
+  .back{font-size:13px;font-weight:800;color:var(--brand-d);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:7px 12px}
+  .brand{font-family:var(--display);font-size:20px;font-weight:700}
+  .sub{font-size:11px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);border-left:1px solid var(--line);padding-left:12px}
+  .spacer{flex:1}
+  .pdf-link{font-size:12.5px;font-weight:800;text-decoration:none;color:#fff;background:var(--brand);border-radius:9px;padding:8px 12px}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 22px 70px}
+  .hero{display:grid;grid-template-columns:minmax(0,.92fr) minmax(280px,.48fr);gap:24px;align-items:end;margin-bottom:22px}
+  @media(max-width:860px){.hero{grid-template-columns:1fr}}
+  .kicker{font-size:11px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);margin-bottom:12px}
+  h1{font-family:var(--display);font-size:clamp(32px,5vw,56px);line-height:1.03;font-weight:500;letter-spacing:-.02em;margin:0}
+  .lead{font-size:15px;color:var(--muted);max-width:72ch;margin-top:16px}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+  .stat b{display:block;font-family:var(--display);font-size:28px;line-height:1;color:var(--brand-d)}
+  .stat span{display:block;font-size:11.5px;color:var(--muted);font-weight:800;margin-top:5px}
+  .viewer{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 16px 40px rgba(20,35,32,.06)}
+  .viewer-head{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);background:#fff}
+  .viewer-head h2{font-family:var(--display);font-size:20px;margin:0;font-weight:650}
+  .viewer-head p{font-size:12.5px;color:var(--muted);margin:2px 0 0}
+  .viewer-frame{width:100%;height:72vh;min-height:620px;border:0;display:block;background:#f1f3f2}
+  .hint{font-size:12px;color:var(--muted);padding:10px 16px;border-top:1px solid var(--line);background:#fbfcfb}
+  section{margin-top:28px}
+  .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:14px}
+  .section-head h2{font-family:var(--display);font-size:28px;font-weight:600;margin:0}
+  .section-head p{font-size:13px;color:var(--muted);margin:0;max-width:62ch}
+  .domains{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:960px){.domains{grid-template-columns:1fr 1fr}}
+  @media(max-width:620px){.domains{grid-template-columns:1fr}}
+  .domain{background:#fff;border:1px solid var(--line);border-radius:15px;padding:16px}
+  .domain h3{font-family:var(--display);font-size:18px;line-height:1.15;margin:0 0 8px;display:flex;align-items:center;gap:9px}
+  .domain h3 span{width:30px;height:30px;border-radius:9px;background:var(--soft);color:var(--brand-d);display:grid;place-items:center;font-family:var(--body);font-size:15px}
+  .domain p{font-size:12.8px;color:var(--muted);margin:0 0 11px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{font-size:11px;font-weight:800;color:var(--brand-d);background:var(--soft);border:1px solid #c8e7e8;border-radius:999px;padding:4px 9px}
+  .table-wrap{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:auto}
+  table{width:100%;border-collapse:collapse;min-width:920px;font-size:12.5px}
+  th{background:#10201f;color:#fff;text-align:left;padding:12px 13px;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase}
+  td{padding:12px 13px;border-top:1px solid var(--line);vertical-align:top}
+  tr:nth-child(even) td{background:#fbfcfb}
+  .prio{display:inline-block;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:900}
+  .high{background:#ffe7ed;color:#b01745}.med{background:#fff3d8;color:#8a5b00}.done{background:var(--soft);color:var(--brand-d)}
+  footer{margin-top:28px;color:var(--muted);font-size:12px;text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <a class="back" href="index.html">← Back</a>
+    <div class="brand">Blackmores</div>
+    <div class="sub">Retail AI Scenario Portfolio</div>
+    <div class="spacer"></div>
+    <a class="pdf-link" href="../../Docs/Strategy/AI%20Application%20Scenario%20Map%20-%20Retail%20Industry.pdf" target="_blank" rel="noopener">Open PDF ↗</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div>
+      <div class="kicker">Strategy Source Map</div>
+      <h1>Retail AI scenarios, mapped into the Blackmores catalog.</h1>
+      <p class="lead">The PDF below is the retail-industry scenario map. This page turns it into a Blackmores working portfolio: what is already covered, what should stay as reference, and what should become the next catalog demo.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>77</b><span>Detailed retail business scenarios</span></div>
+      <div class="stat"><b>6</b><span>Blackmores catalog groups</span></div>
+      <div class="stat"><b>38</b><span>Scenario-map concept cards added</span></div>
+    </div>
+  </div>
+
+  <div class="viewer">
+    <div class="viewer-head">
+      <div>
+        <h2>AI Application Scenario Map · Retail Industry</h2>
+        <p>Use the browser PDF toolbar to zoom, search, download or open in a separate tab.</p>
+      </div>
+    </div>
+    <iframe class="viewer-frame" title="AI Application Scenario Map - Retail Industry" src="../../Docs/Strategy/AI%20Application%20Scenario%20Map%20-%20Retail%20Industry.pdf#toolbar=1&navpanes=0&zoom=page-width"></iframe>
+    <div class="hint">If the embedded PDF toolbar is hidden by your browser, use “Open PDF” in the top-right corner for full zoom controls.</div>
+  </div>
+
+  <section>
+    <div class="section-head">
+      <div>
+        <div class="kicker">Blackmores Mapping</div>
+        <h2>How the retail map becomes our catalog structure</h2>
+      </div>
+      <p>The original map is broad retail. Blackmores should not copy every item; it should translate the relevant ones into health, supplement, platform-commerce and channel-operation scenarios.</p>
+    </div>
+    <div class="domains">
+      <div class="domain"><h3><span>1</span>AI Strategy & Transformation</h3><p>Portfolio planning, AI value roadmap, operating model and governed adoption.</p><div class="chips"><span class="chip">Scenario portfolio</span><span class="chip">Value roadmap</span><span class="chip">Operating model</span></div></div>
+      <div class="domain"><h3><span>2</span>Consumer Growth</h3><p>Discovery, GEO, social content, AIGC and campaign optimization.</p><div class="chips"><span class="chip">GEO</span><span class="chip">AIGC</span><span class="chip">Social commerce</span></div></div>
+      <div class="domain"><h3><span>3</span>Platform Commerce</h3><p>Marketplace operations, offers, PDP governance, sell-out and inventory.</p><div class="chips"><span class="chip">Marketplace cockpit</span><span class="chip">Offer verification</span><span class="chip">Sell-out dashboard</span></div></div>
+      <div class="domain"><h3><span>4</span>Retail & Channel Operations</h3><p>Pharmacy, distributor, field sales, shelf inspection and replenishment.</p><div class="chips"><span class="chip">Sell-through</span><span class="chip">Shelf inspection</span><span class="chip">Replenishment</span></div></div>
+      <div class="domain"><h3><span>5</span>Membership & Health Engagement</h3><p>Health companion, loyalty, repurchase triggers and next-best-action.</p><div class="chips"><span class="chip">Health journey</span><span class="chip">Repurchase</span><span class="chip">Member benefit</span></div></div>
+      <div class="domain"><h3><span>6</span>Trust, Compliance & Data Foundation</h3><p>Consent, claims, regulation, VOC, knowledge graph and data governance.</p><div class="chips"><span class="chip">Claim governance</span><span class="chip">Issue loop</span><span class="chip">Knowledge base</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div>
+        <div class="kicker">Coverage & Backlog</div>
+        <h2>What to build from the map</h2>
+      </div>
+      <p>This is the practical shortlist. The broader PDF remains the reference; this table is the Blackmores execution path.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Scenario Map Theme</th><th>Blackmores Translation</th><th>Current Coverage</th><th>Next Step</th><th>Priority</th></tr></thead>
+        <tbody>
+          <tr><td>AI scenario portfolio and roadmap</td><td>Retail AI Scenario Portfolio, AI Value Roadmap, Business Case Prioritization</td><td><span class="prio done">Concept cards</span></td><td>Use this page as the portfolio entry point</td><td><span class="prio high">High</span></td></tr>
+          <tr><td>Platform operations and promotion governance</td><td>Marketplace Operations Cockpit, Platform Promotion & Offer Verification</td><td><span class="prio done">Concept cards</span></td><td>Create first full demo page for platform commerce</td><td><span class="prio high">Highest</span></td></tr>
+          <tr><td>Product content and claim governance</td><td>Cross-Platform Product Content Governance, Claim Compliance Governance</td><td><span class="prio done">Compliance demo exists</span></td><td>Connect PDP, AIGC and compliance into one story</td><td><span class="prio high">Highest</span></td></tr>
+          <tr><td>Distributor and pharmacy sell-through</td><td>Distributor Sell-through Intelligence, Dealer / Pharmacy Replenishment</td><td><span class="prio done">Trading Hub exists</span></td><td>Make sell-through dashboard Blackmores-specific</td><td><span class="prio high">High</span></td></tr>
+          <tr><td>Store inspection and field execution</td><td>Pharmacy Shelf Inspection, Field Sales Visit Assistant</td><td><span class="prio done">Merchandising exists</span></td><td>Adapt imagery and copy from retail shelf to pharmacy shelf</td><td><span class="prio med">Medium</span></td></tr>
+          <tr><td>Repurchase and member care</td><td>Repurchase Trigger Engine, Member Benefit Recommendation, Health Journey Orchestration</td><td><span class="prio done">Health / loyalty demos exist</span></td><td>Unify into direct-consumer relationship story</td><td><span class="prio high">High</span></td></tr>
+          <tr><td>Feedback, risk and issue loop</td><td>Feedback Sentiment Analysis, Issue Closed-loop Tracking, Risk Early Warning</td><td><span class="prio done">VOC exists</span></td><td>Add closed-loop action tracking and ownership</td><td><span class="prio high">High</span></td></tr>
+          <tr><td>Data governance and product/regulation knowledge</td><td>Data Governance Agent, Product / Regulation Knowledge Base, Knowledge Graph</td><td><span class="prio done">Knowledge Graph updated</span></td><td>Use knowledge graph as shared proof point</td><td><span class="prio high">Highest</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>Source PDF: Docs/Strategy/AI Application Scenario Map - Retail Industry.pdf · Blackmores catalog mapping draft</footer>
+</main>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

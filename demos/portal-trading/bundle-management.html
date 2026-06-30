@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bundle Management | BLACKMORES® Partner Portal</title>
+    <style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.5;
+        }
+        :root {
+            --teal-900: #08312e;
+            --teal-700: #0d524c;
+            --teal-600: #0f6b62;
+            --teal-500: #14857a;
+            --teal-400: #1ba99a;
+            --teal-100: #d6ebe8;
+            --teal-50: #eef6f5;
+            --ink: #16201e;
+            --slate: #5d6b68;
+            --muted: #8d9d99;
+            --line: #e4ebe9;
+            --paper: #ffffff;
+            --bg: #f5f7f6;
+            --amber: #d98a1f;
+            --amber-bg: #fdf3e2;
+            --rose: #c0463f;
+            --rose-bg: #fbece9;
+            --green: #2f8a5b;
+            --green-bg: #e7f3ec;
+            --blue: #2d6cdf;
+            --blue-bg: #e8f0fe;
+            --gray: #94a3b8;
+            --gray-bg: #f1f5f9;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow2: 0 1px 2px rgba(8,49,46,.04), 0 8px 24px -12px rgba(8,49,46,.14);
+            --shadow-lg: 0 2px 4px rgba(8,49,46,.05), 0 24px 48px -20px rgba(8,49,46,.22);
+            --primary: var(--teal-500);
+            --primary-dark: var(--teal-700);
+            --primary-light: var(--teal-50);
+            --accent: #E91E63;
+            --accent-light: rgba(233, 30, 99, 0.12);
+            --white: var(--paper);
+            --text: var(--ink);
+            --text-secondary: var(--slate);
+            --text-tertiary: var(--muted);
+            --border: var(--line);
+            --shadow: var(--shadow2);
+            --shadow-hover: var(--shadow-lg);
+            --success: var(--green);
+            --success-light: var(--green-bg);
+            --warning: var(--amber);
+            --warning-light: var(--amber-bg);
+            --danger: var(--rose);
+            --danger-light: var(--rose-bg);
+            --info: var(--blue);
+            --info-light: var(--blue-bg);
+        }
+
+        /* ===== Top Nav ===== */
+        .top-nav {
+            background: var(--paper);
+            border-bottom: 1px solid var(--line);
+            padding: 0 32px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-brand { font-size: 20px; font-weight: 800; color: var(--teal-900); letter-spacing: -0.5px; }
+        .nav-brand span { color: var(--accent); }
+        .nav-menu { display: flex; gap: 32px; align-items: center; }
+        .nav-menu a { text-decoration: none; color: var(--slate); font-size: 14px; font-weight: 500; transition: color 0.2s; position: relative; white-space: nowrap; }
+        .nav-menu a:hover, .nav-menu a.active { color: var(--teal-900); }
+        .nav-menu a.active::after { content: ''; position: absolute; bottom: -21px; left: 0; right: 0; height: 3px; background: var(--teal-700); border-radius: 2px; }
+        .nav-right { display: flex; align-items: center; gap: 16px; }
+        .nav-btn {
+            width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--line);
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            background: var(--paper); color: var(--slate); transition: all 0.2s; position: relative;
+        }
+        .nav-btn:hover { border-color: var(--teal-500); color: var(--teal-700); }
+        .nav-btn-badge { position: absolute; top: -4px; right: -4px; width: 18px; height: 18px; background: var(--rose); color: white; font-size: 10px; font-weight: 700; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--paper); }
+        .nav-user { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 6px 12px; border-radius: 10px; transition: background 0.2s; }
+        .nav-user:hover { background: var(--bg); }
+        .nav-user-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--teal-700); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 14px; }
+        .nav-user-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+        .nav-user-role { font-size: 12px; color: var(--muted); }
+        #langSwitcher { cursor: pointer; }
+
+        /* ===== Sidebar ===== */
+        .sidebar { width: 264px; background: var(--paper); border-right: 1px solid var(--line); position: fixed; top: 64px; bottom: 0; left: 0; overflow-y: auto; z-index: 50; padding: 26px 16px; }
+        .sidebar-section { margin-bottom: 22px; }
+        .sidebar-header { display: flex; align-items: center; justify-content: space-between; padding: 0 12px 10px; cursor: pointer; transition: .15s; }
+        .sidebar-header:hover .sidebar-title { color: var(--primary-dark); }
+        .sidebar-header.active .sidebar-icon-main { color: var(--primary); }
+        .sidebar-header.active .sidebar-title { color: var(--primary); }
+        .sidebar-header.active .sidebar-chevron { color: var(--teal-700); }
+        .sidebar-header-left { display: flex; align-items: center; gap: 10px; }
+        .sidebar-icon-main { width: 18px; height: 18px; color: var(--muted); flex-shrink: 0; }
+        .sidebar-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); }
+        .sidebar-chevron { width: 14px; height: 14px; color: var(--muted); transition: transform 0.25s ease; flex-shrink: 0; }
+        .sidebar-chevron.open { transform: rotate(180deg); }
+        .sidebar-submenu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+        .sidebar-submenu.open { max-height: 500px; }
+        .sidebar-link {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 12px; color: var(--slate); text-decoration: none;
+            font-size: 14.5px; font-weight: 500; transition: all 0.15s;
+            border-radius: var(--radius-sm); margin-bottom: 2px;
+        }
+        .sidebar-link:hover { background: var(--primary-light); color: var(--primary-dark); }
+        .sidebar-link.active { background: var(--primary); color: var(--paper); font-weight: 600; }
+        .sidebar-link-icon { width: 18px; height: 18px; color: currentColor; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .sidebar-link-icon svg { width: 14px; height: 14px; }
+        @media (max-width: 1024px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0 !important; max-width: 100vw !important; }
+        }
+
+        /* ===== Main Content ===== */
+        .main-content { flex: 1; margin-left: 264px; padding: 0; max-width: calc(100vw - 264px); }
+        .content-section { padding: 32px 40px; }
+        .section-title { font-size: 26px; font-weight: 800; color: var(--teal-900); margin-bottom: 8px; }
+        .section-sub { font-size: 14px; color: var(--slate); margin-bottom: 24px; }
+
+        /* ===== Toolbar ===== */
+        .toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; gap: 16px; flex-wrap: wrap; }
+        .toolbar-search { display: flex; align-items: center; gap: 8px; flex: 1; max-width: 400px; }
+        .toolbar-search input { flex: 1; padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; font-size: 14px; outline: none; transition: border 0.2s; background: var(--paper); }
+        .toolbar-search input:focus { border-color: var(--teal-500); }
+        .btn {
+            padding: 9px 18px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer;
+            transition: all 0.2s; border: 1px solid transparent; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .btn-outline { background: var(--paper); border-color: var(--line); color: var(--slate); }
+        .btn-outline:hover { border-color: var(--teal-500); color: var(--teal-700); }
+        .btn-primary { background: var(--teal-700); color: white; border-color: var(--teal-700); }
+        .btn-primary:hover { background: var(--teal-900); }
+        .btn-accent { background: var(--accent); color: white; border-color: var(--accent); }
+        .btn-accent:hover { background: #c4165a; }
+        .btn-sm { padding: 6px 12px; font-size: 13px; border-radius: 8px; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* ===== Stats Row ===== */
+        .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+        .stat-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow2); }
+        .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; font-weight: 600; }
+        .stat-value { font-size: 28px; font-weight: 800; color: var(--teal-900); margin-bottom: 4px; }
+        .stat-change { font-size: 13px; font-weight: 600; }
+        .stat-change.up { color: var(--green); }
+        .stat-change.down { color: var(--rose); }
+
+        /* ===== Bundle Grid ===== */
+        .bundle-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+        .bundle-card {
+            background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 0;
+            overflow: hidden; transition: box-shadow 0.2s, transform 0.2s; position: relative;
+            box-shadow: var(--shadow2);
+        }
+        .bundle-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+        .bundle-card-header { padding: 20px 20px 16px; border-bottom: 1px solid var(--line); display: flex; align-items: flex-start; justify-content: space-between; }
+        .bundle-card-title { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+        .bundle-card-sku { font-size: 12px; color: var(--muted); }
+        .bundle-card-status {
+            font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .bundle-card-status.active { background: var(--green-bg); color: var(--green); }
+        .bundle-card-status.draft { background: var(--gray-bg); color: var(--gray); }
+        .bundle-card-status.paused { background: var(--amber-bg); color: var(--amber); }
+        .bundle-card-body { padding: 16px 20px; }
+        .bundle-items { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+        .bundle-item-chip {
+            display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
+            background: var(--teal-50); color: var(--teal-700); border: 1px solid var(--teal-100);
+        }
+        .bundle-item-chip span { font-size: 16px; }
+        .bundle-pricing { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; }
+        .bundle-price { font-size: 22px; font-weight: 800; color: var(--teal-900); }
+        .bundle-orig { font-size: 14px; color: var(--muted); text-decoration: line-through; }
+        .bundle-save { font-size: 13px; font-weight: 700; color: var(--green); background: var(--green-bg); padding: 2px 8px; border-radius: 6px; }
+        .bundle-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+        .bundle-metric { padding: 10px; border-radius: 10px; background: var(--bg); }
+        .bundle-metric-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+        .bundle-metric-value { font-size: 15px; font-weight: 700; color: var(--ink); }
+        .bundle-actions { display: flex; gap: 8px; }
+        .bundle-actions .btn { flex: 1; justify-content: center; }
+
+        /* ===== AI Insight Panel ===== */
+        .ai-insight { background: var(--teal-50); border: 1px solid var(--teal-100); border-radius: var(--radius); padding: 20px; margin-bottom: 28px; }
+        .ai-insight-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .ai-insight-title { font-size: 15px; font-weight: 700; color: var(--teal-700); }
+        .ai-insight-body { font-size: 14px; color: var(--slate); line-height: 1.6; }
+        .ai-insight-body strong { color: var(--teal-900); }
+        .ai-suggestion-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-top: 14px; }
+        .ai-suggestion-card { background: var(--paper); border: 1px solid var(--teal-100); border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s; }
+        .ai-suggestion-card:hover { border-color: var(--teal-500); box-shadow: var(--shadow2); }
+        .ai-suggestion-name { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+        .ai-suggestion-desc { font-size: 12px; color: var(--slate); margin-bottom: 10px; }
+        .ai-suggestion-potential { font-size: 13px; font-weight: 700; color: var(--green); }
+
+        /* ===== Drawer ===== */
+        .drawer-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 200; opacity: 0; transition: opacity 0.3s; }
+        .drawer-overlay.show { display: block; opacity: 1; }
+        .bundle-drawer { position: fixed; top: 0; right: 0; width: 60%; max-width: 720px; height: 100%; background: var(--paper); z-index: 210; transform: translateX(100%); transition: transform 0.35s cubic-bezier(.16,1,.3,1); overflow-y: auto; }
+        .bundle-drawer.open { transform: translateX(0); }
+        .drawer-header { padding: 24px 32px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; background: var(--teal-50); }
+        .drawer-title { font-size: 20px; font-weight: 700; color: var(--teal-900); }
+        .drawer-close { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: var(--paper); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--slate); transition: all 0.2s; }
+        .drawer-close:hover { background: var(--teal-50); color: var(--teal-700); border-color: var(--teal-500); }
+        .drawer-body { padding: 32px; }
+        .form-group { margin-bottom: 24px; }
+        .form-label { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 8px; display: block; }
+        .form-input { width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; font-size: 14px; outline: none; transition: border 0.2s; background: var(--paper); }
+        .form-input:focus { border-color: var(--teal-500); }
+        .product-select-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+        .product-select-item { border: 2px solid var(--line); border-radius: 12px; padding: 14px; cursor: pointer; transition: all 0.2s; text-align: center; }
+        .product-select-item:hover { border-color: var(--teal-100); }
+        .product-select-item.selected { border-color: var(--teal-500); background: var(--teal-50); }
+        .product-select-item .emoji { font-size: 32px; margin-bottom: 8px; }
+        .product-select-item .name { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+        .product-select-item .price { font-size: 12px; color: var(--muted); }
+        .discount-slider { display: flex; align-items: center; gap: 16px; }
+        .discount-slider input[type="range"] { flex: 1; }
+        .discount-value { font-size: 18px; font-weight: 800; color: var(--teal-900); min-width: 60px; text-align: right; }
+        .preview-box { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin-top: 20px; }
+        .preview-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; border-bottom: 1px solid var(--line); }
+        .preview-row:last-child { border-bottom: none; font-weight: 700; font-size: 16px; color: var(--teal-900); }
+
+        /* ===== AI Widget ===== */
+        .ai-float-btn { position: fixed; bottom: 28px; right: 28px; width: 56px; height: 56px; background: var(--teal-700); color: white; border: none; border-radius: 50%; font-size: 24px; cursor: pointer; box-shadow: var(--shadow-lg); z-index: 300; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+        .ai-float-btn:hover { transform: scale(1.05); background: var(--teal-900); }
+        .ai-widget { position: fixed; bottom: 92px; right: 28px; width: 360px; height: 520px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-lg); z-index: 300; display: none; flex-direction: column; overflow: hidden; }
+        .ai-widget.open { display: flex; }
+        .ai-widget-header { padding: 20px; border-bottom: 1px solid var(--line); background: var(--teal-50); }
+        .ai-widget-title { font-size: 16px; font-weight: 700; color: var(--teal-900); }
+        .ai-widget-subtitle { font-size: 12px; color: var(--slate); margin-top: 2px; }
+        .ai-avatar { width: 36px; height: 36px; background: var(--teal-700); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 14px; }
+        .ai-widget-body { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+        .ai-msg-bubble { max-width: 85%; padding: 12px 14px; border-radius: 14px; font-size: 13px; line-height: 1.5; }
+        .ai-msg-bubble.bot { background: var(--teal-50); color: var(--teal-700); align-self: flex-start; border-bottom-left-radius: 4px; }
+        .ai-msg-bubble.user { background: var(--teal-700); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .ai-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+        .ai-chip { padding: 6px 12px; border: 1px solid var(--teal-100); border-radius: 20px; font-size: 12px; color: var(--teal-700); cursor: pointer; background: var(--paper); transition: all 0.2s; }
+        .ai-chip:hover { background: var(--teal-50); border-color: var(--teal-500); }
+        .ai-widget-footer { padding: 12px 16px; border-top: 1px solid var(--line); display: flex; gap: 8px; align-items: center; }
+        .ai-widget-input { flex: 1; padding: 10px 14px; border: 1px solid var(--line); border-radius: 20px; font-size: 13px; outline: none; }
+        .ai-widget-input:focus { border-color: var(--teal-500); }
+        .ai-widget-send { width: 36px; height: 36px; border-radius: 50%; background: var(--teal-700); color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .ai-widget-send:hover { background: var(--teal-900); }
+
+        /* ===== Toast ===== */
+        .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--teal-900); color: white; padding: 12px 24px; border-radius: 12px; font-size: 14px; font-weight: 600; z-index: 300; box-shadow: 0 4px 20px rgba(0,0,0,0.2); opacity: 0; transition: all 0.3s; pointer-events: none; }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    
+
+        /* Studio embed shell: keep the outer Studio header, remove the copied portal chrome. */
+        .top-nav, .sidebar { display: none !important; }
+        .main-content { margin-left: 0 !important; max-width: 100% !important; width: 100% !important; padding: 0 !important; }
+        .studio-intro { max-width: 1180px; margin: 0 auto 18px; padding: 28px 40px 0; }
+        .studio-eyebrow { color: var(--primary, var(--teal-700, #008f9a)); font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 8px; }
+        .studio-title { color: var(--ink, var(--text, #1f2a2a)); font-size: clamp(28px, 4vw, 44px); line-height: 1.04; font-weight: 800; margin: 0 0 10px; letter-spacing: 0; }
+        .studio-lead { color: var(--slate, var(--text-secondary, #6d7775)); font-size: 15px; line-height: 1.65; max-width: 880px; margin: 0; }
+        .studio-nav { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 18px; }
+        .studio-nav a, .studio-nav button { appearance: none; border: 1px solid var(--line, #e5e7eb); background: var(--paper, #fff); color: var(--ink, #233); border-radius: 8px; padding: 9px 14px; font: inherit; font-size: 12.5px; font-weight: 800; text-decoration: none; cursor: pointer; box-shadow: none; }
+        .studio-nav a:hover, .studio-nav button:hover, .studio-nav .active { border-color: var(--primary, var(--teal-700, #008f9a)); color: var(--primary, var(--teal-700, #008f9a)); background: var(--primary-light, var(--teal-50, #ecfeff)); }
+        .content-section, .content-body, .pagehead, .page-section { max-width: 1180px; margin-left: auto !important; margin-right: auto !important; }
+        @media (max-width: 760px) {
+            .studio-intro { padding: 22px 20px 0; }
+            .studio-title { font-size: 30px; }
+            .studio-nav a, .studio-nav button { flex: 1 1 auto; text-align: center; }
+        }
+
+    </style>
+    <script src="../i18n.js"></script>
+</head>
+<body data-module="trading">
+    <nav class="top-nav">
+        <div class="nav-brand">BLACKMORES<span>®</span> Partner</div>
+        <div class="nav-menu">
+            <a href="../index.html" data-i18n="Home">Home</a>
+            <a href="trading-hub.html" class="active" data-i18n="Trading">Trading</a>
+            <a href="../index.html" data-i18n="Marketing">Marketing</a>
+            <a href="../index.html" data-i18n="Operations">Operations</a>
+            <a href="../index.html" data-i18n="Analytics">Analytics</a>
+        </div>
+        <div class="nav-right">
+            <button class="nav-btn" id="langSwitcher" title="Language">EN</button>
+            <button class="nav-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
+            <button class="nav-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="nav-btn-badge">3</span></button>
+            <div class="nav-user">
+                <div class="nav-user-avatar">S</div>
+                <div>
+                    <div class="nav-user-name">Sarah</div>
+                    <div class="nav-user-role">Admin</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div style="display: flex; min-height: 100vh;">
+        <div class="sidebar">
+            <div class="sidebar-section" id="sidebar-product">
+                <div class="sidebar-header active" onclick="toggleSection('product')" id="header-product">
+                    <div class="sidebar-header-left">
+                        <svg class="sidebar-icon-main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                        <span class="sidebar-title" data-i18n="Product">Product</span>
+                    </div>
+                    <svg class="sidebar-chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="chevron-product"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <ul class="sidebar-submenu open" id="submenu-product">
+                    <li class="sidebar-item"><a href="product-center.html" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span><span data-i18n="Product Catalog">Product Catalog</span></a></li>
+                    <li class="sidebar-item"><a href="product-center.html#cart" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span><span data-i18n="Shopping Cart">Shopping Cart</span></a></li>
+                    <li class="sidebar-item"><a href="favorites.html" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span data-i18n="My Favorites">My Favorites</span></a></li>
+                    <li class="sidebar-item"><a href="bundle-management.html" class="sidebar-link active"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></span><span data-i18n="Bundle Management">Bundle Management</span></a></li>
+                </ul>
+            </div>
+            <div class="sidebar-section" id="sidebar-purchase">
+                <div class="sidebar-header" onclick="toggleSection('purchase')" id="header-purchase">
+                    <div class="sidebar-header-left">
+                        <svg class="sidebar-icon-main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+                        <span class="sidebar-title" data-i18n="Purchase Orders">Purchase Orders</span>
+                    </div>
+                    <svg class="sidebar-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="chevron-purchase"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <ul class="sidebar-submenu" id="submenu-purchase">
+                    <li class="sidebar-item"><a href="purchase-order.html" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span data-i18n="Purchase Orders">Purchase Orders</span></a></li>
+                    <li class="sidebar-item"><a href="purchase-order.html#ai-recommend" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/><path d="M9 21h6"/></svg></span><span data-i18n="AI Recommendation">AI Recommendation</span></a></li>
+                    <li class="sidebar-item"><a href="purchase-order.html#inventory" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span><span data-i18n="Inventory">Inventory</span></a></li>
+                    <li class="sidebar-item"><a href="purchase-order.html#invoices" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span data-i18n="Invoices">Invoices</span></a></li>
+                </ul>
+            </div>
+            <div class="sidebar-section" id="sidebar-sales">
+                <div class="sidebar-header" onclick="toggleSection('sales')" id="header-sales">
+                    <div class="sidebar-header-left">
+                        <svg class="sidebar-icon-main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                        <span class="sidebar-title" data-i18n="Sales Orders">Sales Orders</span>
+                    </div>
+                    <svg class="sidebar-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="chevron-sales"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <ul class="sidebar-submenu" id="submenu-sales">
+                    <li class="sidebar-item"><a href="sale-order.html" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span><span data-i18n="Sales Orders">Sales Orders</span></a></li>
+                    <li class="sidebar-item"><a href="sale-order.html#channel" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></span><span data-i18n="Channel Management">Channel Management</span></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <section class="studio-intro">
+                <div class="studio-eyebrow">Marketplace Promotion, Bundle & Launch Control</div>
+                <h1 class="studio-title">Build, evaluate and prepare promotional bundles for marketplace launch.</h1>
+                <p class="studio-lead">This demo focuses on bundle mechanics, AI suggested combinations, pricing impact and launch-ready promotional packs for Blackmores platform events.</p>
+                <div class="studio-nav">
+                    <a href="product-center.html">Product catalog</a>
+                    <a href="favorites.html">Favorites & reorder</a>
+                    <a class="active" href="bundle-management.html">Bundle management</a>
+                    <a href="purchase-order.html#bundle-rec">AI bundle recommendations</a>
+                </div>
+            </section>
+
+            <div class="content-section">
+                <h1 class="section-title" data-i18n="Bundle Management">Bundle Management</h1>
+                <p class="section-sub" data-i18n="4 active bundles · AI-powered creation and optimization">4 active bundles · AI-powered creation and optimization</p>
+
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-label" data-i18n="Active Bundles">Active Bundles</div>
+                        <div class="stat-value">4</div>
+                        <div class="stat-change up" data-i18n="+1 this month">+1 this month</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label" data-i18n="Bundle Revenue">Bundle Revenue</div>
+                        <div class="stat-value" data-currency>RM 48,560</div>
+                        <div class="stat-change up" data-i18n="+18% vs last month">+18% vs last month</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label" data-i18n="Avg Discount">Avg Discount</div>
+                        <div class="stat-value">22%</div>
+                        <div class="stat-change up" data-i18n="Optimal range">Optimal range</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label" data-i18n="AOV Lift">AOV Lift</div>
+                        <div class="stat-value">+34%</div>
+                        <div class="stat-change up" data-i18n="+5pp vs baseline">+5pp vs baseline</div>
+                    </div>
+                </div>
+
+                <div class="ai-insight">
+                    <div class="ai-insight-header">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--teal-700)" stroke-width="2"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/><path d="M9 21h6"/></svg>
+                        <div class="ai-insight-title" data-i18n="AI Bundle Insights">AI Bundle Insights</div>
+                    </div>
+                    <div class="ai-insight-body" data-i18n="Bundles that combine Heart Health + Immunity products are performing 42% better than single-category bundles. Your 'Wellness Starter Pack' is your top revenue driver but shows early signs of fatigue — consider refreshing the mix with Probiotic. AI suggests testing a 'Family Immunity Bundle' with 4 SKUs at 25% off for Q3.">
+                        Bundles that combine <strong>Heart Health + Immunity</strong> products are performing <strong>42% better</strong> than single-category bundles. Your "Wellness Starter Pack" is your top revenue driver but shows early signs of fatigue — consider refreshing the mix with Probiotic. AI suggests testing a <strong>"Family Immunity Bundle"</strong> with 4 SKUs at 25% off for Q3.
+                    </div>
+                    <div class="ai-suggestion-grid">
+                        <div class="ai-suggestion-card" onclick="openDrawer('Family Immunity Bundle')">
+                            <div class="ai-suggestion-name" data-i18n="Family Immunity Bundle">Family Immunity Bundle</div>
+                            <div class="ai-suggestion-desc" data-i18n="Multivitamin + Vitamin C + Probiotic + Omega-3 · 4 SKUs">Multivitamin + Vitamin C + Probiotic + Omega-3 · 4 SKUs</div>
+                            <div class="ai-suggestion-potential" data-i18n="AI: +28% revenue potential">AI: +28% revenue potential</div>
+                        </div>
+                        <div class="ai-suggestion-card" onclick="openDrawer('Joint & Heart Care Pack')">
+                            <div class="ai-suggestion-name" data-i18n="Joint & Heart Care Pack">Joint & Heart Care Pack</div>
+                            <div class="ai-suggestion-desc" data-i18n="CoQ10 + Glucosamine + Omega-3 · 3 SKUs">CoQ10 + Glucosamine + Omega-3 · 3 SKUs</div>
+                            <div class="ai-suggestion-potential" data-i18n="AI: +19% revenue potential">AI: +19% revenue potential</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="toolbar">
+                    <div class="toolbar-search">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" placeholder="Search bundles..." id="bundleSearch">
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn btn-outline" onclick="showToast('Export to CSV coming soon')" data-i18n="Export"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export</button>
+                        <button class="btn btn-primary" onclick="openDrawer()" data-i18n="Create New Bundle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Create New Bundle</button>
+                    </div>
+                </div>
+
+                <div class="bundle-grid" id="bundleGrid">
+                    <div class="bundle-card" data-name="Wellness Starter Pack">
+                        <div class="bundle-card-header">
+                            <div>
+                                <div class="bundle-card-title" data-i18n="Wellness Starter Pack">Wellness Starter Pack</div>
+                                <div class="bundle-card-sku">SKU: BDL-001</div>
+                            </div>
+                            <div class="bundle-card-status active" data-i18n="Active">Active</div>
+                        </div>
+                        <div class="bundle-card-body">
+                            <div class="bundle-items">
+                                <div class="bundle-item-chip"><span>💊</span> Multivitamin</div>
+                                <div class="bundle-item-chip"><span>🐟</span> Omega-3</div>
+                                <div class="bundle-item-chip"><span>🍊</span> Vitamin C</div>
+                            </div>
+                            <div class="bundle-pricing">
+                                <div class="bundle-price" data-currency>RM 198.00</div>
+                                <div class="bundle-orig" data-currency>RM 263.00</div>
+                                <div class="bundle-save" data-i18n="Save 25%">Save 25%</div>
+                            </div>
+                            <div class="bundle-metrics">
+                                <div class="bundle-metric">
+                                    <div class="bundle-metric-label" data-i18n="Units Sold">Units Sold</div>
+                                    <div class="bundle-metric-value">1,248</div>
+                                </div>
+                                <div class="bundle-metric">
+                                    <div class="bundle-metric-label" data-i18n="Revenue">Revenue</div>
+                                    <div class="bundle-metric-value" data-currency>RM 247k</div>
+                                </div>
+                            </div>
+                            <div class="bundle-actions">
+                                <button class="btn btn-sm btn-outline" onclick="editBundle('BDL-001')" data-i18n="Edit">Edit</button>
+                                <button class="btn btn-sm btn-outline" onclick="duplicateBundle('BDL-001')" data-i18n="Duplicate">Duplicate</button>
+                                <button class="btn btn-sm btn-accent" onclick="pauseBundle('BDL-001')" data-i18n="Pause">Pause</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bundle-card" data-name="Heart Health Essentials">
+                        <div class="bundle-card-header">
+                            <div>
+                                <div class="bundle-card-title" data-i18n="Heart Health Essentials">Heart Health Essentials</div>
+                                <div class="bundle-card-sku">SKU: BDL-002</div>
+                            </div>
+                            <div class="bundle-card-status active" data-i18n="Active">Active</div>
+                        </div>
+                        <div class="bundle-card-body">
+                            <div class="bundle-items">
+                                <div class="bundle-item-chip"><span>❤️</span> CoQ10</div>
+                                <div class="bundle-item-chip"><span>🐟</span> Omega-3</div>
+                            </div>
+                            <div class="bundle-pricing">
+                                <div class="bundle-price" data-currency>RM 178.00</div>
+                                <div class="bundle-orig" data-currency>RM 233.00</div>
+                                <div class="bundle-save" data-i18n="Save 24%">Save 24%</div>
+                            </div>
+                            <div class="bundle-metrics">
+                                <div class="bundle-metric">
+                                    <div class="bundle-metric-label" data-i18n="Units Sold">Units Sold</div>
+                                    <div class="bundle-metric-value">892</div>
+                                </div>
+                                <div class="bundle-metric">
+                                    <div class="bundle-metric-label" data-i18n="Revenue">Revenue</div>
+                                    <div class="bundle-metric-value" data-currency>RM 159k</div>
+                                </div>
+                            </div>
+                            <div class="bundle-actions">
+                                <button class="btn btn-sm btn-outline" onclick="editBundle('BDL-002')" data-i18n="Edit">Edit</button>
+                                <button class="btn btn-sm btn-outline" onclick="duplicateBundle('BDL-002')" data-i18n="Duplicate">Duplicate</button>
+                                <button class="btn btn-sm btn-accent" onclick="pauseBundle('BDL-002')" data-i18n="Pause">Pause</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bundle-card" data-name="Immunity Boost Duo">
+                        <div class="bundle-card-header">
+                            <div>
+                                <div class="bundle-card-title" data-i18n="Immunity Boost Duo">Immunity Boost Duo</div>
+                                <div class="bundle-card-sku">SKU: BDL-003</div>
+                            </div>
+                            <div class="bundle-card-status active" data-i18n="Active">Active</div>
+                        </div>
+                        <div class="bundle-card-body">
+                            <div class="bundle-items">
+                                <div class="bundle-item-chip"><span>🍊</span> Vitamin C</div>
+                                <div class="bundle-item-chip"><span>🦠</span> Probiotic</div>
+                            </div>
+                            <div class="bundle-pricing">
+                                <div class="bundle-price" data-currency>RM 128.00</div>
+                                <div class="bundle-orig" data-currency>RM 160.00</div>
+                                <div class="bundle-save" data-i18n="Save 20%">Save 20%</div>
+                            </div>
+                            <div class="bundle-metrics">
+                                <div class="bundle-metric">
+                                    <div class="bundle-metric-label" data-i18n="Units Sold">Units Sold</div>
+                                    <div class="bundle-metric-value">756</div>
+                                </div>
+                                <div class="bundle-metric">
+                                    <div class="bundle-metric-label" data-i18n="Revenue">Revenue</div>
+                                    <div class="bundle-metric-value" data-currency>RM 97k</div>
+                                </div>
+                            </div>
+                            <div class="bundle-actions">
+                                <button class="btn btn-sm btn-outline" onclick="editBundle('BDL-003')" data-i18n="Edit">Edit</button>
+                                <button class="btn btn-sm btn-outline" onclick="duplicateBundle('BDL-003')" data-i18n="Duplicate">Duplicate</button>
+                                <button class="btn btn-sm btn-accent" onclick="pauseBundle('BDL-003')" data-i18n="Pause">Pause</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bundle-card" data-name="Complete Joint Care">
+                        <div class="bundle-card-header">
+                            <div>
+                                <div class="bundle-card-title" data-i18n="Complete Joint Care">Complete Joint Care</div>
+                                <div class="bundle-card-sku">SKU: BDL-004</div>
+                            </div>
+                            <div class="bundle-card-status paused" data-i18n="Paused">Paused</div>
+                        </div>
+                        <div class="bundle-card-body">
+                            <div class="bundle-items">
+                                <div class="bundle-item-chip"><span>🦴</span> Glucosamine</div>
+                                <div class="bundle-item-chip"><span>🐟</span> Omega-3</div>
+                                <div class="bundle-item-chip"><span>❤️</span> CoQ10</div>
+                            </div>
+                            <div class="bundle-pricing">
+                                <div class="bundle-price" data-currency>RM 218.00</div>
+                                <div class="bundle-orig" data-currency>RM 308.00</div>
+                                <div class="bundle-save" data-i18n="Save 29%">Save 29%</div>
+                            </div>
+                            <div class="bundle-metrics">
+                                <div class="bundle-metric">
+                                    <div class="bundle-metric-label" data-i18n="Units Sold">Units Sold</div>
+                                    <div class="bundle-metric-value">423</div>
+                                </div>
+                                <div class="bundle-metric">
+                                    <div class="bundle-metric-label" data-i18n="Revenue">Revenue</div>
+                                    <div class="bundle-metric-value" data-currency>RM 92k</div>
+                                </div>
+                            </div>
+                            <div class="bundle-actions">
+                                <button class="btn btn-sm btn-outline" onclick="editBundle('BDL-004')" data-i18n="Edit">Edit</button>
+                                <button class="btn btn-sm btn-outline" onclick="duplicateBundle('BDL-004')" data-i18n="Duplicate">Duplicate</button>
+                                <button class="btn btn-sm btn-primary" onclick="activateBundle('BDL-004')" data-i18n="Activate">Activate</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Drawer Overlay -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+    <div class="bundle-drawer" id="bundleDrawer">
+        <div class="drawer-header">
+            <div class="drawer-title" id="drawerTitle" data-i18n="Create New Bundle">Create New Bundle</div>
+            <button class="drawer-close" onclick="closeDrawer()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <div class="drawer-body">
+            <div class="form-group">
+                <label class="form-label" data-i18n="Bundle Name">Bundle Name</label>
+                <input type="text" class="form-input" id="bundleNameInput" placeholder="e.g. Family Immunity Bundle">
+            </div>
+            <div class="form-group">
+                <label class="form-label" data-i18n="Select Products (2-4)">Select Products (2-4)</label>
+                <div class="product-select-list" id="productSelectList">
+                    <div class="product-select-item" data-sku="MV001" data-price="120" onclick="toggleProduct(this)">
+                        <div class="emoji">💊</div>
+                        <div class="name">Multivitamin</div>
+                        <div class="price" data-currency>RM 120</div>
+                    </div>
+                    <div class="product-select-item" data-sku="OM002" data-price="88" onclick="toggleProduct(this)">
+                        <div class="emoji">🐟</div>
+                        <div class="name">Omega-3</div>
+                        <div class="price" data-currency>RM 88</div>
+                    </div>
+                    <div class="product-select-item" data-sku="CQ003" data-price="145" onclick="toggleProduct(this)">
+                        <div class="emoji">❤️</div>
+                        <div class="name">CoQ10</div>
+                        <div class="price" data-currency>RM 145</div>
+                    </div>
+                    <div class="product-select-item" data-sku="VC004" data-price="55" onclick="toggleProduct(this)">
+                        <div class="emoji">🍊</div>
+                        <div class="name">Vitamin C</div>
+                        <div class="price" data-currency>RM 55</div>
+                    </div>
+                    <div class="product-select-item" data-sku="PB005" data-price="105" onclick="toggleProduct(this)">
+                        <div class="emoji">🦠</div>
+                        <div class="name">Probiotic</div>
+                        <div class="price" data-currency>RM 105</div>
+                    </div>
+                    <div class="product-select-item" data-sku="GL006" data-price="75" onclick="toggleProduct(this)">
+                        <div class="emoji">🦴</div>
+                        <div class="name">Glucosamine</div>
+                        <div class="price" data-currency>RM 75</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label" data-i18n="Bundle Discount">Bundle Discount</label>
+                <div class="discount-slider">
+                    <input type="range" min="5" max="40" value="20" id="discountSlider" oninput="updatePreview()">
+                    <div class="discount-value" id="discountValue">20%</div>
+                </div>
+            </div>
+            <div class="preview-box" id="previewBox">
+                <div class="preview-row"><span data-i18n="Subtotal">Subtotal</span><span id="previewSubtotal" data-currency>RM 0</span></div>
+                <div class="preview-row"><span data-i18n="Discount">Discount</span><span id="previewDiscount" data-currency>-RM 0</span></div>
+                <div class="preview-row"><span data-i18n="Bundle Price">Bundle Price</span><span id="previewTotal" data-currency>RM 0</span></div>
+            </div>
+            <div style="display:flex; gap:12px; margin-top:24px;">
+                <button class="btn btn-outline" style="flex:1;" onclick="closeDrawer()" data-i18n="Cancel">Cancel</button>
+                <button class="btn btn-primary" style="flex:1;" onclick="saveBundle()" data-i18n="Save Bundle">Save Bundle</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Widget -->
+    <button class="ai-float-btn" onclick="toggleAI()">✨</button>
+    <div class="ai-widget" id="aiWidget">
+        <div class="ai-widget-header" style="display:flex; gap:12px; align-items:center;">
+            <div class="ai-avatar">AI</div>
+            <div>
+                <div class="ai-widget-title">B.More</div>
+                <div class="ai-widget-subtitle">Your AI assistant</div>
+            </div>
+        </div>
+        <div class="ai-widget-body" id="aiMessages">
+            <div class="ai-msg-bubble bot" data-i18n="Hi! I can help you create bundles, optimize pricing, predict revenue, or suggest product combinations based on sales data. What would you like to do?">Hi! I can help you create bundles, optimize pricing, predict revenue, or suggest product combinations based on sales data. What would you like to do?</div>
+        </div>
+        <div class="ai-chips" style="padding:0 16px 12px;">
+            <span class="ai-chip" onclick="aiAsk('Suggest a new bundle')" data-i18n="Suggest a new bundle">Suggest a new bundle</span>
+            <span class="ai-chip" onclick="aiAsk('Optimize pricing for BDL-001')" data-i18n="Optimize pricing for BDL-001">Optimize pricing for BDL-001</span>
+            <span class="ai-chip" onclick="aiAsk('Predict Q3 bundle revenue')" data-i18n="Predict Q3 bundle revenue">Predict Q3 bundle revenue</span>
+        </div>
+        <div class="ai-widget-footer">
+            <input type="text" class="ai-widget-input" placeholder="Ask me anything..." id="aiInput" onkeypress="if(event.key==='Enter')sendAI()">
+            <button class="ai-widget-send" onclick="sendAI()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let selectedProducts = new Set();
+        const products = {
+            MV001: { name: 'Multivitamin', price: 120, emoji: '💊' },
+            OM002: { name: 'Omega-3', price: 88, emoji: '🐟' },
+            CQ003: { name: 'CoQ10', price: 145, emoji: '❤️' },
+            VC004: { name: 'Vitamin C', price: 55, emoji: '🍊' },
+            PB005: { name: 'Probiotic', price: 105, emoji: '🦠' },
+            GL006: { name: 'Glucosamine', price: 75, emoji: '🦴' }
+        };
+
+        function openDrawer(prefillName) {
+            document.getElementById('drawerOverlay').classList.add('show');
+            document.getElementById('bundleDrawer').classList.add('open');
+            if (prefillName) {
+                document.getElementById('drawerTitle').textContent = 'Create Bundle: ' + prefillName;
+                document.getElementById('bundleNameInput').value = prefillName;
+            } else {
+                document.getElementById('drawerTitle').textContent = 'Create New Bundle';
+                document.getElementById('bundleNameInput').value = '';
+            }
+            selectedProducts.clear();
+            document.querySelectorAll('.product-select-item').forEach(el => el.classList.remove('selected'));
+            updatePreview();
+        }
+        function closeDrawer() {
+            document.getElementById('drawerOverlay').classList.remove('show');
+            document.getElementById('bundleDrawer').classList.remove('open');
+        }
+        function toggleProduct(el) {
+            const sku = el.dataset.sku;
+            if (selectedProducts.has(sku)) {
+                selectedProducts.delete(sku);
+                el.classList.remove('selected');
+            } else {
+                if (selectedProducts.size >= 4) {
+                    showToast('Maximum 4 products per bundle');
+                    return;
+                }
+                selectedProducts.add(sku);
+                el.classList.add('selected');
+            }
+            updatePreview();
+        }
+        function updatePreview() {
+            const discount = parseInt(document.getElementById('discountSlider').value);
+            document.getElementById('discountValue').textContent = discount + '%';
+            let subtotal = 0;
+            selectedProducts.forEach(sku => { subtotal += products[sku].price; });
+            const discountAmt = subtotal * (discount / 100);
+            const total = subtotal - discountAmt;
+            document.getElementById('previewSubtotal').textContent = 'RM ' + subtotal.toFixed(2);
+            document.getElementById('previewDiscount').textContent = '-RM ' + discountAmt.toFixed(2);
+            document.getElementById('previewTotal').textContent = 'RM ' + total.toFixed(2);
+        }
+        function saveBundle() {
+            const name = document.getElementById('bundleNameInput').value.trim();
+            if (!name) { showToast('Please enter a bundle name'); return; }
+            if (selectedProducts.size < 2) { showToast('Select at least 2 products'); return; }
+            showToast('Bundle "' + name + '" saved successfully');
+            closeDrawer();
+        }
+        function editBundle(sku) { showToast('Edit bundle ' + sku); }
+        function duplicateBundle(sku) { showToast('Duplicated ' + sku); }
+        function pauseBundle(sku) { showToast('Paused ' + sku); }
+        function activateBundle(sku) { showToast('Activated ' + sku); }
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+        function toggleAI() { document.getElementById('aiWidget').classList.toggle('open'); }
+        function aiAsk(text) {
+            const msgArea = document.getElementById('aiMessages');
+            msgArea.innerHTML += '<div class="ai-msg-bubble user">' + text + '</div>';
+            setTimeout(() => {
+                msgArea.innerHTML += '<div class="ai-msg-bubble bot" data-i18n="I\'ll analyze that for you. One moment...">I\'ll analyze that for you. One moment...</div>';
+                msgArea.scrollTop = msgArea.scrollHeight;
+            }, 600);
+        }
+        function sendAI() {
+            const input = document.getElementById('aiInput');
+            if (!input.value.trim()) return;
+            aiAsk(input.value);
+            input.value = '';
+        }
+        document.getElementById('bundleSearch').addEventListener('input', function(e) {
+            const q = e.target.value.toLowerCase();
+            document.querySelectorAll('.bundle-card').forEach(card => {
+                const name = card.dataset.name.toLowerCase();
+                card.style.display = name.includes(q) ? '' : 'none';
+            });
+        });
+    </script>
+
+<script>
+(function(){
+    function highlightCurrentPage() {
+        var current = window.location.pathname.split('/').pop() || 'index.html';
+        document.querySelectorAll('.sidebar-link').forEach(function(link) {
+            var href = link.getAttribute('href');
+            if (!href) return;
+            var hrefClean = href.split('#')[0].split('?')[0];
+            if (hrefClean === current) {
+                link.classList.add('active');
+                var sub = link.closest('.sidebar-submenu');
+                if (sub) sub.classList.add('open');
+            }
+        });
+    }
+    function restoreSidebarState() {
+        var mod = document.body.dataset.module || 'home';
+        var state = JSON.parse(localStorage.getItem('sidebarState') || '{}');
+        document.querySelectorAll('.sidebar-section').forEach(function(sec) {
+            var id = sec.id; if (!id) return;
+            var key = mod + '-' + id;
+            var isOpen = state[key];
+            if (isOpen !== undefined) {
+                var chev = sec.querySelector('.sidebar-chevron');
+                var sub = sec.querySelector('.sidebar-submenu');
+                if (isOpen) { if (chev) chev.classList.add('open'); if (sub) sub.classList.add('open'); }
+                else { if (chev) chev.classList.remove('open'); if (sub) sub.classList.remove('open'); }
+            }
+        });
+    }
+    window.toggleSection = function(id) {
+        var chev = document.getElementById('chevron-' + id);
+        var sub = document.getElementById('submenu-' + id);
+        if (chev && sub) {
+            var isOpen = chev.classList.toggle('open');
+            sub.classList.toggle('open', isOpen);
+            var mod = document.body.dataset.module || 'home';
+            var state = JSON.parse(localStorage.getItem('sidebarState') || '{}');
+            state[mod + '-sidebar-' + id] = isOpen;
+            localStorage.setItem('sidebarState', JSON.stringify(state));
+        }
+    };
+    window.toggleMenu = function(header) {
+        var sec = header.closest('.sidebar-section'); if (!sec) return;
+        var sub = sec.querySelector('.sidebar-submenu');
+        var chev = sec.querySelector('.sidebar-chevron');
+        if (sub && chev) {
+            var isOpen = sub.classList.toggle('open');
+            chev.classList.toggle('open', isOpen);
+            var mod = document.body.dataset.module || 'home';
+            var state = JSON.parse(localStorage.getItem('sidebarState') || '{}');
+            state[mod + '-' + sec.id] = isOpen;
+            localStorage.setItem('sidebarState', JSON.stringify(state));
+        }
+    };
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() { highlightCurrentPage(); restoreSidebarState(); });
+    } else { highlightCurrentPage(); restoreSidebarState(); }
+})();
+</script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content Engine · Blackmores · Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
+    --ink:#16201f; --muted:#6a7472; --bg:#f4f7f7; --card:#fff; --line:#e6ecec;
+    --pos:#1f9d57; --neg:#e0564a; --warn:#c98a2b;
+    --display:Georgia,'Times New Roman','Songti SC','Hiragino Mincho ProN',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans','Microsoft YaHei','Thonburi','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  button{font-family:inherit;cursor:pointer}
+  .sp{flex:1}
+  .chip{display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:12px;font-weight:600;cursor:pointer;position:relative}
+  .menu{position:absolute;top:40px;right:0;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:6px;min-width:120px;box-shadow:0 12px 30px rgba(0,0,0,.12);display:none;z-index:50}
+  .menu.open{display:block}.menu button{display:block;width:100%;border:0;background:0;font:inherit;font-size:13px;padding:8px 9px;border-radius:7px;cursor:pointer;text-align:left;color:var(--ink)}.menu button:hover{background:var(--soft)}
+  .langs{display:flex;gap:3px}
+  .langs button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;font-weight:600;color:var(--muted);min-width:32px;height:30px;border-radius:8px;cursor:pointer;transition:.2s;padding:0 6px}
+  .langs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 18px 70px}
+  .hero-top{display:flex;align-items:center;gap:16px;margin:2px 0 6px}
+  .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:800}
+  h1.h{font-family:var(--display);font-weight:400;font-size:clamp(31px,4vw,47px);line-height:1.12;letter-spacing:-.01em;max-width:35ch;margin:8px 0 9px}
+  .hero-lead{color:var(--muted);font-size:15px;max-width:82ch;line-height:1.55}
+  .hero-proof{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+  .hero-proof .pc{font-size:11px;font-weight:800;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 13px;color:var(--brand-d)}
+  .hero-proof .pc b{color:var(--accent)}
+  .tabs{display:flex;gap:4px;margin:28px 0 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tabs button{border:0;background:0;font:inherit;font-size:13.5px;font-weight:700;color:var(--muted);padding:11px 12px;cursor:pointer;border-bottom:2px solid transparent}
+  .tabs button.on{color:var(--brand);border-color:var(--brand)}
+  h2.sec{font-family:var(--display);font-size:21px;margin-bottom:3px}.lead{color:var(--muted);font-size:13px;margin-bottom:16px}
+
+  .ph{border-radius:12px;background:linear-gradient(135deg,var(--soft),#eef5f5);display:grid;place-items:center;font-size:34px;color:var(--brand-d);position:relative;overflow:hidden}
+  .ph img{max-width:85%;max-height:85%;object-fit:contain;border-radius:8px}
+  .ph .lk{position:absolute;bottom:5px;right:7px;font-family:var(--display);font-size:9px;font-weight:700;color:var(--brand-d);opacity:.6}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+  .acard{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:.18s}
+  .acard:hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(0,0,0,.07);border-color:var(--brand)}
+  .acard .ph{height:120px;border-radius:0}
+  .acard .meta{padding:11px 12px}.acard .nm{font-weight:700;font-size:13.5px}
+  .acard .tg{font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;margin-top:5px;display:inline-block;background:var(--soft);color:var(--brand)}
+  .acard .src{font-size:10.5px;font-weight:700;margin-top:5px;display:inline-block}
+  .src-off{color:#3a6ea5}.src-ai{color:#8043b5}.src-tpl{color:var(--accent)}
+
+  .back{border:0;background:0;color:var(--brand);font:inherit;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:12px}
+  .detail{display:grid;grid-template-columns:300px 1fr;gap:22px}
+  .detail .hero{height:220px}.dh{font-family:var(--display);font-size:20px;margin-bottom:3px}
+  .fmtlab{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:6px 0 10px}
+  .fmts{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+  .fmt{border:1px solid var(--line);border-radius:10px;padding:9px;text-align:center;cursor:pointer;transition:.15s}
+  .fmt:hover{border-color:var(--brand);background:var(--soft)}
+  .fmt:hover .box{border-color:var(--brand)}
+  .fmt .box{margin:0 auto 7px;background:var(--soft);border:1px solid var(--line);border-radius:5px;display:grid;place-items:center;overflow:hidden;transition:.15s}
+  .fmt .box img{width:60%;height:60%;object-fit:contain;opacity:.85}
+  .fmt .fn{font-size:11px;font-weight:700}.fmt .fr{font-size:10px;color:var(--muted)}
+  .btn{border:0;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:13.5px;padding:11px 16px;border-radius:11px;cursor:pointer}
+  .btn.o{background:var(--soft);color:var(--brand)}
+  .acts{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
+
+  /* studio */
+  .studio{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+  .modes{display:flex;gap:8px;margin-bottom:14px}
+  .modeb{flex:1;border:1px solid var(--line);background:var(--bg);border-radius:11px;padding:11px;font:inherit;font-weight:700;font-size:13px;cursor:pointer;text-align:center}
+  .modeb.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .lab{font-size:12px;font-weight:700;color:var(--muted);margin:13px 0 7px}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .pc{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:7px 11px;font-size:12px;font-weight:600;cursor:pointer}
+  .pc.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .lock{display:flex;align-items:center;gap:8px;font-size:13px;margin:7px 0;cursor:pointer}
+  .ck{width:18px;height:18px;border-radius:5px;border:2px solid var(--brand);display:grid;place-items:center;font-size:11px;color:#fff}
+  .ck.on{background:var(--brand)}
+  .field{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit;font-size:13.5px;resize:vertical;min-height:60px}
+  .optim{background:var(--soft);border-radius:10px;padding:11px;font-size:12.5px;margin-top:9px;display:none}
+  .optim.show{display:block}
+  .comp{border-radius:9px;padding:9px 11px;font-size:12px;margin-top:10px;font-weight:600}
+  .comp.pass{background:color-mix(in srgb,var(--pos) 12%,#fff);color:var(--pos)}
+  .comp.warn{background:color-mix(in srgb,var(--warn) 14%,#fff);color:var(--warn)}
+  .comp.block{background:color-mix(in srgb,var(--neg) 12%,#fff);color:var(--neg)}
+  .srcasset{display:flex;gap:11px;align-items:center;background:var(--bg);border-radius:11px;padding:10px;margin-bottom:8px}
+  .srcasset .ph{width:54px;height:54px;font-size:22px;border-radius:9px;flex-shrink:0}
+  .outgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px;align-items:start}
+  .gen-card{position:relative;aspect-ratio:1/1;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#eef5f5;box-shadow:0 12px 28px rgba(12,38,38,.08);cursor:zoom-in}
+  .gen-card:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 15%,rgba(255,255,255,.86),transparent 34%),radial-gradient(circle at 82% 18%,rgba(255,255,255,.5),transparent 22%),linear-gradient(135deg,rgba(255,255,255,.42),rgba(255,255,255,0));z-index:1}
+  .gen-card:after{content:"";position:absolute;left:16%;right:14%;bottom:18px;height:24px;border-radius:50%;background:rgba(24,52,48,.18);filter:blur(14px);z-index:1}
+  .gen-card img{position:absolute;z-index:3;right:12%;bottom:16px;max-width:48%;max-height:78%;object-fit:contain;filter:drop-shadow(0 18px 18px rgba(20,34,34,.28))}
+  .gen-card .scene-copy{position:absolute;z-index:4;left:14px;right:48%;top:14px;color:#18302e}
+  .gen-card .scene-copy b{display:block;font-family:var(--display);font-size:17px;line-height:1.08;margin-bottom:5px;color:#102523}
+  .gen-card .scene-copy span{display:block;font-size:10.8px;font-weight:800;color:rgba(22,32,31,.68);line-height:1.35}
+  .gen-card .format{position:absolute;z-index:4;left:14px;bottom:12px;font-size:10px;font-weight:900;color:var(--brand);background:rgba(255,255,255,.78);backdrop-filter:blur(8px);border-radius:999px;padding:4px 8px}
+  .gen-card .orb{position:absolute;z-index:2;border-radius:50%;filter:blur(.2px);mix-blend-mode:screen;opacity:.86}
+  .gen-card .orb.o1{width:74px;height:74px;right:10px;top:12px;background:rgba(255,255,255,.5)}
+  .gen-card .orb.o2{width:38px;height:38px;left:46%;top:26%;background:rgba(0,155,164,.18)}
+  .gen-card .spark{position:absolute;z-index:4;width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 14px #fff,18px 28px 0 rgba(255,255,255,.68),-24px 42px 0 rgba(255,255,255,.5);right:18%;top:22%}
+  .gen-card .ribbon{position:absolute;z-index:2;left:-14%;right:-8%;bottom:0;height:36%;background:linear-gradient(100deg,rgba(255,255,255,.18),rgba(255,255,255,.72),rgba(255,255,255,.08));transform:skewY(-8deg);opacity:.78}
+  .gen-card.pack-1{filter:saturate(1.12) contrast(1.02)}
+  .gen-card.pack-1:before{background:radial-gradient(circle at 18% 18%,rgba(255,255,255,.92),transparent 28%),radial-gradient(circle at 80% 36%,rgba(233,30,99,.18),transparent 30%),linear-gradient(135deg,rgba(255,255,255,.28),rgba(255,255,255,0))}
+  .gen-card.pack-1 img{right:9%;bottom:18px;max-width:52%}
+  .gen-card.pack-2{filter:saturate(1.04) contrast(1.08)}
+  .gen-card.pack-2:before{background:radial-gradient(circle at 26% 14%,rgba(255,255,255,.9),transparent 34%),radial-gradient(circle at 70% 20%,rgba(0,155,164,.22),transparent 27%),linear-gradient(145deg,rgba(255,255,255,.5),rgba(255,255,255,0))}
+  .gen-card.pack-2 .ribbon{height:44%;transform:skewY(7deg);background:linear-gradient(100deg,rgba(255,255,255,.05),rgba(255,255,255,.78),rgba(0,155,164,.12))}
+  .gen-card.scene-0{background:linear-gradient(135deg,#dff4f0,#fff8ed 62%,#f6e7d0)}
+  .gen-card.scene-0 .prop{position:absolute;z-index:2;left:10%;bottom:26px;width:72%;height:42px;border-radius:50%;background:linear-gradient(90deg,#d6c3a4,#fff2d6,#b89562);opacity:.65}
+  .gen-card.scene-0 .leaf{position:absolute;z-index:2;width:62px;height:24px;border-radius:60% 10% 60% 10%;background:#71a977;transform:rotate(-24deg);left:15px;bottom:50px;opacity:.85}
+  .gen-card.scene-1{background:linear-gradient(140deg,#e6f2ff,#f5fbff 48%,#dbe8f7)}
+  .gen-card.scene-1 .prop{position:absolute;z-index:2;right:-22px;top:22px;width:122px;height:122px;border-radius:50%;background:repeating-conic-gradient(from 15deg,#fff 0 9deg,#cfe1ec 9deg 18deg);opacity:.8}
+  .gen-card.scene-1 .leaf{position:absolute;z-index:2;left:18px;bottom:28px;width:84px;height:34px;border-radius:999px;background:rgba(255,255,255,.72);box-shadow:0 0 0 1px rgba(255,255,255,.9) inset}
+  .gen-card.scene-2{background:linear-gradient(145deg,#edf7e7,#fff 50%,#d9edd1)}
+  .gen-card.scene-2{aspect-ratio:3/4}
+  .gen-card.scene-2 .prop{position:absolute;z-index:2;left:-18px;bottom:-12px;width:150px;height:90px;border-radius:50%;background:#8fcf92;opacity:.45}
+  .gen-card.scene-2 .leaf{position:absolute;z-index:2;left:36px;bottom:38px;width:44px;height:70px;border-radius:70% 20% 70% 20%;background:#3d8a62;transform:rotate(28deg);opacity:.78}
+  .gen-card.scene-3{background:linear-gradient(135deg,#f3eaff,#fff7fb 54%,#ead8f1)}
+  .gen-card.scene-3{aspect-ratio:9/16}
+  .gen-card.scene-3 .prop{position:absolute;z-index:2;right:22px;bottom:24px;width:112px;height:48px;border-radius:50%;background:#d6b6de;opacity:.5}
+  .gen-card.scene-3 .leaf{position:absolute;z-index:2;left:17px;bottom:48px;width:70px;height:28px;border-radius:18px;background:linear-gradient(90deg,#fff,#f0d8ec);opacity:.82}
+  .outwrap{position:relative}.outwrap .save{position:absolute;right:10px;bottom:10px;z-index:5;border:0;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);color:var(--brand);font:inherit;font-weight:800;font-size:12px;padding:7px 10px;border-radius:10px;cursor:pointer;box-shadow:0 5px 16px rgba(15,40,40,.12)}
+  .gmodal{position:fixed;inset:0;z-index:95;display:none}
+  .gmodal.show{display:block}
+  .gmback{position:absolute;inset:0;background:rgba(11,19,32,.62);backdrop-filter:blur(3px)}
+  .gmcard{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(92vw,980px);height:min(90vh,820px);display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:16px;align-items:center}
+  .gmstage{display:grid;place-items:center;min-height:0;height:100%}
+  .gmstage .gen-card{width:auto;height:auto;max-width:100%;max-height:100%;box-shadow:0 28px 80px rgba(0,0,0,.34);cursor:default}
+  .gmstage .gen-card.scene-0,.gmstage .gen-card.scene-1{width:min(70vh,640px)}
+  .gmstage .gen-card.scene-2{height:min(82vh,720px)}
+  .gmstage .gen-card.scene-3{height:min(86vh,760px)}
+  .gminfo{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 20px 54px rgba(0,0,0,.22)}
+  .gminfo h3{font-family:var(--display);font-size:20px;line-height:1.15;margin-bottom:8px}
+  .gminfo p{font-size:13px;color:var(--muted);line-height:1.55;margin-bottom:12px}
+  .gminfo .meta{display:grid;gap:8px;font-size:12px}.gminfo .meta div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed var(--line);padding-bottom:7px}
+  .gminfo .meta b{color:var(--brand)}
+  .gmclose{position:fixed;top:18px;right:18px;z-index:96;border:0;background:#fff;color:var(--ink);width:38px;height:38px;border-radius:50%;font-size:18px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.22)}
+  .gmnav{position:fixed;top:50%;transform:translateY(-50%);z-index:96;border:0;background:rgba(255,255,255,.94);color:var(--brand);width:44px;height:52px;border-radius:14px;font-size:28px;font-weight:900;cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,.24)}
+  .gmnav.prev{left:20px}.gmnav.next{right:20px}
+  .outtop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}.outtop .lab{margin:0}
+  .vidout{height:180px;border-radius:12px;display:grid;place-items:center;font-size:40px;color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand-d));position:relative;margin-top:6px}
+  .board{font-size:12px;color:var(--ink);background:var(--bg);border-radius:10px;padding:11px;margin-top:10px;line-height:1.6;white-space:pre-line}
+  .empty{text-align:center;color:var(--muted);font-size:13.5px;padding:40px 20px}
+  .engine-hero{display:grid;grid-template-columns:1.05fr .95fr;gap:16px;margin-bottom:16px}
+  .engine-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+  .engine-card h3{font-family:var(--display);font-size:18px;line-height:1.2;margin-bottom:8px}
+  .engine-card p{font-size:13px;color:var(--muted);line-height:1.58}
+  .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}
+  .flow .step{background:var(--soft);border:1px solid color-mix(in srgb,var(--brand) 20%,var(--line));border-radius:12px;padding:12px;min-height:126px}
+  .flow .num{font-size:11px;font-weight:900;color:var(--brand);letter-spacing:.08em}
+  .flow b{display:block;font-size:13.5px;margin:6px 0 4px;line-height:1.25}
+  .flow span{display:block;font-size:11.5px;color:var(--muted);line-height:1.38}
+  .brief-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .brief{border:1px solid var(--line);border-radius:14px;padding:14px;background:linear-gradient(180deg,#fff,var(--bg))}
+  .brief .tag{font-size:10.5px;font-weight:900;color:var(--brand);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+  .brief h4{font-size:14px;line-height:1.25;margin-bottom:7px}
+  .brief ul{list-style:none;margin:0;padding:0}
+  .brief li{font-size:12px;color:var(--muted);padding:5px 0 5px 15px;position:relative;border-bottom:1px dashed var(--line)}
+  .brief li:last-child{border-bottom:0}
+  .brief li:before{content:"";position:absolute;left:2px;top:12px;width:5px;height:5px;border-radius:50%;background:var(--brand)}
+  .variant-table{display:grid;gap:8px;margin-top:10px}
+  .variant-row{display:grid;grid-template-columns:1.1fr .9fr .9fr .8fr;gap:8px;align-items:center;border:1px solid var(--line);border-radius:11px;padding:10px;background:var(--card);font-size:12px}
+  .variant-row.head{background:var(--soft);font-weight:900;color:var(--brand-d)}
+  .score{height:8px;background:var(--soft);border-radius:99px;overflow:hidden}.score i{display:block;height:100%;background:var(--brand)}
+  .lane{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+  .mini-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
+  .mini-head h3{font-family:var(--display);font-size:17px;line-height:1.2}
+  .pill{font-size:10.5px;font-weight:900;color:var(--brand);background:var(--soft);border-radius:999px;padding:4px 9px;white-space:nowrap}
+  .signal-list{display:grid;gap:8px}
+  .signal{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:11px;font-size:12px}
+  .signal .ic{width:32px;height:32px;border-radius:9px;background:var(--soft);display:grid;place-items:center;font-size:16px}
+  .signal b{display:block;font-size:13px}.signal span{display:block;color:var(--muted);font-size:11.5px}
+  .signal .src{color:var(--brand);font-weight:900;font-size:11px}
+  .canvas{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .canvas-card{border:1px solid var(--line);border-radius:13px;background:#fff;padding:13px;min-height:142px}
+  .canvas-card h4{font-size:13.5px;margin-bottom:6px}.canvas-card p{font-size:12px;color:var(--muted);line-height:1.45}
+  .canvas-card .tag{display:inline-block;margin-top:9px;font-size:10.5px;font-weight:900;color:var(--brand);background:var(--soft);border-radius:999px;padding:3px 8px}
+  .matrix{display:grid;gap:8px}
+  .matrix-row{display:grid;grid-template-columns:1fr 1.25fr .8fr .55fr;gap:8px;align-items:center;border:1px solid var(--line);border-radius:11px;background:#fff;padding:10px;font-size:12px}
+  .matrix-row.head{background:var(--soft);font-weight:900;color:var(--brand-d)}
+  .subnav{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px}
+  .subnav button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12.5px;font-weight:800;color:var(--muted);padding:8px 12px;border-radius:999px;cursor:pointer}
+  .subnav button.on{background:var(--brand);border-color:var(--brand);color:#fff}
+  .asset-top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:15px}
+  .asset-summary{border:1px solid var(--line);border-radius:14px;background:#fff;padding:13px}
+  .asset-summary b{font-family:var(--display);font-size:22px;color:var(--brand);display:block;line-height:1}
+  .asset-summary span{font-size:11.5px;color:var(--muted);font-weight:800}
+  .guard-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .guard{border:1px solid var(--line);border-radius:14px;background:#fff;padding:14px}
+  .guard h4{font-size:13.5px;margin-bottom:8px}.guard li{font-size:12px;color:var(--muted);margin:6px 0 0 15px}
+  .approval{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}
+  .approval div{border:1px solid var(--line);border-radius:12px;background:var(--soft);padding:12px;font-size:12px}
+  .approval b{display:block;color:var(--brand-d);font-size:13px;margin-bottom:5px}
+  @media(max-width:760px){.engine-hero,.lane{grid-template-columns:1fr}.flow,.brief-grid,.canvas,.asset-top,.guard-grid,.approval,.outgrid{grid-template-columns:1fr}.variant-row,.matrix-row{grid-template-columns:1fr}.gmcard{grid-template-columns:1fr;width:92vw;height:92vh;overflow:auto}.gminfo{max-width:100%}.gmstage{height:auto}.gmstage .gen-card.scene-0,.gmstage .gen-card.scene-1{width:88vw}.gmstage .gen-card.scene-2,.gmstage .gen-card.scene-3{height:auto;width:min(88vw,430px)}}
+
+  .sw{width:42px;height:24px;border-radius:999px;background:var(--line);position:relative;cursor:pointer;transition:.2s;flex-shrink:0}
+  .sw.on{background:var(--brand)}.sw i{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s}.sw.on i{left:21px}
+  .libactions{display:flex;align-items:center;gap:8px;padding:10px 12px;border-top:1px solid var(--line);font-size:12px}
+  .cby{font-size:11px;color:var(--muted);margin-top:4px}
+  .uses{font-size:11px;color:var(--brand);font-weight:700}
+
+  .fab{position:fixed;right:18px;bottom:18px;width:50px;height:50px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:20px;box-shadow:0 8px 22px rgba(0,0,0,.2);cursor:pointer;z-index:40}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(50px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:11px;font-size:14px;font-weight:600;z-index:80;opacity:0;transition:.3s;max-width:90%;text-align:center}
+  .toast.show{transform:translateX(-50%);opacity:1}
+  /* proof points */
+  .proof{margin-top:32px;padding-top:24px;border-top:1px solid var(--line)}
+  .proof h3{font-family:var(--display);font-size:16px;margin-bottom:12px}
+  .proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+  .proof-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+  .proof-card h4{font-size:13px;font-weight:700;color:var(--brand);margin-bottom:8px}
+  .proof-card p{font-size:12.5px;color:var(--muted);margin-bottom:10px;line-height:1.5}
+  .proof-card ul{list-style:none;padding:0;margin:0}
+  .proof-card li{font-size:12.5px;color:var(--muted);margin:6px 0;padding-left:14px;position:relative}
+  .proof-card li::before{content:"\u2022";position:absolute;left:0;color:var(--brand)}
+  .proof-stat{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .stat-box{background:var(--soft);border-radius:10px;padding:12px;text-align:center}
+  .stat-box b{font-family:var(--display);font-size:22px;color:var(--brand)}
+  .stat-box span{font-size:11px;color:var(--muted);display:block;margin-top:3px}
+  .proof-logo{font-size:11px;color:var(--muted);font-weight:600;background:var(--bg);padding:4px 10px;border-radius:6px;display:inline-block;margin-bottom:8px}
+  /* format detail modal */
+  .fmodal{position:fixed;inset:0;z-index:90;display:none}
+  .fmodal.show{display:block}
+  .fmback{position:absolute;inset:0;background:rgba(11,19,32,.55);backdrop-filter:blur(2px)}
+  .fmcard{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(920px,93vw);height:min(640px,90vh);overflow:hidden;background:var(--card);border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.32);display:grid;grid-template-columns:1.25fr 1fr}
+  .fmclose{position:absolute;top:12px;right:14px;border:0;background:rgba(255,255,255,.92);width:32px;height:32px;border-radius:50%;font-size:15px;cursor:pointer;z-index:5;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.12)}
+  .fmL{padding:20px;background:var(--bg);display:flex;flex-direction:column;min-height:0}
+  .fmbig{flex:1;min-height:240px;border-radius:12px;background:linear-gradient(135deg,var(--soft),#eef5f5);display:grid;place-items:center;position:relative;overflow:hidden}
+  .fmbig img{max-width:70%;max-height:70%;object-fit:contain}
+  .fmbig .lk{position:absolute;bottom:10px;right:14px;font-family:var(--display);font-size:12px;font-weight:700;color:var(--brand-d);opacity:.6}
+  .fmbig .rt{position:absolute;top:10px;left:12px;background:rgba(255,255,255,.9);border-radius:7px;padding:3px 9px;font-size:11px;font-weight:700;color:var(--brand-d)}
+  .fmthumbs{display:flex;gap:8px;margin-top:11px}
+  .fmthumbs .tb{flex:1;height:58px;border-radius:8px;background:var(--soft);border:1px solid var(--line);display:grid;place-items:center;overflow:hidden;position:relative;cursor:pointer;transition:.15s}
+  .fmthumbs .tb:hover{border-color:var(--brand)}
+  .fmthumbs .tb img{max-width:52%;max-height:48%;object-fit:contain}
+  .fmthumbs .tb span{position:absolute;bottom:2px;left:0;right:0;text-align:center;font-size:8px;color:var(--muted);font-weight:700}
+  .fmR{padding:20px 20px 22px;overflow:auto;min-height:0;display:flex;flex-direction:column}
+  .fmh{font-family:var(--display);font-size:18px;line-height:1.2}
+  .fmsub{font-size:12px;color:var(--muted);margin:2px 0 13px}
+  .fmacts{display:flex;gap:8px;margin-bottom:14px}
+  .fmbtn{border:0;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:12.5px;padding:9px 13px;border-radius:9px;cursor:pointer}
+  .fmbtn.o{background:var(--soft);color:var(--brand)}
+  .fmtabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:13px}
+  .fmtabs button{border:0;background:0;font:inherit;font-size:12.5px;font-weight:700;color:var(--muted);padding:8px 11px;cursor:pointer;border-bottom:2px solid transparent}
+  .fmtabs button.on{color:var(--brand);border-color:var(--brand)}
+  .fmsec{font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:15px 0 9px;display:flex;align-items:center;gap:7px}
+  .fmsec:first-child{margin-top:0}
+  .fminfo{display:grid;grid-template-columns:auto 1fr;gap:9px 16px;font-size:12.5px;align-items:start}
+  .fminfo dt{color:var(--muted);white-space:nowrap}
+  .fminfo dd{color:var(--ink);font-weight:600;word-break:break-word}
+  .fmtag{display:inline-block;background:var(--soft);color:var(--brand);font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:5px;margin:0 4px 3px 0}
+  .fminfo dd svg{display:block}
+  .fmcode{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:7px 9px;margin-top:6px}
+  .fmcode code{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:var(--muted);font-family:ui-monospace,Menlo,monospace}
+  .fmcode button{border:0;background:var(--soft);color:var(--brand);font:inherit;font-weight:700;font-size:11px;padding:5px 10px;border-radius:6px;cursor:pointer;flex-shrink:0}
+  .fmstats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .fmstat{background:var(--soft);border-radius:11px;padding:14px;text-align:center}
+  .fmstat b{font-family:var(--display);font-size:24px;color:var(--brand);display:block;line-height:1}
+  .fmstat span{font-size:11px;color:var(--muted);display:block;margin-top:5px}
+  .fmbar{margin-top:14px}
+  .fmbar .bl{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:5px}
+  .fmbar .bl span:last-child{color:var(--muted)}
+  .fmtrack{height:8px;border-radius:99px;background:var(--soft);overflow:hidden}
+  .fmtrack i{display:block;height:100%;border-radius:99px;background:var(--brand)}
+  .fmlog{list-style:none;margin:0;padding:0}
+  .fmlog li{display:flex;gap:11px;padding:11px 0;border-bottom:1px solid var(--line)}
+  .fmlog li:last-child{border:0}
+  .fmlog .dot{width:9px;height:9px;border-radius:50%;background:var(--brand);margin-top:4px;flex-shrink:0}
+  .fmlog .lt{font-size:12.5px;font-weight:600}
+  .fmlog .ld{font-size:11px;color:var(--muted);margin-top:2px}
+  @media(max-width:760px){.detail{grid-template-columns:1fr}.studio{grid-template-columns:1fr}.proof-grid{grid-template-columns:1fr}
+    .fmcard{grid-template-columns:1fr;height:auto;max-height:92vh;overflow:auto}.fmbig{max-height:38vh}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero-top">
+    <div class="eyebrow" id="heroEye">Content Engine</div><div class="sp"></div>
+    <div class="langs" id="langs"></div>
+  </div>
+  <h1 class="h" id="heroH">Turn one Blackmores product truth into compliant, localised content for every channel</h1>
+  <p class="hero-lead" id="heroL">One content operating system for Blackmores: brief the need, shape the strategy, generate image and video variants, manage assets, govern claims and learn from performance.</p>
+  <div class="hero-proof" id="heroProof">
+    <span class="pc" id="hp1">Product truth → <b>channel content</b></span>
+    <span class="pc" id="hp2">AI image/video <b>generation</b></span>
+    <span class="pc" id="hp3">Claim and brand <b>guardrails</b></span>
+    <span class="pc" id="hp4">Asset reuse → <b>performance loop</b></span>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div id="main"></div>
+</div>
+<div class="wrap" id="proofWrap" style="padding-top:0"></div>
+<div class="fmodal" id="fmodal"></div>
+<div class="gmodal" id="gmodal"></div>
+<div class="toast" id="toast"></div>
+<div class="fab" id="fab" title="Switch brand">🎨</div>
+
+<script>
+const BRANDS={blackmores:{logo:"Blackmores",sup:"®",name:"Blackmores",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  bioceuticals:{logo:"BioCeuticals",sup:"",name:"BioCeuticals",c:["#1b3a5c","#10243a","#e7edf3","#c9a24a"]},
+  paw:{logo:"PAW by Blackmores",sup:"",name:"PAW by Blackmores",c:["#2e7d32","#1b5e20","#e7f3e8","#7cb342"]}};
+const FORMATS=[
+  {em:"🖥️",n:{en:"Web / EC Banner",zh:"网页 / EC Banner",ja:"Web / ECバナー",th:"เว็บ / EC แบนเนอร์"},r:"16:9",w:74,h:42,px:"1920×1080",sz:"2.4",grp:"banner",ch:{en:"Official site / EC",zh:"官网 / 电商",ja:"公式サイト / EC",th:"เว็บ / EC"}},
+  {em:"📸",n:{en:"IG Post",zh:"IG 帖子",ja:"IG投稿",th:"IG โพสต์"},r:"1:1",w:56,h:56,px:"1080×1080",sz:"1.6",grp:"social",ch:{en:"Instagram (ANZ)",zh:"Instagram (澳新)",ja:"Instagram (ANZ)",th:"Instagram (ANZ)"}},
+  {em:"📱",n:{en:"IG / TikTok Story",zh:"IG / TikTok 快拍",ja:"IG / TikTokストーリー",th:"IG / TikTok สตอรี่"},r:"9:16",w:32,h:56,px:"1080×1920",sz:"1.9",grp:"social",ch:{en:"Instagram / TikTok (ANZ)",zh:"Instagram / TikTok (澳新)",ja:"Instagram / TikTok (ANZ)",th:"Instagram / TikTok (ANZ)"}},
+  {em:"📘",n:{en:"Facebook Cover",zh:"Facebook 封面",ja:"Facebookカバー",th:"Facebook ปก"},r:"1.91:1",w:78,h:41,px:"1640×856",sz:"1.4",grp:"social",ch:{en:"Facebook (ANZ)",zh:"Facebook (澳新)",ja:"Facebook (ANZ)",th:"Facebook (ANZ)"}},
+  {em:"🟢",n:{en:"WeChat 公众号 / 视频号",zh:"微信公众号 / 视频号",ja:"WeChat 公式 / 動画",th:"WeChat บัญชีทางการ / วิดีโอ"},r:"3:4",w:45,h:60,px:"1080×1440",sz:"1.2",grp:"social",ch:{en:"WeChat / Moments (China)",zh:"微信 / 朋友圈 (中国)",ja:"WeChat / モーメンツ (中国)",th:"WeChat / Moments (จีน)"}},
+  {em:"💬",n:{en:"WhatsApp Status",zh:"WhatsApp 状态",ja:"WhatsAppステータス",th:"WhatsApp สเตตัส"},r:"9:16",w:32,h:56,px:"1080×1920",sz:"1.5",grp:"social",ch:{en:"WhatsApp (SEA)",zh:"WhatsApp (东南亚)",ja:"WhatsApp (SEA)",th:"WhatsApp (อาเซียน)"}},
+  {em:"💚",n:{en:"LINE VOOM / Sticker",zh:"LINE VOOM / 表情",ja:"LINE VOOM・スタンプ",th:"LINE VOOM / สติกเกอร์"},r:"3:4",w:45,h:60,px:"1080×1440",sz:"1.3",grp:"social",ch:{en:"LINE (Japan)",zh:"LINE (日本)",ja:"LINE (日本)",th:"LINE (ญี่ปุ่น)"}},
+  {em:"🛒",n:{en:"Pharmacy / Retail POP",zh:"药房 / 零售 POP",ja:"薬局 / 店頭POP",th:"POP ร้านขายยา / ค้าปลีก"},r:"1:1",w:56,h:56,px:"1200×1200",sz:"2.1",grp:"store",ch:{en:"In-store / Pharmacy",zh:"店头 / 药房",ja:"店頭 / 薬局",th:"หน้าร้าน / ร้านขายยา"}},
+  {em:"🖨️",n:{en:"Print A4",zh:"打印 A4",ja:"印刷A4",th:"พิมพ์ A4"},r:"A4",w:42,h:60,px:"2480×3508",sz:"5.8",grp:"print",ch:{en:"Print",zh:"印刷物",ja:"印刷物",th:"สิ่งพิมพ์"}},
+  {em:"📧",n:{en:"Email header",zh:"邮件头图",ja:"メールヘッダ",th:"หัวอีเมล"},r:"3:1",w:78,h:26,px:"1200×400",sz:"0.9",grp:"edm",ch:{en:"EDM / Email",zh:"EDM / 邮件",ja:"EDM / メール",th:"EDM / อีเมล"}}];
+const GRP={banner:{en:"Banner",zh:"Banner",ja:"バナー",th:"แบนเนอร์"},social:{en:"Social",zh:"社媒",ja:"SNS",th:"โซเชียล"},store:{en:"In-store",zh:"店头",ja:"店頭",th:"หน้าร้าน"},print:{en:"Print",zh:"印刷",ja:"印刷",th:"สิ่งพิมพ์"},edm:{en:"EDM",zh:"EDM",ja:"EDM",th:"EDM"}};
+const MOD={
+ en:{info:"Basic info",stats:"Data",log:"Activity",file:"File name",tags:"Tags",brand:"Brand",channel:"Channel",valid:"Validity",qr:"QR code",more:"More info",group:"Asset group",res:"Resolution",ext:"Extension",mime:"MIME type",size:"Size",author:"Author",copy:"Copyright",desc:"Description",code:"Embed code",dl:"⬇ Download",addlib:"➕ Add to Library",copyBtn:"Copy",copied:"Copied ✓",copyVal:"Licensed",authorVal:"Blackmores Brand Studio",descVal:"Campaign asset — for official site, WeChat, Instagram, pharmacy POP and EC. Auto-adapted to every platform format.",views:"Views",downloads:"Downloads",reuse:"Reuses this month",compliant:"Compliance",compVal:"TGA / labeling review passed",lUp:"Uploaded · Blackmores Brand Studio",lAi:"AI multi-format adaptation · Asset Studio",lRev:"TGA / labeling compliance review · passed",lPub:"Published to channels · WeChat / IG / EC / pharmacy"},
+ zh:{info:"基本信息",stats:"数据统计",log:"操作记录",file:"文件名",tags:"标签",brand:"所属品牌",channel:"所属渠道",valid:"有效期",qr:"二维码",more:"其他信息",group:"素材分组",res:"分辨率",ext:"扩展名",mime:"MIME类型",size:"大小",author:"作者",copy:"版权",desc:"描述",code:"代码",dl:"⬇ 下载",addlib:"➕ 加入我的素材库",copyBtn:"复制",copied:"已复制 ✓",copyVal:"已购版权",authorVal:"Blackmores 品牌工作室",descVal:"活动内容素材，用于官网、微信、Instagram、药房 POP 及电商投放，已自动适配各平台格式。",views:"浏览",downloads:"下载",reuse:"本月复用",compliant:"合规",compVal:"TGA / 标签审核通过",lUp:"上传 · Blackmores 品牌工作室",lAi:"AI 多格式适配 · 素材工作室",lRev:"TGA / 标签合规审核 · 通过",lPub:"发布到渠道 · 微信 / IG / 电商 / 药房"},
+ ja:{info:"基本情報",stats:"データ統計",log:"操作履歴",file:"ファイル名",tags:"タグ",brand:"ブランド",channel:"配信チャネル",valid:"有効期限",qr:"QRコード",more:"その他情報",group:"アセット分類",res:"解像度",ext:"拡張子",mime:"MIMEタイプ",size:"サイズ",author:"作成者",copy:"著作権",desc:"説明",code:"コード",dl:"⬇ ダウンロード",addlib:"➕ マイライブラリへ",copyBtn:"コピー",copied:"コピーしました ✓",copyVal:"利用許諾済み",authorVal:"Blackmores ブランドスタジオ",descVal:"キャンペーン素材。公式サイト・WeChat・Instagram・薬局POP・ECに使用。各プラットフォーム形式へ自動最適化済み。",views:"閲覧",downloads:"DL",reuse:"今月の再利用",compliant:"コンプラ",compVal:"TGA / 表示審査 合格",lUp:"アップロード · Blackmores ブランドスタジオ",lAi:"AIマルチ形式適応 · アセットスタジオ",lRev:"TGA / 表示コンプラ審査 · 合格",lPub:"チャネル配信 · WeChat / IG / EC / 薬局"},
+ th:{info:"ข้อมูลพื้นฐาน",stats:"สถิติ",log:"บันทึกการใช้งาน",file:"ชื่อไฟล์",tags:"แท็ก",brand:"แบรนด์",channel:"ช่องทาง",valid:"อายุการใช้งาน",qr:"QR โค้ด",more:"ข้อมูลอื่น",group:"กลุ่มแอสเซ็ต",res:"ความละเอียด",ext:"นามสกุล",mime:"ชนิด MIME",size:"ขนาด",author:"ผู้สร้าง",copy:"ลิขสิทธิ์",desc:"คำอธิบาย",code:"โค้ด",dl:"⬇ ดาวน์โหลด",addlib:"➕ เพิ่มเข้าคลัง",copyBtn:"คัดลอก",copied:"คัดลอกแล้ว ✓",copyVal:"มีลิขสิทธิ์",authorVal:"Blackmores Brand Studio",descVal:"แอสเซ็ตแคมเปญ — สำหรับเว็บ, WeChat, Instagram, POP ร้านขายยา และ EC ปรับอัตโนมัติทุกฟอร์แมต",views:"เข้าชม",downloads:"ดาวน์โหลด",reuse:"ใช้ซ้ำเดือนนี้",compliant:"ความถูกต้อง",compVal:"ผ่านการตรวจ TGA / ฉลาก",lUp:"อัปโหลด · Blackmores Brand Studio",lAi:"AI ปรับหลายฟอร์แมต · Asset Studio",lRev:"ตรวจ TGA / ฉลาก · ผ่าน",lPub:"เผยแพร่สู่ช่องทาง · WeChat / IG / EC / ร้านขายยา"}};
+const ASSETS=[
+  {id:"ashwagandha",em:"images/blackmores/ashwagandha.png",nm:{en:"Ashwagandha+ — Stress Relief",zh:"Ashwagandha+ 印度人参 · 舒缓压力",ja:"アシュワガンダ+ · ストレスケア",th:"แอชวากันธา+ · คลายเครียด"},tag:"edit"},
+  {id:"beauty-sleep",em:"images/blackmores/beauty-sleep.png",nm:{en:"Beauty Sleep — Sleep + Beauty",zh:"Beauty Sleep 美容睡眠 · 助眠养肤",ja:"ビューティースリープ · 安眠＋美容",th:"บิวตี้สลีป · นอนหลับ+ความงาม"},tag:"social"},
+  {id:"bio-c-1000",em:"images/blackmores/bio-c-1000.png",nm:{en:"Bio C 1000 — Immune Support",zh:"Bio C 1000 维生素C · 免疫支持",ja:"バイオC 1000 · 免疫サポート",th:"ไบโอซี 1000 · เสริมภูมิคุ้มกัน"},tag:"edit"},
+  {id:"bio-ace-excell",em:"images/blackmores/bio-ace-excell.png",nm:{en:"Bio ACE Excell — Antioxidant",zh:"Bio ACE Excell · 抗氧化",ja:"バイオ ACE エクセル · 抗酸化",th:"ไบโอ เอซ เอ็กเซลล์ · แอนตี้ออกซิแดนท์"},tag:"edit"},
+  {id:"insolar",em:"images/blackmores/insolar.png",nm:{en:"Insolar Vitamin B3 — Skin Health",zh:"Insolar 烟酰胺B3 · 皮肤健康",ja:"インソーラー ビタミンB3 · 肌の健康",th:"อินโซลาร์ วิตามินบี3 · สุขภาพผิว"},tag:"noedit"},
+  {id:"joint-formula-advanced",em:"images/blackmores/joint-formula-advanced.png",nm:{en:"Joint Formula Advanced — Joint Support",zh:"Joint Formula Advanced · 关节支持",ja:"ジョイントフォーミュラ アドバンスド · 関節サポート",th:"จอยท์ฟอร์มูล่า แอดวานซ์ · บำรุงข้อ"},tag:"edit"},
+  {id:"probiotics-daily",em:"images/blackmores/probiotics-daily.png",nm:{en:"Probiotics+ Daily Health — Digestive Health",zh:"Probiotics+ 每日益生菌 · 肠道健康",ja:"プロバイオティクス+ デイリー · 腸の健康",th:"โพรไบโอติกส์+ เดลี่ · สุขภาพทางเดินอาหาร"},tag:"edit"},
+  {id:"lyprinol-double",em:"images/blackmores/lyprinol-double.png",nm:{en:"Lyprinol Double — Joint Support",zh:"Lyprinol Double 加强版 · 关节支持",ja:"リプリノール ダブル · 関節サポート",th:"ลีพรินอล ดับเบิล · บำรุงข้อ"},tag:"noedit"},
+  {id:"coq10-300",em:"images/blackmores/coq10-300.png",nm:{en:"Super Strength CoQ10 300 — Heart Health",zh:"超强辅酶 CoQ10 300 · 心血管健康",ja:"スーパーストレングス CoQ10 300 · 心臓の健康",th:"ซูเปอร์สเตรงค์ CoQ10 300 · สุขภาพหัวใจ"},tag:"edit"},
+  {id:"vitamin-b12",em:"images/blackmores/vitamin-b12.png",nm:{en:"Vitamin B12 — Energy Support",zh:"维生素 B12 · 能量支持",ja:"ビタミンB12 · エネルギーサポート",th:"วิตามินบี12 · เสริมพลังงาน"},tag:"edit"},
+  {id:"superkids-multi",em:"images/blackmores/superkids-multi.png",nm:{en:"Superkids Multi Chewables — Kids Daily Wellness",zh:"Superkids 儿童复合咀嚼片 · 每日营养",ja:"スーパーキッズ マルチ · 子どもの毎日",th:"ซูเปอร์คิดส์ มัลติ · สุขภาพเด็กประจำวัน"},tag:"social"},
+  {id:"superkids-immune",em:"images/blackmores/superkids-immune.png",nm:{en:"Superkids Immune Chewables — Kids Immune Support",zh:"Superkids 儿童免疫咀嚼片 · 免疫支持",ja:"スーパーキッズ 免疫チュアブル · 免疫サポート",th:"ซูเปอร์คิดส์ อิมมูน · เสริมภูมิเด็ก"},tag:"social"},
+  {id:"kids-probiotics",em:"images/blackmores/kids-probiotics.png",nm:{en:"Probiotics+ Kids Daily Health — Kids Gut Health",zh:"Probiotics+ 儿童每日益生菌 · 肠道健康",ja:"プロバイオティクス+ キッズ · 腸の健康",th:"โพรไบโอติกส์+ คิดส์ · สุขภาพลำไส้เด็ก"},tag:"edit"},
+  {id:"nails-hair-skin",em:"images/blackmores/nails-hair-skin.png",nm:{en:"Nails, Hair & Skin — Beauty Support",zh:"Nails, Hair & Skin 美甲护发养肤 · 美容支持",ja:"ネイル・ヘア・スキン · ビューティーサポート",th:"เล็บ ผม ผิว · บำรุงความงาม"},tag:"edit"},
+  {id:"daily-immune-action",em:"images/blackmores/daily-immune-action.png",nm:{en:"Daily Immune Action — Daily Immune Support",zh:"Daily Immune Action · 每日免疫支持",ja:"デイリーイミューンアクション · 毎日の免疫サポート",th:"เดลี่อิมมูนแอคชั่น · เสริมภูมิทุกวัน"},tag:"edit"}];
+const STYLES=[{en:"Minimal",zh:"简约",ja:"ミニマル",th:"มินิมอล"},{en:"Vibrant",zh:"活力",ja:"鮮やか",th:"สดใส"},
+  {en:"Luxury",zh:"高端",ja:"高級",th:"หรูหรา"},{en:"Warm",zh:"温馨",ja:"温かみ",th:"อบอุ่น"},{en:"Natural",zh:"自然",ja:"ナチュラル",th:"ธรรมชาติ"}];
+const SEASONS=[{en:"None",zh:"无",ja:"なし",th:"ไม่มี"},{en:"New Year Resolutions",zh:"新年焕新",ja:"新年の抱負",th:"ปณิธานปีใหม่"},
+  {en:"Chinese New Year Gifting",zh:"春节送礼",ja:"旧正月ギフト",th:"ของขวัญตรุษจีน"},{en:"Cold & Flu Season",zh:"换季感冒季",ja:"風邪シーズン",th:"ฤดูหวัด"},
+  {en:"Mother's Day",zh:"母亲节",ja:"母の日",th:"วันแม่"},{en:"Healthy Ageing",zh:"健康乐龄",ja:"健康エイジング",th:"สูงวัยสุขภาพดี"},
+  {en:"Summer Wellness",zh:"夏季健康",ja:"夏のウェルネス",th:"สุขภาพหน้าร้อน"}];
+const MODELS=[{en:"Asian",zh:"亚洲",ja:"アジア",th:"เอเชีย"},{en:"Western",zh:"欧美",ja:"欧米",th:"ตะวันตก"},
+  {en:"SEA",zh:"东南亚",ja:"東南アジア",th:"อาเซียน"},{en:"Product only",zh:"仅产品",ja:"製品のみ",th:"เฉพาะสินค้า"}];
+const VPRESETS=[{en:"WeChat 视频号 15s",zh:"微信视频号 15秒",ja:"WeChat 動画 15秒",th:"WeChat วิดีโอ 15วิ"},{en:"IG Reels 30s",zh:"IG Reels 30秒",ja:"IG Reels 30秒",th:"IG Reels 30วิ"},
+  {en:"TikTok 15s",zh:"TikTok 15秒",ja:"TikTok 15秒",th:"TikTok 15วิ"},{en:"YouTube 30s",zh:"YouTube 30秒",ja:"YouTube 30秒",th:"YouTube 30วิ"}];
+const UI={
+ en:{sub:"Content Engine",heroEye:"Content Engine",heroH:"Turn one Blackmores product truth into compliant, localised content for every channel",heroL:"One content operating system for Blackmores: brief the need, shape the strategy, generate image and video variants, manage assets, govern claims and learn from performance.",hp1:"Product truth → <b>channel content</b>",hp2:"AI image/video <b>generation</b>",hp3:"Claim and brand <b>guardrails</b>",hp4:"Asset reuse → <b>performance loop</b>",t_e:"Engine Overview",t_b:"Brand Assets",t_s:"AI Studio",t_l:"My Library",t_c:"Community",
+   bH:"Brand Asset Center",bL:"Official assets — every one ready in each platform format. Download, or remix with AI.",
+   official:"Official",fmtsLab:"Platform-adaptive formats",dlAll:"⬇ Download all formats",addLib:"➕ Add to My Library",remix:"✨ Remix with AI",
+   tagEdit:"Editable",tagNo:"Not editable",tagSocial:"Social only",
+   sH:"AI Studio",sL:"Take a brand asset and make it yours — localized, on-brand, compliant.",pickFirst:"Pick an asset from Brand Assets to remix.",goAssets:"→ Browse Brand Assets",
+   modeImg:"🖼️ Image → Image",modeVid:"🎬 Image → Video",source:"Source asset",style:"Style",season:"Season / Occasion",model:"Model",brandlock:"Brand lock",
+   lkLogo:"Auto-add logo",lkColor:"Lock brand colours",lkDisc:'Add TGA-compliant supplement copy',lkLocal:"Add TGA / AUST L registration label",
+   prompt:"Prompt",promptPh:"e.g. bright bathroom shelf, immune support supplement, healthy routine…",optimize:"💡 Optimize prompt",
+   optEx:'Bright morning bathroom shelf, Blackmores Bio C 1000 bottle beside a glass of water and fresh greens, shallow depth of field, clean healthy wellness look, soft natural light, brand teal accent, copy space at bottom, HD.',
+   generate:"✨ Generate",vpreset:"Platform preset",compPass:"✅ Compliance passed · logo + label locked",
+   compWarn:'⚠ "boosts immunity" → suggest "supports immune system health"',compBlock:'❌ Disease/treatment claim blocked — replace "treat/cure". Try "supports…"',
+   save:"💾 Save",savedLib:"Saved to My Library",storyboardT:"AI storyboard",sbHook:"hook",sbProduct:"product",sbBenefit:"benefit scene",sbCta:"CTA + logo + disclaimer",
+   lH:"My Library",lL:"Your assets — downloaded, AI-made, template-based. Push to channels, or share back to the ecosystem.",
+   srcOff:"Official",srcAi:"AI-made",srcTpl:"Template",push:"📤 Push to channels",pushed:"Pushed to selected channels",share:"Share to community",
+   sharedOn:"Shared to community ✓",sharedOff:"Removed from community",emptyLib:"Nothing yet — add from Brand Assets or generate in AI Studio.",
+   cH:"Community ecosystem",cL:"Assets other partners created & shared. Reuse the best — the network does the work.",by:"by",usesL:"uses",useThis:"Use this",added:"Added to My Library",derived:"derived from",ppH:"Customer Proof Points",ppCase1:"Blackmores — Multi-market content demand (ANZ / China / SEA / Japan)",ppCase1L:"Supplement brands need one engine that turns product truth and VOC into compliant content, platform assets, market variants and tested creative.",ppEff:"Efficiency boost",ppEffV:"80%+",ppCost:"Cost reduction",ppCostV:"60%+",ppCap:"NTT DATA capabilities",ppCap1:"Hyper-personalized content generation",ppCap2:"AIGC asset remixing and format adaptation",ppCap3:"Dynamic creative testing with compliance guardrails"},
+ zh:{sub:"Content Engine",heroEye:"Content Engine",heroH:"把一个 Blackmores 产品事实，变成全渠道合规本地化内容",heroL:"一个 Blackmores 内容运营系统：定义 brief，形成策略，生成图像与视频版本，管理素材，治理功效宣称，并从表现数据中学习。",hp1:"产品事实 → <b>渠道内容</b>",hp2:"AI 图像/视频 <b>生成</b>",hp3:"宣称与品牌 <b>护栏</b>",hp4:"素材复用 → <b>表现闭环</b>",t_e:"引擎总览",t_b:"品牌素材",t_s:"AI Studio",t_l:"我的素材库",t_c:"生态共享",
+   bH:"品牌素材中心",bL:"官方素材——每个都备好各平台格式,直接下载,或用 AI 二创。",
+   official:"官方",fmtsLab:"多平台自适应格式",dlAll:"⬇ 下载全部格式",addLib:"➕ 加入我的素材库",remix:"✨ AI 二创",
+   tagEdit:"可修改",tagNo:"不可修改",tagSocial:"仅限社媒",
+   sH:"AI Studio",sL:"拿一个品牌素材,变成你的——本地化、合规、保持品牌。",pickFirst:"先从品牌素材里选一个来二创。",goAssets:"→ 去品牌素材",
+   modeImg:"🖼️ 图生图",modeVid:"🎬 图生视频",source:"源素材",style:"风格",season:"季节 / 节点",model:"模特",brandlock:"品牌锁定",
+   lkLogo:"自动加 Logo",lkColor:"锁定品牌色",lkDisc:'加合规营养品文案',lkLocal:"加 TGA / 澳洲注册标签",
+   prompt:"提示词",promptPh:"如:明亮浴室置物架,免疫支持营养品,健康日常…",optimize:"💡 优化提示词",
+   optEx:'明亮清晨浴室置物架,Blackmores Bio C 1000 维C瓶配一杯清水与新鲜蔬果,浅景深,洁净健康养生视觉,柔和自然光,品牌青色点缀,底部留白放文案,高清。',
+   generate:"✨ 生成",vpreset:"平台预设",compPass:"✅ 合规通过 · 已锁定 Logo + 标签",
+   compWarn:'⚠ "增强免疫力" → 建议改"有助维持免疫系统健康"',compBlock:'❌ 已拦截疾病/治疗宣称 — 请替换"治疗/治愈",改用"支持 / 有助…"',
+   save:"💾 保存",savedLib:"已存入我的素材库",storyboardT:"AI 分镜",sbHook:"开场吸睛",sbProduct:"产品",sbBenefit:"卖点场景",sbCta:"行动号召 + Logo + 合规声明",
+   lH:"我的素材库",lL:"你的素材——下载的、AI 生成的、模板改的。推送到渠道,或分享回生态。",
+   srcOff:"官方",srcAi:"AI 生成",srcTpl:"模板",push:"📤 推送到渠道",pushed:"已推送到所选渠道",share:"分享到共享池",
+   sharedOn:"已分享到共享池 ✓",sharedOff:"已从共享池移除",emptyLib:"还没有——从品牌素材加入,或在 AI Studio 生成。",
+   cH:"生态共享池",cL:"其他伙伴创作并分享的素材。直接复用最好的——网络替你干活。",by:"作者",usesL:"次使用",useThis:"拿来用",added:"已加入我的素材库",derived:"二创自",ppH:"客户实证",ppCase1:"Blackmores — 多市场内容需求(澳新 / 中国 / 东南亚 / 日本)",ppCase1L:"营养品牌需要一个引擎，把产品事实与 VOC 转成合规内容、平台素材、市场版本与经过测试的创意。",ppEff:"效率提升",ppEffV:"80%+",ppCost:"成本降低",ppCostV:"60%+",ppCap:"NTT DATA 能力",ppCap1:"超个性化内容生成",ppCap2:"AIGC 素材二创与格式适配",ppCap3:"带合规护栏的动态创意测试"},
+ ja:{sub:"Content Engine",heroEye:"Content Engine",heroH:"Blackmores の製品事実を、全チャネル向けのコンプライアントなローカルコンテンツへ",heroL:"Blackmores のためのコンテンツ運用システム。ブリーフ、戦略、画像・動画バリアント生成、アセット管理、表示ガバナンス、パフォーマンス学習までを一つにします。",hp1:"製品事実 → <b>チャネルコンテンツ</b>",hp2:"AI 画像/動画 <b>生成</b>",hp3:"表示とブランド <b>ガードレール</b>",hp4:"アセット再利用 → <b>成果ループ</b>",t_e:"エンジン概要",t_b:"ブランドアセット",t_s:"AI Studio",t_l:"マイライブラリ",t_c:"コミュニティ",
+   bH:"ブランドアセットセンター",bL:"公式アセット — 各プラットフォーム形式で即利用。DLまたはAIで二次創作。",
+   official:"公式",fmtsLab:"各プラットフォーム最適化形式",dlAll:"⬇ 全形式をDL",addLib:"➕ マイライブラリへ",remix:"✨ AIで二次創作",
+   tagEdit:"編集可",tagNo:"編集不可",tagSocial:"SNS限定",
+   sH:"AI Studio",sL:"ブランドアセットをあなたのものに — ローカライズ・オンブランド・コンプライアンス。",pickFirst:"ブランドアセットから1つ選んでください。",goAssets:"→ ブランドアセットへ",
+   modeImg:"🖼️ 画像→画像",modeVid:"🎬 画像→動画",source:"元アセット",style:"スタイル",season:"季節 / 行事",model:"モデル",brandlock:"ブランドロック",
+   lkLogo:"ロゴ自動追加",lkColor:"ブランドカラー固定",lkDisc:'コンプラ準拠のサプリ表記を追加',lkLocal:"TGA / 豪州登録ラベル追加",
+   prompt:"プロンプト",promptPh:"例:明るい洗面台、免疫サポートサプリ、健康習慣…",optimize:"💡 プロンプト最適化",
+   optEx:'明るい朝の洗面台、ブラックモアズ バイオC 1000 のボトルに水のグラスと新鮮な野菜、浅い被写界深度、清潔で健康的なウェルネスの印象、柔らかな自然光、ブランドティールのアクセント、下部に余白、HD。',
+   generate:"✨ 生成",vpreset:"プラットフォーム",compPass:"✅ コンプラOK · ロゴ+ラベルをロック",
+   compWarn:'⚠ 「免疫力アップ」→「免疫システムの健康をサポート」推奨',compBlock:'❌ 疾病・治療表現をブロック —「治療/治癒」を置換。「サポート…」へ',
+   save:"💾 保存",savedLib:"マイライブラリに保存",storyboardT:"AI絵コンテ",sbHook:"つかみ",sbProduct:"製品",sbBenefit:"ベネフィット訴求",sbCta:"CTA + ロゴ + 表示文言",
+   lH:"マイライブラリ",lL:"あなたのアセット — DL・AI生成・テンプレ。チャネルへ配信、またはエコシステムへ共有。",
+   srcOff:"公式",srcAi:"AI生成",srcTpl:"テンプレ",push:"📤 チャネルへ配信",pushed:"選択チャネルへ配信",share:"コミュニティへ共有",
+   sharedOn:"共有しました ✓",sharedOff:"共有を解除",emptyLib:"まだありません — アセット追加またはAI生成を。",
+   cH:"コミュニティ・エコシステム",cL:"他パートナーが作って共有したアセット。良いものを再利用 — ネットワークが働く。",by:"作成",usesL:"回使用",useThis:"使う",added:"マイライブラリに追加",derived:"二次創作元",ppH:"顧客実証",ppCase1:"Blackmores — マルチ市場コンテンツ需要(ANZ / 中国 / SEA / 日本)",ppCase1L:"サプリブランドには、製品事実とVOCをコンプライアントな内容、プラットフォーム資産、市場別バリアント、検証済みクリエイティブへ変換するエンジンが必要。",ppEff:"効率向上",ppEffV:"80%+",ppCost:"コスト削減",ppCostV:"60%+",ppCap:"NTT DATA 能力",ppCap1:"ハイパーパーソナライズ内容生成",ppCap2:"AIGCリミックスと形式適応",ppCap3:"コンプラガード付き動的クリエイティブ検証"},
+ th:{sub:"Content Engine",heroEye:"Content Engine",heroH:"Turn one Blackmores product truth into compliant, localised content for every channel",heroL:"One content operating system for Blackmores: brief the need, shape the strategy, generate image and video variants, manage assets, govern claims and learn from performance.",hp1:"Product truth → <b>channel content</b>",hp2:"AI image/video <b>generation</b>",hp3:"Claim and brand <b>guardrails</b>",hp4:"Asset reuse → <b>performance loop</b>",t_e:"Engine Overview",t_b:"แอสเซ็ตแบรนด์",t_s:"AI Studio",t_l:"คลังของฉัน",t_c:"คอมมูนิตี้",
+   bH:"ศูนย์แอสเซ็ตแบรนด์",bL:"แอสเซ็ตทางการ — พร้อมทุกฟอร์แมตแพลตฟอร์ม ดาวน์โหลดหรือรีมิกซ์ด้วย AI",
+   official:"ทางการ",fmtsLab:"ฟอร์แมตปรับตามแพลตฟอร์ม",dlAll:"⬇ ดาวน์โหลดทุกฟอร์แมต",addLib:"➕ เพิ่มเข้าคลัง",remix:"✨ รีมิกซ์ด้วย AI",
+   tagEdit:"แก้ไขได้",tagNo:"แก้ไขไม่ได้",tagSocial:"โซเชียลเท่านั้น",
+   sH:"AI Studio",sL:"นำแอสเซ็ตแบรนด์มาทำให้เป็นของคุณ — โลคัลไลซ์ ตรงแบรนด์ ถูกกฎ",pickFirst:"เลือกแอสเซ็ตจากแอสเซ็ตแบรนด์ก่อน",goAssets:"→ ไปแอสเซ็ตแบรนด์",
+   modeImg:"🖼️ ภาพ→ภาพ",modeVid:"🎬 ภาพ→วิดีโอ",source:"แอสเซ็ตต้นทาง",style:"สไตล์",season:"ฤดู / โอกาส",model:"นางแบบ",brandlock:"ล็อกแบรนด์",
+   lkLogo:"เพิ่มโลโก้อัตโนมัติ",lkColor:"ล็อกสีแบรนด์",lkDisc:'เพิ่มข้อความอาหารเสริมที่ถูกต้อง',lkLocal:"เพิ่มฉลาก TGA / ทะเบียนออสเตรเลีย",
+   prompt:"พรอมต์",promptPh:"เช่น ชั้นวางห้องน้ำสว่าง อาหารเสริมภูมิคุ้มกัน กิจวัตรสุขภาพ…",optimize:"💡 ปรับพรอมต์",
+   optEx:'ชั้นวางห้องน้ำตอนเช้าสว่าง ขวด Blackmores Bio C 1000 ข้างแก้วน้ำและผักสด ระยะชัดตื้น ดูสะอาดสุขภาพดี แสงธรรมชาตินุ่ม สีเขียวน้ำเงินแบรนด์ เว้นที่ด้านล่างสำหรับข้อความ HD',
+   generate:"✨ สร้าง",vpreset:"พรีเซ็ตแพลตฟอร์ม",compPass:"✅ ผ่านการตรวจ · ล็อกโลโก้+ฉลาก",
+   compWarn:'⚠ "เพิ่มภูมิคุ้มกัน" → แนะนำ "สนับสนุนสุขภาพระบบภูมิคุ้มกัน"',compBlock:'❌ บล็อกการอ้างรักษาโรค — แทน "รักษา" ด้วย "สนับสนุน…"',
+   save:"💾 บันทึก",savedLib:"บันทึกเข้าคลังแล้ว",storyboardT:"สตอรี่บอร์ด AI",sbHook:"ฮุกเปิด",sbProduct:"สินค้า",sbBenefit:"ฉากจุดขาย",sbCta:"CTA + โลโก้ + ข้อความกำกับ",
+   lH:"คลังของฉัน",lL:"แอสเซ็ตของคุณ — ดาวน์โหลด AI สร้าง เทมเพลต ส่งเข้าช่องทาง หรือแชร์กลับสู่อีโคซิสเต็ม",
+   srcOff:"ทางการ",srcAi:"AI สร้าง",srcTpl:"เทมเพลต",push:"📤 ส่งเข้าช่องทาง",pushed:"ส่งเข้าช่องทางที่เลือกแล้ว",share:"แชร์สู่คอมมูนิตี้",
+   sharedOn:"แชร์แล้ว ✓",sharedOff:"นำออกจากคอมมูนิตี้",emptyLib:"ยังไม่มี — เพิ่มจากแอสเซ็ตแบรนด์หรือสร้างใน AI Studio",
+   cH:"อีโคซิสเต็มคอมมูนิตี้",cL:"แอสเซ็ตที่พาร์ทเนอร์อื่นสร้างและแชร์ ใช้ซ้ำตัวที่ดีที่สุด — เครือข่ายทำงานให้",by:"โดย",usesL:"ครั้ง",useThis:"ใช้เลย",added:"เพิ่มเข้าคลังแล้ว",derived:"รีมิกซ์จาก",ppH:"หลักฐานลูกค้า",ppCase1:"Blackmores — ความต้องการคอนเทนต์หลายตลาด (ANZ / จีน / SEA / ญี่ปุ่น)",ppCase1L:"แบรนด์อาหารเสริมต้องมี engine เดียวที่เปลี่ยน product truth และ VOC เป็น compliant content, platform assets, market variants และ creative ที่ทดสอบแล้ว",ppEff:"ประสิทธิภาพ",ppEffV:"80%+",ppCost:"ลดต้นทุน",ppCostV:"60%+",ppCap:"ความสามารถ NTT DATA",ppCap1:"Hyper-personalized content generation",ppCap2:"AIGC remix และ format adaptation",ppCap3:"Dynamic creative testing พร้อม guardrails"}};
+
+let state={lang:"en",brand:"blackmores",tab:"briefs",assetView:"brand",sel:null,mode:"img",genSeed:0,genScenes:null,genAsset:null,genTag:"",
+  style:0,season:0,model:0,locks:[1,1,1,0],vpreset:0,gen:false,
+  myLib:[{em:"images/blackmores/daily-immune-action.png",nm:{ja:"デイリーイミューンアクション · 毎日の免疫",en:"Daily Immune Action · Daily immune",zh:"每日免疫 · 日常免疫",th:"เดลี่อิมมูน · ภูมิทุกวัน"},src:"off"},{em:"images/blackmores/bio-c-1000.png",nm:{ja:"バイオC 1000 · 免疫",en:"Bio C 1000 · Immune",zh:"Bio C 1000 · 免疫",th:"ไบโอซี 1000 · ภูมิคุ้มกัน"},src:"off"},{em:"images/blackmores/nails-hair-skin.png",nm:{ja:"母の日 · IG (ローカライズ)",en:"Mother's Day · IG (localized)",zh:"母亲节 · IG (本地化)",th:"วันแม่ · IG (โลคัลไลซ์)"},src:"ai",shared:false}],
+  community:[{em:"images/blackmores/probiotics-daily.png",nm:{ja:"プロバイオティクス+ · 旧正月ギフト版",en:"Probiotics+ · CNY gifting edit",zh:"益生菌+ · 春节礼改版",th:"โพรไบโอติกส์+ · เวอร์ชันของขวัญตรุษจีน"},by:"@cn_partner",uses:214,from:{ja:"プロバイオティクス+ デイリー",en:"Probiotics+ Daily Health",zh:"每日益生菌",th:"โพรไบโอติกส์+ เดลี่"}},
+    {em:"images/blackmores/joint-formula-advanced.png",nm:{ja:"ジョイントフォーミュラ · 薬局POP · ANZ",en:"Joint Formula · Pharmacy POP · ANZ",zh:"关节配方 · 药房 POP · 澳新",th:"จอยท์ฟอร์มูล่า · POP ร้านขายยา · ANZ"},by:"Sydney team",uses:163,from:{ja:"ジョイントフォーミュラ アドバンスド",en:"Joint Formula Advanced",zh:"关节配方加强版",th:"จอยท์ฟอร์มูล่า แอดวานซ์"}},
+    {em:"images/blackmores/superkids-immune.png",nm:{ja:"スーパーキッズ 免疫 · 育児SNS版",en:"Superkids Immune · Parenting SNS edit",zh:"儿童免疫 · 育儿社媒改版",th:"ซูเปอร์คิดส์ อิมมูน · เวอร์ชันโซเชียลเลี้ยงลูก"},by:"@mama_anz",uses:188,from:{ja:"スーパーキッズ 免疫チュアブル",en:"Superkids Immune Chewables",zh:"儿童免疫咀嚼片",th:"ซูเปอร์คิดส์ อิมมูน"}},
+    {em:"images/blackmores/bio-c-1000.png",nm:{ja:"バイオC · 免疫 IG",en:"Bio C 1000 · Immunity IG",zh:"Bio C · 免疫 IG",th:"ไบโอซี · IG ภูมิคุ้มกัน"},by:"@wellness_sea",uses:142,from:{ja:"バイオC 1000",en:"Bio C 1000",zh:"Bio C 1000",th:"ไบโอซี 1000"}},
+    {em:"images/blackmores/beauty-sleep.png",nm:{ja:"ビューティースリープ · WeChat 視頻號 15s",en:"Beauty Sleep · WeChat video 15s",zh:"美容睡眠 · 微信视频号 15秒",th:"บิวตี้สลีป · WeChat วิดีโอ 15วิ"},by:"@sleepwell_cn",uses:301,from:{ja:"ビューティースリープ",en:"Beauty Sleep",zh:"美容睡眠",th:"บิวตี้สลีป"}}]};
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const U=()=>UI[state.lang],T=o=>o[state.lang]||o.en;
+const TS=v=>(v&&typeof v==='object')?(v[state.lang]||v.en):v;
+const ENGINE={
+  en:{h:"Content Engine",l:"One working layer for three formerly separate cards: hyper-personalized content, AIGC asset production, and dynamic creative optimization.",
+    p1:"Source signals",p1d:"VOC, product truth, campaign brief, claims rules and marketplace requirements.",
+    p2:"Generate variants",p2d:"Copy, images, video, PDP modules and social posts by market, segment and health goal.",
+    p3:"Adapt & govern",p3d:"Brand lock, channel format adaptation, local claim review and approval trace.",
+    p4:"Test & learn",p4d:"Creative/audience/channel tests feed performance signals back into the next brief.",
+    brief:"Blackmores sample briefs",test:"Dynamic creative test board",cols:["Variant","Audience","Channel","Score"],
+    briefs:[
+      ["IMMUNITY","Bio C 1000 winter immunity push",["China RED explainer + WeChat article","ANZ pharmacy POP","SEA TikTok short video"]],
+      ["FAMILY","Kids Multi school-season routine",["Parenting social copy","Lunchbox visual set","Watsons / Guardian PDP block"]],
+      ["TRUST","Pregnancy Gold authenticity education",["Packaging comparison card","Safe claim rewrite","Tmall Global FAQ module"]]
+    ],
+    rows:[["Bio C: daily routine", "Working women 25-40", "RED + WeChat", 91],["Kids Multi: lunchbox", "Parents with kids 4-12", "IG + WhatsApp", 82],["Fish Oil: breakfast habit", "ANZ repurchasers", "Meta + pharmacy", 76],["Pregnancy Gold: authentic check", "Expecting mothers", "WeChat + Tmall", 88]]},
+  zh:{h:"Content Engine 内容引擎",l:"把原来三张卡合成一个工作层：超个性化内容生成、AIGC 素材生产、动态创意与广告优化。",
+    p1:"输入信号",p1d:"VOC、产品事实、活动 brief、宣称规则与平台要求。",
+    p2:"生成版本",p2d:"按市场、人群、健康目标生成文案、图片、视频、PDP 模块与社媒帖子。",
+    p3:"适配与治理",p3d:"品牌锁定、渠道格式适配、本地宣称审核与审批留痕。",
+    p4:"测试学习",p4d:"创意/人群/渠道测试结果回流到下一轮 brief。",
+    brief:"Blackmores 样本 Brief",test:"动态创意测试看板",cols:["版本","人群","渠道","得分"],
+    briefs:[
+      ["IMMUNITY","Bio C 1000 冬季免疫活动",["中国小红书科普 + 微信文章","澳新药房 POP","东南亚 TikTok 短视频"]],
+      ["FAMILY","Kids Multi 开学季日常",["亲子社媒文案","午餐盒视觉套组","Watsons / Guardian PDP 模块"]],
+      ["TRUST","Pregnancy Gold 正品教育",["包装对比卡","合规宣称改写","天猫国际 FAQ 模块"]]
+    ],
+    rows:[["Bio C：每日习惯", "25-40 职场女性", "小红书 + 微信", 91],["Kids Multi：午餐盒", "4-12 岁儿童家长", "IG + WhatsApp", 82],["鱼油：早餐习惯", "澳新复购用户", "Meta + 药房", 76],["Pregnancy Gold：正品查询", "孕期人群", "微信 + 天猫", 88]]},
+  ja:{h:"Content Engine",l:"3つのカードを1つの作業レイヤーへ統合：パーソナライズ内容生成、AIGC資産制作、動的クリエイティブ最適化。",
+    p1:"入力シグナル",p1d:"VOC、製品事実、キャンペーンbrief、表示ルール、マーケットプレイス要件。",
+    p2:"バリアント生成",p2d:"市場・セグメント・健康目的別にコピー、画像、動画、PDP、SNS投稿を生成。",
+    p3:"適応・ガバナンス",p3d:"ブランドロック、チャネル形式適応、ローカル表示審査、承認履歴。",
+    p4:"テスト学習",p4d:"クリエイティブ/オーディエンス/チャネル結果を次のbriefへ還流。",
+    brief:"Blackmores サンプルbrief",test:"動的クリエイティブテスト",cols:["バリアント","対象","チャネル","スコア"],
+    briefs:[["IMMUNITY","Bio C 1000 冬の免疫キャンペーン",["中国RED解説 + WeChat記事","ANZ薬局POP","SEA TikTok短尺動画"]],["FAMILY","Kids Multi 新学期ルーティン",["育児SNSコピー","ランチボックスビジュアル","Watsons / Guardian PDP"]],["TRUST","Pregnancy Gold真正品教育",["パッケージ比較カード","安全な表示文言へ改稿","Tmall Global FAQ"]]],
+    rows:[["Bio C: 毎日の習慣","働く女性25-40","RED + WeChat",91],["Kids Multi: ランチボックス","4-12歳の親","IG + WhatsApp",82],["Fish Oil: 朝食習慣","ANZ再購入者","Meta + 薬局",76],["Pregnancy Gold: 真正品確認","妊娠期ユーザー","WeChat + Tmall",88]]},
+  th:{h:"Content Engine",l:"One working layer for hyper-personalized content, AIGC asset production and dynamic creative optimization.",
+    p1:"Source signals",p1d:"VOC, product truth, campaign brief, claims rules and marketplace requirements.",
+    p2:"Generate variants",p2d:"Copy, images, video, PDP modules and social posts by market, segment and health goal.",
+    p3:"Adapt & govern",p3d:"Brand lock, channel format adaptation, local claim review and approval trace.",
+    p4:"Test & learn",p4d:"Creative/audience/channel tests feed performance signals back into the next brief.",
+    brief:"Blackmores sample briefs",test:"Dynamic creative test board",cols:["Variant","Audience","Channel","Score"],
+    briefs:[["IMMUNITY","Bio C 1000 winter immunity push",["China RED explainer + WeChat article","ANZ pharmacy POP","SEA TikTok short video"]],["FAMILY","Kids Multi school-season routine",["Parenting social copy","Lunchbox visual set","Watsons / Guardian PDP block"]],["TRUST","Pregnancy Gold authenticity education",["Packaging comparison card","Safe claim rewrite","Tmall Global FAQ module"]]],
+    rows:[["Bio C: daily routine","Working women 25-40","RED + WeChat",91],["Kids Multi: lunchbox","Parents with kids 4-12","IG + WhatsApp",82],["Fish Oil: breakfast habit","ANZ repurchasers","Meta + pharmacy",76],["Pregnancy Gold: authentic check","Expecting mothers","WeChat + Tmall",88]]}
+};
+const CE={
+ en:{nav:{briefs:"Briefs",strategy:"Strategy",generate:"Generate",assets:"Assets",governance:"Governance",performance:"Performance"},
+  briefsH:"Briefs · signal intake",briefsL:"Gather consumer voice, product truth, campaign objectives and channel requirements before anything is generated.",
+  strategyH:"Content strategy",strategyL:"Turn the brief into market-specific content territories, message architecture and channel plans.",
+  generateH:"Generate",generateL:"Use an approved source asset to create copy, images, videos, PDP modules and channel formats with brand and claim guardrails.",
+  assetsH:"Assets · library · reuse",assetsL:"Manage official Blackmores assets, generated variants, reusable libraries and shared partner content.",
+  govH:"Governance & approval",govL:"Check supplement claims, brand rules, platform policies and local-market requirements before publishing.",
+  perfH:"Performance loop",perfL:"Read creative, audience and channel performance, then feed the learning back into the next brief.",
+  assetTabs:["Brand assets","My library","Community"],startGenerate:"Select for Generate",
+  signals:[["💬","VOC: capsule size friction","Reviews mention large Fish Oil capsules; use habit-based education and alternative product comparison.","VOC"],["📕","RED trend: immunity routines","China searches rise around Vitamin C + Zinc, with demand for safe daily-use language.","Social"],["🧬","Product truth: Bio C 1000","Eligible claims: supports immune system health; avoid cure/prevention wording.","Knowledge Graph"],["🛒","Channel need: pharmacy POP","ANZ pharmacy team needs shelf talkers and bundle visuals for winter traffic.","Retail"],["✅","Compliance note","Pregnancy Gold content needs pregnancy-sensitive wording and HCP consultation prompt.","Compliance"]],
+  canv:[["Audience","Working women 25-40; parents with children 4-12; expecting mothers; senior joint-care buyers.","Segmented by health goal and market"],["Message architecture","Need state -> ingredient fact -> supported benefit -> usage note -> compliant CTA.","Claim-grounded"],["Channel plan","RED/WeChat for education, Instagram/TikTok for routines, pharmacy POP and PDP for conversion.","Format-aware"],["Personalization","Variant copy by health goal, life stage, purchase history and preferred channel.","Consumer-ready"],["Reuse model","Master asset -> market variant -> channel format -> campaign kit -> library item.","DAM-connected"],["Feedback loop","CTR, saves, comments, conversion and compliance exceptions update the next brief.","Performance-backed"]],
+  matrix:[["Bio C 1000 winter routine","Office workers","RED explainer + WeChat article","High"],["Kids Multi lunchbox routine","Parents","Instagram carousel + WhatsApp card","Med"],["Pregnancy Gold authenticity guide","Expecting mothers","Tmall FAQ + WeChat OA","High"],["Joint Formula winter mobility","45-65 ANZ","Facebook video + pharmacy POP","Med"]],
+  guards:[["Claim guardrails",["No cure, prevention or disease-treatment wording","Support claims must map to approved product truth","Mandatory label and consultation language by market"]],["Brand guardrails",["Blackmores tone: trusted, warm, expert, practical","Brand colour and packshot lock","No off-brand fear-based health messaging"]],["Platform guardrails",["RED community wording and disclosure","Tmall/JD PDP module consistency","Meta/TikTok paid creative policy checks"]]],
+  approvals:["AI draft","Brand review","Medical / regulatory review","Channel publish"],
+  assetStats:[["52","official products"],["180","format variants"],["34","generated this month"]]},
+ zh:{nav:{briefs:"Briefs",strategy:"Strategy",generate:"Generate",assets:"Assets",governance:"Governance",performance:"Performance"},
+  briefsH:"Briefs · 信号输入",briefsL:"先汇总消费者声音、产品事实、活动目标和渠道要求，再开始生成内容。",
+  strategyH:"内容策略",strategyL:"把 brief 转成分市场的内容主题、信息架构和渠道计划。",
+  generateH:"Generate 生成",generateL:"基于已批准素材生成文案、图片、视频、PDP 模块和渠道格式，并带品牌与宣称护栏。",
+  assetsH:"Assets · 素材库 · 复用",assetsL:"管理 Blackmores 官方素材、生成版本、复用资产库和伙伴共享内容。",
+  govH:"治理与审批",govL:"发布前检查保健品宣称、品牌规范、平台政策和本地市场要求。",
+  perfH:"Performance 回流",perfL:"读取创意、人群与渠道表现，把学习结果回流到下一轮 brief。",
+  assetTabs:["品牌素材","我的素材库","生态共享"],startGenerate:"用于生成",
+  signals:[["💬","VOC：胶囊大小摩擦","评价集中提到鱼油胶囊偏大；内容应转向日常习惯教育和产品对比。","VOC"],["📕","小红书趋势：免疫日常","中国维C+锌搜索升温，需要安全的每日支持型话术。","社媒"],["🧬","产品事实：Bio C 1000","可用宣称：支持免疫系统健康；避免治疗、预防类措辞。","知识图谱"],["🛒","渠道需求：药房 POP","澳新药房团队需要冬季客流下的货架话术和套装视觉。","零售"],["✅","合规提示","Pregnancy Gold 内容需采用孕期敏感话术，并提示咨询专业人士。","合规"]],
+  canv:[["人群","25-40 职场女性、4-12 岁儿童家长、孕期人群、关节护理中老年用户。","按健康目标与市场分群"],["信息架构","需求状态 -> 成分事实 -> 支持型利益点 -> 使用提示 -> 合规 CTA。","基于宣称事实"],["渠道计划","小红书/微信做科普，Instagram/TikTok 做日常，药房 POP 与 PDP 负责转化。","适配格式"],["个性化","按健康目标、生命阶段、购买历史和偏好渠道生成版本。","面向消费者"],["复用模型","母素材 -> 市场版本 -> 渠道格式 -> 活动物料包 -> 素材库沉淀。","连接 DAM"],["反馈回流","CTR、收藏、评论、转化和合规异常回流下一轮 brief。","表现驱动"]],
+  matrix:[["Bio C 1000 冬季日常","职场人群","小红书科普 + 微信文章","高"],["Kids Multi 午餐盒日常","儿童家长","Instagram 轮播 + WhatsApp 卡片","中"],["Pregnancy Gold 正品指南","孕期人群","天猫 FAQ + 微信公众号","高"],["Joint Formula 冬季行动力","45-65 澳新用户","Facebook 视频 + 药房 POP","中"]],
+  guards:[["宣称护栏",["禁止治疗、预防或疾病功效措辞","支持型宣称必须对应已批准产品事实","按市场加入标签阅读和专业咨询提示"]],["品牌护栏",["Blackmores 语气：可信、温和、专业、实用","锁定品牌色与产品图","避免恐吓式健康营销"]],["平台护栏",["小红书社区表达与披露","天猫/JD PDP 模块一致性","Meta/TikTok 付费创意政策检查"]]],
+  approvals:["AI 草稿","品牌审核","医学 / 法规审核","渠道发布"],
+  assetStats:[["52","官方产品"],["180","格式版本"],["34","本月生成"]]}
+};
+CE.ja=CE.en;CE.th=CE.en;
+
+function tabsBar(){const c=CE[state.lang]||CE.en;$('#tabs').innerHTML=["briefs","strategy","generate","assets","governance","performance"]
+  .map(k=>`<button data-t="${k}" class="${state.tab===k?'on':''}">${c.nav[k]}</button>`).join('');
+  $$('#tabs button').forEach(b=>b.onclick=()=>{state.tab=b.dataset.t;state.sel=null;render();});}
+function render(){tabsBar();({briefs:renderBriefs,strategy:renderStrategy,generate:renderS,assets:renderAssets,governance:renderGovernance,performance:renderPerformance}[state.tab])();}
+
+function renderBriefs(){const c=CE[state.lang]||CE.en,e=ENGINE[state.lang]||ENGINE.en;
+  $('#main').innerHTML=`<div class="lane"><div class="engine-card"><div class="mini-head"><h2 class="sec" style="margin:0">${c.briefsH}</h2><span class="pill">Signal intake</span></div><div class="lead">${c.briefsL}</div>
+    <div class="signal-list">${c.signals.map(s=>`<div class="signal"><div class="ic">${s[0]}</div><div><b>${s[1]}</b><span>${s[2]}</span></div><div class="src">${s[3]}</div></div>`).join('')}</div></div>
+    <div class="engine-card"><h3>${e.brief}</h3><div class="brief-grid">${e.briefs.map(b=>`<div class="brief"><div class="tag">${b[0]}</div><h4>${b[1]}</h4><ul>${b[2].map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}</div></div></div>`;}
+
+function renderStrategy(){const c=CE[state.lang]||CE.en;
+  $('#main').innerHTML=`<h2 class="sec">${c.strategyH}</h2><div class="lead">${c.strategyL}</div>
+  <div class="canvas">${c.canv.map(x=>`<div class="canvas-card"><h4>${x[0]}</h4><p>${x[1]}</p><span class="tag">${x[2]}</span></div>`).join('')}</div>
+  <div class="engine-card" style="margin-top:14px"><h3>Variant plan</h3><div class="matrix"><div class="matrix-row head"><div>Content territory</div><div>Audience</div><div>Channel</div><div>Priority</div></div>
+    ${c.matrix.map(r=>`<div class="matrix-row">${r.map(x=>`<div>${x}</div>`).join('')}</div>`).join('')}</div></div>`;}
+
+function renderAssets(){const c=CE[state.lang]||CE.en,u=U();if(state.sel)return renderAssetDetail();
+  const tab=state.assetView||'brand';
+  const brand=`<div class="grid">${ASSETS.map(a=>`<div class="acard" data-a="${a.id}">
+    <div class="ph"><img src="${a.em}" alt="${T(a.nm)}"><span class="lk">${BRANDS[state.brand].name}</span></div>
+    <div class="meta"><div class="nm">${T(a.nm)}</div><span class="tg">${tagText(a.tag)}</span></div>
+    <div class="libactions"><button class="btn o" data-gen="${a.id}" style="font-size:11.5px;padding:7px 10px">${c.startGenerate}</button></div></div>`).join('')}</div>`;
+  const lib=state.myLib.length?`<div class="grid">${state.myLib.map((m,i)=>`<div class="acard" style="cursor:default"><div class="ph"><img src="${m.em}" alt="${TS(m.nm)}"><span class="lk">${BRANDS[state.brand].name}</span></div><div class="meta"><div class="nm">${TS(m.nm)}</div>${srcBadge(m.src)}${m.from?`<div class="cby">${u.derived} ${TS(m.from)}</div>`:''}</div><div class="libactions"><button class="btn o" data-push="${i}" style="font-size:11.5px;padding:7px 10px">${u.push}</button>${m.src!=='off'?`<span style="margin-left:auto;font-size:11px;color:var(--muted)">${u.share}</span><div class="sw ${m.shared?'on':''}" data-share="${i}"><i></i></div>`:''}</div></div>`).join('')}</div>`:`<div class="panel"><div class="empty">${u.emptyLib}</div></div>`;
+  const comm=`<div class="grid">${state.community.map((m,i)=>`<div class="acard" style="cursor:default"><div class="ph"><img src="${m.em}" alt="${TS(m.nm)}"><span class="lk">${m.by}</span></div><div class="meta"><div class="nm">${TS(m.nm)}</div><div class="cby">${u.by} ${m.by} · <span class="uses">${m.uses} ${u.usesL}</span></div></div><div class="libactions"><button class="btn" data-use="${i}" style="font-size:11.5px;padding:7px 12px">${u.useThis}</button></div></div>`).join('')}</div>`;
+  $('#main').innerHTML=`<h2 class="sec">${c.assetsH}</h2><div class="lead">${c.assetsL}</div>
+    <div class="asset-top">${c.assetStats.map(s=>`<div class="asset-summary"><b>${s[0]}</b><span>${s[1]}</span></div>`).join('')}</div>
+    <div class="subnav">${[['brand',c.assetTabs[0]],['lib',c.assetTabs[1]],['comm',c.assetTabs[2]]].map(([k,l])=>`<button data-av="${k}" class="${tab===k?'on':''}">${l}</button>`).join('')}</div>
+    ${tab==='brand'?brand:tab==='lib'?lib:comm}`;
+  $$('.subnav button').forEach(b=>b.onclick=()=>{state.assetView=b.dataset.av;render();});
+  $$('[data-a]').forEach(card=>card.onclick=e=>{if(e.target.closest('[data-gen]'))return;state.sel=ASSETS.find(x=>x.id===card.dataset.a);render();});
+  $$('[data-gen]').forEach(b=>b.onclick=()=>{state.sel=ASSETS.find(x=>x.id===b.dataset.gen);state.tab='generate';render();});
+  $$('[data-push]').forEach(b=>b.onclick=()=>toast(u.pushed));
+  $$('[data-share]').forEach(b=>b.onclick=()=>{const i=+b.dataset.share;state.myLib[i].shared=!state.myLib[i].shared;if(state.myLib[i].shared){state.community.unshift({em:state.myLib[i].em,nm:state.myLib[i].nm,by:"You",uses:0,from:state.myLib[i].from||''});toast(u.sharedOn);}else toast(u.sharedOff);render();});
+  $$('[data-use]').forEach(b=>b.onclick=()=>{const m=state.community[+b.dataset.use];state.myLib.unshift({em:m.em,nm:m.nm,src:"tpl",shared:false,from:m.from});m.uses++;toast(u.added);render();});}
+
+function renderGovernance(){const c=CE[state.lang]||CE.en;
+  $('#main').innerHTML=`<h2 class="sec">${c.govH}</h2><div class="lead">${c.govL}</div>
+    <div class="guard-grid">${c.guards.map(g=>`<div class="guard"><h4>${g[0]}</h4><ul>${g[1].map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}</div>
+    <div class="engine-card" style="margin-top:14px"><h3>Approval flow</h3><div class="approval">${c.approvals.map((x,i)=>`<div><b>0${i+1}</b>${x}</div>`).join('')}</div></div>`;}
+
+function renderPerformance(){const c=CE[state.lang]||CE.en,e=ENGINE[state.lang]||ENGINE.en;
+  $('#main').innerHTML=`<h2 class="sec">${c.perfH}</h2><div class="lead">${c.perfL}</div>
+    <div class="engine-card"><h3>${e.test}</h3><div class="variant-table"><div class="variant-row head">${e.cols.map(x=>`<div>${x}</div>`).join('')}</div>
+    ${e.rows.map(r=>`<div class="variant-row"><div><b>${r[0]}</b></div><div>${r[1]}</div><div>${r[2]}</div><div><div style="font-weight:900;color:var(--brand);margin-bottom:4px">${r[3]}</div><div class="score"><i style="width:${r[3]}%"></i></div></div></div>`).join('')}</div></div>
+    <div class="lane" style="margin-top:14px"><div class="engine-card"><div class="mini-head"><h3>Learning queue</h3><span class="pill">Next brief</span></div><div class="signal-list">${c.signals.slice(0,3).map(s=>`<div class="signal"><div class="ic">${s[0]}</div><div><b>${s[1]}</b><span>${s[2]}</span></div><div class="src">${s[3]}</div></div>`).join('')}</div></div>
+    <div class="engine-card"><div class="mini-head"><h3>Actions</h3><span class="pill">Optimization</span></div><div class="flow" style="grid-template-columns:1fr 1fr">${[[e.p3,e.p3d],[e.p4,e.p4d]].map((s,i)=>`<div class="step"><div class="num">0${i+1}</div><b>${s[0]}</b><span>${s[1]}</span></div>`).join('')}</div></div></div>`;}
+
+function tagText(t){const u=U();return t==='edit'?u.tagEdit:t==='noedit'?u.tagNo:u.tagSocial;}
+
+function renderB(){const u=U();
+  if(state.sel){return renderAssetDetail();}
+  $('#main').innerHTML=`<h2 class="sec">${u.bH}</h2><div class="lead">${u.bL}</div>
+  <div class="grid">${ASSETS.map(a=>`<div class="acard" data-a="${a.id}">
+    <div class="ph"><img src="${a.em}" alt="${T(a.nm)}"><span class="lk">${BRANDS[state.brand].name}</span></div>
+    <div class="meta"><div class="nm">${T(a.nm)}</div><span class="tg">${tagText(a.tag)}</span></div></div>`).join('')}</div>`;
+  $$('.acard').forEach(c=>c.onclick=()=>{state.sel=ASSETS.find(x=>x.id===c.dataset.a);render();});}
+
+function renderAssetDetail(){const u=U(),a=state.sel;
+  $('#main').innerHTML=`<button class="back" id="bk">← ${u.t_b}</button>
+  <div class="detail"><div><div class="ph hero"><img src="${a.em}" alt="${T(a.nm)}"><span class="lk">${BRANDS[state.brand].name}</span></div>
+    <span class="tg" style="margin-top:10px;display:inline-block">${tagText(a.tag)}</span></div>
+  <div><div class="dh">${T(a.nm)}</div><div class="lead">${u.official} · ${BRANDS[state.brand].name}</div>
+    <div class="fmtlab">${u.fmtsLab}</div>
+    <div class="fmts">${FORMATS.map((f,i)=>`<div class="fmt" data-f="${i}"><div class="box" style="width:${f.w}px;height:${f.h}px"><img src="${a.em}" alt=""></div>
+      <div class="fn">${f.em} ${T(f.n)}</div><div class="fr">${f.r}</div></div>`).join('')}</div>
+    <div class="acts"><button class="btn" id="dl">${u.dlAll}</button>
+      <button class="btn o" id="add">${u.addLib}</button>
+      ${a.tag!=='noedit'?`<button class="btn" id="rmx">${u.remix}</button>`:''}</div></div></div>`;
+  $('#bk').onclick=()=>{state.sel=null;render();};
+  $('#dl').onclick=()=>toast(u.dlAll.replace('⬇ ',''));
+  $('#add').onclick=()=>{state.myLib.unshift({em:a.em,nm:T(a.nm),src:"off"});toast(u.savedLib);render();};
+  const rm=$('#rmx');if(rm)rm.onclick=()=>{state.tab='generate';render();};
+  $$('.fmt').forEach(el=>el.onclick=()=>openFmtModal(a,FORMATS[+el.dataset.f]));}
+
+/* ---- format detail modal ---- */
+let _ma=null,_mf=null,_mtab='info';
+function qrSvg(seed){let s=2166136261>>>0;for(const c of seed)s=Math.imul(s^c.charCodeAt(0),16777619)>>>0;
+  const rnd=()=>{s=(Math.imul(s,1103515245)+12345)>>>0;return (s>>>16)/65536;};
+  const n=13,cell=5;let r='';
+  for(let y=0;y<n;y++)for(let x=0;x<n;x++){const fin=(x<4&&y<4)||(x>n-5&&y<4)||(x<4&&y>n-5);if(!fin&&rnd()>0.52)r+=`<rect x="${x*cell}" y="${y*cell}" width="${cell}" height="${cell}"/>`;}
+  const fc=(ox,oy)=>`<rect x="${ox}" y="${oy}" width="${cell*3}" height="${cell*3}" fill="none" stroke="currentColor" stroke-width="2.4"/><rect x="${ox+cell}" y="${oy+cell}" width="${cell}" height="${cell}"/>`;
+  return `<svg viewBox="0 0 ${n*cell} ${n*cell}" width="68" height="68" fill="currentColor" style="color:var(--ink)">${r}${fc(0,0)}${fc((n-3)*cell,0)}${fc(0,(n-3)*cell)}</svg>`;}
+function fmFile(a,f){const bn=BRANDS[state.brand].name;return `${bn}_${TS(a.nm)}_${f.px}.png`.replace(/[\s·]+/g,'-');}
+function openFmtModal(a,f){_ma=a;_mf=f;_mtab='info';renderFmtModal();}
+function closeFmtModal(){const fm=$('#fmodal');fm.classList.remove('show');fm.innerHTML='';_ma=null;}
+function renderFmtModal(){const m=MOD[state.lang]||MOD.en,a=_ma,f=_mf,bn=BRANDS[state.brand].name,fm=$('#fmodal');
+  fm.innerHTML=`<div class="fmback" id="fmback"></div>
+  <div class="fmcard"><button class="fmclose" id="fmclose">✕</button>
+    <div class="fmL">
+      <div class="fmbig"><span class="rt">${f.px} · ${f.r}</span><img src="${a.em}" alt="${TS(a.nm)}"><span class="lk">${bn}</span></div>
+      <div class="fmthumbs">${FORMATS.filter(x=>x!==f).slice(0,3).map((x,i)=>`<div class="tb" data-t2="${FORMATS.indexOf(x)}"><img src="${a.em}"><span>${x.em} ${x.r}</span></div>`).join('')}</div>
+    </div>
+    <div class="fmR">
+      <div class="fmh">${f.em} ${TS(f.n)}</div>
+      <div class="fmsub">${TS(a.nm)} · ${bn}</div>
+      <div class="fmacts"><button class="fmbtn" id="fmdl">${m.dl}</button><button class="fmbtn o" id="fmadd">${m.addlib}</button></div>
+      <div class="fmtabs">${[["info",m.info],["stats",m.stats],["log",m.log]].map(([k,l])=>`<button data-mt="${k}" class="${_mtab===k?'on':''}">${l}</button>`).join('')}</div>
+      <div id="fmbody">${fmBody(m,a,f,bn)}</div>
+    </div></div>`;
+  fm.classList.add('show');
+  $('#fmback').onclick=closeFmtModal;$('#fmclose').onclick=closeFmtModal;
+  $('#fmdl').onclick=()=>toast(m.dl.replace('⬇ ','')+' · '+TS(f.n)+' '+f.px);
+  $('#fmadd').onclick=()=>{state.myLib.unshift({em:a.em,nm:TS(a.nm)+' · '+TS(f.n),src:"off"});toast(U().savedLib);closeFmtModal();render();};
+  $$('.fmtabs button').forEach(b=>b.onclick=()=>{_mtab=b.dataset.mt;$$('.fmtabs button').forEach(x=>x.classList.toggle('on',x===b));$('#fmbody').innerHTML=fmBody(m,a,f,bn);bindFmBody(m,a,f);});
+  $$('.tb[data-t2]').forEach(t=>t.onclick=()=>{_mf=FORMATS[+t.dataset.t2];_mtab='info';renderFmtModal();});
+  bindFmBody(m,a,f);}
+function fmBody(m,a,f,bn){
+  if(_mtab==='stats'){const views=(f.w*f.h*7+1240),dls=Math.round(views*0.34),reuse=Math.round(f.w/3+18);
+    return `<div class="fmstats"><div class="fmstat"><b>${views.toLocaleString()}</b><span>👁 ${m.views}</span></div>
+      <div class="fmstat"><b>${dls.toLocaleString()}</b><span>⬇ ${m.downloads}</span></div></div>
+      <div class="fmbar"><div class="bl"><span>${m.reuse}</span><span>+${reuse}</span></div><div class="fmtrack"><i style="width:${Math.min(100,reuse*2.4)}%"></i></div></div>
+      <div class="fmbar"><div class="bl"><span>${m.compliant}</span><span style="color:var(--pos);font-weight:700">✓ ${m.compVal}</span></div><div class="fmtrack"><i style="width:100%;background:var(--pos)"></i></div></div>`;}
+  if(_mtab==='log'){const L=[[m.lPub,"2026/05/12 10:24"],[m.lRev,"2026/05/12 09:58"],[m.lAi,"2026/05/12 09:41"],[m.lUp,"2026/04/01 14:03"]];
+    return `<ul class="fmlog">${L.map(([t,d])=>`<li><span class="dot"></span><div><div class="lt">${t}</div><div class="ld">${d}</div></div></li>`).join('')}</ul>`;}
+  const code=`<img src="${fmFile(a,f)}" width="${f.px.split('×')[0]}" alt="${TS(a.nm)}">`;
+  return `<div class="fmsec">◧ ${m.info}</div>
+    <dl class="fminfo">
+      <dt>${m.file}</dt><dd>${fmFile(a,f)}</dd>
+      <dt>${m.tags}</dt><dd><span class="fmtag">${tagText(a.tag)}</span><span class="fmtag">${TS(GRP[f.grp])}</span><span class="fmtag">ANZ</span></dd>
+      <dt>${m.brand}</dt><dd>${bn}</dd>
+      <dt>${m.channel}</dt><dd>${TS(f.ch)}</dd>
+      <dt>${m.valid}</dt><dd>2026/04/01 — 2027/03/31</dd>
+      <dt>${m.qr}</dt><dd>${qrSvg(fmFile(a,f))}</dd>
+    </dl>
+    <div class="fmsec">○ ${m.more}</div>
+    <dl class="fminfo">
+      <dt>${m.group}</dt><dd>${TS(GRP[f.grp])}</dd>
+      <dt>${m.res}</dt><dd>${f.px} px</dd>
+      <dt>${m.ext}</dt><dd>.png</dd>
+      <dt>${m.mime}</dt><dd>image/png</dd>
+      <dt>${m.size}</dt><dd>${f.sz} MB</dd>
+      <dt>${m.author}</dt><dd>${m.authorVal}</dd>
+      <dt>${m.copy}</dt><dd>${m.copyVal}</dd>
+      <dt>${m.desc}</dt><dd>${m.descVal}</dd>
+    </dl>
+    <div class="fmsec">◇ ${m.code}</div>
+    <div class="fmcode"><code id="fmcodev">${code.replace(/</g,'&lt;')}</code><button id="fmcopy">${m.copyBtn}</button></div>`;}
+function bindFmBody(m,a,f){const cb=$('#fmcopy');if(cb)cb.onclick=()=>{const code=`<img src="${fmFile(a,f)}" width="${f.px.split('×')[0]}" alt="${TS(a.nm)}">`;
+  try{navigator.clipboard&&navigator.clipboard.writeText(code);}catch(e){}cb.textContent=m.copied;setTimeout(()=>{cb.textContent=m.copyBtn;},1500);};}
+function closeGenModal(){const gm=$('#gmodal');gm.classList.remove('show');gm.innerHTML='';}
+function ratioMeta(fmt){return fmt.indexOf('9:16')>=0?'9:16':fmt.indexOf('3:4')>=0?'3:4':'1:1';}
+function genSceneHtml(a,sc,i,tag,extra){return `<div class="gen-card scene-${i} ${extra||''}" data-g="${i}"><div class="ribbon"></div><div class="orb o1"></div><div class="orb o2"></div><div class="spark"></div><div class="prop"></div><div class="leaf"></div><div class="scene-copy"><b>${T(sc.t)}</b><span>${T(sc.d)}<br>${tag}</span></div><img src="${a.em}" alt=""><span class="format">${sc.f}</span></div>`;}
+function openGenModal(a,sc,i,tag){const gm=$('#gmodal'),ratio=ratioMeta(sc.f),pack='pack-'+(state.genPack||0);
+  gm.innerHTML=`<div class="gmback" id="gmback"></div><button class="gmclose" id="gmclose">✕</button><button class="gmnav prev" id="gprev">‹</button><button class="gmnav next" id="gnext">›</button>
+  <div class="gmcard"><div class="gmstage"><div class="gen-card scene-${i} ${pack}"><div class="prop"></div><div class="leaf"></div>
+    <div class="ribbon"></div><div class="orb o1"></div><div class="orb o2"></div><div class="spark"></div><div class="scene-copy"><b>${T(sc.t)}</b><span>${T(sc.d)}<br>${tag}</span></div><img src="${a.em}" alt=""><span class="format">${sc.f}</span></div></div>
+    <div class="gminfo"><h3>${T(sc.t)}</h3><p>${T(sc.d)}</p><div class="meta">
+      <div><span>Format</span><b>${sc.f}</b></div><div><span>Ratio</span><b>${ratio}</b></div><div><span>Source</span><b>${T(a.nm)}</b></div><div><span>Variant</span><b>${tag}</b></div>
+    </div></div></div>`;
+  gm.classList.add('show');$('#gmback').onclick=closeGenModal;$('#gmclose').onclick=closeGenModal;
+  $('#gprev').onclick=()=>navGenModal(-1,i);$('#gnext').onclick=()=>navGenModal(1,i);}
+function navGenModal(dir,i){const scenes=state.genScenes||[];if(!scenes.length)return;const next=(i+dir+scenes.length)%scenes.length;openGenModal(state.genAsset,scenes[next],next,state.genTag);}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#fmodal').classList.contains('show'))closeFmtModal();if(e.key==='Escape'&&$('#gmodal').classList.contains('show'))closeGenModal();});
+
+function renderS(){const u=U();
+  if(!state.sel){$('#main').innerHTML=`<h2 class="sec">${u.sH}</h2><div class="lead">${u.sL}</div>
+    <div class="panel"><div class="empty">🎨 ${u.pickFirst}<br><br><button class="btn" id="goB">${u.goAssets}</button></div></div>`;
+    $('#goB').onclick=()=>{state.tab='assets';state.assetView='brand';render();};return;}
+  const a=state.sel;
+  $('#main').innerHTML=`<h2 class="sec">${u.sH}</h2><div class="lead">${u.sL}</div>
+  <div class="studio"><div class="panel">
+    <div class="srcasset"><div class="ph"><img src="${a.em}" alt="${T(a.nm)}"></div><div><div style="font-weight:700;font-size:13.5px">${u.source}</div>
+      <div style="font-size:12.5px;color:var(--muted)">${T(a.nm)}</div></div></div>
+    <div class="modes"><button class="modeb ${state.mode==='img'?'on':''}" data-m="img">${u.modeImg}</button>
+      <button class="modeb ${state.mode==='vid'?'on':''}" data-m="vid">${u.modeVid}</button></div>
+    ${state.mode==='img'?imgParams(u):vidParams(u)}
+    <div class="lab">${u.prompt}</div><textarea class="field" id="pr" placeholder="${u.promptPh}">${state.mode==='img'?'bright bathroom shelf, fish oil supplement, healthy routine':'product hero into a short social clip'}</textarea>
+    <button class="btn o" id="opt" style="margin-top:8px">${u.optimize}</button>
+    <div class="optim" id="optBox">${u.optEx}</div>
+    <div class="comp pass" id="comp">${u.compPass}</div>
+    <button class="btn" id="gen" style="width:100%;margin-top:12px">${u.generate}</button>
+  </div>
+  <div class="panel" id="outPanel"><div class="empty">${state.mode==='img'?'🖼️':'🎬'} ${u.generate} →<br><span style="font-size:12px;color:var(--muted)">${state.mode==='img'?'AI scene composites with product, background, light and format variants':'Storyboard + social video treatment'}</span></div></div></div>`;
+  $$('.modeb').forEach(b=>b.onclick=()=>{state.mode=b.dataset.m;render();});
+  bindStudio();}
+
+function imgParams(u){return `<div class="lab">${u.style}</div><div class="chips" id="cStyle">${STYLES.map((s,i)=>`<span class="pc ${i===state.style?'on':''}" data-i="${i}">${T(s)}</span>`).join('')}</div>
+  <div class="lab">${u.season}</div><div class="chips" id="cSeason">${SEASONS.map((s,i)=>`<span class="pc ${i===state.season?'on':''}" data-i="${i}">${T(s)}</span>`).join('')}</div>
+  <div class="lab">${u.model}</div><div class="chips" id="cModel">${MODELS.map((s,i)=>`<span class="pc ${i===state.model?'on':''}" data-i="${i}">${T(s)}</span>`).join('')}</div>
+  ${lockBlock(u)}`;}
+function vidParams(u){return `<div class="lab">${u.vpreset}</div><div class="chips" id="cVp">${VPRESETS.map((s,i)=>`<span class="pc ${i===state.vpreset?'on':''}" data-i="${i}">${T(s)}</span>`).join('')}</div>${lockBlock(u)}`;}
+function lockBlock(u){const items=[u.lkLogo,u.lkColor,u.lkDisc,u.lkLocal];
+  return `<div class="lab">🔒 ${u.brandlock}</div>${items.map((t,i)=>`<div class="lock" data-l="${i}"><span class="ck ${state.locks[i]?'on':''}">${state.locks[i]?'✓':''}</span>${t}</div>`).join('')}`;}
+
+function bindStudio(){const u=U();
+  $$('#cStyle .pc').forEach(p=>p.onclick=()=>{state.style=+p.dataset.i;$$('#cStyle .pc').forEach(x=>x.classList.toggle('on',x===p));});
+  $$('#cSeason .pc').forEach(p=>p.onclick=()=>{state.season=+p.dataset.i;$$('#cSeason .pc').forEach(x=>x.classList.toggle('on',x===p));});
+  $$('#cModel .pc').forEach(p=>p.onclick=()=>{state.model=+p.dataset.i;$$('#cModel .pc').forEach(x=>x.classList.toggle('on',x===p));});
+  $$('#cVp .pc').forEach(p=>p.onclick=()=>{state.vpreset=+p.dataset.i;$$('#cVp .pc').forEach(x=>x.classList.toggle('on',x===p));});
+  $$('.lock').forEach(l=>l.onclick=()=>{const i=+l.dataset.l;state.locks[i]=state.locks[i]?0:1;
+    const c=l.querySelector('.ck');c.classList.toggle('on',!!state.locks[i]);c.textContent=state.locks[i]?'✓':'';});
+  $('#opt').onclick=()=>$('#optBox').classList.toggle('show');
+  $('#pr').addEventListener('input',checkComp);checkComp();
+  $('#gen').onclick=doGen;}
+function checkComp(){const u=U();const v=($('#pr')?$('#pr').value:'').toLowerCase();const c=$('#comp');if(!c)return;
+  if(/treat|cure|治疗|治愈|รักษา|治療/.test(v)){c.className='comp block';c.textContent=u.compBlock;}
+  else if(/immunity|免疫|ภูมิ|免疫力/.test(v)){c.className='comp warn';c.textContent=u.compWarn;}
+  else{c.className='comp pass';c.textContent=u.compPass;}}
+function doGen(){const u=U();const blocked=$('#comp').classList.contains('block');
+  if(blocked){toast(u.compBlock);return;}
+  const a=state.sel,p=$('#outPanel');
+  if(state.mode==='img'){const tag=T(SEASONS[state.season])+' · '+T(STYLES[state.style])+' · '+T(MODELS[state.model]);
+    const packs=[
+      [
+        {t:{en:'Morning wellness shelf',zh:'清晨健康置物架'},d:{en:'Soft daylight · kitchen / bathroom routine',zh:'柔和晨光 · 厨房 / 浴室日常'},f:'IG 1:1'},
+        {t:{en:'Pharmacy hero visual',zh:'药房主视觉'},d:{en:'Clean retail light · shelf-ready POP',zh:'干净零售光 · 可用于货架 POP'},f:'POP 1:1'},
+        {t:{en:'Natural daily ritual',zh:'自然日常仪式'},d:{en:'Botanical background · habit-building content',zh:'植物背景 · 习惯养成内容'},f:'WeChat 3:4'},
+        {t:{en:'Premium social edit',zh:'高级社媒版本'},d:{en:'Warm gradient · paid creative variant',zh:'温暖渐变 · 投放创意版本'},f:'Story 9:16'}
+      ],
+      [
+        {t:{en:'Editorial bathroom glow',zh:'杂志感浴室光影'},d:{en:'Marble, misted glass, soft reflection',zh:'大理石、雾面玻璃、柔和反射'},f:'IG 1:1'},
+        {t:{en:'Retail campaign burst',zh:'零售活动爆发视觉'},d:{en:'Bold shelf-blocking graphic with offer space',zh:'强货架冲击力 · 预留优惠信息'},f:'POP 1:1'},
+        {t:{en:'Green botanical close-up',zh:'绿色植物近景'},d:{en:'Layered leaves, water drops, natural freshness',zh:'层叠叶片、水滴、自然清新'},f:'WeChat 3:4'},
+        {t:{en:'Night routine social story',zh:'夜间日常社媒故事'},d:{en:'Soft violet light, bedside ritual mood',zh:'柔和紫调、床头日常氛围'},f:'Story 9:16'}
+      ],
+      [
+        {t:{en:'Sunlit breakfast ritual',zh:'阳光早餐日常'},d:{en:'Ceramic tray, fruit accents, warm shadows',zh:'陶瓷托盘、水果点缀、温暖阴影'},f:'IG 1:1'},
+        {t:{en:'Clinical clean packshot',zh:'专业洁净产品主图'},d:{en:'White lab-inspired set with teal accents',zh:'白色实验室感布景 + 青绿色点缀'},f:'POP 1:1'},
+        {t:{en:'Marketplace PDP visual',zh:'电商详情页视觉'},d:{en:'Benefit blocks, product truth and lifestyle cue',zh:'利益点模块、产品事实、生活方式提示'},f:'WeChat 3:4'},
+        {t:{en:'High-energy motion edit',zh:'高能动态创意'},d:{en:'Diagonal light streaks, paid media energy',zh:'斜向光轨、投放创意动势'},f:'Story 9:16'}
+      ]
+    ];
+    const pack=state.genSeed%packs.length,scenes=packs[pack];state.genScenes=scenes;state.genAsset=a;state.genTag=tag;state.genPack=pack;
+    p.innerHTML=`<div class="outtop"><div class="lab">${u.generate.replace('✨ ','')} · 4</div><button class="btn o" id="regen" style="font-size:12px;padding:8px 11px">↻ Regenerate</button></div>
+      <div class="outgrid">${scenes.map((sc,i)=>`<div class="outwrap">${genSceneHtml(a,sc,i,tag,'pack-'+pack)}
+        <button class="save" data-s="${i}">${u.save}</button></div>`).join('')}</div>`;
+    $$('.gen-card[data-g]').forEach(card=>card.onclick=()=>openGenModal(a,scenes[+card.dataset.g],+card.dataset.g,tag));
+    $('#regen').onclick=()=>{state.genSeed++;doGen();};
+    $$('.save').forEach(b=>b.onclick=()=>{state.myLib.unshift({em:a.em,nm:T(a.nm)+' · '+tag,src:"ai",shared:false,from:T(a.nm)});toast(u.savedLib);render();});}
+  else{const pr=T(VPRESETS[state.vpreset]);
+    p.innerHTML=`<div class="lab" style="margin-top:0">${pr}</div><div class="vidout">▶<span class="lk" style="font-size:11px">${pr}</span></div>
+      <div class="board"><b>${u.storyboardT}</b>
+0-3s · ${u.sbHook}
+3-8s · ${u.sbProduct}: ${T(a.nm)}
+8-12s · ${u.sbBenefit}
+12-15s · ${u.sbCta}</div>
+      <button class="btn" id="svv" style="width:100%;margin-top:11px">${u.save}</button>`;
+    $('#svv').onclick=()=>{state.myLib.unshift({em:a.em,nm:T(a.nm)+' · '+pr,src:"ai",shared:false,from:T(a.nm)});toast(u.savedLib);render();};}}
+
+function srcBadge(s){const u=U();return s==='off'?`<span class="src src-off">🏛️ ${u.srcOff}</span>`:s==='ai'?`<span class="src src-ai">⚡ ${u.srcAi}</span>`:`<span class="src src-tpl">🎨 ${u.srcTpl}</span>`;}
+function renderL(){const u=U();
+  if(!state.myLib.length){$('#main').innerHTML=`<h2 class="sec">${u.lH}</h2><div class="lead">${u.lL}</div><div class="panel"><div class="empty">📁 ${u.emptyLib}</div></div>`;return;}
+  $('#main').innerHTML=`<h2 class="sec">${u.lH}</h2><div class="lead">${u.lL}</div>
+  <div class="grid">${state.myLib.map((m,i)=>`<div class="acard" style="cursor:default">
+    <div class="ph"><img src="${m.em}" alt="${TS(m.nm)}"><span class="lk">${BRANDS[state.brand].name}</span></div>
+    <div class="meta"><div class="nm">${TS(m.nm)}</div>${srcBadge(m.src)}${m.from?`<div class="cby">${u.derived} ${TS(m.from)}</div>`:''}</div>
+    <div class="libactions"><button class="btn o" data-push="${i}" style="font-size:11.5px;padding:7px 10px">${u.push}</button>
+      ${m.src!=='off'?`<span style="margin-left:auto;font-size:11px;color:var(--muted)">${u.share}</span><div class="sw ${m.shared?'on':''}" data-share="${i}"><i></i></div>`:''}</div></div>`).join('')}</div>`;
+  $$('[data-push]').forEach(b=>b.onclick=()=>toast(u.pushed));
+  $$('[data-share]').forEach(b=>b.onclick=()=>{const i=+b.dataset.share;state.myLib[i].shared=!state.myLib[i].shared;
+    if(state.myLib[i].shared){state.community.unshift({em:state.myLib[i].em,nm:state.myLib[i].nm,by:"You",uses:0,from:state.myLib[i].from||''});toast(u.sharedOn);}
+    else toast(u.sharedOff);render();});}
+
+function renderC(){const u=U();
+  $('#main').innerHTML=`<h2 class="sec">${u.cH}</h2><div class="lead">${u.cL}</div>
+  <div class="grid">${state.community.map((m,i)=>`<div class="acard" style="cursor:default">
+    <div class="ph"><img src="${m.em}" alt="${TS(m.nm)}"><span class="lk">${m.by}</span></div>
+    <div class="meta"><div class="nm">${TS(m.nm)}</div><div class="cby">${u.by} ${m.by} · <span class="uses">${m.uses} ${u.usesL}</span></div>
+    </div><div class="libactions"><button class="btn" data-use="${i}" style="font-size:11.5px;padding:7px 12px">${u.useThis}</button></div></div>`).join('')}</div>`;
+  $$('[data-use]').forEach(b=>b.onclick=()=>{const m=state.community[+b.dataset.use];
+    state.myLib.unshift({em:m.em,nm:m.nm,src:"tpl",shared:false,from:m.from});m.uses++;toast(u.added);render();});}
+
+function applyBrand(){const b=BRANDS[state.brand],r=document.documentElement.style;
+  r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
+  const brandEl=$('#brand');if(brandEl)brandEl.innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');}
+function renderProof(){const pw=$('#proofWrap');if(pw)pw.innerHTML='';}
+function applyText(){const u=U();
+  const subEl=$('#sub');if(subEl)subEl.textContent=u.sub;
+  $('#heroEye').textContent=u.heroEye;
+  $('#heroH').textContent=u.heroH;
+  $('#heroL').textContent=u.heroL;
+  $('#hp1').innerHTML=u.hp1;
+  $('#hp2').innerHTML=u.hp2;
+  $('#hp3').innerHTML=u.hp3;
+  $('#hp4').innerHTML=u.hp4;
+  document.documentElement.lang=state.lang;render();renderProof();}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
+
+$('#fab').onclick=()=>{const k=Object.keys(BRANDS);const i=k.indexOf(state.brand);state.brand=k[(i+1)%k.length];applyBrand();render();toast('🎨 '+BRANDS[state.brand].name);};
+const LANGS=[['en','EN'],['zh','中'],['ja','日'],['th','ไท']];
+function renderLangs(){const box=$('#langs');box.innerHTML='';LANGS.forEach(([k,lab])=>{const b=document.createElement('button');b.textContent=lab;if(k===state.lang)b.className='on';b.onclick=()=>{state.lang=k;renderLangs();applyText();};box.appendChild(b);});}
+renderLangs();
+
+try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_l=_p.get("lang");
+  if(_b&&BRANDS[_b])state.brand=_b;if(_l&&["en","zh","ja","th"].indexOf(_l)>=0)state.lang=_l;}catch(e){}
+applyBrand();applyText();renderLangs();
+(function(){var _l="";setInterval(function(){try{if(typeof state==="undefined")return;var c=(state.brand||"")+"|"+(state.lang||"");if(c!==_l){_l=c;if(window.parent&&window.parent!==window)window.parent.postMessage({t:"es",brand:state.brand||null,lang:state.lang||null},"*");}}catch(e){}},400);})();
+</script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

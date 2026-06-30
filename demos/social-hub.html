@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Hub · Blackmores · Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
+    --ink:#16201f; --muted:#6a7472; --bg:#f4f7f7; --card:#fff; --line:#e6ecec;
+    --pos:#1f9d57; --neu:#c98a2b; --neg:#e0564a;
+    --display:Georgia,'Times New Roman','Songti SC','Hiragino Mincho ProN',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans','Microsoft YaHei','Thonburi','Helvetica Neue',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  button{font-family:inherit;cursor:pointer}
+  .sp{flex:1}
+  .chip{display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:12px;font-weight:600;cursor:pointer;position:relative}
+  .menu{position:absolute;top:40px;right:0;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:6px;min-width:120px;box-shadow:0 12px 30px rgba(0,0,0,.12);display:none;z-index:50}
+  .menu.open{display:block}.menu button{display:block;width:100%;border:0;background:0;font:inherit;font-size:13px;padding:8px 9px;border-radius:7px;cursor:pointer;text-align:left;color:var(--ink)}.menu button:hover{background:var(--soft)}
+  .langs{display:flex;gap:3px}
+  .langs button{border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;font-weight:600;color:var(--muted);min-width:32px;height:30px;border-radius:8px;cursor:pointer;transition:.2s;padding:0 6px}
+  .langs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 18px 70px}
+  .hero-top{display:flex;align-items:center;gap:16px;margin:2px 0 6px}
+  .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:800}
+  h1.h{font-family:var(--display);font-weight:400;font-size:clamp(31px,4vw,47px);line-height:1.12;letter-spacing:-.01em;max-width:35ch;margin:8px 0 9px}
+  .hero-lead{color:var(--muted);font-size:15px;max-width:82ch;line-height:1.55}
+  .hero-proof{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+  .hero-proof .pc{font-size:11px;font-weight:800;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 13px;color:var(--brand-d)}
+  .hero-proof .pc b{color:var(--accent)}
+  .tabs{display:flex;gap:4px;margin:28px 0 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tabs button{border:0;background:0;font:inherit;font-size:13.5px;font-weight:700;color:var(--muted);padding:11px 12px;cursor:pointer;border-bottom:2px solid transparent}
+  .tabs button.on{color:var(--brand);border-color:var(--brand)}
+  h2.sec{font-family:var(--display);font-size:21px;margin-bottom:3px}.lead{color:var(--muted);font-size:13px;margin-bottom:16px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:16px}
+  .panel h3{font-family:var(--display);font-size:15px;margin-bottom:12px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .btn{border:0;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:13.5px;padding:11px 16px;border-radius:11px;cursor:pointer}
+  .btn.o{background:var(--soft);color:var(--brand)}
+
+  /* dashboard */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+  .kc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+  .kc b{font-size:22px;font-family:var(--display)}.kc small{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+  .bar{display:flex;align-items:center;gap:9px;margin:7px 0;font-size:12.5px}.bar .bn{width:78px;color:var(--muted)}
+  .bar .bb{flex:1;height:13px;background:var(--soft);border-radius:5px;overflow:hidden}.bar .bb i{display:block;height:100%;background:var(--brand);border-radius:5px}
+  .bar .bv{width:36px;text-align:right;font-weight:700;font-size:12px}
+  .lbrow{display:flex;align-items:center;gap:9px;font-size:12.5px;margin:6px 0}.lbrow .n{width:18px;font-weight:700;color:var(--muted)}.lbrow .nm{width:96px;font-weight:600}
+  .lbrow .bb{flex:1;height:12px;background:var(--soft);border-radius:5px;overflow:hidden}.lbrow .bb i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-d))}
+  .cal{display:flex;gap:8px;align-items:center;font-size:12.5px;padding:7px 0;border-bottom:1px solid var(--line)}
+  .cal .d{font-weight:700;color:var(--brand);width:52px}
+
+  /* create */
+  .entries{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:8px}
+  .entry{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:16px;cursor:pointer;transition:.18s;text-align:center}
+  .entry:hover{border-color:var(--brand);transform:translateY(-2px)}.entry.on{border-color:var(--brand);background:var(--soft)}
+  .entry .e{font-size:30px}.entry .t{font-weight:700;font-size:14px;margin-top:6px}.entry .d{font-size:11.5px;color:var(--muted);margin-top:3px}
+  .ed-field{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit;font-size:14px;margin-top:8px}
+  .toolbar{display:flex;gap:4px;margin-top:8px}.toolbar span{width:30px;height:30px;border:1px solid var(--line);border-radius:7px;display:grid;place-items:center;cursor:pointer;font-size:13px}
+  textarea.ed-field{resize:vertical;min-height:90px}
+  .mediabtns{display:flex;gap:7px;margin-top:8px}
+  .lab{font-size:12px;font-weight:700;color:var(--muted);margin:12px 0 6px}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .pc{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:7px 11px;font-size:12px;font-weight:600;cursor:pointer}
+  .pc.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .preview{background:var(--bg);border:1px solid var(--line);border-radius:13px;padding:14px}
+  .pvtop{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--muted);margin-bottom:9px}
+  .pvav{width:30px;height:30px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:12px}
+  .pvtitle{font-weight:700;font-size:14px}.pvbody{font-size:13px;margin-top:5px;white-space:pre-wrap}
+  .pvimg{height:120px;border-radius:9px;background:repeating-linear-gradient(45deg,var(--soft),var(--soft) 10px,#eef5f5 10px,#eef5f5 20px);display:grid;place-items:center;color:var(--muted);font-size:12px;margin-top:10px}
+  .pvtags{color:var(--brand);font-size:12px;margin-top:8px}
+  .pvimg img{max-width:88%;max-height:88%;object-fit:contain}
+  /* phone mockup */
+  .phone{width:300px;max-width:100%;margin:8px auto 0;border-radius:44px;background:#0b1320;padding:11px;box-shadow:0 22px 55px rgba(11,19,32,.28)}
+  .phone-screen{background:#fff;border-radius:34px;overflow:hidden;position:relative;height:560px;display:flex;flex-direction:column}
+  .phone-notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:96px;height:20px;background:#0b1320;border-radius:0 0 13px 13px;z-index:5}
+  .phone-status{display:flex;justify-content:space-between;align-items:center;padding:11px 20px 5px;font-size:11px;font-weight:800;color:var(--ink)}
+  .phone-status .r{letter-spacing:1px;font-size:10px}
+  .phone-appbar{display:flex;align-items:center;gap:8px;padding:4px 15px 9px;border-bottom:1px solid var(--line)}
+  .phone-appbar .ttl{font-weight:800;color:var(--brand);font-size:15px}
+  .phone-appbar .sp{flex:1}.phone-appbar .ic{color:var(--muted);font-size:13px}
+  .phone-body{flex:1;overflow:auto;padding:13px}
+  .phone-body .preview{border:0;background:#fff;padding:0}
+  .phone-nav{display:flex;justify-content:space-around;align-items:center;padding:10px 0 12px;border-top:1px solid var(--line);font-size:17px;color:var(--muted)}
+  .phone-nav .act{color:var(--brand)}
+  .tplgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+  .tpl{border:1px solid var(--line);border-radius:11px;padding:12px;cursor:pointer;font-size:13px;font-weight:600}.tpl:hover{border-color:var(--brand);background:var(--soft)}
+  .tpl .e{font-size:20px}
+  .rowbtns{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+
+  /* engagement */
+  .inbox .item{display:flex;gap:11px;padding:11px;border-radius:12px;cursor:pointer;border:1px solid transparent}
+  .inbox .item:hover{background:var(--bg)}.inbox .item.on{background:var(--soft);border-color:var(--brand)}
+  .iav{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:13px;color:#fff;flex-shrink:0}
+  .iname{font-size:13px;font-weight:700}.itext{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px}
+  .stag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;margin-top:3px;display:inline-block}
+  .subtabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:12px}
+  .subtabs button{border:0;background:0;font:inherit;font-size:12.5px;font-weight:600;color:var(--muted);padding:8px 10px;cursor:pointer;border-bottom:2px solid transparent}
+  .subtabs button.on{color:var(--brand);border-color:var(--brand)}
+  .orig{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:12px;font-size:13px;margin-bottom:12px}
+  .orig .m{font-size:11px;color:var(--muted);margin-bottom:5px}
+  .ltabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+  .lt{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer}
+  .lt.on{background:var(--brand);color:#fff;border-color:var(--brand)}.lt.tone{border-style:dashed}
+  .replybox{background:var(--soft);border-radius:12px;padding:13px;font-size:13.5px;line-height:1.55}
+  .eacts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  .tplrep{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:12.5px;margin:7px 0;cursor:pointer}.tplrep:hover{border-color:var(--brand);background:var(--soft)}
+  .tplrep .c{font-size:10px;font-weight:700;color:var(--brand);text-transform:uppercase}
+  .hist{display:flex;gap:11px;padding:10px 0;border-bottom:1px solid var(--line);font-size:12.5px}
+  .hdot{width:9px;height:9px;border-radius:50%;margin-top:5px;flex-shrink:0}
+  .h-sent{background:var(--pos)}.h-pend{background:var(--neu)}.h-fail{background:var(--neg)}
+
+  /* channels */
+  .chgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:11px;margin-bottom:16px}
+  .chcard{border:1px solid var(--line);border-radius:13px;padding:13px}
+  .chcard .top{display:flex;justify-content:space-between;align-items:center}.chcard .ic{font-size:22px}
+  .dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:5px}
+  .d-ok{background:var(--pos)}.d-warn{background:var(--neu)}
+  .chcard .st{font-size:11px;font-weight:700;margin-top:6px}.chcard .nums{font-size:11.5px;color:var(--muted);margin-top:5px}
+  .mrow{display:flex;align-items:center;gap:11px;padding:12px;border:1px solid var(--line);border-radius:12px;margin-bottom:9px;cursor:pointer}
+  .mrow.on{border-color:var(--brand);background:var(--soft)}.mrole{font-weight:700;font-size:13.5px;width:90px}
+  .mppl{flex:1;display:flex;gap:6px;flex-wrap:wrap}.acc{background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 9px;font-size:11px;font-weight:600}
+  .mrow.on .acc{background:#fff}.mcheck{font-size:17px;color:var(--brand);opacity:.25}.mrow.on .mcheck{opacity:1}
+  .pushbtn{width:100%;border:0;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:14px;padding:14px;border-radius:12px;cursor:pointer}
+  .result{background:linear-gradient(135deg,var(--brand),var(--brand-d));color:#fff;border-radius:13px;padding:16px;margin-top:13px;display:none;animation:fin .5s}
+  .result.show{display:block}.result b{font-family:var(--display);font-size:24px}
+
+  /* campaign hub */
+  .rec{border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:12px;border-left:3px solid var(--brand)}
+  .rec .rt{font-weight:700;font-size:14.5px}.rec .rw{font-size:12.5px;color:var(--muted);margin:5px 0 9px}
+  .rec .dl{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:12px;margin-bottom:10px}
+  .rec .dl .k{color:var(--brand);font-weight:700}
+  .ong{border:1px solid var(--line);border-radius:13px;padding:14px;margin-top:10px}
+  .prog{height:8px;background:var(--soft);border-radius:5px;overflow:hidden;margin:8px 0}.prog i{display:block;height:100%;background:var(--brand)}
+  .mtr{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;margin-top:6px}.mtr b{font-family:var(--display);font-size:16px;display:block;color:var(--brand)}
+  .kit{margin-top:12px;animation:fin .4s}.kit .grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+  .copybox{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px;font-size:12.5px}.copybox .p{font-size:10px;font-weight:700;color:var(--brand);text-transform:uppercase;margin-bottom:4px}
+  @keyframes fin{from{opacity:0;transform:translateY(8px)}}
+
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(50px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:11px;font-size:14px;font-weight:600;z-index:80;opacity:0;transition:.3s;max-width:90%;text-align:center}
+  .toast.show{transform:translateX(-50%);opacity:1}
+  .fab{position:fixed;right:18px;bottom:18px;width:50px;height:50px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:20px;box-shadow:0 8px 22px rgba(0,0,0,.2);cursor:pointer;z-index:40}
+  /* proof points */
+  .proof{margin-top:32px;padding-top:24px;border-top:1px solid var(--line)}
+  .proof h3{font-family:var(--display);font-size:16px;margin-bottom:12px}
+  .proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+  .proof-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+  .proof-card h4{font-size:13px;font-weight:700;color:var(--brand);margin-bottom:8px}
+  .proof-card p{font-size:12.5px;color:var(--muted);margin-bottom:10px;line-height:1.5}
+  .proof-card ul{list-style:none;padding:0;margin:0}
+  .proof-card li{font-size:12.5px;color:var(--muted);margin:6px 0;padding-left:14px;position:relative}
+  .proof-card li::before{content:"\u2022";position:absolute;left:0;color:var(--brand)}
+  .proof-stat{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .stat-box{background:var(--soft);border-radius:10px;padding:12px;text-align:center}
+  .stat-box b{font-family:var(--display);font-size:22px;color:var(--brand)}
+  .stat-box span{font-size:11px;color:var(--muted);display:block;margin-top:3px}
+  .proof-logo{font-size:11px;color:var(--muted);font-weight:600;background:var(--bg);padding:4px 10px;border-radius:6px;display:inline-block;margin-bottom:8px}
+  .proof-arrow{font-size:16px;color:var(--brand);font-weight:700;text-align:center;margin:6px 0}
+  @media(max-width:780px){.two{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.entries{grid-template-columns:1fr}.kit .grid{grid-template-columns:1fr}.proof-grid{grid-template-columns:1fr}}
+  .tcrow{display:flex;align-items:center;gap:10px;font-size:12.5px;padding:8px 0;border-bottom:1px solid var(--line)}
+  .tcrow:last-child{border-bottom:0}
+  .tcrow .n{width:14px;font-weight:800;color:var(--muted);flex:none}
+  .tcrow .ic{width:26px;height:26px;border-radius:7px;background:var(--soft);display:grid;place-items:center;font-size:14px;flex:none}
+  .tcrow .ti{flex:1;min-width:0}
+  .tcrow .ti b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tcrow .ti span{color:var(--muted);font-size:11px}
+  .tcrow .eng{color:var(--muted);font-size:11.5px;white-space:nowrap;flex:none}
+  .tcrow .eng b{color:var(--brand-d);font-weight:700}
+  .tcrow .heat{width:50px;height:8px;background:var(--soft);border-radius:5px;overflow:hidden;flex:none}
+  .tcrow .heat i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-d))}
+  .wcloud{display:flex;flex-wrap:wrap;gap:6px 13px;align-items:center;padding:6px 2px}
+  .wc{font-weight:700;line-height:1.05}
+  .sent3{display:flex;gap:8px;margin:6px 0 10px}
+  .sent3 .sg{flex:1;text-align:center;border-radius:11px;padding:10px 4px;color:#fff}
+  .sent3 .sg b{display:block;font-size:19px;line-height:1}
+  .sent3 .sg small{font-size:10.5px;opacity:.95}
+  .cmprow{display:flex;align-items:center;gap:9px;font-size:12.5px;padding:7px 0;border-bottom:1px solid var(--line)}
+  .cmprow:last-child{border-bottom:0}
+  .cmprow .cn{flex:1}
+  .cmprow .ct{width:40px;text-align:right;font-weight:800;color:#c8392f}
+  .sev{font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:999px;text-transform:uppercase;letter-spacing:.03em;flex:none}
+  .sev.high{background:#fde8e6;color:#c8392f}
+  .sev.med{background:#fbeed6;color:#b5731a}
+  .sev.low{background:var(--soft);color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero-top">
+    <div class="eyebrow" id="heroEye">Social Operations Hub</div><div class="sp"></div>
+    <div class="langs" id="langs"></div>
+  </div>
+  <h1 class="h" id="heroH">Run Blackmores social listening, publishing and engagement from one operating hub</h1>
+  <p class="hero-lead" id="heroL">One social command center for Blackmores: monitor conversations, create compliant content, reply across channels, coordinate account matrices and launch campaign moments when AI spots demand.</p>
+  <div class="hero-proof" id="heroProof">
+    <span class="pc" id="hp1">Listen across <b>social channels</b></span>
+    <span class="pc" id="hp2">Create and publish <b>locally</b></span>
+    <span class="pc" id="hp3">AI reply with <b>claim guardrails</b></span>
+    <span class="pc" id="hp4">Trend → campaign <b>activation</b></span>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div id="main"></div>
+</div>
+<div class="wrap" id="proofWrap" style="padding-top:0"></div>
+<div class="toast" id="toast"></div>
+<div class="fab" id="fab" title="Switch brand">🎨</div>
+
+<script>
+const BRANDS={blackmores:{logo:"Blackmores",sup:"®",name:"Blackmores",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  bioceuticals:{logo:"BioCeuticals",sup:"",name:"BioCeuticals",c:["#1b3a5c","#10243a","#e7edf3","#c9a24a"]},
+  paw:{logo:"PAW by Blackmores",sup:"",name:"PAW by Blackmores",c:["#2e7d32","#1b5e20","#e7f3e8","#7cb342"]}};
+const PLATS=[["📸","Instagram"],["📕","RED (小红书)"],["💬","WeChat"],["🎵","TikTok"],["🎬","Douyin"],["📲","WhatsApp"]];
+const FOLLOW=[["Instagram",26],["WeChat",22],["RED (小红书)",20],["Douyin",14],["TikTok",10],["WhatsApp / LINE",8]];
+const CHANNELS=[{em:"💬",n:{ja:"WeChat 公式アカウント",en:"WeChat Official Account",zh:"WeChat 公众号",th:"WeChat Official Account"},ok:1,f:"1.46M",e:"6.8%"},{em:"📹",n:{ja:"WeChat Channels (視頻号)",en:"WeChat Channels (视频号)",zh:"WeChat 视频号",th:"WeChat Channels (视频号)"},ok:1,f:"410K",e:"5.4%"},
+  {em:"📕",n:{ja:"RED (小红書)",en:"RED (Xiaohongshu)",zh:"小红书 RED",th:"RED (Xiaohongshu)"},ok:1,f:"688K",e:"9.2%"},{em:"🎵",n:{ja:"Douyin",en:"Douyin",zh:"抖音 Douyin",th:"Douyin"},ok:1,f:"524K",e:"7.1%"},
+  {em:"🐦",n:{ja:"Weibo",en:"Weibo",zh:"微博 Weibo",th:"Weibo"},ok:1,f:"296K",e:"3.4%"},
+  {em:"📸",n:{ja:"Instagram",en:"Instagram",zh:"Instagram",th:"Instagram"},ok:1,f:"512K",e:"4.6%"},{em:"📘",n:{ja:"Facebook",en:"Facebook",zh:"Facebook",th:"Facebook"},ok:1,f:"387K",e:"2.7%"},
+  {em:"🎵",n:{ja:"TikTok",en:"TikTok",zh:"TikTok",th:"TikTok"},ok:1,f:"263K",e:"6.1%"},{em:"▶️",n:{ja:"YouTube",en:"YouTube",zh:"YouTube",th:"YouTube"},ok:1,f:"118K",e:"5.2%"},
+  {em:"📲",n:{ja:"WhatsApp (SEA)",en:"WhatsApp (SEA)",zh:"WhatsApp (东南亚)",th:"WhatsApp (SEA)"},ok:1,f:"94.0K",e:"11.4%"},
+  {em:"💚",n:{ja:"LINE (日本)",en:"LINE (Japan)",zh:"LINE (日本)",th:"LINE (Japan)"},ok:0,f:"71.4K",e:"3.9%"}];
+const MATRIX=[{role:{en:"Global HQ",zh:"全球总部",ja:"グローバル本社",th:"สำนักงานใหญ่"},acc:{ja:["Blackmores Official"],en:["Blackmores Official"],zh:["Blackmores 官方"],th:["Blackmores Official"]}},
+  {role:{en:"China",zh:"中国",ja:"中国",th:"จีน"},acc:{ja:["WeChat 公众号","视频号","Weibo","小红书","Douyin"],en:["WeChat OA","Channels","Weibo","RED","Douyin"],zh:["WeChat 公众号","视频号","微博","小红书","抖音"],th:["WeChat OA","Channels","Weibo","RED","Douyin"]}},
+  {role:{en:"ANZ",zh:"澳新",ja:"豪州・NZ",th:"ANZ"},acc:{ja:["Instagram","Facebook","TikTok","YouTube"],en:["Instagram","Facebook","TikTok","YouTube"],zh:["Instagram","Facebook","TikTok","YouTube"],th:["Instagram","Facebook","TikTok","YouTube"]}},
+  {role:{en:"SEA",zh:"东南亚",ja:"東南アジア",th:"อาเซียน"},acc:{ja:["WhatsApp","Facebook","Instagram","TikTok"],en:["WhatsApp","Facebook","Instagram","TikTok"],zh:["WhatsApp","Facebook","Instagram","TikTok"],th:["WhatsApp","Facebook","Instagram","TikTok"]}},
+  {role:{en:"Japan",zh:"日本",ja:"日本",th:"ญี่ปุ่น"},acc:{ja:["LINE","Instagram JP","Amazon JPレビュー"],en:["LINE","Instagram JP","Amazon JP reviews"],zh:["LINE","Instagram 日本","Amazon JP 评论"],th:["LINE","Instagram JP","Amazon JP reviews"]}},
+  {role:{en:"Retail partners",zh:"渠道零售伙伴",ja:"小売パートナー",th:"พันธมิตรค้าปลีก"},acc:{ja:["Chemist Warehouse","Watsons SG","Guardian MY","+5"],en:["Chemist Warehouse","Watsons SG","Guardian MY","+5"],zh:["Chemist Warehouse","Watsons SG","Guardian MY","+5"],th:["Chemist Warehouse","Watsons SG","Guardian MY","+5"]}},
+  {role:{en:"KOL/KOC",zh:"KOL/KOC",ja:"インフルエンサー",th:"KOL/KOC"},acc:{ja:["@wellness_amy","@gym_dad_syd","@vitamin_mum_sg","+12"],en:["@wellness_amy","@gym_dad_syd","@vitamin_mum_sg","+12"],zh:["@wellness_amy","@gym_dad_syd","@vitamin_mum_sg","+12"],th:["@wellness_amy","@gym_dad_syd","@vitamin_mum_sg","+12"]}}];
+const INBOX=[
+  {n:{ja:"@wellness_amy",en:"@wellness_amy",zh:"@wellness_amy",th:"@wellness_amy"},ch:"📕",col:"#e0564a",s:"pos",t:{en:"Blackmores Fish Oil is part of my daily routine now! Stocked in China?",zh:"澳佳宝鱼油已成日常!中国有货吗?",ja:"ブラックモアズのフィッシュオイルが日課に!中国でも買える?",th:"Blackmores Fish Oil เป็นกิจวัตรแล้ว! มีขายในจีนไหม?"},
+   reply:{en:"Thank you! 💙 So happy Fish Oil 1000 supports your daily routine. Available on our Tmall Global flagship and cross-border RED store — want a link when the immunity-season bundle drops? 📍",zh:"谢谢!💙 很开心鱼油 1000 成为你的日常。天猫国际旗舰店与小红书跨境店均有售——免疫季套装上线要给你链接吗?📍",ja:"ありがとうございます!💙 フィッシュオイル1000が毎日の習慣を支えられて嬉しいです。天猫国際の旗艦店と小紅書クロスボーダー店で販売中。免疫シーズンのバンドル発売時にリンクをお送りしますか?📍",th:"ขอบคุณค่ะ! 💙 ดีใจที่ Fish Oil 1000 ช่วยกิจวัตรประจำวัน มีจำหน่ายที่ร้าน Tmall Global และ RED ข้ามพรมแดน อยากได้ลิงก์ตอนเซ็ตฤดูภูมิคุ้มกันออกไหม? 📍"}},
+  {n:{ja:"@gym_dad_syd",en:"@gym_dad_syd",zh:"@gym_dad_syd",th:"@gym_dad_syd"},ch:"📸",col:"#c1397f",s:"neu",t:{en:"Glucosamine vs your Joint Formula — which for runners?",zh:"氨糖和你们的关节配方——跑者选哪个?",ja:"グルコサミンと関節フォーミュラ、ランナー向けは?",th:"Glucosamine กับ Joint Formula — นักวิ่งเลือกตัวไหน?"},
+   reply:{en:"Great question! Glucosamine 1500 and Joint Formula Advanced differ in dose and added ingredients — check the label for the full breakdown. Happy to suggest which suits a running routine 💪",zh:"好问题!氨糖 1500 与关节配方加强版在剂量和成分上不同——完整信息请见标签。也可帮你判断哪个更适合跑步日常 💪",ja:"良い質問!グルコサミン1500と関節フォーミュラ アドバンスは用量や配合成分が異なります。詳細はラベルをご確認ください。ランニングに合う方をご提案します💪",th:"คำถามดีมาก! Glucosamine 1500 กับ Joint Formula Advanced ต่างกันที่ปริมาณและส่วนผสม ดูรายละเอียดที่ฉลาก ยินดีแนะนำตัวที่เหมาะกับการวิ่ง 💪"}},
+  {n:{ja:"@new_mum_mel",en:"@new_mum_mel",zh:"@new_mum_mel",th:"@new_mum_mel"},ch:"💬",col:"#06c755",s:"q",guard:1,t:{en:"Can Pregnancy Gold cure my morning sickness?",zh:"孕妇黄金营养素能治好我的孕吐吗?",ja:"プレグナンシー ゴールドでつわりは治りますか?",th:"Pregnancy Gold รักษาแพ้ท้องได้ไหม?"},
+   reply:{en:"Thanks for asking 💙 Pregnancy Gold is a supplement, not a medicine — it can't treat or cure a condition. Always read the label and consult your doctor or midwife about symptoms during pregnancy. Happy to share the ingredient list for reference!",zh:"谢谢提问 💙 孕妇黄金营养素是膳食补充剂而非药品,不能治疗或治愈症状。请务必阅读标签,孕期不适请咨询医生或助产士。需要的话我把成分表发你参考!",ja:"ご質問ありがとうございます💙 プレグナンシー ゴールドはサプリメントであり医薬品ではないため、症状を治療・改善するものではありません。必ずラベルをお読みになり、妊娠中の症状は医師や助産師にご相談ください。成分表をお送りします!",th:"ขอบคุณที่ถาม 💙 Pregnancy Gold เป็นอาหารเสริมไม่ใช่ยา จึงไม่สามารถรักษาอาการได้ โปรดอ่านฉลากเสมอ และปรึกษาแพทย์หรือผดุงครรภ์เรื่องอาการระหว่างตั้งครรภ์ ยินดีส่งรายการส่วนผสมให้อ้างอิง!"}},
+  {n:{ja:"@vitamin_mum_sg",en:"@vitamin_mum_sg",zh:"@vitamin_mum_sg",th:"@vitamin_mum_sg"},ch:"📲",col:"#25d366",s:"q",t:{en:"Can Kids Multi be taken together with gummies from another brand?",zh:"儿童复合维生素能和别的品牌软糖一起吃吗?",ja:"キッズマルチは他社グミと一緒に飲めますか?",th:"Kids Multi ทานพร้อมกัมมี่แบรนด์อื่นได้ไหม?"},
+   reply:{en:"Thanks for checking first. Please compare the ingredient panels to avoid doubling up on vitamins or minerals, and follow the directions on each label. For a child's individual needs, a pharmacist or healthcare professional can advise best.",zh:"谢谢先来确认。建议对比两款产品的成分表,避免维生素或矿物质重复摄入,并按各自标签说明使用。儿童个体情况请咨询药师或专业人士。",ja:"事前確認ありがとうございます。ビタミンやミネラルの重複を避けるため、成分表示を比較し、各ラベルの用法に従ってください。お子さま個別の状況は薬剤師または医療専門家へご相談ください。",th:"ขอบคุณที่สอบถามก่อนค่ะ โปรดเทียบฉลากส่วนผสมเพื่อหลีกเลี่ยงวิตามินหรือแร่ธาตุซ้ำ และทำตามคำแนะนำบนฉลาก หากเป็นความต้องการเฉพาะของเด็ก แนะนำปรึกษาเภสัชกรหรือผู้เชี่ยวชาญสุขภาพ"}},
+  {n:{ja:"Lina Chen",en:"Lina Chen",zh:"Lina Chen",th:"Lina Chen"},ch:"💬",col:"#06c755",s:"neg",t:{en:"My Tmall Global immunity bundle has not moved for 5 days.",zh:"我在天猫国际买的免疫套装 5 天没物流更新了。",ja:"天猫国際の免疫バンドルが5日間動いていません。",th:"เซ็ตภูมิคุ้มกันจาก Tmall Global ไม่อัปเดต 5 วันแล้ว"},
+   reply:{en:"Sorry for the wait, Lina. Please DM your order number and mobile suffix — we'll check with the cross-border warehouse and courier today, then update you with the next scan or replacement option.",zh:"Lina, 很抱歉让你久等了。请私信订单号和手机号后四位,我们今天会同步跨境仓与承运商,并把下一次物流扫描或补发方案反馈给你。",ja:"お待たせして申し訳ありません。注文番号と携帯番号末尾をDMください。本日クロスボーダー倉庫と配送会社に確認し、次の追跡情報または代替対応をご案内します。",th:"ขออภัยที่ต้องรอค่ะ Lina กรุณา DM เลขออเดอร์และท้ายเบอร์มือถือ เราจะตรวจสอบกับคลังข้ามพรมแดนและขนส่งวันนี้ แล้วแจ้งสถานะหรือทางเลือกจัดส่งใหม่"}},
+  {n:{ja:"@runwithtom",en:"@runwithtom",zh:"@runwithtom",th:"@runwithtom"},ch:"🎵",col:"#111111",s:"pos",guard:1,t:{en:"Loved the magnesium reel. Can it fix cramps after night runs?",zh:"很喜欢镁的短视频。它能治夜跑后的抽筋吗?",ja:"マグネシウムの動画良かったです。夜ラン後のけいれんに効きますか?",th:"ชอบรีล Magnesium มาก มันแก้ตะคริวหลังวิ่งกลางคืนได้ไหม?"},
+   reply:{en:"Glad you liked it! Magnesium supports muscle function, but it is not intended to diagnose, treat or cure cramps. Please read the label and use only as directed; persistent symptoms should be discussed with a healthcare professional.",zh:"很高兴你喜欢!镁有助于支持肌肉功能,但不能用于诊断、治疗或治愈抽筋。请阅读标签并按说明使用;如症状持续,建议咨询专业人士。",ja:"気に入っていただけて嬉しいです!マグネシウムは筋肉機能をサポートしますが、けいれんの診断・治療・治癒を目的とするものではありません。ラベルを読み、用法に従ってください。症状が続く場合は専門家にご相談を。",th:"ดีใจที่ชอบค่ะ! Magnesium ช่วยสนับสนุนการทำงานของกล้ามเนื้อ แต่ไม่ได้ใช้วินิจฉัย รักษา หรือหายจากตะคริว โปรดอ่านฉลากและใช้ตามคำแนะนำ หากอาการต่อเนื่องควรปรึกษาผู้เชี่ยวชาญ"}},
+  {n:{ja:"Aiko Sato",en:"Aiko Sato",zh:"Aiko Sato",th:"Aiko Sato"},ch:"💚",col:"#06c755",s:"q",guard:1,t:{en:"Does Sleep Support include melatonin? I want something gentle.",zh:"Sleep Support 里面有褪黑素吗?我想要温和一点的。",ja:"スリープサポートにメラトニンは入っていますか?やさしいものを探しています。",th:"Sleep Support มีเมลาโทนินไหม? อยากได้แบบอ่อนโยน"},
+   reply:{en:"Thanks, Aiko. Please check the local Japan label for the current ingredient list, as formulas can vary by market. If you are pregnant, taking medication, or have a health condition, consult a healthcare professional before use.",zh:"Aiko, 谢谢提问。请以日本当地产品标签上的最新成分表为准,不同市场配方可能不同。如处于孕期、正在用药或有健康状况,使用前请咨询专业人士。",ja:"Aikoさん、ありがとうございます。成分は市場により異なる場合があるため、日本向け製品ラベルの最新表示をご確認ください。妊娠中、服薬中、または健康上の不安がある場合は使用前に専門家へご相談ください。",th:"ขอบคุณค่ะ Aiko โปรดดูรายการส่วนผสมล่าสุดบนฉลากญี่ปุ่น เพราะสูตรอาจต่างกันตามตลาด หากตั้งครรภ์ ใช้ยา หรือมีภาวะสุขภาพ ควรปรึกษาผู้เชี่ยวชาญก่อนใช้"}},
+  {n:{ja:"@petparent_au",en:"@petparent_au",zh:"@petparent_au",th:"@petparent_au"},ch:"📸",col:"#2e7d32",s:"q",t:{en:"PAW fish oil for my senior dog — how do I start?",zh:"想给家里的老年犬用 PAW 鱼油,应该怎么开始?",ja:"シニア犬にPAWフィッシュオイルを始めたいです。どうすれば?",th:"อยากเริ่ม PAW fish oil ให้น้องหมาสูงวัย ต้องทำอย่างไร?"},
+   reply:{en:"Lovely to hear from a PAW parent. Start by checking the dosage guide by pet weight on the label, and introduce gradually with food. For senior pets or existing conditions, your vet can confirm what suits best.",zh:"很高兴收到 PAW 家长的提问。请先按标签上的体重剂量指南使用,并逐步拌入食物。老年宠物或有既往情况时,建议让兽医确认最适合的方案。",ja:"PAWのペットオーナーさんからのご質問ありがとうございます。ラベルの体重別目安を確認し、食事に混ぜて少量から始めてください。シニア犬や持病がある場合は獣医師にご相談ください。",th:"ยินดีที่ได้ยินจากผู้ปกครอง PAW ค่ะ เริ่มจากดูคำแนะนำปริมาณตามน้ำหนักบนฉลาก และค่อยๆ ผสมกับอาหาร สำหรับสัตว์สูงวัยหรือมีโรคประจำตัว ควรให้สัตวแพทย์ช่วยแนะนำ"}},
+  {n:{ja:"@chemist_fan",en:"@chemist_fan",zh:"@chemist_fan",th:"@chemist_fan"},ch:"📘",col:"#1877f2",s:"neg",t:{en:"Why is the online price higher than the Chemist Warehouse promo?",zh:"为什么官网价比 Chemist Warehouse 促销价高?",ja:"オンライン価格がChemist Warehouseのセールより高いのはなぜ?",th:"ทำไมราคาออนไลน์สูงกว่าโปร Chemist Warehouse?"},
+   reply:{en:"Thanks for flagging. Retail promotions can vary by partner, timing and bundle. We'll pass this to the ANZ trade team; meanwhile, our site shows current member offers and product information in one place.",zh:"谢谢提醒。不同零售伙伴、时间和套装的促销会有差异,我们会同步给澳新渠道团队。同时官网可查看当前会员优惠与完整产品信息。",ja:"ご指摘ありがとうございます。小売パートナー、時期、バンドルによりプロモーションは異なります。豪州NZの営業チームへ共有します。公式サイトでは会員特典と製品情報をまとめて確認できます。",th:"ขอบคุณที่แจ้งค่ะ โปรโมชันอาจต่างกันตามพันธมิตร เวลา และเซ็ตสินค้า เราจะส่งต่อให้ทีมการค้า ANZ ระหว่างนี้เว็บไซต์มีข้อเสนอสมาชิกและข้อมูลสินค้าไว้ในที่เดียว"}}];
+const SENT={pos:{c:"var(--pos)",t:{en:"Positive",zh:"正面",ja:"ポジ",th:"บวก"}},neu:{c:"var(--neu)",t:{en:"Neutral",zh:"中性",ja:"中立",th:"กลาง"}},
+  neg:{c:"var(--neg)",t:{en:"Negative",zh:"负面",ja:"ネガ",th:"ลบ"}},q:{c:"var(--neu)",t:{en:"Question",zh:"提问",ja:"質問",th:"คำถาม"}}};
+const REPTPL=[{c:{en:"Inquiry",zh:"咨询",ja:"問合せ",th:"สอบถาม"},x:{en:"Thanks for your interest! Here's what you need to know…",zh:"感谢关注!你需要了解的是…",ja:"ご関心ありがとうございます!ポイントは…",th:"ขอบคุณที่สนใจ! สิ่งที่ควรรู้คือ…"}},
+  {c:{en:"Complaint",zh:"投诉",ja:"苦情",th:"ร้องเรียน"},x:{en:"So sorry to hear that — let's make it right…",zh:"很抱歉给你带来困扰——我们来解决…",ja:"申し訳ありません — すぐ対応します…",th:"ขออภัยจริงๆ — เราจะแก้ไขให้…"}},
+  {c:{en:"Praise",zh:"好评",ja:"称賛",th:"ชื่นชม"},x:{en:"Thank you so much! 💚 Made our day…",zh:"太感谢了!💚 你让我们超开心…",ja:"ありがとうございます!💚…",th:"ขอบคุณมาก! 💚…"}},
+  {c:{en:"Shipping",zh:"物流",ja:"配送",th:"จัดส่ง"},x:{en:"Your order is on the way — here's the tracking…",zh:"你的订单在路上了——这是追踪链接…",ja:"発送済みです — 追跡はこちら…",th:"พัสดุกำลังจัดส่ง — ติดตามได้ที่…"}}];
+const HISTORY=[{s:"sent",who:{ja:"@wellness_amy",en:"@wellness_amy",zh:"@wellness_amy",th:"@wellness_amy"},t:{en:"Replied · store availability",zh:"已回复 · 门店库存",ja:"返信済 · 在庫",th:"ตอบแล้ว · สต็อก"},ago:"2h"},
+  {s:"sent",who:{ja:"Emma Wright",en:"Emma Wright",zh:"Emma Wright",th:"Emma Wright"},t:{en:"Replied · price question",zh:"已回复 · 价格问题",ja:"返信済 · 価格",th:"ตอบแล้ว · ราคา"},ago:"5h"},
+  {s:"pend",who:{ja:"@gym_dad_syd",en:"@gym_dad_syd",zh:"@gym_dad_syd",th:"@gym_dad_syd"},t:{en:"Pending approval · supplement claim",zh:"待审核 · 保健功效相关",ja:"承認待ち · サプリ表示の確認",th:"รออนุมัติ · การอ้างสรรพคุณอาหารเสริม"},ago:"6h"},
+  {s:"sent",who:{ja:"@vitamin_mum_sg",en:"@vitamin_mum_sg",zh:"@vitamin_mum_sg",th:"@vitamin_mum_sg"},t:{en:"Replied · children supplement guidance",zh:"已回复 · 儿童营养补充建议",ja:"返信済 · キッズサプリ案内",th:"ตอบแล้ว · คำแนะนำเด็ก"},ago:"8h"},
+  {s:"pend",who:{ja:"Aiko Sato",en:"Aiko Sato",zh:"Aiko Sato",th:"Aiko Sato"},t:{en:"Pending Japan label check",zh:"待确认日本标签",ja:"日本ラベル確認待ち",th:"รอตรวจฉลากญี่ปุ่น"},ago:"11h"},
+  {s:"sent",who:{ja:"@petparent_au",en:"@petparent_au",zh:"@petparent_au",th:"@petparent_au"},t:{en:"Replied · PAW dosage guide",zh:"已回复 · PAW 剂量指南",ja:"返信済 · PAW用量目安",th:"ตอบแล้ว · คู่มือ PAW"},ago:"17h"},
+  {s:"fail",who:{ja:"匿名",en:"Anonymous",zh:"匿名",th:"ไม่ระบุชื่อ"},t:{en:"Failed · account re-auth needed",zh:"失败 · 需重新授权",ja:"失敗 · 再認証必要",th:"ล้มเหลว · ต้องยืนยันบัญชีใหม่"},ago:"1d"}];
+const DLAB={time:{en:"time",zh:"时间",ja:"時期",th:"เวลา"},target:{en:"target",zh:"对象",ja:"対象",th:"กลุ่มเป้าหมาย"},mix:{en:"mix",zh:"组合",ja:"商品",th:"สินค้า"},channels:{en:"channels",zh:"渠道",ja:"チャネル",th:"ช่องทาง"}};
+const AIRECS=[
+  {t:{en:"Immunity-season Vitamin C + Zinc push (China)",zh:"免疫季 维C+锌 主推(中国)",ja:"免疫シーズン ビタミンC+亜鉛(中国)",th:"ดันวิตามินซี+สังกะสีฤดูภูมิคุ้มกัน (จีน)"},
+   w:{en:"RED searches for 'immunity supplement' up sharply ahead of flu season — a Vitamin C + Zinc bundle can capture the surge.",zh:"流感季前小红书「免疫补充」搜索激增——维C+锌套装可承接这波流量。",ja:"インフルシーズン前にREDで「免疫サプリ」検索が急増 — ビタミンC+亜鉛のバンドルで需要を取り込み。",th:"การค้นหา 'อาหารเสริมภูมิคุ้มกัน' บน RED พุ่งก่อนฤดูไข้หวัด — เซ็ตวิตามินซี+สังกะสีรับกระแสได้"},
+   d:[["time",{en:"Starts next Monday",zh:"下周一启动",ja:"来週月曜スタート",th:"เริ่มจันทร์หน้า"}],["target",{en:"China · health-conscious 25-40",zh:"中国 · 注重健康 25-40 岁",ja:"中国・健康志向 25-40代",th:"จีน · ใส่ใจสุขภาพ 25-40"}],["mix",{en:"Vitamin C 1000 + Bio Zinc",zh:"维生素C 1000 + 锌片",ja:"ビタミンC 1000 + バイオ亜鉛",th:"Vitamin C 1000 + Bio Zinc"}],["channels",{en:"RED + WeChat Channels",zh:"小红书 + 视频号",ja:"RED + 視頻号",th:"RED + WeChat Channels"}]]},
+  {t:{en:"Winter joint care: Glucosamine (ANZ)",zh:"冬季关节护理:氨糖(澳新)",ja:"冬の関節ケア:グルコサミン(豪州・NZ)",th:"ดูแลข้อหน้าหนาว: Glucosamine (ANZ)"},
+   w:{en:"Cold snap forecast in AU/NZ — joint-comfort interest rises with the temperature drop. Pulse promo lifts conversion.",zh:"澳新即将降温——气温下降时关节舒适类需求上升,脉冲促销拉升转化。",ja:"豪州・NZで寒波予報 — 気温低下で関節ケアへの関心が上昇。パルス施策で転換を後押し。",th:"พยากรณ์อากาศหนาวใน AU/NZ — ความสนใจดูแลข้อสูงขึ้นเมื่ออุณหภูมิลด"},
+   d:[["time",{en:"This week",zh:"本周内",ja:"今週中",th:"ภายในสัปดาห์นี้"}],["target",{en:"Ages 45-65 · ANZ",zh:"45-65 岁 · 澳新",ja:"45-65歳・豪州NZ",th:"อายุ 45-65 · ANZ"}],["mix",{en:"Glucosamine 1500 + Joint Formula",zh:"氨糖 1500 + 关节配方",ja:"グルコサミン1500 + 関節フォーミュラ",th:"Glucosamine 1500 + Joint Formula"}],["channels",{en:"Facebook + Instagram",zh:"Facebook + Instagram",ja:"Facebook + Instagram",th:"Facebook + Instagram"}]]},
+  {t:{en:"Sleep & stress: Magnesium + Sleep Support (SEA)",zh:"睡眠与减压:镁 + 睡眠支持(东南亚)",ja:"睡眠＆ストレス:マグネシウム + スリープサポート(東南アジア)",th:"นอนหลับ & ความเครียด: แมกนีเซียม + Sleep Support (อาเซียน)"},
+   w:{en:"Exam and year-end stress peaks in SEA — sleep-support content converts well to young adults on TikTok/IG.",zh:"东南亚考季与年末压力高峰——睡眠支持内容在 TikTok/IG 对年轻群体转化好。",ja:"東南アジアで試験・年末のストレスがピーク — 睡眠サポートはTikTok/IGの若年層で好転換。",th:"ความเครียดสอบและสิ้นปีพุ่งในอาเซียน — คอนเทนต์ช่วยการนอนเวิร์กกับวัยรุ่นบน TikTok/IG"},
+   d:[["time",{en:"3 weeks ahead",zh:"提前 3 周",ja:"3週間前",th:"ล่วงหน้า 3 สัปดาห์"}],["target",{en:"Ages 20-35 · SEA + VIP",zh:"20-35 岁 · 东南亚 + VIP",ja:"20-35歳・東南アジア + VIP",th:"อายุ 20-35 · อาเซียน + VIP"}],["mix",{en:"Magnesium + Sleep Support",zh:"镁 + 睡眠支持",ja:"マグネシウム + スリープサポート",th:"Magnesium + Sleep Support"}],["channels",{en:"TikTok + Instagram + WhatsApp",zh:"TikTok + Instagram + WhatsApp",ja:"TikTok + Instagram + WhatsApp",th:"TikTok + Instagram + WhatsApp"}]]},
+  {t:{en:"Pregnancy Gold authenticity education (China CBEC)",zh:"孕妇黄金素真伪教育(中国跨境)",ja:"プレグナンシーゴールド真正品教育(中国CBEC)",th:"ให้ความรู้ของแท้ Pregnancy Gold (จีน CBEC)"},
+   w:{en:"Comments mention packaging differences and authenticity checks. Turn service questions into a trust-building WeChat + RED explainer.",zh:"评论集中提到包装差异与真伪查询,可把客服问题转成建立信任的微信+小红书科普内容。",ja:"パッケージ差異と真正品確認へのコメントが増加。顧客対応をWeChat + REDの信頼形成コンテンツへ。",th:"คอมเมนต์พูดถึงแพ็กเกจและการเช็กของแท้มากขึ้น เปลี่ยนคำถามบริการเป็นคอนเทนต์สร้างความเชื่อมั่นบน WeChat + RED"},
+   d:[["time",{en:"Within 72 hours",zh:"72 小时内",ja:"72時間以内",th:"ภายใน 72 ชม."}],["target",{en:"Expecting mothers · China",zh:"中国孕期人群",ja:"中国の妊娠期ユーザー",th:"คุณแม่ตั้งครรภ์ · จีน"}],["mix",{en:"Pregnancy Gold + authenticity guide",zh:"孕妇黄金素 + 真伪指南",ja:"プレグナンシーゴールド + 真正品ガイド",th:"Pregnancy Gold + คู่มือของแท้"}],["channels",{en:"WeChat OA + RED",zh:"公众号 + 小红书",ja:"WeChat OA + RED",th:"WeChat OA + RED"}]]},
+  {t:{en:"Probiotics family routine challenge (ANZ + SEA)",zh:"益生菌家庭日常挑战(澳新+东南亚)",ja:"プロバイオティクス家族習慣チャレンジ(ANZ+SEA)",th:"ชาเลนจ์ Probiotics สำหรับครอบครัว (ANZ + SEA)"},
+   w:{en:"Family wellness posts are drawing high saves. A 7-day routine challenge can bridge education, UGC and retailer bundles.",zh:"家庭健康类内容收藏率高,7 天日常挑战可连接科普、UGC 与零售套装。",ja:"家族ウェルネス投稿の保存率が高い。7日間習慣チャレンジで教育・UGC・小売バンドルを接続。",th:"โพสต์สุขภาพครอบครัวถูกบันทึกสูง ชาเลนจ์ 7 วันเชื่อมความรู้ UGC และเซ็ตค้าปลีกได้"},
+   d:[["time",{en:"Next fortnight",zh:"未来两周",ja:"今後2週間",th:"สองสัปดาห์หน้า"}],["target",{en:"Families · ANZ and SEA",zh:"家庭用户 · 澳新与东南亚",ja:"家族ユーザー・ANZ/SEA",th:"ครอบครัว · ANZ และอาเซียน"}],["mix",{en:"Probiotics + Kids Multi",zh:"益生菌 + 儿童复合维生素",ja:"プロバイオティクス + キッズマルチ",th:"Probiotics + Kids Multi"}],["channels",{en:"Instagram + Facebook + WhatsApp",zh:"Instagram + Facebook + WhatsApp",ja:"Instagram + Facebook + WhatsApp",th:"Instagram + Facebook + WhatsApp"}]]},
+  {t:{en:"Odourless Fish Oil UGC refresh (ANZ)",zh:"无腥味鱼油 UGC 更新(澳新)",ja:"におい控えめフィッシュオイルUGC刷新(ANZ)",th:"รีเฟรช UGC Fish Oil กลิ่นน้อย (ANZ)"},
+   w:{en:"Reviews praise the daily habit but mention capsule size. Invite practical UGC around breakfast routines and label-led usage.",zh:"评论认可日常习惯价值,但提到胶囊大小;可邀请早餐日常 UGC 并强调按标签使用。",ja:"レビューは習慣化を評価しつつカプセルサイズにも言及。朝食ルーティンUGCとラベルに沿った使用を訴求。",th:"รีวิวชอบการใช้ประจำวันแต่พูดถึงขนาดแคปซูล ชวน UGC มื้อเช้าและใช้ตามฉลาก"},
+   d:[["time",{en:"This Friday",zh:"本周五",ja:"今週金曜",th:"ศุกร์นี้"}],["target",{en:"Existing Fish Oil buyers · ANZ",zh:"澳新鱼油既有购买者",ja:"既存フィッシュオイル購入者・ANZ",th:"ผู้ซื้อ Fish Oil เดิม · ANZ"}],["mix",{en:"Fish Oil 1000 + Odourless Fish Oil",zh:"鱼油 1000 + 无腥味鱼油",ja:"フィッシュオイル1000 + におい控えめ",th:"Fish Oil 1000 + Odourless Fish Oil"}],["channels",{en:"Instagram Reels + Facebook",zh:"Instagram Reels + Facebook",ja:"Instagram Reels + Facebook",th:"Instagram Reels + Facebook"}]]}];
+const UI={
+ en:{sub:"Social Hub",heroEye:"Social Operations Hub",heroH:"Run Blackmores social listening, publishing and engagement from one operating hub",heroL:"One social command center for Blackmores: monitor conversations, create compliant content, reply across channels, coordinate account matrices and launch campaign moments when AI spots demand.",hp1:"Listen across <b>social channels</b>",hp2:"Create and publish <b>locally</b>",hp3:"AI reply with <b>claim guardrails</b>",hp4:"Trend → campaign <b>activation</b>",t_d:"Dashboard",t_c:"Create & Publish",t_e:"Engagement",t_ch:"Channels",t_cp:"Campaign Hub",
+   dH:"Social Hub dashboard",dL:"Your whole social operation at a glance.",followers:"Followers",postsM:"Posts this month",engR:"Engagement rate",published:"Published all-time",
+   followDist:"Follower distribution",leaderboard:"Top performers",calendar:"Upcoming content",
+   cH:"Create & Publish",cL:"Three ways to start — all land in one editor.",e_tpl:"From Template",e_tplD:"Pick & tweak",e_ai:"AI Assist",e_aiD:"Describe → AI drafts",e_blank:"Blank Canvas",e_blankD:"Write it yourself",
+   title:"Title",content:"Content",contentPh:"Write your post…",media:"Media",upload:"⬆ Upload",fromLib:"📁 Library",aiGen:"✨ AI image",hashtags:"Hashtags",platforms:"Platforms",
+   aiPromptPh:"Describe what to create…",aiDraft:"✨ AI draft",preview:"Preview",saveDraft:"💾 Save draft",saveTpl:"📐 Save as template",pushNow:"⚡ Push now",
+   pickTpl:"Pick a template",drafted:"AI drafted your post",pushed:"Pushed to selected platforms",savedDraft:"Saved as draft",savedTpl:"Saved as template",
+   eH:"Engagement",eL:"Monitor & reply across every channel — at scale.",inbox:"Social inbox",st_reply:"AI Reply",st_tpl:"Templates",st_hist:"History",
+   original:"Original comment",guardTag:"⚠ TGA / supplement claims — no medical-cure language, compliant reply",send:"Send",delegate:"Delegate",hide:"Hide",copy:"Copy",regen:"↻ Regenerate",
+   sent:"✓ Sent",deleg:"✓ Delegated",hidden:"✓ Hidden",insertTpl:"Template inserted",
+   chH:"Channels & matrix",chL:"Connected accounts + one post to your whole army.",connected:"Connected",reauth:"Needs re-auth",
+   pushAll:"🚀 One-click publish",pushing:"Publishing…",resB:n=>`${n} posts`,resS:(a,p)=>`Published to ${a} accounts × ${p} platforms`,
+   cpH:"Campaign Hub",cpL:"AI spots the moment and drafts the campaign — you launch.",aiRec:"AI smart recommendations",oneClick:"⚡ One-click create",ongoing:"Ongoing campaign",
+   participants:"Participants",orders:"Orders",revenue:"Revenue",conv:"Conversion",live:"Live",
+   kitTitle:"Campaign kit drafted",poster:"Poster",launch:"🚀 Launch campaign",launched:"Campaign launched 🎉",coupon:"Coupon",ppH:"Customer Proof Points",ppCase1:"Multi-market account matrix — China · ANZ · SEA",ppCase1L:"One post fans out across WeChat, RED, Douyin, Instagram, TikTok and WhatsApp — localised per market in seconds.",ppCase2:"RED Trend → Campaign in 48h",ppCase2L:"Blackmores spotted a rising immunity-supplement trend on RED/Douyin and launched targeted creative within 48 hours.",ppSpeed:"Response speed",ppSpeedFrom:"Weeks",ppSpeedTo:"Hours",ppReach:"Multi-platform coverage",ppReachV:"WeChat · RED · Douyin · Weibo · Instagram · TikTok · WhatsApp",
+   calMon:"Mon",calWed:"Wed",calRow1:"Fish Oil immunity reel · RED + Instagram",calRow2:"Glucosamine joint-care post · Facebook + Instagram",calRow3:"Magnesium sleep tip · TikTok + WhatsApp",
+   aiPromptDefault:"Immunity-season campaign — Blackmores Vitamin C + Zinc, for busy working women in China",
+   tplName0:"Immunity campaign",tplName1:"New product launch",tplName2:"Wellness tip",tplName3:"Customer voices",
+   tplBody0:"💙 Support your immune health this season — make Blackmores Vitamin C + Zinc part of your daily routine.",tplBody1:"🆕 Now available — rolling out across Tmall Global, RED and ANZ pharmacies.",tplBody2:"📚 Did you know? A simple daily wellness habit. Here are 3 tips to keep it going…",tplBody3:"💬 “It's become part of my morning routine” — a Blackmores customer.",
+   aiDraftTitle:"💙 Support your immune health with Blackmores Vitamin C + Zinc",aiDraftBody:"Even on busy days, it starts with one simple step. Blackmores Vitamin C 1000 + Bio Zinc help support your daily wellbeing — always read the label, use only as directed. Available across Tmall Global, RED cross-border and ANZ pharmacies.",
+   ongoingName:"Immunity-Season Challenge",kitLineApp:"WhatsApp / WeChat",kitOffer:"A special offer just for you — {mix}. Reply “Yes” and we'll send your coupon.",kitIgPromo:"Limited time. Check it out now"},
+ zh:{sub:"Social Hub",heroEye:"Social Operations Hub",heroH:"用一个运营中心管理 Blackmores 社媒聆听、发布与互动",heroL:"一个 Blackmores 社媒指挥中心：监测对话，创作合规内容，跨渠道回复，协调账号矩阵，并在 AI 发现需求热点时快速上线 campaign。",hp1:"跨 <b>社媒渠道</b> 聆听",hp2:"本地化 <b>创作发布</b>",hp3:"AI 回复 + <b>宣称护栏</b>",hp4:"趋势 → campaign <b>激活</b>",t_d:"看板",t_c:"创作发布",t_e:"互动",t_ch:"渠道矩阵",t_cp:"活动中心",
+   dH:"Social Hub 看板",dL:"整个社媒运营一眼看全。",followers:"粉丝",postsM:"本月发帖",engR:"互动率",published:"累计发布",
+   followDist:"粉丝分布",leaderboard:"业绩榜",calendar:"待发内容",
+   cH:"创作 & 发布",cL:"三种开始方式——都汇入同一个编辑器。",e_tpl:"用模板",e_tplD:"选了改改",e_ai:"AI 辅助",e_aiD:"描述→AI 起草",e_blank:"空白",e_blankD:"自己写",
+   title:"标题",content:"正文",contentPh:"写你的帖子…",media:"配图",upload:"⬆ 上传",fromLib:"📁 素材库",aiGen:"✨ AI 配图",hashtags:"话题标签",platforms:"平台",
+   aiPromptPh:"描述要创作的内容…",aiDraft:"✨ AI 起草",preview:"预览",saveDraft:"💾 存草稿",saveTpl:"📐 存为模板",pushNow:"⚡ 立即发布",
+   pickTpl:"选一个模板",drafted:"AI 已起草帖子",pushed:"已发布到所选平台",savedDraft:"已存为草稿",savedTpl:"已存为模板",
+   eH:"互动",eL:"全渠道监测与回复——规模化。",inbox:"社媒收件箱",st_reply:"AI 回复",st_tpl:"模板",st_hist:"历史",
+   original:"原始评论",guardTag:"⚠ TGA / 保健品声称 — 不得宣称治疗治愈,合规回复",send:"发送",delegate:"分派",hide:"隐藏",copy:"复制",regen:"↻ 重写",
+   sent:"✓ 已发送",deleg:"✓ 已分派",hidden:"✓ 已隐藏",insertTpl:"已插入模板",
+   chH:"渠道 & 矩阵",chL:"已连接账号 + 一条内容铺满账号大军。",connected:"已连接",reauth:"需重新授权",
+   pushAll:"🚀 一键发布",pushing:"正在发布…",resB:n=>`${n} 条`,resS:(a,p)=>`已发布到 ${a} 个账号 × ${p} 个平台`,
+   cpH:"活动中心 Campaign Hub",cpL:"AI 发现时机并起草活动——你来上线。",aiRec:"AI 智能推荐",oneClick:"⚡ 一键创建",ongoing:"进行中的活动",
+   participants:"参与人数",orders:"订单",revenue:"收入",conv:"转化率",live:"进行中",
+   kitTitle:"活动物料已起草",poster:"海报",launch:"🚀 上线活动",launched:"活动已上线 🎉",coupon:"优惠券",ppH:"客户实证",ppCase1:"多市场账号矩阵 — 中国 · 澳新 · 东南亚",ppCase1L:"一条内容铺满 公众号、小红书、抖音、Instagram、TikTok、WhatsApp——按市场本地化,几秒完成。",ppCase2:"小红书热点 → 48 小时上线",ppCase2L:"澳佳宝发现小红书/抖音上的免疫补充热点，48 小时内推出定向营销。",ppSpeed:"响应速度",ppSpeedFrom:"周级",ppSpeedTo:"小时级",ppReach:"多平台覆盖",ppReachV:"公众号 · 小红书 · 抖音 · 微博 · Instagram · TikTok · WhatsApp",
+   calMon:"周一",calWed:"周三",calRow1:"鱼油免疫短视频 · 小红书 + Instagram",calRow2:"氨糖关节护理帖 · Facebook + Instagram",calRow3:"镁睡眠小贴士 · TikTok + WhatsApp",
+   aiPromptDefault:"免疫季活动 — 澳佳宝维C+锌,面向中国忙碌的职场女性",
+   tplName0:"免疫活动",tplName1:"新品上市",tplName2:"健康小知识",tplName3:"用户的声音",
+   tplBody0:"💙 这一季,支持你的免疫健康——让澳佳宝维C+锌成为每天的日常。",tplBody1:"🆕 全新登场——天猫国际、小红书及澳新药房陆续上架。",tplBody2:"📚 你知道吗?简单的每日养生习惯。分享 3 个坚持下去的小窍门…",tplBody3:"💬「成了我早晨的一部分」——一位澳佳宝用户的声音。",
+   aiDraftTitle:"💙 用澳佳宝维C+锌,支持你的免疫健康",aiDraftBody:"再忙的日子,也从一个简单步骤开始。澳佳宝维生素C 1000 + 锌片帮助支持每日健康——请阅读标签并按说明使用。天猫国际、小红书跨境及澳新药房陆续上架中。",
+   ongoingName:"免疫季挑战",kitLineApp:"WhatsApp / WeChat",kitOffer:"专属于你的特别优惠 — {mix}。回复「是」即可领取优惠券。",kitIgPromo:"限时活动,马上来看"},
+ ja:{sub:"Social Hub",heroEye:"Social Operations Hub",heroH:"Blackmores のソーシャルリスニング、配信、エンゲージメントを一つのハブで運用",heroL:"Blackmores のソーシャル司令塔。会話を監視し、コンプライアントな内容を作成、各チャネルへ返信、アカウントマトリクスを管理し、AI が需要の兆しを捉えたらキャンペーンを立ち上げます。",hp1:"ソーシャル横断の <b>リスニング</b>",hp2:"ローカル向け <b>作成・配信</b>",hp3:"AI返信 + <b>表示ガードレール</b>",hp4:"トレンド → キャンペーン <b>起動</b>",t_d:"ダッシュボード",t_c:"作成・配信",t_e:"エンゲージ",t_ch:"チャネル",t_cp:"キャンペーン",
+   dH:"Social Hub ダッシュボード",dL:"ソーシャル運用を一目で。",followers:"フォロワー",postsM:"今月の投稿",engR:"エンゲージ率",published:"累計配信",
+   followDist:"フォロワー分布",leaderboard:"トップ",calendar:"配信予定",
+   cH:"作成 & 配信",cL:"3つの始め方 — すべて同じエディタへ。",e_tpl:"テンプレ",e_tplD:"選んで微調整",e_ai:"AI支援",e_aiD:"記述→AI下書き",e_blank:"白紙",e_blankD:"自分で書く",
+   title:"タイトル",content:"本文",contentPh:"投稿を書く…",media:"メディア",upload:"⬆ アップ",fromLib:"📁 ライブラリ",aiGen:"✨ AI画像",hashtags:"ハッシュタグ",platforms:"プラットフォーム",
+   aiPromptPh:"作りたい内容を記述…",aiDraft:"✨ AI下書き",preview:"プレビュー",saveDraft:"💾 下書き保存",saveTpl:"📐 テンプレ保存",pushNow:"⚡ 今すぐ配信",
+   pickTpl:"テンプレを選択",drafted:"AIが下書きしました",pushed:"選択先へ配信",savedDraft:"下書き保存",savedTpl:"テンプレ保存",
+   eH:"エンゲージ",eL:"全チャネルを監視・返信、大規模に。",inbox:"受信箱",st_reply:"AI返信",st_tpl:"テンプレ",st_hist:"履歴",
+   original:"元コメント",guardTag:"⚠ TGA / サプリ表示 — 治療・治癒の表現NG、コンプラ返信",send:"送信",delegate:"委任",hide:"非表示",copy:"コピー",regen:"↻ 再生成",
+   sent:"✓ 送信",deleg:"✓ 委任",hidden:"✓ 非表示",insertTpl:"テンプレ挿入",
+   chH:"チャネル & マトリクス",chL:"接続済アカウント + 1投稿で全アカウント群へ。",connected:"接続済",reauth:"再認証必要",
+   pushAll:"🚀 一括配信",pushing:"配信中…",resB:n=>`${n}投稿`,resS:(a,p)=>`${a}アカウント×${p}プラットフォームへ配信`,
+   cpH:"キャンペーンハブ",cpL:"AIが好機を検知し下書き — あなたが配信。",aiRec:"AIスマート提案",oneClick:"⚡ ワンクリック作成",ongoing:"進行中",
+   participants:"参加者",orders:"注文",revenue:"売上",conv:"転換率",live:"進行中",
+   kitTitle:"キット下書き完了",poster:"ポスター",launch:"🚀 配信開始",launched:"配信しました 🎉",coupon:"クーポン",ppH:"顧客実証",ppCase1:"マルチ市場アカウント・マトリクス — 中国 · 豪州NZ · 東南アジア",ppCase1L:"1投稿がWeChat・RED・Douyin・Instagram・TikTok・WhatsAppへ展開。市場ごとにローカライズを数秒で。",ppCase2:"REDトレンド → 48時間キャンペーン",ppCase2L:"ブラックモアズがRED/Douyinの免疫サプリトレンドを検知し、48時間以内にキャンペーンを立ち上げ。",ppSpeed:"対応速度",ppSpeedFrom:"週単位",ppSpeedTo:"時間単位",ppReach:"マルチプラットフォーム",ppReachV:"WeChat · RED · Douyin · Weibo · Instagram · TikTok · WhatsApp",
+   calMon:"月",calWed:"水",calRow1:"フィッシュオイル 免疫リール · RED + Instagram",calRow2:"グルコサミン 関節ケア投稿 · Facebook + Instagram",calRow3:"マグネシウム 睡眠Tips · TikTok + WhatsApp",
+   aiPromptDefault:"免疫シーズン キャンペーン — ブラックモアズ ビタミンC+亜鉛、中国の忙しい働く女性向け",
+   tplName0:"免疫キャンペーン",tplName1:"新商品ローンチ",tplName2:"ウェルネス豆知識",tplName3:"お客様の声",
+   tplBody0:"💙 このシーズン、免疫の健康をサポート — ブラックモアズ ビタミンC+亜鉛を毎日の習慣に。",tplBody1:"🆕 新登場 — 天猫国際・RED・豪州NZの薬局で順次展開。",tplBody2:"📚 ご存じですか?シンプルな毎日のウェルネス習慣。続けるコツを3つご紹介…",tplBody3:"💬「朝のルーティンになりました」— ブラックモアズ ユーザーの声。",
+   aiDraftTitle:"💙 ブラックモアズ ビタミンC+亜鉛で、免疫の健康をサポート",aiDraftBody:"忙しい日にも、ひとつのシンプルな一歩から。ブラックモアズ ビタミンC 1000 + バイオ亜鉛が毎日の健康をサポート — 必ずラベルを読み、用法・用量を守ってご使用ください。天猫国際・REDクロスボーダー・豪州NZの薬局で順次展開中。",
+   ongoingName:"免疫シーズン チャレンジ",kitLineApp:"WhatsApp / WeChat",kitOffer:"あなたへの特別オファー — {mix}。「はい」と返信でクーポンをお届け。",kitIgPromo:"期間限定。今すぐチェック"},
+ th:{sub:"Social Hub",heroEye:"Social Operations Hub",heroH:"Run Blackmores social listening, publishing and engagement from one operating hub",heroL:"One social command center for Blackmores: monitor conversations, create compliant content, reply across channels, coordinate account matrices and launch campaign moments when AI spots demand.",hp1:"Listen across <b>social channels</b>",hp2:"Create and publish <b>locally</b>",hp3:"AI reply with <b>claim guardrails</b>",hp4:"Trend → campaign <b>activation</b>",t_d:"แดชบอร์ด",t_c:"สร้าง & เผยแพร่",t_e:"การมีส่วนร่วม",t_ch:"ช่องทาง",t_cp:"แคมเปญ",
+   dH:"แดชบอร์ด Social Hub",dL:"เห็นงานโซเชียลทั้งหมดในที่เดียว",followers:"ผู้ติดตาม",postsM:"โพสต์เดือนนี้",engR:"อัตรามีส่วนร่วม",published:"เผยแพร่สะสม",
+   followDist:"การกระจายผู้ติดตาม",leaderboard:"ผู้นำ",calendar:"คอนเทนต์ที่จะมา",
+   cH:"สร้าง & เผยแพร่",cL:"เริ่ม 3 แบบ — ไปที่เอดิเตอร์เดียวกัน",e_tpl:"จากเทมเพลต",e_tplD:"เลือกแล้วปรับ",e_ai:"ผู้ช่วย AI",e_aiD:"อธิบาย→AI ร่าง",e_blank:"หน้าว่าง",e_blankD:"เขียนเอง",
+   title:"หัวข้อ",content:"เนื้อหา",contentPh:"เขียนโพสต์…",media:"สื่อ",upload:"⬆ อัปโหลด",fromLib:"📁 คลัง",aiGen:"✨ ภาพ AI",hashtags:"แฮชแท็ก",platforms:"แพลตฟอร์ม",
+   aiPromptPh:"อธิบายสิ่งที่จะสร้าง…",aiDraft:"✨ AI ร่าง",preview:"ตัวอย่าง",saveDraft:"💾 บันทึกร่าง",saveTpl:"📐 บันทึกเทมเพลต",pushNow:"⚡ เผยแพร่เลย",
+   pickTpl:"เลือกเทมเพลต",drafted:"AI ร่างโพสต์ให้แล้ว",pushed:"เผยแพร่ไปแพลตฟอร์มที่เลือก",savedDraft:"บันทึกร่างแล้ว",savedTpl:"บันทึกเทมเพลตแล้ว",
+   eH:"การมีส่วนร่วม",eL:"ติดตามและตอบทุกช่องทาง ระดับสเกล",inbox:"กล่องโซเชียล",st_reply:"ตอบ AI",st_tpl:"เทมเพลต",st_hist:"ประวัติ",
+   original:"คอมเมนต์ต้นฉบับ",guardTag:"⚠ TGA / การอ้างสรรพคุณอาหารเสริม — ห้ามอ้างรักษา ตอบตามข้อกำหนด",send:"ส่ง",delegate:"มอบหมาย",hide:"ซ่อน",copy:"คัดลอก",regen:"↻ สร้างใหม่",
+   sent:"✓ ส่งแล้ว",deleg:"✓ มอบหมายแล้ว",hidden:"✓ ซ่อนแล้ว",insertTpl:"แทรกเทมเพลตแล้ว",
+   chH:"ช่องทาง & เมทริกซ์",chL:"บัญชีที่เชื่อม + โพสต์เดียวสู่ทั้งกองทัพ",connected:"เชื่อมแล้ว",reauth:"ต้องยืนยันใหม่",
+   pushAll:"🚀 เผยแพร่คลิกเดียว",pushing:"กำลังเผยแพร่…",resB:n=>`${n} โพสต์`,resS:(a,p)=>`เผยแพร่ไป ${a} บัญชี × ${p} แพลตฟอร์ม`,
+   cpH:"ศูนย์แคมเปญ",cpL:"AI จับจังหวะและร่างแคมเปญ — คุณกดเผยแพร่",aiRec:"คำแนะนำอัจฉริยะ AI",oneClick:"⚡ สร้างคลิกเดียว",ongoing:"กำลังดำเนินการ",
+   participants:"ผู้เข้าร่วม",orders:"คำสั่งซื้อ",revenue:"รายได้",conv:"คอนเวอร์ชัน",live:"กำลังไลฟ์",
+   kitTitle:"ร่างชุดแคมเปญแล้ว",poster:"โปสเตอร์",launch:"🚀 เริ่มแคมเปญ",launched:"เริ่มแคมเปญแล้ว 🎉",coupon:"คูปอง",ppH:"หลักฐานลูกค้า",ppCase1:"เมทริกซ์บัญชีหลายตลาด — จีน · ANZ · อาเซียน",ppCase1L:"โพสต์เดียวกระจายสู่ WeChat, RED, Douyin, Instagram, TikTok และ WhatsApp ปรับให้เข้าแต่ละตลาดในไม่กี่วินาที",ppCase2:"เทรนด์ RED → แคมเปญใน 48 ชม.",ppCase2L:"Blackmores พบเทรนด์อาหารเสริมภูมิคุ้มกันบน RED/Douyin แล้วเปิดแคมเปญใน 48 ชม.",ppSpeed:"ความเร็วในการตอบสนอง",ppSpeedFrom:"รายสัปดาห์",ppSpeedTo:"รายชั่วโมง",ppReach:"ครอบคลุมหลายแพลตฟอร์ม",ppReachV:"WeChat · RED · Douyin · Weibo · Instagram · TikTok · WhatsApp",
+   calMon:"จ.",calWed:"พ.",calRow1:"รีล Fish Oil ภูมิคุ้มกัน · RED + Instagram",calRow2:"โพสต์ Glucosamine ดูแลข้อ · Facebook + Instagram",calRow3:"เคล็ดลับ Magnesium การนอน · TikTok + WhatsApp",
+   aiPromptDefault:"แคมเปญฤดูภูมิคุ้มกัน — Blackmores Vitamin C + Zinc สำหรับผู้หญิงทำงานที่ยุ่งในจีน",
+   tplName0:"แคมเปญภูมิคุ้มกัน",tplName1:"เปิดตัวสินค้าใหม่",tplName2:"เกร็ดสุขภาพ",tplName3:"เสียงจากลูกค้า",
+   tplBody0:"💙 ดูแลสุขภาพภูมิคุ้มกันในฤดูนี้ — ให้ Blackmores Vitamin C + Zinc เป็นกิจวัตรประจำวัน",tplBody1:"🆕 วางจำหน่ายแล้ว — ทยอยเข้า Tmall Global, RED และร้านขายยา ANZ",tplBody2:"📚 รู้ไหม? นิสัยสุขภาพง่ายๆ ทุกวัน นี่คือ 3 เคล็ดลับให้ทำต่อเนื่อง…",tplBody3:"💬 “กลายเป็นส่วนหนึ่งของกิจวัตรตอนเช้า” — เสียงจากลูกค้า Blackmores",
+   aiDraftTitle:"💙 ดูแลสุขภาพภูมิคุ้มกันกับ Blackmores Vitamin C + Zinc",aiDraftBody:"แม้วันที่ยุ่ง ก็เริ่มได้จากขั้นตอนง่ายๆ Blackmores Vitamin C 1000 + Bio Zinc ช่วยดูแลสุขภาพประจำวัน — โปรดอ่านฉลากและใช้ตามคำแนะนำ มีจำหน่ายที่ Tmall Global, RED ข้ามพรมแดน และร้านขายยา ANZ",
+   ongoingName:"แชลเลนจ์ฤดูภูมิคุ้มกัน",kitLineApp:"WhatsApp / WeChat",kitOffer:"ข้อเสนอพิเศษสำหรับคุณ — {mix} ตอบ “ใช่” แล้วเราจะส่งคูปองให้",kitIgPromo:"เวลาจำกัด ดูเลย"}};
+
+let state={lang:"en",brand:"blackmores",tab:"d",entry:null,plats:[0,1,2],esel:0,sub:"reply",rlang:"en",msel:[0,1,2,3],kit:false};
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const U=()=>UI[state.lang],T=o=>o[state.lang]||o.en;
+
+function tabsBar(){const u=U();$('#tabs').innerHTML=[["d",u.t_d],["c",u.t_c],["e",u.t_e],["ch",u.t_ch],["cp",u.t_cp],["i",T({en:'Insights',zh:'社媒洞察',ja:'インサイト',th:'อินไซต์'})]]
+  .map(([k,l])=>`<button data-t="${k}" class="${state.tab===k?'on':''}">${l}</button>`).join('');
+  $$('#tabs button').forEach(b=>b.onclick=()=>{state.tab=b.dataset.t;render();});}
+function render(){tabsBar();({d:renderD,c:renderC,e:renderE,ch:renderCh,cp:renderCp,i:renderI}[state.tab])();}
+function renderI(){
+  const TL=l=>T(l);
+  const sevL={high:{en:'High',zh:'高',ja:'高',th:'สูง'},med:{en:'Med',zh:'中',ja:'中',th:'กลาง'},low:{en:'Low',zh:'低',ja:'低',th:'ต่ำ'}};
+  const CONTENT=[
+    {ic:'🐟',title:{en:'Fish Oil daily routine reel',zh:'鱼油日常 reel'},plat:'Instagram · ANZ',likes:'4.2k',comments:'310',heat:92},
+    {ic:'🛡️',title:{en:'Immunity Q&A live',zh:'免疫问答直播'},plat:'RED · China',likes:'3.1k',comments:'540',heat:80},
+    {ic:'🤰',title:{en:'Pregnancy Gold explainer',zh:'孕妇黄金素讲解'},plat:'WeChat Channels',likes:'2.6k',comments:'190',heat:68},
+    {ic:'😴',title:{en:'Sleep support tips',zh:'睡眠支持小贴士'},plat:'LINE · Japan',likes:'1.9k',comments:'120',heat:55},
+    {ic:'🧃',title:{en:'Kids Multi lunchbox routine',zh:'儿童复合维生素午餐盒日常'},plat:'Instagram · SEA',likes:'1.7k',comments:'96',heat:49},
+    {ic:'✅',title:{en:'How to check authentic Blackmores packaging',zh:'如何辨别澳佳宝正品包装'},plat:'WeChat OA · China',likes:'1.5k',comments:'220',heat:46},
+    {ic:'🐾',title:{en:'PAW senior dog care Q&A',zh:'PAW 老年犬护理问答'},plat:'Facebook · ANZ',likes:'1.2k',comments:'88',heat:39},
+    {ic:'🦠',title:{en:'Probiotics family challenge',zh:'益生菌家庭挑战'},plat:'TikTok · SEA',likes:'980',comments:'74',heat:34}
+  ];
+  const WORDS=[['immunity',88,'pos'],['fish oil',76,'pos'],['sleep',64,'pos'],['pregnancy',58,'pos'],['probiotics',54,'pos'],['genuine',52,'pos'],['Vitamin C',49,'pos'],['magnesium',48,'pos'],['kids multi',44,'pos'],['PAW',42,'pos'],['routine',40,'pos'],['energy',38,'pos'],['TGA',36,'pos'],['label',35,'neu'],['retailer promo',34,'neu'],['bundle',32,'neu'],['price',30,'neg'],['delivery',29,'neg'],['capsule size',27,'neg'],['taste',25,'neg'],['stock-out',23,'neg'],['packaging',22,'neg']];
+  const COMPLAINTS=[
+    {sev:'high',t:{en:'Delivery delays on bundles',zh:'套装配送延迟'},n:42},
+    {sev:'med',t:{en:'Capsule size / swallowing',zh:'胶囊偏大难吞咽'},n:28},
+    {sev:'med',t:{en:'Price vs marketplace deals',zh:'价格 vs 平台促销'},n:21},
+    {sev:'med',t:{en:'Authenticity and packaging differences',zh:'真伪与包装差异'},n:19},
+    {sev:'low',t:{en:'Flavour of chewables',zh:'咀嚼片口味'},n:12},
+    {sev:'low',t:{en:'Out-of-stock on Pregnancy Gold',zh:'孕妇黄金素缺货'},n:10},
+    {sev:'low',t:{en:'Product comparison confusion',zh:'产品对比不清晰'},n:9}
+  ];
+  const lab={
+    h:{en:'Social listening & insights',zh:'社媒聆听与洞察',ja:'ソーシャルリスニング',th:'การฟังโซเชียล'},
+    sub:{en:'What audiences say across RED, Instagram, WeChat, LINE & WhatsApp — turned into content and product actions.',zh:'跨小红书/Instagram/微信/LINE/WhatsApp 的声音，转化为内容与产品行动。',ja:'各SNSの声をコンテンツと製品アクションへ。',th:'เสียงจากโซเชียลสู่คอนเทนต์และการปรับสินค้า'},
+    top:{en:'Top content · heat & engagement',zh:'热门内容 · 热度与互动'},
+    cloud:{en:'What replies are about',zh:'评论在聊什么'},
+    sent:{en:'Sentiment overview',zh:'情感总览'},
+    cmp:{en:'Negative themes to action',zh:'待处理的负面主题'},
+    pos:{en:'Positive',zh:'正面'},neu:{en:'Neutral',zh:'中性'},neg:{en:'Negative',zh:'负面'},
+    sentNote:{en:'Supportive listening only — no medical claims; feeds VOC and content planning.',zh:'仅做支持性聆听、不作疗效宣称；回流 VOC 与内容规划。'},
+    cmpNote:{en:'Routed to service, supply and product teams with owners and SLAs.',zh:'分派给客服/供应/产品团队，带责任人与 SLA。'}
+  };
+  $('#main').innerHTML=`<h2 class="sec">${TL(lab.h)}</h2><div class="lead">${TL(lab.sub)}</div>
+  <div class="two">
+    <div class="panel"><h3>${TL(lab.top)}</h3>${CONTENT.map((p,i)=>`<div class="tcrow"><div class="n">${i+1}</div><div class="ic">${p.ic}</div><div class="ti"><b>${T(p.title)}</b><span>${p.plat}</span></div><div class="eng">❤ <b>${p.likes}</b> &nbsp; 💬 <b>${p.comments}</b></div><div class="heat"><i style="width:${p.heat}%"></i></div></div>`).join('')}</div>
+    <div class="panel"><h3>${TL(lab.cloud)}</h3><div class="wcloud">${WORDS.map(w=>`<span class="wc" style="font-size:${12+w[1]*0.5}px;opacity:${(0.5+w[1]/90).toFixed(2)};color:${w[2]==='neg'?'#c8392f':'var(--brand)'}">${w[0]}</span>`).join('')}</div></div>
+  </div>
+  <div class="two">
+    <div class="panel"><h3>${TL(lab.sent)}</h3><div class="sent3"><div class="sg" style="background:#1f9d6b"><b>72%</b><small>${TL(lab.pos)}</small></div><div class="sg" style="background:#d4861f"><b>19%</b><small>${TL(lab.neu)}</small></div><div class="sg" style="background:#c8392f"><b>9%</b><small>${TL(lab.neg)}</small></div></div><div class="lead" style="font-size:12px">${TL(lab.sentNote)}</div></div>
+    <div class="panel"><h3>${TL(lab.cmp)}</h3>${COMPLAINTS.map(c=>`<div class="cmprow"><span class="sev ${c.sev}">${T(sevL[c.sev])}</span><div class="cn">${T(c.t)}</div><div class="ct">${c.n}</div></div>`).join('')}<div class="lead" style="font-size:12px;margin-top:8px">${TL(lab.cmpNote)}</div></div>
+  </div>`;
+}
+
+function renderD(){const u=U();const staffN=T({ja:["RED 中国","Instagram ANZ","WeChat 中国","WhatsApp SEA","LINE 日本"],en:["RED · China","Instagram · ANZ","WeChat · China","WhatsApp · SEA","LINE · Japan"],zh:["小红书 · 中国","Instagram · 澳新","微信 · 中国","WhatsApp · 东南亚","LINE · 日本"],th:["RED · จีน","Instagram · ANZ","WeChat · จีน","WhatsApp · SEA","LINE · Japan"]});const staff=staffN.map((nm,i)=>[nm,[92,81,76,64,51][i]]);
+  $('#main').innerHTML=`<h2 class="sec">${u.dH}</h2><div class="lead">${u.dL}</div>
+  <div class="kpis"><div class="kc"><b>4.82M</b><small>${u.followers}</small></div>
+    <div class="kc"><b>142</b><small>${u.postsM}</small></div>
+    <div class="kc"><b>5.6%</b><small>${u.engR}</small></div>
+    <div class="kc"><b>38,140</b><small>${u.published}</small></div></div>
+  <div class="two"><div class="panel"><h3>${u.followDist}</h3>${FOLLOW.map(f=>`<div class="bar"><div class="bn">${f[0]}</div>
+    <div class="bb"><i style="width:${f[1]*2.6}%"></i></div><div class="bv">${f[1]}%</div></div>`).join('')}</div>
+  <div class="panel"><h3>${u.leaderboard}</h3>${staff.map((d,i)=>`<div class="lbrow"><div class="n">${i+1}</div><div class="nm">${d[0]}</div>
+    <div class="bb"><i style="width:${d[1]}%"></i></div><div style="width:34px;text-align:right;font-weight:700;color:var(--brand);font-size:12px">${d[1]}k</div></div>`).join('')}
+    <h3 style="margin-top:16px">${u.calendar}</h3>
+    <div class="cal"><div class="d">${u.calMon}</div>💙 ${u.calRow1}</div>
+    <div class="cal"><div class="d">${u.calWed}</div>🦴 ${u.calRow2}</div>
+    <div class="cal" style="border:0">😴 ${u.calRow3}</div></div></div>`;}
+
+function renderC(){const u=U();
+  $('#main').innerHTML=`<h2 class="sec">${u.cH}</h2><div class="lead">${u.cL}</div>
+  <div class="entries">
+    <div class="entry ${state.entry==='tpl'?'on':''}" data-e="tpl"><div class="e">📐</div><div class="t">${u.e_tpl}</div><div class="d">${u.e_tplD}</div></div>
+    <div class="entry ${state.entry==='ai'?'on':''}" data-e="ai"><div class="e">✨</div><div class="t">${u.e_ai}</div><div class="d">${u.e_aiD}</div></div>
+    <div class="entry ${state.entry==='blank'?'on':''}" data-e="blank"><div class="e">📝</div><div class="t">${u.e_blank}</div><div class="d">${u.e_blankD}</div></div>
+  </div>
+  <div id="editorZone"></div>`;
+  $$('.entry').forEach(en=>en.onclick=()=>{state.entry=en.dataset.e;renderEditor();});
+  if(state.entry)renderEditor();}
+
+function renderEditor(){const u=U();
+  let pre='';if(state.entry==='ai'){pre=`<div class="panel" style="margin-top:14px"><div class="lab">${u.e_ai}</div>
+    <textarea class="ed-field" id="aip" placeholder="${u.aiPromptPh}">${u.aiPromptDefault}</textarea>
+    <button class="btn" id="aigo" style="margin-top:8px">${u.aiDraft}</button></div>`;}
+  if(state.entry==='tpl'){pre=`<div class="panel" style="margin-top:14px"><div class="lab">${u.pickTpl}</div>
+    <div class="tplgrid">
+      <div class="tpl" data-tpl="0"><span class="e">💙</span> ${u.tplName0}</div>
+      <div class="tpl" data-tpl="1"><span class="e">🆕</span> ${u.tplName1}</div>
+      <div class="tpl" data-tpl="2"><span class="e">📚</span> ${u.tplName2}</div>
+      <div class="tpl" data-tpl="3"><span class="e">💬</span> ${u.tplName3}</div></div></div>`;}
+  $('#editorZone').innerHTML=pre+`<div class="two" style="margin-top:14px">
+    <div class="panel"><div class="lab">${u.title}</div><input class="ed-field" id="etitle" placeholder="${u.title}">
+      <div class="lab">${u.content}</div>
+      <div class="toolbar"><span><b>B</b></span><span><i>I</i></span><span>🙂</span><span>🔗</span></div>
+      <textarea class="ed-field" id="econtent" placeholder="${u.contentPh}"></textarea>
+      <div class="lab">${u.media}</div><div class="mediabtns"><button class="btn o" id="mUp">${u.upload}</button>
+        <button class="btn o" id="mLib">${u.fromLib}</button><button class="btn o" id="mAi">${u.aiGen}</button></div>
+      <div class="lab">${u.hashtags}</div><input class="ed-field" id="etags" value="#Blackmores #Wellness #ImmunitySupport">
+      <div class="lab">${u.platforms}</div><div class="chips" id="pchips">${PLATS.map((p,i)=>`<span class="pc ${state.plats.includes(i)?'on':''}" data-p="${i}">${p[0]} ${p[1]}</span>`).join('')}</div>
+      <div class="rowbtns"><button class="btn o" id="sd">${u.saveDraft}</button><button class="btn o" id="st">${u.saveTpl}</button>
+        <button class="btn" id="pn">${u.pushNow}</button></div></div>
+    <div class="panel"><div class="lab">${u.preview}</div>
+      <div class="phone"><div class="phone-screen">
+        <div class="phone-notch"></div>
+        <div class="phone-status"><span>9:41</span><span class="r">●●● 📶 🔋</span></div>
+        <div class="phone-appbar"><span class="ttl">${PLATS[state.plats[0]||0][0]} ${PLATS[state.plats[0]||0][1]}</span><span class="sp"></span><span class="ic">⊕ ⌕ ⋯</span></div>
+        <div class="phone-body">
+          <div class="preview"><div class="pvtop"><div class="pvav">${BRANDS[state.brand].name.slice(0,1)}</div>${BRANDS[state.brand].name} · ${PLATS[state.plats[0]||0][1]}</div>
+            <div class="pvtitle" id="pvT">—</div><div class="pvbody" id="pvB"></div>
+            <div class="pvimg" id="pvImg"><img src="images/blackmores/bio-c-1000.png" alt=""></div><div class="pvtags" id="pvTags">#Blackmores #Wellness #ImmunitySupport</div></div>
+        </div>
+        <div class="phone-nav"><span class="act">🏠</span><span>🔍</span><span>＋</span><span>🔔</span><span>☰</span></div>
+      </div></div></div></div>`;
+  const sync=()=>{$('#pvT').textContent=$('#etitle').value||'—';$('#pvB').textContent=$('#econtent').value;$('#pvTags').textContent=$('#etags').value;};
+  $('#etitle').addEventListener('input',sync);$('#econtent').addEventListener('input',sync);$('#etags').addEventListener('input',sync);
+  $$('#pchips .pc').forEach(c=>c.onclick=()=>{const i=+c.dataset.p;const k=state.plats.indexOf(i);k>=0?state.plats.splice(k,1):state.plats.push(i);c.classList.toggle('on');});
+  $$('.tpl').forEach(t=>t.onclick=()=>{const m=[u.tplBody0,u.tplBody1,u.tplBody2,u.tplBody3];
+    $('#etitle').value=t.textContent.trim();$('#econtent').value=m[+t.dataset.tpl];var _pi=['bio-c-1000','daily-immune-action','bio-ace-excell','probiotics-daily'][+t.dataset.tpl];var _pe=$('#pvImg');if(_pe)_pe.innerHTML='<img src="images/blackmores/'+_pi+'.png" alt="">';sync();});
+  const ag=$('#aigo');if(ag)ag.onclick=()=>{$('#etitle').value=u.aiDraftTitle;
+    $('#econtent').value=u.aiDraftBody;sync();toast(u.drafted);};
+  $('#mUp').onclick=()=>toast(u.upload);$('#mLib').onclick=()=>toast(u.fromLib);$('#mAi').onclick=()=>{$('#pvImg').innerHTML='<img src="images/blackmores/daily-immune-action.png" alt="">';toast(u.aiGen);};
+  $('#sd').onclick=()=>toast(u.savedDraft);$('#st').onclick=()=>toast(u.savedTpl);$('#pn').onclick=()=>toast(u.pushed);
+  sync();}
+
+function renderE(){const u=U();const it=INBOX[state.esel];
+  $('#main').innerHTML=`<h2 class="sec">${u.eH}</h2><div class="lead">${u.eL}</div>
+  <div class="two"><div class="panel inbox"><h3>${u.inbox}</h3>
+    ${INBOX.map((m,i)=>`<div class="item ${i===state.esel?'on':''}" data-e="${i}"><div class="iav" style="background:${m.col}">${m.ch}</div>
+      <div style="flex:1;min-width:0"><div class="iname">${T(m.n)}</div><div class="itext">${T(m.t)}</div>
+      <span class="stag" style="background:color-mix(in srgb,${SENT[m.s].c} 16%,#fff);color:${SENT[m.s].c}">${T(SENT[m.s].t)}</span></div></div>`).join('')}</div>
+  <div class="panel"><div class="subtabs">
+    <button data-s="reply" class="${state.sub==='reply'?'on':''}">${u.st_reply}</button>
+    <button data-s="tpl" class="${state.sub==='tpl'?'on':''}">${u.st_tpl}</button>
+    <button data-s="hist" class="${state.sub==='hist'?'on':''}">${u.st_hist}</button></div>
+    <div id="subZone"></div></div></div>`;
+  $$('.item').forEach(el=>el.onclick=()=>{state.esel=+el.dataset.e;state.rlang=state.lang;render();});
+  $$('.subtabs button').forEach(b=>b.onclick=()=>{state.sub=b.dataset.s;renderSub();});
+  renderSub();}
+function renderSub(){const u=U();const it=INBOX[state.esel];const z=$('#subZone');
+  $$('.subtabs button').forEach(b=>b.classList.toggle('on',b.dataset.s===state.sub));
+  if(state.sub==='reply'){z.innerHTML=`<div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:6px">${u.original}</div>
+    <div class="orig"><div class="m">${T(it.n)} · ${it.ch}</div>${T(it.t)}</div>
+    ${it.guard?`<div style="color:var(--neg);font-size:12px;font-weight:700;margin-bottom:6px">${u.guardTag}</div>`:''}
+    <div class="ltabs">${[["en","English"],["zh","中文"],["th","ไทย"],["ja","日本語"]].map(([k,l])=>`<span class="lt ${state.rlang===k?'on':''}" data-l="${k}">${l}</span>`).join('')}
+      <span class="lt tone">Professional</span><span class="lt tone">Helpful</span></div>
+    <div class="replybox" id="reply">${it.reply[state.rlang]||it.reply.en}</div>
+    <div class="eacts"><button class="btn" id="snd">${u.send}</button><button class="btn o" id="dlg">${u.delegate}</button>
+      ${it.s==='neg'?`<button class="btn o" id="hid" style="color:var(--neg)">${u.hide}</button>`:''}<button class="btn o" id="rgn">${u.regen}</button></div>`;
+    $$('.ltabs .lt[data-l]').forEach(t=>t.onclick=()=>{state.rlang=t.dataset.l;$$('.ltabs .lt[data-l]').forEach(x=>x.classList.toggle('on',x===t));$('#reply').textContent=it.reply[state.rlang]||it.reply.en;});
+    $('#snd').onclick=()=>toast(u.sent);$('#dlg').onclick=()=>toast(u.deleg);const h=$('#hid');if(h)h.onclick=()=>toast(u.hidden);$('#rgn').onclick=()=>toast(u.regen);
+  } else if(state.sub==='tpl'){z.innerHTML=REPTPL.map((t,i)=>`<div class="tplrep" data-t="${i}"><div class="c">${T(t.c)}</div>${T(t.x)}</div>`).join('');
+    $$('.tplrep').forEach(t=>t.onclick=()=>{state.sub='reply';renderSub();toast(u.insertTpl);});
+  } else {z.innerHTML=HISTORY.map(h=>`<div class="hist"><div class="hdot h-${h.s}"></div><div><b>${T(h.who)}</b> · ${T(h.t)}<div style="color:var(--muted);font-size:11px">${h.ago}</div></div></div>`).join('');}
+}
+
+function renderCh(){const u=U();
+  $('#main').innerHTML=`<h2 class="sec">${u.chH}</h2><div class="lead">${u.chL}</div>
+  <div class="chgrid">${CHANNELS.map(c=>`<div class="chcard"><div class="top"><span class="ic">${c.em}</span><span class="dot ${c.ok?'d-ok':'d-warn'}"></span></div>
+    <div style="font-weight:700;font-size:13.5px;margin-top:6px">${T(c.n)}</div>
+    <div class="st" style="color:${c.ok?'var(--pos)':'var(--neu)'}">${c.ok?u.connected:u.reauth}</div>
+    <div class="nums">👥 ${c.f} · ${c.e}</div></div>`).join('')}</div>
+  <div class="panel"><h3 style="font-family:var(--display)">${u.pushAll.replace('🚀 ','')} — matrix</h3>
+    ${MATRIX.map((m,i)=>`<div class="mrow ${state.msel.includes(i)?'on':''}" data-m="${i}"><div class="mrole">${T(m.role)}</div>
+      <div class="mppl">${T(m.acc).map(a=>`<span class="acc">${a}</span>`).join('')}</div><div class="mcheck">✓</div></div>`).join('')}
+    <button class="pushbtn" id="pushAll">${u.pushAll}</button><div class="result" id="result"></div></div>`;
+  $$('.mrow').forEach(r=>r.onclick=()=>{const i=+r.dataset.m;const k=state.msel.indexOf(i);k>=0?state.msel.splice(k,1):state.msel.push(i);r.classList.toggle('on');});
+  $('#pushAll').onclick=()=>{const accts=state.msel.reduce((s,i)=>{const ac=T(MATRIX[i].acc);return s+ac.filter(a=>!a.startsWith('+')).length+(ac.find(a=>a.startsWith('+'))?4:0);},0);
+    const pl=state.plats.length||3;const posts=accts*pl;const r=$('#result');r.classList.remove('show');$('#pushAll').textContent=u.pushing;
+    setTimeout(()=>{$('#pushAll').textContent=u.pushAll;r.innerHTML=`<b>${u.resB(posts)}</b><div style="opacity:.9;margin-top:3px">${u.resS(accts,pl)}</div>`;r.classList.add('show');toast('🚀 '+u.resB(posts));},900);};}
+
+function renderCp(){const u=U();
+  $('#main').innerHTML=`<h2 class="sec">${u.cpH}</h2><div class="lead">${u.cpL}</div>
+  <div class="kpis"><div class="kc"><b>3</b><small>${u.live}</small></div><div class="kc"><b>1,240</b><small>${u.orders}</small></div>
+    <div class="kc"><b>$38.6k</b><small>${u.revenue}</small></div><div class="kc"><b>4.1%</b><small>${u.conv}</small></div></div>
+  <div class="panel"><h3>✦ ${u.aiRec}</h3>
+    ${AIRECS.map((r,i)=>`<div class="rec"><div class="rt">${T(r.t)}</div><div class="rw">${T(r.w)}</div>
+      <div class="dl">${r.d.map(d=>`<span class="k">${T(DLAB[d[0]])}</span><span>${T(d[1])}</span>`).join('')}</div>
+      <button class="btn" data-r="${i}">${u.oneClick}</button></div>`).join('')}
+    <div id="kitZone"></div></div>
+  <div class="panel" style="margin-top:14px"><h3>${u.ongoing}</h3>
+    <div class="ong"><div style="font-weight:700;font-size:14px">${u.ongoingName} · <span style="color:var(--pos)">${u.live}</span></div>
+      <div class="prog"><i style="width:62%"></i></div>
+      <div class="mtr"><span><b>1,240</b>${u.participants}</span><span><b>318</b>${u.orders}</span><span><b>$9.4k</b>${u.revenue}</span><span><b>4.1%</b>${u.conv}</span></div></div></div>`;
+  $$('[data-r]').forEach(b=>b.onclick=()=>showKit(+b.dataset.r));}
+function showKit(i){const u=U();const r=AIRECS[i];
+  const kitImgs=['bio-c-1000.png','joint-formula-advanced.png','beauty-sleep.png','pregnancy-gold.svg','probiotics-daily.png','fish-oil.svg'];
+  $('#kitZone').innerHTML=`<div class="kit"><div class="lab" style="color:var(--brand)">✨ ${u.kitTitle} — ${T(r.t)}</div>
+    <div class="grid"><div class="pvimg" style="height:150px"><img src="images/blackmores/${kitImgs[i]||kitImgs[0]}" alt=""></div>
+      <div><div class="copybox"><div class="p">Instagram</div>💙 ${T(r.t)} — ${u.kitIgPromo} 💙 #Blackmores #Wellness</div>
+        <div class="copybox" style="margin-top:9px"><div class="p">${u.kitLineApp}</div>${u.kitOffer.replace('{mix}',T(r.d[2][1]))}</div>
+        <div class="copybox" style="margin-top:9px"><div class="p">${u.coupon}</div>🎟️ WELLNESS15 · ${T(r.d[0][1])}</div></div></div>
+    <button class="btn" id="launch" style="width:100%;margin-top:12px">${u.launch}</button></div>`;
+  $('#launch').onclick=()=>{toast(u.launched);$('#kitZone').innerHTML='';};
+  $('#kitZone').scrollIntoView({behavior:'smooth',block:'nearest'});}
+
+function applyBrand(){const b=BRANDS[state.brand],r=document.documentElement.style;
+  r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
+  const brandEl=$('#brand');if(brandEl)brandEl.innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');}
+function renderProof(){const pw=$('#proofWrap');if(pw)pw.innerHTML='';return;const u=U();pw.innerHTML=`
+<div class="proof"><h3>\u2728 ${u.ppH}</h3>
+<div class="proof-grid"><div class="proof-card"><span class="proof-logo">[LOGO] NTT DATA</span><h4>${u.ppCase1}</h4><p>${u.ppCase1L}</p></div>
+<div class="proof-card"><h4>${u.ppCase2}</h4><p>${u.ppCase2L}</p>
+<div class="proof-stat"><div class="stat-box"><span style="font-size:13px;color:var(--muted)">${u.ppSpeedFrom}</span><div class="proof-arrow">↓</div><b style="font-size:20px">${u.ppSpeedTo}</b><span>${u.ppSpeed}</span></div>
+<div class="stat-box"><b style="font-size:16px">${u.ppReachV}</b><span>${u.ppReach}</span></div></div></div></div></div>`;}
+function applyText(){const u=U();
+  const subEl=$('#sub');if(subEl)subEl.textContent=u.sub;
+  $('#heroEye').textContent=u.heroEye;
+  $('#heroH').textContent=u.heroH;
+  $('#heroL').textContent=u.heroL;
+  $('#hp1').innerHTML=u.hp1;
+  $('#hp2').innerHTML=u.hp2;
+  $('#hp3').innerHTML=u.hp3;
+  $('#hp4').innerHTML=u.hp4;
+  document.documentElement.lang=state.lang;state.rlang=state.lang;render();renderProof();}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1900);}
+
+$('#fab').onclick=()=>{const k=Object.keys(BRANDS);const i=k.indexOf(state.brand);state.brand=k[(i+1)%k.length];applyBrand();render();toast('🎨 '+BRANDS[state.brand].name);};
+const LANGS=[['en','EN'],['zh','中'],['ja','日'],['th','ไท']];
+function renderLangs(){const box=$('#langs');box.innerHTML='';LANGS.forEach(([k,lab])=>{const b=document.createElement('button');b.textContent=lab;if(k===state.lang)b.className='on';b.onclick=()=>{state.lang=k;renderLangs();applyText();};box.appendChild(b);});}
+renderLangs();
+
+try{var _p=new URLSearchParams(location.search),_b=_p.get("brand"),_l=_p.get("lang");
+  if(_b&&BRANDS[_b])state.brand=_b;if(_l&&["en","zh","ja","th"].indexOf(_l)>=0)state.lang=_l;}catch(e){}
+applyBrand();applyText();renderLangs();
+(function(){var _l="";setInterval(function(){try{if(typeof state==="undefined")return;var c=(state.brand||"")+"|"+(state.lang||"");if(c!==_l){_l=c;if(window.parent&&window.parent!==window)window.parent.postMessage({t:"es",brand:state.brand||null,lang:state.lang||null},"*");}}catch(e){}},400);})();
+</script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>

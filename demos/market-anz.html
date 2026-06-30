@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Australia & New Zealand · Market Strategy — Blackmores Experience Studio</title>
+<style>
+  :root{
+    --brand:#009BA4; --brand-soft:#e0f2f3; --brand-d:#007A82; --ink:#1b1d1a; --muted:#6d716a;
+    --canvas:#ffffff; --card:#ffffff; --line:#e8e6df; --accent:#0F9DA6;
+    --display:Georgia,'Times New Roman','Songti SC','Noto Serif CJK SC',serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans','Microsoft YaHei',sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--body);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+  header{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--line)}
+  .bar{display:flex;align-items:center;gap:16px;padding:10px 28px}
+  .brand-logo{height:34px;width:auto;display:block}
+  .crumb{font-size:13px;font-weight:700;color:var(--muted)}
+  .crumb b{color:var(--ink)}
+  .page-title{font-family:var(--display);font-size:22px;font-weight:600;letter-spacing:-.01em;color:var(--ink);margin:0;line-height:1.1}
+  .spacer{flex:1}
+  .back{font-size:13px;font-weight:800;color:var(--brand-d);text-decoration:none;border:1px solid var(--line);padding:8px 14px;border-radius:999px;transition:.18s}
+  .back:hover{border-color:var(--brand);background:var(--brand-soft)}
+  .langsw{display:flex;gap:4px;background:#f4f2ec;border:1px solid var(--line);border-radius:999px;padding:3px}
+  .langsw button{border:0;background:transparent;font:inherit;font-size:12px;font-weight:800;color:var(--muted);padding:5px 11px;border-radius:999px;cursor:pointer;transition:.15s}
+  .langsw button.on{background:#fff;color:var(--brand-d);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+
+  .hero{background:linear-gradient(135deg,#e6f6f5 0%,#f7f5ef 60%);border-bottom:1px solid var(--line)}
+  .hero-in{padding:40px 0 36px}
+  .kick{font-size:11px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+  .hflag{font-size:34px;line-height:1;vertical-align:-4px;margin-right:10px}
+  .hero h1{font-family:var(--display);font-size:clamp(34px,4.6vw,54px);font-weight:600;letter-spacing:-.02em;margin:0;line-height:1.02}
+  .hero .tag{font-size:16px;font-weight:700;color:var(--accent);margin-top:12px}
+  .hero .lead{font-size:15.5px;color:var(--muted);max-width:680px;margin-top:12px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .chip{font-size:12.5px;font-weight:700;background:#fff;border:1px solid var(--line);color:var(--ink);padding:8px 13px;border-radius:999px}
+  .chip b{color:var(--accent)}
+
+  section{padding:44px 0}
+  section + section{border-top:1px solid var(--line)}
+  .sec-kick{font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--brand);margin-bottom:10px}
+  .sec-h{font-family:var(--display);font-size:30px;font-weight:600;letter-spacing:-.01em;margin:0 0 8px}
+  .sec-sub{font-size:15px;color:var(--muted);max-width:760px;margin:0 0 26px}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px}
+  .card h3{font-family:var(--display);font-size:19px;font-weight:600;margin:0 0 12px;display:flex;align-items:center;gap:9px}
+  .card h3 .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--brand-soft);color:var(--brand-d);font-size:16px;flex:0 0 auto}
+  .card ul{margin:0;padding-left:0;list-style:none}
+  .card li{position:relative;padding:7px 0 7px 18px;font-size:14px;border-top:1px solid var(--line)}
+  .card li:first-child{border-top:0}
+  .card li::before{content:"";position:absolute;left:0;top:15px;width:7px;height:7px;border-radius:50%;background:var(--brand)}
+  .card li b{font-weight:800}
+  .muted{color:var(--muted)}
+  .tv{font-size:11px;font-weight:800;color:var(--accent);background:#e6f6f5;border-radius:6px;padding:1px 6px;margin-left:4px}
+
+  .timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}
+  .tl{padding:20px;border-right:1px solid var(--line)}
+  .tl:last-child{border-right:0}
+  .tl .yr{font-size:12px;font-weight:800;color:var(--brand-d);letter-spacing:.04em}
+  .tl h4{font-family:var(--display);font-size:17px;font-weight:600;margin:8px 0 6px}
+  .tl p{font-size:13.5px;color:var(--muted);margin:0}
+
+  .status{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+  .st{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .st .k{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .st .v{font-size:14.5px;font-weight:700;color:var(--ink)}
+  .st .v small{display:block;font-weight:500;color:var(--muted);font-size:12.5px;margin-top:3px}
+
+  .pillars{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .pillar{border:1px solid var(--line);border-radius:18px;padding:24px;background:#fff}
+  .pillar.now{border-top:4px solid var(--brand)}
+  .pillar.next{border-top:4px solid var(--accent)}
+  .pillar .phase{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .pillar h3{font-family:var(--display);font-size:22px;font-weight:600;margin:6px 0 4px}
+  .pillar .who{font-size:13px;font-weight:700;color:var(--brand-d);margin-bottom:14px}
+  .pillar.next .who{color:var(--accent)}
+  .pillar ul{margin:0;padding-left:0;list-style:none}
+  .pillar li{font-size:14px;padding:8px 0 8px 20px;position:relative;border-top:1px solid var(--line)}
+  .pillar li::before{content:"→";position:absolute;left:0;top:7px;color:var(--brand);font-weight:800}
+  .pillar.next li::before{color:var(--accent)}
+
+  .flywheel{margin-top:20px;background:var(--brand-soft);border:1px solid color-mix(in srgb,var(--brand) 22%,#fff);border-radius:16px;padding:20px 22px}
+  .flywheel b{color:var(--brand-d)}
+  .demos{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .demos a{font-size:12.5px;font-weight:700;text-decoration:none;background:#fff;border:1px solid var(--line);color:var(--ink);padding:7px 12px;border-radius:8px;transition:.18s}
+  .demos a:hover{border-color:var(--brand);color:var(--brand-d)}
+
+  footer{border-top:1px solid var(--line);padding:26px 0 50px}
+  .note{font-size:13px;color:var(--muted);background:#faf9f5;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+
+  @media(max-width:860px){.grid3,.grid2,.timeline,.status,.pillars{grid-template-columns:1fr}.tl{border-right:0;border-bottom:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <a class="back" href="index.html" data-i18n="back">← Back to studio</a>
+    <h1 class="page-title" data-i18n="ptitle">Australia &amp; New Zealand · Market Strategy</h1>
+    <span class="spacer"></span>
+    <div class="langsw" id="langsw">
+      <button data-lang="en" class="on">EN</button>
+      <button data-lang="zh">中文</button>
+      <button data-lang="ja">日本語</button>
+      <button data-lang="th">ไทย</button>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap hero-in">
+    <div class="kick" data-i18n="kick">Market Strategy</div>
+    <h1><span class="hflag">🇦🇺</span><span data-i18n="hname">Australia &amp; New Zealand</span></h1>
+    <div class="tag" data-i18n="tag">A mature, retail-led wellness market · the home base</div>
+    <p class="lead" data-i18n="lead">ANZ is Blackmores' home market — the most familiar playbook and the most complete first-party data. Pharmacy and grocery retail still drive everyday purchases, with a growing direct (web/app) and Amazon presence on top.</p>
+    <div class="chips">
+      <span class="chip" data-i18n="chip1">Live: <b>Pharmacy retail + Amazon</b></span>
+      <span class="chip" data-i18n="chip2">Direct: <b>blackmores.com.au + App</b></span>
+      <span class="chip" data-i18n="chip3">Trust: <b>TGA / Australian-made</b></span>
+      <span class="chip" data-i18n="chip4">Priority: <b>Home market</b></span>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s1k">01 · Market landscape</div>
+    <h2 class="sec-h" data-i18n="s1h">Market characteristics, audience &amp; channels</h2>
+    <p class="sec-sub" data-i18n="s1s">A mature, well-regulated wellness market where the brand is natively trusted.</p>
+    <div class="grid3">
+      <div class="card">
+        <h3><span class="ic">🧭</span><span data-i18n="c1h">Market characteristics</span></h3>
+        <ul>
+          <li data-i18n="c1a"><b>Mature &amp; regulated</b> — TGA-governed; preventive health is mainstream.</li>
+          <li data-i18n="c1b"><b>Retail-led</b> — pharmacy and grocery still drive everyday volume.</li>
+          <li data-i18n="c1c"><b>Growing direct</b> — owned web/app + Amazon AU rising alongside retail.</li>
+          <li data-i18n="c1d"><b>Native brand trust</b> — Blackmores is a household name; pharmacist advice matters.</li>
+          <li data-i18n="c1e"><b>First-party data</b> richest here via owned site + loyalty.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="ic">👥</span><span data-i18n="c2h">Audience / persona</span> <span class="tv" data-i18n="tv">to verify</span></h3>
+        <ul>
+          <li data-i18n="c2a"><b>Family-health women, 30–55</b> — immunity, kids, everyday wellness.</li>
+          <li data-i18n="c2b"><b>Older adults</b> — joint, heart, eye, healthy ageing.</li>
+          <li data-i18n="c2c"><b>Younger adults</b> — sleep, stress, energy, immunity.</li>
+          <li data-i18n="c2d"><b>Pregnancy / maternity</b> — Pregnancy &amp; Breastfeeding Gold.</li>
+          <li data-i18n="c2e">Advice-led: pharmacist and trusted-brand cues guide choice.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="ic">🛒</span><span data-i18n="c3h">Mainstream channels</span></h3>
+        <ul>
+          <li data-i18n="c3a"><b>Pharmacy:</b> Chemist Warehouse, Priceline, Amcal+, Terry White Chemmart</li>
+          <li data-i18n="c3b"><b>Grocery:</b> Woolworths, Coles</li>
+          <li data-i18n="c3c"><b>Marketplace:</b> Amazon AU</li>
+          <li data-i18n="c3d"><b>Direct (DTC):</b> blackmores.com.au + app + loyalty</li>
+          <li data-i18n="c3e"><b>B2B:</b> pharmacy wholesale &amp; trade ordering</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s2k">02 · Where Blackmores is today</div>
+    <h2 class="sec-h" data-i18n="s2h">Blackmores' business status in ANZ</h2>
+    <p class="sec-sub" data-i18n="s2s">The established home base — directly present, but with profit pressure as the market matured.</p>
+    <div class="timeline">
+      <div class="tl">
+        <div class="yr" data-i18n="t1y">Heritage</div>
+        <h4 data-i18n="t1h">Category leader</h4>
+        <p data-i18n="t1p">Long-standing #1 natural-health brand in Australia, built on pharmacy and TGA trust.</p>
+      </div>
+      <div class="tl">
+        <div class="yr">2018–2021</div>
+        <h4 data-i18n="t2h">Home softness</h4>
+        <p data-i18n="t2p">Domestic revenue softened while China grew; competitive, promotion-heavy retail.</p>
+      </div>
+      <div class="tl">
+        <div class="yr" data-i18n="t3y">Now</div>
+        <h4 data-i18n="t3h">Direct base</h4>
+        <p data-i18n="t3p">Owns DTC site, app and loyalty; the most complete first-party data and the natural proving ground for direct.</p>
+      </div>
+    </div>
+    <div class="status">
+      <div class="st"><div class="k" data-i18n="st1k">Primary route to market</div><div class="v" data-i18n="st1v">Pharmacy &amp; grocery retail<small>Plus growing owned DTC and Amazon AU</small></div></div>
+      <div class="st"><div class="k" data-i18n="st2k">Direct presence</div><div class="v" data-i18n="st2v">Strong — owned site, app, loyalty<small>First-party consumer data most complete of all markets</small></div></div>
+      <div class="st"><div class="k" data-i18n="st3k">Retail partners</div><div class="v" data-i18n="st3v">Pharmacy chains + supermarkets<small>Embedded official content + range &amp; planogram support</small></div></div>
+      <div class="st"><div class="k" data-i18n="st4k">Content guardrails</div><div class="v" data-i18n="st4v">Evidence-based, TGA-compliant<small>Australian-made as the core trust anchor</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-kick" data-i18n="s3k">03 · Our point of view</div>
+    <h2 class="sec-h" data-i18n="s3h">Digitalisation strategy — channel + consumer</h2>
+    <p class="sec-sub" data-i18n="s3s">ANZ is where direct is most feasible — so it doubles as the proving ground for the long-term DTC model, while still enabling the retail partners that drive volume today.</p>
+    <div class="pillars">
+      <div class="pillar now">
+        <div class="phase" data-i18n="p1ph">Short-term · enable the retail engine</div>
+        <h3 data-i18n="p1h">Channel enablement</h3>
+        <div class="who" data-i18n="p1w">Customer = pharmacy, grocery &amp; Amazon partners</div>
+        <ul>
+          <li data-i18n="p1a">Embedded official brand content for retailer sites &amp; shelves</li>
+          <li data-i18n="p1b">Range, planogram &amp; campaign support; Amazon store operations</li>
+          <li data-i18n="p1c">Pharmacist / staff training &amp; certification</li>
+          <li data-i18n="p1d">Retail sell-through &amp; attribution dashboard across partners</li>
+        </ul>
+      </div>
+      <div class="pillar next">
+        <div class="phase" data-i18n="p2ph">Build the direct model here first</div>
+        <h3 data-i18n="p2h">Consumer direct (DTC)</h3>
+        <div class="who" data-i18n="p2w">Customer = the end consumer</div>
+        <ul>
+          <li data-i18n="p2a">Deepen owned web/app commerce + 4-tier loyalty</li>
+          <li data-i18n="p2b">Health assessment / Health Twin for personalised care</li>
+          <li data-i18n="p2c">AI health buyer / agentic recommendations</li>
+          <li data-i18n="p2d">Prove the DTC + CDP playbook, then export it to other markets</li>
+        </ul>
+      </div>
+    </div>
+    <div class="flywheel">
+      <span data-i18n="fly"><b>The data flywheel:</b> retail sell-through + owned DTC/loyalty behaviour → one unified CDP → AI feeds back better content, recommendations and member offers. ANZ generates the cleanest first-party signal — making it the reference market for the global platform.</span>
+      <div class="demos">
+        <span class="muted" style="font-size:12.5px;font-weight:700;align-self:center;margin-right:4px" data-i18n="demolbl">Studio demos:</span>
+        <a href="commerce-front-end.html" data-i18n="d_comm">Commerce front-end</a>
+        <a href="loyalty.html" data-i18n="d_loy">Loyalty</a>
+        <a href="health.html" data-i18n="d_health">Health / Health Twin</a>
+        <a href="agentic-commerce.html" data-i18n="d_agent">Agentic commerce</a>
+        <a href="trading-hub.html" data-i18n="d_trade">Trading hub (B2B)</a>
+        <a href="merchandising.html" data-i18n="d_merch">Merchandising</a>
+        <a href="attribution-roi.html" data-i18n="d_attr">Attribution / ROI</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="note" data-i18n="note">
+      <b>Draft for review.</b> Items marked <span class="tv">to verify</span> (persona segments) are reasoned from public research and need confirmation. Channel and status facts draw from the Blackmores AU stockist network and owned DTC presence. Source of truth: <b>MARKET_POSITIONING.md</b>.
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var I18N={
+    zh:{
+      back:"← 返回工作室", ptitle:"澳大利亚与新西兰 · 市场战略", kick:"市场战略", hname:"澳大利亚与新西兰",
+      tag:"成熟、零售主导的健康市场 · 品牌大本营",
+      lead:"澳新（ANZ）是 Blackmores 的本土市场——最熟悉的打法，也拥有最完整的第一方数据。药房与商超零售仍主导日常购买，自有直营（官网／App）与 Amazon 的份额也在此基础上稳步增长。",
+      chip1:"在售：<b>药房零售 + Amazon</b>", chip2:"直营：<b>blackmores.com.au + App</b>", chip3:"信任：<b>TGA / 澳洲原产</b>", chip4:"优先级：<b>本土市场</b>",
+      s1k:"01 · 市场格局", s1h:"市场特征、人群与渠道", s1s:"一个成熟、监管完善、品牌天然受信赖的健康市场。",
+      c1h:"市场特征",
+      c1a:"<b>成熟且受监管</b>——由 TGA 管理；预防性健康已成为主流。",
+      c1b:"<b>零售主导</b>——药房与商超仍贡献日常销量。",
+      c1c:"<b>直营稳步增长</b>——自有官网／App + Amazon AU 与零售并行上扬。",
+      c1d:"<b>天然的品牌信任</b>——Blackmores 家喻户晓；药剂师的建议举足轻重。",
+      c1e:"凭借自有官网 + 会员体系，本地拥有最丰富的<b>第一方数据</b>。",
+      c2h:"目标人群 / 画像",
+      c2a:"<b>关注家庭健康的女性，30–55 岁</b>——免疫、儿童、日常健康。",
+      c2b:"<b>中老年</b>——关节、心脏、眼睛、健康老龄化。",
+      c2c:"<b>年轻成人</b>——睡眠、压力、能量、免疫。",
+      c2d:"<b>孕期 / 孕产</b>——孕妇黄金营养素（Pregnancy &amp; Breastfeeding Gold）。",
+      c2e:"建议导向：药剂师与可信品牌的提示引导选择。",
+      c3h:"主流渠道",
+      c3a:"<b>药房：</b>Chemist Warehouse、Priceline、Amcal+、Terry White Chemmart",
+      c3b:"<b>商超：</b>Woolworths、Coles",
+      c3c:"<b>电商平台：</b>Amazon AU",
+      c3d:"<b>直营（DTC）：</b>blackmores.com.au + App + 会员",
+      c3e:"<b>B2B：</b>药房批发与渠道订货",
+      s2k:"02 · Blackmores 当前所处的位置", s2h:"Blackmores 在澳新的经营现状", s2s:"稳固的本土大本营——直接在场，但随市场成熟而面临利润压力。",
+      t1y:"传承", t1h:"品类领导者", t1p:"长期稳居澳大利亚自然健康品牌第一，建立在药房与 TGA 信任之上。",
+      t2h:"本土疲软", t2p:"中国增长之际，国内营收走软；零售竞争激烈、促销密集。",
+      t3y:"当下", t3h:"直营基地", t3p:"自有 DTC 官网、App 与会员体系；拥有最完整的第一方数据，是直营天然的试验田。",
+      st1k:"主要进入市场通路", st1v:"药房与商超零售<small>加上稳步增长的自有 DTC 与 Amazon AU</small>",
+      st2k:"直营布局", st2v:"强劲——自有官网、App、会员<small>第一方消费者数据为各市场中最完整</small>",
+      st3k:"零售伙伴", st3v:"药房连锁 + 超市<small>嵌入官方内容 + 品类与货架陈列（planogram）支持</small>",
+      st4k:"内容合规底线", st4v:"循证、符合 TGA 规范<small>以澳洲原产为核心信任锚点</small>",
+      s3k:"03 · 我们的观点", s3h:"数字化战略——渠道 + 消费者", s3s:"澳新是直营最具可行性的市场——因此它兼作长期 DTC 模式的试验田，同时继续赋能当下贡献销量的零售伙伴。",
+      p1ph:"短期 · 赋能零售引擎", p1h:"渠道赋能", p1w:"客户 = 药房、商超与 Amazon 伙伴",
+      p1a:"为零售商官网与货架提供嵌入式官方品牌内容",
+      p1b:"品类、货架陈列（planogram）与活动支持；Amazon 店铺运营",
+      p1c:"药剂师 / 店员培训与认证",
+      p1d:"跨伙伴的零售动销与归因看板",
+      p2ph:"先在此地构建直营模式", p2h:"消费者直营（DTC）", p2w:"客户 = 终端消费者",
+      p2a:"深化自有官网／App 电商 + 四级会员体系",
+      p2b:"健康评估 / 健康分身，实现个性化关怀",
+      p2c:"AI 健康买手 / 智能体推荐",
+      p2d:"跑通 DTC + CDP 打法，再复制输出到其他市场",
+      fly:"<b>数据飞轮：</b>零售动销 + 自有 DTC／会员行为 → 统一 CDP → AI 反哺更好的内容、推荐与会员权益。澳新产生最干净的第一方信号——使其成为全球平台的标杆市场。",
+      demolbl:"工作室 Demo：", d_comm:"电商前端", d_loy:"会员体系", d_health:"健康 / 健康分身", d_agent:"智能体电商", d_trade:"交易中台（B2B）", d_merch:"商品企划", d_attr:"归因 / ROI",
+      tv:"待核实",
+      note:"<b>评审草稿。</b>标注 <span class=\"tv\">待核实</span>的项目（人群细分）基于公开研究推断，需进一步确认。渠道与现状事实取自 Blackmores 澳大利亚铺货网络及自有 DTC 布局。事实依据：<b>MARKET_POSITIONING.md</b>。"
+    },
+    ja:{
+      back:"← スタジオに戻る", ptitle:"オーストラリア・ニュージーランド · 市場戦略", kick:"市場戦略", hname:"オーストラリア・ニュージーランド",
+      tag:"成熟した小売主導のウェルネス市場 · ホームベース",
+      lead:"ANZ は Blackmores のホーム市場であり、最も馴染みのあるプレイブックと最も完全な一次データを持ちます。日常の購買は今も薬局とグロサリー小売が牽引し、その上に自社直販（Web／アプリ）と Amazon の存在感が高まっています。",
+      chip1:"販売中：<b>薬局小売 + Amazon</b>", chip2:"直販：<b>blackmores.com.au + アプリ</b>", chip3:"信頼：<b>TGA / オーストラリア製</b>", chip4:"優先度：<b>ホーム市場</b>",
+      s1k:"01 · 市場環境", s1h:"市場特性・顧客・チャネル", s1s:"成熟し規制が整い、ブランドが本質的に信頼されているウェルネス市場。",
+      c1h:"市場特性",
+      c1a:"<b>成熟・規制下</b> — TGA 管轄。予防的ヘルスがメインストリーム。",
+      c1b:"<b>小売主導</b> — 薬局とグロサリーが今も日常の数量を牽引。",
+      c1c:"<b>拡大する直販</b> — 自社 Web／アプリ + Amazon AU が小売と並んで上昇。",
+      c1d:"<b>本質的なブランド信頼</b> — Blackmores は誰もが知る名前。薬剤師の助言が重要。",
+      c1e:"自社サイト + ロイヤルティにより、<b>一次データ</b>はここが最も豊富。",
+      c2h:"ターゲット / ペルソナ",
+      c2a:"<b>家族の健康を担う女性、30〜55歳</b> — 免疫・子ども・日常のウェルネス。",
+      c2b:"<b>中高年</b> — 関節・心臓・目・健やかな加齢。",
+      c2c:"<b>若年層</b> — 睡眠・ストレス・エネルギー・免疫。",
+      c2d:"<b>妊娠 / マタニティ</b> — 妊娠・授乳期ゴールド（Pregnancy &amp; Breastfeeding Gold）。",
+      c2e:"助言主導：薬剤師と信頼ブランドの手掛かりが選択を導く。",
+      c3h:"主要チャネル",
+      c3a:"<b>薬局：</b>Chemist Warehouse、Priceline、Amcal+、Terry White Chemmart",
+      c3b:"<b>グロサリー：</b>Woolworths、Coles",
+      c3c:"<b>マーケットプレイス：</b>Amazon AU",
+      c3d:"<b>直販（DTC）：</b>blackmores.com.au + アプリ + ロイヤルティ",
+      c3e:"<b>B2B：</b>薬局卸売とトレード発注",
+      s2k:"02 · Blackmores の現在地", s2h:"ANZ における Blackmores の事業状況", s2s:"確立されたホームベース — 直接展開しているが、市場成熟に伴う利益面の圧力もある。",
+      t1y:"ヘリテージ", t1h:"カテゴリーリーダー", t1p:"薬局と TGA への信頼に支えられ、オーストラリアでナチュラルヘルスのNo.1ブランドを長年維持。",
+      t2h:"ホームの軟化", t2p:"中国が成長する一方で国内売上は軟化。競争が激しく販促依存の小売環境。",
+      t3y:"現在", t3h:"直販の基盤", t3p:"自社 DTC サイト・アプリ・ロイヤルティを保有。最も完全な一次データを持ち、直販の自然な実証の場。",
+      st1k:"主要な市場参入ルート", st1v:"薬局・グロサリー小売<small>加えて拡大中の自社 DTC と Amazon AU</small>",
+      st2k:"直販の有無", st2v:"強い — 自社サイト・アプリ・ロイヤルティ<small>一次消費者データは全市場で最も完全</small>",
+      st3k:"小売パートナー", st3v:"薬局チェーン + スーパーマーケット<small>公式コンテンツの組み込み + 品揃え・棚割（プラノグラム）支援</small>",
+      st4k:"コンテンツのガードレール", st4v:"エビデンスベース・TGA 準拠<small>オーストラリア製を中核の信頼の拠り所に</small>",
+      s3k:"03 · 私たちの視点", s3h:"デジタル化戦略 — チャネル + 消費者", s3s:"ANZ は直販が最も実現可能な市場 — ゆえに長期 DTC モデルの実証の場を兼ねつつ、今日の数量を支える小売パートナーも引き続き支援する。",
+      p1ph:"短期 · 小売エンジンを支援", p1h:"チャネル・イネーブルメント", p1w:"顧客 = 薬局・グロサリー・Amazon のパートナー",
+      p1a:"小売各社のサイトと棚向けに公式ブランドコンテンツを組み込み",
+      p1b:"品揃え・棚割（プラノグラム）・キャンペーン支援、Amazon 店舗運営",
+      p1c:"薬剤師 / スタッフの研修・認定",
+      p1d:"パートナー横断の小売売上・アトリビューションダッシュボード",
+      p2ph:"まずここで直販モデルを構築", p2h:"消費者直販（DTC）", p2w:"顧客 = エンド消費者",
+      p2a:"自社 Web／アプリのコマースを深化 + 4段階ロイヤルティ",
+      p2b:"健康アセスメント / ヘルスツインでケアをパーソナライズ",
+      p2c:"AI ヘルスバイヤー / エージェント型レコメンド",
+      p2d:"DTC + CDP のプレイブックを実証し、他市場へ展開",
+      fly:"<b>データフライホイール：</b>小売売上 + 自社 DTC／ロイヤルティの行動 → 統合 CDP → AI がより良いコンテンツ・レコメンド・会員特典に還元。ANZ は最もクリーンな一次シグナルを生み、グローバルプラットフォームの基準市場となる。",
+      demolbl:"スタジオ Demo：", d_comm:"コマースフロントエンド", d_loy:"ロイヤルティ", d_health:"ヘルス / ヘルスツイン", d_agent:"エージェント型コマース", d_trade:"トレーディングハブ（B2B）", d_merch:"マーチャンダイジング", d_attr:"アトリビューション / ROI",
+      tv:"要確認",
+      note:"<b>レビュー用ドラフト。</b><span class=\"tv\">要確認</span>の項目（ペルソナのセグメント）は公開情報からの推定で、確認が必要です。チャネルと状況の事実は Blackmores オーストラリアの取扱店ネットワークと自社 DTC の展開に基づきます。出典：<b>MARKET_POSITIONING.md</b>。"
+    },
+    th:{
+      back:"← กลับสู่สตูดิโอ", ptitle:"ออสเตรเลียและนิวซีแลนด์ · กลยุทธ์ตลาด", kick:"กลยุทธ์ตลาด", hname:"ออสเตรเลียและนิวซีแลนด์",
+      tag:"ตลาดเวลเนสที่อิ่มตัวและนำด้วยค้าปลีก · ฐานที่มั่นหลัก",
+      lead:"ANZ คือตลาดบ้านเกิดของ Blackmores — เป็นแนวทางที่คุ้นเคยที่สุดและมีข้อมูลปฐมภูมิที่สมบูรณ์ที่สุด ร้านขายยาและค้าปลีกของชำยังคงขับเคลื่อนการซื้อในชีวิตประจำวัน โดยมีช่องทางตรง (เว็บ/แอป) และ Amazon ที่เติบโตขึ้นเสริมเข้ามา",
+      chip1:"วางขาย: <b>ค้าปลีกร้านขายยา + Amazon</b>", chip2:"ช่องทางตรง: <b>blackmores.com.au + แอป</b>", chip3:"ความเชื่อมั่น: <b>TGA / ผลิตในออสเตรเลีย</b>", chip4:"ลำดับความสำคัญ: <b>ตลาดบ้านเกิด</b>",
+      s1k:"01 · ภูมิทัศน์ตลาด", s1h:"ลักษณะตลาด ผู้ซื้อ และช่องทาง", s1s:"ตลาดเวลเนสที่อิ่มตัวและมีการกำกับดูแลที่ดี ซึ่งแบรนด์ได้รับความเชื่อมั่นโดยธรรมชาติ",
+      c1h:"ลักษณะตลาด",
+      c1a:"<b>อิ่มตัวและมีการกำกับ</b> — อยู่ภายใต้ TGA สุขภาพเชิงป้องกันเป็นกระแสหลัก",
+      c1b:"<b>นำด้วยค้าปลีก</b> — ร้านขายยาและของชำยังขับเคลื่อนยอดในชีวิตประจำวัน",
+      c1c:"<b>ช่องทางตรงกำลังโต</b> — เว็บ/แอปของแบรนด์ + Amazon AU เติบโตควบคู่กับค้าปลีก",
+      c1d:"<b>ความเชื่อมั่นในแบรนด์โดยธรรมชาติ</b> — Blackmores เป็นชื่อที่ทุกบ้านรู้จัก คำแนะนำของเภสัชกรมีความสำคัญ",
+      c1e:"<b>ข้อมูลปฐมภูมิ</b> สมบูรณ์ที่สุดที่นี่ ผ่านเว็บไซต์ของแบรนด์ + ลอยัลตี้",
+      c2h:"กลุ่มเป้าหมาย / เพอร์โซนา",
+      c2a:"<b>ผู้หญิงที่ดูแลสุขภาพครอบครัว อายุ 30–55</b> — ภูมิคุ้มกัน เด็ก เวลเนสในชีวิตประจำวัน",
+      c2b:"<b>ผู้สูงวัย</b> — ข้อต่อ หัวใจ สายตา การสูงวัยอย่างมีสุขภาพดี",
+      c2c:"<b>ผู้ใหญ่วัยหนุ่มสาว</b> — การนอน ความเครียด พลังงาน ภูมิคุ้มกัน",
+      c2d:"<b>การตั้งครรภ์ / คุณแม่</b> — Pregnancy &amp; Breastfeeding Gold",
+      c2e:"นำด้วยคำแนะนำ: เภสัชกรและสัญญาณจากแบรนด์ที่เชื่อถือได้ช่วยชี้นำการเลือก",
+      c3h:"ช่องทางหลัก",
+      c3a:"<b>ร้านขายยา:</b> Chemist Warehouse, Priceline, Amcal+, Terry White Chemmart",
+      c3b:"<b>ของชำ:</b> Woolworths, Coles",
+      c3c:"<b>มาร์เก็ตเพลส:</b> Amazon AU",
+      c3d:"<b>ช่องทางตรง (DTC):</b> blackmores.com.au + แอป + ลอยัลตี้",
+      c3e:"<b>B2B:</b> ค้าส่งร้านขายยาและการสั่งซื้อแบบเทรด",
+      s2k:"02 · Blackmores อยู่ตรงไหนวันนี้", s2h:"สถานะธุรกิจของ Blackmores ใน ANZ", s2s:"ฐานบ้านเกิดที่มั่นคง — มีตัวตนโดยตรง แต่มีแรงกดดันด้านกำไรเมื่อตลาดอิ่มตัว",
+      t1y:"มรดก", t1h:"ผู้นำหมวดสินค้า", t1p:"แบรนด์สุขภาพธรรมชาติอันดับ 1 ในออสเตรเลียมาอย่างยาวนาน สร้างบนความเชื่อมั่นจากร้านขายยาและ TGA",
+      t2h:"ความอ่อนแรงในบ้าน", t2p:"รายได้ในประเทศอ่อนตัวขณะที่จีนเติบโต ค้าปลีกแข่งขันสูงและพึ่งโปรโมชันมาก",
+      t3y:"ปัจจุบัน", t3h:"ฐานช่องทางตรง", t3p:"เป็นเจ้าของเว็บไซต์ DTC แอป และลอยัลตี้ มีข้อมูลปฐมภูมิที่สมบูรณ์ที่สุดและเป็นสนามพิสูจน์ตามธรรมชาติของช่องทางตรง",
+      st1k:"ช่องทางหลักเข้าสู่ตลาด", st1v:"ค้าปลีกร้านขายยาและของชำ<small>พร้อม DTC ของแบรนด์และ Amazon AU ที่กำลังเติบโต</small>",
+      st2k:"การมีตัวตนช่องทางตรง", st2v:"แข็งแกร่ง — เว็บไซต์ แอป ลอยัลตี้ของแบรนด์<small>ข้อมูลผู้บริโภคปฐมภูมิสมบูรณ์ที่สุดในบรรดาทุกตลาด</small>",
+      st3k:"พาร์ทเนอร์ค้าปลีก", st3v:"เครือร้านขายยา + ซูเปอร์มาร์เก็ต<small>คอนเทนต์ทางการแบบฝังตัว + การสนับสนุนเรนจ์และแพลนโนแกรม</small>",
+      st4k:"กรอบกำกับคอนเทนต์", st4v:"อิงหลักฐาน สอดคล้อง TGA<small>ผลิตในออสเตรเลียเป็นจุดยึดความเชื่อมั่นหลัก</small>",
+      s3k:"03 · มุมมองของเรา", s3h:"กลยุทธ์ดิจิทัล — ช่องทาง + ผู้บริโภค", s3s:"ANZ เป็นที่ที่ช่องทางตรงเป็นไปได้มากที่สุด — จึงทำหน้าที่เป็นสนามพิสูจน์ของโมเดล DTC ระยะยาวด้วย พร้อมยังสนับสนุนพาร์ทเนอร์ค้าปลีกที่ขับเคลื่อนยอดในวันนี้",
+      p1ph:"ระยะสั้น · เสริมพลังเครื่องยนต์ค้าปลีก", p1h:"การเสริมพลังช่องทาง", p1w:"ลูกค้า = พาร์ทเนอร์ร้านขายยา ของชำ และ Amazon",
+      p1a:"คอนเทนต์แบรนด์ทางการแบบฝังตัวสำหรับเว็บไซต์และชั้นวางของผู้ค้าปลีก",
+      p1b:"การสนับสนุนเรนจ์ แพลนโนแกรม และแคมเปญ การดำเนินการร้านบน Amazon",
+      p1c:"การฝึกอบรมและรับรองเภสัชกร / พนักงาน",
+      p1d:"แดชบอร์ดยอดขายค้าปลีกและแอตทริบิวชันข้ามพาร์ทเนอร์",
+      p2ph:"สร้างโมเดลช่องทางตรงที่นี่ก่อน", p2h:"ขายตรงถึงผู้บริโภค (DTC)", p2w:"ลูกค้า = ผู้บริโภคปลายทาง",
+      p2a:"เพิ่มความลึกของคอมเมิร์ซเว็บ/แอปของแบรนด์ + ลอยัลตี้ 4 ระดับ",
+      p2b:"การประเมินสุขภาพ / Health Twin เพื่อการดูแลเฉพาะบุคคล",
+      p2c:"AI health buyer / คำแนะนำแบบเอเจนต์",
+      p2d:"พิสูจน์เพลย์บุ๊ก DTC + CDP แล้วส่งออกไปยังตลาดอื่น",
+      fly:"<b>วงล้อข้อมูล:</b> ยอดขายค้าปลีก + พฤติกรรม DTC/ลอยัลตี้ของแบรนด์ → CDP เดียว → AI ป้อนกลับคอนเทนต์ คำแนะนำ และสิทธิประโยชน์สมาชิกที่ดีขึ้น ANZ สร้างสัญญาณปฐมภูมิที่สะอาดที่สุด — ทำให้เป็นตลาดอ้างอิงของแพลตฟอร์มระดับโลก",
+      demolbl:"เดโมในสตูดิโอ:", d_comm:"ฟรอนต์เอนด์คอมเมิร์ซ", d_loy:"ลอยัลตี้", d_health:"สุขภาพ / Health Twin", d_agent:"คอมเมิร์ซแบบเอเจนต์", d_trade:"เทรดดิ้งฮับ (B2B)", d_merch:"การจัดวางสินค้า", d_attr:"แอตทริบิวชัน / ROI",
+      tv:"ต้องยืนยัน",
+      note:"<b>ฉบับร่างเพื่อทบทวน</b> รายการที่ทำเครื่องหมาย <span class=\"tv\">ต้องยืนยัน</span> (เซกเมนต์เพอร์โซนา) มาจากการวิเคราะห์ข้อมูลสาธารณะและต้องยืนยัน ข้อมูลช่องทางและสถานะอ้างอิงจากเครือข่ายร้านค้าของ Blackmores ออสเตรเลียและการมีตัวตน DTC ของแบรนด์ แหล่งอ้างอิง: <b>MARKET_POSITIONING.md</b>"
+    }
+  };
+  var LANGS=['en','zh','ja','th'];
+  var state={lang:'en'};
+  try{var _l=new URLSearchParams(location.search).get('lang');if(_l&&LANGS.indexOf(_l)>=0)state.lang=_l;}catch(e){}
+  function apply(){
+    var d=I18N[state.lang]||null;
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k=el.getAttribute('data-i18n');
+      if(!el.hasAttribute('data-en'))el.setAttribute('data-en',el.innerHTML);
+      if(d&&d[k]!=null)el.innerHTML=d[k];
+      else el.innerHTML=el.getAttribute('data-en');
+    });
+    document.documentElement.lang=state.lang;
+    document.querySelectorAll('#langsw button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-lang')===state.lang);});
+  }
+  document.querySelectorAll('#langsw button').forEach(function(b){b.addEventListener('click',function(){state.lang=b.getAttribute('data-lang');apply();});});
+  window.addEventListener('message',function(e){try{if(e.data&&e.data.t==='es'&&e.data.lang&&LANGS.indexOf(e.data.lang)>=0){state.lang=e.data.lang;apply();}}catch(err){}});
+  apply();
+})();
+// hide own header when embedded in the studio viewer
+(function(){try{if(window.self!==window.top){var s=document.createElement("style");s.textContent="header{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();
+</script>
+<script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>
+</body>
+</html>
