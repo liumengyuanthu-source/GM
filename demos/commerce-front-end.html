@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blackmores Partner Platform · Experience Studio</title>
+<title>General Mills Partner Platform · Experience Studio</title>
 <style>
   :root{
     --brand:#0a9499; --brand-d:#076e72; --soft:#e0f0f0; --accent:#e07a45;
@@ -47,7 +47,7 @@
   /* hero */
   .hero{background:linear-gradient(135deg,var(--brand),var(--brand-d));color:#fff;position:relative;overflow:hidden}
   .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;padding:54px 22px 92px;align-items:center}
-  .pill{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);
+  .serving{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);
     border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:600;margin-bottom:20px}
   .hero h1{font-family:var(--display);font-weight:700;font-size:clamp(34px,5.2vw,56px);line-height:1.04;letter-spacing:-.01em}
   .hero p{margin:18px 0 26px;font-size:15.5px;max-width:46ch;color:rgba(255,255,255,.9)}
@@ -141,11 +141,13 @@
   @media(max-width:820px){.hero .wrap{grid-template-columns:1fr}.cards{display:none}.stats{grid-template-columns:repeat(2,1fr)}
     .qa{grid-template-columns:1fr}.tabs{display:none}.kpi{grid-template-columns:1fr}}
 </style>
+<link rel="stylesheet" href="gm-demo-theme.css">
+<script defer src="gm-demo-brand.js"></script>
 </head>
 <body>
 <header>
   <div class="nav">
-    <div class="brand" id="brand">BLACKMORES<sup>®</sup></div>
+    <div class="brand" id="brand">GENERAL MILLS<sup>®</sup></div>
     <div class="tabs" id="tabs">
       <a data-tab="home" class="on" data-i="home">Home</a>
       <a data-tab="trading" data-i="trading">Trading</a>
@@ -172,22 +174,22 @@
 
 <script>
 const BRANDS={
-  blackmores:{logo:"Blackmores",sup:"®",name:"Blackmores",vertical:"health",
+  generalmills:{logo:"General Mills",sup:"®",name:"General Mills",vertical:"health",
     c:{brand:"#009BA4",brandD:"#007A82",soft:"#e0f2f3",accent:"#E91E63"},
     products:[
-      {em:"🐟",tag:"BEST SELLER",h:"Odourless Fish Oil",d:"Omega-3 for heart & joint health · 400 caps",p:32.95,u:"bottle"},
-      {em:"🦴",tag:"POPULAR",h:"Glucosamine 1500",d:"Supports joint mobility & comfort · 180 tabs",p:39.95,u:"bottle"},
-      {em:"🦠",tag:"DAILY",h:"Probiotics Daily Health",d:"Supports digestive balance · 90 caps",p:29.95,u:"bottle"},
-      {em:"💊",tag:"FAMILY",h:"Multivitamin",d:"Daily nutritional support · 100 tabs",p:24.95,u:"bottle"},
-      {em:"🍊",tag:"IMMUNITY",h:"Vitamin C 1000",d:"Supports immune function · 150 tabs",p:18.95,u:"bottle"},
-      {em:"🤰",tag:"PREGNANCY",h:"Pregnancy & Breastfeeding Gold",d:"Folate, iron & omega-3 · 60 caps",p:34.95,u:"pack"},
-      {em:"👁️",tag:"VISION",h:"Lutein Vision",d:"Supports eye health & macular care · 60 caps",p:27.95,u:"bottle"},
-      {em:"💧",tag:"",h:"Vitamin E Cream",d:"Natural moisturising face cream · 50g",p:14.95,u:"tube"}],
-    reorder:"restock 30 cases Odourless Fish Oil + 24 cases Glucosamine 1500 + 18 cases Vitamin C 1000"},
+      {em:"🐟",tag:"BEST SELLER",h:"Wanchai Ferry Dumpling Pack",d:"family dinner for family table & family meal health · 400 packs",p:32.95,u:"bottle"},
+      {em:"🦴",tag:"POPULAR",h:"Wanchai Ferry Wonton Pack",d:"Supports family meal convenience & comfort · 180 tabs",p:39.95,u:"bottle"},
+      {em:"🦠",tag:"DAILY",h:"Wanchai Ferry Quick Meal",d:"Supports quick meal balance · 90 packs",p:29.95,u:"bottle"},
+      {em:"💊",tag:"FAMILY",h:"Multiproduct",d:"Daily nutritional support · 100 tabs",p:24.95,u:"bottle"},
+      {em:"🍊",tag:"IMMUNITY",h:"Häagen-Dazs Mini Cup 1000",d:"Supports immune function · 150 tabs",p:18.95,u:"bottle"},
+      {em:"🤰",tag:"CELEBRATION",h:"Häagen-Dazs Celebration Cake",d:"Gifting cues & family dinner · 60 packs",p:34.95,u:"pack"},
+      {em:"👁️",tag:"VISION",h:"Häagen-Dazs Gift Selection",d:"Supports eye health & macular care · 60 packs",p:27.95,u:"bottle"},
+      {em:"💧",tag:"",h:"Product E Cream",d:"Natural moisturising face cream · 50g",p:14.95,u:"tube"}],
+    reorder:"restock 30 cases Wanchai Ferry Dumpling Pack + 24 cases Wanchai Ferry Wonton Pack + 18 cases Häagen-Dazs Mini Cup 1000"},
   lumiere:{logo:"LUMIÈRE",sup:"",name:"Lumière",vertical:"beauty",
     c:{brand:"#a8456b",brandD:"#7d2f4e",soft:"#f6e7ee",accent:"#c98a8a"},
     products:[
-      {em:"💧",tag:"BEST SELLER",h:"Glow Serum",d:"Vitamin C brightening",p:32.00,u:"bottle"},
+      {em:"💧",tag:"BEST SELLER",h:"Glow Serum",d:"Häagen-Dazs Mini Cup brightening",p:32.00,u:"bottle"},
       {em:"🧴",tag:"COMBO",h:"Hydra Duo",d:"Cleanser + moisturiser",p:54.00,u:"set"},
       {em:"💄",tag:"NEW",h:"Velvet Lip",d:"Long-wear matte",p:21.00,u:"each"},
       {em:"✨",tag:"",h:"Night Repair",d:"Retinol renewal",p:46.00,u:"bottle"}],
@@ -209,22 +211,22 @@ const MARKETS={
 };
 const I18N={
   en:{home:"Home",trading:"Trading",marketing:"Marketing",operations:"Operations",analytics:"Analytics",tier:"Platinum Partner",
-    pill:"AI-Powered Partner Platform",h1:"Empower Your Health Business",
+    serving:"AI-Powered Partner Platform",h1:"Empower Your Health Business",
     sub:"Everything you need to grow — from smart ordering and AI-generated marketing assets to real-time insights and next best actions.",
     quick:"Quick Order",explore:"Explore Analytics",qa:"Quick Actions",viewall:"View All →",
     s1:"Orders",s1s:"Awaiting confirmation",s2:"Alerts",s2s:"Stock below safety level",s3:"New",s3s:"Marketing assets available",s4:"Course",s4s:"To reach Platinum tier",
     a1:"AI Smart Reorder",a1d:"Based on your sales velocity, we recommend the optimal restock for best margin.",a1c:"Review & Order →",
     a2:"Generate Campaign Assets",a2d:"Create promotional materials with one click using our AIGC platform.",a2c:"Create Now →",
-    a3:"Join Gut Health Month",a3d:"A global campaign in June. Confirm participation to unlock exclusive rebates.",a3c:"Confirm Join →",
+    a3:"Join Quick meal Health Month",a3d:"A global campaign in June. Confirm participation to unlock exclusive rebates.",a3c:"Confirm Join →",
     rec:"Recommended for you",add:"Add to order",confirm:"Confirm Order",done:"Done",
     reorderT:"AI Smart Reorder",reorderB:"Based on your sales velocity, AI recommends:",margin:"Projected margin +14% · ships in 3 days",
     campT:"Generate Campaign Assets",desc:"Describe what you want",gen:"Generate",genned:"AI generated · ready to publish across channels",
-    immT:"Gut Health Month — June",immB:"Confirm participation to unlock exclusive partner rebates and co-funded marketing.",
+    immT:"Quick meal Health Month — June",immB:"Confirm participation to unlock exclusive partner rebates and co-funded marketing.",
     ana:"Performance",kp1:"Sales MoM",kp2:"Reorder rate",kp3:"NPS",ops:"Stock & Alerts",mar:"Campaign Studio",
     reorderEdu:"Unlike static reorder points, AI factors in seasonality, promotions, and real-time demand signals.",
     anaEdu:"AI continuously learns from your sales patterns to surface actionable insights — not just historical reports."},
   zh:{home:"首页",trading:"采购",marketing:"营销",operations:"运营",analytics:"分析",tier:"白金合作伙伴",
-    pill:"AI 驱动的合作伙伴平台",h1:"赋能你的健康生意",
+    serving:"AI 驱动的合作伙伴平台",h1:"赋能你的健康生意",
     sub:"从智能下单、AI 生成营销素材，到实时洞察与次优行动，增长所需一应俱全。",
     quick:"快速下单",explore:"查看分析",qa:"快捷操作",viewall:"查看全部 →",
     s1:"订单",s1s:"待确认",s2:"预警",s2s:"库存低于安全线",s3:"新素材",s3s:"营销素材可用",s4:"课程",s4s:"距白金等级",
@@ -239,7 +241,7 @@ const I18N={
     reorderEdu:"与传统固定补货点不同，AI 会综合考虑季节性、促销活动与实时需求信号。",
     anaEdu:"AI 持续从你的销售模式中学习，提供可执行的洞察——而非仅仅历史报表。"},
   ja:{home:"ホーム",trading:"発注",marketing:"マーケ",operations:"運用",analytics:"分析",tier:"プラチナパートナー",
-    pill:"AI搭載パートナープラットフォーム",h1:"あなたのヘルスビジネスを強化",
+    serving:"AI搭載パートナープラットフォーム",h1:"あなたのヘルスビジネスを強化",
     sub:"スマート発注、AI生成のマーケ素材から、リアルタイム洞察と次の最適行動まで。",
     quick:"クイック注文",explore:"分析を見る",qa:"クイック操作",viewall:"すべて →",
     s1:"注文",s1s:"確認待ち",s2:"アラート",s2s:"在庫が安全水準以下",s3:"新着",s3s:"マーケ素材",s4:"コース",s4s:"プラチナまで",
@@ -254,23 +256,23 @@ const I18N={
     reorderEdu:"固定された発注点とは異なり、AIは季節性、プロモーション、リアルタイム需要を考慮します。",
     anaEdu:"AIは売上パターンから継続的に学び、履歴レポートだけでなく実行可能な洞察を提供します。"},
   th:{home:"หน้าแรก",trading:"สั่งซื้อ",marketing:"การตลาด",operations:"ปฏิบัติการ",analytics:"วิเคราะห์",tier:"พาร์ทเนอร์แพลทินัม",
-    pill:"แพลตฟอร์มพาร์ทเนอร์ขับเคลื่อนด้วย AI",h1:"เสริมพลังธุรกิจสุขภาพของคุณ",
+    serving:"แพลตฟอร์มพาร์ทเนอร์ขับเคลื่อนด้วย AI",h1:"เสริมพลังธุรกิจสุขภาพของคุณ",
     sub:"ครบทุกอย่างเพื่อเติบโต ตั้งแต่สั่งซื้ออัจฉริยะ สื่อการตลาดจาก AI ไปจนถึงข้อมูลเชิงลึกเรียลไทม์",
     quick:"สั่งด่วน",explore:"ดูการวิเคราะห์",qa:"การทำงานด่วน",viewall:"ดูทั้งหมด →",
     s1:"คำสั่งซื้อ",s1s:"รอยืนยัน",s2:"แจ้งเตือน",s2s:"สต็อกต่ำกว่าระดับ",s3:"ใหม่",s3s:"สื่อการตลาด",s4:"คอร์ส",s4s:"สู่ระดับแพลทินัม",
     a1:"สั่งซื้อซ้ำอัจฉริยะ",a1d:"AI แนะนำการเติมสต็อกที่ดีที่สุดตามความเร็วการขาย",a1c:"ตรวจ & สั่ง →",
     a2:"สร้างสื่อแคมเปญ",a2d:"สร้างสื่อโปรโมตด้วย AIGC คลิกเดียว",a2c:"สร้างเลย →",
-    a3:"ร่วมเดือนสุขภาพลำไส้",a3d:"แคมเปญทั่วโลกเดือนมิ.ย. ยืนยันเพื่อปลดล็อกส่วนลด",a3c:"ยืนยันเข้าร่วม →",
+    a3:"ร่วมเดือนสุขภาพมื้ออาหารเร็ว",a3d:"แคมเปญทั่วโลกเดือนมิ.ย. ยืนยันเพื่อปลดล็อกส่วนลด",a3c:"ยืนยันเข้าร่วม →",
     rec:"แนะนำสำหรับคุณ",add:"เพิ่มในออเดอร์",confirm:"ยืนยันคำสั่งซื้อ",done:"เสร็จ",
     reorderT:"สั่งซื้อซ้ำอัจฉริยะ",reorderB:"AI แนะนำ:",margin:"กำไรคาด +14% · ส่งใน 3 วัน",
     campT:"สร้างสื่อแคมเปญ",desc:"อธิบายสิ่งที่ต้องการ",gen:"สร้าง",genned:"AI สร้างแล้ว · พร้อมเผยแพร่ทุกช่อง",
-    immT:"เดือนสุขภาพลำไส้ — มิ.ย.",immB:"ยืนยันเข้าร่วมเพื่อปลดล็อกส่วนลดพาร์ทเนอร์",
+    immT:"เดือนสุขภาพมื้ออาหารเร็ว — มิ.ย.",immB:"ยืนยันเข้าร่วมเพื่อปลดล็อกส่วนลดพาร์ทเนอร์",
     ana:"ประสิทธิภาพ",kp1:"ยอดขาย MoM",kp2:"อัตราสั่งซ้ำ",kp3:"NPS",ops:"สต็อกและแจ้งเตือน",mar:"สตูดิโอแคมเปญ",
     reorderEdu:"ไม่เหมือนจุดสั่งซื้อคงที่ AI จะพิจารณาฤดูกาล โปรโมชัน และสัญญาณความต้องการแบบเรียลไทม์",
     anaEdu:"AI เรียนรู้อย่างต่อเนื่องจากรูปแบบการขายของคุณ เพื่อนำเสนอข้อมูลเชิงลึกที่ดำเนินการได้ — ไม่ใช่แค่รายงานย้อนหลัง"}
 };
 
-let state={brand:"blackmores",market:"ANZ",lang:"en",tab:"home",cart:0};
+let state={brand:"generalmills",market:"ANZ",lang:"en",tab:"home",cart:0};
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 const D=()=>I18N[state.lang], B=()=>BRANDS[state.brand], M=()=>MARKETS[state.market];
 // ── Currency: all base values are AUD; render in the active market's currency ──
@@ -280,34 +282,34 @@ const bl=o=>o[state.lang]||o.en;
 // ── Bundles · cross-category combos · now = bundle price, was = sum of components (strikethrough) ──
 const BUNDLES_T={
   hdr:{en:"Bundles",zh:"套装组合",ja:"バンドル",th:"ชุดบันเดิล"},
-  hdrSub:{en:"Save more with curated wellness combos",zh:"精选健康组合，买得更划算",ja:"厳選ウェルネス組合でもっとお得に",th:"ประหยัดกว่าด้วยชุดสุขภาพคัดสรร"},
+  hdrSub:{en:"Save more with curated everyday enjoyment combos",zh:"精选健康组合，买得更划算",ja:"厳選ウェルネス組合でもっとお得に",th:"ประหยัดกว่าด้วยชุดสุขภาพคัดสรร"},
   feat:{en:"FEATURED BUNDLE",zh:"重点推荐套装",ja:"おすすめバンドル",th:"ชุดแนะนำ"},
   save:{en:"Save",zh:"立省",ja:"お得",th:"ประหยัด"},
   add:{en:"Add bundle to cart",zh:"加入套装",ja:"バンドルを追加",th:"เพิ่มชุดลงตะกร้า"}
 };
 const BUNDLES=[
   {feat:true,em:"🛡️",save:15,now:89,was:105,
-    nm:{en:"Family Immunity Bundle",zh:"全家免疫组合",ja:"ファミリー免疫バンドル",th:"ชุดภูมิคุ้มกันทั้งครอบครัว"},
-    dd:{en:"Everyday immune support for the whole family — adults and kids.",zh:"全家每日免疫支持——大人小孩都适用。",ja:"家族みんなの毎日の免疫サポート — 大人も子どもも。",th:"ดูแลภูมิคุ้มกันประจำวันทั้งครอบครัว ทั้งผู้ใหญ่และเด็ก"},
-    comp:[{em:"💊",nm:{en:"Multivitamin",zh:"复合维生素",ja:"マルチビタミン",th:"มัลติวิตามิน"}},{em:"🍊",nm:{en:"Vitamin C",zh:"维生素C",ja:"ビタミンC",th:"วิตามินซี"}},{em:"🦠",nm:{en:"Probiotics",zh:"益生菌",ja:"プロバイオティクス",th:"โพรไบโอติกส์"}},{em:"🧒",nm:{en:"Kids Multi",zh:"儿童复合维生素",ja:"キッズマルチ",th:"คิดส์มัลติ"}}]},
+    nm:{en:"Family Seasonal occasion Bundle",zh:"全家季节场景组合",ja:"ファミリー季节场景バンドル",th:"ชุดโอกาสตามฤดูกาลทั้งครอบครัว"},
+    dd:{en:"Everyday seasonal occasion support for the whole family — adults and family.",zh:"全家每日季节场景支持——大人小孩都适用。",ja:"家族みんなの毎日の季节场景サポート — 大人も子どもも。",th:"ดูแลโอกาสตามฤดูกาลประจำวันทั้งครอบครัว ทั้งผู้ใหญ่และเด็ก"},
+    comp:[{em:"💊",nm:{en:"Multiproduct",zh:"通用磨坊组合包",ja:"マルチプロダクト",th:"มัลติผลิตภัณฑ์"}},{em:"🍊",nm:{en:"Häagen-Dazs Mini Cup",zh:"哈根达斯迷你杯",ja:"プロダクトC",th:"ผลิตภัณฑ์ซี"}},{em:"🦠",nm:{en:"Wanchai Ferry Quick Meal",zh:"湾仔码头快手餐",ja:"プロバイオティクス",th:"โพรไบโอติกส์"}},{em:"🧒",nm:{en:"Family Meal Pack",zh:"儿童通用磨坊组合包",ja:"キッズマルチ",th:"คิดส์มัลติ"}}]},
   {em:"❤️",save:12,now:55,was:63,
-    nm:{en:"Heart Health Essentials",zh:"心血管基础",ja:"心血管ベーシック",th:"ชุดดูแลหัวใจพื้นฐาน"},
-    comp:[{em:"🐟",nm:{en:"Fish Oil",zh:"深海鱼油",ja:"フィッシュオイル",th:"น้ำมันปลา"}},{em:"💛",nm:{en:"CoQ10",zh:"辅酶Q10",ja:"コエンザイムQ10",th:"โคเอนไซม์คิวเทน"}}]},
+    nm:{en:"Family Table Essentials",zh:"家庭餐桌基础",ja:"家庭餐桌ベーシック",th:"ชุดดูแลหัวใจพื้นฐาน"},
+    comp:[{em:"🐟",nm:{en:"Wanchai Ferry Dumplings",zh:"深海湾仔码头水饺",ja:"フィッシュオイル",th:"น้ำมันปลา"}},{em:"💛",nm:{en:"Häagen-Dazs Pint",zh:"哈根达斯品脱",ja:"コエンザイムQ10",th:"โคเอนไซม์คิวเทน"}}]},
   {em:"🦴",save:15,now:95,was:112,
-    nm:{en:"Joint & Heart Care Pack",zh:"关节·心血管",ja:"関節・心血管ケアパック",th:"แพ็กดูแลข้อต่อและหัวใจ"},
-    comp:[{em:"🦴",nm:{en:"Glucosamine",zh:"维骨力关节灵",ja:"グルコサミン",th:"กลูโคซามีน"}},{em:"🐟",nm:{en:"Fish Oil",zh:"深海鱼油",ja:"フィッシュオイル",th:"น้ำมันปลา"}},{em:"💛",nm:{en:"CoQ10",zh:"辅酶Q10",ja:"コエンザイムQ10",th:"โคเอนไซม์คิวเทน"}}]},
+    nm:{en:"Family Meal Care Pack",zh:"家庭餐·家庭餐桌",ja:"ファミリーミール・家庭餐桌ケアパック",th:"แพ็กดูแลข้อต่อและหัวใจ"},
+    comp:[{em:"🦴",nm:{en:"Wanchai Ferry Wontons",zh:"湾仔码头馄饨装",ja:"グルコサミン",th:"กลูโคซามีน"}},{em:"🐟",nm:{en:"Wanchai Ferry Dumplings",zh:"深海湾仔码头水饺",ja:"フィッシュオイル",th:"น้ำมันปลา"}},{em:"💛",nm:{en:"Häagen-Dazs Pint",zh:"哈根达斯品脱",ja:"コエンザイムQ10",th:"โคเอนไซม์คิวเทน"}}]},
   {em:"🤰",save:10,now:58,was:64,
-    nm:{en:"Pregnancy & Baby Bundle",zh:"孕产组合",ja:"妊娠・ベビーバンドル",th:"ชุดคุณแม่และลูกน้อย"},
-    comp:[{em:"🤰",nm:{en:"Pregnancy Gold",zh:"孕妇黄金营养素",ja:"妊娠・授乳ゴールド",th:"พรีกแนนซี โกลด์"}},{em:"🦠",nm:{en:"Probiotics",zh:"益生菌",ja:"プロバイオティクス",th:"โพรไบโอติกส์"}}]},
+    nm:{en:"Celebration & Family Bundle",zh:"孕产组合",ja:"ギフト・ベビーバンドル",th:"ชุดคุณแม่และลูกน้อย"},
+    comp:[{em:"🤰",nm:{en:"Celebration Gold",zh:"哈根达斯庆祝蛋糕",ja:"ギフト・ギフトゴールド",th:"พรีกแนนซี โกลด์"}},{em:"🦠",nm:{en:"Wanchai Ferry Quick Meal",zh:"湾仔码头快手餐",ja:"プロバイオティクス",th:"โพรไบโอติกส์"}}]},
   {em:"🌿",save:18,now:120,was:146,
-    nm:{en:"Healthy Ageing Bundle",zh:"健康老龄组合",ja:"健康エイジングバンドル",th:"ชุดสูงวัยอย่างมีสุขภาพดี"},
-    comp:[{em:"💊",nm:{en:"Multivitamin",zh:"复合维生素",ja:"マルチビタミン",th:"มัลติวิตามิน"}},{em:"🦴",nm:{en:"Glucosamine",zh:"维骨力关节灵",ja:"グルコサミン",th:"กลูโคซามีน"}},{em:"💛",nm:{en:"CoQ10",zh:"辅酶Q10",ja:"コエンザイムQ10",th:"โคเอนไซม์คิวเทน"}},{em:"👁️",nm:{en:"Lutein",zh:"叶黄素",ja:"ルテイン",th:"ลูทีน"}}]},
+    nm:{en:"Lifecycle Membership Bundle",zh:"健康老龄组合",ja:"健康エイジングバンドル",th:"ชุดสูงวัยอย่างมีสุขภาพดี"},
+    comp:[{em:"💊",nm:{en:"Multiproduct",zh:"通用磨坊组合包",ja:"マルチプロダクト",th:"มัลติผลิตภัณฑ์"}},{em:"🦴",nm:{en:"Wanchai Ferry Wontons",zh:"湾仔码头馄饨装",ja:"グルコサミン",th:"กลูโคซามีน"}},{em:"💛",nm:{en:"Häagen-Dazs Pint",zh:"哈根达斯品脱",ja:"コエンザイムQ10",th:"โคเอนไซม์คิวเทน"}},{em:"👁️",nm:{en:"Häagen-Dazs Gift Selection",zh:"哈根达斯礼赠精选",ja:"ルテイン",th:"ลูทีน"}}]},
   {em:"✨",save:12,now:65,was:74,
-    nm:{en:"Wellness Starter Pack",zh:"健康入门套装",ja:"ウェルネススターターパック",th:"ชุดเริ่มต้นสุขภาพดี"},
-    comp:[{em:"💊",nm:{en:"Multivitamin",zh:"复合维生素",ja:"マルチビタミン",th:"มัลติวิตามิน"}},{em:"🍊",nm:{en:"Vitamin C",zh:"维生素C",ja:"ビタミンC",th:"วิตามินซี"}},{em:"🐟",nm:{en:"Fish Oil",zh:"深海鱼油",ja:"フィッシュオイル",th:"น้ำมันปลา"}}]},
+    nm:{en:"Everyday enjoyment Starter Pack",zh:"健康入门套装",ja:"ウェルネススターターパック",th:"ชุดเริ่มต้นสุขภาพดี"},
+    comp:[{em:"💊",nm:{en:"Multiproduct",zh:"通用磨坊组合包",ja:"マルチプロダクト",th:"มัลติผลิตภัณฑ์"}},{em:"🍊",nm:{en:"Häagen-Dazs Mini Cup",zh:"哈根达斯迷你杯",ja:"プロダクトC",th:"ผลิตภัณฑ์ซี"}},{em:"🐟",nm:{en:"Wanchai Ferry Dumplings",zh:"深海湾仔码头水饺",ja:"フィッシュオイル",th:"น้ำมันปลา"}}]},
   {em:"😴",save:12,now:42,was:48,
     nm:{en:"Sleep & Stress Bundle",zh:"睡眠减压组合",ja:"睡眠・ストレスバンドル",th:"ชุดนอนหลับและคลายเครียด"},
-    comp:[{em:"😴",nm:{en:"Sleep Support",zh:"睡眠支持",ja:"スリープサポート",th:"สลีปซัพพอร์ต"}},{em:"⚡",nm:{en:"Executive B",zh:"复合维生素B 抗压",ja:"エグゼクティブ B",th:"เอ็กเซกคิวทีฟ บี"}}]}
+    comp:[{em:"😴",nm:{en:"Häagen-Dazs Evening Dessert",zh:"睡眠支持",ja:"スリープサポート",th:"สลีปซัพพอร์ต"}},{em:"⚡",nm:{en:"General Mills Workday Snack Pack",zh:"通用磨坊组合包B 抗压",ja:"エグゼクティブ B",th:"เอ็กเซกคิวทีฟ บี"}}]}
 ];
 function bundleChip(c){return `<span class="bchip">${c.em} ${bl(c.nm)}</span>`;}
 function bundlesHTML(){const t=BUNDLES_T,feat=BUNDLES.find(b=>b.feat),rest=BUNDLES.filter(b=>!b.feat);
@@ -359,7 +361,7 @@ function renderHome(){const d=D(),b=B();const ps=b.products;
   $('#main').innerHTML=`
   <div class="hero"><div class="wrap">
     <div>
-      <span class="pill">🤖 ${d.pill}</span>
+      <span class="serving">🤖 ${d.serving}</span>
       <h1>${d.h1}</h1><p>${d.sub}</p>
       <div class="cta"><button class="btn w" id="bQuick">🛍️ ${d.quick}</button>
         <button class="btn o" id="bExplore">👁️ ${d.explore}</button></div>
@@ -411,7 +413,7 @@ function qaAction(a){const d=D(),b=B();
       <div style="font-size:13px;color:var(--muted);margin-top:6px">${d.margin}</div></div>
     <button class="btn w" style="background:var(--brand);color:#fff;width:100%;justify-content:center" id="ok">${d.confirm}</button>`);
   else if(a==='camp')openM(`<h3>🎨 ${d.campT}</h3>
-    <textarea class="field" id="cd" placeholder="${d.desc}…">Everyday wellness for the whole family — Odourless Fish Oil, Glucosamine 1500, Probiotics Daily Health, Vitamin C 1000, Multivitamin, ${M().langs}</textarea>
+    <textarea class="field" id="cd" placeholder="${d.desc}…">Everyday everyday enjoyment for the whole family — Wanchai Ferry Dumpling Pack, Wanchai Ferry Wonton Pack, Wanchai Ferry Quick Meal, Häagen-Dazs Mini Cup 1000, Multiproduct, ${M().langs}</textarea>
     <div class="pchips">${['Instagram','TikTok','Facebook','WeChat','WhatsApp'].map(p=>`<span class="pc">${p}</span>`).join('')}</div>
     <button class="btn w" style="background:var(--brand);color:#fff;width:100%;justify-content:center" id="genb">✨ ${d.gen}</button>
     <div id="genout"></div>`);
@@ -420,8 +422,8 @@ function qaAction(a){const d=D(),b=B();
   const ok=$('#ok');if(ok)ok.onclick=()=>{closeM();toast('✅ '+d.done);};
   const gb=$('#genb');if(gb)gb.onclick=()=>{$$('.pc').forEach(x=>x);
     $('#genout').innerHTML=`<div style="background:var(--soft);border-radius:12px;padding:15px;margin-top:14px;font-size:13.5px;line-height:1.6">
-      🐟 <b>Everyday wellness for the whole family — ${B().name}</b><br>Australian-made, TGA-certified supplements: Odourless Fish Oil for heart health, Glucosamine for joints, Probiotics for digestive balance.<br>
-      <span style="color:var(--brand);font-size:12px">#Blackmores #FishOil #Glucosamine #Probiotics</span>
+      🐟 <b>Everyday everyday enjoyment for the whole family — ${B().name}</b><br>brand-approved, brand governance-certified products: Wanchai Ferry Dumpling Pack for family-table relevance, Wanchai Ferry Wontons for family meals, Wanchai Ferry Quick Meal for quick meal balance.<br>
+      <span style="color:var(--brand);font-size:12px">#General Mills #FishOil #Wanchai Ferry Wontons #Wanchai Ferry Quick Meal</span>
       <div style="margin-top:10px;color:var(--muted);font-size:12px">🖼️ ${d.genned}</div></div>`;};
   $$('.pc').forEach(c=>c.onclick=()=>c.classList.toggle('on'));
 }
@@ -439,14 +441,14 @@ function renderTrading(){const d=D(),b=B();
 function renderMarketing(){const d=D();
   $('#main').innerHTML=`<div class="wrap"><section><div class="shead"><h2>${d.mar}</h2></div>
     <div class="panel"><b style="font-family:var(--display);font-size:17px">🎨 ${d.campT}</b>
-    <textarea class="field" id="cd" placeholder="${d.desc}…">Everyday wellness for the whole family — Odourless Fish Oil, Glucosamine 1500, Probiotics Daily Health, Vitamin C 1000, Multivitamin, Lutein Vision, ${M().langs}</textarea>
+    <textarea class="field" id="cd" placeholder="${d.desc}…">Everyday everyday enjoyment for the whole family — Wanchai Ferry Dumpling Pack, Wanchai Ferry Wonton Pack, Wanchai Ferry Quick Meal, Häagen-Dazs Mini Cup 1000, Multiproduct, Häagen-Dazs Gift Selection, ${M().langs}</textarea>
     <div class="pchips">${['Instagram','TikTok','Facebook','WeChat','WhatsApp','RedNote'].map(p=>`<span class="pc">${p}</span>`).join('')}</div>
     <button class="btn w" style="background:var(--brand);color:#fff;justify-content:center" id="genb">✨ ${d.gen}</button>
     <div id="genout"></div></div></section></div>`;
   $$('.pc').forEach(c=>c.onclick=()=>c.classList.toggle('on'));
   $('#genb').onclick=()=>{$('#genout').innerHTML=`<div style="background:var(--soft);border-radius:12px;padding:16px;margin-top:14px;line-height:1.6">
-    🐟 <b>Everyday wellness for the whole family — ${B().name}</b><br>Australian-made, TGA-certified: Odourless Fish Oil for the heart, Glucosamine for joints, Probiotics for digestion, Lutein for vision.<br>
-    <span style="color:var(--brand);font-size:12px">#Blackmores #FishOil #Glucosamine #Probiotics #Lutein #${M().partner.replace(/\s/g,'')}</span>
+    🐟 <b>Everyday everyday enjoyment for the whole family — ${B().name}</b><br>brand-approved, brand governance-certified: Wanchai Ferry Dumpling Pack for the family table, Wanchai Ferry Wontons for family meals, Wanchai Ferry Quick Meal for quick meal comfort, Häagen-Dazs Gift Selection for vision.<br>
+    <span style="color:var(--brand);font-size:12px">#General Mills #FishOil #Wanchai Ferry Wontons #Wanchai Ferry Quick Meal #Häagen-Dazs Gift Selection #${M().partner.replace(/\s/g,'')}</span>
     <div style="margin-top:10px;color:var(--muted);font-size:12px">🖼️ ${d.genned}</div></div>`;};
 }
 function renderAnalytics(){const d=D();const bars=[62,70,58,80,74,90];
@@ -458,9 +460,9 @@ function renderAnalytics(){const d=D();const bars=[62,70,58,80,74,90];
     </section></div>`;
 }
 function renderOps(){const d=D();const rows=[
-  ['⚠️','#fdeceb','#e0564a','Odourless Fish Oil','Stock below safety level · 42 left'],
-  ['⚠️','#fdf2e2','#c98a2b','Glucosamine 1500','Reorder point reached · 18 left'],
-  ['✅','#e6f4ea','#1f9d57','Vitamin C 1000','Healthy · 230 in stock'],
+  ['⚠️','#fdeceb','#e0564a','Wanchai Ferry Dumpling Pack','Stock below safety level · 42 left'],
+  ['⚠️','#fdf2e2','#c98a2b','Wanchai Ferry Wonton Pack','Reorder point reached · 18 left'],
+  ['✅','#e6f4ea','#1f9d57','Häagen-Dazs Mini Cup 1000','Healthy · 230 in stock'],
   ['📦','#eaf1f8','#3a6ea5','Order #4821','Awaiting confirmation']];
   $('#main').innerHTML=`<div class="wrap"><section><div class="shead"><h2>${d.ops}</h2></div>
     <div class="panel rows">${rows.map(r=>`<div class="row"><div class="si" style="width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:${r[1]}">${r[0]}</div>

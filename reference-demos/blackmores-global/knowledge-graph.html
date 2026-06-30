@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Knowledge Graph · Blackmores · Experience Studio</title>
+<title>Knowledge Graph · General Mills · Experience Studio</title>
 <style>
   :root{
     --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
@@ -130,10 +130,12 @@
   @media(max-width:760px){.khrow{flex-direction:column;align-items:flex-start;gap:14px}.khimg,.khtext{flex:1 1 auto;width:100%}}
   @media(max-width:560px){.step .ss{display:none}.node{font-size:11px;padding:6px 9px}.node.center{font-size:12px}}
 </style>
+<link rel="stylesheet" href="gm-demo-theme.css">
+<script defer src="gm-demo-brand.js"></script>
 </head>
 <body>
 <header><div class="nav">
-  <div class="brand" id="brand">Blackmores<sup>®</sup></div>
+  <div class="brand" id="brand">General Mills<sup>®</sup></div>
   <div class="sub" id="sub">Knowledge Graph</div>
   <div class="sp"></div>
   <div class="langs" id="langs"></div>
@@ -177,10 +179,10 @@ const T={
   sub:{en:"Knowledge Graph",zh:"知识图谱",ja:"ナレッジグラフ",th:"Knowledge Graph"},
   eye:{en:"Knowledge Foundation · Knowledge Graph",zh:"知识底座 · 知识图谱",ja:"ナレッジ基盤 · ナレッジグラフ",th:"ฐานความรู้ · Knowledge Graph"},
   title:{en:"From scattered product, claim and channel facts to a graph every AI scene can trust.",zh:"从散乱的产品、宣称与渠道事实,到每个 AI 场景都能信赖的图谱。",ja:"散在する製品・表示・チャネル事実から、あらゆるAIシーンが信頼できるグラフへ。",th:"จากข้อมูลสินค้า การกล่าวอ้าง และช่องทางที่กระจัดกระจาย สู่กราฟที่ทุกซีน AI เชื่อถือได้"},
-  lead:{en:"Blackmores' product truth spans ingredient specs, TGA permitted indications, market claim rules, PDP content, FAQs, reviews, pharmacy training and marketplace operations. Build it into a governed knowledge graph once — then recommendation, GEO, AIGC, compliance review, service and channel enablement all reason over the same trusted facts.",
-    zh:"Blackmores 的产品事实分散在成分规格、TGA 许可功效、各市场宣称规则、商品详情页、FAQ、评论、药房培训和平台运营资料中。一次性把它建成受治理的知识图谱——推荐、GEO、AIGC、合规审核、客服和渠道赋能都能在同一套可信事实上推理。",
-    ja:"Blackmoresの製品事実は、成分仕様・TGA許可表示・各市場の表示規制・PDPコンテンツ・FAQ・レビュー・薬局研修・マーケットプレイス運用にまたがります。一度統制されたナレッジグラフに構築すれば、推薦・GEO・AIGC・コンプラ審査・サービス・チャネル支援が同じ信頼できる事実で動きます。",
-    th:"ข้อมูลผลิตภัณฑ์ Blackmores กระจายอยู่ในสเปก ข้อบ่งใช้ที่ TGA อนุญาต FAQ รีวิว และกฎหมาย สร้างเป็น knowledge graph ครั้งเดียว ทุกซีน AI ก็อ้างอิงข้อเท็จจริงชุดเดียวกัน"},
+  lead:{en:"General Mills' product truth spans ingredient specs, brand governance permitted indications, market claim rules, PDP content, FAQs, reviews, retail training and marketplace operations. Build it into a governed knowledge graph once — then recommendation, GEO, AIGC, compliance review, service and channel enablement all reason over the same trusted facts.",
+    zh:"General Mills 的产品事实分散在成分规格、brand governance 许可功效、各市场宣称规则、商品详情页、FAQ、评论、门店培训和平台运营资料中。一次性把它建成受治理的知识图谱——推荐、GEO、AIGC、合规审核、客服和渠道赋能都能在同一套可信事实上推理。",
+    ja:"General Millsの製品事実は、成分仕様・brand governance許可表示・各市場の表示規制・PDPコンテンツ・FAQ・レビュー・小売店研修・マーケットプレイス運用にまたがります。一度統制されたナレッジグラフに構築すれば、推薦・GEO・AIGC・コンプラ審査・サービス・チャネル支援が同じ信頼できる事実で動きます。",
+    th:"ข้อมูลผลิตภัณฑ์ General Mills กระจายอยู่ในสเปก ข้อบ่งใช้ที่ brand governance อนุญาต FAQ รีวิว และกฎหมาย สร้างเป็น knowledge graph ครั้งเดียว ทุกซีน AI ก็อ้างอิงข้อเท็จจริงชุดเดียวกัน"},
   wt:{en:"What is a knowledge graph?",zh:"什么是知识图谱?",ja:"ナレッジグラフとは?",th:"Knowledge graph คืออะไร?"},
   wd:{en:"Not a folder of files — a network of facts. Entities (product, ingredient, claim, evidence, regulation, market, channel and consumer need) are linked by relationships, so AI can trace why it recommends, approves, blocks or rewrites something.",
     zh:"它不是一堆文件,而是一张事实网络。把产品、成分、宣称、证据、法规、市场、渠道和消费者需求用关系连起来,AI 才能解释为什么推荐、批准、拦截或改写某个内容。",
@@ -201,7 +203,7 @@ const T={
   grounded:{en:"<b>Grounded in the graph</b> — traceable, not guessed.",zh:"<b>来自图谱</b>——可追溯,不是凭猜。",ja:"<b>グラフに基づく</b>——追跡可能、当て推量なし。",th:"<b>อิงจากกราฟ</b> — สืบย้อนได้ ไม่ใช่การเดา"},
   powers:{en:"Powers",zh:"驱动",ja:"動かすデモ",th:"ขับเคลื่อน"},
   foot:{en:"One knowledge graph — powering <b>every scene</b>.",zh:"同一张知识图谱——驱动<b>每一个场景</b>。",ja:"一つのナレッジグラフが、<b>すべてのシーン</b>を動かす。",th:"กราฟความรู้เดียว ขับเคลื่อน<b>ทุกซีน</b>"},
-  srcnote:{en:"Illustrative demo · Blackmores · Knowledge Foundation — Knowledge Graph",zh:"演示示意 · 百立美 · 知识底座——知识图谱",ja:"デモ示意 · ブラックモアズ · ナレッジ基盤——ナレッジグラフ",th:"เดโมประกอบ · Blackmores · ฐานความรู้ — Knowledge Graph"}
+  srcnote:{en:"Illustrative demo · General Mills · Knowledge Foundation — Knowledge Graph",zh:"演示示意 · 百立美 · 知识底座——知识图谱",ja:"デモ示意 · General Mills · ナレッジ基盤——ナレッジグラフ",th:"เดโมประกอบ · General Mills · ฐานความรู้ — Knowledge Graph"}
 };
 const STEPS=[
   {ic:"📥",l:{en:"Ingest",zh:"收集",ja:"収集",th:"รวบรวม"},s:{en:"gather sources",zh:"汇聚来源",ja:"情報源を集約",th:"รวมแหล่ง"}},
@@ -210,24 +212,24 @@ const STEPS=[
   {ic:"🔒",l:{en:"Govern",zh:"治理",ja:"治理",th:"กำกับ"},s:{en:"evidence + regulation",zh:"根据+法规",ja:"根拠+規制",th:"หลักฐาน+กฎหมาย"}}
 ];
 const SRC=[
-  {ic:"📄",k:{en:"Product master / ingredients",zh:"产品主数据 / 成分表",ja:"製品マスター / 成分表",th:"Product master / ส่วนผสม"},t:{en:"Fish Oil, Bio C, Pregnancy & Breast-Feeding Gold · active ingredients · dosage · pack size · AUST L / local SKU",zh:"鱼油、Bio C、孕期与哺乳期 Gold · 活性成分 · 剂量 · 规格 · AUST L / 本地 SKU",ja:"Fish Oil、Bio C、Pregnancy & Breast-Feeding Gold · 有効成分 · 用量 · 容量 · AUST L / ローカルSKU",th:"Fish Oil, Bio C, Pregnancy & Breast-Feeding Gold · สารออกฤทธิ์ · ขนาด · SKU"}},
-  {ic:"📑",k:{en:"Permitted claims",zh:"许可宣称",ja:"許可表示",th:"ข้อกล่าวอ้างที่อนุญาต"},t:{en:"Omega-3 supports heart health · Vitamin C supports immune system health · pregnancy nutrients support maternal health",zh:"Omega-3 支持心血管健康 · 维生素 C 支持免疫健康 · 孕期营养支持母婴健康",ja:"Omega-3は心臓の健康をサポート · Vitamin Cは免疫健康をサポート · 妊娠期栄養は母体の健康をサポート",th:"Omega-3 สนับสนุนหัวใจ · Vitamin C สนับสนุนภูมิคุ้มกัน · pregnancy nutrients สนับสนุนสุขภาพแม่"}},
-  {ic:"📕",k:{en:"Marketplace PDP / content",zh:"平台 PDP / 内容",ja:"マーケットPDP / コンテンツ",th:"Marketplace PDP / content"},adj:true,t:{en:"Australia's leading natural health brand. Daily wellness for every life stage.",zh:"澳洲领先天然健康品牌。覆盖每个人生阶段的日常健康。",ja:"オーストラリアを代表する自然健康ブランド。あらゆるライフステージの日々の健康へ。",th:"แบรนด์สุขภาพธรรมชาติชั้นนำจากออสเตรเลีย เพื่อสุขภาพทุกช่วงชีวิต"}},
-  {ic:"📝",k:{en:"Customer FAQ / service",zh:"客户 FAQ / 服务",ja:"FAQ / サービス",th:"FAQ / service"},t:{en:"Recommended intake · with food · storage · contraindications · channel-specific service answers",zh:"建议用量 · 随餐服用 · 保存方式 · 禁忌提醒 · 各渠道服务答案",ja:"推奨摂取量 · 食後に · 保管方法 · 注意事項 · チャネル別サービス回答",th:"วิธีรับประทาน · พร้อมอาหาร · การเก็บ · ข้อควรระวัง · คำตอบบริการแต่ละช่องทาง"}},
-  {ic:"💬",k:{en:"Reviews / VOC",zh:"评论 / VOC",ja:"レビュー / VOC",th:"รีวิว / VOC"},t:{en:"Immune support questions, fishy aftertaste feedback, bundle interest, repeat-purchase timing",zh:"免疫支持咨询、鱼腥味反馈、组合装兴趣、复购周期信号",ja:"免疫サポート相談、魚臭さのフィードバック、セット購入関心、再購入タイミング",th:"คำถามภูมิคุ้มกัน ฟีดแบ็กกลิ่นคาว ความสนใจ bundle สัญญาณซื้อซ้ำ"}},
-  {ic:"📚",k:{en:"Market rules",zh:"市场法规",ja:"市場ルール",th:"Market rules"},t:{en:"TGA · China health-food claim rules · SEA / Japan local rules · no disease cure or prevention claims",zh:"TGA · 中国保健食品宣称规则 · 东南亚 / 日本本地规则 · 不得宣称疾病治疗或预防",ja:"TGA · 中国保健食品表示規制 · SEA / 日本ローカルルール · 疾病治療・予防表現は不可",th:"TGA · กฎ health-food จีน · กฎ SEA / Japan · ห้ามอ้างรักษาหรือป้องกันโรค"}}
+  {ic:"📄",k:{en:"Product master / ingredients",zh:"产品主数据 / 成分表",ja:"製品マスター / 成分表",th:"Product master / ส่วนผสม"},t:{en:"Wanchai Ferry Dumplings, Häagen-Dazs Mini Cup, Celebration & Breast-Feeding Gold · active ingredients · serving · pack size · approved wording / local SKU",zh:"湾仔码头水饺、Häagen-Dazs Mini Cup、礼赠与家庭场景 Gold · 活性成分 · 用量 · 规格 · approved wording / 本地 SKU",ja:"Wanchai Ferry Dumplings、Häagen-Dazs Mini Cup、Celebration & Breast-Feeding Gold · 有効成分 · 用量 · 容量 · approved wording / ローカルSKU",th:"Wanchai Ferry Dumplings, Häagen-Dazs Mini Cup, Celebration & Breast-Feeding Gold · สารออกฤทธิ์ · ขนาด · SKU"}},
+  {ic:"📑",k:{en:"Permitted claims",zh:"许可宣称",ja:"許可表示",th:"ข้อกล่าวอ้างที่อนุญาต"},t:{en:"family dinner supports family-table relevance · Häagen-Dazs Mini Cup supports immune system health · celebration nutrients support maternal health",zh:"family dinner 支持家庭餐桌健康 · 产品 C 支持季节场景健康 · 礼赠场景营养支持家庭场景",ja:"family dinnerはファミリーテーブルの健康をサポート · Häagen-Dazs Mini Cupは季节场景健康をサポート · ギフト期栄養は母体の健康をサポート",th:"family dinner สนับสนุนหัวใจ · Häagen-Dazs Mini Cup สนับสนุนโอกาสตามฤดูกาล · celebration nutrients สนับสนุนสุขภาพแม่"}},
+  {ic:"📕",k:{en:"Marketplace PDP / content",zh:"平台 PDP / 内容",ja:"マーケットPDP / コンテンツ",th:"Marketplace PDP / content"},adj:true,t:{en:"Australia's leading food experience brand. Daily everyday enjoyment for every life stage.",zh:"澳洲领先食品体验品牌。覆盖每个人生阶段的日常健康。",ja:"オーストラリアを代表する自然健康ブランド。あらゆるライフステージの日々の健康へ。",th:"แบรนด์สุขภาพธรรมชาติชั้นนำจากออสเตรเลีย เพื่อสุขภาพทุกช่วงชีวิต"}},
+  {ic:"📝",k:{en:"Customer FAQ / service",zh:"客户 FAQ / 服务",ja:"FAQ / サービス",th:"FAQ / service"},t:{en:"Recommended intake · with food · storage · contraindications · channel-specific service answers",zh:"建议用量 · 随餐享用 · 保存方式 · 禁忌提醒 · 各渠道服务答案",ja:"推奨摂取量 · 食後に · 保管方法 · 注意事項 · チャネル別サービス回答",th:"วิธีรับประทาน · พร้อมอาหาร · การเก็บ · ข้อควรระวัง · คำตอบบริการแต่ละช่องทาง"}},
+  {ic:"💬",k:{en:"Reviews / VOC",zh:"评论 / VOC",ja:"レビュー / VOC",th:"รีวิว / VOC"},t:{en:"Seasonal occasion support questions, fishy aftertaste feedback, bundle interest, repeat-purchase timing",zh:"季节场景支持咨询、鱼腥味反馈、组合装兴趣、复购周期信号",ja:"季节场景サポート相談、魚臭さのフィードバック、セット購入関心、再購入タイミング",th:"คำถามโอกาสตามฤดูกาล ฟีดแบ็กกลิ่นคาว ความสนใจ bundle สัญญาณซื้อซ้ำ"}},
+  {ic:"📚",k:{en:"Market rules",zh:"市场法规",ja:"市場ルール",th:"Market rules"},t:{en:"brand governance · China health-food claim rules · SEA / Japan local rules · no disease cure or prevention claims",zh:"brand governance · 中国食品宣称规则 · 东南亚 / 日本本地规则 · 不得宣称疾病治疗或预防",ja:"brand governance · 中国食品表示規制 · SEA / 日本ローカルルール · 疾病治療・予防表現は不可",th:"brand governance · กฎ health-food จีน · กฎ SEA / Japan · ห้ามอ้างรักษาหรือป้องกันโรค"}}
 ];
 // 8 satellites around center (50,50), evenly at 45°
 const NODES=[
-  {k:"center",x:50,y:50,lab:{en:"Blackmores Product Truth",zh:"Blackmores 产品事实",ja:"Blackmores 製品ファクト",th:"Blackmores Product Truth"}},
-  {k:"func",x:50,y:10,gov:1,kk:{en:"Health goal",zh:"健康目标",ja:"健康目標",th:"เป้าหมายสุขภาพ"},lab:{en:"Heart · immune · pregnancy",zh:"心血管 · 免疫 · 孕期",ja:"心臓 · 免疫 · 妊娠期",th:"หัวใจ · ภูมิคุ้มกัน · ตั้งครรภ์"}},
+  {k:"center",x:50,y:50,lab:{en:"General Mills Product Truth",zh:"General Mills 产品事实",ja:"General Mills 製品ファクト",th:"General Mills Product Truth"}},
+  {k:"func",x:50,y:10,gov:1,kk:{en:"Health goal",zh:"场景需求",ja:"健康目標",th:"เป้าหมายสุขภาพ"},lab:{en:"Family table · immune · celebration",zh:"家庭餐桌 · 季节场景 · 礼赠场景",ja:"ファミリーテーブル · 季节场景 · ギフト期",th:"หัวใจ · โอกาสตามฤดูกาล · ตั้งครรภ์"}},
   {k:"claim",x:72.6,y:21.7,gov:1,kk:{en:"Permitted claim",zh:"许可宣称",ja:"許可表示",th:"ข้อกล่าวอ้าง"},lab:{en:"Support / maintain / assist",zh:"支持 / 维持 / 帮助",ja:"サポート / 維持 / 補助",th:"สนับสนุน / คงไว้ / ช่วย"}},
-  {k:"evid",x:82,y:50,gov:1,kk:{en:"Evidence",zh:"根据",ja:"根拠",th:"หลักฐาน"},lab:{en:"AUST L · ingredients · citations",zh:"AUST L · 成分 · 引用",ja:"AUST L · 成分 · 引用",th:"AUST L · ingredients · citations"}},
-  {k:"reg",x:72.6,y:78.3,gov:1,kk:{en:"Market rule",zh:"市场规则",ja:"市場ルール",th:"Market rule"},lab:{en:"TGA · China · SEA · Japan",zh:"TGA · 中国 · SEA · 日本",ja:"TGA · 中国 · SEA · 日本",th:"TGA · China · SEA · Japan"}},
-  {k:"sugar",x:50,y:90,kk:{en:"Product fact",zh:"产品事实",ja:"製品ファクト",th:"Product fact"},lab:{en:"Dose · SKU · pack · storage",zh:"剂量 · SKU · 规格 · 保存",ja:"用量 · SKU · 容量 · 保管",th:"Dose · SKU · pack · storage"}},
-  {k:"need",x:27.4,y:78.3,kk:{en:"Consumer need",zh:"消费者需求",ja:"顧客ニーズ",th:"Consumer need"},lab:{en:"Daily wellness · life stage",zh:"日常健康 · 人生阶段",ja:"日常健康 · ライフステージ",th:"Daily wellness · life stage"}},
-  {k:"channel",x:18,y:50,kk:{en:"Channel",zh:"渠道",ja:"チャネル",th:"ช่องทาง"},lab:{en:"Tmall · WeChat · Pharmacy",zh:"天猫 · 微信 · 药房",ja:"Tmall · WeChat · 薬局",th:"Tmall · WeChat · ร้านยา"}},
-  {k:"strain",x:27.4,y:21.7,kk:{en:"Ingredient",zh:"成分",ja:"成分",th:"Ingredient"},lab:{en:"Omega-3 · Vitamin C · Folate",zh:"Omega-3 · 维 C · 叶酸",ja:"Omega-3 · Vitamin C · 葉酸",th:"Omega-3 · Vitamin C · Folate"}}
+  {k:"evid",x:82,y:50,gov:1,kk:{en:"Evidence",zh:"根据",ja:"根拠",th:"หลักฐาน"},lab:{en:"approved wording · ingredients · citations",zh:"approved wording · 成分 · 引用",ja:"approved wording · 成分 · 引用",th:"approved wording · ingredients · citations"}},
+  {k:"reg",x:72.6,y:78.3,gov:1,kk:{en:"Market rule",zh:"市场规则",ja:"市場ルール",th:"Market rule"},lab:{en:"brand governance · China · SEA · Japan",zh:"brand governance · 中国 · SEA · 日本",ja:"brand governance · 中国 · SEA · 日本",th:"brand governance · China · SEA · Japan"}},
+  {k:"sugar",x:50,y:90,kk:{en:"Product fact",zh:"产品事实",ja:"製品ファクト",th:"Product fact"},lab:{en:"Dose · SKU · pack · storage",zh:"用量 · SKU · 规格 · 保存",ja:"用量 · SKU · 容量 · 保管",th:"Dose · SKU · pack · storage"}},
+  {k:"need",x:27.4,y:78.3,kk:{en:"Consumer need",zh:"消费者需求",ja:"顧客ニーズ",th:"Consumer need"},lab:{en:"Daily everyday enjoyment · life stage",zh:"日常健康 · 人生阶段",ja:"日常健康 · ライフステージ",th:"Daily everyday enjoyment · life stage"}},
+  {k:"channel",x:18,y:50,kk:{en:"Channel",zh:"渠道",ja:"チャネル",th:"ช่องทาง"},lab:{en:"Tmall · WeChat · Retail",zh:"天猫 · 微信 · 门店",ja:"Tmall · WeChat · 小売店",th:"Tmall · WeChat · ร้านยา"}},
+  {k:"strain",x:27.4,y:21.7,kk:{en:"Ingredient",zh:"成分",ja:"成分",th:"Ingredient"},lab:{en:"family dinner · Häagen-Dazs Mini Cup · Folate",zh:"family dinner · 维 C · 叶酸",ja:"family dinner · Häagen-Dazs Mini Cup · 葉酸",th:"family dinner · Häagen-Dazs Mini Cup · Folate"}}
 ];
 const DEMO={
   agentic:{f:"agentic-commerce.html",t:{en:"Agentic / Recommendation demo",zh:"智能推荐 demo",ja:"接客・推薦デモ",th:"เดโมแนะนำสินค้า"}},
@@ -238,37 +240,37 @@ const DEMO={
 };
 const QS=[
   {ic:"🛒",scn:{en:"Recommendation",zh:"智能推荐",ja:"接客・推薦",th:"แนะนำ"},
-   q:{en:"“Which Blackmores product fits my health goal?”",zh:"「我的健康目标适合哪款 Blackmores 产品?」",ja:"「自分の健康目標に合うBlackmores製品は?」",th:"«สินค้า Blackmores ไหนเหมาะกับเป้าหมายสุขภาพของฉัน?»"},
+   q:{en:"“Which General Mills product fits my occasion need?”",zh:"「我的场景需求适合哪款 General Mills 产品?」",ja:"「自分の健康目標に合うGeneral Mills製品は?」",th:"«สินค้า General Mills ไหนเหมาะกับเป้าหมายสุขภาพของฉัน?»"},
    hot:["func","need","strain"],path:["center","func","need"],
-   a:{en:"Match the goal to approved product facts — e.g. heart support reads Omega-3 evidence, immune support reads Vitamin C evidence, pregnancy support reads life-stage and safety rules. Recommendation becomes explainable.",zh:"把健康目标匹配到被批准的产品事实——例如心血管读取 Omega-3 证据，免疫读取维 C 证据，孕期读取人生阶段与安全规则。推荐因此可以解释。",ja:"健康目標を承認済み製品ファクトに紐づけます。心臓サポートはOmega-3根拠、免疫サポートはVitamin C根拠、妊娠期はライフステージと安全ルールを参照。推薦が説明可能になります。",th:"จับคู่เป้าหมายกับ product facts ที่อนุมัติแล้ว เช่น หัวใจอ่านหลักฐาน Omega-3 ภูมิคุ้มกันอ่าน Vitamin C และตั้งครรภ์อ่านกฎ life-stage และ safety"},
+   a:{en:"Match the goal to approved product facts — e.g. family table support reads family dinner evidence, seasonal occasion support reads Häagen-Dazs Mini Cup evidence, celebration support reads life-stage and safety rules. Recommendation becomes explainable.",zh:"把场景需求匹配到被批准的产品事实——例如家庭餐桌读取 family dinner 证据，季节场景读取维 C 证据，礼赠场景读取人生阶段与安全规则。推荐因此可以解释。",ja:"健康目標を承認済み製品ファクトに紐づけます。ファミリーテーブルサポートはfamily dinner根拠、季节场景サポートはHäagen-Dazs Mini Cup根拠、ギフト期はライフステージと安全ルールを参照。推薦が説明可能になります。",th:"จับคู่เป้าหมายกับ product facts ที่อนุมัติแล้ว เช่น หัวใจอ่านหลักฐาน family dinner โอกาสตามฤดูกาลอ่าน Häagen-Dazs Mini Cup และตั้งครรภ์อ่านกฎ life-stage และ safety"},
    demo:"agentic"},
   {ic:"🔍",scn:{en:"AI search (GEO)",zh:"AI 搜索 (GEO)",ja:"AI検索 (GEO)",th:"ค้นหา AI (GEO)"},
-   q:{en:"Make AI search cite Blackmores correctly",zh:"让 AI 搜索正确引用 Blackmores",ja:"AI検索にBlackmoresを正しく引用させる",th:"ให้ AI ค้นหาอ้างอิง Blackmores ถูกต้อง"},
+   q:{en:"Make AI search cite General Mills correctly",zh:"让 AI 搜索正确引用 General Mills",ja:"AI検索にGeneral Millsを正しく引用させる",th:"ให้ AI ค้นหาอ้างอิง General Mills ถูกต้อง"},
    hot:["strain","func","claim","evid"],path:["center","strain","func","claim"],
    a:{en:"Structured product → ingredient → permitted claim → evidence lets AI answer with citable facts, instead of blending approved claims with marketing language.",zh:"把产品→成分→许可宣称→证据结构化，AI 才能引用可追溯事实，而不是把批准宣称和营销话术混在一起。",ja:"製品→成分→許可表示→根拠を構造化することで、AIは承認表示とマーケ表現を混同せず、引用可能な事実で回答できます。",th:"โครงสร้างสินค้า→ส่วนผสม→ข้อกล่าวอ้างที่อนุญาต→หลักฐาน ทำให้ AI ตอบด้วยข้อเท็จจริงที่อ้างอิงได้"},
    demo:"geo"},
   {ic:"🛡️",scn:{en:"Compliance",zh:"合规审核",ja:"コンプラ審査",th:"ตรวจสอบ"},
    q:{en:"Can a marketplace page say “cures disease”?",zh:"平台详情页能写「治疗疾病」吗?",ja:"PDPに「病気を治す」と書ける?",th:"หน้า marketplace เขียน «รักษาโรค» ได้ไหม?"},
    hot:["func","evid","reg"],path:["func","evid","reg"],block:true,
-   a:{en:"✕ Blocked. Disease cure or prevention claims fail the market-rule node. The graph proposes approved alternatives such as <b>“supports immune system health”</b> or <b>“maintains heart health”</b>, with evidence attached.",zh:"✕ 拦截。疾病治疗或预防宣称无法通过市场规则节点。图谱会建议合规替代表达，例如 <b>「支持免疫健康」</b> 或 <b>「维持心血管健康」</b>，并附上证据。",ja:"✕ ブロック。疾病の治療・予防表現は市場ルールノードで不許可。グラフは<b>「免疫健康をサポート」</b>や<b>「心臓の健康を維持」</b>など、根拠付きの代替表現を提示します。",th:"✕ บล็อก การอ้างรักษาหรือป้องกันโรคไม่ผ่าน market-rule node กราฟจะแนะนำคำที่อนุมัติ เช่น <b>สนับสนุนภูมิคุ้มกัน</b> หรือ <b>คงสุขภาพหัวใจ</b> พร้อมหลักฐาน"},
+   a:{en:"✕ Blocked. Disease cure or prevention claims fail the market-rule node. The graph proposes approved alternatives such as <b>“supports immune system health”</b> or <b>“maintains family-table relevance”</b>, with evidence attached.",zh:"✕ 拦截。疾病治疗或预防宣称无法通过市场规则节点。图谱会建议合规替代表达，例如 <b>「支持季节场景健康」</b> 或 <b>「维持家庭餐桌健康」</b>，并附上证据。",ja:"✕ ブロック。疾病の治療・予防表現は市場ルールノードで不許可。グラフは<b>「季节场景健康をサポート」</b>や<b>「ファミリーテーブルの健康を維持」</b>など、根拠付きの代替表現を提示します。",th:"✕ บล็อก การอ้างรักษาหรือป้องกันโรคไม่ผ่าน market-rule node กราฟจะแนะนำคำที่อนุมัติ เช่น <b>สนับสนุนโอกาสตามฤดูกาล</b> หรือ <b>คงสุขภาพหัวใจ</b> พร้อมหลักฐาน"},
    demo:"compliance"},
   {ic:"✨",scn:{en:"AIGC copy",zh:"AIGC 文案",ja:"AIGCコピー",th:"คอปปี้ AIGC"},
    q:{en:"Generate campaign copy",zh:"生成活动文案",ja:"キャンペーン文案を生成",th:"สร้างคอปปี้แคมเปญ"},
    hot:["func","claim","reg","sugar"],path:["center","func","claim"],
-   a:{en:"AIGC reads the same approved facts, then adapts tone and format by platform — Tmall PDP, WeChat article, pharmacy shelf card — while avoiding unsupported claims.",zh:"AIGC 读取同一套已批准事实，再按平台适配语气和格式——天猫详情页、微信文章、药房货架卡——同时避免无依据宣称。",ja:"AIGCは同じ承認済みファクトを読み、Tmall PDP・WeChat記事・薬局棚カードなどチャネル別にトーンと形式を適応し、根拠のない表示を避けます。",th:"AIGC อ่าน facts ที่อนุมัติชุดเดียวกัน แล้วปรับ tone/format ตาม platform เช่น Tmall PDP, WeChat article, pharmacy shelf card พร้อมเลี่ยง claims ที่ไม่มีหลักฐาน"},
+   a:{en:"AIGC reads the same approved facts, then adapts tone and format by platform — Tmall PDP, WeChat article, retail shelf card — while avoiding unsupported claims.",zh:"AIGC 读取同一套已批准事实，再按平台适配语气和格式——天猫详情页、微信文章、门店货架卡——同时避免无依据宣称。",ja:"AIGCは同じ承認済みファクトを読み、Tmall PDP・WeChat記事・小売店棚カードなどチャネル別にトーンと形式を適応し、根拠のない表示を避けます。",th:"AIGC อ่าน facts ที่อนุมัติชุดเดียวกัน แล้วปรับ tone/format ตาม platform เช่น Tmall PDP, WeChat article, retail shelf card พร้อมเลี่ยง claims ที่ไม่มีหลักฐาน"},
    demo:"aigc"},
   {ic:"🏪",scn:{en:"Store / B2B",zh:"店头 / B2B",ja:"店頭 / B2B",th:"หน้าร้าน / B2B"},
-   q:{en:"Answer pharmacy-staff & partner questions",zh:"回答药房店员与渠道伙伴提问",ja:"薬局スタッフ・取引先の質問に",th:"ตอบคำถามพนักงานร้านยา/พาร์ทเนอร์"},
+   q:{en:"Answer retail-staff & partner questions",zh:"回答门店店员与渠道伙伴提问",ja:"小売店スタッフ・取引先の質問に",th:"ตอบคำถามพนักงานร้านยา/พาร์ทเนอร์"},
    hot:["need","channel","sugar"],path:["center","channel","need"],
-   a:{en:"Staff and partners get the same answer on dose, storage, claims and replenishment talking points — consistent across WeCom, pharmacy training and marketplace operations.",zh:"店员和渠道伙伴在用量、保存、宣称与补货话术上得到同一套答案——贯穿 WeCom、药房培训和平台运营。",ja:"スタッフと取引先は、用量・保管・表示・補充トークについて同じ回答を得られます。WeCom、薬局研修、マーケットプレイス運用で一貫します。",th:"พนักงานและพาร์ทเนอร์ได้คำตอบเดียวกันเรื่อง dose, storage, claims และ replenishment talk track บน WeCom, training และ marketplace operations"},
+   a:{en:"Staff and partners get the same answer on dose, storage, claims and replenishment talking points — consistent across WeCom, retail training and marketplace operations.",zh:"店员和渠道伙伴在用量、保存、宣称与补货话术上得到同一套答案——贯穿 WeCom、门店培训和平台运营。",ja:"スタッフと取引先は、用量・保管・表示・補充トークについて同じ回答を得られます。WeCom、小売店研修、マーケットプレイス運用で一貫します。",th:"พนักงานและพาร์ทเนอร์ได้คำตอบเดียวกันเรื่อง dose, storage, claims และ replenishment talk track บน WeCom, training และ marketplace operations"},
    demo:"merch"}
 ];
 
-let state={lang:"en",built:false,governed:false,q:null,brand:"blackmores"};
+let state={lang:"en",built:false,governed:false,q:null,brand:"generalmills"};
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 const L=o=>o[state.lang]||o.ja||o.en;
 const nodeByK=k=>NODES.find(n=>n.k===k);
-let _brand="blackmores",_mkt="AU";
+let _brand="generalmills",_mkt="AU";
 
 function renderStatic(){
   $('#sub').textContent=L(T.sub);$('#eye').textContent=L(T.eye);$('#title').textContent=L(T.title);$('#lead').textContent=L(T.lead);
@@ -360,19 +362,19 @@ renderLangs();renderStatic();
 </script>
 <script>
 const KH_INTRO={
-  eye:{en:"Reference Architecture · Blackmores AI Knowledge Hub",zh:"参考架构 · Blackmores AI 知识中枢",ja:"リファレンスアーキテクチャ · Blackmores AIナレッジハブ",th:"Reference Architecture · Blackmores AI Knowledge Hub"},
-  title:{en:"A governed product, claim and channel knowledge hub for every Blackmores AI scenario.",zh:"面向每个 Blackmores AI 场景的产品、宣称与渠道知识中枢。",ja:"BlackmoresのあらゆるAIシナリオを支える、統制された製品・表示・チャネルナレッジハブ。",th:"Knowledge Hub สำหรับ product, claim และ channel ที่กำกับได้ของ Blackmores"},
-  lead:{en:"The graph demo above shows the idea. This walkthrough shows the enterprise build: how Blackmores turns product files, market rules, content assets, marketplace data, service answers and channel knowledge into a governed, citable AI foundation.",
-    zh:"上面的图谱 demo 展示概念；这里展示企业级建设方式：Blackmores 如何把产品文件、市场法规、内容素材、平台数据、服务答案和渠道知识变成受治理、可引用的 AI 底座。",
-    ja:"上のグラフデモはコンセプトを示します。ここでは企業実装を示します：Blackmoresが製品ファイル・市場規制・コンテンツ資産・マーケットプレイスデータ・サービス回答・チャネル知識を、統制され引用可能なAI基盤へ変える方法です。",
-    th:"เดโมกราฟด้านบนแสดงแนวคิด ส่วนนี้แสดงการสร้างระดับองค์กร: Blackmores เปลี่ยนไฟล์สินค้า กฎตลาด คอนเทนต์ ข้อมูล marketplace คำตอบบริการ และความรู้ช่องทางให้เป็น AI foundation ที่กำกับและอ้างอิงได้"}
+  eye:{en:"Reference Architecture · General Mills AI Knowledge Hub",zh:"参考架构 · General Mills AI 知识中枢",ja:"リファレンスアーキテクチャ · General Mills AIナレッジハブ",th:"Reference Architecture · General Mills AI Knowledge Hub"},
+  title:{en:"A governed product, claim and channel knowledge hub for every General Mills AI scenario.",zh:"面向每个 General Mills AI 场景的产品、宣称与渠道知识中枢。",ja:"General MillsのあらゆるAIシナリオを支える、統制された製品・表示・チャネルナレッジハブ。",th:"Knowledge Hub สำหรับ product, claim และ channel ที่กำกับได้ของ General Mills"},
+  lead:{en:"The graph demo above shows the idea. This walkthrough shows the enterprise build: how General Mills turns product files, market rules, content assets, marketplace data, service answers and channel knowledge into a governed, citable AI foundation.",
+    zh:"上面的图谱 demo 展示概念；这里展示企业级建设方式：General Mills 如何把产品文件、市场法规、内容素材、平台数据、服务答案和渠道知识变成受治理、可引用的 AI 底座。",
+    ja:"上のグラフデモはコンセプトを示します。ここでは企業実装を示します：General Millsが製品ファイル・市場規制・コンテンツ資産・マーケットプレイスデータ・サービス回答・チャネル知識を、統制され引用可能なAI基盤へ変える方法です。",
+    th:"เดโมกราฟด้านบนแสดงแนวคิด ส่วนนี้แสดงการสร้างระดับองค์กร: General Mills เปลี่ยนไฟล์สินค้า กฎตลาด คอนเทนต์ ข้อมูล marketplace คำตอบบริการ และความรู้ช่องทางให้เป็น AI foundation ที่กำกับและอ้างอิงได้"}
 };
 const KH=[
   {img:"kh-assets/kh-01.jpg",t:{en:"Background: product truth is scattered",zh:"背景：产品事实分散在各处",ja:"背景：製品ファクトが分散している",th:"Background: product truth is scattered"},
-   p:{en:["Blackmores product knowledge lives across ingredient specifications, AUST L listings, packaging copy, PDP modules, pharmacy training, marketplace operations, FAQs and reviews.","Without a knowledge hub, every AI use case rebuilds the same facts and creates risk: inconsistent claims, outdated product details and channel-specific answers that drift."],
-      zh:["Blackmores 的产品知识分散在成分规格、AUST L 备案、包装文案、PDP 模块、药房培训、平台运营、FAQ 和评论中。","如果没有知识中枢，每个 AI 场景都会重复搭建事实，并带来风险：宣称不一致、产品细节过期、各渠道答案漂移。"],
-      ja:["Blackmoresの製品知識は、成分仕様・AUST L登録・包装コピー・PDPモジュール・薬局研修・マーケットプレイス運用・FAQ・レビューに分散しています。","ナレッジハブがなければ、各AIユースケースが同じファクトを作り直し、表示不一致・古い製品情報・チャネル別回答のずれを生みます。"],
-      th:["Product knowledge ของ Blackmores กระจายอยู่ใน ingredient specs, AUST L listings, packaging copy, PDP, pharmacy training, marketplace operations, FAQ และ reviews","ถ้าไม่มี knowledge hub ทุก AI use case ต้องสร้าง facts ใหม่ ทำให้ claims ไม่ตรง รายละเอียดสินค้าเก่า และคำตอบแต่ละช่องทาง drift"]}},
+   p:{en:["General Mills product knowledge lives across ingredient specifications, approved wording listings, packaging copy, PDP modules, retail training, marketplace operations, FAQs and reviews.","Without a knowledge hub, every AI use case rebuilds the same facts and creates risk: inconsistent claims, outdated product details and channel-specific answers that drift."],
+      zh:["General Mills 的产品知识分散在成分规格、approved wording 备案、包装文案、PDP 模块、门店培训、平台运营、FAQ 和评论中。","如果没有知识中枢，每个 AI 场景都会重复搭建事实，并带来风险：宣称不一致、产品细节过期、各渠道答案漂移。"],
+      ja:["General Millsの製品知識は、成分仕様・approved wording登録・包装コピー・PDPモジュール・小売店研修・マーケットプレイス運用・FAQ・レビューに分散しています。","ナレッジハブがなければ、各AIユースケースが同じファクトを作り直し、表示不一致・古い製品情報・チャネル別回答のずれを生みます。"],
+      th:["Product knowledge ของ General Mills กระจายอยู่ใน ingredient specs, approved wording listings, packaging copy, PDP, retail training, marketplace operations, FAQ และ reviews","ถ้าไม่มี knowledge hub ทุก AI use case ต้องสร้าง facts ใหม่ ทำให้ claims ไม่ตรง รายละเอียดสินค้าเก่า และคำตอบแต่ละช่องทาง drift"]}},
   {img:"kh-assets/kh-02.jpg",t:{en:"Phase 1 scope: the right first domains",zh:"第一阶段范围：先抓高价值领域",ja:"フェーズ1：優先すべき領域",th:"Phase 1 scope"},
    p:{en:["Start with high-value, high-risk domains: product master, permitted claims, market regulations, PDP content, customer FAQ and channel training.","Keep the first dataset small enough for SME review, but broad enough to power recommendation, GEO, AIGC, compliance and service demos."],
       zh:["第一阶段先覆盖高价值、高风险领域：产品主数据、许可宣称、市场法规、PDP 内容、客户 FAQ 和渠道培训。","数据量要足够小，便于 SME 审核；同时也要足够宽，能支撑推荐、GEO、AIGC、合规和客服场景。"],
@@ -384,15 +386,15 @@ const KH=[
       ja:["ハブは接点、アプリサービス、Agentオーケストレーション、ナレッジ統制、索引、モデルサービス、観測に分かれます。","マーケットプレイス、WeCom、サービス、コンテンツ生成が一つの基盤を使いながら、モデル・ベクタDB・reranker・ルールは独立して進化できます。"],
       th:["Hub แยก touchpoints, application services, agent orchestration, knowledge governance, indexing, model services และ observability","ทำให้ marketplace, WeCom, service และ content generation ใช้ foundation เดียวกัน ขณะที่ model, vector DB, reranker และ rules เปลี่ยนได้"]}},
   {img:"kh-assets/kh-04.jpg",t:{en:"Request lifecycle: answer only after verification",zh:"请求链路：验证后才回答",ja:"リクエスト：検証後に回答",th:"Request lifecycle"},
-   p:{en:["A shopper, pharmacist or platform operator asks a question; the system checks identity, intent and permissions, retrieves evidence, reranks, generates and then verifies citations and policy rules.","The answer is returned only when product facts, claim rules and channel boundaries are all satisfied."],
-      zh:["消费者、药房店员或平台运营提出问题后，系统先识别身份、意图和权限，再检索证据、rerank、生成答案，并验证引用和策略规则。","只有当产品事实、宣称规则和渠道边界都满足时，答案才会返回。"],
-      ja:["顧客・薬局スタッフ・プラットフォーム担当者の質問に対し、本人・意図・権限を確認し、証拠検索、rerank、生成、引用とルール検証を行います。","製品ファクト、表示ルール、チャネル境界を満たした場合のみ回答を返します。"],
-      th:["เมื่อ shopper, pharmacist หรือ platform operator ถาม ระบบตรวจ identity, intent, permission แล้ว retrieve evidence, rerank, generate และ verify citations/rules","คำตอบจะถูกส่งกลับเมื่อ product facts, claim rules และ channel boundaries ผ่านทั้งหมด"]}},
+   p:{en:["A shopper, store advisor or platform operator asks a question; the system checks identity, intent and permissions, retrieves evidence, reranks, generates and then verifies citations and policy rules.","The answer is returned only when product facts, claim rules and channel boundaries are all satisfied."],
+      zh:["消费者、门店店员或平台运营提出问题后，系统先识别身份、意图和权限，再检索证据、rerank、生成答案，并验证引用和策略规则。","只有当产品事实、宣称规则和渠道边界都满足时，答案才会返回。"],
+      ja:["顧客・小売店スタッフ・プラットフォーム担当者の質問に対し、本人・意図・権限を確認し、証拠検索、rerank、生成、引用とルール検証を行います。","製品ファクト、表示ルール、チャネル境界を満たした場合のみ回答を返します。"],
+      th:["เมื่อ shopper, store advisor หรือ platform operator ถาม ระบบตรวจ identity, intent, permission แล้ว retrieve evidence, rerank, generate และ verify citations/rules","คำตอบจะถูกส่งกลับเมื่อ product facts, claim rules และ channel boundaries ผ่านทั้งหมด"]}},
   {img:"kh-assets/kh-06.jpg",t:{en:"Ingestion: parse more than text",zh:"知识导入：不只是抽文本",ja:"取り込み：テキスト抽出だけではない",th:"Ingestion"},
-   p:{en:["Blackmores knowledge includes tables, claim matrices, product images, shelf cards, training decks, PDP screenshots and review exports.","The parser must preserve structure: ingredient tables, claim-market mappings, image regions, SKU metadata, channel tags and approval status."],
-      zh:["Blackmores 知识包含表格、宣称矩阵、产品图片、货架卡、培训 PPT、PDP 截图和评论导出。","解析必须保留结构：成分表、宣称-市场映射、图片区域、SKU 元数据、渠道标签和审批状态。"],
-      ja:["Blackmoresの知識には表、表示マトリクス、製品画像、棚カード、研修資料、PDPスクリーンショット、レビューエクスポートが含まれます。","解析では成分表、表示×市場マッピング、画像領域、SKUメタデータ、チャネルタグ、承認状態を保持します。"],
-      th:["Knowledge ของ Blackmores มี tables, claim matrices, product images, shelf cards, training decks, PDP screenshots และ review exports","Parser ต้องเก็บ structure เช่น ingredient tables, claim-market mappings, image regions, SKU metadata, channel tags และ approval status"]}},
+   p:{en:["General Mills knowledge includes tables, claim matrices, product images, shelf cards, training decks, PDP screenshots and review exports.","The parser must preserve structure: ingredient tables, claim-market mappings, image regions, SKU metadata, channel tags and approval status."],
+      zh:["General Mills 知识包含表格、宣称矩阵、产品图片、货架卡、培训 PPT、PDP 截图和评论导出。","解析必须保留结构：成分表、宣称-市场映射、图片区域、SKU 元数据、渠道标签和审批状态。"],
+      ja:["General Millsの知識には表、表示マトリクス、製品画像、棚カード、研修資料、PDPスクリーンショット、レビューエクスポートが含まれます。","解析では成分表、表示×市場マッピング、画像領域、SKUメタデータ、チャネルタグ、承認状態を保持します。"],
+      th:["Knowledge ของ General Mills มี tables, claim matrices, product images, shelf cards, training decks, PDP screenshots และ review exports","Parser ต้องเก็บ structure เช่น ingredient tables, claim-market mappings, image regions, SKU metadata, channel tags และ approval status"]}},
   {img:"kh-assets/kh-08.jpg",t:{en:"Metadata schema: make every answer traceable",zh:"元数据：让每个答案可追溯",ja:"メタデータ：回答を追跡可能に",th:"Metadata schema"},
    p:{en:["Each knowledge unit carries product_id, SKU, market, channel, claim_type, evidence_id, regulation_id, language, effective_date, owner, reviewer and approval status.","Those fields are what let AI filter by market, cite the right source and avoid using an Australia claim in a China PDP."],
       zh:["每个知识单元都带有 product_id、SKU、市场、渠道、宣称类型、证据 ID、法规 ID、语言、生效日期、owner、reviewer 和审批状态。","这些字段让 AI 能按市场过滤、引用正确来源，并避免把澳洲宣称误用到中国 PDP。"],
@@ -420,24 +422,24 @@ const KH=[
       th:["Hub ต้องเคารพ consumer data boundaries, partner data boundaries และ internal approval roles","SSO, RBAC, ABAC, audit logs, PII filtering, prompt-injection checks และ human approval ไม่ใช่ add-on แต่เป็นส่วนหนึ่งของ foundation"]}},
   {img:"kh-assets/kh-05.jpg",t:{en:"Permissions: product, partner and market boundaries",zh:"权限边界：产品、伙伴与市场",ja:"権限：製品・パートナー・市場境界",th:"Permissions"},
    p:{en:["The same hub serves brand teams, agencies, platform operators, pharmacies and distributors, but not everyone should see the same knowledge.","Permissions filter retrieval before generation and verify citations after generation, so partner data, internal approvals and market-only rules stay within the right boundary."],
-      zh:["同一个知识中枢会服务品牌团队、代理商、平台运营、药房和分销商，但不是所有人都应该看到同一套知识。","权限会在生成前过滤检索范围，并在生成后验证引用，确保伙伴数据、内部审批和市场限定规则都留在正确边界内。"],
-      ja:["同じハブがブランドチーム、代理店、プラットフォーム担当、薬局、販売店を支えますが、全員が同じ知識を見るべきではありません。","権限は生成前に検索範囲を制限し、生成後に引用を検証して、パートナーデータ・社内承認・市場限定ルールを正しい境界内に保ちます。"],
-      th:["Hub เดียวให้บริการ brand team, agency, platform operator, pharmacy และ distributor แต่ไม่ควรเห็น knowledge ชุดเดียวกันทั้งหมด","Permissions filter retrieval ก่อน generation และ verify citations หลัง generation เพื่อรักษา partner data, approvals และ market-only rules ให้อยู่ใน boundary ที่ถูกต้อง"]}},
+      zh:["同一个知识中枢会服务品牌团队、代理商、平台运营、门店和分销商，但不是所有人都应该看到同一套知识。","权限会在生成前过滤检索范围，并在生成后验证引用，确保伙伴数据、内部审批和市场限定规则都留在正确边界内。"],
+      ja:["同じハブがブランドチーム、代理店、プラットフォーム担当、小売店、販売店を支えますが、全員が同じ知識を見るべきではありません。","権限は生成前に検索範囲を制限し、生成後に引用を検証して、パートナーデータ・社内承認・市場限定ルールを正しい境界内に保ちます。"],
+      th:["Hub เดียวให้บริการ brand team, agency, platform operator, retail และ distributor แต่ไม่ควรเห็น knowledge ชุดเดียวกันทั้งหมด","Permissions filter retrieval ก่อน generation และ verify citations หลัง generation เพื่อรักษา partner data, approvals และ market-only rules ให้อยู่ใน boundary ที่ถูกต้อง"]}},
   {img:"kh-assets/kh-07.jpg",t:{en:"Process knowledge: claim and content approval flows",zh:"流程知识：宣称与内容审批流",ja:"プロセス知識：表示・コンテンツ承認フロー",th:"Process knowledge"},
    p:{en:["Some knowledge is not a paragraph; it is a workflow: content brief, claim check, legal review, market approval, platform upload and post-launch monitoring.","Turning approval flows into graph structures lets AI explain where a campaign is blocked, who owns the next action and what evidence is missing."],
       zh:["有些知识不是一段文字，而是一条流程：内容 brief、宣称检查、法务审核、市场审批、平台上架和上线后监控。","把审批流程转成图结构后，AI 可以说明活动卡在哪里、下一步归谁处理、缺少什么证据。"],
       ja:["知識の中には文章ではなくワークフローがあります：コンテンツbrief、表示チェック、法務レビュー、市場承認、プラットフォーム掲載、公開後監視。","承認フローをグラフ化すると、AIはキャンペーンがどこで止まり、次の担当者が誰で、何の根拠が不足しているかを説明できます。"],
       th:["Knowledge บางอย่างไม่ใช่ paragraph แต่เป็น workflow: content brief, claim check, legal review, market approval, platform upload และ post-launch monitoring","เมื่อเปลี่ยน approval flow เป็น graph AI จะอธิบายได้ว่า campaign ติดตรงไหน ใครเป็น owner และขาด evidence อะไร"]}},
   {img:"kh-assets/kh-09.jpg",t:{en:"Hybrid retrieval: graph + vector + business rules",zh:"混合检索：图谱 + 向量 + 业务规则",ja:"ハイブリッド検索：グラフ + ベクタ + 業務ルール",th:"Hybrid retrieval"},
-   p:{en:["A plain vector search may find similar wording, but supplement use cases need exact facts, market rules and approved claims.","Hybrid retrieval combines semantic search with graph traversal and rule filtering, so the answer can be relevant and compliant at the same time."],
-      zh:["单纯向量检索可以找到相似文本，但保健品场景需要精确事实、市场规则和批准宣称。","混合检索把语义搜索、图谱路径和规则过滤结合起来，让答案既相关又合规。"],
-      ja:["単純なベクタ検索は似た表現を見つけますが、サプリ領域では正確なファクト、市場ルール、承認表示が必要です。","ハイブリッド検索は意味検索、グラフ探索、ルールフィルタを組み合わせ、関連性とコンプライアンスを同時に満たします。"],
-      th:["Vector search อย่างเดียวหา wording ที่คล้ายได้ แต่ supplement use cases ต้องการ exact facts, market rules และ approved claims","Hybrid retrieval รวม semantic search, graph traversal และ rule filtering เพื่อให้ answer ทั้ง relevant และ compliant"]}},
-  {img:"kh-assets/kh-11.jpg",t:{en:"Evaluation: test with real Blackmores questions",zh:"评估：用真实 Blackmores 问题测试",ja:"評価：実際のBlackmores質問で検証",th:"Evaluation"},
-   p:{en:["Evaluation should use real questions from consumers, pharmacists, e-commerce operators, agencies and compliance reviewers.","Score answers for citation accuracy, market-rule fit, claim safety, usefulness and whether the system refuses when evidence is missing."],
-      zh:["评估应该使用来自消费者、药房店员、电商运营、代理商和合规审核人员的真实问题。","评分维度包括引用准确率、市场规则匹配、宣称安全性、实用性，以及证据缺失时是否会拒答。"],
-      ja:["評価には、消費者・薬局スタッフ・EC担当・代理店・コンプラレビュアーの実質問を使います。","引用精度、市場ルール適合、表示安全性、実用性、根拠不足時の拒否を評価します。"],
-      th:["Evaluation ควรใช้คำถามจริงจาก consumer, pharmacist, e-commerce operator, agency และ compliance reviewer","ให้คะแนน citation accuracy, market-rule fit, claim safety, usefulness และ refusal เมื่อ evidence ไม่พอ"]}},
+   p:{en:["A plain vector search may find similar wording, but product use cases need exact facts, market rules and approved claims.","Hybrid retrieval combines semantic search with graph traversal and rule filtering, so the answer can be relevant and compliant at the same time."],
+      zh:["单纯向量检索可以找到相似文本，但食品产品场景需要精确事实、市场规则和批准宣称。","混合检索把语义搜索、图谱路径和规则过滤结合起来，让答案既相关又合规。"],
+      ja:["単純なベクタ検索は似た表現を見つけますが、プロダクト領域では正確なファクト、市場ルール、承認表示が必要です。","ハイブリッド検索は意味検索、グラフ探索、ルールフィルタを組み合わせ、関連性とコンプライアンスを同時に満たします。"],
+      th:["Vector search อย่างเดียวหา wording ที่คล้ายได้ แต่ product use cases ต้องการ exact facts, market rules และ approved claims","Hybrid retrieval รวม semantic search, graph traversal และ rule filtering เพื่อให้ answer ทั้ง relevant และ compliant"]}},
+  {img:"kh-assets/kh-11.jpg",t:{en:"Evaluation: test with real General Mills questions",zh:"评估：用真实 General Mills 问题测试",ja:"評価：実際のGeneral Mills質問で検証",th:"Evaluation"},
+   p:{en:["Evaluation should use real questions from consumers, store advisors, e-commerce operators, agencies and compliance reviewers.","Score answers for citation accuracy, market-rule fit, claim safety, usefulness and whether the system refuses when evidence is missing."],
+      zh:["评估应该使用来自消费者、门店店员、电商运营、代理商和合规审核人员的真实问题。","评分维度包括引用准确率、市场规则匹配、宣称安全性、实用性，以及证据缺失时是否会拒答。"],
+      ja:["評価には、消費者・小売店スタッフ・EC担当・代理店・コンプラレビュアーの実質問を使います。","引用精度、市場ルール適合、表示安全性、実用性、根拠不足時の拒否を評価します。"],
+      th:["Evaluation ควรใช้คำถามจริงจาก consumer, store advisor, e-commerce operator, agency และ compliance reviewer","ให้คะแนน citation accuracy, market-rule fit, claim safety, usefulness และ refusal เมื่อ evidence ไม่พอ"]}},
   {img:"kh-assets/kh-12.jpg",t:{en:"Human review: SME approval stays in the loop",zh:"人工审核：SME 仍在闭环中",ja:"人手レビュー：SMEをループに残す",th:"Human review"},
    p:{en:["The graph does not remove medical, regulatory or product SMEs. It makes their review focused and reusable.","Low-confidence parsing, new claims, new market rules and disputed answers route to the right reviewer, then the approved correction becomes reusable knowledge."],
       zh:["图谱不是替代医学、法规或产品 SME，而是让他们的审核更聚焦、可复用。","低置信解析、新宣称、新市场规则和有争议答案会路由给正确审核人，审核后的修正会变成可复用知识。"],
@@ -464,31 +466,31 @@ const KH=[
       ja:["まず主要製品、2市場、1マーケットプレイス、1サービスチャネル、1コンプラフローに絞ったパイロットから始めます。","その後、製品カテゴリ、市場、チャネルへ拡張し、同じメタデータ・承認・評価モデルを維持します。"],
       th:["เริ่ม pilot แบบ focused: hero products ไม่กี่ตัว, 2 markets, 1 marketplace, 1 service channel และ 1 compliance workflow","จากนั้นขยายตาม category, market และ channel โดยใช้ metadata, approval และ evaluation model เดิม"]}},
   {img:"kh-assets/kh-20.jpg",t:{en:"Work packages: build in parallel",zh:"工作包：并行建设",ja:"作業パッケージ：並行構築",th:"Work packages"},
-   p:{en:["Delivery can split into product-data ingestion, claim governance, retrieval / RAG, agent skills, workflow integration, security and analytics.","Each work package has its own test boundary, but all converge in end-to-end Blackmores scenarios."],
-      zh:["交付可拆成产品数据导入、宣称治理、检索 / RAG、Agent 技能、工作流集成、安全和分析几个工作包。","每个工作包有自己的测试边界，但最终都汇入端到端 Blackmores 场景。"],
-      ja:["納品は製品データ取り込み、表示統制、検索 / RAG、Agentスキル、ワークフロー統合、セキュリティ、分析に分けられます。","各作業パッケージにテスト境界がありますが、最終的にエンドツーエンドのBlackmoresシナリオへ統合されます。"],
-      th:["Delivery แบ่งเป็น product-data ingestion, claim governance, retrieval / RAG, agent skills, workflow integration, security และ analytics","แต่ละ work package มี test boundary แต่ทั้งหมด converge ใน end-to-end Blackmores scenarios"]}},
+   p:{en:["Delivery can split into product-data ingestion, claim governance, retrieval / RAG, agent skills, workflow integration, security and analytics.","Each work package has its own test boundary, but all converge in end-to-end General Mills scenarios."],
+      zh:["交付可拆成产品数据导入、宣称治理、检索 / RAG、Agent 技能、工作流集成、安全和分析几个工作包。","每个工作包有自己的测试边界，但最终都汇入端到端 General Mills 场景。"],
+      ja:["納品は製品データ取り込み、表示統制、検索 / RAG、Agentスキル、ワークフロー統合、セキュリティ、分析に分けられます。","各作業パッケージにテスト境界がありますが、最終的にエンドツーエンドのGeneral Millsシナリオへ統合されます。"],
+      th:["Delivery แบ่งเป็น product-data ingestion, claim governance, retrieval / RAG, agent skills, workflow integration, security และ analytics","แต่ละ work package มี test boundary แต่ทั้งหมด converge ใน end-to-end General Mills scenarios"]}},
   {img:"kh-assets/kh-21.jpg",t:{en:"Demo scripts: prove the system, not the slide",zh:"Demo 脚本：证明系统而不是讲概念",ja:"デモ：スライドではなくシステムを証明",th:"Demo scripts"},
-   p:{en:["Use scripted demos that expose evidence: recommend a product, block a disease claim, rewrite a PDP line, answer a pharmacy question and update a marketplace content checklist.","Every demo should show sources, graph path, approval status and what action the agent took."],
-      zh:["用可验证脚本做 demo：推荐产品、拦截疾病宣称、改写 PDP 文案、回答药房问题、更新平台内容检查表。","每个 demo 都应该显示来源、图谱路径、审批状态和 Agent 执行了什么动作。"],
-      ja:["検証可能なデモスクリプトを使います：製品推薦、疾病表示ブロック、PDP文言修正、薬局質問回答、マーケットプレイスチェックリスト更新。","各デモで出典、グラフ経路、承認状態、Agentの実行アクションを表示します。"],
-      th:["ใช้ scripted demos ที่แสดง evidence: recommend product, block disease claim, rewrite PDP line, answer pharmacy question และ update content checklist","ทุก demo ควรแสดง sources, graph path, approval status และ agent action"]}},
+   p:{en:["Use scripted demos that expose evidence: recommend a product, block a disease claim, rewrite a PDP line, answer a retail question and update a marketplace content checklist.","Every demo should show sources, graph path, approval status and what action the agent took."],
+      zh:["用可验证脚本做 demo：推荐产品、拦截疾病宣称、改写 PDP 文案、回答门店问题、更新平台内容检查表。","每个 demo 都应该显示来源、图谱路径、审批状态和 Agent 执行了什么动作。"],
+      ja:["検証可能なデモスクリプトを使います：製品推薦、疾病表示ブロック、PDP文言修正、小売店質問回答、マーケットプレイスチェックリスト更新。","各デモで出典、グラフ経路、承認状態、Agentの実行アクションを表示します。"],
+      th:["ใช้ scripted demos ที่แสดง evidence: recommend product, block disease claim, rewrite PDP line, answer retail question และ update content checklist","ทุก demo ควรแสดง sources, graph path, approval status และ agent action"]}},
   {img:"kh-assets/kh-22.jpg",t:{en:"Acceptance evidence pack",zh:"验收证据包",ja:"受入証拠パック",th:"Acceptance evidence pack"},
    p:{en:["Acceptance should not be a meeting note. For each scenario, capture test user, question, expected behavior, actual answer, citation screenshot, graph path, policy result and defect status.","This makes go-live auditable and gives compliance teams confidence in the AI foundation."],
       zh:["验收不能只靠会议纪要。每个场景都要记录测试用户、问题、预期行为、实际答案、引用截图、图谱路径、策略结果和缺陷状态。","这样上线决策可审计，也能让合规团队对 AI 底座有信心。"],
       ja:["受入は議事録だけでは不十分です。各シナリオでテストユーザー、質問、期待動作、実回答、引用スクリーンショット、グラフ経路、ポリシー結果、欠陥状態を記録します。","これによりgo-live判断が監査可能になり、コンプラチームがAI基盤を信頼できます。"],
       th:["Acceptance ไม่ควรเป็น meeting note อย่างเดียว แต่ละ scenario ต้องเก็บ test user, question, expected behavior, actual answer, citation screenshot, graph path, policy result และ defect status","ทำให้ go-live auditable และ compliance team เชื่อมั่นใน AI foundation"]}},
   {img:"kh-assets/kh-23.jpg",t:{en:"Continuous improvement: learn from every channel",zh:"持续改进：从每个渠道学习",ja:"継続改善：各チャネルから学ぶ",th:"Continuous improvement"},
-   p:{en:["After launch, use feedback from service chats, pharmacy questions, marketplace reviews, no-answer cases and compliance escalations to improve the graph.","A weekly governance loop updates facts, fixes metadata, adds missing claims and retires outdated content."],
-      zh:["上线后，用客服对话、药房提问、平台评论、无答案案例和合规升级来持续改进图谱。","每周治理闭环会更新事实、修正元数据、补充缺失宣称并下架过期内容。"],
-      ja:["公開後は、サービスチャット、薬局質問、マーケットプレイスレビュー、回答なしケース、コンプラエスカレーションからグラフを改善します。","週次のガバナンスループでファクト更新、メタデータ修正、不足表示追加、古いコンテンツ退役を行います。"],
-      th:["หลัง launch ใช้ feedback จาก service chats, pharmacy questions, marketplace reviews, no-answer cases และ compliance escalations เพื่อ improve graph","Weekly governance loop อัปเดต facts, fix metadata, add missing claims และ retire outdated content"]}},
+   p:{en:["After launch, use feedback from service chats, retail questions, marketplace reviews, no-answer cases and compliance escalations to improve the graph.","A weekly governance loop updates facts, fixes metadata, adds missing claims and retires outdated content."],
+      zh:["上线后，用客服对话、门店提问、平台评论、无答案案例和合规升级来持续改进图谱。","每周治理闭环会更新事实、修正元数据、补充缺失宣称并下架过期内容。"],
+      ja:["公開後は、サービスチャット、小売店質問、マーケットプレイスレビュー、回答なしケース、コンプラエスカレーションからグラフを改善します。","週次のガバナンスループでファクト更新、メタデータ修正、不足表示追加、古いコンテンツ退役を行います。"],
+      th:["หลัง launch ใช้ feedback จาก service chats, retail questions, marketplace reviews, no-answer cases และ compliance escalations เพื่อ improve graph","Weekly governance loop อัปเดต facts, fix metadata, add missing claims และ retire outdated content"]}},
   {img:"kh-assets/kh-24.jpg",t:{en:"Closing: one trusted source for every scenario",zh:"总结：每个场景共用一套可信事实",ja:"まとめ：全シナリオの信頼できる唯一のファクト",th:"Closing"},
-   p:{en:["This is the difference between a collection of AI demos and a Blackmores-ready AI platform.","One governed graph can power Consumer Growth, Platform Commerce, Retail & Channel Operations, Membership Engagement and Trust / Compliance / Data Foundation without rebuilding truth each time."],
-      zh:["这就是一组 AI demo 和真正适合 Blackmores 的 AI 平台之间的区别。","同一张受治理的图谱可以支撑消费者增长、平台电商、零售与渠道运营、会员互动以及信任/合规/数据底座，而不必每次重建事实。"],
-      ja:["これはAIデモ集と、Blackmores向けAIプラットフォームの違いです。","一つの統制されたグラフが、Consumer Growth、Platform Commerce、Retail & Channel Operations、Membership Engagement、Trust / Compliance / Data Foundationを支えます。"],
-      th:["นี่คือความต่างระหว่างชุด AI demos กับ AI platform ที่พร้อมสำหรับ Blackmores","กราฟที่กำกับได้หนึ่งชุดขับเคลื่อน Consumer Growth, Platform Commerce, Retail & Channel Operations, Membership Engagement และ Trust / Compliance / Data Foundation ได้"]}},
-  {img:"kh-assets/kh-25.jpg",t:{en:"Full architecture: the Blackmores AI Knowledge Hub",zh:"完整架构：Blackmores AI 知识中枢",ja:"全体アーキテクチャ：Blackmores AIナレッジハブ",th:"Full architecture"},
+   p:{en:["This is the difference between a collection of AI demos and a General Mills-ready AI platform.","One governed graph can power Consumer Growth, Platform Commerce, Retail & Channel Operations, Membership Engagement and Trust / Compliance / Data Foundation without rebuilding truth each time."],
+      zh:["这就是一组 AI demo 和真正适合 General Mills 的 AI 平台之间的区别。","同一张受治理的图谱可以支撑消费者增长、平台电商、零售与渠道运营、会员互动以及信任/合规/数据底座，而不必每次重建事实。"],
+      ja:["これはAIデモ集と、General Mills向けAIプラットフォームの違いです。","一つの統制されたグラフが、Consumer Growth、Platform Commerce、Retail & Channel Operations、Membership Engagement、Trust / Compliance / Data Foundationを支えます。"],
+      th:["นี่คือความต่างระหว่างชุด AI demos กับ AI platform ที่พร้อมสำหรับ General Mills","กราฟที่กำกับได้หนึ่งชุดขับเคลื่อน Consumer Growth, Platform Commerce, Retail & Channel Operations, Membership Engagement และ Trust / Compliance / Data Foundation ได้"]}},
+  {img:"kh-assets/kh-25.jpg",t:{en:"Full architecture: the General Mills AI Knowledge Hub",zh:"完整架构：General Mills AI 知识中枢",ja:"全体アーキテクチャ：General Mills AIナレッジハブ",th:"Full architecture"},
    p:{en:["The complete picture brings together user touchpoints, agent skills, governed retrieval, product and claim graph, platform integrations, model services, security and observability.","This is the reusable foundation beneath the catalog, not just one demo page."],
       zh:["完整架构把用户触点、Agent 技能、受治理检索、产品与宣称图谱、平台集成、模型服务、安全和可观测性放在一张图里。","它是 catalog 下面可复用的底座，而不只是一个 demo 页面。"],
       ja:["全体像は、ユーザー接点、Agentスキル、統制検索、製品・表示グラフ、プラットフォーム統合、モデルサービス、セキュリティ、観測を一つにまとめます。","これは単なるデモページではなく、catalogの下にある再利用可能な基盤です。"],

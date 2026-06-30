@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Blackmores Digital Store Solution</title>
+  <title>General Mills Digital Store Solution</title>
   <style>
     :root{
       --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
@@ -23,7 +23,7 @@
     .eyebrow{color:var(--red);font-weight:900;letter-spacing:.28em;text-transform:uppercase;font-size:13px;margin:0 0 12px}
     h1{font:700 clamp(50px,7vw,104px)/.95 var(--serif);letter-spacing:-.02em;margin:0}h2{font:700 clamp(36px,4.5vw,66px)/1 var(--serif);margin:0 0 14px}h3{font-size:22px;margin:0 0 8px}
     .lead,.copy{font-size:18px;line-height:1.58;color:var(--muted);margin:0}.hero-card,.card,.panel{background:var(--paper);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow)}
-    .hero-card{padding:26px}.hero-card b{color:var(--red2)}.pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.pill{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 12px;color:#596059;font-weight:800;font-size:13px}
+    .hero-card{padding:26px}.hero-card b{color:var(--red2)}.servings{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.serving{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 12px;color:#596059;font-weight:800;font-size:13px}
     section{margin-top:66px}.split{display:grid;grid-template-columns:340px minmax(0,1fr);gap:42px;align-items:start}.section-rule{border-top:1px solid var(--line);padding-top:46px}
     .icons{display:grid;grid-template-columns:repeat(8,1fr);gap:12px;margin-bottom:26px}.icon-tile{text-align:center;background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px 8px}.ico{font-size:30px;color:var(--blue);display:block;margin-bottom:8px}.icon-tile b{font-size:13px;line-height:1.2;display:block}
     .overview{display:grid;grid-template-columns:1.25fr .85fr .95fr;gap:18px}.domain{border:1px solid var(--line);background:#fff;border-radius:8px;overflow:hidden}.domain-head{background:var(--teal);color:white;text-align:center;font-weight:900;font-size:26px;padding:14px}.domain-body{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:14px}.domain.car .domain-body,.domain.store .domain-body{grid-template-columns:repeat(2,1fr)}.mini-card{border:1px solid var(--line);border-radius:8px;background:#fffdf8;overflow:hidden}.mini-card h4{margin:0;background:var(--blue);color:white;text-align:center;padding:11px 8px;font-size:17px;line-height:1.15}.mini-card .mini-in{padding:13px}.mini-card b{display:block;margin:7px 0 5px;font-size:14px}.mini-card ul{margin:0 0 12px;padding-left:17px;color:#304050;font-size:13px;line-height:1.45}.mini-card li::marker{color:var(--red)}
@@ -39,10 +39,12 @@
     @media(max-width:1180px){.overview,.heatmap,.aud-core,.architecture{grid-template-columns:1fr}.domain-body,.domain.car .domain-body,.domain.store .domain-body{grid-template-columns:1fr 1fr}.icons,.strength,.implementation{grid-template-columns:1fr 1fr 1fr}.note-row{grid-template-columns:1fr 1fr}.hero,.split{grid-template-columns:1fr}}
     @media(max-width:720px){header{height:64px}.brand{font-size:24px}.section-name{font-size:11px}.icons,.strength,.implementation,.domain-body,.domain.car .domain-body,.domain.store .domain-body,.note-row{grid-template-columns:1fr}.lane{grid-template-columns:1fr}.swim-head{display:none}.flow-card:after{display:none}.side-lab{grid-template-columns:1fr}.vertical-labels{display:none}main{padding-inline:16px}}
   </style>
+<link rel="stylesheet" href="gm-demo-theme.css">
+<script defer src="gm-demo-brand.js"></script>
 </head>
 <body>
   <header>
-    <div class="brand" id="brand">Blackmores</div>
+    <div class="brand" id="brand">General Mills</div>
     <div class="divider"></div>
     <div class="section-name" data-i="hd_section">Digital Store</div>
     <div class="sp"></div>
@@ -55,9 +57,9 @@
         <h1 data-i="hero_h1">Make the store measurable from walk-in to order.</h1>
       </div>
       <div class="hero-card">
-        <p class="lead" data-i="hero_p1">This solution turns a Blackmores partner store into a data-driven sales floor: customer traffic, product barcode and category recognition, smart screens, voice badge, store inspection, heatmap, smart sales agent and remote follow-up.</p>
-        <p class="lead" data-i="hero_p2">The focus is health-supplement retail: <b>visitor identification, product interest, sales reception quality, consultation control, quote and registration, order conversion and store operation improvement.</b></p>
-        <div class="pills"><span class="pill" data-i="pill_ped">Pedestrian recognition</span><span class="pill" data-i="pill_plate">Product barcode recognition</span><span class="pill" data-i="pill_heat">Product heatmap</span><span class="pill" data-i="pill_disp">Smart display</span><span class="pill" data-i="pill_voice">Voice badge</span><span class="pill" data-i="pill_agent">Smart sales agent</span></div>
+        <p class="lead" data-i="hero_p1">This solution turns a General Mills partner store into a data-driven sales floor: customer traffic, product barcode and category recognition, smart screens, voice badge, store inspection, heatmap, smart sales agent and remote follow-up.</p>
+        <p class="lead" data-i="hero_p2">The focus is food retail: <b>visitor identification, product interest, sales reception quality, consultation control, quote and registration, order conversion and store operation improvement.</b></p>
+        <div class="servings"><span class="serving" data-i="serving_ped">Pedestrian recognition</span><span class="serving" data-i="serving_plate">Product barcode recognition</span><span class="serving" data-i="serving_heat">Product heatmap</span><span class="serving" data-i="serving_disp">Smart display</span><span class="serving" data-i="serving_voice">Voice badge</span><span class="serving" data-i="serving_agent">Smart sales agent</span></div>
       </div>
     </section>
 
@@ -189,7 +191,7 @@
 
         <div class="scenario-title"><span class="badge">4</span><h3 data-i="sf4_h">Product popularity analysis and heatmap: exploration inside store</h3></div>
         <div class="heatmap">
-          <div class="store"><div class="zone z1" data-i="z1">Entrance<br>traffic</div><div class="zone z2" data-i="z2">Vitamins zone<br>dwell high</div><div class="zone z3" data-i="z3">Hero product<br>hot</div><div class="zone z4" data-i="z4">New launch display<br>screen usage</div><div class="zone z5" data-i="z5">Consultation desk<br>quote area</div><div class="car-shape"></div></div>
+          <div class="store"><div class="zone z1" data-i="z1">Entrance<br>traffic</div><div class="zone z2" data-i="z2">Products zone<br>dwell high</div><div class="zone z3" data-i="z3">Hero product<br>hot</div><div class="zone z4" data-i="z4">New launch display<br>screen usage</div><div class="zone z5" data-i="z5">Consultation desk<br>quote area</div><div class="car-shape"></div></div>
           <div class="heat-list">
             <div class="card"><h3 data-i="hl_proc_h">Process</h3><p class="copy" data-i="hl_proc_p">Walk in → explore first product → sales introduction → in-store tracking → satisfied? → consultation or explore another product → report and analysis.</p></div>
             <div class="card"><h3 data-i="hl_data_h">Data outputs</h3><div class="metric"><span data-i="hl_m1_l">Dwell time near product</span><b data-i="hl_m1_v">High</b></div><div class="metric"><span data-i="hl_m2_l">Interactive screen usage</span><b data-i="hl_m2_v">Tracked</b></div><div class="metric"><span data-i="hl_m3_l">Product popularity distribution</span><b data-i="hl_m3_v">Product-level</b></div><div class="metric"><span data-i="hl_m4_l">Consultation interest signal</span><b data-i="hl_m4_v">Generated</b></div></div>
@@ -250,7 +252,7 @@
     </section>
 
     <section class="section-rule">
-      <p class="eyebrow" data-i="s8_eyebrow">08 Blackmores Store Implementation</p>
+      <p class="eyebrow" data-i="s8_eyebrow">08 General Mills Store Implementation</p>
       <h2 data-i="s8_h2">How to make it real without rebuilding the partner stack.</h2>
       <div class="implementation">
         <div class="impl"><b>1</b><h3 data-i="im1_h">Connect existing cameras</h3><p data-i="im1_p">Use existing store CCTV first; add entrance, consultation exit and hot-zone cameras only where coverage is missing.</p></div>
@@ -264,8 +266,8 @@
 <script>
 const LI={en:0,ja:1,th:2};
 const BRANDS={
-  honda4w:{logo:"Blackmores",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
-  honda2w:{logo:"Blackmores",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]}
+  honda4w:{logo:"General Mills",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  honda2w:{logo:"General Mills",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]}
 };
 let state={brand:"honda4w",lang:0};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
@@ -274,14 +276,14 @@ const L={
 hd_section:["Digital Store","デジタルストア","ดิจิทัลสโตร์"],
 hero_eyebrow:["NTT DATA Digital Store","NTT DATA デジタルストア","NTT DATA Digital Store"],
 hero_h1:["Make the store measurable from walk-in to order.","来店からオーダーまで、ストアを計測可能に。","ทำให้ร้านค้าวัดผลได้ตั้งแต่เดินเข้าจนถึงสั่งซื้อ"],
-hero_p1:["This solution turns a Blackmores partner store into a data-driven sales floor: customer traffic, product barcode and category recognition, smart screens, voice badge, store inspection, heatmap, smart sales agent and remote follow-up.","本ソリューションは、Blackmores パートナー店舗をデータドリブンな販売フロアに変えます。来店客の動線、製品バーコード・カテゴリー認識、スマートスクリーン、音声バッジ、店舗巡検、ヒートマップ、スマート営業アシスタント、リモートフォローを実現します。","โซลูชันนี้เปลี่ยนร้านค้าพาร์ทเนอร์ Blackmores ให้เป็นพื้นที่ขายที่ขับเคลื่อนด้วยข้อมูล ทั้งทราฟฟิกลูกค้า การรู้จำบาร์โค้ดและหมวดสินค้า สมาร์ทสกรีน วอยซ์แบดจ์ การตรวจร้าน ฮีตแมป ผู้ช่วยขายอัจฉริยะ และการติดตามทางไกล"],
-hero_p2:["The focus is health-supplement retail: <b>visitor identification, product interest, sales reception quality, consultation control, quote and registration, order conversion and store operation improvement.</b>","焦点は健康サプリメントのリテールです。<b>来店客の識別、製品への関心、接客品質、相談管理、見積りと登録、オーダー転換、店舗オペレーション改善。</b>","มุ่งเน้นที่ค้าปลีกผลิตภัณฑ์เสริมอาหารเพื่อสุขภาพ ได้แก่ <b>การระบุผู้มาเยือน ความสนใจในสินค้า คุณภาพการต้อนรับการขาย การควบคุมการปรึกษา การเสนอราคาและลงทะเบียน การปิดการสั่งซื้อ และการพัฒนาการดำเนินงานร้าน</b>"],
-pill_ped:["Pedestrian recognition","歩行者認識","การรู้จำคนเดิน"],
-pill_plate:["Product barcode recognition","製品バーコード認識","การรู้จำบาร์โค้ดสินค้า"],
-pill_heat:["Product heatmap","製品ヒートマップ","ฮีตแมปสินค้า"],
-pill_disp:["Smart display","スマートディスプレイ","สมาร์ทดิสเพลย์"],
-pill_voice:["Voice badge","音声バッジ","วอยซ์แบดจ์"],
-pill_agent:["Smart sales agent","スマート営業アシスタント","ผู้ช่วยขายอัจฉริยะ"],
+hero_p1:["This solution turns a General Mills partner store into a data-driven sales floor: customer traffic, product barcode and category recognition, smart screens, voice badge, store inspection, heatmap, smart sales agent and remote follow-up.","本ソリューションは、General Mills パートナー店舗をデータドリブンな販売フロアに変えます。来店客の動線、製品バーコード・カテゴリー認識、スマートスクリーン、音声バッジ、店舗巡検、ヒートマップ、スマート営業アシスタント、リモートフォローを実現します。","โซลูชันนี้เปลี่ยนร้านค้าพาร์ทเนอร์ General Mills ให้เป็นพื้นที่ขายที่ขับเคลื่อนด้วยข้อมูล ทั้งทราฟฟิกลูกค้า การรู้จำบาร์โค้ดและหมวดสินค้า สมาร์ทสกรีน วอยซ์แบดจ์ การตรวจร้าน ฮีตแมป ผู้ช่วยขายอัจฉริยะ และการติดตามทางไกล"],
+hero_p2:["The focus is food retail: <b>visitor identification, product interest, sales reception quality, consultation control, quote and registration, order conversion and store operation improvement.</b>","焦点は健康プロダクトメントのリテールです。<b>来店客の識別、製品への関心、接客品質、相談管理、見積りと登録、オーダー転換、店舗オペレーション改善。</b>","มุ่งเน้นที่ค้าปลีกผลิตภัณฑ์เสริมอาหารเพื่อสุขภาพ ได้แก่ <b>การระบุผู้มาเยือน ความสนใจในสินค้า คุณภาพการต้อนรับการขาย การควบคุมการปรึกษา การเสนอราคาและลงทะเบียน การปิดการสั่งซื้อ และการพัฒนาการดำเนินงานร้าน</b>"],
+serving_ped:["Pedestrian recognition","歩行者認識","การรู้จำคนเดิน"],
+serving_plate:["Product barcode recognition","製品バーコード認識","การรู้จำบาร์โค้ดสินค้า"],
+serving_heat:["Product heatmap","製品ヒートマップ","ฮีตแมปสินค้า"],
+serving_disp:["Smart display","スマートディスプレイ","สมาร์ทดิสเพลย์"],
+serving_voice:["Voice badge","音声バッジ","วอยซ์แบดจ์"],
+serving_agent:["Smart sales agent","スマート営業アシスタント","ผู้ช่วยขายอัจฉริยะ"],
 
 s1_eyebrow:["01 Solution Overview","01 ソリューション概要","01 ภาพรวมโซลูชัน"],
 s1_h2:["Consumer, product and store become one measurable system.","顧客・製品・店舗を一つの計測可能なシステムに。","ลูกค้า สินค้า และร้าน รวมเป็นระบบเดียวที่วัดผลได้"],
@@ -566,7 +568,7 @@ f3c7_t:["Finish","完了","เสร็จสิ้น"],
 f3c7_p:["Traffic and marketing data are analyzed.","来店とマーケティングデータを分析。","วิเคราะห์ข้อมูลทราฟฟิกและการตลาด"],
 sf4_h:["Product popularity analysis and heatmap: exploration inside store","製品人気分析とヒートマップ：ストア内の回遊","การวิเคราะห์ความนิยมสินค้าและฮีตแมป: การสำรวจภายในร้าน"],
 z1:["Entrance<br>traffic","入口<br>来店数","ทางเข้า<br>ทราฟฟิก"],
-z2:["Vitamins zone<br>dwell high","ビタミンゾーン<br>滞在多","โซนวิตามิน<br>อยู่นาน"],
+z2:["Products zone<br>dwell high","プロダクトゾーン<br>滞在多","โซนผลิตภัณฑ์<br>อยู่นาน"],
 z3:["Hero product<br>hot","主力製品<br>注目","สินค้าเด่น<br>ฮอต"],
 z4:["New launch display<br>screen usage","新商品展示<br>スクリーン利用","จัดแสดงสินค้าใหม่<br>ใช้สกรีน"],
 z5:["Consultation desk<br>quote area","相談窓口<br>見積りエリア","เคาน์เตอร์ปรึกษา<br>พื้นที่เสนอราคา"],
@@ -666,7 +668,7 @@ ach8:["KPI monitoring","KPI モニタリング","การติดตาม KPI
 arc6_b:["Model iteration","モデルの反復改善","การปรับปรุงโมเดล"],
 arc6_p:["Best practice extraction and analytics for future strategy.","今後の戦略に向けたベストプラクティス抽出と分析。","การสกัดแนวปฏิบัติที่ดีที่สุดและการวิเคราะห์เพื่อกลยุทธ์ในอนาคต"],
 
-s8_eyebrow:["08 Blackmores Store Implementation","08 Blackmores ストア導入","08 การนำไปใช้ในร้าน Blackmores"],
+s8_eyebrow:["08 General Mills Store Implementation","08 General Mills ストア導入","08 การนำไปใช้ในร้าน General Mills"],
 s8_h2:["How to make it real without rebuilding the partner stack.","パートナーシステムを作り直さずに実現する方法。","วิธีทำให้เป็นจริงโดยไม่ต้องสร้างระบบพาร์ทเนอร์ใหม่"],
 im1_h:["Connect existing cameras","既存カメラを接続","เชื่อมต่อกล้องที่มีอยู่"],
 im1_p:["Use existing store CCTV first; add entrance, consultation exit and hot-zone cameras only where coverage is missing.","まず既存のストア CCTV を活用し、入口・相談出口・注目ゾーンのカメラは不足箇所のみ追加します。","ใช้กล้องวงจรปิดในร้านที่มีอยู่ก่อน เพิ่มกล้องทางเข้า ทางออกพื้นที่ปรึกษา และโซนยอดนิยมเฉพาะจุดที่ยังไม่ครอบคลุม"],

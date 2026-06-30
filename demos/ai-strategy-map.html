@@ -127,6 +127,8 @@
     .hero{padding:36px 22px}
   }
 </style>
+<link rel="stylesheet" href="gm-demo-theme.css">
+<script defer src="gm-demo-brand.js"></script>
 </head>
 <body>
 <header>
@@ -135,7 +137,7 @@
     <div class="sub" id="sub">AI Strategy Map</div>
     <div class="sp"></div>
     <a class="chip" href="index.html" id="backToStudio" style="text-decoration:none;color:var(--ink)">🏠 <span>Studio</span></a>
-    <div class="chip" id="brandChip">🎨 <span id="brandLab">Blackmores</span> ▾<div class="menu" id="brandMenu"></div></div>
+    <div class="chip" id="brandChip">🎨 <span id="brandLab">General Mills</span> ▾<div class="menu" id="brandMenu"></div></div>
     <div class="langs" id="langs"></div>
   </div>
 </header>
@@ -290,7 +292,7 @@
 <script>
 // ===== Data =====
 const BRANDS={
-  blackmores:{logo:"BLACKMORES",sup:"®",name:"Blackmores",em:"🌿",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  generalmills:{logo:"GENERAL MILLS",sup:"®",name:"General Mills",em:"🌿",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
   lumiere:{logo:"LUMIÈRE",sup:"",name:"Lumière",em:"💧",c:["#a8456b","#7d2f4e","#f6e7ee","#c98a8a"]},
   harvest:{logo:"HARVEST & CO",sup:"",name:"Harvest & Co",em:"🍯",c:["#b5611f","#8a4715","#f6ebe0","#3d7a4f"]}
 };
@@ -304,7 +306,7 @@ const NODE_DATA={
   payment:{en:{title:"Payment & Transaction — Enterprise Backbone + Commerce Front-End",pain:"Payment friction. Fraud losses. Integration debt across legacy systems. No unified transaction view.",ai:"AI-powered fraud detection. Smart routing. Embedded finance. Real-time reconciliation. Unified payment orchestration.",solution:"Enterprise Backbone + Commerce Front-End — secure, scalable, integrated payment infrastructure with modern UX.",demo:"commerce-front-end.html"},zh:{title:"Payment & Transaction — 企业级底座 + 电商前端",pain:"支付摩擦。欺诈损失。遗留系统集成债务。没有统一交易视图。",ai:"AI 驱动的欺诈检测。智能路由。嵌入式金融。实时对账。统一支付编排。",solution:"企业级底座 + 电商前端——安全、可扩展、集成的支付基础设施，配现代 UX。",demo:"commerce-front-end.html"},ja:{title:"Payment & Transaction — エンタープライズ基盤 + コマースフロントエンド",pain:"支払い摩擦。不正損失。レガシーシステム間の統合負債。統一された取引ビューがない。",ai:"AI駆動の不正検出。スマートルーティング。組み込み型ファイナンス。リアルタイム自動調整。統合支払いオーケストレーション。",solution:"エンタープライズ基盤 + コマースフロントエンド——安全でスケーラブル、統合された支払いインフラとモダンUX。",demo:"commerce-front-end.html"},th:{title:"Payment & Transaction — โครงสร้างพื้นฐานระดับองค์กร + หน้าร้านค้า",pain:"แรงเสียดทานการชำระเงิน การสูญเสียจากการฉ้อโกง หนี้การผสานรวมระบบเก่า ไม่มีมุมมองธุรกรรมที่รวมศูนย์",ai:"AI ตรวจจับการฉ้อโกง การกำหนดเส้นทางอัจฉริยะ การเงินฝังตัว การกระทบยอดแบบเรียลไทม์ การประสานการชำระเงิน",solution:"Enterprise Backbone + Commerce Front-End — โครงสร้างพื้นฐานการชำระเงินที่ปลอดภัย สเกลได้ ผสานรวม พร้อม UX สมัยใหม่",demo:"commerce-front-end.html"}},
   store:{en:{title:"Store Operation — Conversational + WeChat Mini-Program",pain:"Staff can't answer every question. Inventory visibility gaps. No way to connect online discovery to offline purchase.",ai:"AI store assistant. Smart shelf management. Location-aware offers. WeChat ecosystem integration for seamless O2O.",solution:"Conversational + WeChat Mini-Program — bridge online discovery with in-store experience. Staff augmentation, not replacement.",demo:"line-flywheel.html"},zh:{title:"Store Operation — 对话式商务 + 微信小程序",pain:"员工无法回答所有问题。库存可见性缺口。无法连接线上发现与线下购买。",ai:"AI 门店助手。智能货架管理。基于位置的优惠。小程序集成实现无缝 O2O。",solution:"对话式 + 微信小程序——连接线上发现与店内体验。增强员工，而非替代。",demo:"line-flywheel.html"},ja:{title:"Store Operation — 対話型 + WeChat ミニプログラム",pain:"スタッフがすべての質問に答えられない。在庫可視性のギャップ。オンライン発見からオフライン購入への接続がない。",ai:"AI店舗アシスタント。スマート棚管理。位置認識型オファー。シームレスO2OのためのWeChat ミニプログラム統合。",solution:"対話型 + WeChat ミニプログラム——オンライン発見と店舗体験を橋渡し。スタッフの増強、置き換えではない。",demo:"line-flywheel.html"},th:{title:"Store Operation — การค้าแบบสนทนา + WeChat Mini-Program",pain:"พนักงานตอบทุกคำถามไม่ได้ ช่องโหว่การมองเห็นสต็อก ไม่มีวิธีเชื่อมต่อการค้นพบออนไลน์กับการซื้อออฟไลน์",ai:"ผู้ช่วยร้าน AI การจัดการชั้นวางอัจฉริยะ ข้อเสนอตามตำแหน่ง การผสานรวมWeChat Mini-Programสำหรับ O2O ที่ราบรื่น",solution:"การค้าแบบสนทนา + WeChat Mini-Program — เชื่อมต่อการค้นพบออนไลน์กับประสบการณ์ในร้าน เสริมพนักงาน ไม่ใช่แทนที่",demo:"line-flywheel.html"}},
   support:{en:{title:"Usage & Support — VOC + Social Hub",pain:"Support tickets pile up. Social complaints go viral before you see them. No systematic voice-of-customer program.",ai:"AI sentiment monitoring across social platforms. Auto-categorization of feedback. Predictive churn alerts. Community-driven support.",solution:"VOC + Social Hub — unified listening, automated triage, and community-powered support that turns complaints into product insights.",demo:"voc.html"},zh:{title:"Usage & Support — VOC + Social Hub",pain:"支持工单堆积。社交投诉在你发现之前已经病毒式传播。没有系统化的客户之声项目。",ai:"跨社交平台的 AI 情感监控。反馈自动分类。预测性流失预警。社区驱动支持。",solution:"VOC + Social Hub——统一倾听、自动分类、社区驱动支持，将投诉转化为产品洞察。",demo:"voc.html"},ja:{title:"Usage & Support — VOC + ソーシャルハブ",pain:"サポートチケットが蓄積。ソーシャル苦情が気づく前にバイラル化。体系的なVOCプログラムがない。",ai:"ソーシャルプラットフォーム横断のAIセンチメントモニタリング。フィードバックの自動カテゴリ化。予測的離脱アラート。コミュニティ主導型サポート。",solution:"VOC + ソーシャルハブ——統合リスニング、自動トリアージ、コミュニティパワードサポート。苦情を製品洞察に変換。",demo:"voc.html"},th:{title:"Usage & Support — VOC + Social Hub",pain:"ตั๋วสนับสนุนสะสม การร้องเรียนบนโซเชียลกระจายไวกว่าที่จะเห็น ไม่มีโปรแกรมเสียงของลูกค้าแบบเป็นระบบ",ai:"AI ตรวจสอบความรู้สึกข้ามแพลตฟอร์มโซเชียล จัดหมวดหมู่ฟีดแบ็คอัตโนมัติ แจ้งเตือนการละทิ้งเชิงพยากรณ์ การสนับสนุนขับเคลื่อนชุมชน",solution:"VOC + Social Hub — การฟังแบบรวมศูนย์ การแบ่งกลุ่มอัตโนมัติ การสนับสนุนที่ขับเคลื่อนด้วยชุมชน แปลงการร้องเรียนเป็น insight ผลิตภัณฑ์",demo:"voc.html"}},
-  loyalty:{en:{title:"Loyalty & Advocacy — Loyalty + Health Management",pain:"Loyalty programs collect points, not passion. Members churn after redeeming. No viral advocacy mechanism.",ai:"AI-powered health coaching. Personalized wellness journeys. Gamified challenges. Social sharing with rewards. Community-driven advocacy.",solution:"Loyalty + Health Management — transform transactional loyalty into emotional attachment through personalized wellness and community.",demo:"loyalty.html"},zh:{title:"Loyalty & Advocacy — 会员忠诚度 + 健康管理",pain:"会员计划收集积分，而非热情。会员兑换后流失。没有病毒式拥护机制。",ai:"AI 驱动健康教练。个性化 wellness 旅程。游戏化挑战。社交分享奖励。社区驱动拥护。",solution:"忠诚度 + 健康管理——通过个性化 wellness 和社区，将交易型忠诚转化为情感连接。",demo:"loyalty.html"},ja:{title:"Loyalty & Advocacy — ロイヤルティ + ヘルスケア管理",pain:"ロイヤルティプログラムはポイントを集めるが、情熱は集めない。会員は交換後に離脱。バイラルアドボカシー機構がない。",ai:"AI駆動ヘルスコーチング。パーソナライズドウェルネスジャーニー。ゲーミファイドチャレンジ。報酬付きソーシャルシェアリング。コミュニティ主導アドボカシー。",solution:"ロイヤルティ + ヘルスケア管理——パーソナライズドウェルネスとコミュニティを通じて、取引的ロイヤルティを感情的な愛着に変換。",demo:"loyalty.html"},th:{title:"Loyalty & Advocacy — ความภักดี + การจัดการสุขภาพ",pain:"โปรแกรมความภักดีเก็บคะแนน ไม่ใช่ความหลงใหล สมาชิกละทิ้งหลังแลกรับ ไม่มีกลไกการสนับสนุนแบบไวรัล",ai:"AI โค้ชสุขภาพ การเดินทางเพื่อสุขภาพส่วนบุคคล ความท้าทายแบบเกม การแชร์โซเชียลพร้อมรางวัล การสนับสนุนขับเคลื่อนชุมชน",solution:"ความภักดี + การจัดการสุขภาพ — แปลงความภักดีแบบธุรกรรมให้เป็นความผูกพันทางอารมณ์ผ่าน wellness ส่วนบุคคลและชุมชน",demo:"loyalty.html"}}
+  loyalty:{en:{title:"Loyalty & Advocacy — Loyalty + Health Management",pain:"Loyalty programs collect points, not passion. Members churn after redeeming. No viral advocacy mechanism.",ai:"AI-powered health coaching. Personalized everyday enjoyment journeys. Gamified challenges. Social sharing with rewards. Community-driven advocacy.",solution:"Loyalty + Health Management — transform transactional loyalty into emotional attachment through personalized everyday enjoyment and community.",demo:"loyalty.html"},zh:{title:"Loyalty & Advocacy — 会员忠诚度 + 健康管理",pain:"会员计划收集积分，而非热情。会员兑换后流失。没有病毒式拥护机制。",ai:"AI 驱动健康教练。个性化 everyday enjoyment 旅程。游戏化挑战。社交分享奖励。社区驱动拥护。",solution:"忠诚度 + 健康管理——通过个性化 everyday enjoyment 和社区，将交易型忠诚转化为情感连接。",demo:"loyalty.html"},ja:{title:"Loyalty & Advocacy — ロイヤルティ + ヘルスケア管理",pain:"ロイヤルティプログラムはポイントを集めるが、情熱は集めない。会員は交換後に離脱。バイラルアドボカシー機構がない。",ai:"AI駆動ヘルスコーチング。パーソナライズドウェルネスジャーニー。ゲーミファイドチャレンジ。報酬付きソーシャルシェアリング。コミュニティ主導アドボカシー。",solution:"ロイヤルティ + ヘルスケア管理——パーソナライズドウェルネスとコミュニティを通じて、取引的ロイヤルティを感情的な愛着に変換。",demo:"loyalty.html"},th:{title:"Loyalty & Advocacy — ความภักดี + การจัดการสุขภาพ",pain:"โปรแกรมความภักดีเก็บคะแนน ไม่ใช่ความหลงใหล สมาชิกละทิ้งหลังแลกรับ ไม่มีกลไกการสนับสนุนแบบไวรัล",ai:"AI โค้ชสุขภาพ การเดินทางเพื่อสุขภาพส่วนบุคคล ความท้าทายแบบเกม การแชร์โซเชียลพร้อมรางวัล การสนับสนุนขับเคลื่อนชุมชน",solution:"ความภักดี + การจัดการสุขภาพ — แปลงความภักดีแบบธุรกรรมให้เป็นความผูกพันทางอารมณ์ผ่าน everyday enjoyment ส่วนบุคคลและชุมชน",demo:"loyalty.html"}}
 };
 
 const UI={
@@ -370,7 +372,7 @@ const UI={
     case1t:"万豪旅程诊断",
     case1p:"映射入住前、入住中、入住后 47 个触点。识别 12 个 AI 就绪干预点，预计 NPS 提升 18%。",
     case2t:"GenScript 蓝图规划",
-    case2p:"从碎片化的 B2B 门户到统一的 AI 驱动商务平台。第一阶段 8 周交付，转化率提升 3 倍。",
+    case2p:"从碎份化的 B2B 门户到统一的 AI 驱动商务平台。第一阶段 8 周交付，转化率提升 3 倍。",
     proc1:"诊断",proc2:"设计",proc3:"落地",
     cta1:"预约诊断工作坊",
     cta2:"下载完整蓝图",
@@ -408,7 +410,7 @@ const UI={
     case1t:"マリオット・ジャーニー診断",
     case1p:"滞在前、滞在中、滞在后の47タッチポイントをマッピング。12のAI対応介入ポイントを特定、NPS 18%向上を予測。",
     case2t:"GenScript ブループリント計画",
-    case2p:"断片化したB2Bポータルから統合AI駆動コマースプラットフォームへ。フェーズ1は8週間で納品、コンバージョン3倍改善。",
+    case2p:"断份化したB2Bポータルから統合AI駆動コマースプラットフォームへ。フェーズ1は8週間で納品、コンバージョン3倍改善。",
     proc1:"診断",proc2:"設計",proc3:"展開",
     cta1:"診断ワークショップを予約",
     cta2:"完全ブループリントをダウンロード",
@@ -462,7 +464,7 @@ const UI={
   }
 };
 
-let state={lang:"en",brand:"blackmores"};
+let state={lang:"en",brand:"generalmills"};
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 const U=()=>UI[state.lang],BR=()=>BRANDS[state.brand];
 const N=n=>NODE_DATA[n][state.lang];
@@ -540,7 +542,7 @@ function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');se
 var _brandMenuBuilt=false;
 function buildBrandMenu(){
   if(_brandMenuBuilt)return;_brandMenuBuilt=true;
-  [['blackmores','Blackmores'],['lumiere','Lumière'],['harvest','Harvest & Co']].forEach(([k,l])=>{
+  [['generalmills','General Mills'],['lumiere','Lumière'],['harvest','Harvest & Co']].forEach(([k,l])=>{
     const b=document.createElement('button');b.textContent=l;
     b.onclick=ev=>{ev.stopPropagation();state.brand=k;applyBrand();$('#brandMenu').classList.remove('open');toast('🎨 '+BR().name);};
     $('#brandMenu').appendChild(b);

@@ -215,7 +215,7 @@
       </div></button>`;
   }
 
-  /* ============ CATEGORY 2: NTT capabilities + Blackmores v2 live demos ============ */
+  /* ============ CATEGORY 2: NTT capabilities + GM reusable demo live demos ============ */
   function renderCapability(){
     const q=(S.search||'').toLowerCase();
     const domains=[...new Map(BM2.map(x=>[x.domain_id,{id:x.domain_id,cn:x.domain_cn,en:x.domain_en}])).values()];
@@ -243,24 +243,24 @@
     const conceptCount=bmForBrand(S.brand).filter(x=>!x.has_demo).length;
     const bmCards=bmList.map(bmCardHtml).join('');
     return `<div class="cat-caphead">
-        <div class="cat-capnote">${cn()?'这里合并 NTT DATA 可复用能力、可现场打开的 demo，以及 Blackmores v2 中可迁移到 GM 的参考模块。Demo 仅用于初次讨论中说明能力如何工作；后续需要替换为 GM 数据、规则和业务流程。':'This layer combines reusable NTT DATA capabilities, live demos, and Blackmores v2 reference modules that can be adapted to GM. Demos are discussion prototypes only; GM data, rules and workflows need to be connected next.'}</div>
+        <div class="cat-capnote">${cn()?'这里合并 NTT DATA 可复用能力、可现场打开的 demo，以及 可迁移到通用磨坊的参考模块。Demo 仅用于初次讨论中说明能力如何工作；后续需要替换为 GM 数据、规则和业务流程。':'This layer combines reusable NTT DATA capabilities, live demos, and GM reusable demo modules that can be adapted to GM. Demos are discussion prototypes only; GM data, rules and workflows need to be connected next.'}</div>
       </div>
       <div class="cat-filterbar">${chips}</div>
       ${showNtt?`<div class="cat-subhead"><span>NTT DATA</span><b>${nttList.length}</b></div>${nttCards?`<div class="cat-grid cat-grid-cap">${nttCards}</div>`:`<div class="cat-empty">${cn()?'没有匹配的 NTT 能力。':'No matching NTT capabilities.'}</div>`}`:''}
-      ${S.bmFilter!=='ntt'?`<div class="cat-subhead bm"><span>${cn()?'Blackmores v2 参考模块':'Blackmores v2 reference modules'}</span><b>${bmList.length}</b><em>${cn()?`可打开 ${liveCount} · 待补样机 ${conceptCount}`:`Live ${liveCount} · Concept ${conceptCount}`}</em></div>${bmCards?`<div class="cat-grid cat-grid-cap">${bmCards}</div>`:`<div class="cat-empty">${cn()?'没有匹配的参考模块。':'No matching reference modules.'}</div>`}`:''}`;
+      ${S.bmFilter!=='ntt'?`<div class="cat-subhead bm"><span>${cn()?'GM 可复用 demo 模块':'GM reusable demo modules'}</span><b>${bmList.length}</b><em>${cn()?`可打开 ${liveCount} · 待补样机 ${conceptCount}`:`Live ${liveCount} · Concept ${conceptCount}`}</em></div>${bmCards?`<div class="cat-grid cat-grid-cap">${bmCards}</div>`:`<div class="cat-empty">${cn()?'没有匹配的参考模块。':'No matching reference modules.'}</div>`}`:''}`;
   }
   function nttCardHtml(n){
     const isDemo=n.proof_status==='Demo Asset';
     const demoFile=NTT_DEMO[n.id];
     const dl=DEMO_LABEL[demoFile];
-    const caps=(n.capabilities||[]).slice(0,4).map(x=>`<span class="nc-cap">${x}</span>`).join('');
+    const packs=(n.capabilities||[]).slice(0,4).map(x=>`<span class="nc-cap">${x}</span>`).join('');
     const stages=(n.stages||[]).filter(s=>s!=='J8').map(s=>`<span class="cc-stg">${s}</span>`).join('');
     return `<div class="cat-card cc-ntt">
       <div class="nc-top"><span class="nc-badge">NTT DATA</span>
         <span class="nc-proof ${isDemo?'demo':'ref'}">${isDemo?(cn()?'可复用 Demo':'Demo Asset'):(cn()?'参考能力':'Reference')}</span></div>
       <h4>${L(n,'title')}</h4>
       <p class="nc-sum">${L(n,'summary')}</p>
-      <div class="nc-caps">${caps}</div>
+      <div class="nc-packs">${packs}</div>
       <div class="nc-foot">
         ${demoFile?`<button class="nc-demo" onclick="GMCatalog.openDemo('${demoFile}','${escJs(dl?(cn()?dl.cn:dl.en):L(n,'title'))}')">▶ ${cn()?'体验 Demo':'Live demo'}</button>`:''}
         <button class="nc-more" onclick="GMCatalog.openNtt('${n.id}')">${cn()?'能力详情':'Details'} →</button>
@@ -276,7 +276,7 @@
       <h4>${esc(bmTitle(x))}</h4>
       <p class="nc-sum">${esc(bmSummary(x))}</p>
       <div class="bm-mini">${esc(cn()?x.domain_cn:x.domain_en)}${clients?` · ${esc(clients)}`:''}</div>
-      ${scenes&&scenes.length?`<div class="nc-caps">${scenes.slice(0,3).map(s=>`<span class="nc-cap">${esc(s)}</span>`).join('')}</div>`:''}
+      ${scenes&&scenes.length?`<div class="nc-packs">${scenes.slice(0,3).map(s=>`<span class="nc-cap">${esc(s)}</span>`).join('')}</div>`:''}
       <div class="nc-foot">
         ${x.has_demo?`<button class="nc-demo" onclick="GMCatalog.openDemo('${x.file}','${escJs(bmTitle(x))}')">▶ ${cn()?'体验 Demo':'Live demo'}</button>`:''}
         <button class="nc-more" onclick="GMCatalog.openBm('${x.id}')">${cn()?'详情':'Details'} →</button>
@@ -358,9 +358,9 @@
         ${row('AI 能力','AI capability',cText(c,'ai_capability'))}
         ${row('架构','Architecture',cText(c,'arch'))}
       </div>
-      ${cList(c,'value').length?`<div class="cd-band"><div class="cd-bl">${cn()?'业务价值':'Business value'}</div><div class="cd-bc">${chips(cList(c,'value').slice(0,8),'cd-pill')}</div></div>`:''}
-      ${(c.ai_types||[]).length?`<div class="cd-band"><div class="cd-bl">${cn()?'AI 类型':'AI types'}</div><div class="cd-bc">${chips(c.ai_types,'cd-pill')}</div></div>`:''}
-      ${(c.touchpoints||[]).length?`<div class="cd-band"><div class="cd-bl">${cn()?'触点':'Touchpoints'}</div><div class="cd-bc">${chips(c.touchpoints,'cd-pill soft')}</div></div>`:''}
+      ${cList(c,'value').length?`<div class="cd-band"><div class="cd-bl">${cn()?'业务价值':'Business value'}</div><div class="cd-bc">${chips(cList(c,'value').slice(0,8),'cd-serving')}</div></div>`:''}
+      ${(c.ai_types||[]).length?`<div class="cd-band"><div class="cd-bl">${cn()?'AI 类型':'AI types'}</div><div class="cd-bc">${chips(c.ai_types,'cd-serving')}</div></div>`:''}
+      ${(c.touchpoints||[]).length?`<div class="cd-band"><div class="cd-bl">${cn()?'触点':'Touchpoints'}</div><div class="cd-bc">${chips(c.touchpoints,'cd-serving soft')}</div></div>`:''}
       ${cText(c,'result')?`<div class="cd-result" style="--bc:${bc}"><div class="cd-rl">${cn()?'结果 / 证据':'Result / evidence'}</div><div class="cd-rv">${cText(c,'result')}</div></div>`:''}
       <div class="cd-grid">
         ${row('对通用磨坊的意义','Relevance to General Mills',cText(c,'relevance'))}
@@ -379,7 +379,7 @@
     const demoTitle=escJs(bmTitle(x));
     showDetail(`
       <div class="cd-hero" style="--bc:#43A5AD">
-        <div class="cd-brandline"><span class="cd-bdot" style="background:#43A5AD"></span>Blackmores v2 · ${esc(cn()?x.domain_cn:x.domain_en)}</div>
+        <div class="cd-brandline"><span class="cd-bdot" style="background:#43A5AD"></span>GM reusable demo · ${esc(cn()?x.domain_cn:x.domain_en)}</div>
         <div class="cd-tags">
           <span class="cd-tag" style="border-color:#43A5AD;color:#27818a">${x.has_demo?(cn()?'可打开 Demo':'Live demo'):(cn()?'Concept backlog':'Concept backlog')}</span>
           ${(x.brands||[]).map(b=>`<span class="cd-tag soft">${esc(bName(b))}</span>`).join('')}
@@ -395,8 +395,8 @@
         ${row('参考来源客户 / 行业','Reference clients / industries',esc((x.clients||[]).join(' · ')))}
         ${row('所属模块','Reference domain',esc(bmText(x,'domain_desc')))}
       </div>
-      ${scenes&&scenes.length?`<div class="cd-band"><div class="cd-bl">${cn()?'场景要点':'Scenario points'}</div><div class="cd-bc">${chips(scenes,'cd-pill')}</div></div>`:''}
-      ${(x.tags||[]).length?`<div class="cd-band"><div class="cd-bl">${cn()?'标签':'Tags'}</div><div class="cd-bc">${chips(x.tags,'cd-pill soft')}</div></div>`:''}
+      ${scenes&&scenes.length?`<div class="cd-band"><div class="cd-bl">${cn()?'场景要点':'Scenario points'}</div><div class="cd-bc">${chips(scenes,'cd-serving')}</div></div>`:''}
+      ${(x.tags||[]).length?`<div class="cd-band"><div class="cd-bl">${cn()?'标签':'Tags'}</div><div class="cd-bc">${chips(x.tags,'cd-serving soft')}</div></div>`:''}
       ${stages?`<div class="cd-band"><div class="cd-bl">${cn()?'可映射阶段':'Mapped stages'}</div><div class="cd-bc">${stages}</div></div>`:''}`);
   }
 
@@ -405,7 +405,7 @@
     const cl=document.getElementById('caseLayer'); if(cl) cl.classList.remove('open');
     const isDemo=n.proof_status==='Demo Asset';
     const row=(lc,le,v)=>v?`<div class="cd-row"><div class="cd-k">${cn()?lc:le}</div><div class="cd-v">${v}</div></div>`:'';
-    const caps=(n.capabilities||[]).map(x=>`<span class="cd-pill">${x}</span>`).join('');
+    const packs=(n.capabilities||[]).map(x=>`<span class="cd-serving">${x}</span>`).join('');
     const demoAssets=(n.demo_assets&&n.demo_assets.length?n.demo_assets:(n.demos||[]).map(f=>({file:f,label_cn:f,label_en:f,means_cn:'',means_en:''})));
     const demos=demoAssets.map(d=>{
       const dl=DEMO_LABEL[d.file];
@@ -433,7 +433,7 @@
         ${row('还需补齐内容','Content to complete',L(n,'content_to_complete'))}
         ${row('建议下一步','Recommended next step',L(n,'next_step'))}
       </div>
-      ${caps?`<div class="cd-band"><div class="cd-bl">${cn()?'能力模块':'Capabilities'}</div><div class="cd-bc">${caps}</div></div>`:''}
+      ${packs?`<div class="cd-band"><div class="cd-bl">${cn()?'能力模块':'Capabilities'}</div><div class="cd-bc">${packs}</div></div>`:''}
       ${stages?`<div class="cd-band"><div class="cd-bl">${cn()?'适用阶段':'Stages'}</div><div class="cd-bc">${stages}</div></div>`:''}`);
   }
 

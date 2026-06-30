@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Social Hub · Blackmores · Experience Studio</title>
+<title>Social Hub · General Mills · Experience Studio</title>
 <style>
   :root{
     --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
@@ -185,6 +185,8 @@
   .sev.med{background:#fbeed6;color:#b5731a}
   .sev.low{background:var(--soft);color:var(--muted)}
 </style>
+<link rel="stylesheet" href="gm-demo-theme.css">
+<script defer src="gm-demo-brand.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -192,8 +194,8 @@
     <div class="eyebrow" id="heroEye">Social Operations Hub</div><div class="sp"></div>
     <div class="langs" id="langs"></div>
   </div>
-  <h1 class="h" id="heroH">Run Blackmores social listening, publishing and engagement from one operating hub</h1>
-  <p class="hero-lead" id="heroL">One social command center for Blackmores: monitor conversations, create compliant content, reply across channels, coordinate account matrices and launch campaign moments when AI spots demand.</p>
+  <h1 class="h" id="heroH">Run General Mills social listening, publishing and engagement from one operating hub</h1>
+  <p class="hero-lead" id="heroL">One social command center for General Mills: monitor conversations, create compliant content, reply across channels, coordinate account matrices and launch campaign moments when AI spots demand.</p>
   <div class="hero-proof" id="heroProof">
     <span class="pc" id="hp1">Listen across <b>social channels</b></span>
     <span class="pc" id="hp2">Create and publish <b>locally</b></span>
@@ -208,9 +210,9 @@
 <div class="fab" id="fab" title="Switch brand">🎨</div>
 
 <script>
-const BRANDS={blackmores:{logo:"Blackmores",sup:"®",name:"Blackmores",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+const BRANDS={generalmills:{logo:"General Mills",sup:"®",name:"General Mills",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
   bioceuticals:{logo:"BioCeuticals",sup:"",name:"BioCeuticals",c:["#1b3a5c","#10243a","#e7edf3","#c9a24a"]},
-  paw:{logo:"PAW by Blackmores",sup:"",name:"PAW by Blackmores",c:["#2e7d32","#1b5e20","#e7f3e8","#7cb342"]}};
+  paw:{logo:"PAW by General Mills",sup:"",name:"PAW by General Mills",c:["#2e7d32","#1b5e20","#e7f3e8","#7cb342"]}};
 const PLATS=[["📸","Instagram"],["📕","RED (小红书)"],["💬","WeChat"],["🎵","TikTok"],["🎬","Douyin"],["📲","WhatsApp"]];
 const FOLLOW=[["Instagram",26],["WeChat",22],["RED (小红书)",20],["Douyin",14],["TikTok",10],["WhatsApp / LINE",8]];
 const CHANNELS=[{em:"💬",n:{ja:"WeChat 公式アカウント",en:"WeChat Official Account",zh:"WeChat 公众号",th:"WeChat Official Account"},ok:1,f:"1.46M",e:"6.8%"},{em:"📹",n:{ja:"WeChat Channels (視頻号)",en:"WeChat Channels (视频号)",zh:"WeChat 视频号",th:"WeChat Channels (视频号)"},ok:1,f:"410K",e:"5.4%"},
@@ -220,31 +222,31 @@ const CHANNELS=[{em:"💬",n:{ja:"WeChat 公式アカウント",en:"WeChat Offic
   {em:"🎵",n:{ja:"TikTok",en:"TikTok",zh:"TikTok",th:"TikTok"},ok:1,f:"263K",e:"6.1%"},{em:"▶️",n:{ja:"YouTube",en:"YouTube",zh:"YouTube",th:"YouTube"},ok:1,f:"118K",e:"5.2%"},
   {em:"📲",n:{ja:"WhatsApp (SEA)",en:"WhatsApp (SEA)",zh:"WhatsApp (东南亚)",th:"WhatsApp (SEA)"},ok:1,f:"94.0K",e:"11.4%"},
   {em:"💚",n:{ja:"LINE (日本)",en:"LINE (Japan)",zh:"LINE (日本)",th:"LINE (Japan)"},ok:0,f:"71.4K",e:"3.9%"}];
-const MATRIX=[{role:{en:"Global HQ",zh:"全球总部",ja:"グローバル本社",th:"สำนักงานใหญ่"},acc:{ja:["Blackmores Official"],en:["Blackmores Official"],zh:["Blackmores 官方"],th:["Blackmores Official"]}},
+const MATRIX=[{role:{en:"Global HQ",zh:"全球总部",ja:"グローバル本社",th:"สำนักงานใหญ่"},acc:{ja:["General Mills Official"],en:["General Mills Official"],zh:["General Mills 官方"],th:["General Mills Official"]}},
   {role:{en:"China",zh:"中国",ja:"中国",th:"จีน"},acc:{ja:["WeChat 公众号","视频号","Weibo","小红书","Douyin"],en:["WeChat OA","Channels","Weibo","RED","Douyin"],zh:["WeChat 公众号","视频号","微博","小红书","抖音"],th:["WeChat OA","Channels","Weibo","RED","Douyin"]}},
   {role:{en:"ANZ",zh:"澳新",ja:"豪州・NZ",th:"ANZ"},acc:{ja:["Instagram","Facebook","TikTok","YouTube"],en:["Instagram","Facebook","TikTok","YouTube"],zh:["Instagram","Facebook","TikTok","YouTube"],th:["Instagram","Facebook","TikTok","YouTube"]}},
   {role:{en:"SEA",zh:"东南亚",ja:"東南アジア",th:"อาเซียน"},acc:{ja:["WhatsApp","Facebook","Instagram","TikTok"],en:["WhatsApp","Facebook","Instagram","TikTok"],zh:["WhatsApp","Facebook","Instagram","TikTok"],th:["WhatsApp","Facebook","Instagram","TikTok"]}},
   {role:{en:"Japan",zh:"日本",ja:"日本",th:"ญี่ปุ่น"},acc:{ja:["LINE","Instagram JP","Amazon JPレビュー"],en:["LINE","Instagram JP","Amazon JP reviews"],zh:["LINE","Instagram 日本","Amazon JP 评论"],th:["LINE","Instagram JP","Amazon JP reviews"]}},
-  {role:{en:"Retail partners",zh:"渠道零售伙伴",ja:"小売パートナー",th:"พันธมิตรค้าปลีก"},acc:{ja:["Chemist Warehouse","Watsons SG","Guardian MY","+5"],en:["Chemist Warehouse","Watsons SG","Guardian MY","+5"],zh:["Chemist Warehouse","Watsons SG","Guardian MY","+5"],th:["Chemist Warehouse","Watsons SG","Guardian MY","+5"]}},
-  {role:{en:"KOL/KOC",zh:"KOL/KOC",ja:"インフルエンサー",th:"KOL/KOC"},acc:{ja:["@wellness_amy","@gym_dad_syd","@vitamin_mum_sg","+12"],en:["@wellness_amy","@gym_dad_syd","@vitamin_mum_sg","+12"],zh:["@wellness_amy","@gym_dad_syd","@vitamin_mum_sg","+12"],th:["@wellness_amy","@gym_dad_syd","@vitamin_mum_sg","+12"]}}];
+  {role:{en:"Retail partners",zh:"渠道零售伙伴",ja:"小売パートナー",th:"พันธมิตรค้าปลีก"},acc:{ja:["retail store Warehouse","Watsons SG","Guardian MY","+5"],en:["retail store Warehouse","Watsons SG","Guardian MY","+5"],zh:["retail store Warehouse","Watsons SG","Guardian MY","+5"],th:["retail store Warehouse","Watsons SG","Guardian MY","+5"]}},
+  {role:{en:"KOL/KOC",zh:"KOL/KOC",ja:"インフルエンサー",th:"KOL/KOC"},acc:{ja:["@everyday enjoyment_amy","@gym_dad_syd","@product_household_sg","+12"],en:["@everyday enjoyment_amy","@gym_dad_syd","@product_household_sg","+12"],zh:["@everyday enjoyment_amy","@gym_dad_syd","@product_household_sg","+12"],th:["@everyday enjoyment_amy","@gym_dad_syd","@product_household_sg","+12"]}}];
 const INBOX=[
-  {n:{ja:"@wellness_amy",en:"@wellness_amy",zh:"@wellness_amy",th:"@wellness_amy"},ch:"📕",col:"#e0564a",s:"pos",t:{en:"Blackmores Fish Oil is part of my daily routine now! Stocked in China?",zh:"澳佳宝鱼油已成日常!中国有货吗?",ja:"ブラックモアズのフィッシュオイルが日課に!中国でも買える?",th:"Blackmores Fish Oil เป็นกิจวัตรแล้ว! มีขายในจีนไหม?"},
-   reply:{en:"Thank you! 💙 So happy Fish Oil 1000 supports your daily routine. Available on our Tmall Global flagship and cross-border RED store — want a link when the immunity-season bundle drops? 📍",zh:"谢谢!💙 很开心鱼油 1000 成为你的日常。天猫国际旗舰店与小红书跨境店均有售——免疫季套装上线要给你链接吗?📍",ja:"ありがとうございます!💙 フィッシュオイル1000が毎日の習慣を支えられて嬉しいです。天猫国際の旗艦店と小紅書クロスボーダー店で販売中。免疫シーズンのバンドル発売時にリンクをお送りしますか?📍",th:"ขอบคุณค่ะ! 💙 ดีใจที่ Fish Oil 1000 ช่วยกิจวัตรประจำวัน มีจำหน่ายที่ร้าน Tmall Global และ RED ข้ามพรมแดน อยากได้ลิงก์ตอนเซ็ตฤดูภูมิคุ้มกันออกไหม? 📍"}},
-  {n:{ja:"@gym_dad_syd",en:"@gym_dad_syd",zh:"@gym_dad_syd",th:"@gym_dad_syd"},ch:"📸",col:"#c1397f",s:"neu",t:{en:"Glucosamine vs your Joint Formula — which for runners?",zh:"氨糖和你们的关节配方——跑者选哪个?",ja:"グルコサミンと関節フォーミュラ、ランナー向けは?",th:"Glucosamine กับ Joint Formula — นักวิ่งเลือกตัวไหน?"},
-   reply:{en:"Great question! Glucosamine 1500 and Joint Formula Advanced differ in dose and added ingredients — check the label for the full breakdown. Happy to suggest which suits a running routine 💪",zh:"好问题!氨糖 1500 与关节配方加强版在剂量和成分上不同——完整信息请见标签。也可帮你判断哪个更适合跑步日常 💪",ja:"良い質問!グルコサミン1500と関節フォーミュラ アドバンスは用量や配合成分が異なります。詳細はラベルをご確認ください。ランニングに合う方をご提案します💪",th:"คำถามดีมาก! Glucosamine 1500 กับ Joint Formula Advanced ต่างกันที่ปริมาณและส่วนผสม ดูรายละเอียดที่ฉลาก ยินดีแนะนำตัวที่เหมาะกับการวิ่ง 💪"}},
-  {n:{ja:"@new_mum_mel",en:"@new_mum_mel",zh:"@new_mum_mel",th:"@new_mum_mel"},ch:"💬",col:"#06c755",s:"q",guard:1,t:{en:"Can Pregnancy Gold cure my morning sickness?",zh:"孕妇黄金营养素能治好我的孕吐吗?",ja:"プレグナンシー ゴールドでつわりは治りますか?",th:"Pregnancy Gold รักษาแพ้ท้องได้ไหม?"},
-   reply:{en:"Thanks for asking 💙 Pregnancy Gold is a supplement, not a medicine — it can't treat or cure a condition. Always read the label and consult your doctor or midwife about symptoms during pregnancy. Happy to share the ingredient list for reference!",zh:"谢谢提问 💙 孕妇黄金营养素是膳食补充剂而非药品,不能治疗或治愈症状。请务必阅读标签,孕期不适请咨询医生或助产士。需要的话我把成分表发你参考!",ja:"ご質問ありがとうございます💙 プレグナンシー ゴールドはサプリメントであり医薬品ではないため、症状を治療・改善するものではありません。必ずラベルをお読みになり、妊娠中の症状は医師や助産師にご相談ください。成分表をお送りします!",th:"ขอบคุณที่ถาม 💙 Pregnancy Gold เป็นอาหารเสริมไม่ใช่ยา จึงไม่สามารถรักษาอาการได้ โปรดอ่านฉลากเสมอ และปรึกษาแพทย์หรือผดุงครรภ์เรื่องอาการระหว่างตั้งครรภ์ ยินดีส่งรายการส่วนผสมให้อ้างอิง!"}},
-  {n:{ja:"@vitamin_mum_sg",en:"@vitamin_mum_sg",zh:"@vitamin_mum_sg",th:"@vitamin_mum_sg"},ch:"📲",col:"#25d366",s:"q",t:{en:"Can Kids Multi be taken together with gummies from another brand?",zh:"儿童复合维生素能和别的品牌软糖一起吃吗?",ja:"キッズマルチは他社グミと一緒に飲めますか?",th:"Kids Multi ทานพร้อมกัมมี่แบรนด์อื่นได้ไหม?"},
-   reply:{en:"Thanks for checking first. Please compare the ingredient panels to avoid doubling up on vitamins or minerals, and follow the directions on each label. For a child's individual needs, a pharmacist or healthcare professional can advise best.",zh:"谢谢先来确认。建议对比两款产品的成分表,避免维生素或矿物质重复摄入,并按各自标签说明使用。儿童个体情况请咨询药师或专业人士。",ja:"事前確認ありがとうございます。ビタミンやミネラルの重複を避けるため、成分表示を比較し、各ラベルの用法に従ってください。お子さま個別の状況は薬剤師または医療専門家へご相談ください。",th:"ขอบคุณที่สอบถามก่อนค่ะ โปรดเทียบฉลากส่วนผสมเพื่อหลีกเลี่ยงวิตามินหรือแร่ธาตุซ้ำ และทำตามคำแนะนำบนฉลาก หากเป็นความต้องการเฉพาะของเด็ก แนะนำปรึกษาเภสัชกรหรือผู้เชี่ยวชาญสุขภาพ"}},
-  {n:{ja:"Lina Chen",en:"Lina Chen",zh:"Lina Chen",th:"Lina Chen"},ch:"💬",col:"#06c755",s:"neg",t:{en:"My Tmall Global immunity bundle has not moved for 5 days.",zh:"我在天猫国际买的免疫套装 5 天没物流更新了。",ja:"天猫国際の免疫バンドルが5日間動いていません。",th:"เซ็ตภูมิคุ้มกันจาก Tmall Global ไม่อัปเดต 5 วันแล้ว"},
+  {n:{ja:"@everyday enjoyment_amy",en:"@everyday enjoyment_amy",zh:"@everyday enjoyment_amy",th:"@everyday enjoyment_amy"},ch:"📕",col:"#e0564a",s:"pos",t:{en:"General Mills Wanchai Ferry Dumplings is part of my daily routine now! Stocked in China?",zh:"通用磨坊湾仔码头水饺已成日常!中国有货吗?",ja:"General Millsのフィッシュオイルが日課に!中国でも買える?",th:"General Mills Wanchai Ferry Dumplings เป็นกิจวัตรแล้ว! มีขายในจีนไหม?"},
+   reply:{en:"Thank you! 💙 So happy Wanchai Ferry Dumpling Pack supports your daily routine. Available on our Tmall Global flagship and cross-border RED store — want a link when the seasonal occasion-season bundle drops? 📍",zh:"谢谢!💙 很开心湾仔码头水饺 1000 成为你的日常。天猫国际旗舰店与小红书跨境店均有售——季节场景季套装上线要给你链接吗?📍",ja:"ありがとうございます!💙 フィッシュオイル1000が毎日の習慣を支えられて嬉しいです。天猫国際の旗艦店と小紅書クロスボーダー店で販売中。季节场景シーズンのバンドル発売時にリンクをお送りしますか?📍",th:"ขอบคุณค่ะ! 💙 ดีใจที่ Wanchai Ferry Dumpling Pack ช่วยกิจวัตรประจำวัน มีจำหน่ายที่ร้าน Tmall Global และ RED ข้ามพรมแดน อยากได้ลิงก์ตอนเซ็ตฤดูโอกาสตามฤดูกาลออกไหม? 📍"}},
+  {n:{ja:"@gym_dad_syd",en:"@gym_dad_syd",zh:"@gym_dad_syd",th:"@gym_dad_syd"},ch:"📸",col:"#c1397f",s:"neu",t:{en:"Wanchai Ferry Wontons vs your Family meal Formula — which for runners?",zh:"氨糖和你们的家庭餐配方——跑者选哪个?",ja:"グルコサミンとファミリーミールフォーミュラ、ランナー向けは?",th:"Wanchai Ferry Wontons กับ Family meal Formula — นักวิ่งเลือกตัวไหน?"},
+   reply:{en:"Great question! Wanchai Ferry Wonton Pack and Family meal Formula Advanced differ in dose and added ingredients — check the label for the full breakdown. Happy to suggest which suits a running routine 💪",zh:"好问题!氨糖 1500 与家庭餐配方加强版在用量和成分上不同——完整信息请见标签。也可帮你判断哪个更适合跑步日常 💪",ja:"良い質問!グルコサミン1500とファミリーミールフォーミュラ アドバンスは用量や配合成分が異なります。詳細はラベルをご確認ください。ランニングに合う方をご提案します💪",th:"คำถามดีมาก! Wanchai Ferry Wonton Pack กับ Family meal Formula Advanced ต่างกันที่ปริมาณและส่วนผสม ดูรายละเอียดที่ฉลาก ยินดีแนะนำตัวที่เหมาะกับการวิ่ง 💪"}},
+  {n:{ja:"@new_household_mel",en:"@new_household_mel",zh:"@new_household_mel",th:"@new_household_mel"},ch:"💬",col:"#06c755",s:"q",guard:1,t:{en:"Can Celebration Gold cure my morning sickness?",zh:"哈根达斯庆祝蛋糕能治好我的礼赠选择困难吗?",ja:"プレグナンシー ゴールドでつわりは治りますか?",th:"Celebration Gold รักษาแพ้ท้องได้ไหม?"},
+   reply:{en:"Thanks for asking 💙 Celebration Gold is a product, not a dietary requirement — it can't treat or cure a condition. Always read the label and consult your household preference or midwife about symptoms during celebration. Happy to share the ingredient list for reference!",zh:"谢谢提问 💙 哈根达斯庆祝蛋糕是食品产品而非药品,不能治疗或治愈症状。请务必阅读标签,礼赠场景不适请确认家庭偏好与过敏原或助产士。需要的话我把成分表发你参考!",ja:"ご質問ありがとうございます💙 プレグナンシー ゴールドはプロダクトメントであり医薬品ではないため、症状を治療・改善するものではありません。必ずラベルをお読みになり、ギフト中の症状は医師や助産師にご相談ください。成分表をお送りします!",th:"ขอบคุณที่ถาม 💙 Celebration Gold เป็นอาหารเสริมไม่ใช่ยา จึงไม่สามารถรักษาอาการได้ โปรดอ่านฉลากเสมอ และปรึกษาแพทย์หรือผดุงครรภ์เรื่องอาการระหว่างตั้งครรภ์ ยินดีส่งรายการส่วนผสมให้อ้างอิง!"}},
+  {n:{ja:"@product_household_sg",en:"@product_household_sg",zh:"@product_household_sg",th:"@product_household_sg"},ch:"📲",col:"#25d366",s:"q",t:{en:"Can Family Meal Pack be taken together with gummies from another brand?",zh:"儿童通用磨坊组合包能和别的品牌软糖一起吃吗?",ja:"キッズマルチは他社グミと一緒に飲めますか?",th:"Family Meal Pack ทานพร้อมกัมมี่แบรนด์อื่นได้ไหม?"},
+   reply:{en:"Thanks for checking first. Please compare the ingredient panels to avoid doubling up on products or minerals, and follow the directions on each label. For a child's individual needs, a store advisor or service advisor can advise best.",zh:"谢谢先来确认。建议对比两款产品的成分表,避免产品或矿物质重复摄入,并按各自标签说明使用。儿童个体情况请咨询门店顾问或专业人士。",ja:"事前確認ありがとうございます。プロダクトやミネラルの重複を避けるため、成分表示を比較し、各ラベルの用法に従ってください。お子さま個別の状況は薬剤師または医療専門家へご相談ください。",th:"ขอบคุณที่สอบถามก่อนค่ะ โปรดเทียบฉลากส่วนผสมเพื่อหลีกเลี่ยงผลิตภัณฑ์หรือแร่ธาตุซ้ำ และทำตามคำแนะนำบนฉลาก หากเป็นความต้องการเฉพาะของเด็ก แนะนำปรึกษาเภสัชกรหรือผู้เชี่ยวชาญสุขภาพ"}},
+  {n:{ja:"Lina Chen",en:"Lina Chen",zh:"Lina Chen",th:"Lina Chen"},ch:"💬",col:"#06c755",s:"neg",t:{en:"My Tmall Global seasonal occasion bundle has not moved for 5 days.",zh:"我在天猫国际买的季节场景套装 5 天没物流更新了。",ja:"天猫国際の季节场景バンドルが5日間動いていません。",th:"เซ็ตโอกาสตามฤดูกาลจาก Tmall Global ไม่อัปเดต 5 วันแล้ว"},
    reply:{en:"Sorry for the wait, Lina. Please DM your order number and mobile suffix — we'll check with the cross-border warehouse and courier today, then update you with the next scan or replacement option.",zh:"Lina, 很抱歉让你久等了。请私信订单号和手机号后四位,我们今天会同步跨境仓与承运商,并把下一次物流扫描或补发方案反馈给你。",ja:"お待たせして申し訳ありません。注文番号と携帯番号末尾をDMください。本日クロスボーダー倉庫と配送会社に確認し、次の追跡情報または代替対応をご案内します。",th:"ขออภัยที่ต้องรอค่ะ Lina กรุณา DM เลขออเดอร์และท้ายเบอร์มือถือ เราจะตรวจสอบกับคลังข้ามพรมแดนและขนส่งวันนี้ แล้วแจ้งสถานะหรือทางเลือกจัดส่งใหม่"}},
-  {n:{ja:"@runwithtom",en:"@runwithtom",zh:"@runwithtom",th:"@runwithtom"},ch:"🎵",col:"#111111",s:"pos",guard:1,t:{en:"Loved the magnesium reel. Can it fix cramps after night runs?",zh:"很喜欢镁的短视频。它能治夜跑后的抽筋吗?",ja:"マグネシウムの動画良かったです。夜ラン後のけいれんに効きますか?",th:"ชอบรีล Magnesium มาก มันแก้ตะคริวหลังวิ่งกลางคืนได้ไหม?"},
-   reply:{en:"Glad you liked it! Magnesium supports muscle function, but it is not intended to diagnose, treat or cure cramps. Please read the label and use only as directed; persistent symptoms should be discussed with a healthcare professional.",zh:"很高兴你喜欢!镁有助于支持肌肉功能,但不能用于诊断、治疗或治愈抽筋。请阅读标签并按说明使用;如症状持续,建议咨询专业人士。",ja:"気に入っていただけて嬉しいです!マグネシウムは筋肉機能をサポートしますが、けいれんの診断・治療・治癒を目的とするものではありません。ラベルを読み、用法に従ってください。症状が続く場合は専門家にご相談を。",th:"ดีใจที่ชอบค่ะ! Magnesium ช่วยสนับสนุนการทำงานของกล้ามเนื้อ แต่ไม่ได้ใช้วินิจฉัย รักษา หรือหายจากตะคริว โปรดอ่านฉลากและใช้ตามคำแนะนำ หากอาการต่อเนื่องควรปรึกษาผู้เชี่ยวชาญ"}},
-  {n:{ja:"Aiko Sato",en:"Aiko Sato",zh:"Aiko Sato",th:"Aiko Sato"},ch:"💚",col:"#06c755",s:"q",guard:1,t:{en:"Does Sleep Support include melatonin? I want something gentle.",zh:"Sleep Support 里面有褪黑素吗?我想要温和一点的。",ja:"スリープサポートにメラトニンは入っていますか?やさしいものを探しています。",th:"Sleep Support มีเมลาโทนินไหม? อยากได้แบบอ่อนโยน"},
-   reply:{en:"Thanks, Aiko. Please check the local Japan label for the current ingredient list, as formulas can vary by market. If you are pregnant, taking medication, or have a health condition, consult a healthcare professional before use.",zh:"Aiko, 谢谢提问。请以日本当地产品标签上的最新成分表为准,不同市场配方可能不同。如处于孕期、正在用药或有健康状况,使用前请咨询专业人士。",ja:"Aikoさん、ありがとうございます。成分は市場により異なる場合があるため、日本向け製品ラベルの最新表示をご確認ください。妊娠中、服薬中、または健康上の不安がある場合は使用前に専門家へご相談ください。",th:"ขอบคุณค่ะ Aiko โปรดดูรายการส่วนผสมล่าสุดบนฉลากญี่ปุ่น เพราะสูตรอาจต่างกันตามตลาด หากตั้งครรภ์ ใช้ยา หรือมีภาวะสุขภาพ ควรปรึกษาผู้เชี่ยวชาญก่อนใช้"}},
-  {n:{ja:"@petparent_au",en:"@petparent_au",zh:"@petparent_au",th:"@petparent_au"},ch:"📸",col:"#2e7d32",s:"q",t:{en:"PAW fish oil for my senior dog — how do I start?",zh:"想给家里的老年犬用 PAW 鱼油,应该怎么开始?",ja:"シニア犬にPAWフィッシュオイルを始めたいです。どうすれば?",th:"อยากเริ่ม PAW fish oil ให้น้องหมาสูงวัย ต้องทำอย่างไร?"},
-   reply:{en:"Lovely to hear from a PAW parent. Start by checking the dosage guide by pet weight on the label, and introduce gradually with food. For senior pets or existing conditions, your vet can confirm what suits best.",zh:"很高兴收到 PAW 家长的提问。请先按标签上的体重剂量指南使用,并逐步拌入食物。老年宠物或有既往情况时,建议让兽医确认最适合的方案。",ja:"PAWのペットオーナーさんからのご質問ありがとうございます。ラベルの体重別目安を確認し、食事に混ぜて少量から始めてください。シニア犬や持病がある場合は獣医師にご相談ください。",th:"ยินดีที่ได้ยินจากผู้ปกครอง PAW ค่ะ เริ่มจากดูคำแนะนำปริมาณตามน้ำหนักบนฉลาก และค่อยๆ ผสมกับอาหาร สำหรับสัตว์สูงวัยหรือมีโรคประจำตัว ควรให้สัตวแพทย์ช่วยแนะนำ"}},
-  {n:{ja:"@chemist_fan",en:"@chemist_fan",zh:"@chemist_fan",th:"@chemist_fan"},ch:"📘",col:"#1877f2",s:"neg",t:{en:"Why is the online price higher than the Chemist Warehouse promo?",zh:"为什么官网价比 Chemist Warehouse 促销价高?",ja:"オンライン価格がChemist Warehouseのセールより高いのはなぜ?",th:"ทำไมราคาออนไลน์สูงกว่าโปร Chemist Warehouse?"},
+  {n:{ja:"@runwithtom",en:"@runwithtom",zh:"@runwithtom",th:"@runwithtom"},ch:"🎵",col:"#111111",s:"pos",guard:1,t:{en:"Loved the workday snack reel. Can it fix cramps after night runs?",zh:"很喜欢镁的短视频。它能治夜跑后的抽筋吗?",ja:"マグネシウムの動画良かったです。夜ラン後のけいれんに効きますか?",th:"ชอบรีล Workday Snack มาก มันแก้ตะคริวหลังวิ่งกลางคืนได้ไหม?"},
+   reply:{en:"Glad you liked it! Workday Snack supports muscle function, but it is not intended to diagnose, treat or cure cramps. Please read the label and use only as directed; persistent symptoms should be discussed with a service advisor.",zh:"很高兴你喜欢!镁有助于支持肌肉功能,但不能用于诊断、治疗或治愈抽筋。请阅读标签并按说明使用;如症状持续,建议咨询专业人士。",ja:"気に入っていただけて嬉しいです!マグネシウムは筋肉機能をサポートしますが、けいれんの診断・治療・治癒を目的とするものではありません。ラベルを読み、用法に従ってください。症状が続く場合は専門家にご相談を。",th:"ดีใจที่ชอบค่ะ! Workday Snack ช่วยสนับสนุนการทำงานของกล้ามเนื้อ แต่ไม่ได้ใช้วินิจฉัย รักษา หรือหายจากตะคริว โปรดอ่านฉลากและใช้ตามคำแนะนำ หากอาการต่อเนื่องควรปรึกษาผู้เชี่ยวชาญ"}},
+  {n:{ja:"Aiko Sato",en:"Aiko Sato",zh:"Aiko Sato",th:"Aiko Sato"},ch:"💚",col:"#06c755",s:"q",guard:1,t:{en:"Does Häagen-Dazs Evening Dessert include melatonin? I want something gentle.",zh:"Häagen-Dazs Evening Dessert 里面有褪黑素吗?我想要温和一点的。",ja:"スリープサポートにメラトニンは入っていますか?やさしいものを探しています。",th:"Häagen-Dazs Evening Dessert มีเมลาโทนินไหม? อยากได้แบบอ่อนโยน"},
+   reply:{en:"Thanks, Aiko. Please check the local Japan label for the current ingredient list, as formulas can vary by market. If you are pregnant, taking dietary restrictions, or have a health condition, consult a service advisor before use.",zh:"Aiko, 谢谢提问。请以日本当地产品标签上的最新成分表为准,不同市场配方可能不同。如处于礼赠场景、正在用药或有健康状况,使用前请咨询专业人士。",ja:"Aikoさん、ありがとうございます。成分は市場により異なる場合があるため、日本向け製品ラベルの最新表示をご確認ください。ギフト中、服薬中、または健康上の不安がある場合は使用前に専門家へご相談ください。",th:"ขอบคุณค่ะ Aiko โปรดดูรายการส่วนผสมล่าสุดบนฉลากญี่ปุ่น เพราะสูตรอาจต่างกันตามตลาด หากตั้งครรภ์ ใช้ยา หรือมีภาวะสุขภาพ ควรปรึกษาผู้เชี่ยวชาญก่อนใช้"}},
+  {n:{ja:"@petparent_au",en:"@petparent_au",zh:"@petparent_au",th:"@petparent_au"},ch:"📸",col:"#2e7d32",s:"q",t:{en:"PAW Wanchai Ferry dumplings for my senior dog — how do I start?",zh:"想给家里的老年犬用 PAW 湾仔码头水饺,应该怎么开始?",ja:"シニア犬にPAWフィッシュオイルを始めたいです。どうすれば?",th:"อยากเริ่ม PAW Wanchai Ferry dumplings ให้น้องหมาสูงวัย ต้องทำอย่างไร?"},
+   reply:{en:"Lovely to hear from a PAW parent. Start by checking the serving guide by pet weight on the label, and introduce gradually with food. For senior pets or existing conditions, your vet can confirm what suits best.",zh:"很高兴收到 PAW 家长的提问。请先按标签上的体重用量指南使用,并逐步拌入食物。老年宠物或有既往情况时,建议让兽医确认最适合的方案。",ja:"PAWのペットオーナーさんからのご質問ありがとうございます。ラベルの体重別目安を確認し、食事に混ぜて少量から始めてください。シニア犬や持病がある場合は獣医師にご相談ください。",th:"ยินดีที่ได้ยินจากผู้ปกครอง PAW ค่ะ เริ่มจากดูคำแนะนำปริมาณตามน้ำหนักบนฉลาก และค่อยๆ ผสมกับอาหาร สำหรับสัตว์สูงวัยหรือมีโรคประจำตัว ควรให้สัตวแพทย์ช่วยแนะนำ"}},
+  {n:{ja:"@retail store_fan",en:"@retail store_fan",zh:"@retail store_fan",th:"@retail store_fan"},ch:"📘",col:"#1877f2",s:"neg",t:{en:"Why is the online price higher than the retail store Warehouse promo?",zh:"为什么官网价比 retail store Warehouse 促销价高?",ja:"オンライン価格がretail store Warehouseのセールより高いのはなぜ?",th:"ทำไมราคาออนไลน์สูงกว่าโปร retail store Warehouse?"},
    reply:{en:"Thanks for flagging. Retail promotions can vary by partner, timing and bundle. We'll pass this to the ANZ trade team; meanwhile, our site shows current member offers and product information in one place.",zh:"谢谢提醒。不同零售伙伴、时间和套装的促销会有差异,我们会同步给澳新渠道团队。同时官网可查看当前会员优惠与完整产品信息。",ja:"ご指摘ありがとうございます。小売パートナー、時期、バンドルによりプロモーションは異なります。豪州NZの営業チームへ共有します。公式サイトでは会員特典と製品情報をまとめて確認できます。",th:"ขอบคุณที่แจ้งค่ะ โปรโมชันอาจต่างกันตามพันธมิตร เวลา และเซ็ตสินค้า เราจะส่งต่อให้ทีมการค้า ANZ ระหว่างนี้เว็บไซต์มีข้อเสนอสมาชิกและข้อมูลสินค้าไว้ในที่เดียว"}}];
 const SENT={pos:{c:"var(--pos)",t:{en:"Positive",zh:"正面",ja:"ポジ",th:"บวก"}},neu:{c:"var(--neu)",t:{en:"Neutral",zh:"中性",ja:"中立",th:"กลาง"}},
   neg:{c:"var(--neg)",t:{en:"Negative",zh:"负面",ja:"ネガ",th:"ลบ"}},q:{c:"var(--neu)",t:{en:"Question",zh:"提问",ja:"質問",th:"คำถาม"}}};
@@ -252,35 +254,35 @@ const REPTPL=[{c:{en:"Inquiry",zh:"咨询",ja:"問合せ",th:"สอบถาม
   {c:{en:"Complaint",zh:"投诉",ja:"苦情",th:"ร้องเรียน"},x:{en:"So sorry to hear that — let's make it right…",zh:"很抱歉给你带来困扰——我们来解决…",ja:"申し訳ありません — すぐ対応します…",th:"ขออภัยจริงๆ — เราจะแก้ไขให้…"}},
   {c:{en:"Praise",zh:"好评",ja:"称賛",th:"ชื่นชม"},x:{en:"Thank you so much! 💚 Made our day…",zh:"太感谢了!💚 你让我们超开心…",ja:"ありがとうございます!💚…",th:"ขอบคุณมาก! 💚…"}},
   {c:{en:"Shipping",zh:"物流",ja:"配送",th:"จัดส่ง"},x:{en:"Your order is on the way — here's the tracking…",zh:"你的订单在路上了——这是追踪链接…",ja:"発送済みです — 追跡はこちら…",th:"พัสดุกำลังจัดส่ง — ติดตามได้ที่…"}}];
-const HISTORY=[{s:"sent",who:{ja:"@wellness_amy",en:"@wellness_amy",zh:"@wellness_amy",th:"@wellness_amy"},t:{en:"Replied · store availability",zh:"已回复 · 门店库存",ja:"返信済 · 在庫",th:"ตอบแล้ว · สต็อก"},ago:"2h"},
+const HISTORY=[{s:"sent",who:{ja:"@everyday enjoyment_amy",en:"@everyday enjoyment_amy",zh:"@everyday enjoyment_amy",th:"@everyday enjoyment_amy"},t:{en:"Replied · store availability",zh:"已回复 · 门店库存",ja:"返信済 · 在庫",th:"ตอบแล้ว · สต็อก"},ago:"2h"},
   {s:"sent",who:{ja:"Emma Wright",en:"Emma Wright",zh:"Emma Wright",th:"Emma Wright"},t:{en:"Replied · price question",zh:"已回复 · 价格问题",ja:"返信済 · 価格",th:"ตอบแล้ว · ราคา"},ago:"5h"},
-  {s:"pend",who:{ja:"@gym_dad_syd",en:"@gym_dad_syd",zh:"@gym_dad_syd",th:"@gym_dad_syd"},t:{en:"Pending approval · supplement claim",zh:"待审核 · 保健功效相关",ja:"承認待ち · サプリ表示の確認",th:"รออนุมัติ · การอ้างสรรพคุณอาหารเสริม"},ago:"6h"},
-  {s:"sent",who:{ja:"@vitamin_mum_sg",en:"@vitamin_mum_sg",zh:"@vitamin_mum_sg",th:"@vitamin_mum_sg"},t:{en:"Replied · children supplement guidance",zh:"已回复 · 儿童营养补充建议",ja:"返信済 · キッズサプリ案内",th:"ตอบแล้ว · คำแนะนำเด็ก"},ago:"8h"},
+  {s:"pend",who:{ja:"@gym_dad_syd",en:"@gym_dad_syd",zh:"@gym_dad_syd",th:"@gym_dad_syd"},t:{en:"Pending approval · product claim",zh:"待审核 · 品牌功效相关",ja:"承認待ち · プロダクト表示の確認",th:"รออนุมัติ · การอ้างสรรพคุณอาหารเสริม"},ago:"6h"},
+  {s:"sent",who:{ja:"@product_household_sg",en:"@product_household_sg",zh:"@product_household_sg",th:"@product_household_sg"},t:{en:"Replied · children product guidance",zh:"已回复 · 儿童营养补充建议",ja:"返信済 · キッズプロダクト案内",th:"ตอบแล้ว · คำแนะนำเด็ก"},ago:"8h"},
   {s:"pend",who:{ja:"Aiko Sato",en:"Aiko Sato",zh:"Aiko Sato",th:"Aiko Sato"},t:{en:"Pending Japan label check",zh:"待确认日本标签",ja:"日本ラベル確認待ち",th:"รอตรวจฉลากญี่ปุ่น"},ago:"11h"},
-  {s:"sent",who:{ja:"@petparent_au",en:"@petparent_au",zh:"@petparent_au",th:"@petparent_au"},t:{en:"Replied · PAW dosage guide",zh:"已回复 · PAW 剂量指南",ja:"返信済 · PAW用量目安",th:"ตอบแล้ว · คู่มือ PAW"},ago:"17h"},
+  {s:"sent",who:{ja:"@petparent_au",en:"@petparent_au",zh:"@petparent_au",th:"@petparent_au"},t:{en:"Replied · PAW serving guide",zh:"已回复 · PAW 用量指南",ja:"返信済 · PAW用量目安",th:"ตอบแล้ว · คู่มือ PAW"},ago:"17h"},
   {s:"fail",who:{ja:"匿名",en:"Anonymous",zh:"匿名",th:"ไม่ระบุชื่อ"},t:{en:"Failed · account re-auth needed",zh:"失败 · 需重新授权",ja:"失敗 · 再認証必要",th:"ล้มเหลว · ต้องยืนยันบัญชีใหม่"},ago:"1d"}];
 const DLAB={time:{en:"time",zh:"时间",ja:"時期",th:"เวลา"},target:{en:"target",zh:"对象",ja:"対象",th:"กลุ่มเป้าหมาย"},mix:{en:"mix",zh:"组合",ja:"商品",th:"สินค้า"},channels:{en:"channels",zh:"渠道",ja:"チャネル",th:"ช่องทาง"}};
 const AIRECS=[
-  {t:{en:"Immunity-season Vitamin C + Zinc push (China)",zh:"免疫季 维C+锌 主推(中国)",ja:"免疫シーズン ビタミンC+亜鉛(中国)",th:"ดันวิตามินซี+สังกะสีฤดูภูมิคุ้มกัน (จีน)"},
-   w:{en:"RED searches for 'immunity supplement' up sharply ahead of flu season — a Vitamin C + Zinc bundle can capture the surge.",zh:"流感季前小红书「免疫补充」搜索激增——维C+锌套装可承接这波流量。",ja:"インフルシーズン前にREDで「免疫サプリ」検索が急増 — ビタミンC+亜鉛のバンドルで需要を取り込み。",th:"การค้นหา 'อาหารเสริมภูมิคุ้มกัน' บน RED พุ่งก่อนฤดูไข้หวัด — เซ็ตวิตามินซี+สังกะสีรับกระแสได้"},
-   d:[["time",{en:"Starts next Monday",zh:"下周一启动",ja:"来週月曜スタート",th:"เริ่มจันทร์หน้า"}],["target",{en:"China · health-conscious 25-40",zh:"中国 · 注重健康 25-40 岁",ja:"中国・健康志向 25-40代",th:"จีน · ใส่ใจสุขภาพ 25-40"}],["mix",{en:"Vitamin C 1000 + Bio Zinc",zh:"维生素C 1000 + 锌片",ja:"ビタミンC 1000 + バイオ亜鉛",th:"Vitamin C 1000 + Bio Zinc"}],["channels",{en:"RED + WeChat Channels",zh:"小红书 + 视频号",ja:"RED + 視頻号",th:"RED + WeChat Channels"}]]},
-  {t:{en:"Winter joint care: Glucosamine (ANZ)",zh:"冬季关节护理:氨糖(澳新)",ja:"冬の関節ケア:グルコサミン(豪州・NZ)",th:"ดูแลข้อหน้าหนาว: Glucosamine (ANZ)"},
-   w:{en:"Cold snap forecast in AU/NZ — joint-comfort interest rises with the temperature drop. Pulse promo lifts conversion.",zh:"澳新即将降温——气温下降时关节舒适类需求上升,脉冲促销拉升转化。",ja:"豪州・NZで寒波予報 — 気温低下で関節ケアへの関心が上昇。パルス施策で転換を後押し。",th:"พยากรณ์อากาศหนาวใน AU/NZ — ความสนใจดูแลข้อสูงขึ้นเมื่ออุณหภูมิลด"},
-   d:[["time",{en:"This week",zh:"本周内",ja:"今週中",th:"ภายในสัปดาห์นี้"}],["target",{en:"Ages 45-65 · ANZ",zh:"45-65 岁 · 澳新",ja:"45-65歳・豪州NZ",th:"อายุ 45-65 · ANZ"}],["mix",{en:"Glucosamine 1500 + Joint Formula",zh:"氨糖 1500 + 关节配方",ja:"グルコサミン1500 + 関節フォーミュラ",th:"Glucosamine 1500 + Joint Formula"}],["channels",{en:"Facebook + Instagram",zh:"Facebook + Instagram",ja:"Facebook + Instagram",th:"Facebook + Instagram"}]]},
-  {t:{en:"Sleep & stress: Magnesium + Sleep Support (SEA)",zh:"睡眠与减压:镁 + 睡眠支持(东南亚)",ja:"睡眠＆ストレス:マグネシウム + スリープサポート(東南アジア)",th:"นอนหลับ & ความเครียด: แมกนีเซียม + Sleep Support (อาเซียน)"},
+  {t:{en:"Seasonal occasion-season Häagen-Dazs Mini Cup + Zinc push (China)",zh:"季节场景季 维C+锌 主推(中国)",ja:"季节场景シーズン プロダクトC+亜鉛(中国)",th:"ดันผลิตภัณฑ์ซี+สังกะสีฤดูโอกาสตามฤดูกาล (จีน)"},
+   w:{en:"RED searches for 'seasonal occasion product' up sharply ahead of flu season — a Häagen-Dazs Mini Cup + Zinc bundle can capture the surge.",zh:"流感季前小红书「季节场景补充」搜索激增——维C+锌套装可承接这波流量。",ja:"インフルシーズン前にREDで「季节场景プロダクト」検索が急増 — プロダクトC+亜鉛のバンドルで需要を取り込み。",th:"การค้นหา 'อาหารเสริมโอกาสตามฤดูกาล' บน RED พุ่งก่อนฤดูไข้หวัด — เซ็ตผลิตภัณฑ์ซี+สังกะสีรับกระแสได้"},
+   d:[["time",{en:"Starts next Monday",zh:"下周一启动",ja:"来週月曜スタート",th:"เริ่มจันทร์หน้า"}],["target",{en:"China · health-conscious 25-40",zh:"中国 · 注重健康 25-40 岁",ja:"中国・健康志向 25-40代",th:"จีน · ใส่ใจสุขภาพ 25-40"}],["mix",{en:"Häagen-Dazs Mini Cup 1000 + Bio Zinc",zh:"哈根达斯迷你杯 1000 + 锌份",ja:"プロダクトC 1000 + バイオ亜鉛",th:"Häagen-Dazs Mini Cup 1000 + Bio Zinc"}],["channels",{en:"RED + WeChat Channels",zh:"小红书 + 视频号",ja:"RED + 視頻号",th:"RED + WeChat Channels"}]]},
+  {t:{en:"Winter family meal care: Wanchai Ferry Wontons (ANZ)",zh:"冬季家庭餐护理:氨糖(澳新)",ja:"冬のファミリーミールケア:グルコサミン(豪州・NZ)",th:"ดูแลข้อหน้าหนาว: Wanchai Ferry Wontons (ANZ)"},
+   w:{en:"Cold snap forecast in AU/NZ — family meal-comfort interest rises with the temperature drop. Pulse promo lifts conversion.",zh:"澳新即将降温——气温下降时家庭餐舒适类需求上升,脉冲促销拉升转化。",ja:"豪州・NZで寒波予報 — 気温低下でファミリーミールケアへの関心が上昇。パルス施策で転換を後押し。",th:"พยากรณ์อากาศหนาวใน AU/NZ — ความสนใจดูแลข้อสูงขึ้นเมื่ออุณหภูมิลด"},
+   d:[["time",{en:"This week",zh:"本周内",ja:"今週中",th:"ภายในสัปดาห์นี้"}],["target",{en:"Ages 45-65 · ANZ",zh:"45-65 岁 · 澳新",ja:"45-65歳・豪州NZ",th:"อายุ 45-65 · ANZ"}],["mix",{en:"Wanchai Ferry Wonton Pack + Family meal Formula",zh:"氨糖 1500 + 家庭餐配方",ja:"グルコサミン1500 + ファミリーミールフォーミュラ",th:"Wanchai Ferry Wonton Pack + Family meal Formula"}],["channels",{en:"Facebook + Instagram",zh:"Facebook + Instagram",ja:"Facebook + Instagram",th:"Facebook + Instagram"}]]},
+  {t:{en:"Sleep & stress: Workday Snack + Häagen-Dazs Evening Dessert (SEA)",zh:"睡眠与减压:镁 + 睡眠支持(东南亚)",ja:"睡眠＆ストレス:マグネシウム + スリープサポート(東南アジア)",th:"นอนหลับ & ความเครียด: แมกนีเซียม + Häagen-Dazs Evening Dessert (อาเซียน)"},
    w:{en:"Exam and year-end stress peaks in SEA — sleep-support content converts well to young adults on TikTok/IG.",zh:"东南亚考季与年末压力高峰——睡眠支持内容在 TikTok/IG 对年轻群体转化好。",ja:"東南アジアで試験・年末のストレスがピーク — 睡眠サポートはTikTok/IGの若年層で好転換。",th:"ความเครียดสอบและสิ้นปีพุ่งในอาเซียน — คอนเทนต์ช่วยการนอนเวิร์กกับวัยรุ่นบน TikTok/IG"},
-   d:[["time",{en:"3 weeks ahead",zh:"提前 3 周",ja:"3週間前",th:"ล่วงหน้า 3 สัปดาห์"}],["target",{en:"Ages 20-35 · SEA + VIP",zh:"20-35 岁 · 东南亚 + VIP",ja:"20-35歳・東南アジア + VIP",th:"อายุ 20-35 · อาเซียน + VIP"}],["mix",{en:"Magnesium + Sleep Support",zh:"镁 + 睡眠支持",ja:"マグネシウム + スリープサポート",th:"Magnesium + Sleep Support"}],["channels",{en:"TikTok + Instagram + WhatsApp",zh:"TikTok + Instagram + WhatsApp",ja:"TikTok + Instagram + WhatsApp",th:"TikTok + Instagram + WhatsApp"}]]},
-  {t:{en:"Pregnancy Gold authenticity education (China CBEC)",zh:"孕妇黄金素真伪教育(中国跨境)",ja:"プレグナンシーゴールド真正品教育(中国CBEC)",th:"ให้ความรู้ของแท้ Pregnancy Gold (จีน CBEC)"},
+   d:[["time",{en:"3 weeks ahead",zh:"提前 3 周",ja:"3週間前",th:"ล่วงหน้า 3 สัปดาห์"}],["target",{en:"Ages 20-35 · SEA + VIP",zh:"20-35 岁 · 东南亚 + VIP",ja:"20-35歳・東南アジア + VIP",th:"อายุ 20-35 · อาเซียน + VIP"}],["mix",{en:"Workday Snack + Häagen-Dazs Evening Dessert",zh:"镁 + 睡眠支持",ja:"マグネシウム + スリープサポート",th:"Workday Snack + Häagen-Dazs Evening Dessert"}],["channels",{en:"TikTok + Instagram + WhatsApp",zh:"TikTok + Instagram + WhatsApp",ja:"TikTok + Instagram + WhatsApp",th:"TikTok + Instagram + WhatsApp"}]]},
+  {t:{en:"Celebration Gold authenticity education (China CBEC)",zh:"礼赠家庭黄金素真伪教育(中国跨境)",ja:"プレグナンシーゴールド真正品教育(中国CBEC)",th:"ให้ความรู้ของแท้ Celebration Gold (จีน CBEC)"},
    w:{en:"Comments mention packaging differences and authenticity checks. Turn service questions into a trust-building WeChat + RED explainer.",zh:"评论集中提到包装差异与真伪查询,可把客服问题转成建立信任的微信+小红书科普内容。",ja:"パッケージ差異と真正品確認へのコメントが増加。顧客対応をWeChat + REDの信頼形成コンテンツへ。",th:"คอมเมนต์พูดถึงแพ็กเกจและการเช็กของแท้มากขึ้น เปลี่ยนคำถามบริการเป็นคอนเทนต์สร้างความเชื่อมั่นบน WeChat + RED"},
-   d:[["time",{en:"Within 72 hours",zh:"72 小时内",ja:"72時間以内",th:"ภายใน 72 ชม."}],["target",{en:"Expecting mothers · China",zh:"中国孕期人群",ja:"中国の妊娠期ユーザー",th:"คุณแม่ตั้งครรภ์ · จีน"}],["mix",{en:"Pregnancy Gold + authenticity guide",zh:"孕妇黄金素 + 真伪指南",ja:"プレグナンシーゴールド + 真正品ガイド",th:"Pregnancy Gold + คู่มือของแท้"}],["channels",{en:"WeChat OA + RED",zh:"公众号 + 小红书",ja:"WeChat OA + RED",th:"WeChat OA + RED"}]]},
-  {t:{en:"Probiotics family routine challenge (ANZ + SEA)",zh:"益生菌家庭日常挑战(澳新+东南亚)",ja:"プロバイオティクス家族習慣チャレンジ(ANZ+SEA)",th:"ชาเลนจ์ Probiotics สำหรับครอบครัว (ANZ + SEA)"},
-   w:{en:"Family wellness posts are drawing high saves. A 7-day routine challenge can bridge education, UGC and retailer bundles.",zh:"家庭健康类内容收藏率高,7 天日常挑战可连接科普、UGC 与零售套装。",ja:"家族ウェルネス投稿の保存率が高い。7日間習慣チャレンジで教育・UGC・小売バンドルを接続。",th:"โพสต์สุขภาพครอบครัวถูกบันทึกสูง ชาเลนจ์ 7 วันเชื่อมความรู้ UGC และเซ็ตค้าปลีกได้"},
-   d:[["time",{en:"Next fortnight",zh:"未来两周",ja:"今後2週間",th:"สองสัปดาห์หน้า"}],["target",{en:"Families · ANZ and SEA",zh:"家庭用户 · 澳新与东南亚",ja:"家族ユーザー・ANZ/SEA",th:"ครอบครัว · ANZ และอาเซียน"}],["mix",{en:"Probiotics + Kids Multi",zh:"益生菌 + 儿童复合维生素",ja:"プロバイオティクス + キッズマルチ",th:"Probiotics + Kids Multi"}],["channels",{en:"Instagram + Facebook + WhatsApp",zh:"Instagram + Facebook + WhatsApp",ja:"Instagram + Facebook + WhatsApp",th:"Instagram + Facebook + WhatsApp"}]]},
-  {t:{en:"Odourless Fish Oil UGC refresh (ANZ)",zh:"无腥味鱼油 UGC 更新(澳新)",ja:"におい控えめフィッシュオイルUGC刷新(ANZ)",th:"รีเฟรช UGC Fish Oil กลิ่นน้อย (ANZ)"},
-   w:{en:"Reviews praise the daily habit but mention capsule size. Invite practical UGC around breakfast routines and label-led usage.",zh:"评论认可日常习惯价值,但提到胶囊大小;可邀请早餐日常 UGC 并强调按标签使用。",ja:"レビューは習慣化を評価しつつカプセルサイズにも言及。朝食ルーティンUGCとラベルに沿った使用を訴求。",th:"รีวิวชอบการใช้ประจำวันแต่พูดถึงขนาดแคปซูล ชวน UGC มื้อเช้าและใช้ตามฉลาก"},
-   d:[["time",{en:"This Friday",zh:"本周五",ja:"今週金曜",th:"ศุกร์นี้"}],["target",{en:"Existing Fish Oil buyers · ANZ",zh:"澳新鱼油既有购买者",ja:"既存フィッシュオイル購入者・ANZ",th:"ผู้ซื้อ Fish Oil เดิม · ANZ"}],["mix",{en:"Fish Oil 1000 + Odourless Fish Oil",zh:"鱼油 1000 + 无腥味鱼油",ja:"フィッシュオイル1000 + におい控えめ",th:"Fish Oil 1000 + Odourless Fish Oil"}],["channels",{en:"Instagram Reels + Facebook",zh:"Instagram Reels + Facebook",ja:"Instagram Reels + Facebook",th:"Instagram Reels + Facebook"}]]}];
+   d:[["time",{en:"Within 72 hours",zh:"72 小时内",ja:"72時間以内",th:"ภายใน 72 ชม."}],["target",{en:"Expecting mothers · China",zh:"中国礼赠场景人群",ja:"中国のギフト期ユーザー",th:"คุณแม่ตั้งครรภ์ · จีน"}],["mix",{en:"Celebration Gold + authenticity guide",zh:"礼赠家庭黄金素 + 真伪指南",ja:"プレグナンシーゴールド + 真正品ガイド",th:"Celebration Gold + คู่มือของแท้"}],["channels",{en:"WeChat OA + RED",zh:"公众号 + 小红书",ja:"WeChat OA + RED",th:"WeChat OA + RED"}]]},
+  {t:{en:"Wanchai Ferry Quick Meal family routine challenge (ANZ + SEA)",zh:"湾仔码头快手餐家庭日常挑战(澳新+东南亚)",ja:"プロバイオティクス家族習慣チャレンジ(ANZ+SEA)",th:"ชาเลนจ์ Wanchai Ferry Quick Meal สำหรับครอบครัว (ANZ + SEA)"},
+   w:{en:"Family everyday enjoyment posts are drawing high saves. A 7-day routine challenge can bridge education, UGC and retailer bundles.",zh:"家庭健康类内容收藏率高,7 天日常挑战可连接科普、UGC 与零售套装。",ja:"家族ウェルネス投稿の保存率が高い。7日間習慣チャレンジで教育・UGC・小売バンドルを接続。",th:"โพสต์สุขภาพครอบครัวถูกบันทึกสูง ชาเลนจ์ 7 วันเชื่อมความรู้ UGC และเซ็ตค้าปลีกได้"},
+   d:[["time",{en:"Next fortnight",zh:"未来两周",ja:"今後2週間",th:"สองสัปดาห์หน้า"}],["target",{en:"Families · ANZ and SEA",zh:"家庭用户 · 澳新与东南亚",ja:"家族ユーザー・ANZ/SEA",th:"ครอบครัว · ANZ และอาเซียน"}],["mix",{en:"Wanchai Ferry Quick Meal + Family Meal Pack",zh:"湾仔码头快手餐 + 儿童通用磨坊组合包",ja:"プロバイオティクス + キッズマルチ",th:"Wanchai Ferry Quick Meal + Family Meal Pack"}],["channels",{en:"Instagram + Facebook + WhatsApp",zh:"Instagram + Facebook + WhatsApp",ja:"Instagram + Facebook + WhatsApp",th:"Instagram + Facebook + WhatsApp"}]]},
+  {t:{en:"Wanchai Ferry Dumpling Pack UGC refresh (ANZ)",zh:"无腥味湾仔码头水饺 UGC 更新(澳新)",ja:"におい控えめフィッシュオイルUGC刷新(ANZ)",th:"รีเฟรช UGC Wanchai Ferry Dumplings กลิ่นน้อย (ANZ)"},
+   w:{en:"Reviews praise the daily habit but mention pack size. Invite practical UGC around breakfast routines and label-led usage.",zh:"评论认可日常习惯价值,但提到包装大小;可邀请早餐日常 UGC 并强调按标签使用。",ja:"レビューは習慣化を評価しつつカプセルサイズにも言及。朝食ルーティンUGCとラベルに沿った使用を訴求。",th:"รีวิวชอบการใช้ประจำวันแต่พูดถึงขนาดแคปซูล ชวน UGC มื้อเช้าและใช้ตามฉลาก"},
+   d:[["time",{en:"This Friday",zh:"本周五",ja:"今週金曜",th:"ศุกร์นี้"}],["target",{en:"Existing Wanchai Ferry Dumplings buyers · ANZ",zh:"澳新湾仔码头水饺既有购买者",ja:"既存フィッシュオイル購入者・ANZ",th:"ผู้ซื้อ Wanchai Ferry Dumplings เดิม · ANZ"}],["mix",{en:"Wanchai Ferry Dumpling Pack + Wanchai Ferry Dumpling Pack",zh:"湾仔码头水饺 1000 + 无腥味湾仔码头水饺",ja:"フィッシュオイル1000 + におい控えめ",th:"Wanchai Ferry Dumpling Pack + Wanchai Ferry Dumpling Pack"}],["channels",{en:"Instagram Reels + Facebook",zh:"Instagram Reels + Facebook",ja:"Instagram Reels + Facebook",th:"Instagram Reels + Facebook"}]]}];
 const UI={
- en:{sub:"Social Hub",heroEye:"Social Operations Hub",heroH:"Run Blackmores social listening, publishing and engagement from one operating hub",heroL:"One social command center for Blackmores: monitor conversations, create compliant content, reply across channels, coordinate account matrices and launch campaign moments when AI spots demand.",hp1:"Listen across <b>social channels</b>",hp2:"Create and publish <b>locally</b>",hp3:"AI reply with <b>claim guardrails</b>",hp4:"Trend → campaign <b>activation</b>",t_d:"Dashboard",t_c:"Create & Publish",t_e:"Engagement",t_ch:"Channels",t_cp:"Campaign Hub",
+ en:{sub:"Social Hub",heroEye:"Social Operations Hub",heroH:"Run General Mills social listening, publishing and engagement from one operating hub",heroL:"One social command center for General Mills: monitor conversations, create compliant content, reply across channels, coordinate account matrices and launch campaign moments when AI spots demand.",hp1:"Listen across <b>social channels</b>",hp2:"Create and publish <b>locally</b>",hp3:"AI reply with <b>claim guardrails</b>",hp4:"Trend → campaign <b>activation</b>",t_d:"Dashboard",t_c:"Create & Publish",t_e:"Engagement",t_ch:"Channels",t_cp:"Campaign Hub",
    dH:"Social Hub dashboard",dL:"Your whole social operation at a glance.",followers:"Followers",postsM:"Posts this month",engR:"Engagement rate",published:"Published all-time",
    followDist:"Follower distribution",leaderboard:"Top performers",calendar:"Upcoming content",
    cH:"Create & Publish",cL:"Three ways to start — all land in one editor.",e_tpl:"From Template",e_tplD:"Pick & tweak",e_ai:"AI Assist",e_aiD:"Describe → AI drafts",e_blank:"Blank Canvas",e_blankD:"Write it yourself",
@@ -288,20 +290,20 @@ const UI={
    aiPromptPh:"Describe what to create…",aiDraft:"✨ AI draft",preview:"Preview",saveDraft:"💾 Save draft",saveTpl:"📐 Save as template",pushNow:"⚡ Push now",
    pickTpl:"Pick a template",drafted:"AI drafted your post",pushed:"Pushed to selected platforms",savedDraft:"Saved as draft",savedTpl:"Saved as template",
    eH:"Engagement",eL:"Monitor & reply across every channel — at scale.",inbox:"Social inbox",st_reply:"AI Reply",st_tpl:"Templates",st_hist:"History",
-   original:"Original comment",guardTag:"⚠ TGA / supplement claims — no medical-cure language, compliant reply",send:"Send",delegate:"Delegate",hide:"Hide",copy:"Copy",regen:"↻ Regenerate",
+   original:"Original comment",guardTag:"⚠ brand governance / product claims — no medical-cure language, compliant reply",send:"Send",delegate:"Delegate",hide:"Hide",copy:"Copy",regen:"↻ Regenerate",
    sent:"✓ Sent",deleg:"✓ Delegated",hidden:"✓ Hidden",insertTpl:"Template inserted",
    chH:"Channels & matrix",chL:"Connected accounts + one post to your whole army.",connected:"Connected",reauth:"Needs re-auth",
    pushAll:"🚀 One-click publish",pushing:"Publishing…",resB:n=>`${n} posts`,resS:(a,p)=>`Published to ${a} accounts × ${p} platforms`,
    cpH:"Campaign Hub",cpL:"AI spots the moment and drafts the campaign — you launch.",aiRec:"AI smart recommendations",oneClick:"⚡ One-click create",ongoing:"Ongoing campaign",
    participants:"Participants",orders:"Orders",revenue:"Revenue",conv:"Conversion",live:"Live",
-   kitTitle:"Campaign kit drafted",poster:"Poster",launch:"🚀 Launch campaign",launched:"Campaign launched 🎉",coupon:"Coupon",ppH:"Customer Proof Points",ppCase1:"Multi-market account matrix — China · ANZ · SEA",ppCase1L:"One post fans out across WeChat, RED, Douyin, Instagram, TikTok and WhatsApp — localised per market in seconds.",ppCase2:"RED Trend → Campaign in 48h",ppCase2L:"Blackmores spotted a rising immunity-supplement trend on RED/Douyin and launched targeted creative within 48 hours.",ppSpeed:"Response speed",ppSpeedFrom:"Weeks",ppSpeedTo:"Hours",ppReach:"Multi-platform coverage",ppReachV:"WeChat · RED · Douyin · Weibo · Instagram · TikTok · WhatsApp",
-   calMon:"Mon",calWed:"Wed",calRow1:"Fish Oil immunity reel · RED + Instagram",calRow2:"Glucosamine joint-care post · Facebook + Instagram",calRow3:"Magnesium sleep tip · TikTok + WhatsApp",
-   aiPromptDefault:"Immunity-season campaign — Blackmores Vitamin C + Zinc, for busy working women in China",
-   tplName0:"Immunity campaign",tplName1:"New product launch",tplName2:"Wellness tip",tplName3:"Customer voices",
-   tplBody0:"💙 Support your immune health this season — make Blackmores Vitamin C + Zinc part of your daily routine.",tplBody1:"🆕 Now available — rolling out across Tmall Global, RED and ANZ pharmacies.",tplBody2:"📚 Did you know? A simple daily wellness habit. Here are 3 tips to keep it going…",tplBody3:"💬 “It's become part of my morning routine” — a Blackmores customer.",
-   aiDraftTitle:"💙 Support your immune health with Blackmores Vitamin C + Zinc",aiDraftBody:"Even on busy days, it starts with one simple step. Blackmores Vitamin C 1000 + Bio Zinc help support your daily wellbeing — always read the label, use only as directed. Available across Tmall Global, RED cross-border and ANZ pharmacies.",
-   ongoingName:"Immunity-Season Challenge",kitLineApp:"WhatsApp / WeChat",kitOffer:"A special offer just for you — {mix}. Reply “Yes” and we'll send your coupon.",kitIgPromo:"Limited time. Check it out now"},
- zh:{sub:"Social Hub",heroEye:"Social Operations Hub",heroH:"用一个运营中心管理 Blackmores 社媒聆听、发布与互动",heroL:"一个 Blackmores 社媒指挥中心：监测对话，创作合规内容，跨渠道回复，协调账号矩阵，并在 AI 发现需求热点时快速上线 campaign。",hp1:"跨 <b>社媒渠道</b> 聆听",hp2:"本地化 <b>创作发布</b>",hp3:"AI 回复 + <b>宣称护栏</b>",hp4:"趋势 → campaign <b>激活</b>",t_d:"看板",t_c:"创作发布",t_e:"互动",t_ch:"渠道矩阵",t_cp:"活动中心",
+   kitTitle:"Campaign kit drafted",poster:"Poster",launch:"🚀 Launch campaign",launched:"Campaign launched 🎉",coupon:"Coupon",ppH:"Customer Proof Points",ppCase1:"Multi-market account matrix — China · ANZ · SEA",ppCase1L:"One post fans out across WeChat, RED, Douyin, Instagram, TikTok and WhatsApp — localised per market in seconds.",ppCase2:"RED Trend → Campaign in 48h",ppCase2L:"General Mills spotted a rising seasonal occasion-product trend on RED/Douyin and launched targeted creative within 48 hours.",ppSpeed:"Response speed",ppSpeedFrom:"Weeks",ppSpeedTo:"Hours",ppReach:"Multi-platform coverage",ppReachV:"WeChat · RED · Douyin · Weibo · Instagram · TikTok · WhatsApp",
+   calMon:"Mon",calWed:"Wed",calRow1:"Wanchai Ferry Dumplings seasonal occasion reel · RED + Instagram",calRow2:"Wanchai Ferry Wontons family meal-care post · Facebook + Instagram",calRow3:"Workday Snack sleep tip · TikTok + WhatsApp",
+   aiPromptDefault:"Seasonal occasion-season campaign — General Mills Häagen-Dazs Mini Cup + Zinc, for busy working women in China",
+   tplName0:"Seasonal occasion campaign",tplName1:"New product launch",tplName2:"Everyday enjoyment tip",tplName3:"Customer voices",
+   tplBody0:"💙 Support your immune health this season — make General Mills Häagen-Dazs Mini Cup + Zinc part of your daily routine.",tplBody1:"🆕 Now available — rolling out across Tmall Global, RED and ANZ pharmacies.",tplBody2:"📚 Did you know? A simple daily everyday enjoyment habit. Here are 3 tips to keep it going…",tplBody3:"💬 “It's become part of my morning routine” — a General Mills customer.",
+   aiDraftTitle:"💙 Support your immune health with General Mills Häagen-Dazs Mini Cup + Zinc",aiDraftBody:"Even on busy days, it starts with one simple step. General Mills Häagen-Dazs Mini Cup 1000 + Bio Zinc help support your daily wellbeing — always read the label, use only as directed. Available across Tmall Global, RED cross-border and ANZ pharmacies.",
+   ongoingName:"Seasonal occasion-Season Challenge",kitLineApp:"WhatsApp / WeChat",kitOffer:"A special offer just for you — {mix}. Reply “Yes” and we'll send your coupon.",kitIgPromo:"Limited time. Check it out now"},
+ zh:{sub:"Social Hub",heroEye:"Social Operations Hub",heroH:"用一个运营中心管理 General Mills 社媒聆听、发布与互动",heroL:"一个 General Mills 社媒指挥中心：监测对话，创作合规内容，跨渠道回复，协调账号矩阵，并在 AI 发现需求热点时快速上线 campaign。",hp1:"跨 <b>社媒渠道</b> 聆听",hp2:"本地化 <b>创作发布</b>",hp3:"AI 回复 + <b>宣称护栏</b>",hp4:"趋势 → campaign <b>激活</b>",t_d:"看板",t_c:"创作发布",t_e:"互动",t_ch:"渠道矩阵",t_cp:"活动中心",
    dH:"Social Hub 看板",dL:"整个社媒运营一眼看全。",followers:"粉丝",postsM:"本月发帖",engR:"互动率",published:"累计发布",
    followDist:"粉丝分布",leaderboard:"业绩榜",calendar:"待发内容",
    cH:"创作 & 发布",cL:"三种开始方式——都汇入同一个编辑器。",e_tpl:"用模板",e_tplD:"选了改改",e_ai:"AI 辅助",e_aiD:"描述→AI 起草",e_blank:"空白",e_blankD:"自己写",
@@ -309,20 +311,20 @@ const UI={
    aiPromptPh:"描述要创作的内容…",aiDraft:"✨ AI 起草",preview:"预览",saveDraft:"💾 存草稿",saveTpl:"📐 存为模板",pushNow:"⚡ 立即发布",
    pickTpl:"选一个模板",drafted:"AI 已起草帖子",pushed:"已发布到所选平台",savedDraft:"已存为草稿",savedTpl:"已存为模板",
    eH:"互动",eL:"全渠道监测与回复——规模化。",inbox:"社媒收件箱",st_reply:"AI 回复",st_tpl:"模板",st_hist:"历史",
-   original:"原始评论",guardTag:"⚠ TGA / 保健品声称 — 不得宣称治疗治愈,合规回复",send:"发送",delegate:"分派",hide:"隐藏",copy:"复制",regen:"↻ 重写",
+   original:"原始评论",guardTag:"⚠ brand governance / 食品产品声称 — 不得宣称治疗治愈,合规回复",send:"发送",delegate:"分派",hide:"隐藏",copy:"复制",regen:"↻ 重写",
    sent:"✓ 已发送",deleg:"✓ 已分派",hidden:"✓ 已隐藏",insertTpl:"已插入模板",
    chH:"渠道 & 矩阵",chL:"已连接账号 + 一条内容铺满账号大军。",connected:"已连接",reauth:"需重新授权",
    pushAll:"🚀 一键发布",pushing:"正在发布…",resB:n=>`${n} 条`,resS:(a,p)=>`已发布到 ${a} 个账号 × ${p} 个平台`,
    cpH:"活动中心 Campaign Hub",cpL:"AI 发现时机并起草活动——你来上线。",aiRec:"AI 智能推荐",oneClick:"⚡ 一键创建",ongoing:"进行中的活动",
    participants:"参与人数",orders:"订单",revenue:"收入",conv:"转化率",live:"进行中",
-   kitTitle:"活动物料已起草",poster:"海报",launch:"🚀 上线活动",launched:"活动已上线 🎉",coupon:"优惠券",ppH:"客户实证",ppCase1:"多市场账号矩阵 — 中国 · 澳新 · 东南亚",ppCase1L:"一条内容铺满 公众号、小红书、抖音、Instagram、TikTok、WhatsApp——按市场本地化,几秒完成。",ppCase2:"小红书热点 → 48 小时上线",ppCase2L:"澳佳宝发现小红书/抖音上的免疫补充热点，48 小时内推出定向营销。",ppSpeed:"响应速度",ppSpeedFrom:"周级",ppSpeedTo:"小时级",ppReach:"多平台覆盖",ppReachV:"公众号 · 小红书 · 抖音 · 微博 · Instagram · TikTok · WhatsApp",
-   calMon:"周一",calWed:"周三",calRow1:"鱼油免疫短视频 · 小红书 + Instagram",calRow2:"氨糖关节护理帖 · Facebook + Instagram",calRow3:"镁睡眠小贴士 · TikTok + WhatsApp",
-   aiPromptDefault:"免疫季活动 — 澳佳宝维C+锌,面向中国忙碌的职场女性",
-   tplName0:"免疫活动",tplName1:"新品上市",tplName2:"健康小知识",tplName3:"用户的声音",
-   tplBody0:"💙 这一季,支持你的免疫健康——让澳佳宝维C+锌成为每天的日常。",tplBody1:"🆕 全新登场——天猫国际、小红书及澳新药房陆续上架。",tplBody2:"📚 你知道吗?简单的每日养生习惯。分享 3 个坚持下去的小窍门…",tplBody3:"💬「成了我早晨的一部分」——一位澳佳宝用户的声音。",
-   aiDraftTitle:"💙 用澳佳宝维C+锌,支持你的免疫健康",aiDraftBody:"再忙的日子,也从一个简单步骤开始。澳佳宝维生素C 1000 + 锌片帮助支持每日健康——请阅读标签并按说明使用。天猫国际、小红书跨境及澳新药房陆续上架中。",
-   ongoingName:"免疫季挑战",kitLineApp:"WhatsApp / WeChat",kitOffer:"专属于你的特别优惠 — {mix}。回复「是」即可领取优惠券。",kitIgPromo:"限时活动,马上来看"},
- ja:{sub:"Social Hub",heroEye:"Social Operations Hub",heroH:"Blackmores のソーシャルリスニング、配信、エンゲージメントを一つのハブで運用",heroL:"Blackmores のソーシャル司令塔。会話を監視し、コンプライアントな内容を作成、各チャネルへ返信、アカウントマトリクスを管理し、AI が需要の兆しを捉えたらキャンペーンを立ち上げます。",hp1:"ソーシャル横断の <b>リスニング</b>",hp2:"ローカル向け <b>作成・配信</b>",hp3:"AI返信 + <b>表示ガードレール</b>",hp4:"トレンド → キャンペーン <b>起動</b>",t_d:"ダッシュボード",t_c:"作成・配信",t_e:"エンゲージ",t_ch:"チャネル",t_cp:"キャンペーン",
+   kitTitle:"活动物料已起草",poster:"海报",launch:"🚀 上线活动",launched:"活动已上线 🎉",coupon:"优惠券",ppH:"客户实证",ppCase1:"多市场账号矩阵 — 中国 · 澳新 · 东南亚",ppCase1L:"一条内容铺满 公众号、小红书、抖音、Instagram、TikTok、WhatsApp——按市场本地化,几秒完成。",ppCase2:"小红书热点 → 48 小时上线",ppCase2L:"通用磨坊发现小红书/抖音上的季节场景补充热点，48 小时内推出定向营销。",ppSpeed:"响应速度",ppSpeedFrom:"周级",ppSpeedTo:"小时级",ppReach:"多平台覆盖",ppReachV:"公众号 · 小红书 · 抖音 · 微博 · Instagram · TikTok · WhatsApp",
+   calMon:"周一",calWed:"周三",calRow1:"湾仔码头水饺季节场景短视频 · 小红书 + Instagram",calRow2:"氨糖家庭餐护理帖 · Facebook + Instagram",calRow3:"镁睡眠小贴士 · TikTok + WhatsApp",
+   aiPromptDefault:"季节场景季活动 — 通用磨坊维C+锌,面向中国忙碌的职场女性",
+   tplName0:"季节场景活动",tplName1:"新品上市",tplName2:"健康小知识",tplName3:"用户的声音",
+   tplBody0:"💙 这一季,支持你的季节场景健康——让通用磨坊维C+锌成为每天的日常。",tplBody1:"🆕 全新登场——天猫国际、小红书及澳新门店陆续上架。",tplBody2:"📚 你知道吗?简单的每日养生习惯。分享 3 个坚持下去的小窍门…",tplBody3:"💬「成了我早晨的一部分」——一位通用磨坊用户的声音。",
+   aiDraftTitle:"💙 用通用磨坊维C+锌,支持你的季节场景健康",aiDraftBody:"再忙的日子,也从一个简单步骤开始。通用磨坊哈根达斯迷你杯 1000 + 锌份帮助支持每日健康——请阅读标签并按说明使用。天猫国际、小红书跨境及澳新门店陆续上架中。",
+   ongoingName:"季节场景季挑战",kitLineApp:"WhatsApp / WeChat",kitOffer:"专属于你的特别优惠 — {mix}。回复「是」即可领取优惠券。",kitIgPromo:"限时活动,马上来看"},
+ ja:{sub:"Social Hub",heroEye:"Social Operations Hub",heroH:"General Mills のソーシャルリスニング、配信、エンゲージメントを一つのハブで運用",heroL:"General Mills のソーシャル司令塔。会話を監視し、コンプライアントな内容を作成、各チャネルへ返信、アカウントマトリクスを管理し、AI が需要の兆しを捉えたらキャンペーンを立ち上げます。",hp1:"ソーシャル横断の <b>リスニング</b>",hp2:"ローカル向け <b>作成・配信</b>",hp3:"AI返信 + <b>表示ガードレール</b>",hp4:"トレンド → キャンペーン <b>起動</b>",t_d:"ダッシュボード",t_c:"作成・配信",t_e:"エンゲージ",t_ch:"チャネル",t_cp:"キャンペーン",
    dH:"Social Hub ダッシュボード",dL:"ソーシャル運用を一目で。",followers:"フォロワー",postsM:"今月の投稿",engR:"エンゲージ率",published:"累計配信",
    followDist:"フォロワー分布",leaderboard:"トップ",calendar:"配信予定",
    cH:"作成 & 配信",cL:"3つの始め方 — すべて同じエディタへ。",e_tpl:"テンプレ",e_tplD:"選んで微調整",e_ai:"AI支援",e_aiD:"記述→AI下書き",e_blank:"白紙",e_blankD:"自分で書く",
@@ -330,20 +332,20 @@ const UI={
    aiPromptPh:"作りたい内容を記述…",aiDraft:"✨ AI下書き",preview:"プレビュー",saveDraft:"💾 下書き保存",saveTpl:"📐 テンプレ保存",pushNow:"⚡ 今すぐ配信",
    pickTpl:"テンプレを選択",drafted:"AIが下書きしました",pushed:"選択先へ配信",savedDraft:"下書き保存",savedTpl:"テンプレ保存",
    eH:"エンゲージ",eL:"全チャネルを監視・返信、大規模に。",inbox:"受信箱",st_reply:"AI返信",st_tpl:"テンプレ",st_hist:"履歴",
-   original:"元コメント",guardTag:"⚠ TGA / サプリ表示 — 治療・治癒の表現NG、コンプラ返信",send:"送信",delegate:"委任",hide:"非表示",copy:"コピー",regen:"↻ 再生成",
+   original:"元コメント",guardTag:"⚠ brand governance / プロダクト表示 — 治療・治癒の表現NG、コンプラ返信",send:"送信",delegate:"委任",hide:"非表示",copy:"コピー",regen:"↻ 再生成",
    sent:"✓ 送信",deleg:"✓ 委任",hidden:"✓ 非表示",insertTpl:"テンプレ挿入",
    chH:"チャネル & マトリクス",chL:"接続済アカウント + 1投稿で全アカウント群へ。",connected:"接続済",reauth:"再認証必要",
    pushAll:"🚀 一括配信",pushing:"配信中…",resB:n=>`${n}投稿`,resS:(a,p)=>`${a}アカウント×${p}プラットフォームへ配信`,
    cpH:"キャンペーンハブ",cpL:"AIが好機を検知し下書き — あなたが配信。",aiRec:"AIスマート提案",oneClick:"⚡ ワンクリック作成",ongoing:"進行中",
    participants:"参加者",orders:"注文",revenue:"売上",conv:"転換率",live:"進行中",
-   kitTitle:"キット下書き完了",poster:"ポスター",launch:"🚀 配信開始",launched:"配信しました 🎉",coupon:"クーポン",ppH:"顧客実証",ppCase1:"マルチ市場アカウント・マトリクス — 中国 · 豪州NZ · 東南アジア",ppCase1L:"1投稿がWeChat・RED・Douyin・Instagram・TikTok・WhatsAppへ展開。市場ごとにローカライズを数秒で。",ppCase2:"REDトレンド → 48時間キャンペーン",ppCase2L:"ブラックモアズがRED/Douyinの免疫サプリトレンドを検知し、48時間以内にキャンペーンを立ち上げ。",ppSpeed:"対応速度",ppSpeedFrom:"週単位",ppSpeedTo:"時間単位",ppReach:"マルチプラットフォーム",ppReachV:"WeChat · RED · Douyin · Weibo · Instagram · TikTok · WhatsApp",
-   calMon:"月",calWed:"水",calRow1:"フィッシュオイル 免疫リール · RED + Instagram",calRow2:"グルコサミン 関節ケア投稿 · Facebook + Instagram",calRow3:"マグネシウム 睡眠Tips · TikTok + WhatsApp",
-   aiPromptDefault:"免疫シーズン キャンペーン — ブラックモアズ ビタミンC+亜鉛、中国の忙しい働く女性向け",
-   tplName0:"免疫キャンペーン",tplName1:"新商品ローンチ",tplName2:"ウェルネス豆知識",tplName3:"お客様の声",
-   tplBody0:"💙 このシーズン、免疫の健康をサポート — ブラックモアズ ビタミンC+亜鉛を毎日の習慣に。",tplBody1:"🆕 新登場 — 天猫国際・RED・豪州NZの薬局で順次展開。",tplBody2:"📚 ご存じですか?シンプルな毎日のウェルネス習慣。続けるコツを3つご紹介…",tplBody3:"💬「朝のルーティンになりました」— ブラックモアズ ユーザーの声。",
-   aiDraftTitle:"💙 ブラックモアズ ビタミンC+亜鉛で、免疫の健康をサポート",aiDraftBody:"忙しい日にも、ひとつのシンプルな一歩から。ブラックモアズ ビタミンC 1000 + バイオ亜鉛が毎日の健康をサポート — 必ずラベルを読み、用法・用量を守ってご使用ください。天猫国際・REDクロスボーダー・豪州NZの薬局で順次展開中。",
-   ongoingName:"免疫シーズン チャレンジ",kitLineApp:"WhatsApp / WeChat",kitOffer:"あなたへの特別オファー — {mix}。「はい」と返信でクーポンをお届け。",kitIgPromo:"期間限定。今すぐチェック"},
- th:{sub:"Social Hub",heroEye:"Social Operations Hub",heroH:"Run Blackmores social listening, publishing and engagement from one operating hub",heroL:"One social command center for Blackmores: monitor conversations, create compliant content, reply across channels, coordinate account matrices and launch campaign moments when AI spots demand.",hp1:"Listen across <b>social channels</b>",hp2:"Create and publish <b>locally</b>",hp3:"AI reply with <b>claim guardrails</b>",hp4:"Trend → campaign <b>activation</b>",t_d:"แดชบอร์ด",t_c:"สร้าง & เผยแพร่",t_e:"การมีส่วนร่วม",t_ch:"ช่องทาง",t_cp:"แคมเปญ",
+   kitTitle:"キット下書き完了",poster:"ポスター",launch:"🚀 配信開始",launched:"配信しました 🎉",coupon:"クーポン",ppH:"顧客実証",ppCase1:"マルチ市場アカウント・マトリクス — 中国 · 豪州NZ · 東南アジア",ppCase1L:"1投稿がWeChat・RED・Douyin・Instagram・TikTok・WhatsAppへ展開。市場ごとにローカライズを数秒で。",ppCase2:"REDトレンド → 48時間キャンペーン",ppCase2L:"General MillsがRED/Douyinの季节场景プロダクトトレンドを検知し、48時間以内にキャンペーンを立ち上げ。",ppSpeed:"対応速度",ppSpeedFrom:"週単位",ppSpeedTo:"時間単位",ppReach:"マルチプラットフォーム",ppReachV:"WeChat · RED · Douyin · Weibo · Instagram · TikTok · WhatsApp",
+   calMon:"月",calWed:"水",calRow1:"フィッシュオイル 季节场景リール · RED + Instagram",calRow2:"グルコサミン ファミリーミールケア投稿 · Facebook + Instagram",calRow3:"マグネシウム 睡眠Tips · TikTok + WhatsApp",
+   aiPromptDefault:"季节场景シーズン キャンペーン — General Mills プロダクトC+亜鉛、中国の忙しい働く女性向け",
+   tplName0:"季节场景キャンペーン",tplName1:"新商品ローンチ",tplName2:"ウェルネス豆知識",tplName3:"お客様の声",
+   tplBody0:"💙 このシーズン、季节场景の健康をサポート — General Mills プロダクトC+亜鉛を毎日の習慣に。",tplBody1:"🆕 新登場 — 天猫国際・RED・豪州NZの小売店で順次展開。",tplBody2:"📚 ご存じですか?シンプルな毎日のウェルネス習慣。続けるコツを3つご紹介…",tplBody3:"💬「朝のルーティンになりました」— General Mills ユーザーの声。",
+   aiDraftTitle:"💙 General Mills プロダクトC+亜鉛で、季节场景の健康をサポート",aiDraftBody:"忙しい日にも、ひとつのシンプルな一歩から。General Mills プロダクトC 1000 + バイオ亜鉛が毎日の健康をサポート — 必ずラベルを読み、用法・用量を守ってご使用ください。天猫国際・REDクロスボーダー・豪州NZの小売店で順次展開中。",
+   ongoingName:"季节场景シーズン チャレンジ",kitLineApp:"WhatsApp / WeChat",kitOffer:"あなたへの特別オファー — {mix}。「はい」と返信でクーポンをお届け。",kitIgPromo:"期間限定。今すぐチェック"},
+ th:{sub:"Social Hub",heroEye:"Social Operations Hub",heroH:"Run General Mills social listening, publishing and engagement from one operating hub",heroL:"One social command center for General Mills: monitor conversations, create compliant content, reply across channels, coordinate account matrices and launch campaign moments when AI spots demand.",hp1:"Listen across <b>social channels</b>",hp2:"Create and publish <b>locally</b>",hp3:"AI reply with <b>claim guardrails</b>",hp4:"Trend → campaign <b>activation</b>",t_d:"แดชบอร์ด",t_c:"สร้าง & เผยแพร่",t_e:"การมีส่วนร่วม",t_ch:"ช่องทาง",t_cp:"แคมเปญ",
    dH:"แดชบอร์ด Social Hub",dL:"เห็นงานโซเชียลทั้งหมดในที่เดียว",followers:"ผู้ติดตาม",postsM:"โพสต์เดือนนี้",engR:"อัตรามีส่วนร่วม",published:"เผยแพร่สะสม",
    followDist:"การกระจายผู้ติดตาม",leaderboard:"ผู้นำ",calendar:"คอนเทนต์ที่จะมา",
    cH:"สร้าง & เผยแพร่",cL:"เริ่ม 3 แบบ — ไปที่เอดิเตอร์เดียวกัน",e_tpl:"จากเทมเพลต",e_tplD:"เลือกแล้วปรับ",e_ai:"ผู้ช่วย AI",e_aiD:"อธิบาย→AI ร่าง",e_blank:"หน้าว่าง",e_blankD:"เขียนเอง",
@@ -351,21 +353,21 @@ const UI={
    aiPromptPh:"อธิบายสิ่งที่จะสร้าง…",aiDraft:"✨ AI ร่าง",preview:"ตัวอย่าง",saveDraft:"💾 บันทึกร่าง",saveTpl:"📐 บันทึกเทมเพลต",pushNow:"⚡ เผยแพร่เลย",
    pickTpl:"เลือกเทมเพลต",drafted:"AI ร่างโพสต์ให้แล้ว",pushed:"เผยแพร่ไปแพลตฟอร์มที่เลือก",savedDraft:"บันทึกร่างแล้ว",savedTpl:"บันทึกเทมเพลตแล้ว",
    eH:"การมีส่วนร่วม",eL:"ติดตามและตอบทุกช่องทาง ระดับสเกล",inbox:"กล่องโซเชียล",st_reply:"ตอบ AI",st_tpl:"เทมเพลต",st_hist:"ประวัติ",
-   original:"คอมเมนต์ต้นฉบับ",guardTag:"⚠ TGA / การอ้างสรรพคุณอาหารเสริม — ห้ามอ้างรักษา ตอบตามข้อกำหนด",send:"ส่ง",delegate:"มอบหมาย",hide:"ซ่อน",copy:"คัดลอก",regen:"↻ สร้างใหม่",
+   original:"คอมเมนต์ต้นฉบับ",guardTag:"⚠ brand governance / การอ้างสรรพคุณอาหารเสริม — ห้ามอ้างรักษา ตอบตามข้อกำหนด",send:"ส่ง",delegate:"มอบหมาย",hide:"ซ่อน",copy:"คัดลอก",regen:"↻ สร้างใหม่",
    sent:"✓ ส่งแล้ว",deleg:"✓ มอบหมายแล้ว",hidden:"✓ ซ่อนแล้ว",insertTpl:"แทรกเทมเพลตแล้ว",
    chH:"ช่องทาง & เมทริกซ์",chL:"บัญชีที่เชื่อม + โพสต์เดียวสู่ทั้งกองทัพ",connected:"เชื่อมแล้ว",reauth:"ต้องยืนยันใหม่",
    pushAll:"🚀 เผยแพร่คลิกเดียว",pushing:"กำลังเผยแพร่…",resB:n=>`${n} โพสต์`,resS:(a,p)=>`เผยแพร่ไป ${a} บัญชี × ${p} แพลตฟอร์ม`,
    cpH:"ศูนย์แคมเปญ",cpL:"AI จับจังหวะและร่างแคมเปญ — คุณกดเผยแพร่",aiRec:"คำแนะนำอัจฉริยะ AI",oneClick:"⚡ สร้างคลิกเดียว",ongoing:"กำลังดำเนินการ",
    participants:"ผู้เข้าร่วม",orders:"คำสั่งซื้อ",revenue:"รายได้",conv:"คอนเวอร์ชัน",live:"กำลังไลฟ์",
-   kitTitle:"ร่างชุดแคมเปญแล้ว",poster:"โปสเตอร์",launch:"🚀 เริ่มแคมเปญ",launched:"เริ่มแคมเปญแล้ว 🎉",coupon:"คูปอง",ppH:"หลักฐานลูกค้า",ppCase1:"เมทริกซ์บัญชีหลายตลาด — จีน · ANZ · อาเซียน",ppCase1L:"โพสต์เดียวกระจายสู่ WeChat, RED, Douyin, Instagram, TikTok และ WhatsApp ปรับให้เข้าแต่ละตลาดในไม่กี่วินาที",ppCase2:"เทรนด์ RED → แคมเปญใน 48 ชม.",ppCase2L:"Blackmores พบเทรนด์อาหารเสริมภูมิคุ้มกันบน RED/Douyin แล้วเปิดแคมเปญใน 48 ชม.",ppSpeed:"ความเร็วในการตอบสนอง",ppSpeedFrom:"รายสัปดาห์",ppSpeedTo:"รายชั่วโมง",ppReach:"ครอบคลุมหลายแพลตฟอร์ม",ppReachV:"WeChat · RED · Douyin · Weibo · Instagram · TikTok · WhatsApp",
-   calMon:"จ.",calWed:"พ.",calRow1:"รีล Fish Oil ภูมิคุ้มกัน · RED + Instagram",calRow2:"โพสต์ Glucosamine ดูแลข้อ · Facebook + Instagram",calRow3:"เคล็ดลับ Magnesium การนอน · TikTok + WhatsApp",
-   aiPromptDefault:"แคมเปญฤดูภูมิคุ้มกัน — Blackmores Vitamin C + Zinc สำหรับผู้หญิงทำงานที่ยุ่งในจีน",
-   tplName0:"แคมเปญภูมิคุ้มกัน",tplName1:"เปิดตัวสินค้าใหม่",tplName2:"เกร็ดสุขภาพ",tplName3:"เสียงจากลูกค้า",
-   tplBody0:"💙 ดูแลสุขภาพภูมิคุ้มกันในฤดูนี้ — ให้ Blackmores Vitamin C + Zinc เป็นกิจวัตรประจำวัน",tplBody1:"🆕 วางจำหน่ายแล้ว — ทยอยเข้า Tmall Global, RED และร้านขายยา ANZ",tplBody2:"📚 รู้ไหม? นิสัยสุขภาพง่ายๆ ทุกวัน นี่คือ 3 เคล็ดลับให้ทำต่อเนื่อง…",tplBody3:"💬 “กลายเป็นส่วนหนึ่งของกิจวัตรตอนเช้า” — เสียงจากลูกค้า Blackmores",
-   aiDraftTitle:"💙 ดูแลสุขภาพภูมิคุ้มกันกับ Blackmores Vitamin C + Zinc",aiDraftBody:"แม้วันที่ยุ่ง ก็เริ่มได้จากขั้นตอนง่ายๆ Blackmores Vitamin C 1000 + Bio Zinc ช่วยดูแลสุขภาพประจำวัน — โปรดอ่านฉลากและใช้ตามคำแนะนำ มีจำหน่ายที่ Tmall Global, RED ข้ามพรมแดน และร้านขายยา ANZ",
-   ongoingName:"แชลเลนจ์ฤดูภูมิคุ้มกัน",kitLineApp:"WhatsApp / WeChat",kitOffer:"ข้อเสนอพิเศษสำหรับคุณ — {mix} ตอบ “ใช่” แล้วเราจะส่งคูปองให้",kitIgPromo:"เวลาจำกัด ดูเลย"}};
+   kitTitle:"ร่างชุดแคมเปญแล้ว",poster:"โปสเตอร์",launch:"🚀 เริ่มแคมเปญ",launched:"เริ่มแคมเปญแล้ว 🎉",coupon:"คูปอง",ppH:"หลักฐานลูกค้า",ppCase1:"เมทริกซ์บัญชีหลายตลาด — จีน · ANZ · อาเซียน",ppCase1L:"โพสต์เดียวกระจายสู่ WeChat, RED, Douyin, Instagram, TikTok และ WhatsApp ปรับให้เข้าแต่ละตลาดในไม่กี่วินาที",ppCase2:"เทรนด์ RED → แคมเปญใน 48 ชม.",ppCase2L:"General Mills พบเทรนด์อาหารเสริมโอกาสตามฤดูกาลบน RED/Douyin แล้วเปิดแคมเปญใน 48 ชม.",ppSpeed:"ความเร็วในการตอบสนอง",ppSpeedFrom:"รายสัปดาห์",ppSpeedTo:"รายชั่วโมง",ppReach:"ครอบคลุมหลายแพลตฟอร์ม",ppReachV:"WeChat · RED · Douyin · Weibo · Instagram · TikTok · WhatsApp",
+   calMon:"จ.",calWed:"พ.",calRow1:"รีล Wanchai Ferry Dumplings โอกาสตามฤดูกาล · RED + Instagram",calRow2:"โพสต์ Wanchai Ferry Wontons ดูแลข้อ · Facebook + Instagram",calRow3:"เคล็ดลับ Workday Snack การนอน · TikTok + WhatsApp",
+   aiPromptDefault:"แคมเปญฤดูโอกาสตามฤดูกาล — General Mills Häagen-Dazs Mini Cup + Zinc สำหรับผู้หญิงทำงานที่ยุ่งในจีน",
+   tplName0:"แคมเปญโอกาสตามฤดูกาล",tplName1:"เปิดตัวสินค้าใหม่",tplName2:"เกร็ดสุขภาพ",tplName3:"เสียงจากลูกค้า",
+   tplBody0:"💙 ดูแลสุขภาพโอกาสตามฤดูกาลในฤดูนี้ — ให้ General Mills Häagen-Dazs Mini Cup + Zinc เป็นกิจวัตรประจำวัน",tplBody1:"🆕 วางจำหน่ายแล้ว — ทยอยเข้า Tmall Global, RED และร้านขายยา ANZ",tplBody2:"📚 รู้ไหม? นิสัยสุขภาพง่ายๆ ทุกวัน นี่คือ 3 เคล็ดลับให้ทำต่อเนื่อง…",tplBody3:"💬 “กลายเป็นส่วนหนึ่งของกิจวัตรตอนเช้า” — เสียงจากลูกค้า General Mills",
+   aiDraftTitle:"💙 ดูแลสุขภาพโอกาสตามฤดูกาลกับ General Mills Häagen-Dazs Mini Cup + Zinc",aiDraftBody:"แม้วันที่ยุ่ง ก็เริ่มได้จากขั้นตอนง่ายๆ General Mills Häagen-Dazs Mini Cup 1000 + Bio Zinc ช่วยดูแลสุขภาพประจำวัน — โปรดอ่านฉลากและใช้ตามคำแนะนำ มีจำหน่ายที่ Tmall Global, RED ข้ามพรมแดน และร้านขายยา ANZ",
+   ongoingName:"แชลเลนจ์ฤดูโอกาสตามฤดูกาล",kitLineApp:"WhatsApp / WeChat",kitOffer:"ข้อเสนอพิเศษสำหรับคุณ — {mix} ตอบ “ใช่” แล้วเราจะส่งคูปองให้",kitIgPromo:"เวลาจำกัด ดูเลย"}};
 
-let state={lang:"en",brand:"blackmores",tab:"d",entry:null,plats:[0,1,2],esel:0,sub:"reply",rlang:"en",msel:[0,1,2,3],kit:false};
+let state={lang:"en",brand:"generalmills",tab:"d",entry:null,plats:[0,1,2],esel:0,sub:"reply",rlang:"en",msel:[0,1,2,3],kit:false};
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 const U=()=>UI[state.lang],T=o=>o[state.lang]||o.en;
 
@@ -377,23 +379,23 @@ function renderI(){
   const TL=l=>T(l);
   const sevL={high:{en:'High',zh:'高',ja:'高',th:'สูง'},med:{en:'Med',zh:'中',ja:'中',th:'กลาง'},low:{en:'Low',zh:'低',ja:'低',th:'ต่ำ'}};
   const CONTENT=[
-    {ic:'🐟',title:{en:'Fish Oil daily routine reel',zh:'鱼油日常 reel'},plat:'Instagram · ANZ',likes:'4.2k',comments:'310',heat:92},
-    {ic:'🛡️',title:{en:'Immunity Q&A live',zh:'免疫问答直播'},plat:'RED · China',likes:'3.1k',comments:'540',heat:80},
-    {ic:'🤰',title:{en:'Pregnancy Gold explainer',zh:'孕妇黄金素讲解'},plat:'WeChat Channels',likes:'2.6k',comments:'190',heat:68},
+    {ic:'🐟',title:{en:'Wanchai Ferry Dumplings daily routine reel',zh:'湾仔码头水饺日常 reel'},plat:'Instagram · ANZ',likes:'4.2k',comments:'310',heat:92},
+    {ic:'🛡️',title:{en:'Seasonal occasion Q&A live',zh:'季节场景问答直播'},plat:'RED · China',likes:'3.1k',comments:'540',heat:80},
+    {ic:'🤰',title:{en:'Celebration Gold explainer',zh:'礼赠家庭黄金素讲解'},plat:'WeChat Channels',likes:'2.6k',comments:'190',heat:68},
     {ic:'😴',title:{en:'Sleep support tips',zh:'睡眠支持小贴士'},plat:'LINE · Japan',likes:'1.9k',comments:'120',heat:55},
-    {ic:'🧃',title:{en:'Kids Multi lunchbox routine',zh:'儿童复合维生素午餐盒日常'},plat:'Instagram · SEA',likes:'1.7k',comments:'96',heat:49},
-    {ic:'✅',title:{en:'How to check authentic Blackmores packaging',zh:'如何辨别澳佳宝正品包装'},plat:'WeChat OA · China',likes:'1.5k',comments:'220',heat:46},
+    {ic:'🧃',title:{en:'Family Meal Pack lunchbox routine',zh:'儿童通用磨坊组合包午餐盒日常'},plat:'Instagram · SEA',likes:'1.7k',comments:'96',heat:49},
+    {ic:'✅',title:{en:'How to check authentic General Mills packaging',zh:'如何辨别通用磨坊正品包装'},plat:'WeChat OA · China',likes:'1.5k',comments:'220',heat:46},
     {ic:'🐾',title:{en:'PAW senior dog care Q&A',zh:'PAW 老年犬护理问答'},plat:'Facebook · ANZ',likes:'1.2k',comments:'88',heat:39},
-    {ic:'🦠',title:{en:'Probiotics family challenge',zh:'益生菌家庭挑战'},plat:'TikTok · SEA',likes:'980',comments:'74',heat:34}
+    {ic:'🦠',title:{en:'Wanchai Ferry Quick Meal family challenge',zh:'湾仔码头快手餐家庭挑战'},plat:'TikTok · SEA',likes:'980',comments:'74',heat:34}
   ];
-  const WORDS=[['immunity',88,'pos'],['fish oil',76,'pos'],['sleep',64,'pos'],['pregnancy',58,'pos'],['probiotics',54,'pos'],['genuine',52,'pos'],['Vitamin C',49,'pos'],['magnesium',48,'pos'],['kids multi',44,'pos'],['PAW',42,'pos'],['routine',40,'pos'],['energy',38,'pos'],['TGA',36,'pos'],['label',35,'neu'],['retailer promo',34,'neu'],['bundle',32,'neu'],['price',30,'neg'],['delivery',29,'neg'],['capsule size',27,'neg'],['taste',25,'neg'],['stock-out',23,'neg'],['packaging',22,'neg']];
+  const WORDS=[['seasonal occasion',88,'pos'],['Wanchai Ferry dumplings',76,'pos'],['sleep',64,'pos'],['celebration',58,'pos'],['quick-meals',54,'pos'],['genuine',52,'pos'],['Häagen-Dazs Mini Cup',49,'pos'],['workday snack',48,'pos'],['family meal pack',44,'pos'],['PAW',42,'pos'],['routine',40,'pos'],['workday snack',38,'pos'],['brand governance',36,'pos'],['label',35,'neu'],['retailer promo',34,'neu'],['bundle',32,'neu'],['price',30,'neg'],['delivery',29,'neg'],['pack size',27,'neg'],['taste',25,'neg'],['stock-out',23,'neg'],['packaging',22,'neg']];
   const COMPLAINTS=[
     {sev:'high',t:{en:'Delivery delays on bundles',zh:'套装配送延迟'},n:42},
-    {sev:'med',t:{en:'Capsule size / swallowing',zh:'胶囊偏大难吞咽'},n:28},
+    {sev:'med',t:{en:'serving size / swallowing',zh:'包装偏大难吞咽'},n:28},
     {sev:'med',t:{en:'Price vs marketplace deals',zh:'价格 vs 平台促销'},n:21},
     {sev:'med',t:{en:'Authenticity and packaging differences',zh:'真伪与包装差异'},n:19},
-    {sev:'low',t:{en:'Flavour of chewables',zh:'咀嚼片口味'},n:12},
-    {sev:'low',t:{en:'Out-of-stock on Pregnancy Gold',zh:'孕妇黄金素缺货'},n:10},
+    {sev:'low',t:{en:'Flavour of ready-to-serves',zh:'咀嚼份口味'},n:12},
+    {sev:'low',t:{en:'Out-of-stock on Celebration Gold',zh:'礼赠家庭黄金素缺货'},n:10},
     {sev:'low',t:{en:'Product comparison confusion',zh:'产品对比不清晰'},n:9}
   ];
   const lab={
@@ -404,7 +406,7 @@ function renderI(){
     sent:{en:'Sentiment overview',zh:'情感总览'},
     cmp:{en:'Negative themes to action',zh:'待处理的负面主题'},
     pos:{en:'Positive',zh:'正面'},neu:{en:'Neutral',zh:'中性'},neg:{en:'Negative',zh:'负面'},
-    sentNote:{en:'Supportive listening only — no medical claims; feeds VOC and content planning.',zh:'仅做支持性聆听、不作疗效宣称；回流 VOC 与内容规划。'},
+    sentNote:{en:'Supportive listening only — no food and brand claims; feeds VOC and content planning.',zh:'仅做支持性聆听、不作疗效宣称；回流 VOC 与内容规划。'},
     cmpNote:{en:'Routed to service, supply and product teams with owners and SLAs.',zh:'分派给客服/供应/产品团队，带责任人与 SLA。'}
   };
   $('#main').innerHTML=`<h2 class="sec">${TL(lab.h)}</h2><div class="lead">${TL(lab.sub)}</div>
@@ -461,7 +463,7 @@ function renderEditor(){const u=U();
       <textarea class="ed-field" id="econtent" placeholder="${u.contentPh}"></textarea>
       <div class="lab">${u.media}</div><div class="mediabtns"><button class="btn o" id="mUp">${u.upload}</button>
         <button class="btn o" id="mLib">${u.fromLib}</button><button class="btn o" id="mAi">${u.aiGen}</button></div>
-      <div class="lab">${u.hashtags}</div><input class="ed-field" id="etags" value="#Blackmores #Wellness #ImmunitySupport">
+      <div class="lab">${u.hashtags}</div><input class="ed-field" id="etags" value="#General Mills #Everyday enjoyment #Seasonal occasionSupport">
       <div class="lab">${u.platforms}</div><div class="chips" id="pchips">${PLATS.map((p,i)=>`<span class="pc ${state.plats.includes(i)?'on':''}" data-p="${i}">${p[0]} ${p[1]}</span>`).join('')}</div>
       <div class="rowbtns"><button class="btn o" id="sd">${u.saveDraft}</button><button class="btn o" id="st">${u.saveTpl}</button>
         <button class="btn" id="pn">${u.pushNow}</button></div></div>
@@ -473,7 +475,7 @@ function renderEditor(){const u=U();
         <div class="phone-body">
           <div class="preview"><div class="pvtop"><div class="pvav">${BRANDS[state.brand].name.slice(0,1)}</div>${BRANDS[state.brand].name} · ${PLATS[state.plats[0]||0][1]}</div>
             <div class="pvtitle" id="pvT">—</div><div class="pvbody" id="pvB"></div>
-            <div class="pvimg" id="pvImg"><img src="images/blackmores/bio-c-1000.png" alt=""></div><div class="pvtags" id="pvTags">#Blackmores #Wellness #ImmunitySupport</div></div>
+            <div class="pvimg" id="pvImg"><img src="images/gm/haagen-self-treat.jpg" alt=""></div><div class="pvtags" id="pvTags">#General Mills #Everyday enjoyment #Seasonal occasionSupport</div></div>
         </div>
         <div class="phone-nav"><span class="act">🏠</span><span>🔍</span><span>＋</span><span>🔔</span><span>☰</span></div>
       </div></div></div></div>`;
@@ -481,10 +483,10 @@ function renderEditor(){const u=U();
   $('#etitle').addEventListener('input',sync);$('#econtent').addEventListener('input',sync);$('#etags').addEventListener('input',sync);
   $$('#pchips .pc').forEach(c=>c.onclick=()=>{const i=+c.dataset.p;const k=state.plats.indexOf(i);k>=0?state.plats.splice(k,1):state.plats.push(i);c.classList.toggle('on');});
   $$('.tpl').forEach(t=>t.onclick=()=>{const m=[u.tplBody0,u.tplBody1,u.tplBody2,u.tplBody3];
-    $('#etitle').value=t.textContent.trim();$('#econtent').value=m[+t.dataset.tpl];var _pi=['bio-c-1000','daily-immune-action','bio-ace-excell','probiotics-daily'][+t.dataset.tpl];var _pe=$('#pvImg');if(_pe)_pe.innerHTML='<img src="images/blackmores/'+_pi+'.png" alt="">';sync();});
+    $('#etitle').value=t.textContent.trim();$('#econtent').value=m[+t.dataset.tpl];var _pi=['bio-c-1000','daily-immune-action','bio-ace-excell','quick-meals-daily'][+t.dataset.tpl];var _pe=$('#pvImg');if(_pe)_pe.innerHTML='<img src="images/gm/'+_pi+'.png" alt="">';sync();});
   const ag=$('#aigo');if(ag)ag.onclick=()=>{$('#etitle').value=u.aiDraftTitle;
     $('#econtent').value=u.aiDraftBody;sync();toast(u.drafted);};
-  $('#mUp').onclick=()=>toast(u.upload);$('#mLib').onclick=()=>toast(u.fromLib);$('#mAi').onclick=()=>{$('#pvImg').innerHTML='<img src="images/blackmores/daily-immune-action.png" alt="">';toast(u.aiGen);};
+  $('#mUp').onclick=()=>toast(u.upload);$('#mLib').onclick=()=>toast(u.fromLib);$('#mAi').onclick=()=>{$('#pvImg').innerHTML='<img src="images/gm/wanchai-family-dinner.jpg" alt="">';toast(u.aiGen);};
   $('#sd').onclick=()=>toast(u.savedDraft);$('#st').onclick=()=>toast(u.savedTpl);$('#pn').onclick=()=>toast(u.pushed);
   sync();}
 
@@ -549,10 +551,10 @@ function renderCp(){const u=U();
       <div class="mtr"><span><b>1,240</b>${u.participants}</span><span><b>318</b>${u.orders}</span><span><b>$9.4k</b>${u.revenue}</span><span><b>4.1%</b>${u.conv}</span></div></div></div>`;
   $$('[data-r]').forEach(b=>b.onclick=()=>showKit(+b.dataset.r));}
 function showKit(i){const u=U();const r=AIRECS[i];
-  const kitImgs=['bio-c-1000.png','joint-formula-advanced.png','beauty-sleep.png','pregnancy-gold.svg','probiotics-daily.png','fish-oil.svg'];
+  const kitImgs=['bio-c-1000.png','family meal-formula-advanced.png','beauty-sleep.png','celebration-gold.svg','quick-meals-daily.png','dumplingpack.svg'];
   $('#kitZone').innerHTML=`<div class="kit"><div class="lab" style="color:var(--brand)">✨ ${u.kitTitle} — ${T(r.t)}</div>
-    <div class="grid"><div class="pvimg" style="height:150px"><img src="images/blackmores/${kitImgs[i]||kitImgs[0]}" alt=""></div>
-      <div><div class="copybox"><div class="p">Instagram</div>💙 ${T(r.t)} — ${u.kitIgPromo} 💙 #Blackmores #Wellness</div>
+    <div class="grid"><div class="pvimg" style="height:150px"><img src="images/gm/gm-ai-foundation.jpg" alt=""></div>
+      <div><div class="copybox"><div class="p">Instagram</div>💙 ${T(r.t)} — ${u.kitIgPromo} 💙 #General Mills #Everyday enjoyment</div>
         <div class="copybox" style="margin-top:9px"><div class="p">${u.kitLineApp}</div>${u.kitOffer.replace('{mix}',T(r.d[2][1]))}</div>
         <div class="copybox" style="margin-top:9px"><div class="p">${u.coupon}</div>🎟️ WELLNESS15 · ${T(r.d[0][1])}</div></div></div>
     <button class="btn" id="launch" style="width:100%;margin-top:12px">${u.launch}</button></div>`;

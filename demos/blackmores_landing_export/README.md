@@ -1,4 +1,4 @@
-# Blackmores Experience Studio — First Screen Export
+# General Mills AI Scenario Studio — First Screen Export
 
 This package contains a Codex-ready implementation spec and starter HTML/CSS for the approved first-screen direction.
 
@@ -6,12 +6,12 @@ This package contains a Codex-ready implementation spec and starter HTML/CSS for
 
 **One Brand. Five Market Realities. One Scalable Operating Model.**
 
-The first screen should immediately show the five market realities and avoid generic slogans. The market cards are the evidence that NTT DATA understands Blackmores' global-local challenge.
+The first screen should immediately show the five market realities and avoid generic slogans. The market cards are the evidence that NTT DATA understands General Mills' global-local challenge.
 
 ## File map
 
 ```text
-blackmores_landing_export/
+generalmills_landing_export/
 ├── README.md
 ├── CODEX_IMPLEMENTATION_PROMPT.md
 ├── assets/

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agentic Commerce · Blackmores · Experience Studio</title>
+<title>Agentic Commerce · General Mills · Experience Studio</title>
 <style>
   :root{
     --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
@@ -225,8 +225,8 @@
   .hrow .hn{font-weight:700;font-size:13px}
   .hrow .hm{font-size:11px;color:var(--muted);margin-top:2px}
   .hrow .hstat{margin-left:auto;flex-shrink:0}
-  .pill{display:inline-block;font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;white-space:nowrap}
-  .pill.low{background:#fdecea;color:#c0563f}.pill.ok{background:#eafaf0;color:#E91E63}.pill.high{background:#fdf2e2;color:#b5731a}
+  .serving{display:inline-block;font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;white-space:nowrap}
+  .serving.low{background:#fdecea;color:#c0563f}.serving.ok{background:#eafaf0;color:#E91E63}.serving.high{background:#fdf2e2;color:#b5731a}
   .trend{font-size:11px;font-weight:800;margin-left:4px}.trend.up{color:#E91E63}.trend.dn{color:#c0563f}
   .reasonchip{display:inline-block;font-size:10.5px;font-weight:700;color:var(--brand-d);background:var(--soft);border-radius:7px;padding:3px 8px;margin-top:5px;line-height:1.35}
   .rej{border:0;background:0;color:var(--muted);font-size:12px;cursor:pointer;text-decoration:underline}
@@ -283,10 +283,12 @@
   .invb.prim{border-color:var(--brand);background:var(--soft);color:var(--brand-d)}
   .invb:hover{border-color:var(--brand)}
 </style>
+<link rel="stylesheet" href="gm-demo-theme.css">
+<script defer src="gm-demo-brand.js"></script>
 </head>
 <body>
 <header><div class="nav">
-  <div class="brand" id="brand">BLACKMORES</div>
+  <div class="brand" id="brand">GENERAL MILLS</div>
   <div class="subt" id="sub">Agentic Commerce</div>
   <span class="linebadge" id="lineBadge">Chat</span><div class="sp"></div>
   <div class="langs" id="langs"></div>
@@ -301,14 +303,14 @@
 
 <script>
 const BRANDS={
-  blackmores:{logo:"BLACKMORES",sup:"®",name:"Blackmores",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  generalmills:{logo:"GENERAL MILLS",sup:"®",name:"General Mills",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
   lumiere:{logo:"LUMIÈRE",sup:"",name:"Lumière",c:["#a8456b","#7d2f4e","#f6e7ee","#c98a8a"]},
   harvest:{logo:"HARVEST & CO",sup:"",name:"Harvest & Co",c:["#b5611f","#8a4715","#f6ebe0","#3d7a4f"]}};
 
-/* 5 autonomous steps — Blackmores health-advisor flavoured */
+/* 5 autonomous steps — General Mills health-advisor flavoured */
 const STEPS=[
-  {ja:"リクエストを理解",en:"Understanding your health need",zh:"理解你的健康需求"},
-  {ja:"履歴・健康プロフィールを参照",en:"Recalling history & health profile",zh:"调取历史与健康档案"},
+  {ja:"リクエストを理解",en:"Understanding your occasion need",zh:"理解你的场景需求"},
+  {ja:"履歴・健康プロフィールを参照",en:"Recalling history & health profile",zh:"调取历史与场景偏好"},
   {ja:"在庫・有効期限を確認（近隣店舗 / EC）",en:"Checking stock & expiry",zh:"确认库存与有效期"},
   {ja:"最適プランを構築",en:"Building your best plan",zh:"构建最优方案"},
   {ja:"クーポン・ポイントを適用",en:"Applying coupons & points",zh:"套用优惠券与积分"}];
@@ -316,66 +318,66 @@ const STEPS=[
 /* prices are legacy ¥-scaled integers; yen() normalises to AUD base then formats for the active market */
 const SCN=[
  {key:"reorder",
-  cmd:{ja:"いつもの免疫サポートをまた注文して",en:"Re-order my usual immunity set",zh:"把我常买的免疫套装再来一份"},
+  cmd:{ja:"いつもの季节场景サポートをまた注文して",en:"Re-order my usual seasonal occasion set",zh:"把我常买的季节场景套装再来一份"},
   recall:{ja:"過去3件 · 平均30日周期",en:"3 past orders · avg 30-day cycle",zh:"找到 3 笔历史单 · 平均 30 天周期"},
   stock:{ja:"近隣2店に在庫 · 最短今日",en:"In stock at 2 nearby stores · today",zh:"附近 2 家门店有货 · 最快今天"},
   plan:{ja:"定番セットを再構成 · 有効期限の長いロットを選択",en:"Rebuilt your usual set · longest-dated lot",zh:"重建常用套装 · 选有效期最长批次"},
-  promo:{ja:"健康サポートクーポン -{c} + ポイント2倍",en:"Health-care coupon -{c} + 2× points",zh:"健康券 -{c} + 双倍积分"},
-  sum:{ja:"直近3件から免疫サポートの定番セットを再構成しました。有効期限の長いロットを確保済み。",en:"Rebuilt your usual immunity set from the last 3 orders — longest-dated lots secured.",zh:"调取最近 3 单，重建了免疫常用套装，已锁定有效期最长批次。"},
+  promo:{ja:"健康サポートクーポン -{c} + ポイント2倍",en:"occasion coupon -{c} + 2× points",zh:"健康券 -{c} + 双倍积分"},
+  sum:{ja:"直近3件から季节场景サポートの定番セットを再構成しました。有効期限の長いロットを確保済み。",en:"Rebuilt your usual seasonal occasion set from the last 3 orders — longest-dated lots secured.",zh:"调取最近 3 单，重建了季节场景常用套装，已锁定有效期最长批次。"},
   cold:true,coupon:120,pts:84,
-  items:[{img:"images/blackmores/vitamin-c.svg",nm:{ja:"ビタミンC 1000",en:"Vitamin C 1000",zh:"维生素C"},q:2,p:1690,fresh:{ja:"有効期限 18か月",en:"18 mo to expiry",zh:"有效期 18 个月"},wy:{ja:"毎日の免疫サポート",en:"Daily immune support",zh:"日常免疫支持"}},
-    {img:"images/blackmores/probiotics.svg",nm:{ja:"益生菌每日健康",en:"Probiotics Daily Health",zh:"益生菌每日健康"},q:1,p:2490,fresh:{ja:"有効期限 16か月",en:"16 mo to expiry",zh:"有效期 16 个月"},wy:{ja:"腸内環境のサポート",en:"Gut & immune balance",zh:"肠道与免疫平衡"}},
-    {img:"images/blackmores/multivitamin.svg",nm:{ja:"复合维生素",en:"Multivitamin",zh:"复合维生素"},q:1,p:2990,fresh:{ja:"有効期限 22か月",en:"22 mo to expiry",zh:"有效期 22 个月"},wy:{ja:"補充時期",en:"Due for a refill",zh:"该补货了"}}]},
+  items:[{img:"images/gm/haagen-self-treat.jpg",nm:{ja:"プロダクトC 1000",en:"Häagen-Dazs Mini Cup 1000",zh:"哈根达斯迷你杯"},q:2,p:1690,fresh:{ja:"有効期限 18か月",en:"18 mo to expiry",zh:"有效期 18 个月"},wy:{ja:"毎日の季节场景サポート",en:"Daily seasonal occasion support",zh:"日常季节场景支持"}},
+    {img:"images/gm/wanchai-quick-meal.jpg",nm:{ja:"湾仔码头快手餐",en:"Wanchai Ferry Quick Meal",zh:"湾仔码头快手餐"},q:1,p:2490,fresh:{ja:"有効期限 16か月",en:"16 mo to expiry",zh:"有效期 16 个月"},wy:{ja:"クイックミール環境のサポート",en:"Quick meal & immune balance",zh:"快手餐与季节场景平衡"}},
+    {img:"images/gm/gm-ai-foundation.jpg",nm:{ja:"通用磨坊组合包",en:"Multiproduct",zh:"通用磨坊组合包"},q:1,p:2990,fresh:{ja:"有効期限 22か月",en:"22 mo to expiry",zh:"有效期 22 个月"},wy:{ja:"補充時期",en:"Due for a refill",zh:"该补货了"}}]},
 
  {key:"water",clar:"house",
-  cmd:{ja:"毎日の魚油サブスクを組んで",en:"Set up a daily Fish Oil subscription",zh:"帮我组个每日鱼油定期便"},
+  cmd:{ja:"毎日の魚油サブスクを組んで",en:"Set up a daily Wanchai Ferry Dumplings subscription",zh:"帮我组个家庭水饺定期便"},
   recall:{ja:"世帯の消費ペースを推定",en:"Estimating household pace",zh:"按家庭消耗速度推算"},
   stock:{ja:"常温保管 · 倉庫在庫から定期手配",en:"Shelf-stable · scheduled from DC",zh:"常温 · 从仓库定期发货"},
-  plan:{ja:"配送間隔と本数を最適化 · 飲み忘れリマインド付き",en:"Optimised cadence + intake reminders",zh:"优化配送频率与数量 + 服用提醒"},
+  plan:{ja:"配送間隔と本数を最適化 · 飲み忘れリマインド付き",en:"Optimised cadence + intake reminders",zh:"优化配送频率与数量 + 复购提醒"},
   promo:{ja:"定期便割 5% + ポイント",en:"Subscription 5% off + points",zh:"定期便 5% 折 + 积分"},
-  sum:{ja:"世帯ペースに合わせた魚油の定期便を設計しました。飲み忘れリマインドを毎回お送りします。",en:"Designed a Fish Oil subscription matched to your household — intake reminders each cycle.",zh:"按你家消耗节奏设计了鱼油定期便，每次随附服用提醒。"},
+  sum:{ja:"世帯ペースに合わせた魚油の定期便を設計しました。飲み忘れリマインドを毎回お送りします。",en:"Designed a Wanchai Ferry Dumplings subscription matched to your household — intake reminders each cycle.",zh:"按你家消耗节奏设计了家庭水饺补货，每次随附复购提醒。"},
   cold:false,coupon:0,subPct:5,pts:96,
-  items:[{img:"images/blackmores/fish-oil.svg",nm:{ja:"无腥味深海鱼油 400粒",en:"Odourless Fish Oil ×400",zh:"无腥味深海鱼油 400粒"},q:2,p:3290,fresh:{ja:"定期 · 8週ごと",en:"Every 8 weeks",zh:"每 8 周一次"},wy:{ja:"心臓・関節の健康",en:"Heart & joint health",zh:"心脏与关节健康"}},
-    {img:"images/blackmores/multivitamin.svg",nm:{ja:"复合维生素 200粒",en:"Multivitamin ×200",zh:"复合维生素 200粒"},q:1,p:2990,fresh:{ja:"定期 · 8週ごと",en:"Every 8 weeks",zh:"每 8 周一次"},wy:{ja:"日々の栄養の土台",en:"Everyday nutrition base",zh:"日常营养基础"}}]},
+  items:[{img:"images/gm/wanchai-family-dinner.jpg",nm:{ja:"湾仔码头家庭装水饺 400份",en:"Wanchai Ferry Dumpling Pack ×400",zh:"湾仔码头家庭装水饺 400份"},q:2,p:3290,fresh:{ja:"定期 · 8週ごと",en:"Every 8 weeks",zh:"每 8 周一次"},wy:{ja:"ファミリーテーブル・ファミリーミールの健康",en:"Family table & family meal health",zh:"家庭餐桌与家庭餐健康"}},
+    {img:"images/gm/gm-ai-foundation.jpg",nm:{ja:"通用磨坊组合包 200份",en:"Multiproduct ×200",zh:"通用磨坊组合包 200份"},q:1,p:2990,fresh:{ja:"定期 · 8週ごと",en:"Every 8 weeks",zh:"每 8 周一次"},wy:{ja:"日々の栄養の土台",en:"Everyday nutrition base",zh:"日常营养基础"}}]},
 
- {key:"family",clar:"pregnancy",bundle:"family",
-  cmd:{ja:"家族みんなの健康サプリをまとめて",en:"Bundle health supplements for the family",zh:"把全家的健康补充剂一起搞定"},
-  recall:{ja:"家族4人 · 子ども2人を考慮",en:"Family of 4 · 2 kids",zh:"一家4口 · 2个孩子"},
+ {key:"family",clar:"celebration",bundle:"family",
+  cmd:{ja:"家族みんなの健康プロダクトをまとめて",en:"Bundle food products for the family",zh:"把全家的食品组合一起搞定"},
+  recall:{ja:"家族4人 · 子ども2人を考慮",en:"Family of 4 · 2 family",zh:"一家4口 · 2个孩子"},
   stock:{ja:"近隣店舗に在庫 · 明日午前可",en:"In stock nearby · tomorrow AM",zh:"附近门店有货 · 明天上午"},
-  plan:{ja:"《家族免疫バンドル》を構成 — 大人・お子さままで免疫を横断サポート",en:"Building the Family Immunity Bundle — cross-category immune support for everyone",zh:"组《全家免疫组合》— 跨品类支持全家免疫"},
+  plan:{ja:"《家族季节场景バンドル》を構成 — 大人・お子さままで季节场景を横断サポート",en:"Building the Family Seasonal occasion Bundle — cross-category seasonal occasion support for everyone",zh:"组《全家季节场景组合》— 跨品类支持全家季节场景"},
   promo:{ja:"バンドル割 約15%OFF + ポイント",en:"Bundle ~15% off + points",zh:"组合约15%折 + 积分"},
-  sum:{ja:"《家族免疫バンドル》をご用意しました — 复合维生素・ビタミンC・益生菌・子ども用マルチで、大人からお子さままで免疫を横断サポート。単品で買うよりお得です。",en:"Here's the Family Immunity Bundle — Multivitamin, Vitamin C, Probiotics and Kids Multi: immune support for the whole family across categories, better value than buying separately.",zh:"为你备好《全家免疫组合》— 复合维生素、维生素C、益生菌、儿童复合维生素，跨品类支持全家免疫，比单买更划算。"},
+  sum:{ja:"《家族季节场景バンドル》をご用意しました — 通用磨坊组合包・プロダクトC・湾仔码头快手餐・子ども用マルチで、大人からお子さままで季节场景を横断サポート。単品で買うよりお得です。",en:"Here's the Family Seasonal occasion Bundle — Multiproduct, Häagen-Dazs Mini Cup, Wanchai Ferry Quick Meal and Family Meal Pack: seasonal occasion support for the whole family across categories, better value than buying separately.",zh:"为你备好《全家季节场景组合》— 通用磨坊组合包、哈根达斯迷你杯、湾仔码头快手餐、儿童通用磨坊组合包，跨品类支持全家季节场景，比单买更划算。"},
   cold:true,coupon:200,pts:128,
-  items:[{img:"images/blackmores/multivitamin.svg",nm:{ja:"复合维生素",en:"Multivitamin",zh:"复合维生素"},q:1,p:2990,fresh:{ja:"有効期限 20か月",en:"20 mo to expiry",zh:"有效期 20 个月"},wy:{ja:"大人の毎日の栄養",en:"Adults' daily nutrition",zh:"大人日常营养"}},
-    {img:"images/blackmores/vitamin-c.svg",nm:{ja:"ビタミンC 1000 × 2",en:"Vitamin C 1000 (×2)",zh:"维生素C（×2）"},q:2,p:1690,fresh:{ja:"有効期限 18か月",en:"18 mo to expiry",zh:"有效期 18 个月"},wy:{ja:"家族の免疫サポート",en:"Immune support for all",zh:"全家免疫支持"}},
-    {img:"images/blackmores/probiotics.svg",nm:{ja:"益生菌每日健康",en:"Probiotics Daily Health",zh:"益生菌每日健康"},q:1,p:2490,fresh:{ja:"有効期限 16か月",en:"16 mo to expiry",zh:"有效期 16 个月"},wy:{ja:"腸内・免疫のバランス",en:"Gut & immune balance",zh:"肠道与免疫平衡"}},
-    {img:"images/blackmores/kids-multi.svg",nm:{ja:"子ども用マルチビタミン",en:"Kids Multivitamin",zh:"儿童复合维生素"},q:1,p:2190,fresh:{ja:"有効期限 19か月",en:"19 mo to expiry",zh:"有效期 19 个月"},wy:{ja:"お子さまの免疫・栄養",en:"Kids' immunity & nutrition",zh:"孩子的免疫与营养"}}]}];
+  items:[{img:"images/gm/gm-ai-foundation.jpg",nm:{ja:"通用磨坊组合包",en:"Multiproduct",zh:"通用磨坊组合包"},q:1,p:2990,fresh:{ja:"有効期限 20か月",en:"20 mo to expiry",zh:"有效期 20 个月"},wy:{ja:"大人の毎日の栄養",en:"Adults' daily nutrition",zh:"大人日常营养"}},
+    {img:"images/gm/haagen-self-treat.jpg",nm:{ja:"プロダクトC 1000 × 2",en:"Häagen-Dazs Mini Cup 1000 (×2)",zh:"哈根达斯迷你杯（×2）"},q:2,p:1690,fresh:{ja:"有効期限 18か月",en:"18 mo to expiry",zh:"有效期 18 个月"},wy:{ja:"家族の季节场景サポート",en:"Seasonal occasion support for all",zh:"全家季节场景支持"}},
+    {img:"images/gm/wanchai-quick-meal.jpg",nm:{ja:"湾仔码头快手餐",en:"Wanchai Ferry Quick Meal",zh:"湾仔码头快手餐"},q:1,p:2490,fresh:{ja:"有効期限 16か月",en:"16 mo to expiry",zh:"有效期 16 个月"},wy:{ja:"クイックミール・季节场景のバランス",en:"Quick meal & immune balance",zh:"快手餐与季节场景平衡"}},
+    {img:"images/gm/wanchai-family-dinner.jpg",nm:{ja:"子ども用マルチプロダクト",en:"Family Meal Packproduct",zh:"儿童通用磨坊组合包"},q:1,p:2190,fresh:{ja:"有効期限 19か月",en:"19 mo to expiry",zh:"有效期 19 个月"},wy:{ja:"お子さまの季节场景・栄養",en:"Family' seasonal occasion & nutrition",zh:"孩子的季节场景与营养"}}]}];
 
 /* ===== Named family/health BUNDLES — components, bundle price vs sum-of-singles, save % ===== */
 const BUNDLES={
-  family:{nm:{ja:"家族免疫バンドル",en:"Family Immunity Bundle",zh:"全家免疫组合",th:"Family Immunity Bundle"},
+  family:{nm:{ja:"家族季节场景バンドル",en:"Family Seasonal occasion Bundle",zh:"全家季节场景组合",th:"Family Seasonal occasion Bundle"},
     price:8900,save:15,
-    comp:{ja:"复合维生素 ＋ ビタミンC ＋ 益生菌 ＋ 子ども用マルチ",en:"Multivitamin + Vitamin C + Probiotics + Kids Multi",zh:"复合维生素 + 维生素C + 益生菌 + 儿童复合维生素",th:"Multivitamin + Vitamin C + Probiotics + Kids Multi"},
-    note:{ja:"大人からお子さままで免疫を横断サポート。単品で揃えるよりお得です。",en:"Immune support for the whole family — better value than buying separately.",zh:"跨品类支持全家免疫，比单买更划算。",th:"Immune support for the whole family — better value than buying separately."}},
-  heart:{nm:{ja:"心臓ヘルス・エッセンシャル",en:"Heart Health Essentials",zh:"心脏健康基础组合",th:"Heart Health Essentials"},
+    comp:{ja:"通用磨坊组合包 ＋ プロダクトC ＋ 湾仔码头快手餐 ＋ 子ども用マルチ",en:"Multiproduct + Häagen-Dazs Mini Cup + Wanchai Ferry Quick Meal + Family Meal Pack",zh:"通用磨坊组合包 + 哈根达斯迷你杯 + 湾仔码头快手餐 + 儿童通用磨坊组合包",th:"Multiproduct + Häagen-Dazs Mini Cup + Wanchai Ferry Quick Meal + Family Meal Pack"},
+    note:{ja:"大人からお子さままで季节场景を横断サポート。単品で揃えるよりお得です。",en:"Seasonal occasion support for the whole family — better value than buying separately.",zh:"跨品类支持全家季节场景，比单买更划算。",th:"Seasonal occasion support for the whole family — better value than buying separately."}},
+  "family table":{nm:{ja:"ファミリーテーブルヘルス・エッセンシャル",en:"Family Table Essentials",zh:"家庭餐桌健康基础组合",th:"Family Table Essentials"},
     price:5500,save:12,
-    comp:{ja:"魚油 ＋ CoQ10",en:"Fish Oil + CoQ10",zh:"鱼油 + 辅酶Q10",th:"Fish Oil + CoQ10"},
-    note:{ja:"心臓の健康を毎日サポートする定番の組み合わせ。",en:"A daily pairing to support heart health.",zh:"日常支持心脏健康的经典搭配。",th:"A daily pairing to support heart health."}},
-  joint:{nm:{ja:"関節＆心臓ケアパック",en:"Joint & Heart Care Pack",zh:"关节与心脏呵护组合",th:"Joint & Heart Care Pack"},
+    comp:{ja:"魚油 ＋ Häagen-Dazs Pint",en:"Wanchai Ferry Dumplings + Häagen-Dazs Pint",zh:"湾仔码头水饺 + 哈根达斯品脱",th:"Wanchai Ferry Dumplings + Häagen-Dazs Pint"},
+    note:{ja:"ファミリーテーブルの健康を毎日サポートする定番の組み合わせ。",en:"A daily pairing to support family-table relevance.",zh:"日常支持家庭餐桌健康的经典搭配。",th:"A daily pairing to support family-table relevance."}},
+  "family meal":{nm:{ja:"ファミリーミール＆ファミリーテーブルケアパック",en:"Family Meal Care Pack",zh:"家庭餐与家庭餐桌呵护组合",th:"Family Meal Care Pack"},
     price:9500,save:14,
-    comp:{ja:"维骨力关节灵 ＋ 魚油 ＋ CoQ10",en:"Glucosamine + Fish Oil + CoQ10",zh:"维骨力关节灵 + 鱼油 + 辅酶Q10",th:"Glucosamine + Fish Oil + CoQ10"},
-    note:{ja:"関節の動きと心臓の健康を同時にサポート。",en:"Supports joint mobility and heart health together.",zh:"同时支持关节灵活与心脏健康。",th:"Supports joint mobility and heart health together."}},
-  pregnancy:{nm:{ja:"妊娠＆ベビー バンドル",en:"Pregnancy & Baby Bundle",zh:"孕期与宝宝组合",th:"Pregnancy & Baby Bundle"},
+    comp:{ja:"湾仔码头馄饨装 ＋ 魚油 ＋ Häagen-Dazs Pint",en:"Wanchai Ferry Wontons + Wanchai Ferry Dumplings + Häagen-Dazs Pint",zh:"湾仔码头馄饨装 + 湾仔码头水饺 + 哈根达斯品脱",th:"Wanchai Ferry Wontons + Wanchai Ferry Dumplings + Häagen-Dazs Pint"},
+    note:{ja:"ファミリーミールの動きとファミリーテーブルの健康を同時にサポート。",en:"Supports family meal convenience and family-table relevance together.",zh:"同时支持家庭餐灵活与家庭餐桌健康。",th:"Supports family meal convenience and family-table relevance together."}},
+  celebration:{nm:{ja:"ギフト＆ベビー バンドル",en:"Celebration & Family Bundle",zh:"礼赠场景与宝宝组合",th:"Celebration & Family Bundle"},
     price:5800,save:13,
-    comp:{ja:"孕妇黄金营养素 ＋ 益生菌",en:"Pregnancy Gold + Probiotics",zh:"孕妇黄金营养素 + 益生菌",th:"Pregnancy Gold + Probiotics"},
-    note:{ja:"妊娠中・授乳期の栄養と腸内バランスをサポート。ご利用前に医師にご相談ください。",en:"Supports nutrition and gut balance through pregnancy and breastfeeding. Consult your doctor before use.",zh:"支持孕期与哺乳期的营养与肠道平衡。服用前请咨询医生。",th:"Supports nutrition and gut balance through pregnancy and breastfeeding. Consult your doctor before use."}},
-  ageing:{nm:{ja:"ヘルシーエイジング バンドル",en:"Healthy Ageing Bundle",zh:"健康年龄组合",th:"Healthy Ageing Bundle"},
+    comp:{ja:"哈根达斯庆祝蛋糕 ＋ 湾仔码头快手餐",en:"Celebration Gold + Wanchai Ferry Quick Meal",zh:"哈根达斯庆祝蛋糕 + 湾仔码头快手餐",th:"Celebration Gold + Wanchai Ferry Quick Meal"},
+    note:{ja:"ギフト中・ギフト期の栄養とクイックミールバランスをサポート。ご利用前に医師にご相談ください。",en:"Supports nutrition and quick meal balance through celebration and gifting. Consult your household preference before use.",zh:"支持礼赠与家庭场景的营养与快手餐平衡。购买前请确认家庭偏好与过敏原。",th:"Supports nutrition and quick meal balance through celebration and gifting. Consult your household preference before use."}},
+  lifecycle:{nm:{ja:"ヘルシーエイジング バンドル",en:"Lifecycle Membership Bundle",zh:"健康年龄组合",th:"Lifecycle Membership Bundle"},
     price:12000,save:16,
-    comp:{ja:"复合维生素 ＋ 维骨力关节灵 ＋ CoQ10 ＋ 叶黄素",en:"Multivitamin + Glucosamine + CoQ10 + Lutein",zh:"复合维生素 + 维骨力关节灵 + 辅酶Q10 + 叶黄素",th:"Multivitamin + Glucosamine + CoQ10 + Lutein"},
-    note:{ja:"毎日の栄養・関節・心臓・目の健康を一つの組み合わせでサポート。",en:"Supports everyday nutrition, joints, heart and eye health in one pack.",zh:"以一个组合支持日常营养、关节、心脏与眼睛健康。",th:"Supports everyday nutrition, joints, heart and eye health in one pack."}},
+    comp:{ja:"通用磨坊组合包 ＋ 湾仔码头馄饨装 ＋ Häagen-Dazs Pint ＋ 哈根达斯礼赠精选",en:"Multiproduct + Wanchai Ferry Wontons + Häagen-Dazs Pint + Häagen-Dazs Gift Selection",zh:"通用磨坊组合包 + 湾仔码头馄饨装 + 哈根达斯品脱 + 哈根达斯礼赠精选",th:"Multiproduct + Wanchai Ferry Wontons + Häagen-Dazs Pint + Häagen-Dazs Gift Selection"},
+    note:{ja:"毎日の栄養・ファミリーミール・ファミリーテーブル・目の健康を一つの組み合わせでサポート。",en:"Supports everyday nutrition, family meals, family table and eye health in one pack.",zh:"以一个组合支持日常营养、家庭餐、家庭餐桌与眼睛健康。",th:"Supports everyday nutrition, family meals, family table and eye health in one pack."}},
   sleep:{nm:{ja:"睡眠＆ストレス バンドル",en:"Sleep & Stress Bundle",zh:"睡眠与压力组合",th:"Sleep & Stress Bundle"},
     price:4200,save:11,
-    comp:{ja:"睡眠支持 ＋ 复合维生素B",en:"Sleep Support + Executive B",zh:"睡眠支持 + 复合维生素B",th:"Sleep Support + Executive B"},
+    comp:{ja:"睡眠支持 ＋ 通用磨坊组合包B",en:"Häagen-Dazs Evening Dessert + General Mills Workday Snack Pack",zh:"睡眠支持 + 通用磨坊组合包B",th:"Häagen-Dazs Evening Dessert + General Mills Workday Snack Pack"},
     note:{ja:"安らかな睡眠と忙しい日々の栄養を同時にサポート。",en:"Supports restful sleep and nutrition for busy days.",zh:"同时支持安稳睡眠与忙碌时的营养。",th:"Supports restful sleep and nutrition for busy days."}}};
 
 const UI={
@@ -383,13 +385,13 @@ const UI={
     tag:"一言で、<br>AI エージェントが <em>買い物</em>を。",
     tagSub:"チャットの中で一言。健康アドバイザーが在庫・有効期限・クーポンまで確認して用意します。",
     mic:"タップして話す — または入力 / コマンドを選択",ph:"健康の悩みやリクエストを入力…",
-    nudgeH:"アドバイザーからの提案",nudgeB:"いつものビタミンCが、あと2日分です。今すぐ再注文しますか？",nudgeSrc:"出典：服用リマインダーの記録",nudgeYes:"はい、おまかせ",nudgeLater:"あとで",
+    nudgeH:"アドバイザーからの提案",nudgeB:"いつものプロダクトCが、あと2日分です。今すぐ再注文しますか？",nudgeSrc:"出典：享用リマインダーの記録",nudgeYes:"はい、おまかせ",nudgeLater:"あとで",
     working:"アドバイザーが作業中",ready:"準備完了 — 確認してください",
     bundleBadge:"バンドル",bundleSaveLbl:"単品合計より",bundleOff:n=>`約${n}%お得`,
     sub2:"小計",coupon:"クーポン",sub5:"定期便割引",total:"合計",earn:"獲得ポイント",
     deliv:"配送枠",ship:"配送",cold:"翌日配送 · 追跡可能",ambient:"常温 · 定期便",
     slotsT:"配送枠を選択",
-    autoT:"自動化レベル",autoAsk:"🔔 毎回確認する",autoStand:"🤖 サプリを切らさない（常駐指示）",
+    autoT:"自動化レベル",autoAsk:"🔔 毎回確認する",autoStand:"🤖 プロダクトを切らさない（常駐指示）",
     autoNote:"在庫が切れる前に、アドバイザーが自動で再注文します。毎回チャットに確認が届きます。",
     confirm:"購入を確定",placed:"注文完了",items:n=>`${n}点`,eta:"明日午前に到着予定",
     loopStand:"🤖 常駐指示を設定しました。次回は在庫が切れる前にアドバイザーが自動手配します。",
@@ -401,15 +403,15 @@ const UI={
     reschedule:"配送日時を変更",rescheduled:"配送日時を更新しました",rsDate:"日付",rsSlot:"時間帯（1時間）",rsConfirm:"変更を確定",
     reset:"↺ 別のリクエスト",
     clarHouseQ:"確認 — ご家族の人数は？",ch1:"一人暮らし",ch2:"2〜3人",ch3:"4人以上",
-    clarAllergyQ:"確認 — 妊娠中・授乳中のご家族はいますか？",ca1:"いいえ",ca2:"はい",
-    allergyNote:"⚠ 妊娠中・授乳中の方ありとのこと — 専用の孕妇黄金营养素を併記しました。ご利用前に医師にご相談ください。",
-    guardCmd:"妊娠中だけど、このサプリは飲んで大丈夫？",
-    guard:"妊娠中・授乳中の栄養に関わるご質問ですね。妊娠中・授乳中向けの製品をご案内できますが、ご利用前には必ず医師にご相談ください。成分表示を準備します 💚"},
+    clarAllergyQ:"確認 — ギフト中・ギフト中のご家族はいますか？",ca1:"いいえ",ca2:"はい",
+    allergyNote:"⚠ ギフト中・ギフト中の方ありとのこと — 専用の哈根达斯庆祝蛋糕を併記しました。ご利用前に医師にご相談ください。",
+    guardCmd:"ギフト中だけど、このプロダクトは飲んで大丈夫？",
+    guard:"ギフト中・ギフト中の栄養に関わるご質問ですね。ギフト中・ギフト中向けの製品をご案内できますが、ご利用前には必ず医師にご相談ください。成分表示を準備します 💚"},
   en:{sub:"Agentic Commerce",
-    tag:"One sentence.<br>Your AI health advisor does the <em>shopping</em>.",
+    tag:"One sentence.<br>Your AI occasion advisor does the <em>shopping</em>.",
     tagSub:"One sentence in chat — your advisor understands the need, checks stock, expiry and coupons, then has it ready.",
-    mic:"Tap to speak — or type / pick a command",ph:"Describe a health need or request…",
-    nudgeH:"Advisor suggestion",nudgeB:"You're ~2 days from running out of your usual Vitamin C. Re-order now?",nudgeSrc:"Source: your intake reminder log",nudgeYes:"Yes, handle it",nudgeLater:"Later",
+    mic:"Tap to speak — or type / pick a command",ph:"Describe a occasion need or request…",
+    nudgeH:"Advisor suggestion",nudgeB:"You're ~2 days from running out of your usual Häagen-Dazs Mini Cup. Re-order now?",nudgeSrc:"Source: your intake reminder log",nudgeYes:"Yes, handle it",nudgeLater:"Later",
     working:"Your advisor is working",ready:"Ready — review & confirm",
     bundleBadge:"Bundle",bundleSaveLbl:"vs buying singles",bundleOff:n=>`save ~${n}%`,
     sub2:"Subtotal",coupon:"Coupon",sub5:"Subscription discount",total:"Total",earn:"Points earned",
@@ -427,16 +429,16 @@ const UI={
     reschedule:"Reschedule delivery",rescheduled:"Delivery time updated",rsDate:"Date",rsSlot:"Time slot (1 hr)",rsConfirm:"Confirm change",
     reset:"↺ Try another request",
     clarHouseQ:"Quick check — household size?",ch1:"Just me",ch2:"2–3 people",ch3:"4 or more",
-    clarAllergyQ:"Quick check — anyone pregnant or breastfeeding in the family?",ca1:"No",ca2:"Yes",
-    allergyNote:"⚠ Pregnancy/breastfeeding noted — added the dedicated Pregnancy & Breastfeeding Gold. Please consult your doctor before use.",
-    guardCmd:"I'm pregnant — are these supplements safe to take?",
-    guard:"That's a pregnancy-nutrition question. I can recommend pregnancy & breastfeeding products, but please confirm with your doctor before use. I'll prepare the ingredient labels 💚"},
+    clarAllergyQ:"Quick check — anyone pregnant or gifting in the family?",ca1:"No",ca2:"Yes",
+    allergyNote:"⚠ Celebration/gifting noted — added the dedicated Häagen-Dazs Celebration Cake. Please consult your household preference before use.",
+    guardCmd:"I'm pregnant — are these products safe to take?",
+    guard:"That's a celebration-nutrition question. I can recommend celebration & gifting products, but please confirm with your household preference before use. I'll prepare the ingredient labels 💚"},
   zh:{sub:"Agentic 商务",
-    tag:"一句话，<br>AI 健康顾问替你<em>选购</em>。",
+    tag:"一句话，<br>AI 场景导购替你<em>选购</em>。",
     tagSub:"在聊天里一句话——顾问帮你理解需求、查库存、看有效期、套优惠券，备好。",
-    mic:"点击说话——或输入 / 选指令",ph:"说说你的健康需求…",
-    nudgeH:"来自健康顾问的提议",nudgeB:"你常买的维生素C还剩约 2 天。现在续订吗？",nudgeSrc:"来源：你的服用提醒记录",nudgeYes:"好，交给你",nudgeLater:"稍后",
-    working:"你的健康顾问正在执行",ready:"已就绪——核对并确认",
+    mic:"点击说话——或输入 / 选指令",ph:"说说你的场景需求…",
+    nudgeH:"来自场景导购的提议",nudgeB:"你常买的哈根达斯迷你杯还剩约 2 天。现在续订吗？",nudgeSrc:"来源：你的复购提醒记录",nudgeYes:"好，交给你",nudgeLater:"稍后",
+    working:"你的场景导购正在执行",ready:"已就绪——核对并确认",
     bundleBadge:"组合",bundleSaveLbl:"比单买",bundleOff:n=>`约省${n}%`,
     sub2:"小计",coupon:"优惠券",sub5:"定期便折扣",total:"合计",earn:"获得积分",
     deliv:"配送",ship:"配送",cold:"次日达 · 全程可追踪",ambient:"常温 · 定期便",
@@ -453,10 +455,10 @@ const UI={
     reschedule:"修改配送时间",rescheduled:"已更新配送时间",rsDate:"日期",rsSlot:"时间段（1小时）",rsConfirm:"确认修改",
     reset:"↺ 换个需求",
     clarHouseQ:"确认一下——家里几口人？",ch1:"一个人",ch2:"2–3 人",ch3:"4 人以上",
-    clarAllergyQ:"确认一下——家里有孕期或哺乳期的成员吗？",ca1:"没有",ca2:"有",
-    allergyNote:"⚠ 已记录孕期/哺乳期需求——已加入专用的孕妇黄金营养素。服用前请咨询医生。",
-    guardCmd:"我在孕期，这些补充剂能吃吗？",
-    guard:"这是孕期营养相关的问题。我可以为你推荐孕期与哺乳期专用产品，但服用前请务必咨询医生。我把成分表整理给你 💚"}};
+    clarAllergyQ:"确认一下——家里有礼赠或家庭聚餐的成员吗？",ca1:"没有",ca2:"有",
+    allergyNote:"⚠ 已记录礼赠/家庭场景需求——已加入专用的哈根达斯庆祝蛋糕。购买前请确认家庭偏好与过敏原。",
+    guardCmd:"我在礼赠场景，这些食品组合能吃吗？",
+    guard:"这是礼赠场景营养相关的问题。我可以为你推荐礼赠与家庭场景专用产品，但享用前请务必咨询家庭偏好。我把成分表整理给你 💚"}};
 UI.th=UI.en;
 
 const SLOTS=[
@@ -464,7 +466,7 @@ const SLOTS=[
   {ja:["明日 夜","18–21時"],en:["Tomorrow PM","18–21"],zh:["明天晚上","18–21点"]},
   {ja:["明後日 午前","8–12時"],en:["Day after AM","8–12"],zh:["后天上午","8–12点"]}];
 
-let state={lang:"en",brand:"blackmores",market:"ANZ",running:false,basket:[],auto:"ask",sc:null,allergy:false,slot:0,audience:"consumer",pqty:{},prej:{},pauto:"ask",pcontract:"std",pcoupons:{},planBase:[],planSaid:"",planSummary:""};
+let state={lang:"en",brand:"generalmills",market:"ANZ",running:false,basket:[],auto:"ask",sc:null,allergy:false,slot:0,audience:"consumer",pqty:{},prej:{},pauto:"ask",pcontract:"std",pcoupons:{},planBase:[],planSaid:"",planSummary:""};
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 const U=()=>UI[state.lang]||UI.en,T=o=>o[state.lang]||o.en;
 /* ===== Market-driven currency — base AUD, single formatter =====
@@ -515,15 +517,15 @@ function transcribe(text,cb){const inp=$('#inp');if(!inp){cb();return;}inp.value
   (function t(){if(i<=text.length){inp.value=text.slice(0,i);i++;setTimeout(t,24);}else setTimeout(cb,300);})();}
 
 function route(v){v=(v||'').trim();if(!v)return;const low=v.toLowerCase();
-  if(/pregnan|妊娠|授乳|孕|哺乳|allerg|アレルギ|过敏|過敏/.test(low))return guard(U().guardCmd);
+  if(/ギフト|ギフト|孕|家庭聚餐|allerg|アレルギ|过敏|過敏/.test(low))return guard(U().guardCmd);
   if(/近く|どこで|店舗|nearby|store|附近|哪里买|哪裡買/.test(low))return runNearby();
   if(/ギフト|両親|実家|送りたい|親に|gift|父母|寄给|定期で送/.test(low))return runGift();
   if(/予算|円で|円以内|以内|budget|预算/.test(low))return runBudget();
   if(/スコア|健康スコア|cross|交叉|加购|加購/.test(low))return runCross();
   if(/おすすめ|変え|変わ|調子|相談|recommend|switch|换成|推荐|推薦/.test(low))return runConsult();
   let i=0;
-  if(/fish|oil|魚油|鱼油|サブスク|定期|subscription/.test(low))i=1;
-  else if(/family|家族|家里|子ども|kids/.test(low))i=2;
+  if(/fish|oil|魚油|湾仔码头水饺|サブスク|定期|subscription/.test(low))i=1;
+  else if(/family|家族|家里|子ども|family/.test(low))i=2;
   runScenario(i,v);}
 
 function guard(said){const u=U();$('#main').innerHTML=`<div class="said"><div class="b">${said}</div></div>
@@ -557,7 +559,7 @@ function askClarify(i){const u=U(),s=SCN[i];let q,opts;
   $('#clar').innerHTML=`<div class="clar"><div class="qq">🤖 ${q}</div>
     <div class="qr">${opts.map(o=>`<button class="qrb" data-v="${o[1]}">${o[0]}</button>`).join('')}</div></div>`;
   $$('.qrb').forEach(b=>b.onclick=()=>{
-    if(s.clar==='pregnancy')state.allergy=b.dataset.v==='1';
+    if(s.clar==='celebration')state.allergy=b.dataset.v==='1';
     if(s.clar==='house'){const h=+b.dataset.v;state._house=h;}
     $('#clar').innerHTML=`<div class="said" style="margin:8px 0"><div class="b">${b.textContent}</div></div>`;
     state._resume();});}
@@ -667,35 +669,35 @@ const CONSULT={
   intro:{ja:"いくつか伺って、あなたに合う一品をご提案します。",en:"A few quick questions, then I'll suggest the right fit.",zh:"问几个小问题，给你更合适的推荐。"},
   qs:[
     {q:{ja:"気になるのは？",en:"What's bugging you?",zh:"主要困扰？"},
-     opts:[{v:"joint",t:{ja:"関節のこわばり",en:"Joint stiffness",zh:"关节僵硬"}},
+     opts:[{v:"family meal",t:{ja:"ファミリーミールのこわばり",en:"Family meal stiffness",zh:"家庭餐僵硬"}},
            {v:"sleep",t:{ja:"寝つき・睡眠の質",en:"Sleep quality",zh:"睡眠质量"}},
            {v:"eye",t:{ja:"目の疲れ",en:"Eye strain",zh:"眼睛疲劳"}},
            {v:"stress",t:{ja:"ストレス・お疲れ",en:"Stress / fatigue",zh:"压力 / 疲劳"}},
            {v:"skin",t:{ja:"肌のコンディション",en:"Skin condition",zh:"皮肤状态"}},
-           {v:"immune",t:{ja:"免疫サポート",en:"Immune support",zh:"免疫支持"}}]},
-    {q:{ja:"いつ飲むことが多い？",en:"When do you usually take it?",zh:"一般什么时候服用？"},
+           {v:"immune",t:{ja:"季节场景サポート",en:"Seasonal occasion support",zh:"季节场景支持"}}]},
+    {q:{ja:"いつ飲むことが多い？",en:"When do you usually take it?",zh:"一般什么时候享用？"},
      opts:[{v:"am",t:{ja:"朝",en:"Morning",zh:"早上"}},{v:"pm",t:{ja:"夜",en:"Night",zh:"晚上"}},{v:"any",t:{ja:"不定期",en:"Irregular",zh:"不固定"}}]},
     {q:{ja:"今飲んでいるのは？",en:"What are you taking now?",zh:"现在吃的是？"},
-     opts:[{v:"multi",t:{ja:"複合ビタミン",en:"Multivitamin",zh:"复合维生素"}},{v:"other",t:{ja:"別のサプリ",en:"Another supplement",zh:"别的补充剂"}},{v:"none",t:{ja:"特に飲んでいない",en:"Nothing regular",zh:"没固定吃"}}]}]};
-const CURRENT={img:"images/blackmores/multivitamin.svg",nm:{ja:"复合维生素（今）",en:"Multivitamin (now)",zh:"复合维生素（现在）"},
+     opts:[{v:"multi",t:{ja:"複合プロダクト",en:"Multiproduct",zh:"通用磨坊组合包"}},{v:"other",t:{ja:"別のプロダクト",en:"Another product",zh:"别的食品组合"}},{v:"none",t:{ja:"特に飲んでいない",en:"Nothing regular",zh:"没固定吃"}}]}]};
+const CURRENT={img:"images/gm/gm-ai-foundation.jpg",nm:{ja:"通用磨坊组合包（今）",en:"Multiproduct (now)",zh:"通用磨坊组合包（现在）"},
   spec:{work:{ja:"日々の栄養の土台",en:"Everyday nutrition base",zh:"日常营养基础"},strain:{ja:"23種の栄養素",en:"23 nutrients",zh:"23种营养素"},sugar:"—",protein:"—",kcal:"1/日",price:1690}};
 const RECP={
-  joint:{img:"images/blackmores/glucosamine.svg",bundle:"joint",nm:{ja:"维骨力关节灵 1500",en:"Glucosamine 1500",zh:"维骨力关节灵 1500"},
-    spec:{work:{ja:"関節の動きをサポート",en:"Joint mobility support",zh:"支持关节灵活"},strain:{ja:"グルコサミン1500mg",en:"Glucosamine 1500mg",zh:"氨糖1500mg"},sugar:"—",protein:"—",kcal:"1/日",price:2890}},
-  sleep:{img:"images/blackmores/sleep.svg",bundle:"sleep",nm:{ja:"睡眠支持",en:"Sleep Support",zh:"睡眠支持"},
-    spec:{work:{ja:"健やかな睡眠をサポート",en:"Supports restful sleep",zh:"支持安稳睡眠"},strain:{ja:"バレリアン＋マグネシウム",en:"Valerian + magnesium",zh:"缬草+镁"},sugar:"—",protein:"—",kcal:"1/晚",price:2390}},
-  eye:{img:"images/blackmores/lutein.svg",bundle:"ageing",nm:{ja:"叶黄素护眼",en:"Lutein Vision",zh:"叶黄素护眼"},
-    spec:{work:{ja:"目の健康をサポート",en:"Eye health support",zh:"支持眼睛健康"},strain:{ja:"ルテイン＋ゼアキサンチン",en:"Lutein + zeaxanthin",zh:"叶黄素+玉米黄质"},sugar:"—",protein:"—",kcal:"1/日",price:2790}},
-  stress:{img:"images/blackmores/vitamin-b.svg",bundle:"sleep",nm:{ja:"复合维生素B",en:"Executive B",zh:"复合维生素B"},
-    spec:{work:{ja:"ストレス時の栄養補給",en:"Nutrition for busy days",zh:"忙碌时的营养补给"},strain:{ja:"高単位ビタミンB群",en:"High-strength B complex",zh:"高效维生素B群"},sugar:"—",protein:"—",kcal:"1/日",price:3190}},
-  skin:{img:"images/blackmores/evening-primrose.svg",nm:{ja:"月见草油",en:"Evening Primrose",zh:"月见草油"},
-    spec:{work:{ja:"肌の健康をサポート",en:"Skin health support",zh:"支持皮肤健康"},strain:{ja:"月見草油＋ビタミンE",en:"Evening primrose + Vit E",zh:"月见草油+维E"},sugar:"—",protein:"—",kcal:"1/日",price:2590}},
-  immune:{img:"images/blackmores/vitamin-c.svg",nm:{ja:"ビタミンC 1000",en:"Vitamin C 1000",zh:"维生素C 1000"},
-    spec:{work:{ja:"免疫サポート",en:"Immune support",zh:"免疫支持"},strain:{ja:"ビタミンC 1000mg",en:"Vitamin C 1000mg",zh:"维生素C 1000mg"},sugar:"—",protein:"—",kcal:"1/日",price:1690}}};
+  "family meal":{img:"images/gm/wanchai-reunion.jpg",bundle:"family meal",nm:{ja:"湾仔码头馄饨装 1500",en:"Wanchai Ferry Wonton Pack",zh:"湾仔码头馄饨装 1500"},
+    spec:{work:{ja:"ファミリーミールの動きをサポート",en:"Family meal convenience support",zh:"支持家庭餐灵活"},strain:{ja:"グルコサミン1500mg",en:"Wanchai Ferry Wonton Packmg",zh:"氨糖1500mg"},sugar:"—",protein:"—",kcal:"1/日",price:2890}},
+  sleep:{img:"images/gm/haagen-family-dessert.jpg",bundle:"sleep",nm:{ja:"睡眠支持",en:"Häagen-Dazs Evening Dessert",zh:"睡眠支持"},
+    spec:{work:{ja:"健やかな睡眠をサポート",en:"Supports restful sleep",zh:"支持安稳睡眠"},strain:{ja:"バレリアン＋マグネシウム",en:"Valerian + workday snack",zh:"缬草+镁"},sugar:"—",protein:"—",kcal:"1/晚",price:2390}},
+  eye:{img:"images/gm/haagen-gifting.jpg",bundle:"lifecycle",nm:{ja:"哈根达斯礼赠精选护眼",en:"Häagen-Dazs Gift Selection",zh:"哈根达斯礼赠精选护眼"},
+    spec:{work:{ja:"目の健康をサポート",en:"Eye health support",zh:"支持眼睛健康"},strain:{ja:"ルテイン＋ゼアキサンチン",en:"Häagen-Dazs Gift Selection + zeaxanthin",zh:"哈根达斯礼赠精选+玉米黄质"},sugar:"—",protein:"—",kcal:"1/日",price:2790}},
+  stress:{img:"images/gm/gm-ai-foundation.jpg",bundle:"sleep",nm:{ja:"通用磨坊组合包B",en:"General Mills Workday Snack Pack",zh:"通用磨坊组合包B"},
+    spec:{work:{ja:"ストレス時の栄養補給",en:"Nutrition for busy days",zh:"忙碌时的营养补给"},strain:{ja:"高単位プロダクトB群",en:"High-strength B complex",zh:"高效工作日能量点心"},sugar:"—",protein:"—",kcal:"1/日",price:3190}},
+  skin:{img:"images/gm/haagen-gifting.jpg",nm:{ja:"月见草油",en:"Häagen-Dazs Seasonal Flavor",zh:"月见草油"},
+    spec:{work:{ja:"肌の健康をサポート",en:"Skin health support",zh:"支持皮肤健康"},strain:{ja:"月見草油＋プロダクトE",en:"Evening primrose + Vit E",zh:"月见草油+哈根达斯礼盒"},sugar:"—",protein:"—",kcal:"1/日",price:2590}},
+  immune:{img:"images/gm/haagen-self-treat.jpg",nm:{ja:"プロダクトC 1000",en:"Häagen-Dazs Mini Cup 1000",zh:"哈根达斯迷你杯 1000"},
+    spec:{work:{ja:"季节场景サポート",en:"Seasonal occasion support",zh:"季节场景支持"},strain:{ja:"プロダクトC 1000mg",en:"Häagen-Dazs Mini Cup 1000mg",zh:"哈根达斯迷你杯 1000mg"},sugar:"—",protein:"—",kcal:"1/日",price:1690}}};
 const STORES=[
-  {nm:{ja:"ブラックモアズ シティ薬局",en:"Blackmores City Pharmacy",zh:"Blackmores 城市药房"},dist:{ja:"徒歩3分",en:"3 min walk",zh:"步行3分"},stock:{ja:"在庫4",en:"4 in stock",zh:"库存4"},price:2890,reserve:true},
-  {nm:{ja:"ヘルス＆ウェルネス 駅前店",en:"Health & Wellness Station",zh:"健康药妆 站前店"},dist:{ja:"徒歩6分",en:"6 min walk",zh:"步行6分"},stock:{ja:"在庫7",en:"7 in stock",zh:"库存7"},price:2950,reserve:true},
-  {nm:{ja:"ファーマシー モール店",en:"Pharmacy Mall",zh:"药房 购物中心店"},dist:{ja:"徒歩12分",en:"12 min walk",zh:"步行12分"},stock:{ja:"在庫あり",en:"In stock",zh:"有货"},price:2790,reserve:false}];
+  {nm:{ja:"General Mills シティ小売店",en:"General Mills City Retail",zh:"General Mills 城市门店"},dist:{ja:"徒歩3分",en:"3 min walk",zh:"步行3分"},stock:{ja:"在庫4",en:"4 in stock",zh:"库存4"},price:2890,reserve:true},
+  {nm:{ja:"ヘルス＆ウェルネス 駅前店",en:"Health & Everyday enjoyment Station",zh:"健康门店 站前店"},dist:{ja:"徒歩6分",en:"6 min walk",zh:"步行6分"},stock:{ja:"在庫7",en:"7 in stock",zh:"库存7"},price:2950,reserve:true},
+  {nm:{ja:"小売店 モール店",en:"Retail Mall",zh:"门店 购物中心店"},dist:{ja:"徒歩12分",en:"12 min walk",zh:"步行12分"},stock:{ja:"在庫あり",en:"In stock",zh:"有货"},price:2790,reserve:false}];
 const NEARBY={cmd:{ja:"近くで今すぐ買いたい",en:"I want it now, nearby",zh:"想现在就近买到"}};
 const MORE={
   ja:{consultThinking:"あなたに合う一品を選んでいます…",recTitle:"おすすめが変わりました",recAdvice:"今より目的に合う一品が見つかりました。下の比較をご覧ください。",
@@ -708,12 +710,12 @@ const MORE={
   en:{consultThinking:"Finding the best fit for you…",recTitle:"Your best match has changed",recAdvice:"Found a better fit for your goal — see the comparison below.",
     rowWork:"Main benefit",rowStrain:"Key ingredient",rowSugar:"Form",rowProtein:"Dose",rowKcal:"Intake",rowPrice:"Price",per:"ea",
     pickRec:"Switch to this",pickKeep:"Keep current",keptMsg:"Got it — we'll keep your current pick. You can switch any time.",
-    actOnline:"Buy online",actNearby:"Nearby stores",couponBody:"Health-care coupon available",couponStore:"Show your coupon in-store",
+    actOnline:"Buy online",actNearby:"Nearby stores",couponBody:"occasion coupon available",couponStore:"Show your coupon in-store",
     buyOnline:"Confirm purchase",reserve:"Directions",reserved:"Opening map",
     nbStep1:"Checking your location & nearby stores",nbStep2:"Matching stock & price",nbSum:"Found stores nearby where you can buy right now.",
     bundleSuggest:"There's a better-value bundle for this",bundleAdd:"Make it a bundle",bundleAdded:"Switched to the bundle",bundleOffM:n=>`save ~${n}%`},
   zh:{consultThinking:"正在为你挑最合适的一款…",recTitle:"更合适的推荐变了",recAdvice:"找到更贴合你目标的一款，看下面的对比。",
-    rowWork:"主要作用",rowStrain:"核心成分",rowSugar:"剂型",rowProtein:"建议量",rowKcal:"服用建议",rowPrice:"价格",per:"瓶",
+    rowWork:"主要作用",rowStrain:"核心成分",rowSugar:"剂型",rowProtein:"建议量",rowKcal:"享用建议",rowPrice:"价格",per:"瓶",
     pickRec:"换成这个",pickKeep:"保持现在的",keptMsg:"好的，继续用现在这款，随时可以换。",
     actOnline:"在线购买",actNearby:"附近门店",couponBody:"可用健康优惠券",couponStore:"在门店出示优惠券",
     buyOnline:"确认购买",reserve:"导航",reserved:"打开地图",
@@ -739,7 +741,7 @@ function consultAsk(step){const q=CONSULT.qs[step];
     if(step<2)consultAsk(step+1);else consultRecommend();});}
 function consultRecommend(){const m=M();
   $('#qzone').innerHTML=`<div style="font-size:12.5px;color:var(--muted)">⏳ ${m.consultThinking}</div>`;
-  setTimeout(()=>{const rec=RECP[cstate.ans[0]]||RECP.gut;cstate.rec=rec;renderCompare(rec);},850);}
+  setTimeout(()=>{const rec=RECP[cstate.ans[0]]||RECP["quick meal"];cstate.rec=rec;renderCompare(rec);},850);}
 function renderCompare(rec){const u=U(),m=M();
   const rows=[['rowWork','work'],['rowStrain','strain'],['rowSugar','sugar'],['rowProtein','protein'],['rowKcal','kcal'],['rowPrice','price']];
   const cell=(p,key)=>key==='price'?(yen(p.spec.price)+'/'+m.per):(typeof p.spec[key]==='object'?T(p.spec[key]):p.spec[key]);
@@ -787,38 +789,38 @@ function runNearby(){if(state.running)return;const u=U(),m=M();cstate.rec=CURREN
 
 /* ===== CROSS-SELL · BUDGET · GIFT ===== */
 const PROD={
-  multivit:{img:"images/blackmores/multivitamin.svg",nm:{ja:"复合维生素",en:"Multivitamin",zh:"复合维生素"},p:2990},
-  vitc:{img:"images/blackmores/vitamin-c.svg",nm:{ja:"ビタミンC 1000",en:"Vitamin C 1000",zh:"维生素C 1000"},p:1690},
-  probiotics:{img:"images/blackmores/probiotics.svg",nm:{ja:"益生菌每日健康",en:"Probiotics Daily Health",zh:"益生菌每日健康"},p:2490},
-  fishoil:{img:"images/blackmores/fish-oil.svg",nm:{ja:"无腥味深海鱼油",en:"Odourless Fish Oil",zh:"无腥味深海鱼油"},p:3290},
-  vitc500:{img:"images/blackmores/vitamin-c.svg",nm:{ja:"ビタミンC 1000",en:"Vitamin C 1000",zh:"维生素C 1000"},p:1690},
-  multi200:{img:"images/blackmores/multivitamin.svg",nm:{ja:"复合维生素 200粒",en:"Multivitamin ×200",zh:"复合维生素 200粒"},p:2990},
-  execb:{img:"images/blackmores/vitamin-b.svg",nm:{ja:"复合维生素B",en:"Executive B",zh:"复合维生素B"},p:3190},
-  glucosamine:{img:"images/blackmores/glucosamine.svg",nm:{ja:"维骨力关节灵 1500",en:"Glucosamine 1500",zh:"维骨力关节灵 1500"},p:2890},
-  lutein:{img:"images/blackmores/lutein.svg",nm:{ja:"叶黄素护眼",en:"Lutein Vision",zh:"叶黄素护眼"},p:2790},
-  sleep:{img:"images/blackmores/sleep.svg",nm:{ja:"睡眠支持",en:"Sleep Support",zh:"睡眠支持"},p:2390}};
-const CROSS={cmd:{ja:"健康スコアに合わせて選んで",en:"Pick based on my wellness score",zh:"按我的健康分数推荐"},score:68,
-  read:{ja:"スコアは68。免疫・関節・睡眠のケアがやや不足傾向です。",en:"Score 68 — immunity, joints & sleep care trending low.",zh:"分数 68，免疫、关节和睡眠的关注略不足。"},
-  items:[{...PROD.vitc,q:1,why:{ja:"免疫をサポート",en:"Immune support",zh:"免疫支持"}},{...PROD.fishoil,q:1,why:{ja:"心臓・関節をサポート",en:"Heart & joint support",zh:"心脏与关节支持"}},{...PROD.sleep,q:1,why:{ja:"健やかな睡眠に",en:"For restful sleep",zh:"助安稳睡眠"}}]};
+  multivit:{img:"images/gm/gm-ai-foundation.jpg",nm:{ja:"通用磨坊组合包",en:"Multiproduct",zh:"通用磨坊组合包"},p:2990},
+  haagenmini:{img:"images/gm/haagen-self-treat.jpg",nm:{ja:"プロダクトC 1000",en:"Häagen-Dazs Mini Cup 1000",zh:"哈根达斯迷你杯 1000"},p:1690},
+  "quick-meals":{img:"images/gm/wanchai-quick-meal.jpg",nm:{ja:"湾仔码头快手餐",en:"Wanchai Ferry Quick Meal",zh:"湾仔码头快手餐"},p:2490},
+  dumplingpack:{img:"images/gm/wanchai-family-dinner.jpg",nm:{ja:"湾仔码头家庭装水饺",en:"Wanchai Ferry Dumpling Pack",zh:"湾仔码头家庭装水饺"},p:3290},
+  haagenmini500:{img:"images/gm/haagen-self-treat.jpg",nm:{ja:"プロダクトC 1000",en:"Häagen-Dazs Mini Cup 1000",zh:"哈根达斯迷你杯 1000"},p:1690},
+  multi200:{img:"images/gm/gm-ai-foundation.jpg",nm:{ja:"通用磨坊组合包 200份",en:"Multiproduct ×200",zh:"通用磨坊组合包 200份"},p:2990},
+  execb:{img:"images/gm/gm-ai-foundation.jpg",nm:{ja:"通用磨坊组合包B",en:"General Mills Workday Snack Pack",zh:"通用磨坊组合包B"},p:3190},
+  wontonpack:{img:"images/gm/wanchai-reunion.jpg",nm:{ja:"湾仔码头馄饨装 1500",en:"Wanchai Ferry Wonton Pack",zh:"湾仔码头馄饨装 1500"},p:2890},
+  giftselection:{img:"images/gm/haagen-gifting.jpg",nm:{ja:"哈根达斯礼赠精选护眼",en:"Häagen-Dazs Gift Selection",zh:"哈根达斯礼赠精选护眼"},p:2790},
+  sleep:{img:"images/gm/haagen-family-dessert.jpg",nm:{ja:"睡眠支持",en:"Häagen-Dazs Evening Dessert",zh:"睡眠支持"},p:2390}};
+const CROSS={cmd:{ja:"健康スコアに合わせて選んで",en:"Pick based on my everyday enjoyment score",zh:"按我的场景分数推荐"},score:68,
+  read:{ja:"スコアは68。季节场景・ファミリーミール・睡眠のケアがやや不足傾向です。",en:"Score 68 — seasonal occasion, family meals & sleep care trending low.",zh:"分数 68，季节场景、家庭餐和睡眠的关注略不足。"},
+  items:[{...PROD.haagenmini,q:1,why:{ja:"季节场景をサポート",en:"Seasonal occasion support",zh:"季节场景支持"}},{...PROD.dumplingpack,q:1,why:{ja:"ファミリーテーブル・ファミリーミールをサポート",en:"Family table & family meal support",zh:"家庭餐桌与家庭餐支持"}},{...PROD.sleep,q:1,why:{ja:"健やかな睡眠に",en:"For restful sleep",zh:"助安稳睡眠"}}]};
 const BUDGET={cmd:{ja:"予算8,000円でおまかせ",en:"$80 budget — surprise me",zh:"预算8000日元，看你搭"},tiers:[5000,8000,15000],
-  baskets:{5000:[["vitc",1],["multivit",1]],8000:[["vitc",1],["multivit",1],["probiotics",1]],15000:[["vitc",2],["multivit",1],["probiotics",1],["fishoil",1],["sleep",1]]}};
-const GIFT={cmd:{ja:"両親（60代）に定期で送りたい（ネットが苦手）",en:"Send supplements to my parents (60s) on a schedule",zh:"父母60多岁不会网购，想定期寄健康补充剂给他们"},
-  reason:{ja:"ご両親お二人分ですね。复合维生素と维骨力关节灵の組み合わせで、1日1錠×2名。1回は約1ヶ月分が最適です。",en:"For both parents — a Multivitamin & Glucosamine set, 1 tablet/day each. ~1 month per shipment is best.",zh:"两位长辈，复合维生素与维骨力关节灵的组合，每天各1粒。每次约1个月的量最合适。"},
-  cycles:[{v:"w1",per:14,t:{ja:"2週に1回（30錠ずつ）",en:"Fortnightly (30 each)",zh:"每2周1次（每次30粒）"}},{v:"m2",per:30,t:{ja:"月1回（60錠ずつ）",en:"Monthly (60 each)",zh:"每月1次（每次60粒）"}},{v:"m1",per:60,t:{ja:"2ヶ月に1回（120錠）",en:"Every 2 months (120)",zh:"每2月1次（120粒）"}}],
+  baskets:{5000:[["haagenmini",1],["multivit",1]],8000:[["haagenmini",1],["multivit",1],["quick-meals",1]],15000:[["haagenmini",2],["multivit",1],["quick-meals",1],["dumplingpack",1],["sleep",1]]}};
+const GIFT={cmd:{ja:"両親（60代）に定期で送りたい（ネットが苦手）",en:"Send products to my parents (60s) on a schedule",zh:"父母60多岁不会网购，想定期寄食品组合给他们"},
+  reason:{ja:"ご両親お二人分ですね。通用磨坊组合包と湾仔码头馄饨装の組み合わせで、1日1錠×2名。1回は約1ヶ月分が最適です。",en:"For both parents — a Multiproduct & Wanchai Ferry Wontons set, 1 pack/day each. ~1 month per shipment is best.",zh:"两位长辈，通用磨坊组合包与湾仔码头馄饨装的组合，每天各1份。每次约1个月的量最合适。"},
+  cycles:[{v:"w1",per:14,t:{ja:"2週に1回（30錠ずつ）",en:"Fortnightly (30 each)",zh:"每2周1次（每次30份）"}},{v:"m2",per:30,t:{ja:"月1回（60錠ずつ）",en:"Monthly (60 each)",zh:"每月1次（每次60份）"}},{v:"m1",per:60,t:{ja:"2ヶ月に1回（120錠）",en:"Every 2 months (120)",zh:"每2月1次（120份）"}}],
   starts:[{v:"weekend",t:{ja:"今週末",en:"This weekend",zh:"本周末"}},{v:"next",t:{ja:"来週",en:"Next week",zh:"下周"}},{v:"date",t:{ja:"日付を指定",en:"Pick a date",zh:"指定日期"}}],
   durs:[{v:1,t:{ja:"1ヶ月分",en:"1 month",zh:"1个月"}},{v:3,t:{ja:"3ヶ月分",en:"3 months",zh:"3个月"}},{v:6,t:{ja:"6ヶ月分",en:"6 months",zh:"6个月"}}]};
 const GL={
-  ja:{gutScore:"健康スコア（服用記録と連携）",crossSum:"スコアに合わせて、不足を補う3品をおすすめします。",addToNext:"次回のお届けに追加",addedMsg:"次回のお届けに追加しました。スコアの変化も追跡します。",crossLoop:"🤖 スコアが下がると、アドバイザーが先回りで提案します。",
+  ja:{occasionScore:"健康スコア（享用記録と連携）",crossSum:"スコアに合わせて、不足を補う3品をおすすめします。",addToNext:"次回のお届けに追加",addedMsg:"次回のお届けに追加しました。スコアの変化も追跡します。",crossLoop:"🤖 スコアが下がると、アドバイザーが先回りで提案します。",
     budgetQ:"ご予算はどれくらい？",budgetTitle:"予算内で最適に組みました",budgetSum:"ご予算内で目的バランス良く構成。残り {rem}。",budgetUsed:"予算消化",budgetUpsell:"あと {rem} で、もう1品追加できます。",budgetDone:"合計 {t} で確定しました。",
-    giftCycleQ:"お届けの頻度はどれにしますか？",giftStartQ:"開始はいつにしますか？",giftDateQ:"開始日を選んでください",giftPickDate:"カレンダーを開く",giftDurQ:"何ヶ月分のお届けにしますか？",giftTo:"お届け先",giftParents:"ご実家（ご両親）",giftContents:"内容",giftContentsVal:"复合维生素＋维骨力关节灵 セット",giftCycle:"頻度",giftStart:"開始",giftPeriod:"期間",giftShips:"全{n}回",giftNoshi:"ギフト包装",giftNoshiYes:"あり（メッセージ付き）",giftPer:"1回あたり",giftPrepay:"前払い合計",giftConfirm:"前払いを確定",
+    giftCycleQ:"お届けの頻度はどれにしますか？",giftStartQ:"開始はいつにしますか？",giftDateQ:"開始日を選んでください",giftPickDate:"カレンダーを開く",giftDurQ:"何ヶ月分のお届けにしますか？",giftTo:"お届け先",giftParents:"ご実家（ご両親）",giftContents:"内容",giftContentsVal:"通用磨坊组合包＋湾仔码头馄饨装 セット",giftCycle:"頻度",giftStart:"開始",giftPeriod:"期間",giftShips:"全{n}回",giftNoshi:"ギフト包装",giftNoshiYes:"あり（メッセージ付き）",giftPer:"1回あたり",giftPrepay:"前払い合計",giftConfirm:"前払いを確定",
     giftPlaced:"定期ギフトを設定しました",giftPrepaid:"前払い {t} ・ ご実家へ自動配送",giftRemindH:"発送3日前のお知らせ（プレビュー）",giftRemindB:"次回発送の3日前にチャットでお知らせします。住所や日付の変更もここから。",giftChAddr:"住所を変更",giftChDate:"日付を変更",giftKeep:"このままでOK",giftKept:"このまま発送します",giftChDone:"変更画面を開きます"},
-  en:{gutScore:"Wellness score (linked to intake log)",crossSum:"Based on your score, here are 3 add-ons to fill the gaps.",addToNext:"Add to next delivery",addedMsg:"Added to your next delivery — we'll track your score too.",crossLoop:"🤖 If your score dips, the advisor suggests proactively.",
+  en:{occasionScore:"Everyday enjoyment score (linked to intake log)",crossSum:"Based on your score, here are 3 add-ons to fill the gaps.",addToNext:"Add to next delivery",addedMsg:"Added to your next delivery — we'll track your score too.",crossLoop:"🤖 If your score dips, the advisor suggests proactively.",
     budgetQ:"What's your budget?",budgetTitle:"Optimised within your budget",budgetSum:"A balanced mix within budget. {rem} left.",budgetUsed:"Budget used",budgetUpsell:"Add one more item for {rem}.",budgetDone:"Confirmed at {t}.",
-    giftCycleQ:"How often should we deliver?",giftStartQ:"When should it start?",giftDateQ:"Pick a start date",giftPickDate:"Open calendar",giftDurQ:"For how many months?",giftTo:"Deliver to",giftParents:"Parents' home",giftContents:"Contents",giftContentsVal:"Multivitamin + Glucosamine set",giftCycle:"Frequency",giftStart:"Start",giftPeriod:"Period",giftShips:"{n} shipments",giftNoshi:"Gift wrap",giftNoshiYes:"Yes (with message)",giftPer:"Per shipment",giftPrepay:"Prepaid total",giftConfirm:"Prepay now",
+    giftCycleQ:"How often should we deliver?",giftStartQ:"When should it start?",giftDateQ:"Pick a start date",giftPickDate:"Open calendar",giftDurQ:"For how many months?",giftTo:"Deliver to",giftParents:"Parents' home",giftContents:"Contents",giftContentsVal:"Multiproduct + Wanchai Ferry Wontons set",giftCycle:"Frequency",giftStart:"Start",giftPeriod:"Period",giftShips:"{n} shipments",giftNoshi:"Gift wrap",giftNoshiYes:"Yes (with message)",giftPer:"Per shipment",giftPrepay:"Prepaid total",giftConfirm:"Prepay now",
     giftPlaced:"Recurring gift set up",giftPrepaid:"Prepaid {t} · auto-delivered to parents",giftRemindH:"3-days-before reminder (preview)",giftRemindB:"We'll notify you in chat 3 days before each shipment. Change address or date here.",giftChAddr:"Change address",giftChDate:"Change date",giftKeep:"Keep as is",giftKept:"Shipping as scheduled",giftChDone:"Opening change screen"},
-  zh:{gutScore:"健康分数（接服用记录）",crossSum:"根据分数，推荐 3 件补足缺口。",addToNext:"加入下次配送",addedMsg:"已加入下次配送，会持续追踪你的分数。",crossLoop:"🤖 分数下降时，顾问会主动提议。",
+  zh:{occasionScore:"场景分数（接复购记录）",crossSum:"根据分数，推荐 3 件补足缺口。",addToNext:"加入下次配送",addedMsg:"已加入下次配送，会持续追踪你的分数。",crossLoop:"🤖 分数下降时，顾问会主动提议。",
     budgetQ:"你的预算大概多少？",budgetTitle:"在预算内组了最优篮",budgetSum:"在预算内做了目标均衡搭配。剩余 {rem}。",budgetUsed:"预算使用",budgetUpsell:"再加 {rem} 可多加一件。",budgetDone:"已按 {t} 确认。",
-    giftCycleQ:"多久配送一次？",giftStartQ:"什么时候开始？",giftDateQ:"选择开始日期",giftPickDate:"打开日历",giftDurQ:"配送几个月？",giftTo:"收货",giftParents:"父母家",giftContents:"内容",giftContentsVal:"复合维生素 + 维骨力关节灵 组合",giftCycle:"频率",giftStart:"开始",giftPeriod:"周期",giftShips:"共{n}次",giftNoshi:"礼品包装",giftNoshiYes:"有（附留言卡）",giftPer:"每次",giftPrepay:"预付合计",giftConfirm:"预付确认",
+    giftCycleQ:"多久配送一次？",giftStartQ:"什么时候开始？",giftDateQ:"选择开始日期",giftPickDate:"打开日历",giftDurQ:"配送几个月？",giftTo:"收货",giftParents:"父母家",giftContents:"内容",giftContentsVal:"通用磨坊组合包 + 湾仔码头馄饨装 组合",giftCycle:"频率",giftStart:"开始",giftPeriod:"周期",giftShips:"共{n}次",giftNoshi:"礼品包装",giftNoshiYes:"有（附留言卡）",giftPer:"每次",giftPrepay:"预付合计",giftConfirm:"预付确认",
     giftPlaced:"已设定定期礼赠",giftPrepaid:"预付 {t}・自动寄到父母家",giftRemindH:"发货前3天提醒（预览）",giftRemindB:"每次发货前3天在聊天里提醒你，可在此改地址或日期。",giftChAddr:"修改地址",giftChDate:"修改日期",giftKeep:"保持不变",giftKept:"按原计划发货",giftChDone:"打开修改页"}};
 GL.th=GL.en;
 const GG=()=>GL[state.lang]||GL.en;
@@ -829,7 +831,7 @@ function simpleConfirm(host,title,lines,loop){host.innerHTML=`<div class="conf">
 function runCross(){if(state.running)return;const u=U(),g=GG(),c=CROSS;const sub=c.items.reduce((a,it)=>a+it.p*it.q,0);
   $('#main').innerHTML=`<div class="said"><div class="b">${T(c.cmd)}</div></div>
    <div class="agent"><div class="ttl">✦ ${u.working}</div>
-     <div class="scorecard"><div class="sc-n">${c.score}<span>/100</span></div><div style="font-size:12.5px"><b>${g.gutScore}</b><br><span style="color:var(--muted)">${T(c.read)}</span></div></div>
+     <div class="scorecard"><div class="sc-n">${c.score}<span>/100</span></div><div style="font-size:12.5px"><b>${g.occasionScore}</b><br><span style="color:var(--muted)">${T(c.read)}</span></div></div>
      <div class="summary">🧠 ${g.crossSum}</div>
      ${c.items.map(it=>`<div class="item"><div class="em"><img src="${it.img}" width="30" height="30" alt=""></div><div style="min-width:0"><div class="nm">${T(it.nm)}</div><div class="wy">${T(it.why)}</div></div><div class="ctrls"><span class="ip">${yen(it.p*it.q)}</span></div></div>`).join('')}
      <div class="pricerow tot" style="margin-top:10px"><span>${u.total}</span><span>${yen(sub)}</span></div>
@@ -911,25 +913,25 @@ function renderGift(){const u=U(),g=GG(),gs=gstate;
 
 /* ===== PARTNER (B2B) — smart replenishment ===== */
 const PSKU=[
- {img:"images/blackmores/vitamin-c.svg",nm:{ja:"ビタミンC 1000 ×100",en:"Vitamin C 1000 ×100",zh:"维生素C 1000 ×100"},stock:12,rop:20,sold:28,trend:38,wpc:9600,rec:30,
-   reason:{ja:"発注点割れ・季節の免疫需要 +38%",en:"Below reorder point · seasonal immune demand +38%",zh:"低于补货点 · 季节免疫需求 +38%"}},
- {img:"images/blackmores/glucosamine.svg",nm:{ja:"维骨力关节灵 1500 ×180",en:"Glucosamine 1500 ×180",zh:"维骨力关节灵 1500 ×180"},stock:8,rop:15,sold:18,trend:25,wpc:14400,rec:24,
-   reason:{ja:"発注点割れ・関節ケア需要が上昇 +25%",en:"Below reorder point · joint-care demand rising +25%",zh:"低于补货点 · 关节呵护需求上升 +25%"}},
- {img:"images/blackmores/fish-oil.svg",nm:{ja:"无腥味深海鱼油 ×400",en:"Odourless Fish Oil ×400",zh:"无腥味深海鱼油 ×400"},stock:5,rop:12,sold:22,trend:22,wpc:18000,rec:30,
+ {img:"images/gm/haagen-self-treat.jpg",nm:{ja:"プロダクトC 1000 ×100",en:"Häagen-Dazs Mini Cup 1000 ×100",zh:"哈根达斯迷你杯 1000 ×100"},stock:12,rop:20,sold:28,trend:38,wpc:9600,rec:30,
+   reason:{ja:"発注点割れ・季節の季节场景需要 +38%",en:"Below reorder point · seasonal immune demand +38%",zh:"低于补货点 · 季节季节场景需求 +38%"}},
+ {img:"images/gm/wanchai-reunion.jpg",nm:{ja:"湾仔码头馄饨装 1500 ×180",en:"Wanchai Ferry Wonton Pack ×180",zh:"湾仔码头馄饨装 1500 ×180"},stock:8,rop:15,sold:18,trend:25,wpc:14400,rec:24,
+   reason:{ja:"発注点割れ・ファミリーミールケア需要が上昇 +25%",en:"Below reorder point · family meal-care demand rising +25%",zh:"低于补货点 · 家庭餐呵护需求上升 +25%"}},
+ {img:"images/gm/wanchai-family-dinner.jpg",nm:{ja:"湾仔码头家庭装水饺 ×400",en:"Wanchai Ferry Dumpling Pack ×400",zh:"湾仔码头家庭装水饺 ×400"},stock:5,rop:12,sold:22,trend:22,wpc:18000,rec:30,
    reason:{ja:"販売 +22% 継続・残り5ケースのみ",en:"Sales +22% sustained · only 5 cases left",zh:"销售 +22% 持续 · 仅剩5箱"}},
- {img:"images/blackmores/multivitamin.svg",nm:{ja:"复合维生素 ×200",en:"Multivitamin ×200",zh:"复合维生素 ×200"},stock:18,rop:25,sold:30,trend:40,wpc:16800,rec:36,
-   reason:{ja:"定番・新年の健康習慣で需要 +40%",en:"Staple · new-year wellness habits +40%",zh:"畅销 · 新年健康习惯需求 +40%"}},
- {img:"images/blackmores/probiotics.svg",nm:{ja:"益生菌每日健康 ×90",en:"Probiotics Daily Health ×90",zh:"益生菌每日健康 ×90"},stock:6,rop:14,sold:16,trend:30,wpc:13200,rec:24,
-   reason:{ja:"発注点割れ・腸内ケア需要が拡大 +30%",en:"Below reorder point · gut-care demand +30%",zh:"低于补货点 · 肠道呵护需求扩大 +30%"}},
- {img:"images/blackmores/pregnancy-gold.svg",nm:{ja:"孕妇黄金营养素 ×180",en:"Pregnancy & Breastfeeding Gold ×180",zh:"孕妇黄金营养素 ×180"},stock:10,rop:12,sold:11,trend:14,wpc:19200,rec:18,
-   reason:{ja:"発注点割れ間近・妊娠期向け安定需要 +14%",en:"Near reorder point · steady prenatal demand +14%",zh:"接近补货点 · 孕期需求稳定 +14%"}},
- {img:"images/blackmores/lutein.svg",nm:{ja:"叶黄素护眼 ×60",en:"Lutein Vision ×60",zh:"叶黄素护眼 ×60"},stock:30,rop:20,sold:9,trend:-12,wpc:11000,rec:0,
+ {img:"images/gm/gm-ai-foundation.jpg",nm:{ja:"通用磨坊组合包 ×200",en:"Multiproduct ×200",zh:"通用磨坊组合包 ×200"},stock:18,rop:25,sold:30,trend:40,wpc:16800,rec:36,
+   reason:{ja:"定番・新年の健康習慣で需要 +40%",en:"Staple · new-year everyday enjoyment habits +40%",zh:"畅销 · 新年场景习惯需求 +40%"}},
+ {img:"images/gm/wanchai-quick-meal.jpg",nm:{ja:"湾仔码头快手餐 ×90",en:"Wanchai Ferry Quick Meal ×90",zh:"湾仔码头快手餐 ×90"},stock:6,rop:14,sold:16,trend:30,wpc:13200,rec:24,
+   reason:{ja:"発注点割れ・クイックミールケア需要が拡大 +30%",en:"Below reorder point · quick meal-care demand +30%",zh:"低于补货点 · 快手餐呵护需求扩大 +30%"}},
+ {img:"images/gm/haagen-gifting.jpg",nm:{ja:"哈根达斯庆祝蛋糕 ×180",en:"Häagen-Dazs Celebration Cake ×180",zh:"哈根达斯庆祝蛋糕 ×180"},stock:10,rop:12,sold:11,trend:14,wpc:19200,rec:18,
+   reason:{ja:"発注点割れ間近・ギフト期向け安定需要 +14%",en:"Near reorder point · steady celebration gifting demand +14%",zh:"接近补货点 · 礼赠场景需求稳定 +14%"}},
+ {img:"images/gm/haagen-gifting.jpg",nm:{ja:"哈根达斯礼赠精选护眼 ×60",en:"Häagen-Dazs Gift Selection ×60",zh:"哈根达斯礼赠精选护眼 ×60"},stock:30,rop:20,sold:9,trend:-12,wpc:11000,rec:0,
    reason:{ja:"在庫潤沢・販売 -12% → 発注見送りを推奨",en:"Well stocked · sales -12% → recommend skipping",zh:"库存充足 · 销售 -12% → 建议暂不补"}}];
 function pstatus(s){if(s.stock<s.rop)return 'low';if(s.stock>Math.round(s.rop*1.25)&&s.trend<0)return 'high';return 'ok';}
 const PB={
  ja:{modeC:"消費者",modeP:"Partner · B2B",pctx:'シドニー首都圏 · <b>10店舗</b> · バイヤー / 発注担当',
    partnerTag:"発注を、<br>AI が <em>先回り</em>で組む。",partnerSub:"在庫・販売・需要シグナルを横断して、いま打つべき発注をアドバイザーが用意します。",
-   nudgeH:"アドバイザーからの提案",nudgeB:"複数 SKU が発注点割れ（ビタミンC・维骨力关节灵・魚油・益生菌 ほか）。ビタミンCは季節の免疫需要で +38%。補発注プランを用意しますか？",nudgeSrc:"出典：店舗在庫 + POS + 需要シグナル",nudgeYes:"はい、プランを見る",nudgeLater:"あとで",
+   nudgeH:"アドバイザーからの提案",nudgeB:"複数 SKU が発注点割れ（プロダクトC・湾仔码头馄饨装・魚油・湾仔码头快手餐 ほか）。プロダクトCは季節の季节场景需要で +38%。補発注プランを用意しますか？",nudgeSrc:"出典：店舗在庫 + POS + 需要シグナル",nudgeYes:"はい、プランを見る",nudgeLater:"あとで",
    healthT:"在庫健全度（10店舗 + DC）",lbStock:"在庫 ",lbRop:"発注点 ",lbSold:"7日販売 ",caseU:"ケース",
    statLow:"要発注",statOk:"適正",statHigh:"過剰",
    cmdRestock:"発注点割れを今すぐ補発注",working:"アドバイザーが発注を最適化中",
@@ -941,7 +943,7 @@ const PB={
    confirm:"発注を確定",placed:"発注完了",eta:"卸配送 2〜3 営業日 · DC 出荷",loop:"🤖 在庫を常時監視し、発注点割れを先回りで提案します。",reset:"↺ 別の操作"},
  en:{modeC:"Consumer",modeP:"Partner · B2B",pctx:'Sydney metro · <b>10 stores</b> · Buyer / Ordering',
    partnerTag:"Ordering, <br>composed by AI <em>ahead of time</em>.",partnerSub:"Across stock, sales and demand signals, the advisor prepares the orders you should place now.",
-   nudgeH:"Advisor suggestion",nudgeB:"Several SKUs are below reorder point (Vitamin C, Glucosamine, Fish Oil, Probiotics & more). Vitamin C demand is +38% on seasonal immunity. Prepare a replenishment plan?",nudgeSrc:"Source: store stock + POS + demand signal",nudgeYes:"Yes, show the plan",nudgeLater:"Later",
+   nudgeH:"Advisor suggestion",nudgeB:"Several SKUs are below reorder point (Häagen-Dazs Mini Cup, Wanchai Ferry Wontons, Wanchai Ferry Dumplings, Wanchai Ferry Quick Meal & more). Häagen-Dazs Mini Cup demand is +38% on seasonal seasonal occasion. Prepare a replenishment plan?",nudgeSrc:"Source: store stock + POS + demand signal",nudgeYes:"Yes, show the plan",nudgeLater:"Later",
    healthT:"Stock health (10 stores + DC)",lbStock:"Stock ",lbRop:"ROP ",lbSold:"7-day ",caseU:"cases",
    statLow:"Reorder",statOk:"Healthy",statHigh:"Overstock",
    cmdRestock:"Replenish below-ROP items now",working:"Advisor is optimising your order",
@@ -953,7 +955,7 @@ const PB={
    confirm:"Confirm order",placed:"Order placed",eta:"Wholesale delivery 2–3 business days · ships from DC",loop:"🤖 The advisor watches stock continuously and proposes replenishment ahead of time.",reset:"↺ Another action"},
  zh:{modeC:"消费者",modeP:"Partner · B2B",pctx:'悉尼都会区 · <b>10 家门店</b> · 采购 / 订货负责人',
    partnerTag:"订货，<br>AI <em>先一步</em>替你组好。",partnerSub:"横跨库存、销售与需求信号，顾问把现在该下的订单备好。",
-   nudgeH:"来自顾问的提议",nudgeB:"多个 SKU 低于补货点（维生素C、维骨力关节灵、鱼油、益生菌 等）。维生素C 因季节免疫需求 +38%。要不要先备一份补货方案？",nudgeSrc:"来源：门店库存 + POS + 需求信号",nudgeYes:"好，看方案",nudgeLater:"稍后",
+   nudgeH:"来自顾问的提议",nudgeB:"多个 SKU 低于补货点（哈根达斯迷你杯、湾仔码头馄饨装、湾仔码头水饺、湾仔码头快手餐 等）。哈根达斯迷你杯 因季节季节场景需求 +38%。要不要先备一份补货方案？",nudgeSrc:"来源：门店库存 + POS + 需求信号",nudgeYes:"好，看方案",nudgeLater:"稍后",
    healthT:"库存健康度（10 店 + DC）",lbStock:"库存 ",lbRop:"补货点 ",lbSold:"7日销 ",caseU:"箱",
    statLow:"待补货",statOk:"正常",statHigh:"过剩",
    cmdRestock:"立即补货低于补货点的商品",working:"顾问正在优化订单",
@@ -977,22 +979,22 @@ const PCOUPONS=[
  {id:"bulk",pct:5,min:10,nm:{ja:"まとめ買い 5%（10ケース以上）",en:"Bulk 5% (10+ cases)",zh:"批量5%（≥10箱）"}},
  {id:"newprod",amt:2000,nm:{ja:"新商品導入クーポン",en:"New-product intro coupon",zh:"新品导入券"}}];
 const OPP=[
- {icon:"🤧",type:{ja:"季節",en:"Seasonal",zh:"季节"},title:{ja:"冬の免疫需要ピーク",en:"Winter immunity peak",zh:"冬季免疫高峰"},
-   reason:{ja:"昨年6–8月、ビタミンCは平月比 +52%。寒さでさらに前倒しの見込み。",en:"Last Jun–Aug, Vitamin C ran +52% vs average; the cold is pulling it earlier.",zh:"去年6–8月 维生素C 比平月 +52%，转冷会更提前。"},sku:[0],lift:"+52%"},
+ {icon:"🤧",type:{ja:"季節",en:"Seasonal",zh:"季节"},title:{ja:"冬の季节场景需要ピーク",en:"Winter seasonal occasion peak",zh:"冬季季节场景高峰"},
+   reason:{ja:"昨年6–8月、プロダクトCは平月比 +52%。寒さでさらに前倒しの見込み。",en:"Last Jun–Aug, Häagen-Dazs Mini Cup ran +52% vs average; the cold is pulling it earlier.",zh:"去年6–8月 哈根达斯迷你杯 比平月 +52%，转冷会更提前。"},sku:[0],lift:"+52%"},
  {icon:"🎁",type:{ja:"行事",en:"Event",zh:"节日"},title:{ja:"ホリデー ギフト需要",en:"Holiday gift demand",zh:"节日礼盒需求"},
-   reason:{ja:"年末のギフト期。复合维生素＆魚油のギフトセットは昨年 +120%。早期確保を推奨。",en:"End-of-year gifting; Multivitamin & Fish Oil gift sets were +120% last year. Secure early.",zh:"年末送礼季，复合维生素＆鱼油礼盒去年同期 +120%，建议提前备货。"},sku:[0,3],lift:"+120%"},
- {icon:"📈",type:{ja:"トレンド",en:"Trend",zh:"趋势"},title:{ja:"オメガ3・魚油需要",en:"Omega-3 fish-oil demand",zh:"欧米伽3 鱼油需求"},
-   reason:{ja:"心臓・関節ケア需要で直近4週 +22% 継続。欠品リスク高。",en:"Heart & joint care demand: +22% over 4 weeks; stockout risk is high.",zh:"心脏与关节呵护需求带动近4周 +22%，断货风险高。"},sku:[2],lift:"+22%"},
- {icon:"🦠",type:{ja:"トレンド",en:"Trend",zh:"趋势"},title:{ja:"益生菌の需要拡大",en:"Probiotics rising",zh:"益生菌需求上升"},
-   reason:{ja:"腸内・免疫ケアで益生菌が直近4週 +30%。棚を確保。",en:"Gut & immune care: Probiotics +30% over 4 weeks. Lock in shelf space.",zh:"肠道与免疫呵护带动 益生菌 近4周 +30%，建议锁定货架。"},sku:[4],lift:"+30%"},
- {icon:"🤰",type:{ja:"行事",en:"Event",zh:"节日"},title:{ja:"マタニティフェア・妊娠期需要",en:"Maternity fair · prenatal demand",zh:"孕产展·孕期需求"},
-   reason:{ja:"地域のマタニティフェアで孕妇黄金营养素＆叶黄素护眼の引き合いが増加 +18%。",en:"Local maternity fair lifting Pregnancy Gold & Lutein Vision inquiries +18%.",zh:"本地孕产展带动孕妇黄金营养素与叶黄素护眼咨询 +18%。"},sku:[5,6],lift:"+18%"},
- {icon:"🎁",type:{ja:"バンドル",en:"Bundle",zh:"组合"},title:{ja:"《家族免疫バンドル》トップセラー",en:"Family Immunity Bundle · top seller",zh:"《全家免疫组合》畅销款"},
-   reason:{ja:"复合维生素＋ビタミンC＋益生菌＋子ども用マルチの家族向けバンドルが直近の売れ筋。構成SKUをまとめて補充すれば、1棚で家族需要を取り込めます。",en:"The family bundle — Multivitamin + Vitamin C + Probiotics + Kids Multi — is a current top seller. Stock the component SKUs together to capture whole-family demand from one shelf.",zh:"家庭组合（复合维生素＋维生素C＋益生菌＋儿童复合维生素）近期畅销。把组件SKU一起备货，用一个货架承接全家需求。"},sku:[3,0,4],lift:"top seller"}];
+   reason:{ja:"年末のギフト期。通用磨坊组合包＆魚油のギフトセットは昨年 +120%。早期確保を推奨。",en:"End-of-year gifting; Multiproduct & Wanchai Ferry Dumplings gift sets were +120% last year. Secure early.",zh:"年末送礼季，通用磨坊组合包＆湾仔码头水饺礼盒去年同期 +120%，建议提前备货。"},sku:[0,3],lift:"+120%"},
+ {icon:"📈",type:{ja:"トレンド",en:"Trend",zh:"趋势"},title:{ja:"オメガ3・魚油需要",en:"family dinner dumplingpack demand",zh:"欧米伽3 湾仔码头水饺需求"},
+   reason:{ja:"ファミリーテーブル・ファミリーミールケア需要で直近4週 +22% 継続。欠品リスク高。",en:"Family table & family meal care demand: +22% over 4 weeks; stockout risk is high.",zh:"家庭餐桌与家庭餐呵护需求带动近4周 +22%，断货风险高。"},sku:[2],lift:"+22%"},
+ {icon:"🦠",type:{ja:"トレンド",en:"Trend",zh:"趋势"},title:{ja:"湾仔码头快手餐の需要拡大",en:"Wanchai Ferry Quick Meal rising",zh:"湾仔码头快手餐需求上升"},
+   reason:{ja:"クイックミール・季节场景ケアで湾仔码头快手餐が直近4週 +30%。棚を確保。",en:"Quick meal & immune care: Wanchai Ferry Quick Meal +30% over 4 weeks. Lock in shelf space.",zh:"快手餐与季节场景呵护带动 湾仔码头快手餐 近4周 +30%，建议锁定货架。"},sku:[4],lift:"+30%"},
+ {icon:"🤰",type:{ja:"行事",en:"Event",zh:"节日"},title:{ja:"マタニティフェア・ギフト期需要",en:"Maternity fair · celebration gifting demand",zh:"孕产展·礼赠场景需求"},
+   reason:{ja:"地域のマタニティフェアで哈根达斯庆祝蛋糕＆哈根达斯礼赠精选护眼の引き合いが増加 +18%。",en:"Local maternity fair lifting Celebration Gold & Häagen-Dazs Gift Selection inquiries +18%.",zh:"本地孕产展带动哈根达斯庆祝蛋糕与哈根达斯礼赠精选护眼咨询 +18%。"},sku:[5,6],lift:"+18%"},
+ {icon:"🎁",type:{ja:"バンドル",en:"Bundle",zh:"组合"},title:{ja:"《家族季节场景バンドル》トップセラー",en:"Family Seasonal occasion Bundle · top seller",zh:"《全家季节场景组合》畅销款"},
+   reason:{ja:"通用磨坊组合包＋プロダクトC＋湾仔码头快手餐＋子ども用マルチの家族向けバンドルが直近の売れ筋。構成SKUをまとめて補充すれば、1棚で家族需要を取り込めます。",en:"The family bundle — Multiproduct + Häagen-Dazs Mini Cup + Wanchai Ferry Quick Meal + Family Meal Pack — is a current top seller. Stock the component SKUs together to capture whole-family demand from one shelf.",zh:"家庭组合（通用磨坊组合包＋哈根达斯迷你杯＋湾仔码头快手餐＋儿童通用磨坊组合包）近期畅销。把组件SKU一起备货，用一个货架承接全家需求。"},sku:[3,0,4],lift:"top seller"}];
 const PORDERS=[
- {no:"PO-260612-018",when:"06/12",items:{ja:"ビタミンC×30, 魚油×24",en:"Vitamin C×30, Fish Oil×24",zh:"维生素C×30, 鱼油×24"},status:"transit",step:2,eta:{ja:"06/19 着予定",en:"ETA 06/19",zh:"预计 06/19"}},
- {no:"PO-260608-004",when:"06/08",items:{ja:"复合维生素×36, 睡眠支持×18",en:"Multivitamin×36, Sleep Support×18",zh:"复合维生素×36, 睡眠支持×18"},status:"delivered",step:3,eta:{ja:"06/11 納品済",en:"Delivered 06/11",zh:"06/11 已交付"}},
- {no:"PO-260605-051",when:"06/05",items:{ja:"维骨力关节灵×24, 益生菌×18",en:"Glucosamine×24, Probiotics×18",zh:"维骨力关节灵×24, 益生菌×18"},status:"invoicing",step:3,eta:{ja:"請求書 発行待ち",en:"Awaiting invoice",zh:"等待开票"}}];
+ {no:"PO-260612-018",when:"06/12",items:{ja:"プロダクトC×30, 魚油×24",en:"Häagen-Dazs Mini Cup×30, Wanchai Ferry Dumplings×24",zh:"哈根达斯迷你杯×30, 湾仔码头水饺×24"},status:"transit",step:2,eta:{ja:"06/19 着予定",en:"ETA 06/19",zh:"预计 06/19"}},
+ {no:"PO-260608-004",when:"06/08",items:{ja:"通用磨坊组合包×36, 睡眠支持×18",en:"Multiproduct×36, Häagen-Dazs Evening Dessert×18",zh:"通用磨坊组合包×36, 睡眠支持×18"},status:"delivered",step:3,eta:{ja:"06/11 納品済",en:"Delivered 06/11",zh:"06/11 已交付"}},
+ {no:"PO-260605-051",when:"06/05",items:{ja:"湾仔码头馄饨装×24, 湾仔码头快手餐×18",en:"Wanchai Ferry Wontons×24, Wanchai Ferry Quick Meal×18",zh:"湾仔码头馄饨装×24, 湾仔码头快手餐×18"},status:"invoicing",step:3,eta:{ja:"請求書 発行待ち",en:"Awaiting invoice",zh:"等待开票"}}];
 const PB2={
  ja:{askPh:"発注・在庫・注文について質問…",
    cOpp:"季節・トレンドの発注機会",cCompare:"商品を比較・相談",cOrders:"注文状況を確認",cInvoice:"請求書・適格請求書を依頼",
@@ -1032,7 +1034,7 @@ PB2.th=PB2.en;const P2=()=>PB2[state.lang]||PB2.en;
 function renderApp(){
   $$('#modeseg button').forEach(b=>b.classList.toggle('on',b.dataset.aud===state.audience));
   const p=PBL();const mc=$('#modeC'),mp=$('#modeP');if(mc)mc.textContent=p.modeC;if(mp)mp.textContent=p.modeP;
-  $('#lineBadge').style.display=(state.brand==='blackmores'&&state.audience==='consumer')?'inline-flex':'none';
+  $('#lineBadge').style.display=(state.brand==='generalmills'&&state.audience==='consumer')?'inline-flex':'none';
   if(state.audience==='partner')partnerHome();else home();
 }
 function partnerHome(showNudge){const p=PBL(),p2=P2();state.running=false;state.prej={};state.pauto='ask';state.pcontract='std';state.pcoupons={};
@@ -1052,7 +1054,7 @@ function partnerHome(showNudge){const p=PBL(),p2=P2();state.running=false;state.
    <div class="blk-t" style="margin-top:16px">${p.healthT}</div>
    <div class="health">${PSKU.map(s=>{const st=pstatus(s);return `<div class="hrow"><img src="${s.img}" alt="">
      <div style="min-width:0"><div class="hn">${T(s.nm)}</div><div class="hm">${p.lbStock}${s.stock} · ${p.lbRop}${s.rop} · ${p.lbSold}${s.sold}<span class="trend ${s.trend>=0?'up':'dn'}">${s.trend>=0?'▲':'▼'}${Math.abs(s.trend)}%</span></div></div>
-     <div class="hstat"><span class="pill ${st}">${st==='low'?p.statLow:st==='ok'?p.statOk:p.statHigh}</span></div></div>`;}).join('')}</div>`;
+     <div class="hstat"><span class="serving ${st}">${st==='low'?p.statLow:st==='ok'?p.statOk:p.statHigh}</span></div></div>`;}).join('')}</div>`;
   const ny=$('#pnYes');if(ny)ny.onclick=()=>runRestock();
   const nl=$('#pnLater');if(nl)nl.onclick=()=>{const n=$('#pnudge');if(n)n.remove();};
   $('#pgo').onclick=()=>proute($('#pinp').value);
@@ -1183,7 +1185,7 @@ function runOrders(){if(state.running)return;const p=PBL(),p2=P2();
   const stMap={processing:p2.stProcessing,transit:p2.stTransit,delivered:p2.stDelivered,invoicing:p2.stInvoicing};
   const stCls={processing:'high',transit:'low',delivered:'ok',invoicing:'high'};
   let h=`<div class="said"><div class="b">${p2.cOrders}</div></div><div class="agent"><div class="ttl">📦 ${p2.ordT}</div>`;
-  h+=PORDERS.map((o,i)=>`<div class="ordcard"><div class="ordtop"><span class="ordno">${o.no}</span><span class="pill ${stCls[o.status]}">${stMap[o.status]}</span></div>
+  h+=PORDERS.map((o,i)=>`<div class="ordcard"><div class="ordtop"><span class="ordno">${o.no}</span><span class="serving ${stCls[o.status]}">${stMap[o.status]}</span></div>
     <div class="orditems">${T(o.items)}</div>
     <div class="track">${p2.trackSteps.map((ts,k)=>`<div class="tstep ${k<=o.step?'on':''}"><div class="tdot"></div><span>${ts}</span></div>`).join('<div class="tline"></div>')}</div>
     <div class="ordeta">🚚 ${p2.ordEta}: ${T(o.eta)}</div></div>`).join('');
@@ -1206,7 +1208,7 @@ function runInvoice(){if(state.running)return;const p=PBL(),p2=P2();
 function applyBrand(){const b=BRANDS[state.brand],r=document.documentElement.style;
   r.setProperty('--brand',b.c[0]);r.setProperty('--brand-d',b.c[1]);r.setProperty('--soft',b.c[2]);r.setProperty('--accent',b.c[3]);
   $('#brand').innerHTML=b.logo+(b.sup?`<sup>${b.sup}</sup>`:'');
-  $('#lineBadge').style.display=state.brand==='blackmores'?'inline-flex':'none';}
+  $('#lineBadge').style.display=state.brand==='generalmills'?'inline-flex':'none';}
 function applyText(){$('#sub').textContent=U().sub;
   document.documentElement.lang=state.lang;state.running=false;renderApp();}
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}

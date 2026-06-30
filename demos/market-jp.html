@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Japan · Market Strategy — Blackmores Experience Studio</title>
+<title>Japan · Market Strategy — General Mills AI Scenario Studio</title>
 <style>
   :root{
     --brand:#009BA4; --brand-soft:#e0f2f3; --brand-d:#007A82; --ink:#1b1d1a; --muted:#6d716a;
@@ -71,18 +71,18 @@
   .st .v{font-size:14.5px;font-weight:700;color:var(--ink)}
   .st .v small{display:block;font-weight:500;color:var(--muted);font-size:12.5px;margin-top:3px}
 
-  .pillars{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-  .pillar{border:1px solid var(--line);border-radius:18px;padding:24px;background:#fff}
-  .pillar.now{border-top:4px solid var(--brand)}
-  .pillar.next{border-top:4px solid var(--accent)}
-  .pillar .phase{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-  .pillar h3{font-family:var(--display);font-size:22px;font-weight:600;margin:6px 0 4px}
-  .pillar .who{font-size:13px;font-weight:700;color:var(--brand-d);margin-bottom:14px}
-  .pillar.next .who{color:var(--accent)}
-  .pillar ul{margin:0;padding-left:0;list-style:none}
-  .pillar li{font-size:14px;padding:8px 0 8px 20px;position:relative;border-top:1px solid var(--line)}
-  .pillar li::before{content:"→";position:absolute;left:0;top:7px;color:var(--brand);font-weight:800}
-  .pillar.next li::before{color:var(--accent)}
+  .servingars{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .servingar{border:1px solid var(--line);border-radius:18px;padding:24px;background:#fff}
+  .servingar.now{border-top:4px solid var(--brand)}
+  .servingar.next{border-top:4px solid var(--accent)}
+  .servingar .phase{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .servingar h3{font-family:var(--display);font-size:22px;font-weight:600;margin:6px 0 4px}
+  .servingar .who{font-size:13px;font-weight:700;color:var(--brand-d);margin-bottom:14px}
+  .servingar.next .who{color:var(--accent)}
+  .servingar ul{margin:0;padding-left:0;list-style:none}
+  .servingar li{font-size:14px;padding:8px 0 8px 20px;position:relative;border-top:1px solid var(--line)}
+  .servingar li::before{content:"→";position:absolute;left:0;top:7px;color:var(--brand);font-weight:800}
+  .servingar.next li::before{color:var(--accent)}
 
   .flywheel{margin-top:20px;background:var(--brand-soft);border:1px solid color-mix(in srgb,var(--brand) 22%,#fff);border-radius:16px;padding:20px 22px}
   .flywheel b{color:var(--brand-d)}
@@ -93,8 +93,10 @@
   footer{border-top:1px solid var(--line);padding:26px 0 50px}
   .note{font-size:13px;color:var(--muted);background:#faf9f5;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
 
-  @media(max-width:860px){.grid3,.grid2,.timeline,.status,.pillars{grid-template-columns:1fr}.tl{border-right:0;border-bottom:1px solid var(--line)}}
+  @media(max-width:860px){.grid3,.grid2,.timeline,.status,.servingars{grid-template-columns:1fr}.tl{border-right:0;border-bottom:1px solid var(--line)}}
 </style>
+<link rel="stylesheet" href="gm-demo-theme.css">
+<script defer src="gm-demo-brand.js"></script>
 </head>
 <body>
 <header>
@@ -116,7 +118,7 @@
     <div class="kick" data-i18n="kick">Market Strategy</div>
     <h1><span class="hflag">🇯🇵</span><span data-i18n="hname">Japan</span> <span class="muted" style="font-size:.5em;font-weight:500">· 日本</span></h1>
     <div class="tag" data-i18n="tag">A LINE-driven daily-care market · relationship-led, lowest priority today</div>
-    <p class="lead" data-i18n="lead">Japan is a high-trust, quality-first market where LINE is the everyday relationship channel and drugstores dominate offline. For Blackmores it is currently the lightest presence — mostly resellers on marketplaces — so the near-term play is enablement, not heavy build.</p>
+    <p class="lead" data-i18n="lead">Japan is a high-trust, quality-first market where LINE is the everyday relationship channel and drugstores dominate offline. For General Mills it is currently the lightest presence — mostly resellers on marketplaces — so the near-term play is enablement, not heavy build.</p>
     <div class="chips">
       <span class="chip" data-i18n="chip1">Live: <b>Amazon JP / Rakuten (reseller-led)</b></span>
       <span class="chip" data-i18n="chip2">Relationship: <b>LINE</b></span>
@@ -145,9 +147,9 @@
       <div class="card">
         <h3><span class="ic">👥</span><span data-i18n="c2h">Audience / persona</span> <span class="tv" data-i18n="tv">to verify</span></h3>
         <ul>
-          <li data-i18n="c2a"><b>Health-conscious adults, 35–60+</b> — daily supplementation routines.</li>
+          <li data-i18n="c2a"><b>Health-conscious adults, 35–60+</b> — daily productation routines.</li>
           <li data-i18n="c2b"><b>Women managing family health</b> — quality and safety led.</li>
-          <li data-i18n="c2c"><b>Older adults</b> — joint, eye, heart, healthy ageing.</li>
+          <li data-i18n="c2c"><b>Older adults</b> — family meal, eye, family table, lifecycle membership.</li>
           <li data-i18n="c2d">Loyal &amp; habitual; reassured by meticulous service.</li>
           <li data-i18n="c2e">Prefer <b>no new app</b> — act inside LINE.</li>
         </ul>
@@ -168,8 +170,8 @@
 
 <section>
   <div class="wrap">
-    <div class="sec-kick" data-i18n="s2k">02 · Where Blackmores is today</div>
-    <h2 class="sec-h" data-i18n="s2h">Blackmores' business status in Japan</h2>
+    <div class="sec-kick" data-i18n="s2k">02 · Where General Mills is today</div>
+    <h2 class="sec-h" data-i18n="s2h">General Mills' business status in Japan</h2>
     <p class="sec-sub" data-i18n="s2s">The lightest of the four markets — present through marketplaces, mostly via third parties.</p>
     <div class="timeline">
       <div class="tl">
@@ -202,8 +204,8 @@
     <div class="sec-kick" data-i18n="s3k">03 · Our point of view</div>
     <h2 class="sec-h" data-i18n="s3h">Digitalisation strategy — channel + consumer</h2>
     <p class="sec-sub" data-i18n="s3s">Given the light footprint, keep it lean: enable retail and marketplace partners, and use LINE as a low-cost relationship layer — only scale if the market case strengthens.</p>
-    <div class="pillars">
-      <div class="pillar now">
+    <div class="servingars">
+      <div class="servingar now">
         <div class="phase" data-i18n="p1ph">Short-term · keep it lean</div>
         <h3 data-i18n="p1h">Channel enablement</h3>
         <div class="who" data-i18n="p1w">Customer = drugstore &amp; marketplace partners</div>
@@ -214,7 +216,7 @@
           <li data-i18n="p1d">Lightweight sell-through visibility where data is available</li>
         </ul>
       </div>
-      <div class="pillar next">
+      <div class="servingar next">
         <div class="phase" data-i18n="p2ph">Long-term · if the case strengthens</div>
         <h3 data-i18n="p2h">Consumer direct (DTC)</h3>
         <div class="who" data-i18n="p2w">Customer = the end consumer</div>
@@ -254,37 +256,37 @@
     zh:{
       back:"← 返回工作室", ptitle:"日本 · 市场战略", kick:"市场战略", hname:"日本",
       tag:"由 LINE 驱动的日常养护市场 · 关系导向，当前优先级最低",
-      lead:"日本是一个高信任、品质优先的市场，LINE 是日常的关系沟通渠道，药妆店主导线下。对 Blackmores 而言，这里目前是布局最轻的市场——主要由第三方经销商在电商平台上销售——因此近期的打法是赋能，而非重投入建设。",
-      chip1:"在售：<b>Amazon JP / 乐天（经销商主导）</b>", chip2:"关系：<b>LINE</b>", chip3:"线下：<b>药妆连锁</b>", chip4:"优先级：<b>最低 / 可选</b>",
-      s1k:"01 · 市场格局", s1h:"市场特征、人群与渠道", s1s:"对品质敏感、习惯稳定、以 LINE 为中心——并拥有强势的药妆零售。",
+      lead:"日本是一个高信任、品质优先的市场，LINE 是日常的关系沟通渠道，门店店主导线下。对 General Mills 而言，这里目前是布局最轻的市场——主要由第三方经销商在电商平台上销售——因此近期的打法是赋能，而非重投入建设。",
+      chip1:"在售：<b>Amazon JP / 乐天（经销商主导）</b>", chip2:"关系：<b>LINE</b>", chip3:"线下：<b>门店连锁</b>", chip4:"优先级：<b>最低 / 可选</b>",
+      s1k:"01 · 市场格局", s1h:"市场特征、人群与渠道", s1s:"对品质敏感、习惯稳定、以 LINE 为中心——并拥有强势的门店零售。",
       c1h:"市场特征",
       c1a:"<b>高信任，品质重于价格</b>——原产地与安全性至关重要。",
-      c1b:"<b>习惯性日常养护</b>——稳定的服用习惯，留存周期长。",
+      c1b:"<b>习惯性日常养护</b>——稳定的享用习惯，留存周期长。",
       c1c:"<b>以 LINE 为中心</b>——默认的消息、会员与优惠券渠道。",
-      c1d:"<b>药妆店文化</b>（ドラッグストア）是重要的线下通路。",
+      c1d:"<b>门店店文化</b>（ドラッグストア）是重要的线下通路。",
       c1e:"进口品牌常通过<b>经销商 / 平行进口</b>进入。",
       c2h:"目标人群 / 画像",
       c2a:"<b>注重健康的成年人，35–60 岁以上</b>——日常补充养护的习惯。",
       c2b:"<b>掌管家庭健康的女性</b>——以品质与安全为先。",
-      c2c:"<b>中老年人</b>——关节、眼睛、心脏与健康老龄。",
+      c2c:"<b>中老年人</b>——家庭餐、眼睛、家庭餐桌与健康老龄。",
       c2d:"忠诚且习惯稳定；细致的服务令其安心。",
       c2e:"偏好<b>无需新增 App</b>——在 LINE 内完成操作。",
       c3h:"主流渠道",
       c3a:"<b>电商平台：</b>乐天、Amazon JP、Yahoo! 购物 <span class=\"tv\">待核实</span>",
       c3b:"<b>关系：</b>LINE 官方账号 + 小程序 + LINE Pay / 积分",
-      c3c:"<b>线下：</b>药妆连锁（如松本清 / Welcia） <span class=\"tv\">待核实</span>",
+      c3c:"<b>线下：</b>门店连锁（如松本清 / Welcia） <span class=\"tv\">待核实</span>",
       c3d:"<b>分销：</b>本地代理 / 进口商 <span class=\"tv\">待核实</span>",
       c3e:"注：目前主要为<b>经销商主导</b>，而非官方 DTC 运营。",
-      s2k:"02 · Blackmores 当前所处的位置", s2h:"Blackmores 在日本的经营现状", s2s:"四个市场中布局最轻——通过电商平台存在，且多由第三方经营。",
+      s2k:"02 · General Mills 当前所处的位置", s2h:"General Mills 在日本的经营现状", s2s:"四个市场中布局最轻——通过电商平台存在，且多由第三方经营。",
       t1y:"当下", t1h:"经销商存在", t1p:"产品在 Amazon JP、乐天与 Yahoo 上架——主要通过分销商与平行进口卖家。",
       t2y:"缺口", t2h:"缺乏强势官方 DTC", t2p:"尚无确认的日本官方 DTC 或官方 LINE 商城；品牌掌控力与第一方数据有限。",
       t3y:"机会", t3h:"LINE 关系层", t3p:"若推进，LINE 可提供低摩擦、易养成习惯的养护渠道——但这属愿景，而非现状。",
       st1k:"主要进入市场通路", st1v:"通过第三方的电商平台 <span class=\"tv\">待核实</span><small>乐天 / Amazon JP / Yahoo 上架，经销商主导</small>",
       st2k:"官方 DTC / LINE", st2v:"尚未确认<small>品牌直接触点与第一方数据有限</small>",
-      st3k:"线下", st3v:"药妆零售 <span class=\"tv\">待核实</span><small>习惯性购买，对服务期望高</small>",
+      st3k:"线下", st3v:"门店零售 <span class=\"tv\">待核实</span><small>习惯性购买，对服务期望高</small>",
       st4k:"优先级", st4v:"四个市场中最低<small>视为可选 / 分阶段赋能</small>",
       s3k:"03 · 我们的观点", s3h:"数字化战略——渠道 + 消费者", s3s:"鉴于布局较轻，保持精简：赋能零售与电商平台伙伴，并以 LINE 作为低成本的关系层——仅在市场理由增强时才扩大投入。",
-      p1ph:"短期 · 保持精简", p1h:"渠道赋能", p1w:"客户 = 药妆与电商平台伙伴",
+      p1ph:"短期 · 保持精简", p1h:"渠道赋能", p1w:"客户 = 门店与电商平台伙伴",
       p1a:"为零售与平台上架提供品牌内容与合规素材",
       p1b:"建立官方代表，减少平行进口的杂音",
       p1c:"以 LINE 官方账号作为日常养护的关系渠道",
@@ -297,12 +299,12 @@
       fly:"<b>数据飞轮：</b>平台动销 + LINE 互动 → 统一 CDP → AI 反哺内容与优惠券。在日本，重点是一个轻量、低成本的闭环——在更大投入之前，先在 LINE 上验证关系模式。",
       demolbl:"工作室 Demo：", d_line:"LINE 飞轮", d_conv:"对话式商务", d_loy:"会员忠诚", d_health:"健康", d_aigc:"AIGC 内容",
       tv:"待核实",
-      note:"<b>评审草稿。</b>标注 <span class=\"tv\">待核实</span>的项目（人群画像、具体平台/药妆店、上架经营方）基于公开研究推断，需进一步确认。日本目前呈现经销商主导的电商平台存在，尚无确认的官方 DTC / LINE。事实依据：<b>MARKET_POSITIONING.md</b>。"
+      note:"<b>评审草稿。</b>标注 <span class=\"tv\">待核实</span>的项目（人群画像、具体平台/门店店、上架经营方）基于公开研究推断，需进一步确认。日本目前呈现经销商主导的电商平台存在，尚无确认的官方 DTC / LINE。事实依据：<b>MARKET_POSITIONING.md</b>。"
     },
     ja:{
       back:"← スタジオに戻る", ptitle:"日本 · 市場戦略", kick:"市場戦略", hname:"日本",
       tag:"LINE 主導のデイリーケア市場 · 関係性重視、現状では優先度は最も低い",
-      lead:"日本は信頼性が高く品質を最優先する市場で、LINE が日常の関係チャネル、ドラッグストアがオフラインを牽引します。Blackmores にとっては現状もっとも展開が軽い市場で、主にマーケットプレイス上のリセラー経由のため、当面の打ち手は本格的な構築ではなくイネーブルメントです。",
+      lead:"日本は信頼性が高く品質を最優先する市場で、LINE が日常の関係チャネル、ドラッグストアがオフラインを牽引します。General Mills にとっては現状もっとも展開が軽い市場で、主にマーケットプレイス上のリセラー経由のため、当面の打ち手は本格的な構築ではなくイネーブルメントです。",
       chip1:"販売中：<b>Amazon JP / 楽天（リセラー主導）</b>", chip2:"関係：<b>LINE</b>", chip3:"オフライン：<b>ドラッグストアチェーン</b>", chip4:"優先度：<b>最も低い / 任意</b>",
       s1k:"01 · 市場環境", s1h:"市場特性・顧客・チャネル", s1s:"品質に敏感で習慣的、そして LINE 中心 — 強力なドラッグストア小売を伴う。",
       c1h:"市場特性",
@@ -312,9 +314,9 @@
       c1d:"<b>ドラッグストア文化</b>（ドラッグストア）が主要なオフライン経路。",
       c1e:"輸入ブランドは多くの場合<b>リセラー / 並行輸入</b>経由で流通する。",
       c2h:"ターゲット / ペルソナ",
-      c2a:"<b>健康意識の高い成人、35〜60歳以上</b> — 日々のサプリ習慣。",
+      c2a:"<b>健康意識の高い成人、35〜60歳以上</b> — 日々のプロダクト習慣。",
       c2b:"<b>家族の健康を管理する女性</b> — 品質と安全を重視。",
-      c2c:"<b>シニア層</b> — 関節・目・心臓・健やかな加齢。",
+      c2c:"<b>シニア層</b> — ファミリーミール・目・ファミリーテーブル・健やかな加齢。",
       c2d:"ロイヤルかつ習慣的で、きめ細かなサービスに安心する。",
       c2e:"<b>新しいアプリは不要</b>を好む — LINE 内で完結。",
       c3h:"主要チャネル",
@@ -323,7 +325,7 @@
       c3c:"<b>オフライン：</b>ドラッグストアチェーン（例：マツキヨ / ウエルシア） <span class=\"tv\">要確認</span>",
       c3d:"<b>流通：</b>国内代理店 / 輸入業者 <span class=\"tv\">要確認</span>",
       c3e:"注：現状は主に<b>リセラー主導</b>であり、公式の DTC 運営ではない。",
-      s2k:"02 · Blackmores の現在地", s2h:"日本における Blackmores の事業状況", s2s:"4市場の中でもっとも軽い — マーケットプレイス経由、その多くは第三者による。",
+      s2k:"02 · General Mills の現在地", s2h:"日本における General Mills の事業状況", s2s:"4市場の中でもっとも軽い — マーケットプレイス経由、その多くは第三者による。",
       t1y:"現在", t1h:"リセラーによる展開", t1p:"Amazon JP・楽天・Yahoo に出品 — その多くはディストリビューターや並行輸入セラー経由。",
       t2y:"ギャップ", t2h:"強力な公式 DTC が不在", t2p:"日本の公式 DTC や公式 LINE ストアは未確認。ブランドの統制力と一次データは限定的。",
       t3y:"機会", t3h:"LINE の関係レイヤー", t3p:"取り組めば、LINE は摩擦が少なく習慣化しやすいケアチャネルになり得る — ただしこれは構想であり現状ではない。",
@@ -350,7 +352,7 @@
     th:{
       back:"← กลับสู่สตูดิโอ", ptitle:"ญี่ปุ่น · กลยุทธ์ตลาด", kick:"กลยุทธ์ตลาด", hname:"ญี่ปุ่น",
       tag:"ตลาดดูแลสุขภาพประจำวันที่ขับเคลื่อนด้วย LINE · เน้นความสัมพันธ์ และมีลำดับความสำคัญต่ำสุดในขณะนี้",
-      lead:"ญี่ปุ่นเป็นตลาดที่ไว้วางใจสูงและให้คุณภาพมาก่อน โดย LINE เป็นช่องทางความสัมพันธ์ในชีวิตประจำวัน และร้านขายยา (ดรักสโตร์) ครองตลาดออฟไลน์ สำหรับ Blackmores นี่คือตลาดที่มีตัวตนเบาที่สุดในขณะนี้ — ส่วนใหญ่ผ่านรีเซลเลอร์บนมาร์เก็ตเพลส ดังนั้นแนวทางระยะใกล้คือการเสริมพลังช่องทาง ไม่ใช่การลงทุนสร้างหนัก",
+      lead:"ญี่ปุ่นเป็นตลาดที่ไว้วางใจสูงและให้คุณภาพมาก่อน โดย LINE เป็นช่องทางความสัมพันธ์ในชีวิตประจำวัน และร้านขายยา (ดรักสโตร์) ครองตลาดออฟไลน์ สำหรับ General Mills นี่คือตลาดที่มีตัวตนเบาที่สุดในขณะนี้ — ส่วนใหญ่ผ่านรีเซลเลอร์บนมาร์เก็ตเพลส ดังนั้นแนวทางระยะใกล้คือการเสริมพลังช่องทาง ไม่ใช่การลงทุนสร้างหนัก",
       chip1:"วางขาย: <b>Amazon JP / Rakuten (นำโดยรีเซลเลอร์)</b>", chip2:"ความสัมพันธ์: <b>LINE</b>", chip3:"ออฟไลน์: <b>เครือร้านขายยา</b>", chip4:"ลำดับความสำคัญ: <b>ต่ำสุด / เป็นทางเลือก</b>",
       s1k:"01 · ภูมิทัศน์ตลาด", s1h:"ลักษณะตลาด ผู้ซื้อ และช่องทาง", s1s:"ใส่ใจคุณภาพ เป็นกิจวัตร และมี LINE เป็นศูนย์กลาง — พร้อมค้าปลีกร้านขายยาที่แข็งแกร่ง",
       c1h:"ลักษณะตลาด",
@@ -371,7 +373,7 @@
       c3c:"<b>ออฟไลน์:</b> เครือร้านขายยา (เช่น Matsukiyo / Welcia) <span class=\"tv\">ต้องยืนยัน</span>",
       c3d:"<b>การกระจายสินค้า:</b> ตัวแทน / ผู้นำเข้าในประเทศ <span class=\"tv\">ต้องยืนยัน</span>",
       c3e:"หมายเหตุ: ปัจจุบันส่วนใหญ่ <b>นำโดยรีเซลเลอร์</b> ไม่ใช่การดำเนินการ DTC อย่างเป็นทางการ",
-      s2k:"02 · Blackmores อยู่ตรงไหนวันนี้", s2h:"สถานะธุรกิจของ Blackmores ในญี่ปุ่น", s2s:"เบาที่สุดในสี่ตลาด — มีตัวตนผ่านมาร์เก็ตเพลส ส่วนใหญ่ผ่านบุคคลที่สาม",
+      s2k:"02 · General Mills อยู่ตรงไหนวันนี้", s2h:"สถานะธุรกิจของ General Mills ในญี่ปุ่น", s2s:"เบาที่สุดในสี่ตลาด — มีตัวตนผ่านมาร์เก็ตเพลส ส่วนใหญ่ผ่านบุคคลที่สาม",
       t1y:"วันนี้", t1h:"การมีตัวตนผ่านรีเซลเลอร์", t1p:"สินค้าวางขายบน Amazon JP, Rakuten และ Yahoo — ส่วนใหญ่ผ่านผู้จัดจำหน่ายและผู้ขายแบบนำเข้าคู่ขนาน",
       t2y:"ช่องว่าง", t2h:"ยังไม่มี DTC ทางการที่แข็งแกร่ง", t2p:"ยังไม่ยืนยัน DTC ทางการในญี่ปุ่นหรือร้าน LINE ทางการ การควบคุมแบรนด์และข้อมูลปฐมภูมิมีจำกัด",
       t3y:"โอกาส", t3h:"ชั้นความสัมพันธ์ LINE", t3p:"หากเดินหน้า LINE มอบช่องทางดูแลที่มีแรงเสียดทานต่ำและสร้างนิสัยได้ — แต่นี่เป็นเป้าหมายในอนาคต ไม่ใช่ปัจจุบัน",

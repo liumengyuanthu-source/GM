@@ -1,0 +1,69 @@
+/* General Mills demo theme overlay */
+:root{
+  --brand:#43A5AD!important;
+  --brand-d:#2C7F88!important;
+  --soft:#EAF6F4!important;
+  --accent:#E8769A!important;
+  --ink:#24222D!important;
+  --muted:#6B6477!important;
+  --bg:#FAF8FB!important;
+  --canvas:#FAF8FB!important;
+  --card:#FFFFFF!important;
+  --line:rgba(50,40,60,.12)!important;
+}
+body{
+  background:linear-gradient(180deg,#FAF8FB 0%,#F6F3F6 50%,#FBFAFB 100%)!important;
+  color:var(--ink)!important;
+}
+header,.topbar,.bar,.nav,.navbar{
+  background:rgba(255,255,255,.86)!important;
+  border-color:var(--line)!important;
+  backdrop-filter:blur(18px);
+}
+.brand,.brand-name,.logo,.ptitle,.brand-logo,.navbrand{
+  color:var(--ink)!important;
+}
+.brand-logo[src*="generalmillss"],
+img[src*="generalmillss-logo"]{
+  opacity:0!important;
+}
+.logo:has(img[src*="generalmillss-logo"]),
+.brand:has(img[src*="generalmillss-logo"]){
+  position:relative;
+}
+.logo:has(img[src*="generalmillss-logo"])::after,
+.brand:has(img[src*="generalmillss-logo"])::after{
+  content:"General Mills";
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  font-weight:800;
+  letter-spacing:.01em;
+  color:var(--ink);
+}
+button,.btn,.chip,.serving,.tab,.tabs button,.modeb{
+  border-radius:10px!important;
+}
+.btn,.modeb.on,.tabs button.on,.chip.active,.chip.on,.pc.on{
+  background:var(--brand)!important;
+  border-color:var(--brand)!important;
+  color:#fff!important;
+}
+a,.back,.eyebrow,.kick,.sec-kick,.serving,.tag,.src,.nc-badge{
+  color:var(--brand-d)!important;
+}
+.hero,.hero-in,.detail-head{
+  background:linear-gradient(135deg,rgba(67,165,173,.16),rgba(232,118,154,.10),rgba(255,255,255,.62))!important;
+}
+.card,.panel,.engine-card,.brief,.asset-summary,.guard,.detail,.viewer,.acard,.cat-card{
+  border-color:var(--line)!important;
+  box-shadow:0 18px 50px -34px rgba(45,40,58,.45)!important;
+}
+.ph,.thumb,.stat-box,.flow .step,.northstar,.note,.soft{
+  background:var(--soft)!important;
+}
+img[src*="images/gm/"]{
+  border-radius:12px;
+  filter:saturate(.86) contrast(.98);
+}

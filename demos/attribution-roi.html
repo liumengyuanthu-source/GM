@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Attribution & ROI · Blackmores · Experience Studio</title>
+<title>Attribution & ROI · General Mills · Experience Studio</title>
 <style>
   :root{
     --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
@@ -147,6 +147,8 @@
   .pane{display:none}.pane.on{display:block;animation:fin .3s ease}
   @keyframes fin{from{opacity:0;transform:translateY(6px)}}
 </style>
+<link rel="stylesheet" href="gm-demo-theme.css">
+<script defer src="gm-demo-brand.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -205,9 +207,9 @@
 <div class="fab" id="fab" title="brand">🎨</div>
 
 <script>
-const BRANDS={blackmores:{logo:"Blackmores",sup:"®",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+const BRANDS={generalmills:{logo:"General Mills",sup:"®",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
   bioceuticals:{logo:"BioCeuticals",sup:"",c:["#1b3a5c","#10243a","#e7edf3","#c9a24a"]},
-  paw:{logo:"PAW by Blackmores",sup:"",c:["#2e7d32","#1b5e20","#e7f3e8","#7cb342"]}};
+  paw:{logo:"PAW by General Mills",sup:"",c:["#2e7d32","#1b5e20","#e7f3e8","#7cb342"]}};
 const L=o=>o[state.lang]||o.en||o.ja;
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 const yen=n=>'A$'+Math.round(n).toLocaleString('en-US');
@@ -216,12 +218,12 @@ const yenM=n=>'A$'+(n/1e6).toFixed(1)+'M';
 const T={
  sub:{ja:"アトリビューション & ROI",en:"Attribution & ROI",zh:"归因与 ROI",th:"แอตทริบิวชัน & ROI"},
  eye:{ja:"マーケティング · 多触点アトリビューション & ROI",en:"Marketing · Multi-touch Attribution & ROI",zh:"营销 · 多触点归因与 ROI",th:"การตลาด · แอตทริบิวชันหลายจุดสัมผัส & ROI"},
- title:{ja:"どのチャネルが本当に売上を生んだか――AI推薦から店頭・薬局まで、一つのモデルで。",en:"Which channels actually drove sales — from AI-rec to pharmacy, in one model.",zh:"到底哪个渠道真正带来了销售——从 AI 推荐到药房门店，一个模型说清楚。",th:"ช่องทางไหนสร้างยอดขายจริง — ตั้งแต่ AI-rec ถึงร้านขายยา ในโมเดลเดียว"},
+ title:{ja:"どのチャネルが本当に売上を生んだか――AI推薦から店頭・小売店まで、一つのモデルで。",en:"Which channels actually drove sales — from AI-rec to retail, in one model.",zh:"到底哪个渠道真正带来了销售——从 AI 推荐到门店门店，一个模型说清楚。",th:"ช่องทางไหนสร้างยอดขายจริง — ตั้งแต่ AI-rec ถึงร้านขายยา ในโมเดลเดียว"},
  lead:{ja:"末次触点に依存した ROI 評価は、AI推薦や RED/微信など上位ファネルの貢献を過小評価します。データ駆動アトリビューションで各タッチポイントに正しくクレジットを配分し、活動別 ROI を掘り下げ、予算を限界 ROI が最大になるよう再配分します。ANZ・中国・SEA の各市場にそのまま適用できます。",
    en:"ROI judged on last-touch alone undervalues upper-funnel channels like AI-rec and social (RED, WeChat). Data-driven attribution assigns credit correctly across every touchpoint, drills into campaign-level ROI, and reallocates budget where marginal ROI peaks. Applies directly across ANZ, China and SEA.",
    zh:"只看末次触点的 ROI 会低估 AI 推荐、小红书/微信等上位漏斗渠道的贡献。数据驱动归因为每个触点正确分配 credit，下钻到活动级 ROI，并把预算重新配置到边际 ROI 最高处。可直接套用于 ANZ、中国、SEA 各市场。",
    th:"การวัด ROI จากจุดสัมผัสสุดท้ายอย่างเดียวประเมินช่องบนกรวยอย่าง AI-rec และโซเชียล (RED, WeChat) ต่ำเกินไป แอตทริบิวชันแบบขับเคลื่อนด้วยข้อมูลกระจายเครดิตให้ทุกจุดสัมผัสอย่างถูกต้อง เจาะ ROI ระดับแคมเปญ และจัดสรรงบใหม่ที่ ROI ส่วนเพิ่มสูงสุด"},
- proof:{ja:["<b>TGA認証</b>サプリ","データ駆動アトリビューション","多言語・多市場対応"],en:["<b>TGA-certified</b> supplements","Data-driven attribution","Multilingual · multi-market"],zh:["<b>TGA 认证</b>保健品","数据驱动归因","多语言·多市场"],th:["ผลิตภัณฑ์เสริม <b>รับรอง TGA</b>","แอตทริบิวชันขับเคลื่อนด้วยข้อมูล","หลายภาษา·หลายตลาด"]},
+ proof:{ja:["<b>brand governance認証</b>プロダクト","データ駆動アトリビューション","多言語・多市場対応"],en:["<b>brand governance-certified</b> products","Data-driven attribution","Multilingual · multi-market"],zh:["<b>brand governance 认证</b>食品产品","数据驱动归因","多语言·多市场"],th:["ผลิตภัณฑ์เสริม <b>รับรอง brand governance</b>","แอตทริบิวชันขับเคลื่อนด้วยข้อมูล","หลายภาษา·หลายตลาด"]},
  t_attr:{ja:"アトリビューション",en:"Attribution",zh:"归因模型",th:"แอตทริบิวชัน"},
  t_camp:{ja:"活動別 ROI",en:"Campaign ROI",zh:"活动 ROI",th:"ROI แคมเปญ"},
  t_budget:{ja:"予算最適化",en:"Budget Optimizer",zh:"预算优化",th:"จัดสรรงบ"},
@@ -233,7 +235,7 @@ const T={
  m_dd:{ja:"データ駆動",en:"Data-driven",zh:"数据驱动",th:"ขับเคลื่อนด้วยข้อมูล"},
  // path
  pathH:{ja:"コンバージョン経路（1人の消費者ジャーニー）",en:"Conversion path (one consumer journey)",zh:"转化路径（单个消费者旅程）",th:"เส้นทางคอนเวอร์ชัน (1 ผู้บริโภค)"},
- pathSub:{ja:"Vitamin C 購入者の代表的なパス（RED発見→微信→Tmallクーポン→購入）。各タッチに配分されるクレジットはモデルで変わります。",en:"A representative path of a Vitamin C buyer (RED discovery → WeChat → Tmall coupon → purchase). Credit per touch shifts with the model.",zh:"维生素 C 购买者的典型路径（小红书发现→微信→天猫券→购买）。各触点的 credit 随模型变化。",th:"เส้นทางตัวอย่างของผู้ซื้อ Vitamin C (RED ค้นพบ → WeChat → คูปอง Tmall → ซื้อ) เครดิตแต่ละจุดเปลี่ยนตามโมเดล"},
+ pathSub:{ja:"Häagen-Dazs Mini Cup 購入者の代表的なパス（RED発見→微信→Tmallクーポン→購入）。各タッチに配分されるクレジットはモデルで変わります。",en:"A representative path of a Häagen-Dazs Mini Cup buyer (RED discovery → WeChat → Tmall coupon → purchase). Credit per touch shifts with the model.",zh:"产品 C 购买者的典型路径（小红书发现→微信→天猫券→购买）。各触点的 credit 随模型变化。",th:"เส้นทางตัวอย่างของผู้ซื้อ Häagen-Dazs Mini Cup (RED ค้นพบ → WeChat → คูปอง Tmall → ซื้อ) เครดิตแต่ละจุดเปลี่ยนตามโมเดล"},
  credit:{ja:"クレジット",en:"credit",zh:"credit",th:"เครดิต"},
  // roi
  roiH:{ja:"チャネル別 ROAS（モデルで再計算）",en:"Channel ROAS (recomputed per model)",zh:"分渠道 ROAS（按模型重算）",th:"ROAS ตามช่อง (คำนวณใหม่ตามโมเดล)"},
@@ -286,7 +288,7 @@ const CH=[
  {k:"social", nm:{ja:"RED/社媒",en:"RED / Social",zh:"小红书/社媒",th:"RED / โซเชียล"}, icon:"📱", spend:1800000, funnel:"upper"},
  {k:"aigc", nm:{ja:"WeChat",en:"WeChat",zh:"微信",th:"WeChat"}, icon:"💬", spend:900000, funnel:"mid"},
  {k:"line", nm:{ja:"WhatsApp/SEA",en:"WhatsApp (SEA)",zh:"WhatsApp/SEA",th:"WhatsApp (SEA)"}, icon:"🟢", spend:1100000, funnel:"lower"},
- {k:"store", nm:{ja:"薬局/店頭",en:"Pharmacy / Store",zh:"药房/门店",th:"ร้านขายยา"}, icon:"🏪", spend:1600000, funnel:"mid"},
+ {k:"store", nm:{ja:"小売店/店頭",en:"Retail / Store",zh:"门店/门店",th:"ร้านขายยา"}, icon:"🏪", spend:1600000, funnel:"mid"},
  {k:"ec", nm:{ja:"Tmall/JD・EC",en:"Tmall/JD · EC",zh:"天猫/京东·电商",th:"Tmall/JD · อีคอม"}, icon:"🛒", spend:1300000, funnel:"lower"},
  {k:"crm", nm:{ja:"会員CRM",en:"CRM",zh:"会员CRM",th:"CRM"}, icon:"⭐", spend:700000, funnel:"lower"}
 ];
@@ -320,27 +322,27 @@ const PATH_CREDIT={
 
 // ---- campaigns ----
 const CAMP=[
- {id:1,nm:{ja:"イミュニティ・シーズン",en:"Immunity Season",zh:"免疫季",th:"ซีซันภูมิคุ้มกัน"},prod:{ja:"ビタミンC",en:"Vitamin C",zh:"维生素 C",th:"วิตามินซี"},
+ {id:1,nm:{ja:"イミュニティ・シーズン",en:"Seasonal occasion Season",zh:"季节场景季",th:"ซีซันโอกาสตามฤดูกาล"},prod:{ja:"プロダクトC",en:"Häagen-Dazs Mini Cup",zh:"产品 C",th:"ผลิตภัณฑ์ซี"},
    spend:2200000,roas:4.6,cac:680,inc:10100000,verdict:"go",
    funnel:[1850000,142000,38500,14800],
    split:[["social",34],["geo",22],["ec",26],["aigc",18]],
    action:{ja:"風邪シーズンの立ち上がりで RED リターゲを 2 週間延長し、再購入を会員 CRM に引き継ぐ。",en:"Extend RED retargeting 2 weeks into cold-season ramp-up and hand repeat purchases to CRM.",zh:"在感冒季启动期延长小红书再营销 2 周，把复购交接给会员 CRM。",th:"ขยายรีทาร์เก็ต RED 2 สัปดาห์ช่วงเข้าฤดูหวัด แล้วส่งการซื้อซ้ำให้ CRM"}},
- {id:2,nm:{ja:"ウィンター関節ケア",en:"Winter Joint Care",zh:"冬季关节呵护",th:"ดูแลข้อต่อหน้าหนาว"},prod:{ja:"グルコサミン",en:"Glucosamine",zh:"氨基葡萄糖",th:"กลูโคซามีน"},
+ {id:2,nm:{ja:"ウィンターファミリーミールケア",en:"Winter Family meal Care",zh:"冬季家庭餐呵护",th:"ดูแลข้อต่อหน้าหนาว"},prod:{ja:"グルコサミン",en:"Wanchai Ferry Wontons",zh:"氨基葡萄糖",th:"กลูโคซามีน"},
    spend:1900000,roas:5.4,cac:540,inc:10300000,verdict:"go",
    funnel:[2400000,205000,61000,21400],
    split:[["geo",31],["social",24],["aigc",17],["crm",28]],
-   action:{ja:"AI推薦の発見導線が最強。AI 推薦の在庫を増やし、WeChat で実証コンテンツを量産。",en:"AI-rec discovery is the strongest path. Scale AI-rec inventory and mass-produce proof content via WeChat.",zh:"AI 推荐发现路径最强。扩大 AI 推荐库存，用微信量产实证内容（支持关节舒适，不作疗效宣称）。",th:"เส้นทางค้นพบผ่าน AI-rec แข็งสุด เพิ่มสต็อก AI rec และผลิตคอนเทนต์ผ่าน WeChat"}},
- {id:3,nm:{ja:"プレグナンシー・サポート",en:"Pregnancy & Maternity",zh:"孕期与备孕支持",th:"การตั้งครรภ์และคุณแม่"},prod:{ja:"Pregnancy Gold",en:"Pregnancy Gold",zh:"Pregnancy Gold",th:"Pregnancy Gold"},
+   action:{ja:"AI推薦の発見導線が最強。AI 推薦の在庫を増やし、WeChat で実証コンテンツを量産。",en:"AI-rec discovery is the strongest path. Scale AI-rec inventory and mass-produce proof content via WeChat.",zh:"AI 推荐发现路径最强。扩大 AI 推荐库存，用微信量产实证内容（支持家庭餐舒适，不作疗效宣称）。",th:"เส้นทางค้นพบผ่าน AI-rec แข็งสุด เพิ่มสต็อก AI rec และผลิตคอนเทนต์ผ่าน WeChat"}},
+ {id:3,nm:{ja:"プレグナンシー・サポート",en:"Celebration & Maternity",zh:"礼赠场景与备孕支持",th:"การตั้งครรภ์และคุณแม่"},prod:{ja:"Celebration Gold",en:"Celebration Gold",zh:"Celebration Gold",th:"Celebration Gold"},
    spend:1500000,roas:2.4,cac:1380,inc:3600000,verdict:"cau",
    funnel:[1200000,76000,12100,3900],
    split:[["social",41],["geo",14],["aigc",19],["store",26]],
-   action:{ja:"会員→購入の転換が弱い（16%）。妊娠・育児コミュニティの CRM 育成と薬局サンプリングを強化。",en:"Sign-up→purchase conversion is weak (16%). Strengthen CRM nurturing in pregnancy communities and in-pharmacy sampling.",zh:"会员→购买转化偏弱（16%）。加强孕期育儿社群的 CRM 培育与药房派样。",th:"คอนเวอร์ชันสมัคร→ซื้ออ่อน (16%) เสริมการดูแล CRM ในชุมชนคุณแม่และแจกตัวอย่างที่ร้านขายยา"}},
- {id:4,nm:{ja:"オメガ3 ハートヘルス",en:"Omega-3 Heart Health",zh:"Omega-3 心脏健康",th:"โอเมก้า-3 หัวใจ"},prod:{ja:"Fish Oil",en:"Fish Oil",zh:"深海鱼油",th:"น้ำมันปลา"},
+   action:{ja:"会員→購入の転換が弱い（16%）。ギフト・育児コミュニティの CRM 育成と小売店サンプリングを強化。",en:"Sign-up→purchase conversion is weak (16%). Strengthen CRM nurturing in celebration communities and in-retail sampling.",zh:"会员→购买转化偏弱（16%）。加强礼赠场景育儿社群的 CRM 培育与门店派样。",th:"คอนเวอร์ชันสมัคร→ซื้ออ่อน (16%) เสริมการดูแล CRM ในชุมชนคุณแม่และแจกตัวอย่างที่ร้านขายยา"}},
+ {id:4,nm:{ja:"オメガ3 ハートヘルス",en:"family dinner Family Table",zh:"family dinner 家庭餐桌健康",th:"โอเมก้า-3 หัวใจ"},prod:{ja:"Wanchai Ferry Dumplings",en:"Wanchai Ferry Dumplings",zh:"深海湾仔码头水饺",th:"น้ำมันปลา"},
    spend:1700000,roas:3.1,cac:1020,inc:5300000,verdict:"go",
    funnel:[1600000,118000,24800,7600],
    split:[["aigc",29],["social",27],["ec",24],["geo",20]],
-   action:{ja:"心血管健康の認知は WeChat 実証コンテンツが効率的。EC 初回クーポンを AI推薦経由の新規に限定配布。",en:"WeChat proof content is efficient for heart-health awareness. Restrict EC first-buy coupons to AI-rec-sourced new customers.",zh:"心血管健康认知用微信实证内容最有效率（支持心脏健康，不作疗效宣称）。把电商首购券限定发给 AI 推荐来源的新客。",th:"คอนเทนต์ WeChat มีประสิทธิภาพสำหรับการรับรู้เรื่องหัวใจ จำกัดคูปองซื้อแรก EC ให้ลูกค้าใหม่จาก AI-rec"}},
- {id:5,nm:{ja:"スリープ＆ストレス",en:"Sleep & Stress",zh:"睡眠与减压",th:"การนอนและความเครียด"},prod:{ja:"Sleep Support",en:"Sleep Support",zh:"Sleep Support",th:"Sleep Support"},
+   action:{ja:"家庭餐桌健康の認知は WeChat 実証コンテンツが効率的。EC 初回クーポンを AI推薦経由の新規に限定配布。",en:"WeChat proof content is efficient for family table-health awareness. Restrict EC first-buy coupons to AI-rec-sourced new customers.",zh:"家庭餐桌健康认知用微信实证内容最有效率（支持家庭餐桌健康，不作疗效宣称）。把电商首购券限定发给 AI 推荐来源的新客。",th:"คอนเทนต์ WeChat มีประสิทธิภาพสำหรับการรับรู้เรื่องหัวใจ จำกัดคูปองซื้อแรก EC ให้ลูกค้าใหม่จาก AI-rec"}},
+ {id:5,nm:{ja:"スリープ＆ストレス",en:"Sleep & Stress",zh:"睡眠与减压",th:"การนอนและความเครียด"},prod:{ja:"Häagen-Dazs Evening Dessert",en:"Häagen-Dazs Evening Dessert",zh:"Häagen-Dazs Evening Dessert",th:"Häagen-Dazs Evening Dessert"},
    spend:2000000,roas:1.9,cac:1640,inc:3800000,verdict:"cau",
    funnel:[1500000,88000,15600,4100],
    split:[["ec",38],["line",27],["store",21],["social",14]],
@@ -355,14 +357,14 @@ const OPT=[
  {k:"social",nm:{ja:"RED/社媒",en:"RED / Social",zh:"小红书/社媒",th:"RED / โซเชียล"}, a:7600000, b:2600000, base:1100000},
  {k:"aigc", nm:{ja:"WeChat",en:"WeChat",zh:"微信",th:"WeChat"}, a:4400000, b:1400000, base:500000},
  {k:"line", nm:{ja:"WhatsApp",en:"WhatsApp",zh:"WhatsApp",th:"WhatsApp"}, a:5400000, b:1700000, base:1700000},
- {k:"store",nm:{ja:"薬局/店頭",en:"Pharmacy",zh:"药房/门店",th:"ร้านขายยา"}, a:3800000, b:2400000, base:2600000},
+ {k:"store",nm:{ja:"小売店/店頭",en:"Retail",zh:"门店/门店",th:"ร้านขายยา"}, a:3800000, b:2400000, base:2600000},
  {k:"ec", nm:{ja:"Tmall/JD",en:"Tmall/JD",zh:"天猫/京东",th:"Tmall/JD"}, a:5000000, b:1600000, base:1500000},
  {k:"crm", nm:{ja:"CRM",en:"CRM",zh:"CRM",th:"CRM"}, a:3400000, b:900000, base:2000000}
 ];
 function ret(o,s){return o.a*(1-Math.exp(-s/o.b));}
 function margROI(o,s){const d=10000;return (ret(o,s+d)-ret(o,s))/d;} // marginal return per ¥
 
-let state={lang:"en",brand:"blackmores",market:"ANZ",tab:"attr",model:"last",camp:1,alloc:null};
+let state={lang:"en",brand:"generalmills",market:"ANZ",tab:"attr",model:"last",camp:1,alloc:null};
 function initAlloc(){state.alloc={};OPT.forEach(o=>state.alloc[o.k]=o.base);}
 initAlloc();
 

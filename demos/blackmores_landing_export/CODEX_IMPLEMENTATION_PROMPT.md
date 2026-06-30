@@ -1,6 +1,6 @@
-# Codex Prompt — Implement Blackmores Experience Studio Landing Screen
+# Codex Prompt — Implement General Mills AI Scenario Studio Landing Screen
 
-Build a responsive first screen for `Blackmores Experience Studio` using the files in this package.
+Build a responsive first screen for `General Mills AI Scenario Studio` using the files in this package.
 
 ## Objective
 
@@ -8,12 +8,12 @@ Create an executive briefing portal landing screen that communicates:
 
 **One Brand. Five Market Realities. One Scalable Operating Model.**
 
-The design must show that NTT DATA understands Blackmores' global-local challenge and can design an operating model that supports local market realities while remaining scalable globally.
+The design must show that NTT DATA understands General Mills' global-local challenge and can design an operating model that supports local market realities while remaining scalable globally.
 
 ## Required sections
 
 ### 1. Header
-- Left: `BLACKMORES | EXPERIENCE STUDIO`
+- Left: `GENERAL MILLS | EXPERIENCE STUDIO`
 - Right navigation: `Journey`, `Capability Catalog`, `Case Library`, `About NTT DATA`, `EN`
 - Clean, light, premium, consulting-style.
 
@@ -24,7 +24,7 @@ The design must show that NTT DATA understands Blackmores' global-local challeng
   `Five Market Realities.`
   `One Scalable Operating Model.`
 - Supporting line:
-  `Helping Blackmores deliver locally relevant experiences through one scalable operating model.`
+  `Helping General Mills deliver locally relevant experiences through one scalable operating model.`
 - Right side should show the simple three-part logic:
   - One Brand — Global consistency in strategy and standards.
   - Five Market Realities — Different ecosystems. Different consumers. Different journeys.
@@ -43,13 +43,13 @@ The design must show that NTT DATA understands Blackmores' global-local challeng
 ## Market card content
 
 ### Australia & New Zealand
-Positioning: `Retail-led Health Ecosystem`
+Positioning: `Retail-led Food Experience Ecosystem`
 Evidence:
-- Pharmacy as primary channel
+- Retail as primary channel
 - Retail & loyalty growth
-- Health & wellness focus
-Tags: `Retail`, `Pharmacy`, `Loyalty`
-Visual: pharmacy / health retail. Avoid scenic travel imagery.
+- Health & everyday enjoyment focus
+Tags: `Retail`, `Retail`, `Loyalty`
+Visual: retail / food retail. Avoid scenic travel imagery.
 
 ### China
 Positioning: `WeChat-native Customer Journey`
@@ -96,7 +96,7 @@ Footer: `Built to onboard any future market with speed and consistency.`
 - Avoid generic slogan-only design.
 - Keep first screen concise but evidence-based.
 - Use market colors as recognition cues:
-  - ANZ: Blackmores teal / pharmacy blue
+  - ANZ: General Mills teal / retail blue
   - China: WeChat green `#07C160`
   - Japan: LINE green `#06C755`
   - SEA: LINE green + WhatsApp green `#25D366`

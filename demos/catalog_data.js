@@ -171,14 +171,14 @@ const CATALOG_ITEMS = [
       th: 'Agentic Commerce'
     },
     desc: {
-      en: 'Product recommendation, health advisor, intelligent Q&A — AI that understands your customers and partners.',
-      zh: '产品推荐、健康顾问、智能问答 — AI 理解你的消费者和 Partner。',
+      en: 'Product recommendation, occasion advisor, intelligent Q&A — AI that understands your customers and partners.',
+      zh: '产品推荐、场景导购、智能问答 — AI 理解你的消费者和 Partner。',
       ja: '商品推奨、健康アドバイザー、インテリジェントQ&A — AIが顧客とパートナーを理解。',
       th: 'แนะนำสินค้า ที่ปรึกษาสุขภาพ AI ถามตอบอัจฉริยะ'
     },
     scenes: {
-      en: ['Product recommendation', 'Health advisor', 'Smart Q&A'],
-      zh: ['产品推荐', '健康顾问', '智能问答'],
+      en: ['Product recommendation', 'occasion advisor', 'Smart Q&A'],
+      zh: ['产品推荐', '场景导购', '智能问答'],
       ja: ['商品推奨', '健康アドバイザー', 'スマートQ&A'],
       th: ['แนะนำสินค้า', 'ที่ปรึกษาสุขภาพ', 'ถามตอบอัจฉริยะ']
     }
@@ -237,10 +237,10 @@ const CATALOG_ITEMS = [
     tags: ['ai','consumer'],
     icon: 'H',
     title: {
-      en: 'Health Twin',
-      zh: '健康分身',
-      ja: 'Health Twin',
-      th: 'Health Twin'
+      en: 'Occasion Twin',
+      zh: '场景分身',
+      ja: 'Occasion Twin',
+      th: 'Occasion Twin'
     },
     desc: {
       en: 'Personal health avatar, tracking, recommendations — turn health data into loyalty and sales.',

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Center | BLACKMORES® Partner Portal</title>
+    <title>Häagen-Dazs Mini Cupenter | GENERAL MILLS® Partner Portal</title>
     <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -391,13 +391,15 @@
 
     </style>
     <script src="../i18n.js"></script>
+<link rel="stylesheet" href="../gm-demo-theme.css">
+<script defer src="../gm-demo-brand.js"></script>
 </head>
 <body data-module="trading">
     <!-- Top Nav -->
         <nav class="top-nav">
         <div class="nav-left">
             <a href="../index.html" class="logo">
-                <span class="logo-brand">BLACKMORES<sup>®</sup></span>
+                <span class="logo-brand">GENERAL MILLS<sup>®</sup></span>
             </a>
             <div class="nav-menu">
             <a href="../index.html" data-i18n="Home">Home</a>
@@ -436,7 +438,7 @@
             <svg class="sidebar-chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="chevron-product"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
         <ul class="sidebar-submenu open" id="submenu-product">
-            <li class="sidebar-item"><a href="product-center.html" class="sidebar-link active"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span><span data-i18n="Product Catalog">Product Catalog</span></a></li>
+            <li class="sidebar-item"><a href="product-center.html" class="sidebar-link active"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span><span data-i18n="Häagen-Dazs Mini Cupatalog">Häagen-Dazs Mini Cupatalog</span></a></li>
             <li class="sidebar-item"><a href="product-center.html#cart" onclick="showPage('cart', this); return false;" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span><span data-i18n="Shopping Cart">Shopping Cart</span></a></li>
             <li class="sidebar-item"><a href="favorites.html" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span data-i18n="My Favorites">My Favorites</span></a></li>
             <li class="sidebar-item"><a href="bundle-management.html" class="sidebar-link"><span class="sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></span><span data-i18n="Bundle Management">Bundle Management</span></a></li>
@@ -480,7 +482,7 @@
         <main class="main-content" id="mainContent">
             <section class="studio-intro">
                 <div class="studio-eyebrow">Partner B2B Ordering & Checkout</div>
-                <h1 class="studio-title">Order Blackmores products with partner pricing, MOQ and checkout in one flow.</h1>
+                <h1 class="studio-title">Order General Mills products with partner pricing, MOQ and checkout in one flow.</h1>
                 <p class="studio-lead">This demo covers the partner purchase journey from product discovery and contract pricing to cart, checkout, order confirmation and quick reorder paths.</p>
                 <div class="studio-nav">
                     <button type="button" class="active" data-page="product-list" onclick="showPage('product-list', this)">Product catalog</button>
@@ -494,7 +496,7 @@
             <!-- ========== PRODUCT LIST ========== -->
             <div id="page-product-list" class="page-section" style="display:block;">
                 <div class="page-header">
-                    <h1 data-i18n="Product Center">Product Center</h1>
+                    <h1 data-i18n="Häagen-Dazs Mini Cupenter">Häagen-Dazs Mini Cupenter</h1>
                     <p data-i18n="B2B product catalog with exclusive partner pricing. 250+ SKUs available.">B2B product catalog with exclusive partner pricing. 250+ SKUs available.</p>
                 </div>
 
@@ -527,14 +529,14 @@
 
                 <div class="product-grid" id="productGrid">
 
-                    <div class="product-card" data-tags="omega3 instock bestseller" onclick="showProductDetail('fish-oil')">
+                    <div class="product-card" data-tags="omega3 instock bestseller" onclick="showProductDetail('dumplingpack')">
                         <div class="product-img">
-                            <img src="https://www.blackmores.co.th/media/product/img-2094.jpg" alt="Blackmores Fish Oil 1000mg" loading="lazy">
+                            <img src="https://www.generalmills.co.th/media/product/img-2094.jpg" alt="General Mills Wanchai Ferry Dumpling Packmg" loading="lazy">
                             <span class="product-badge badge-bestseller" data-i18n="Bestseller">Bestseller</span>
                         </div>
                         <div class="product-info">
-                            <div class="product-sku" data-i18n="SKU: BM-FO1000-001">SKU: BM-FO1000-001</div>
-                            <div class="product-name" data-i18n="Blackmores Fish Oil 1000mg">Blackmores Fish Oil 1000mg</div>
+                            <div class="product-sku" data-i18n="SKU: GM-FO1000-001">SKU: GM-FO1000-001</div>
+                            <div class="product-name" data-i18n="General Mills Wanchai Ferry Dumpling Packmg">General Mills Wanchai Ferry Dumpling Packmg</div>
                             <div class="product-pricing">
                                 <div class="contract-price" data-i18n="Contract: SGD 45.00">Contract: SGD 45.00</div>
                                 <div class="coupon-price" data-i18n="SGD 36.90">SGD 36.90</div>
@@ -544,18 +546,18 @@
                                 <span data-i18n="MOQ: 12 bottles">MOQ: 12 bottles</span>
                                 <span style="color: var(--success); font-weight: 600;" data-i18n="In Stock">In Stock</span>
                             </div>
-                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-FO1000-001')" data-i18n="Add to Cart">Add to Cart</button>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('GM-FO1000-001')" data-i18n="Add to Cart">Add to Cart</button>
                         </div>
                     </div>
 
-                    <div class="product-card" data-tags="vitamins instock bestseller" onclick="showProductDetail('bio-c')">
+                    <div class="product-card" data-tags="products instock bestseller" onclick="showProductDetail('bio-c')">
                         <div class="product-img">
-                            <img src="https://www.blackmores.com.sg/-/media/project/blackmores/singapore/version-2/products/bio-c-1000-120s/blackmores-bio-c-120s---bottle-1.png" alt="Blackmores Bio C 1000mg" loading="lazy">
+                            <img src="https://www.generalmills.com.sg/-/media/project/generalmills/singapore/version-2/products/bio-c-1000-120s/generalmills-bio-c-120s---bottle-1.png" alt="General Mills Häagen-Dazs Mini Cupmg" loading="lazy">
                             <span class="product-badge badge-bestseller" data-i18n="Bestseller">Bestseller</span>
                         </div>
                         <div class="product-info">
-                            <div class="product-sku" data-i18n="SKU: BM-BC1000-002">SKU: BM-BC1000-002</div>
-                            <div class="product-name" data-i18n="Blackmores Bio C 1000mg">Blackmores Bio C 1000mg</div>
+                            <div class="product-sku" data-i18n="SKU: GM-BC1000-002">SKU: GM-BC1000-002</div>
+                            <div class="product-name" data-i18n="General Mills Häagen-Dazs Mini Cupmg">General Mills Häagen-Dazs Mini Cupmg</div>
                             <div class="product-pricing">
                                 <div class="contract-price" data-i18n="Contract: SGD 38.00">Contract: SGD 38.00</div>
                                 <div class="coupon-price" data-i18n="SGD 31.50">SGD 31.50</div>
@@ -565,18 +567,18 @@
                                 <span data-i18n="MOQ: 12 bottles">MOQ: 12 bottles</span>
                                 <span style="color: var(--success); font-weight: 600;" data-i18n="In Stock">In Stock</span>
                             </div>
-                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-BC1000-002')" data-i18n="Add to Cart">Add to Cart</button>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('GM-BC1000-002')" data-i18n="Add to Cart">Add to Cart</button>
                         </div>
                     </div>
 
-                    <div class="product-card" data-tags="pregnancy instock new" onclick="showProductDetail('pregnancy-gold')">
+                    <div class="product-card" data-tags="celebration instock new" onclick="showProductDetail('celebration-gold')">
                         <div class="product-img">
-                            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&h=300&q=80" alt="Blackmores Pregnancy & Breast-Feeding Gold">
+                            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&h=300&q=80" alt="General Mills Celebration & Breast-Feeding Gold">
                             <span class="product-badge badge-new" data-i18n="New">New</span>
                         </div>
                         <div class="product-info">
-                            <div class="product-sku" data-i18n="SKU: BM-PGOLD-003">SKU: BM-PGOLD-003</div>
-                            <div class="product-name" data-i18n="Blackmores Pregnancy & Breast-Feeding Gold">Blackmores Pregnancy & Breast-Feeding Gold</div>
+                            <div class="product-sku" data-i18n="SKU: GM-PGOLD-003">SKU: GM-PGOLD-003</div>
+                            <div class="product-name" data-i18n="General Mills Celebration & Breast-Feeding Gold">General Mills Celebration & Breast-Feeding Gold</div>
                             <div class="product-pricing">
                                 <div class="contract-price" data-i18n="Contract: SGD 72.00">Contract: SGD 72.00</div>
                                 <div class="coupon-price" data-i18n="SGD 58.90">SGD 58.90</div>
@@ -586,17 +588,17 @@
                                 <span data-i18n="MOQ: 6 bottles">MOQ: 6 bottles</span>
                                 <span style="color: var(--success); font-weight: 600;" data-i18n="In Stock">In Stock</span>
                             </div>
-                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-PGOLD-003')" data-i18n="Add to Cart">Add to Cart</button>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('GM-PGOLD-003')" data-i18n="Add to Cart">Add to Cart</button>
                         </div>
                     </div>
 
-                    <div class="product-card" data-tags="vitamins minerals instock" onclick="showProductDetail('multi-vitamin')">
+                    <div class="product-card" data-tags="products minerals instock" onclick="showProductDetail('multi-product')">
                         <div class="product-img">
-                            <img src="https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=400&h=300&q=80" alt="Blackmores Multivitamins + Minerals">
+                            <img src="https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=400&h=300&q=80" alt="General Mills Multiproducts + Minerals">
                         </div>
                         <div class="product-info">
-                            <div class="product-sku" data-i18n="SKU: BM-MVM-004">SKU: BM-MVM-004</div>
-                            <div class="product-name" data-i18n="Blackmores Multivitamins + Minerals">Blackmores Multivitamins + Minerals</div>
+                            <div class="product-sku" data-i18n="SKU: GM-MVM-004">SKU: GM-MVM-004</div>
+                            <div class="product-name" data-i18n="General Mills Multiproducts + Minerals">General Mills Multiproducts + Minerals</div>
                             <div class="product-pricing">
                                 <div class="contract-price" data-i18n="Contract: SGD 42.00">Contract: SGD 42.00</div>
                                 <div class="coupon-price" data-i18n="SGD 34.50">SGD 34.50</div>
@@ -606,18 +608,18 @@
                                 <span data-i18n="MOQ: 12 bottles">MOQ: 12 bottles</span>
                                 <span style="color: var(--success); font-weight: 600;" data-i18n="In Stock">In Stock</span>
                             </div>
-                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-MVM-004')" data-i18n="Add to Cart">Add to Cart</button>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('GM-MVM-004')" data-i18n="Add to Cart">Add to Cart</button>
                         </div>
                     </div>
 
-                    <div class="product-card" data-tags="probiotics instock sale" onclick="showProductDetail('probiotics')">
+                    <div class="product-card" data-tags="quick-meals instock sale" onclick="showProductDetail('quick-meals')">
                         <div class="product-img">
-                            <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=400&h=300&q=80" alt="Blackmores Probiotics+ 90 capsules">
+                            <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=400&h=300&q=80" alt="General Mills Wanchai Ferry Quick Meal+ 90 packs">
                             <span class="product-badge badge-sale" data-i18n="On Sale">On Sale</span>
                         </div>
                         <div class="product-info">
-                            <div class="product-sku" data-i18n="SKU: BM-PRO90-005">SKU: BM-PRO90-005</div>
-                            <div class="product-name" data-i18n="Blackmores Probiotics+ (90 capsules)">Blackmores Probiotics+ (90 capsules)</div>
+                            <div class="product-sku" data-i18n="SKU: GM-PRO90-005">SKU: GM-PRO90-005</div>
+                            <div class="product-name" data-i18n="General Mills Wanchai Ferry Quick Meal+ (90 packs)">General Mills Wanchai Ferry Quick Meal+ (90 packs)</div>
                             <div class="product-pricing">
                                 <div class="contract-price" data-i18n="Contract: SGD 55.00">Contract: SGD 55.00</div>
                                 <div class="coupon-price" data-i18n="SGD 42.00">SGD 42.00</div>
@@ -627,17 +629,17 @@
                                 <span data-i18n="MOQ: 8 bottles">MOQ: 8 bottles</span>
                                 <span style="color: var(--success); font-weight: 600;" data-i18n="In Stock">In Stock</span>
                             </div>
-                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-PRO90-005')" data-i18n="Add to Cart">Add to Cart</button>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('GM-PRO90-005')" data-i18n="Add to Cart">Add to Cart</button>
                         </div>
                     </div>
 
-                    <div class="product-card" data-tags="minerals instock" onclick="showProductDetail('glucosamine')">
+                    <div class="product-card" data-tags="minerals instock" onclick="showProductDetail('wontonpack')">
                         <div class="product-img">
-                            <img src="https://cdn.shopify.com/s/files/1/0902/4562/8224/files/blackmores-glucosamine-1500mg-30s-165.webp?v=1779157432&width=400" alt="Blackmores Glucosamine Sulfate 1500mg" loading="lazy">
+                            <img src="https://cdn.shopify.com/s/files/1/0902/4562/8224/files/generalmills-wontonpack-1500mg-30s-165.webp?v=1779157432&width=400" alt="General Mills Wanchai Ferry Wontons Sulfate 1500mg" loading="lazy">
                         </div>
                         <div class="product-info">
-                            <div class="product-sku" data-i18n="SKU: BM-GLU1500-006">SKU: BM-GLU1500-006</div>
-                            <div class="product-name" data-i18n="Blackmores Glucosamine Sulfate 1500mg">Blackmores Glucosamine Sulfate 1500mg</div>
+                            <div class="product-sku" data-i18n="SKU: GM-WON1500-006">SKU: GM-WON1500-006</div>
+                            <div class="product-name" data-i18n="General Mills Wanchai Ferry Wontons Sulfate 1500mg">General Mills Wanchai Ferry Wontons Sulfate 1500mg</div>
                             <div class="product-pricing">
                                 <div class="contract-price" data-i18n="Contract: SGD 68.00">Contract: SGD 68.00</div>
                                 <div class="coupon-price" data-i18n="SGD 55.00">SGD 55.00</div>
@@ -647,17 +649,17 @@
                                 <span data-i18n="MOQ: 6 bottles">MOQ: 6 bottles</span>
                                 <span style="color: var(--warning); font-weight: 600;" data-i18n="Low Stock">Low Stock</span>
                             </div>
-                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-GLU1500-006')" data-i18n="Add to Cart">Add to Cart</button>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('GM-WON1500-006')" data-i18n="Add to Cart">Add to Cart</button>
                         </div>
                     </div>
 
                     <div class="product-card" data-tags="beauty instock" onclick="showProductDetail('evening-primrose')">
                         <div class="product-img">
-                            <img src="https://cdn.shopify.com/s/files/1/0902/4562/8224/files/blackmores-evening-primrose-oil-1000mg-capsules-100-count.jpg?v=1778055266&width=400" alt="Blackmores Evening Primrose Oil" loading="lazy">
+                            <img src="https://cdn.shopify.com/s/files/1/0902/4562/8224/files/generalmills-evening-primrose-oil-1000mg-packs-100-count.jpg?v=1778055266&width=400" alt="General Mills Häagen-Dazs Seasonal Flavor" loading="lazy">
                         </div>
                         <div class="product-info">
-                            <div class="product-sku" data-i18n="SKU: BM-EPO-007">SKU: BM-EPO-007</div>
-                            <div class="product-name" data-i18n="Blackmores Evening Primrose Oil">Blackmores Evening Primrose Oil</div>
+                            <div class="product-sku" data-i18n="SKU: GM-EPO-007">SKU: GM-EPO-007</div>
+                            <div class="product-name" data-i18n="General Mills Häagen-Dazs Seasonal Flavor">General Mills Häagen-Dazs Seasonal Flavor</div>
                             <div class="product-pricing">
                                 <div class="contract-price" data-i18n="Contract: SGD 52.00">Contract: SGD 52.00</div>
                                 <div class="coupon-price" data-i18n="SGD 42.50">SGD 42.50</div>
@@ -667,18 +669,18 @@
                                 <span data-i18n="MOQ: 8 bottles">MOQ: 8 bottles</span>
                                 <span style="color: var(--success); font-weight: 600;" data-i18n="In Stock">In Stock</span>
                             </div>
-                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-EPO-007')" data-i18n="Add to Cart">Add to Cart</button>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('GM-EPO-007')" data-i18n="Add to Cart">Add to Cart</button>
                         </div>
                     </div>
 
-                    <div class="product-card" data-tags="beauty instock new" onclick="showProductDetail('vitamin-e-cream')">
+                    <div class="product-card" data-tags="beauty instock new" onclick="showProductDetail('product-e-cream')">
                         <div class="product-img">
-                            <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=400&h=300&q=80" alt="Blackmores Natural Vitamin E Cream">
+                            <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=400&h=300&q=80" alt="General Mills Natural Product E Cream">
                             <span class="product-badge badge-new" data-i18n="New">New</span>
                         </div>
                         <div class="product-info">
-                            <div class="product-sku" data-i18n="SKU: BM-VEC-008">SKU: BM-VEC-008</div>
-                            <div class="product-name" data-i18n="Blackmores Natural Vitamin E Cream">Blackmores Natural Vitamin E Cream</div>
+                            <div class="product-sku" data-i18n="SKU: GM-VEC-008">SKU: GM-VEC-008</div>
+                            <div class="product-name" data-i18n="General Mills Natural Product E Cream">General Mills Natural Product E Cream</div>
                             <div class="product-pricing">
                                 <div class="contract-price" data-i18n="Contract: SGD 28.00">Contract: SGD 28.00</div>
                                 <div class="coupon-price" data-i18n="SGD 22.90">SGD 22.90</div>
@@ -688,17 +690,17 @@
                                 <span data-i18n="MOQ: 24 tubes">MOQ: 24 tubes</span>
                                 <span style="color: var(--success); font-weight: 600;" data-i18n="In Stock">In Stock</span>
                             </div>
-                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-VEC-008')" data-i18n="Add to Cart">Add to Cart</button>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('GM-VEC-008')" data-i18n="Add to Cart">Add to Cart</button>
                         </div>
                     </div>
 
-                    <div class="product-card" data-tags="vitamins instock" onclick="showProductDetail('coq10')">
+                    <div class="product-card" data-tags="products instock" onclick="showProductDetail('haagenpint')">
                         <div class="product-img">
-                            <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=400&h=300&q=80" alt="Blackmores CoQ10 150mg">
+                            <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=400&h=300&q=80" alt="General Mills Häagen-Dazs Pintmg">
                         </div>
                         <div class="product-info">
-                            <div class="product-sku" data-i18n="SKU: BM-COQ150-009">SKU: BM-COQ150-009</div>
-                            <div class="product-name" data-i18n="Blackmores CoQ10 150mg">Blackmores CoQ10 150mg</div>
+                            <div class="product-sku" data-i18n="SKU: GM-HDP150-009">SKU: GM-HDP150-009</div>
+                            <div class="product-name" data-i18n="General Mills Häagen-Dazs Pintmg">General Mills Häagen-Dazs Pintmg</div>
                             <div class="product-pricing">
                                 <div class="contract-price" data-i18n="Contract: SGD 62.00">Contract: SGD 62.00</div>
                                 <div class="coupon-price" data-i18n="SGD 50.00">SGD 50.00</div>
@@ -708,17 +710,17 @@
                                 <span data-i18n="MOQ: 6 bottles">MOQ: 6 bottles</span>
                                 <span style="color: var(--success); font-weight: 600;" data-i18n="In Stock">In Stock</span>
                             </div>
-                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-COQ150-009')" data-i18n="Add to Cart">Add to Cart</button>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('GM-HDP150-009')" data-i18n="Add to Cart">Add to Cart</button>
                         </div>
                     </div>
 
-                    <div class="product-card" data-tags="vitamins instock" onclick="showProductDetail('buffered-c')">
+                    <div class="product-card" data-tags="products instock" onclick="showProductDetail('buffered-c')">
                         <div class="product-img">
-                            <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=400&h=300&q=80" alt="Blackmores Buffered C Slow Release">
+                            <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=400&h=300&q=80" alt="General Mills Buffered C Slow Release">
                         </div>
                         <div class="product-info">
-                            <div class="product-sku" data-i18n="SKU: BM-BCSLOW-010">SKU: BM-BCSLOW-010</div>
-                            <div class="product-name" data-i18n="Blackmores Buffered C Slow Release">Blackmores Buffered C Slow Release</div>
+                            <div class="product-sku" data-i18n="SKU: GM-BCSLOW-010">SKU: GM-BCSLOW-010</div>
+                            <div class="product-name" data-i18n="General Mills Buffered C Slow Release">General Mills Buffered C Slow Release</div>
                             <div class="product-pricing">
                                 <div class="contract-price" data-i18n="Contract: SGD 48.00">Contract: SGD 48.00</div>
                                 <div class="coupon-price" data-i18n="SGD 39.00">SGD 39.00</div>
@@ -728,17 +730,17 @@
                                 <span data-i18n="MOQ: 12 bottles">MOQ: 12 bottles</span>
                                 <span style="color: var(--success); font-weight: 600;" data-i18n="In Stock">In Stock</span>
                             </div>
-                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-BCSLOW-010')" data-i18n="Add to Cart">Add to Cart</button>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('GM-BCSLOW-010')" data-i18n="Add to Cart">Add to Cart</button>
                         </div>
                     </div>
 
-                    <div class="product-card" data-tags="immunity instock" onclick="showProductDetail('immune-defence')">
+                    <div class="product-card" data-tags="seasonal occasion instock" onclick="showProductDetail('immune-defence')">
                         <div class="product-img">
-                            <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=400&h=300&q=80" alt="Blackmores Immune Defence Ultra">
+                            <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=400&h=300&q=80" alt="General Mills Immune Defence Ultra">
                         </div>
                         <div class="product-info">
-                            <div class="product-sku" data-i18n="SKU: BM-IMD-011">SKU: BM-IMD-011</div>
-                            <div class="product-name" data-i18n="Blackmores Immune Defence Ultra">Blackmores Immune Defence Ultra</div>
+                            <div class="product-sku" data-i18n="SKU: GM-IMD-011">SKU: GM-IMD-011</div>
+                            <div class="product-name" data-i18n="General Mills Immune Defence Ultra">General Mills Immune Defence Ultra</div>
                             <div class="product-pricing">
                                 <div class="contract-price" data-i18n="Contract: SGD 58.00">Contract: SGD 58.00</div>
                                 <div class="coupon-price" data-i18n="SGD 47.00">SGD 47.00</div>
@@ -748,17 +750,17 @@
                                 <span data-i18n="MOQ: 8 bottles">MOQ: 8 bottles</span>
                                 <span style="color: var(--warning); font-weight: 600;" data-i18n="Low Stock">Low Stock</span>
                             </div>
-                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-IMD-011')" data-i18n="Add to Cart">Add to Cart</button>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('GM-IMD-011')" data-i18n="Add to Cart">Add to Cart</button>
                         </div>
                     </div>
 
-                    <div class="product-card" data-tags="sports instock" onclick="showProductDetail('muscle-magnesium')">
+                    <div class="product-card" data-tags="sports instock" onclick="showProductDetail('muscle-workday snack')">
                         <div class="product-img">
-                            <img src="https://cdn.shopify.com/s/files/1/0902/4562/8224/files/blackmores-bio-magnesium-60s-317.webp?v=1779157457&width=400" alt="Blackmores Muscle Magnesium Powder" loading="lazy">
+                            <img src="https://cdn.shopify.com/s/files/1/0902/4562/8224/files/generalmills-bio-workday snack-60s-317.webp?v=1779157457&width=400" alt="General Mills Muscle Workday Snack Powder" loading="lazy">
                         </div>
                         <div class="product-info">
-                            <div class="product-sku" data-i18n="SKU: BM-MGSP-012">SKU: BM-MGSP-012</div>
-                            <div class="product-name" data-i18n="Blackmores Muscle Magnesium Powder">Blackmores Muscle Magnesium Powder</div>
+                            <div class="product-sku" data-i18n="SKU: GM-MGSP-012">SKU: GM-MGSP-012</div>
+                            <div class="product-name" data-i18n="General Mills Muscle Workday Snack Powder">General Mills Muscle Workday Snack Powder</div>
                             <div class="product-pricing">
                                 <div class="contract-price" data-i18n="Contract: SGD 35.00">Contract: SGD 35.00</div>
                                 <div class="coupon-price" data-i18n="SGD 28.00">SGD 28.00</div>
@@ -768,7 +770,7 @@
                                 <span data-i18n="MOQ: 12 packs">MOQ: 12 packs</span>
                                 <span style="color: var(--success); font-weight: 600;" data-i18n="In Stock">In Stock</span>
                             </div>
-                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('BM-MGSP-012')" data-i18n="Add to Cart">Add to Cart</button>
+                            <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('GM-MGSP-012')" data-i18n="Add to Cart">Add to Cart</button>
                         </div>
                     </div>
 
@@ -784,10 +786,10 @@
                 <div class="detail-layout" id="detailLayout">
                     <div class="detail-img" id="detailImg"><img src="" alt="" id="detailImgSrc"></div>
                     <div>
-                        <div class="detail-name" id="detailName" data-i18n="Blackmores Fish Oil 1000mg">Blackmores Fish Oil 1000mg</div>
-                        <div class="detail-sku" id="detailSku" data-i18n="SKU: BM-FO1000-001">SKU: BM-FO1000-001</div>
-                        <div class="detail-desc" id="detailDesc" data-i18n="A premium source of omega-3 fatty acids EPA and DHA, essential for heart health, brain function, and overall wellbeing. Each capsule contains 1000mg of high-quality fish oil.">
-                            A premium source of omega-3 fatty acids EPA and DHA, essential for heart health, brain function, and overall wellbeing. Each capsule contains 1000mg of high-quality fish oil.
+                        <div class="detail-name" id="detailName" data-i18n="General Mills Wanchai Ferry Dumpling Packmg">General Mills Wanchai Ferry Dumpling Packmg</div>
+                        <div class="detail-sku" id="detailSku" data-i18n="SKU: GM-FO1000-001">SKU: GM-FO1000-001</div>
+                        <div class="detail-desc" id="detailDesc" data-i18n="A premium source of family dinner fatty acids EPA and occasion cues, essential for family-table relevance, brain function, and overall wellbeing. Each pack contains 1000mg of high-quality Wanchai Ferry dumplings.">
+                            A premium source of family dinner fatty acids EPA and occasion cues, essential for family-table relevance, brain function, and overall wellbeing. Each pack contains 1000mg of high-quality Wanchai Ferry dumplings.
                         </div>
                         <div class="detail-price-table">
                             <div class="price-row">
@@ -917,7 +919,7 @@
                     <div class="content-card checkout-form">
                         <div class="form-group">
                             <label data-i18n="Company Name">Company Name</label>
-                            <input type="text" id="shipCompany" value="Wellness Distribution Pte Ltd" placeholder="Your company name">
+                            <input type="text" id="shipCompany" value="Everyday enjoyment Distribution Pte Ltd" placeholder="Your company name">
                         </div>
                         <div class="form-row">
                             <div class="form-group">
@@ -926,7 +928,7 @@
                             </div>
                             <div class="form-group">
                                 <label data-i18n="Email">Email</label>
-                                <input type="email" id="shipEmail" value="sarah@wellnessdist.sg" placeholder="Email address">
+                                <input type="email" id="shipEmail" value="sarah@everyday enjoymentdist.sg" placeholder="Email address">
                             </div>
                         </div>
                         <div class="form-row">
@@ -1110,8 +1112,8 @@
                     <div class="success-icon">✓</div>
                     <h2 data-i18n="Order Placed Successfully!">Order Placed Successfully!</h2>
                     <p data-i18n="Your order has been confirmed and is being processed.">Your order has been confirmed and is being processed.</p>
-                    <div class="order-number" id="successOrderNumber" data-i18n="BM-ORD-20250115-001234">BM-ORD-20250115-001234</div>
-                    <p>A confirmation email has been sent to <strong id="successEmail" data-i18n="sarah@wellnessdist.sg">sarah@wellnessdist.sg</strong></p>
+                    <div class="order-number" id="successOrderNumber" data-i18n="GM-ORD-20250115-001234">GM-ORD-20250115-001234</div>
+                    <p>A confirmation email has been sent to <strong id="successEmail" data-i18n="sarah@everyday enjoymentdist.sg">sarah@everyday enjoymentdist.sg</strong></p>
                     <div class="success-actions">
                         <button class="btn-primary" onclick="showPage('product-list')" data-i18n="Continue Shopping">Continue Shopping</button>
                         <button class="btn-secondary" onclick="showPage('product-list')" data-i18n="View Order History">View Order History</button>
@@ -1136,9 +1138,9 @@
             <div class="ai-msg-bubble" data-i18n="Hi! I can help you find products, compare pricing, check stock levels, or recommend bestsellers for your market. What do you need?">Hi! I can help you find products, compare pricing, check stock levels, or recommend bestsellers for your market. What do you need?</div>
         </div>
         <div class="ai-chips">
-            <span class="ai-chip" onclick="aiAsk('What\'s the MOQ for Fish Oil?')" data-i18n="MOQ for Fish Oil">MOQ for Fish Oil</span>
+            <span class="ai-chip" onclick="aiAsk('What\'s the MOQ for Wanchai Ferry Dumplings?')" data-i18n="MOQ for Wanchai Ferry Dumplings">MOQ for Wanchai Ferry Dumplings</span>
             <span class="ai-chip" onclick="aiAsk('Recommend bestsellers for Singapore')" data-i18n="Bestsellers SG">Bestsellers SG</span>
-            <span class="ai-chip" onclick="aiAsk('Compare Omega-3 products')" data-i18n="Compare Omega-3">Compare Omega-3</span>
+            <span class="ai-chip" onclick="aiAsk('Compare family dinner products')" data-i18n="Compare family dinner">Compare family dinner</span>
             <span class="ai-chip" onclick="aiAsk('Check my order status')" data-i18n="Order Status">Order Status</span>
         </div>
         <div class="ai-input-area">
@@ -1188,18 +1190,18 @@
 
         // ===== PRODUCT DATA =====
         const products = {
-            'fish-oil': { name: 'Blackmores Fish Oil 1000mg', sku: 'BM-FO1000-001', contract: 'SGD 45.00', coupon: 'SGD 36.90', save: 'SGD 8.10', moq: 12, desc: 'A premium source of omega-3 fatty acids EPA and DHA, essential for heart health, brain function, and overall wellbeing. Sourced from wild-caught fish, molecularly distilled for purity.', img: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=400&h=300&q=80' },
-            'bio-c': { name: 'Blackmores Bio C 1000mg', sku: 'BM-BC1000-002', contract: 'SGD 38.00', coupon: 'SGD 31.50', save: 'SGD 6.50', moq: 12, desc: 'High potency vitamin C with added bioflavonoids for enhanced absorption. Supports immune system health and collagen formation. Gentle on the stomach.', img: 'https://images.unsplash.com/photo-1611080626919-7cf5a9f15f3d?auto=format&fit=crop&w=400&h=300&q=80' },
-            'pregnancy-gold': { name: 'Blackmores Pregnancy & Breast-Feeding Gold', sku: 'BM-PGOLD-003', contract: 'SGD 72.00', coupon: 'SGD 58.90', save: 'SGD 13.10', moq: 6, desc: 'Comprehensive prenatal formula with 17 essential nutrients including folic acid, iodine, iron, DHA, and choline. Supports healthy pregnancy and fetal development.', img: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&h=300&q=80' },
-            'multi-vitamin': { name: 'Blackmores Multivitamins + Minerals', sku: 'BM-MVM-004', contract: 'SGD 42.00', coupon: 'SGD 34.50', save: 'SGD 7.50', moq: 12, desc: 'Daily nutritional support with a balanced blend of vitamins and minerals. Supports energy production, immune health, and general wellbeing for adults.', img: 'https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=400&h=300&q=80' },
-            'probiotics': { name: 'Blackmores Probiotics+ (90 capsules)', sku: 'BM-PRO90-005', contract: 'SGD 55.00', coupon: 'SGD 42.00', save: 'SGD 13.00', moq: 8, desc: 'Multi-strain probiotic formula with 30 billion CFU per capsule. Supports digestive health, immune function, and gut microbiome balance. Refrigeration recommended.', img: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=400&h=300&q=80' },
-            'glucosamine': { name: 'Blackmores Glucosamine Sulfate 1500mg', sku: 'BM-GLU1500-006', contract: 'SGD 68.00', coupon: 'SGD 55.00', save: 'SGD 13.00', moq: 6, desc: 'One-a-day joint health formula with clinically trialled glucosamine sulfate. Supports cartilage health and joint mobility. Shellfish-derived.', img: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=400&h=300&q=80' },
-            'evening-primrose': { name: 'Blackmores Evening Primrose Oil', sku: 'BM-EPO-007', contract: 'SGD 52.00', coupon: 'SGD 42.50', save: 'SGD 9.50', moq: 8, desc: 'Rich source of gamma-linolenic acid (GLA) to support skin health and hormonal balance. Cold-pressed extraction preserves nutrient integrity.', img: 'https://images.unsplash.com/photo-1490750967868-88aa2f55ba7e?auto=format&fit=crop&w=400&h=300&q=80' },
-            'vitamin-e-cream': { name: 'Blackmores Natural Vitamin E Cream', sku: 'BM-VEC-008', contract: 'SGD 28.00', coupon: 'SGD 22.90', save: 'SGD 5.10', moq: 24, desc: 'Fragrance-free moisturizing cream with natural vitamin E, avocado oil, and apricot kernel oil. Suitable for all skin types including sensitive skin.', img: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=400&h=300&q=80' },
-            'coq10': { name: 'Blackmores CoQ10 150mg', sku: 'BM-COQ150-009', contract: 'SGD 62.00', coupon: 'SGD 50.00', save: 'SGD 12.00', moq: 6, desc: 'High potency Coenzyme Q10 to support heart health and cellular energy production. Naturally fermented. Supports cardiovascular system function.', img: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=400&h=300&q=80' },
-            'buffered-c': { name: 'Blackmores Buffered C Slow Release', sku: 'BM-BCSLOW-010', contract: 'SGD 48.00', coupon: 'SGD 39.00', save: 'SGD 9.00', moq: 12, desc: 'Gentle, sustained-release vitamin C with added bioflavonoids. Provides antioxidant support over 8 hours. Ideal for sensitive stomachs.', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=400&h=300&q=80' },
-            'immune-defence': { name: 'Blackmores Immune Defence Ultra', sku: 'BM-IMD-011', contract: 'SGD 58.00', coupon: 'SGD 47.00', save: 'SGD 11.00', moq: 8, desc: 'Advanced immune support with andrographis, echinacea, vitamin C, and zinc. Clinical strength formula for immune system support during seasonal challenges.', img: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=400&h=300&q=80' },
-            'muscle-magnesium': { name: 'Blackmores Muscle Magnesium Powder', sku: 'BM-MGSP-012', contract: 'SGD 35.00', coupon: 'SGD 28.00', save: 'SGD 7.00', moq: 12, desc: 'High absorption magnesium glycinate powder for muscle function and recovery. Natural lemon-lime flavor. Dissolves easily in water.', img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=400&h=300&q=80' }
+            'dumplingpack': { name: 'General Mills Wanchai Ferry Dumpling Packmg', sku: 'GM-FO1000-001', contract: 'SGD 45.00', coupon: 'SGD 36.90', save: 'SGD 8.10', moq: 12, desc: 'A premium source of family dinner fatty acids EPA and occasion cues, essential for family-table relevance, brain function, and overall wellbeing. Sourced from wild-caught fish, molecularly distilled for purity.', img: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=400&h=300&q=80' },
+            'bio-c': { name: 'General Mills Häagen-Dazs Mini Cupmg', sku: 'GM-BC1000-002', contract: 'SGD 38.00', coupon: 'SGD 31.50', save: 'SGD 6.50', moq: 12, desc: 'High potency product C with added bioflavonoids for enhanced absorption. Supports immune system health and collagen formation. Gentle on the stomach.', img: 'https://images.unsplash.com/photo-1611080626919-7cf5a9f15f3d?auto=format&fit=crop&w=400&h=300&q=80' },
+            'celebration-gold': { name: 'General Mills Celebration & Breast-Feeding Gold', sku: 'GM-PGOLD-003', contract: 'SGD 72.00', coupon: 'SGD 58.90', save: 'SGD 13.10', moq: 6, desc: 'Comprehensive celebration gifting formula with 17 essential nutrients including folic acid, iodine, iron, occasion cues, and choline. Supports healthy celebration and fetal development.', img: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&h=300&q=80' },
+            'multi-product': { name: 'General Mills Multiproducts + Minerals', sku: 'GM-MVM-004', contract: 'SGD 42.00', coupon: 'SGD 34.50', save: 'SGD 7.50', moq: 12, desc: 'Daily nutritional support with a balanced blend of products and minerals. Supports workday snack production, immune health, and general wellbeing for adults.', img: 'https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=400&h=300&q=80' },
+            'quick-meals': { name: 'General Mills Wanchai Ferry Quick Meal+ (90 packs)', sku: 'GM-PRO90-005', contract: 'SGD 55.00', coupon: 'SGD 42.00', save: 'SGD 13.00', moq: 8, desc: 'Multi-strain quick-meal formula with 30 billion CFU per pack. Supports quick meal health, immune function, and quick meal microbiome balance. Refrigeration recommended.', img: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=400&h=300&q=80' },
+            'wontonpack': { name: 'General Mills Wanchai Ferry Wontons Sulfate 1500mg', sku: 'GM-WON1500-006', contract: 'SGD 68.00', coupon: 'SGD 55.00', save: 'SGD 13.00', moq: 6, desc: 'One-a-day family meal health formula with clinically trialled wontonpack sulfate. Supports meal occasion health and family meal convenience. Shellfish-derived.', img: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=400&h=300&q=80' },
+            'evening-primrose': { name: 'General Mills Häagen-Dazs Seasonal Flavor', sku: 'GM-EPO-007', contract: 'SGD 52.00', coupon: 'SGD 42.50', save: 'SGD 9.50', moq: 8, desc: 'Rich source of gamma-linolenic acid (GLA) to support skin health and hormonal balance. Cold-pressed extraction preserves nutrient integrity.', img: 'https://images.unsplash.com/photo-1490750967868-88aa2f55ba7e?auto=format&fit=crop&w=400&h=300&q=80' },
+            'product-e-cream': { name: 'General Mills Natural Product E Cream', sku: 'GM-VEC-008', contract: 'SGD 28.00', coupon: 'SGD 22.90', save: 'SGD 5.10', moq: 24, desc: 'Fragrance-free moisturizing cream with natural product E, avocado oil, and apricot kernel oil. Suitable for all skin types including sensitive skin.', img: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=400&h=300&q=80' },
+            'haagenpint': { name: 'General Mills Häagen-Dazs Pintmg', sku: 'GM-HDP150-009', contract: 'SGD 62.00', coupon: 'SGD 50.00', save: 'SGD 12.00', moq: 6, desc: 'High potency Coenzyme Q10 to support family-table relevance and occasion workday snack production. Naturally fermented. Supports family table system function.', img: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=400&h=300&q=80' },
+            'buffered-c': { name: 'General Mills Buffered C Slow Release', sku: 'GM-BCSLOW-010', contract: 'SGD 48.00', coupon: 'SGD 39.00', save: 'SGD 9.00', moq: 12, desc: 'Gentle, sustained-release product C with added bioflavonoids. Provides antioxidant support over 8 hours. Ideal for sensitive stomachs.', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=400&h=300&q=80' },
+            'immune-defence': { name: 'General Mills Immune Defence Ultra', sku: 'GM-IMD-011', contract: 'SGD 58.00', coupon: 'SGD 47.00', save: 'SGD 11.00', moq: 8, desc: 'Advanced seasonal occasion support with andrographis, echinacea, product C, and zinc. Clinical strength formula for immune system support during seasonal challenges.', img: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=400&h=300&q=80' },
+            'muscle-workday snack': { name: 'General Mills Muscle Workday Snack Powder', sku: 'GM-MGSP-012', contract: 'SGD 35.00', coupon: 'SGD 28.00', save: 'SGD 7.00', moq: 12, desc: 'High absorption workday snack glycinate powder for muscle function and recovery. Natural lemon-lime flavor. Dissolves easily in water.', img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=400&h=300&q=80' }
         };
 
         const productBySku = {};
@@ -1526,8 +1528,8 @@
         }
 
         function placeOrder() {
-            const orderNum = 'BM-ORD-' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '-' + Math.floor(100000 + Math.random() * 900000);
-            const email = document.getElementById('shipEmail').value || 'sarah@wellnessdist.sg';
+            const orderNum = 'GM-ORD-' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '-' + Math.floor(100000 + Math.random() * 900000);
+            const email = document.getElementById('shipEmail').value || 'sarah@everyday enjoymentdist.sg';
             document.getElementById('successOrderNumber').textContent = orderNum;
             document.getElementById('successEmail').textContent = email;
 

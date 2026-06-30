@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Store Lifecycle · Blackmores · Experience Studio</title>
+<title>Store Lifecycle · General Mills · Experience Studio</title>
 <style>
   :root{
     --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
@@ -178,6 +178,8 @@
   .pane{display:none}.pane.on{display:block;animation:fin .3s ease}
   @keyframes fin{from{opacity:0;transform:translateY(6px)}}
 </style>
+<link rel="stylesheet" href="gm-demo-theme.css">
+<script defer src="gm-demo-brand.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -259,9 +261,9 @@
 <div class="fab" id="fab" title="brand">🎨</div>
 
 <script>
-const BRANDS={blackmores:{logo:"Blackmores",sup:"®",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+const BRANDS={generalmills:{logo:"General Mills",sup:"®",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
   bioceuticals:{logo:"BioCeuticals",sup:"",c:["#1b3a5c","#10243a","#e7edf3","#c9a24a"]},
-  kids:{logo:"Blackmores Kids",sup:"",c:["#d63a2f","#a82a22","#fbe7e5","#1f9d57"]}};
+  family:{logo:"General Mills Family",sup:"",c:["#d63a2f","#a82a22","#fbe7e5","#1f9d57"]}};
 const L=o=>o[state.lang]||o.ja||o.en;
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 
@@ -269,11 +271,11 @@ const T={
  sub:{ja:"店舗ライフサイクル",en:"Store Lifecycle",zh:"店铺生命周期",th:"วงจรชีวิตร้าน"},
  eye:{ja:"リテール・チャネル · 店舗ネットワーク・ライフサイクル",en:"Retail & Channel · Store Network Lifecycle",zh:"零售与渠道 · 店铺网络生命周期",th:"รีเทลและช่องทาง · วงจรชีวิตเครือข่ายร้าน"},
  title:{ja:"出店候補から退店まで、店舗・売場ネットワークを一つのパイプラインで。",en:"From site candidate to closure — the whole store & touchpoint network in one pipeline.",zh:"从选址候补到退店——整个门店与售点网络，一条 pipeline 管到底。",th:"จากทำเลถึงปิดร้าน — เครือข่ายร้านและจุดขายในไปป์ไลน์เดียว"},
- lead:{ja:"新規出店・改装・移設・退店（O/U/C/T）と、POP・什器・契約・授権書の期限まで。各売場はフォーマット別に異なる進捗パスを辿り、マイルストーン・担当・計画/実績日を一元管理します。Blackmores では薬局チェーンへのブランドカウンター導入や、ヘルスストアでの新規上市〜撤去にそのまま適用できます。",
-   en:"New opening, refit, transfer and closure (O/U/C/T), plus the expiry of POP, fixtures, contracts and authorization letters. Each store follows a format-specific path with milestones, owners and planned-vs-actual dates — managed in one place. For Blackmores it maps directly to onboarding a brand counter at a pharmacy partner, or standing up and tearing down a health-store pop-up.",
-   zh:"新开、改装、移设、退店（O/U/C/T），再加 POP、器架、合同、授权信的到期管理。每个售点按业态走不同的进度路径，里程碑、责任人、计划/实际日期统一管控。对 Blackmores 来说，可直接套用到在药房伙伴上新品牌专柜，或健康门店快闪的搭建与撤场。",
+ lead:{ja:"新規出店・改装・移設・退店（O/U/C/T）と、POP・什器・契約・授権書の期限まで。各売場はフォーマット別に異なる進捗パスを辿り、マイルストーン・担当・計画/実績日を一元管理します。General Mills では小売店チェーンへのブランドカウンター導入や、ヘルスストアでの新規上市〜撤去にそのまま適用できます。",
+   en:"New opening, refit, transfer and closure (O/U/C/T), plus the expiry of POP, fixtures, contracts and authorization letters. Each store follows a format-specific path with milestones, owners and planned-vs-actual dates — managed in one place. For General Mills it maps directly to onboarding a brand counter at a retail partner, or standing up and tearing down a health-store pop-up.",
+   zh:"新开、改装、移设、退店（O/U/C/T），再加 POP、器架、合同、授权信的到期管理。每个售点按业态走不同的进度路径，里程碑、责任人、计划/实际日期统一管控。对 General Mills 来说，可直接套用到在门店伙伴上新品牌专柜，或健康门店快闪的搭建与撤场。",
    th:"เปิด ปรับปรุง ย้าย ปิด (O/U/C/T) พร้อมการหมดอายุของ POP ชั้นวาง สัญญา และหนังสือมอบอำนาจ แต่ละร้านเดินตามเส้นทางตามฟอร์แมต พร้อมไมล์สโตน ผู้รับผิดชอบ และวันแผน/จริง"},
- proof:{ja:["健康小売チェーンで<b>実証</b>","ブランドカウンター SLM","複数デバイス・多言語・自動リマインド"],en:["Proven across <b>health retail chains</b>","Brand-counter SLM","Multi-device · multilingual · auto-reminders"],zh:["健康零售连锁<b>已验证</b>","品牌专柜 SLM","多设备·多语言·自动提醒"],th:["ใช้จริงในเครือ<b>ร้านสุขภาพ</b>","SLM เคาน์เตอร์แบรนด์","หลายอุปกรณ์·หลายภาษา"]},
+ proof:{ja:["健康小売チェーンで<b>実証</b>","ブランドカウンター SLM","複数デバイス・多言語・自動リマインド"],en:["Proven across <b>food retail chains</b>","Brand-counter SLM","Multi-device · multilingual · auto-reminders"],zh:["健康零售连锁<b>已验证</b>","品牌专柜 SLM","多设备·多语言·自动提醒"],th:["ใช้จริงในเครือ<b>ร้านสุขภาพ</b>","SLM เคาน์เตอร์แบรนด์","หลายอุปกรณ์·หลายภาษา"]},
  t_pipe:{ja:"パイプライン",en:"Pipeline",zh:"项目看板",th:"ไปป์ไลน์"},
  t_map:{ja:"全体像",en:"System Map",zh:"系统全景",th:"ภาพรวมระบบ"},
  t_app:{ja:"申請・承認",en:"Applications & Approval",zh:"申请与审批",th:"คำขอและอนุมัติ"},
@@ -325,7 +327,7 @@ const ST_EXIT=[
 function MS(ja,en,zh,role,plan){return{t:{ja,en,zh,th:en},role,plan};}
 // cards
 const CARDS=[
- {id:1,mode:"build",type:{ja:"新規",en:"New",zh:"新开",th:"ใหม่"},store:{ja:"Chemist Warehouse シドニーCBD / ブランドカウンター",en:"Chemist Warehouse Sydney CBD / brand counter",zh:"Chemist Warehouse 悉尼CBD / 品牌专柜",th:"Chemist Warehouse Sydney / เคาน์เตอร์"},stage:3,delay:false,
+ {id:1,mode:"build",type:{ja:"新規",en:"New",zh:"新开",th:"ใหม่"},store:{ja:"retail store Warehouse シドニーCBD / ブランドカウンター",en:"retail store Warehouse Sydney CBD / brand counter",zh:"retail store Warehouse 悉尼CBD / 品牌专柜",th:"retail store Warehouse Sydney / เคาน์เตอร์"},stage:3,delay:false,
   ms:[MS("出店申請","Counter request","进场申请","sales"),MS("立地適合確認","Site fit check","选址契合确认","rd"),MS("棚割・契約","Planogram & contract","棚割·签约","legal"),MS("什器・POP 設計","Fixture & POP design","器架·POP 设计","sp"),MS("施工・設置","Install","施工·设置","vm"),MS("開業・VM 確認","Open & VM check","开业·VM 确认","vm")]},
  {id:2,mode:"build",type:{ja:"改装",en:"Refit",zh:"改装",th:"ปรับ"},store:{ja:"Priceline メルボルン / 棚拡張",en:"Priceline Melbourne / shelf expansion",zh:"Priceline 墨尔本 / 货架扩张",th:"Priceline Melbourne / ขยายชั้น"},stage:4,delay:true,
   ms:[MS("改装申請","Refit request","改装申请","sales"),MS("現地調査","Site survey","现地调查","rd"),MS("契約更新","Contract renew","合同续签","legal"),MS("レイアウト設計","Layout design","布局设计","sp"),MS("施工","Construction","施工","vm"),MS("再開業","Re-open","重新开业","vm")]},
@@ -344,14 +346,14 @@ const CARDS=[
 // alerts
 const ALERTS=[
  {id:1,kind:"lease",icon:"📄",t:{ja:"Priceline メルボルン / 賃貸契約",en:"Priceline Melbourne / lease",zh:"Priceline 墨尔本 / 租约",th:"Priceline / สัญญาเช่า"},s:{ja:"カウンター契約満了が近づいています",en:"Counter lease expiring soon",zh:"专柜租约即将到期",th:"สัญญาใกล้หมด"},days:18,done:false},
- {id:2,kind:"auth",icon:"📜",t:{ja:"Chemist Warehouse シドニー / 授権書",en:"Chemist Warehouse Sydney / authorization",zh:"Chemist Warehouse 悉尼 / 授权信",th:"Chemist Warehouse / มอบอำนาจ"},s:{ja:"ブランドカウンターの授権書更新が必要",en:"Brand-counter authorization renewal due",zh:"品牌专柜授权信需续期",th:"ต่ออายุมอบอำนาจ"},days:34,done:false},
+ {id:2,kind:"auth",icon:"📜",t:{ja:"retail store Warehouse シドニー / 授権書",en:"retail store Warehouse Sydney / authorization",zh:"retail store Warehouse 悉尼 / 授权信",th:"retail store Warehouse / มอบอำนาจ"},s:{ja:"ブランドカウンターの授権書更新が必要",en:"Brand-counter authorization renewal due",zh:"品牌专柜授权信需续期",th:"ต่ออายุมอบอำนาจ"},days:34,done:false},
  {id:3,kind:"pop",icon:"🪧",t:{ja:"ポップアップ 上海 / POP",en:"Pop-up Shanghai / POP",zh:"快闪 上海 / POP",th:"Pop-up Shanghai / POP"},s:{ja:"季節 POP の差し替え期限",en:"Seasonal POP swap deadline",zh:"季节 POP 更换期限",th:"เปลี่ยน POP ตามฤดู"},days:9,done:false},
  {id:4,kind:"fixture",icon:"🧴",t:{ja:"マツモトキヨシ 新宿 / 什器",en:"Matsumoto Kiyoshi / fixture",zh:"松本清 / 器架",th:"Matsumoto Kiyoshi / ชั้นวาง"},s:{ja:"什器・サンプリング什器の保守時期",en:"Display & sampling fixture maintenance due",zh:"陈列/试用器架维护期",th:"บำรุงชั้นวาง"},days:52,done:false},
  {id:5,kind:"contract",icon:"📑",t:{ja:"Watsons シンガポール / 取引契約",en:"Watsons Singapore / trade contract",zh:"屈臣氏 新加坡 / 交易合同",th:"Watsons / สัญญา"},s:{ja:"年間取引契約の更新",en:"Annual trade contract renewal",zh:"年度交易合同续签",th:"ต่อสัญญาประจำปี"},days:76,done:false}
 ];
 // site candidates
 const SITES=[
- {id:1,nm:{ja:"シドニー CBD 薬局密集区",en:"Sydney CBD pharmacy cluster",zh:"悉尼 CBD 药房密集区",th:"Sydney CBD"},loc:{ja:"豪 / 都心 / 駅前",en:"AU / urban / station",zh:"澳/都心/站前",th:"ออสเตรเลีย"},score:88,f:{traffic:90,demo:86,compete:72,transit:95,rent:78}},
+ {id:1,nm:{ja:"シドニー CBD 小売店密集区",en:"Sydney CBD retail cluster",zh:"悉尼 CBD 门店密集区",th:"Sydney CBD"},loc:{ja:"豪 / 都心 / 駅前",en:"AU / urban / station",zh:"澳/都心/站前",th:"ออสเตรเลีย"},score:88,f:{traffic:90,demo:86,compete:72,transit:95,rent:78}},
  {id:2,nm:{ja:"メルボルン郊外 SC",en:"Melbourne suburban mall",zh:"墨尔本郊外 购物中心",th:"Melbourne mall"},loc:{ja:"豪 / 郊外 / SC内",en:"AU / suburb / mall",zh:"澳/郊外/商场",th:"ชานเมือง"},score:74,f:{traffic:70,demo:80,compete:64,transit:58,rent:88}},
  {id:3,nm:{ja:"上海 地下鉄直結モール",en:"Shanghai metro mall",zh:"上海 地铁直连商场",th:"Shanghai mall"},loc:{ja:"中 / 都心 / 地下直結",en:"CN / urban / metro-linked",zh:"中国/都心/地铁直连",th:"เซี่ยงไฮ้"},score:81,f:{traffic:92,demo:74,compete:55,transit:90,rent:62}},
  {id:4,nm:{ja:"郊外 単独旧立地",en:"Suburban legacy spot",zh:"郊外 旧立地",th:"ชานเมือง"},loc:{ja:"豪 / 郊外 / 単独",en:"AU / suburb / standalone",zh:"澳/郊外/独立",th:"ชานเมือง"},score:48,f:{traffic:42,demo:55,compete:50,transit:38,rent:70}}
@@ -368,8 +370,8 @@ const MODULES=[
  {ic:"⚙️",t:{en:"Workflow, reports & admin",zh:"工作流、报表与后台"},d:{en:"Role-based workflow engine, email templates, logs, permissions, multilingual setup and analytics service.",zh:"基于角色的工作流、邮件模板、日志、权限、多语言配置与分析报表服务。"}}
 ];
 const APPLICATIONS=[
- {id:"OUCT-24031",type:{en:"New Store",zh:"新开店"},store:{en:"Chemist Warehouse Sydney CBD brand counter",zh:"Chemist Warehouse 悉尼 CBD 品牌专柜"},region:"ANZ",customer:"Chemist Warehouse",stage:{en:"Function team approval",zh:"职能团队审批"},locked:false,owner:"Regional Sales",fields:[["Format","Pharmacy chain counter"],["Store area","18 sqm"],["Expected open","2026-08-15"],["POP package","Premium counter starter kit"],["Fixture budget","AUD 42,000"],["Authorization letter","Auto-create after approval"]]},
- {id:"OUCT-24042",type:{en:"Refit",zh:"改装"},store:{en:"Priceline Melbourne immunity shelf expansion",zh:"Priceline 墨尔本免疫系列货架扩张"},region:"ANZ",customer:"Priceline",stage:{en:"Sales Director review",zh:"销售总监复核"},locked:true,owner:"Sales Operation",fields:[["Current format","Wall bay"],["Target format","Double bay + tester tray"],["Construction window","2026-07-18 to 2026-07-25"],["Contract impact","Addendum required"],["After approval","Applicant cannot update store info"]]},
+ {id:"OUCT-24031",type:{en:"New Store",zh:"新开店"},store:{en:"retail store Warehouse Sydney CBD brand counter",zh:"retail store Warehouse 悉尼 CBD 品牌专柜"},region:"ANZ",customer:"retail store Warehouse",stage:{en:"Function team approval",zh:"职能团队审批"},locked:false,owner:"Regional Sales",fields:[["Format","Retail chain counter"],["Store area","18 sqm"],["Expected open","2026-08-15"],["POP package","Premium counter starter kit"],["Fixture budget","AUD 42,000"],["Authorization letter","Auto-create after approval"]]},
+ {id:"OUCT-24042",type:{en:"Refit",zh:"改装"},store:{en:"Priceline Melbourne seasonal occasion shelf expansion",zh:"Priceline 墨尔本季节场景系列货架扩张"},region:"ANZ",customer:"Priceline",stage:{en:"Sales Director review",zh:"销售总监复核"},locked:true,owner:"Sales Operation",fields:[["Current format","Wall bay"],["Target format","Double bay + tester tray"],["Construction window","2026-07-18 to 2026-07-25"],["Contract impact","Addendum required"],["After approval","Applicant cannot update store info"]]},
  {id:"OUCT-24057",type:{en:"Transfer",zh:"移设"},store:{en:"Brisbane counter transfer to higher-traffic aisle",zh:"布里斯班专柜移至高人流通道"},region:"ANZ",customer:"TerryWhite Chemmart",stage:{en:"Project owner action",zh:"项目负责人处理"},locked:false,owner:"Project Owner",fields:[["Old location","Aisle 6"],["New location","Entrance health zone"],["Fixture action","Move + repair lightbox"],["Legal action","Update authorization letter"],["Sales action","Customer confirmation required"]]}
 ];
 const APPROVAL_MATRIX=[
@@ -389,17 +391,17 @@ const PROJECT_TASKS=[
  {task:{en:"Opening confirmation and master-data update",zh:"开业确认与主数据更新"},owner:"Sales Bulk + Admin",plan:"07/28",actual:"",start:20,dur:2,status:"todo"}
 ];
 const POP_ORDERS=[
- {store:"Chemist Warehouse Sydney CBD",kind:{en:"New opening starter list",zh:"新开店标准物料"},items:"24",stage:{en:"Order review",zh:"订单复核"},install:"08/10",risk:{en:"Label claim proof pending",zh:"标签宣称证明待补"}},
- {store:"Priceline Melbourne",kind:{en:"Immune Support campaign pack",zh:"免疫支持活动物料包"},items:"18",stage:{en:"Customer receipt",zh:"客户收货"},install:"07/20",risk:{en:"Shelf strip expires in 19 days",zh:"货架条 19 天后到期"}},
+ {store:"retail store Warehouse Sydney CBD",kind:{en:"New opening starter list",zh:"新开店标准物料"},items:"24",stage:{en:"Order review",zh:"订单复核"},install:"08/10",risk:{en:"Label claim proof pending",zh:"标签宣称证明待补"}},
+ {store:"Priceline Melbourne",kind:{en:"Immune Support campaign pack",zh:"季节场景支持活动物料包"},items:"18",stage:{en:"Customer receipt",zh:"客户收货"},install:"07/20",risk:{en:"Shelf strip expires in 19 days",zh:"货架条 19 天后到期"}},
  {store:"Watsons Singapore",kind:{en:"Product package refresh",zh:"产品套装陈列刷新"},items:"12",stage:{en:"Auto notification sent",zh:"已自动通知"},install:"07/30",risk:{en:"Waiting install photo",zh:"等待安装照片"}}
 ];
 const LEGAL_DOCS=[
  {doc:{en:"Annual trade contract",zh:"年度交易合同"},store:"Watsons Singapore",status:{en:"Customer review actual terms",zh:"客户复核实际条款"},expiry:"2026-09-30",next:{en:"Draft amendment",zh:"起草修订条款"}},
- {doc:{en:"Brand-counter authorization letter",zh:"品牌专柜授权信"},store:"Chemist Warehouse Sydney CBD",status:{en:"Auto-created from opening approval",zh:"由开店审批自动生成"},expiry:"2027-08-15",next:{en:"Legal approval then print/email",zh:"法务审批后打印/邮件发送"}},
+ {doc:{en:"Brand-counter authorization letter",zh:"品牌专柜授权信"},store:"retail store Warehouse Sydney CBD",status:{en:"Auto-created from opening approval",zh:"由开店审批自动生成"},expiry:"2027-08-15",next:{en:"Legal approval then print/email",zh:"法务审批后打印/邮件发送"}},
  {doc:{en:"Counter lease addendum",zh:"专柜租赁补充协议"},store:"Priceline Melbourne",status:{en:"Finance performance level check",zh:"财务表现等级检查"},expiry:"2026-08-18",next:{en:"Expiry report + renewal decision",zh:"到期报表与续签决策"}}
 ];
 const VISITS=[
- {store:"Chemist Warehouse Sydney CBD",date:"07/12",owner:"Regional Sales",score:92,needs:{en:"Add sleep product tester and pharmacist training",zh:"增加睡眠产品试用装与药师培训"}},
+ {store:"retail store Warehouse Sydney CBD",date:"07/12",owner:"Regional Sales",score:92,needs:{en:"Add sleep product tester and store advisor training",zh:"增加睡眠产品试用装与门店顾问培训"}},
  {store:"Priceline Melbourne",date:"07/18",owner:"VM",score:76,needs:{en:"Replace campaign header, repair lightbox",zh:"替换活动头牌，维修灯箱"}},
  {store:"Watsons Singapore",date:"07/23",owner:"Distributor field team",score:84,needs:{en:"Check product package display and QR attribution",zh:"检查套装陈列与 QR 归因"}}
 ];
@@ -414,7 +416,7 @@ const BACKEND=[
  "Workflow engine","Role & permission management","Approval-path configuration","Email template","Organization chart","Daily job","Data dictionary","Data change log","Data migration","Multi-language"
 ];
 
-let state={lang:"en",brand:"blackmores",tab:"map",mode:"build",typeF:"all",site:1};
+let state={lang:"en",brand:"generalmills",tab:"map",mode:"build",typeF:"all",site:1};
 
 function renderProof(){$('#proofRow').innerHTML=L(T.proof).map(p=>`<span class="pc">${p}</span>`).join('');}
 function tabsBar(){
@@ -588,14 +590,14 @@ function renderApp(){
     <div class="sec-title">${state.lang==='zh'?'门店基本信息':'Store basic information'}</div>
     <div class="formgrid four">
       ${field('Application No.','OUCT-24031')}${field('Application Type',state.lang==='zh'?'新开店':'New Store')}${field('Request Date','2026-06-29')}${field('Applicant','ANZ Regional Sales')}
-      ${field('Customer / Partner','Chemist Warehouse')}${field('Region / Territory','ANZ / NSW')}${field('City','Sydney')}${field('Store Code','Auto after approval')}
-      ${field('Store Name','Chemist Warehouse Sydney CBD','wide')}${field('Store Format','Pharmacy chain brand counter')}${field('Store Grade','A / flagship counter')}
+      ${field('Customer / Partner','retail store Warehouse')}${field('Region / Territory','ANZ / NSW')}${field('City','Sydney')}${field('Store Code','Auto after approval')}
+      ${field('Store Name','retail store Warehouse Sydney CBD','wide')}${field('Store Format','Retail chain brand counter')}${field('Store Grade','A / flagship counter')}
       ${field('Address','George Street, Sydney CBD','wide')}${field('Store Area','18 sqm')}${field('Counter Area','8 sqm')}
     </div>
     <div class="sec-title">${state.lang==='zh'?'商业与可行性':'Business and feasibility'}</div>
     <div class="formgrid four">
       ${field('Expected Opening Date','2026-08-15')}${field('Expected Monthly Sell-through','AUD 86,000')}${field('Capex Budget','AUD 42,000')}${field('Payback Period','8.5 months')}
-      ${field('Primary Category','Immune + Beauty Sleep')}${field('Assortment Count','42 SKUs')}${field('Channel Campaign ID','ANZ-BM-IMM-0826')}${field('QR Attribution','Required')}
+      ${field('Primary Category','Immune + Häagen-Dazs Evening Treat')}${field('Assortment Count','42 SKUs')}${field('Channel Campaign ID','ANZ-GM-IMM-0826')}${field('QR Attribution','Required')}
       ${field('Feasibility Conclusion',state.lang==='zh'?'建议开店，需法务同步授权信':'Recommended, legal letter required','full')}
     </div>
     <div class="sec-title">${state.lang==='zh'?'审批、附件与锁定规则':'Approval, attachments and lock rule'}</div>
@@ -614,7 +616,7 @@ function renderProject(){
   $('#projectZone').innerHTML=`<div class="split">
     <div class="panel"><div class="layerlab">${state.lang==='zh'?'项目模板设置':'Project template setting'}</div>
       <div class="module-grid">
-        <div class="module"><i>🏬</i><h3>${state.lang==='zh'?'药房品牌专柜':'Pharmacy brand counter'}</h3><p>${state.lang==='zh'?'包含 2D 图纸、器架、授权信、施工、VM 验收。':'Includes 2D drawing, fixture, authorization, build and VM sign-off.'}</p></div>
+        <div class="module"><i>🏬</i><h3>${state.lang==='zh'?'门店品牌专柜':'Retail brand counter'}</h3><p>${state.lang==='zh'?'包含 2D 图纸、器架、授权信、施工、VM 验收。':'Includes 2D drawing, fixture, authorization, build and VM sign-off.'}</p></div>
         <div class="module"><i>🧪</i><h3>${state.lang==='zh'?'健康门店货架升级':'Health-store shelf refit'}</h3><p>${state.lang==='zh'?'强调棚割、POP 替换、低峰期施工和销售确认。':'Focuses on planogram, POP replacement, low-traffic build window and sales confirmation.'}</p></div>
         <div class="module"><i>✨</i><h3>${state.lang==='zh'?'快闪 / 临时陈列':'Pop-up / temporary display'}</h3><p>${state.lang==='zh'?'短租、快速审批、活动物料和撤场资产处理。':'Short lease, fast approval, campaign materials and teardown asset handling.'}</p></div>
       </div>
@@ -630,8 +632,8 @@ function renderProject(){
   ${screen(state.lang==='zh'?'Project Plan Template / Tracking Form':'Project Plan Template / Tracking Form',`
     <div class="sec-title">${state.lang==='zh'?'模板条件':'Template condition'}</div>
     <div class="formgrid four">
-      ${field('Project No.','PRJ-ANZ-0826-013')}${field('Source Application','OUCT-24031')}${field('Template','Pharmacy brand counter')}${field('Auto Reminder','Enabled')}
-      ${field('Store Condition','New counter inside existing pharmacy')}${field('Store Structure','Wall bay + island counter')}${field('Project Owner','Retail PM')}${field('Vendor','Instore Works AU')}
+      ${field('Project No.','PRJ-ANZ-0826-013')}${field('Source Application','OUCT-24031')}${field('Template','Retail brand counter')}${field('Auto Reminder','Enabled')}
+      ${field('Store Condition','New counter inside existing retail')}${field('Store Structure','Wall bay + island counter')}${field('Project Owner','Retail PM')}${field('Vendor','Instore Works AU')}
     </div>
     <div class="sec-title">${state.lang==='zh'?'节点维护':'Editable project nodes'}</div>
     <table class="tbl"><tr><th>Node</th><th>Task</th><th>Dependency</th><th>Owner</th><th>Plan</th><th>Actual</th><th>Status</th></tr>
@@ -669,13 +671,13 @@ function renderPop(){
   ${screen(state.lang==='zh'?'POP / Graphics / Fixture Order Form':'POP / Graphics / Fixture Order Form',`
     <div class="sec-title">${state.lang==='zh'?'门店物料主数据':'Store material master'}</div>
     <div class="formgrid four">
-      ${field('Store Code','Pending')}${field('Store','Chemist Warehouse Sydney CBD')}${field('Format','Premium counter')}${field('Material Standard','BM-PH-Counter-A')}
-      ${field('Campaign','Immune Support Launch')}${field('Product Package','Immune + Beauty Sleep')}${field('Install Date','2026-08-10')}${field('Expiry Rule','90 days after launch')}
+      ${field('Store Code','Pending')}${field('Store','retail store Warehouse Sydney CBD')}${field('Format','Premium counter')}${field('Material Standard','GM-PH-Counter-A')}
+      ${field('Campaign','Immune Support Launch')}${field('Product Package','Immune + Häagen-Dazs Evening Treat')}${field('Install Date','2026-08-10')}${field('Expiry Rule','90 days after launch')}
     </div>
     <div class="sec-title">${state.lang==='zh'?'标准物料清单':'Standard material list'}</div>
     <table class="tbl"><tr><th>Material Code</th><th>Description</th><th>Type</th><th>Qty</th><th>Claim Review</th><th>Lifecycle</th></tr>
       <tr><td>POP-IMM-HEAD-AU</td><td>Immune Support shelf header</td><td>Graphic</td><td>2</td><td>${chip('Approved')}</td><td>90 days</td></tr>
-      <tr><td>POP-BEAUTY-STRIP</td><td>Beauty Sleep shelf strip</td><td>Graphic</td><td>6</td><td>${chip('Needs proof')}</td><td>60 days</td></tr>
+      <tr><td>POP-BEAUTY-STRIP</td><td>Häagen-Dazs Evening Treat shelf strip</td><td>Graphic</td><td>6</td><td>${chip('Needs proof')}</td><td>60 days</td></tr>
       <tr><td>FIX-COUNTER-18</td><td>18 sqm brand counter lightbox</td><td>Fixture</td><td>1</td><td>${chip('N/A')}</td><td>36 months</td></tr>
       <tr><td>FIX-TESTER-TRAY</td><td>Tester tray and sampling fixture</td><td>Fixture</td><td>4</td><td>${chip('Approved')}</td><td>12 months</td></tr>
       <tr><td>QR-ATTR-CARD</td><td>Campaign QR attribution card</td><td>Tracking</td><td>20</td><td>${chip('Approved')}</td><td>Campaign end</td></tr>
@@ -705,10 +707,10 @@ function renderLegal(){
         <div class="sec-title">${state.lang==='zh'?'合同条款录入':'Contract terms input'}</div>
         <div class="formgrid two">
           ${field('Legal Doc No.','LEG-CW-260815')}${field('Source Application','OUCT-24031')}
-          ${field('Customer Legal Name','Chemist Warehouse Pty Ltd','wide')}${field('Agreement Type','Brand counter authorization + trading terms')}
+          ${field('Customer Legal Name','retail store Warehouse Pty Ltd','wide')}${field('Agreement Type','Brand counter authorization + trading terms')}
           ${field('Contract Start','2026-08-15')}${field('Contract End','2027-08-14')}
           ${field('Finance Review Level','A / standard')}${field('Auto Expiry Report','Yes, 90/60/30 days')}
-          ${field('Actual Sales Terms','Quarterly sell-through review; fixture remains Blackmores asset','wide')}
+          ${field('Actual Sales Terms','Quarterly sell-through review; fixture remains General Mills asset','wide')}
         </div>
         <div class="sec-title">${state.lang==='zh'?'审批与客户确认':'Approval and customer confirmation'}</div>
         <table class="tbl"><tr><th>Action</th><th>Owner</th><th>Status</th><th>Date</th></tr>
@@ -719,10 +721,10 @@ function renderLegal(){
         </table>
       </div>
       <div class="doc-preview">
-        <h4>Blackmores Authorization Letter</h4>
-        <p><b>To:</b> Chemist Warehouse Pty Ltd</p>
-        <p>Blackmores authorizes the listed partner store to operate an approved Blackmores brand counter, display approved POP / graphics, and sell the attached product range under agreed trading terms.</p>
-        <p><b>Authorized Store:</b> Chemist Warehouse Sydney CBD</p>
+        <h4>General Mills Authorization Letter</h4>
+        <p><b>To:</b> retail store Warehouse Pty Ltd</p>
+        <p>General Mills authorizes the listed partner store to operate an approved General Mills brand counter, display approved POP / graphics, and sell the attached product range under agreed trading terms.</p>
+        <p><b>Authorized Store:</b> retail store Warehouse Sydney CBD</p>
         <p><b>Effective Period:</b> 15 Aug 2026 - 14 Aug 2027</p>
         <p><b>Required Attachments:</b> Approved material list, fixture asset list, product range, compliance claim proof.</p>
         <div class="mini-note">Print / email final letter after Legal + Sales approval. System tracks usage time and expiry automatically.</div>
@@ -745,16 +747,16 @@ function renderVisit(){
   ${screen(state.lang==='zh'?'Site Visit Checklist / Corrective Action Form':'Site Visit Checklist / Corrective Action Form',`
     <div class="sec-title">${state.lang==='zh'?'拜访基本信息':'Visit information'}</div>
     <div class="formgrid four">
-      ${field('Visit No.','VIS-260712-CW')}${field('Visit Type','Planned monthly visit')}${field('Store','Chemist Warehouse Sydney CBD')}${field('Owner','Regional Sales')}
-      ${field('Visit Date','2026-07-12')}${field('Partner Contact','Store Pharmacist Lead')}${field('Previous Score','86')}${field('Current Score','92')}
+      ${field('Visit No.','VIS-260712-CW')}${field('Visit Type','Planned monthly visit')}${field('Store','retail store Warehouse Sydney CBD')}${field('Owner','Regional Sales')}
+      ${field('Visit Date','2026-07-12')}${field('Partner Contact','Store store advisor Lead')}${field('Previous Score','86')}${field('Current Score','92')}
     </div>
     <div class="sec-title">${state.lang==='zh'?'现场检查':'In-store inspection'}</div>
     <table class="tbl"><tr><th>Area</th><th>Check Item</th><th>Result</th><th>Evidence / Action</th></tr>
       <tr><td>VM</td><td>Brand block, shelf height, price visibility</td><td>${chip('Pass')}</td><td>Photo uploaded</td></tr>
       <tr><td>POP</td><td>Campaign header and shelf strip installed</td><td>${chip('Pass')}</td><td>Header OK, strip due in 43 days</td></tr>
-      <tr><td>Fixture</td><td>Lightbox, tester tray, sampling fixture condition</td><td>${chip('Action')}</td><td>Add Beauty Sleep tester tray</td></tr>
+      <tr><td>Fixture</td><td>Lightbox, tester tray, sampling fixture condition</td><td>${chip('Action')}</td><td>Add Häagen-Dazs Evening Treat tester tray</td></tr>
       <tr><td>Stock</td><td>Facing, OOS, expiry date, promo stock</td><td>${chip('Pass')}</td><td>2 SKUs below reorder point</td></tr>
-      <tr><td>Training</td><td>Staff can explain claim and dosage boundary</td><td>${chip('Action')}</td><td>Schedule pharmacist micro-training</td></tr>
+      <tr><td>Training</td><td>Staff can explain claim and serving boundary</td><td>${chip('Action')}</td><td>Schedule store advisor micro-training</td></tr>
     </table>
     <div class="sec-title">${state.lang==='zh'?'整改任务':'Corrective actions'}</div>
     <div class="formgrid three">
@@ -781,10 +783,10 @@ function renderAdmin(){
   ${screen(state.lang==='zh'?'Store Master / System Administration Form':'Store Master / System Administration Form',`
     <div class="sec-title">${state.lang==='zh'?'门店主数据维护':'Store master maintenance'}</div>
     <div class="formgrid four">
-      ${field('Store Code','BM-AU-CW-SYD-001')}${field('Store Status','Pre-open')}${field('Store Type','Pharmacy brand counter')}${field('Lifecycle Status','Opening project')}
-      ${field('Customer Code','CUST-CW-AU')}${field('Direct Customer','Chemist Warehouse')}${field('Secondary Distributor','N/A')}${field('Warehouse','Sydney DC')}
+      ${field('Store Code','GM-AU-CW-SYD-001')}${field('Store Status','Pre-open')}${field('Store Type','Retail brand counter')}${field('Lifecycle Status','Opening project')}
+      ${field('Customer Code','CUST-CW-AU')}${field('Direct Customer','retail store Warehouse')}${field('Secondary Distributor','N/A')}${field('Warehouse','Sydney DC')}
       ${field('City','Sydney')}${field('Territory','NSW CBD')}${field('Sales Owner','ANZ Regional Sales')}${field('VM Owner','VM Australia')}
-      ${field('Geo Coordinates','-33.8688, 151.2093')}${field('Store Grade','A')}${field('Default POP Standard','BM-PH-Counter-A')}${field('Language','EN / ZH')}
+      ${field('Geo Coordinates','-33.8688, 151.2093')}${field('Store Grade','A')}${field('Default POP Standard','GM-PH-Counter-A')}${field('Language','EN / ZH')}
     </div>
     <div class="sec-title">${state.lang==='zh'?'后台配置':'Backend configuration'}</div>
     <table class="tbl"><tr><th>Module</th><th>Configuration</th><th>Current Setting</th><th>Audit</th></tr>

@@ -1,11 +1,11 @@
 {
-  "brand": "BLACKMORES",
+  "brand": "GENERAL MILLS",
   "studioName": "EXPERIENCE STUDIO",
   "navigation": ["Journey", "Capability Catalog", "Case Library", "About NTT DATA"],
   "hero": {
     "eyebrow": "GLOBAL CONSISTENCY. LOCAL RELEVANCE.",
     "headline": "One Brand.\nFive Market Realities.\nOne Scalable\nOperating Model.",
-    "body": "Helping Blackmores deliver locally relevant experiences through one scalable operating model.",
+    "body": "Helping General Mills deliver locally relevant experiences through one scalable operating model.",
     "poweredBy": "NTT DATA"
   },
   "model": [
@@ -22,9 +22,9 @@
       "id": "anz",
       "flag": "🇦🇺",
       "title": "Australia & New Zealand",
-      "positioning": "Retail-led Health Ecosystem",
-      "evidence": ["Pharmacy as primary channel", "Retail & loyalty growth", "Health & wellness focus"],
-      "tags": ["Retail", "Pharmacy", "Loyalty"],
+      "positioning": "Retail-led Food Experience Ecosystem",
+      "evidence": ["Retail as primary channel", "Retail & loyalty growth", "Health & everyday enjoyment focus"],
+      "tags": ["Retail", "Retail", "Loyalty"],
       "theme": "blue"
     },
     {

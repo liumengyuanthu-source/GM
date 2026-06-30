@@ -1,6 +1,6 @@
-# Blackmores Global · Experience Studio — 构建方案（待你确认）
+# General Mills Global · Experience Studio — 构建方案（待你确认）
 
-> 起草：2026-06-22　基于 Blackmores History 规划研究 + 现有 studio 结构
+> 起草：2026-06-22　基于 General Mills History 规划研究 + 现有 studio 结构
 > 结构：参考旧客户模板，文件名保持一致，按 `_kit/开发规范.md` 改皮。
 
 ---
@@ -17,18 +17,18 @@
 
 ---
 
-## 二、模块映射（Blackmores 规划 → 现有 studio demo）
+## 二、模块映射（General Mills 规划 → 现有 studio demo）
 
-| Blackmores 规划模块 | 落到 studio | 处理 |
+| General Mills 规划模块 | 落到 studio | 处理 |
 |---|---|---|
 | **中国微信小程序**（5-tab 消费者）| 独立 `wechat-miniprogram.html` | **旗舰重建**（Phase 2） |
 | **WeCom 企业微信后台**（私域/店员） | 新文件（如 `wecom-console.html`） | **全新建**（Phase 2，零先例） |
 | Partner Portal · Trading | `trading-hub.html` | 改皮 |
 | Marketing：AIGC / Social / Campaign | `aigc.html` / `social-hub.html` / `growth.html` | 改皮 |
 | VOC / 客户之声 | `voc.html` | 改皮 |
-| AI 健康买手 / Agentic / 对话 | `agentic-commerce.html` / `conversational.html` | 改皮（突出 agentic 买手） |
+| AI 场景导购 / Agentic / 对话 | `agentic-commerce.html` / `conversational.html` | 改皮（突出 agentic 买手） |
 | 会员（4 级） | `loyalty.html` | 改皮 |
-| 健康管理 + Health Twin 健康分身 | `health.html` | 改皮 + 扩展分身 |
+| 场景管理 + Occasion Twin 场景分身 | `health.html` | 改皮 + 扩展分身 |
 | Operations：合规 / 棚割 / 培训认证 | `compliance-hub.html` / `merchandising.html` / `partner-training.html` / `cards.html` | 改皮 |
 | Analytics / 归因 | `attribution-roi.html`（+ 现有 voc/数据） | 改皮 |
 | 数据·AI·知识 / 战略 | `knowledge-graph.html` / `ai-transformation-navigator.html` / `ai-strategy-map.html` / `enterprise-foundation.html` | 改皮 |
@@ -37,32 +37,32 @@
 | **多市场聊天生态飞轮**（微信 + LINE + WhatsApp） | `line-flywheel.html` | **已统一重建** |
 | **日本 LINE**（3-tab Mini App） | 新建轻量 demo | Phase 3（可选） |
 
-> Blackmores History 标 ⏳ 未建：WhatsApp Hub、Staff Management、Training & Certification、Health Twin 完整版。
+> General Mills History 标 ⏳ 未建：WhatsApp Hub、Staff Management、Training & Certification、Occasion Twin 完整版。
 
 ---
 
 ## 三、分阶段计划
 
-- **Phase 0 ✅ 已完成**：fork → `clients/blackmores-global/`；写 `BRAND_MANIFEST.md`；基础机械改皮（全局 teal 调色板 + 默认英语 + 品牌名 Blackmores）。studio 已能以 Blackmores 身份打开。
+- **Phase 0 ✅ 已完成**：fork → `clients/generalmills-global/`；写 `BRAND_MANIFEST.md`；基础机械改皮（全局 teal 调色板 + 默认英语 + 品牌名 General Mills）。studio 已能以 General Mills 身份打开。
 - **Phase 1（基础内容改皮）**：
-  1. 画保健品线条图（鱼油/维骨力/益生菌/复合维/维C/孕妇黄金素/月见草/叶黄素/睡眠/维E面霜）→ `images/blackmores/`。
-  2. 各 demo 产品/文案改皮：旧模板食品/单一 LINE 语境 → Blackmores 保健品 + 多市场 + CX 战略叙事（逐 demo，subagents）。
+  1. 画食品产品线条图（湾仔码头水饺/维骨力/湾仔码头快手餐/复合维/维C/礼赠家庭黄金素/月见草/哈根达斯礼赠精选/睡眠/哈根达斯礼盒面霜）→ `images/gm/gm-ai-foundation.jpg
+  2. 各 demo 产品/文案改皮：旧模板食品/单一 LINE 语境 → General Mills 食品产品 + 多市场 + CX 战略叙事（逐 demo，subagents）。
   3. studio shell 内容：hero/lead 定位、市场（日本→多市场 ANZ/中国/东南亚/日本）、目录与旅程文案。
-- **Phase 2（旗舰）**：中国微信小程序（5-tab：首页/商城/AI 健康买手/健康/我的，含 agentic 买手、健康分身、4 级会员、视频号直播、PGC 内容、AR 成分）+ **WeCom 后台**（私域 SCRM、客户管理、内容下发给店员、店员辅助下单、小程序 QR 归因、业绩看板）。给澳洲受众做渠道可读化标注。
-- **Phase 3（渠道补全）**：按需拆 WeChat / LINE / WhatsApp 单市场深挖 demo、Health Twin 完整版、WhatsApp Hub / Staff Mgmt / Training。
+- **Phase 2（旗舰）**：中国微信小程序（5-tab：首页/商城/AI 场景导购/健康/我的，含 agentic 买手、场景分身、4 级会员、视频号直播、PGC 内容、AR 成分）+ **WeCom 后台**（私域 SCRM、客户管理、内容下发给店员、店员辅助下单、小程序 QR 归因、业绩看板）。给澳洲受众做渠道可读化标注。
+- **Phase 3（渠道补全）**：按需拆 WeChat / LINE / WhatsApp 单市场深挖 demo、Occasion Twin 完整版、WhatsApp Hub / Staff Mgmt / Training。
 
 ---
 
 ## 四、已拍板的决定（2026-06-22）
 
-1. **accent 强调色** = teal #009BA4 + **pink #E91E63**（Blackmores 规范原色）。
+1. **accent 强调色** = teal #009BA4 + **pink #E91E63**（General Mills 规范原色）。
 2. **中国微信小程序** = **独立 `wechat-miniprogram.html`**；`line-flywheel.html` = 多市场聊天生态飞轮（中国微信、日本和部分东南亚 LINE、另一部分东南亚 WhatsApp）。
 3. **WeCom 后台** = **独立文件 `wecom-console.html`**，与小程序互相引用。
-4. **Phase 1 改皮颗粒度** = **先改核心几个**（trading / loyalty / health / agentic / aigc / social / compliance + studio shell），其余 demo 随后补。
+4. **Phase 1 改皮颗份度** = **先改核心几个**（trading / loyalty / health / agentic / aigc / social / compliance + studio shell），其余 demo 随后补。
 
 ## 五、执行顺序（据上）
-1. 保健品线条图 → `images/blackmores/`。
+1. 食品产品线条图 → `images/gm/gm-ai-foundation.jpg
 2. studio shell 内容改皮（市场/hero/定位/目录/旅程）。
 3. 核心 demo 改皮（trading/loyalty/health/agentic/aigc/social/compliance）。
 4. Phase 2：`wechat-miniprogram.html`（5-tab）+ `wecom-console.html`，并接进旅程/目录。
-5. 其余 demo 补改皮；Phase 3 渠道深挖 demo（按需拆 WeChat / LINE / WhatsApp 单市场细节，及 Health Twin）。
+5. 其余 demo 补改皮；Phase 3 渠道深挖 demo（按需拆 WeChat / LINE / WhatsApp 单市场细节，及 Occasion Twin）。

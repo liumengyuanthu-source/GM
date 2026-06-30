@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campaign Growth Studio · Blackmores · Experience Studio</title>
+<title>Campaign Growth Studio · General Mills · Experience Studio</title>
 <style>
   :root{
     --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
@@ -277,10 +277,12 @@
   .empty{color:var(--muted);font-size:13.5px;background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:24px;text-align:center}
   @media(max-width:760px){.grid3,.grid2,.sched,.rev{grid-template-columns:1fr}.aud-wrap{grid-template-columns:1fr}.stp .sl{display:none}}
 </style>
+<link rel="stylesheet" href="gm-demo-theme.css">
+<script defer src="gm-demo-brand.js"></script>
 </head>
 <body>
 <header><div class="nav">
-  <div class="brand" id="brand">Blackmores</div>
+  <div class="brand" id="brand">General Mills</div>
   <div class="sub" id="sub">Campaign Growth Studio</div><div class="sp"></div>
   <div class="langs" id="langs"></div>
 </div></header>
@@ -301,10 +303,10 @@
 
 <script>
 const BRANDS={
-  honda4w:{logo:"Blackmores",sup:"®",name:"Blackmores Premium",em:"💊",ent:"4w",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
-  honda2w:{logo:"Blackmores",sup:"®",name:"Blackmores Core",em:"🌿",ent:"2w",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]}
+  honda4w:{logo:"General Mills",sup:"®",name:"General Mills Premium",em:"💊",ent:"4w",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  honda2w:{logo:"General Mills",sup:"®",name:"General Mills Core",em:"🌿",ent:"2w",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]}
 };
-const MODELS={'2w':["Fish Oil 1000","Immunity C","Vitamin D3","Magnesium+"],'4w':["Pregnancy & Breastfeeding Gold","Bio C 1000","Sustained Release Multi"]};
+const MODELS={'2w':["Wanchai Ferry Dumpling Pack","Seasonal occasion C","Product D3","Workday Snack+"],'4w':["Häagen-Dazs Celebration Cake","Häagen-Dazs Mini Cup","Sustained Release Multi"]};
 const FLOW=['theme','channels','content','review','audience','launch'];
 let state={lang:"en",brand:"honda4w",market:"india",step:0,theme:"festive",chans:["wa","social"],tmpl:{},variant:{},aud:[],when:"now",attrib:true,fixed:{},geo:false,launched:false};
 
@@ -336,13 +338,13 @@ const T={
     ftStep:"Step",ftOf:"of",
     geoT:"GEO · AI-discovery readiness",compT:"DPDP compliance review",
     geoScore:"GEO readiness",compScore:"Compliance score",fix:"Apply fix",fixed:"Fixed",
-    geoNote:"Structured so AI search engines cite Blackmores products, channel partners & live offers.",
+    geoNote:"Structured so AI search engines cite General Mills products, channel partners & live offers.",
     geoMktg:"Marketing adjectives",geoFacts:"Structured facts",geoReco:"AI recommendability",
     geoHi:"Top of AI shortlists",geoLo:"Rarely recommended",
-    geoHintHi:"AI cites concrete specs & price, so this product is recommended.",geoHintLo:"AI can't verify vague claims, so Blackmores is skipped in shortlists.",
+    geoHintHi:"AI cites concrete specs & price, so this product is recommended.",geoHintLo:"AI can't verify vague claims, so General Mills is skipped in shortlists.",
     geoFlipNote:"Same campaign, two ways AI reads it. Flip your copy from adjectives to citable facts and the product jumps into AI shortlists.",
     geoMktgH:"Your campaign copy (as AI sees it)",geoFactsH:"Structured, citable facts",
-    allclear:"All checks passed — safe to launch.",subj:"Subject",unsub:"You're receiving this as a Blackmores India contact. Unsubscribe · Manage preferences",optout:"Reply STOP to opt out",
+    allclear:"All checks passed — safe to launch.",subj:"Subject",unsub:"You're receiving this as a General Mills India contact. Unsubscribe · Manage preferences",optout:"Reply STOP to opt out",
     editHint:"Click any text in a preview to edit it manually — or hit Regenerate for a fresh AI draft.",applying:"Applying…"},
   zh:{sub:"增长营销工作室",steps:["主题","渠道","内容","审核","受众","上线"],
     back:"← 返回",next:"下一步 →",launch:"🚀 启动活动",relaunch:"↻ 再建一个",
@@ -364,13 +366,13 @@ const T={
     ftStep:"步骤",ftOf:"/",
     geoT:"GEO · AI 检索就绪度",compT:"DPDP 合规审核",
     geoScore:"GEO 就绪度",compScore:"合规评分",fix:"应用修复",fixed:"已修复",
-    geoNote:"采用结构化处理，让 AI 搜索引擎能引用 Blackmores 的产品、渠道伙伴与实时优惠。",
+    geoNote:"采用结构化处理，让 AI 搜索引擎能引用 General Mills 的产品、渠道伙伴与实时优惠。",
     geoMktg:"营销形容词",geoFacts:"结构化事实",geoReco:"AI 推荐可能性",
     geoHi:"AI 候选清单首位",geoLo:"几乎不被推荐",
-    geoHintHi:"AI 会引用具体规格与价格，因此该产品被推荐。",geoHintLo:"AI 无法核实模糊表述，因此 Blackmores 在候选清单中被略过。",
+    geoHintHi:"AI 会引用具体规格与价格，因此该产品被推荐。",geoHintLo:"AI 无法核实模糊表述，因此 General Mills 在候选清单中被略过。",
     geoFlipNote:"同一个活动，AI 有两种解读方式。把文案从形容词改为可引用的事实，产品便会跃入 AI 候选清单。",
     geoMktgH:"你的活动文案（AI 所见）",geoFactsH:"结构化、可引用的事实",
-    allclear:"所有检查通过——可安全上线。",subj:"主题",unsub:"你作为 Blackmores India 联系人收到此信息。退订 · 管理偏好",optout:"回复 STOP 退订",
+    allclear:"所有检查通过——可安全上线。",subj:"主题",unsub:"你作为 General Mills India 联系人收到此信息。退订 · 管理偏好",optout:"回复 STOP 退订",
     editHint:"点击预览中的任意文字即可手动编辑——或点击重新生成获取全新 AI 草稿。",applying:"应用中…"},
   ja:{sub:"キャンペーングローススタジオ",steps:["テーマ","チャネル","コンテンツ","チェック","オーディエンス","配信"],
     back:"← 戻る",next:"次へ →",launch:"🚀 キャンペーン配信",relaunch:"↻ もう一つ作る",
@@ -392,13 +394,13 @@ const T={
     ftStep:"ステップ",ftOf:"/",
     geoT:"GEO · AI検索対応",compT:"DPDPコンプラチェック",
     geoScore:"GEO対応度",compScore:"コンプラスコア",fix:"修正する",fixed:"修正済",
-    geoNote:"AI検索エンジンがBlackmoresの製品・パートナー・特典を引用できるよう構造化。",
+    geoNote:"AI検索エンジンがGeneral Millsの製品・パートナー・特典を引用できるよう構造化。",
     geoMktg:"マーケティング形容詞",geoFacts:"構造化された事実",geoReco:"AI推奨可能性",
     geoHi:"AI候補リストの首位",geoLo:"ほぼ推奨されない",
-    geoHintHi:"AIが具体的なスペックと価格を引用するため、この製品は推奨されます。",geoHintLo:"AIは曖昧な主張を検証できず、Blackmoresは候補から外れます。",
+    geoHintHi:"AIが具体的なスペックと価格を引用するため、この製品は推奨されます。",geoHintLo:"AIは曖昧な主張を検証できず、General Millsは候補から外れます。",
     geoFlipNote:"同じキャンペーンでも、AIの読み取り方は2通り。形容詞から引用可能な事実に変えると、製品がAI候補リストに浮上します。",
     geoMktgH:"あなたのキャンペーン文(AIの見え方)",geoFactsH:"構造化された引用可能な事実",
-    allclear:"全チェック合格——配信OK。",subj:"件名",unsub:"Blackmores Indiaの連絡先として受信しています。配信停止 · 設定",optout:"STOPで配信停止",
+    allclear:"全チェック合格——配信OK。",subj:"件名",unsub:"General Mills Indiaの連絡先として受信しています。配信停止 · 設定",optout:"STOPで配信停止",
     editHint:"プレビュー内のテキストをクリックして手動編集——または再生成でAI下書きを更新。",applying:"適用中…"},
   th:{sub:"สตูดิโอแคมเปญเติบโต",steps:["ธีม","ช่องทาง","คอนเทนต์","ตรวจสอบ","กลุ่มเป้าหมาย","ส่ง"],
     back:"← ย้อน",next:"ถัดไป →",launch:"🚀 ส่งแคมเปญ",relaunch:"↻ สร้างใหม่",
@@ -420,13 +422,13 @@ const T={
     ftStep:"ขั้น",ftOf:"/",
     geoT:"GEO · ความพร้อม AI search",compT:"ตรวจ DPDP",
     geoScore:"ความพร้อม GEO",compScore:"คะแนน DPDP",fix:"แก้ไข",fixed:"แก้แล้ว",
-    geoNote:"จัดโครงสร้างให้ AI search engine อ้างอิงสินค้า พาร์ทเนอร์ และข้อเสนอของ Blackmores",
+    geoNote:"จัดโครงสร้างให้ AI search engine อ้างอิงสินค้า พาร์ทเนอร์ และข้อเสนอของ General Mills",
     geoMktg:"คำคุณศัพท์การตลาด",geoFacts:"ข้อเท็จจริงที่มีโครงสร้าง",geoReco:"โอกาสถูก AI แนะนำ",
     geoHi:"ต้นรายการคัดเลือกของ AI",geoLo:"แทบไม่ถูกแนะนำ",
-    geoHintHi:"AI อ้างอิงสเปกและราคาที่ชัดเจน สินค้านี้จึงถูกแนะนำ",geoHintLo:"AI ตรวจสอบข้ออ้างคลุมเครือไม่ได้ Blackmores จึงถูกข้าม",
+    geoHintHi:"AI อ้างอิงสเปกและราคาที่ชัดเจน สินค้านี้จึงถูกแนะนำ",geoHintLo:"AI ตรวจสอบข้ออ้างคลุมเครือไม่ได้ General Mills จึงถูกข้าม",
     geoFlipNote:"แคมเปญเดียวกัน AI อ่านได้สองแบบ เปลี่ยนข้อความจากคำคุณศัพท์เป็นข้อเท็จจริงที่อ้างอิงได้ แล้วสินค้าจะขึ้นรายการแนะนำของ AI",
     geoMktgH:"ข้อความแคมเปญของคุณ (อย่างที่ AI เห็น)",geoFactsH:"ข้อเท็จจริงที่มีโครงสร้างและอ้างอิงได้",
-    allclear:"ผ่านทุกการตรวจ — ส่งได้",subj:"หัวเรื่อง",unsub:"คุณได้รับเพราะเป็นผู้ติดต่อ Blackmores India ยกเลิก · ตั้งค่า",optout:"ตอบ STOP เพื่อยกเลิก",
+    allclear:"ผ่านทุกการตรวจ — ส่งได้",subj:"หัวเรื่อง",unsub:"คุณได้รับเพราะเป็นผู้ติดต่อ General Mills India ยกเลิก · ตั้งค่า",optout:"ตอบ STOP เพื่อยกเลิก",
     editHint:"คลิกข้อความในพรีวิวเพื่อแก้ไขเอง — หรือกด Regenerate เพื่อรับร่าง AI ใหม่",applying:"กำลังปรับใช้…"}
 };
 const U=()=>Object.assign({},T.en,T[state.lang]);
@@ -448,7 +450,7 @@ const THEMES=[
   {id:"festive",em:"🪔",chans:["social","wa","sms","offline"],kpiK:"lead",
    name:{en:"Festive Push",ja:"フェスティブ強化",th:"ดันยอดเทศกาล"},
    desc:{en:"Seasonal demand spike around the festivals.",ja:"祭事シーズンの需要を取り込む。",th:"จับดีมานด์ช่วงเทศกาล"},
-   goal:{en:"Festive Season — boost {M} interest with everyday wellness benefits and festive offers",ja:"フェスティブシーズン——毎日の健康メリットと特典で{M}の関心を喚起",th:"ช่วงเทศกาล — ดันความสนใจ {M} ด้วยประโยชน์เพื่อสุขภาพและข้อเสนอเทศกาล"}},
+   goal:{en:"Festive Season — boost {M} interest with everyday everyday enjoyment benefits and festive offers",ja:"フェスティブシーズン——毎日の健康メリットと特典で{M}の関心を喚起",th:"ช่วงเทศกาล — ดันความสนใจ {M} ด้วยประโยชน์เพื่อสุขภาพและข้อเสนอเทศกาล"}},
   {id:"exchange",em:"♻️",chans:["sms","wa","offline"],kpiK:"lead",
    name:{en:"Trade-Up & Upgrade",ja:"買い替え・アップグレード",th:"อัปเกรดแพ็กเกจ"},
    desc:{en:"Best value when you upgrade your current pack — easy upgrade.",ja:"今の商品からお得にアップグレード。",th:"คุ้มค่าเมื่ออัปเกรดแพ็กเกจปัจจุบัน อัปเกรดง่าย"},
@@ -503,7 +505,7 @@ const COPY={
     head:[{en:"{ride} the {M}, win a gift",ja:"{M}を{ride}してギフトを",th:"{ride} {M} รับของรางวัล"},
           {en:"Every {ride} gets a guaranteed gift",ja:"どの{ride}にも必ずギフト",th:"ทุก{ride}รับของรางวัลแน่นอน"},
           {en:"Come {ride}. Leave with a reward.",ja:"{ride}して、ご褒美を持ち帰る",th:"มา{ride} กลับพร้อมรางวัล"}],
-    sub:[{en:"Book a {ride} at your nearest Blackmores channel partner and pick up an assured gift on arrival.",ja:"お近くのBlackmoresパートナー店で{ride}を予約、来店で必ずギフト。",th:"จอง{ride}ที่พาร์ทเนอร์ Blackmores ใกล้บ้าน มาถึงรับของรางวัลทันที"},
+    sub:[{en:"Book a {ride} at your nearest General Mills channel partner and pick up an assured gift on arrival.",ja:"お近くのGeneral Millsパートナー店で{ride}を予約、来店で必ずギフト。",th:"จอง{ride}ที่พาร์ทเนอร์ General Mills ใกล้บ้าน มาถึงรับของรางวัลทันที"},
          {en:"No purchase needed — every {ride} this week earns a reward.",ja:"購入不要——今週の{ride}にはご褒美。",th:"ไม่ต้องซื้อ — ทุก{ride}สัปดาห์นี้มีรางวัล"},
          {en:"Bring a friend, both of you {ride} and both get gifted.",ja:"友達と一緒に{ride}、二人ともギフト。",th:"ชวนเพื่อนมา{ride}ด้วยกัน รับของทั้งคู่"}],
     bullets:[{en:"Assured gift on every {ride}",ja:"{ride}ごとに必ずギフト",th:"ของรางวัลทุก{ride}"},
@@ -517,11 +519,11 @@ const COPY={
           {en:"Give A$2,000, get A$2,000",ja:"A$2,000あげてA$2,000もらう",th:"ให้ A$2,000 รับ A$2,000"},
           {en:"Your recommendation is worth A$2,000",ja:"あなたの紹介はA$2,000の価値",th:"คำแนะนำของคุณมีค่า A$2,000"}],
     sub:[{en:"Share your code. When a friend books a {M}, you both get A$2,000.",ja:"コードを共有。友達が{M}を成約で双方にA$2,000。",th:"แชร์โค้ด เมื่อเพื่อนจอง {M} ได้ A$2,000 ทั้งคู่"},
-         {en:"Happy with your Blackmores? Pass it on and earn rewards.",ja:"Blackmoresにご満足？紹介して特典を。",th:"ชอบ Blackmores ของคุณไหม? บอกต่อแล้วรับรางวัล"},
+         {en:"Happy with your General Mills? Pass it on and earn rewards.",ja:"General Millsにご満足？紹介して特典を。",th:"ชอบ General Mills ของคุณไหม? บอกต่อแล้วรับรางวัล"},
          {en:"One tap to send your referral link on WhatsApp.",ja:"ワンタップでWhatsApp紹介リンクを送信。",th:"แตะเดียวส่งลิงก์แนะนำบน WhatsApp"}],
     bullets:[{en:"A$2,000 for you + A$2,000 for your friend",ja:"あなたにA$2,000＋友達にA$2,000",th:"A$2,000 ให้คุณ + A$2,000 ให้เพื่อน"},
              {en:"Unlimited referrals, paid on booking",ja:"紹介無制限、成約で支払い",th:"แนะนำไม่จำกัด จ่ายเมื่อจอง"},
-             {en:"Track every referral in MyBlackmores",ja:"MyBlackmoresで紹介を全件管理",th:"ติดตามทุกการแนะนำใน MyBlackmores"},
+             {en:"Track every referral in GM Connect",ja:"GM Connectで紹介を全件管理",th:"ติดตามทุกการแนะนำใน GM Connect"},
              {en:"Friends get a welcome offer too",ja:"友達にもウェルカム特典",th:"เพื่อนได้ข้อเสนอต้อนรับด้วย"}],
     offer:{en:"A$2,000 + A$2,000 on every successful referral",ja:"成約紹介ごとにA$2,000＋A$2,000",th:"A$2,000 + A$2,000 ทุกการแนะนำสำเร็จ"},
     cta:[{en:"Share your code",ja:"コードを共有",th:"แชร์โค้ด"},{en:"Refer now",ja:"今すぐ紹介",th:"แนะนำเลย"}]},
@@ -539,7 +541,7 @@ const COPY={
     offer:{en:"Festive benefits up to A$20,000",ja:"フェスティブ特典 最大A$20,000",th:"สิทธิ์เทศกาลสูงสุด A$20,000"},
     cta:[{en:"Book a free {ride}",ja:"無料{ride}を予約",th:"จอง{ride}ฟรี"},{en:"See festive offers",ja:"特典を見る",th:"ดูข้อเสนอเทศกาล"}]},
   exchange:{code:"UPGRADE",
-    head:[{en:"Upgrade to a Blackmores, the easy way",ja:"Blackmoresへ、らくらく買い替え",th:"อัปเกรดเป็น Blackmores ง่ายๆ"},
+    head:[{en:"Upgrade to a General Mills, the easy way",ja:"General Millsへ、らくらく買い替え",th:"อัปเกรดเป็น General Mills ง่ายๆ"},
           {en:"Your current pack is worth more here",ja:"今お使いの商品、ここならお得",th:"แพ็กเกจปัจจุบันของคุณคุ้มกว่าที่นี่"},
           {en:"Trade up to the {M} today",ja:"今日、{M}へ買い替え",th:"อัปเกรดเป็น {M} วันนี้"}],
     sub:[{en:"Get a strong trade-up value on your current pack plus an upgrade bonus on the {M}.",ja:"今の商品のお得な買い替え＋{M}のアップグレード特典。",th:"รับมูลค่าอัปเกรดที่ดีสำหรับแพ็กเกจปัจจุบัน พร้อมโบนัสอัปเกรดบน {M}"},
@@ -561,13 +563,13 @@ const COPY={
     bullets:[{en:"Low entry-price options",ja:"お手頃価格プラン",th:"ตัวเลือกราคาเริ่มต้นต่ำ"},
              {en:"Flexible subscription terms",ja:"柔軟な定期購入期間",th:"แผนสมัครสมาชิกยืดหยุ่น"},
              {en:"Instant eligibility check",ja:"即時の適格チェック",th:"เช็กสิทธิ์ทันที"},
-             {en:"Partnered with leading pharmacies",ja:"大手薬局と提携",th:"ร่วมกับร้านขายยาชั้นนำ"}],
+             {en:"Partnered with leading pharmacies",ja:"大手小売店と提携",th:"ร่วมกับร้านขายยาชั้นนำ"}],
     offer:{en:"Special offer this month — *subject to approval",ja:"今月の特別offer——*審査による",th:"offer พิเศษเดือนนี้ — *ขึ้นกับการอนุมัติ"},
     cta:[{en:"Check eligibility",ja:"適格を確認",th:"เช็กสิทธิ์"},{en:"See offer plans",ja:"offerプランを見る",th:"ดูแผนผ่อน"}]},
   reactivate:{code:"WELCOME",
     head:[{en:"Still thinking about a {M}?",ja:"まだ{M}をご検討中ですか？",th:"ยังคิดถึง {M} อยู่ไหม?"},
           {en:"We saved your spot for the {M}",ja:"{M}のお席、お取りしています",th:"เราเก็บที่ {M} ไว้ให้คุณ"},
-          {en:"A fresh reason to come back to Blackmores",ja:"Blackmoresに戻る、新しい理由",th:"เหตุผลใหม่ให้กลับมา Blackmores"}],
+          {en:"A fresh reason to come back to General Mills",ja:"General Millsに戻る、新しい理由",th:"เหตุผลใหม่ให้กลับมา General Mills"}],
     sub:[{en:"It's been a while — here's a limited-time benefit on the {M}, just for you.",ja:"お久しぶりです——あなただけの{M}期間限定特典。",th:"ไม่ได้เจอกันนาน — นี่คือสิทธิ์จำกัดเวลาสำหรับ {M} เฉพาะคุณ"},
          {en:"Pick up where you left off — book a {ride} in one tap.",ja:"続きからどうぞ——ワンタップで{ride}予約。",th:"กลับมาต่อจากเดิม — จอง{ride}ในแตะเดียว"},
          {en:"Your earlier enquiry now comes with an extra benefit.",ja:"以前のお問い合わせに、追加特典をご用意。",th:"การสอบถามก่อนหน้าตอนนี้มีสิทธิ์เพิ่ม"}],
@@ -625,7 +627,7 @@ function render(){
 }
 
 // theme card photography: local file first, then a live stock fallback, then a branded gradient
-const IMGKW={launch:['vitamins,wellness',11],testdrive:['supplements,health',22],referral:['friends,handshake',33],festive:['diwali,festival,lights',44],exchange:['vitamins,pharmacy',55],emi:['payment,smartphone',66],reactivate:['smartphone,notification',77]};
+const IMGKW={launch:['products,everyday enjoyment',11],testdrive:['products,health',22],referral:['friends,handshake',33],festive:['diwali,festival,lights',44],exchange:['products,retail',55],emi:['payment,smartphone',66],reactivate:['smartphone,notification',77]};
 // transparent line icons for the photo badge (white stroke)
 const _SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">';
 const ICONS={
@@ -645,7 +647,7 @@ const CHAN_ICONS={
   offline:_SVG+'<path d="M6 3.5v17"/><path d="M6 4.8h11l-2.3 3L17 11H6"/></svg>'
 };
 function imgFallback(img,id){
-  if(!img.dataset.f){img.dataset.f='1';var k=IMGKW[id]||['wellness',1];img.src='https://loremflickr.com/640/400/'+k[0]+'?lock='+k[1];}
+  if(!img.dataset.f){img.dataset.f='1';var k=IMGKW[id]||['everyday enjoyment',1];img.src='https://loremflickr.com/640/400/'+k[0]+'?lock='+k[1];}
   else{var c=img.closest('.opt');if(c)c.classList.add('noimg');}
 }
 function stepTheme(){
@@ -686,18 +688,18 @@ function previewFor(cid){
   if(cid==='email'){
     const foot='<div class="em-foot">'+u.unsub+'</div>';
     if(tmpl===1){ // newsletter
-      return '<div class="em-doc em-news"><div class="em-top"><div class="em-from">Blackmores India &lt;news@blackmores.in&gt;</div><div class="em-subj">'+u.subj+': '+c.head+'</div><div class="em-pre">'+c.sub+'</div></div>'
+      return '<div class="em-doc em-news"><div class="em-top"><div class="em-from">General Mills India &lt;news@generalmills.in&gt;</div><div class="em-subj">'+u.subj+': '+c.head+'</div><div class="em-pre">'+c.sub+'</div></div>'
         +'<div class="em-body"><div class="em-sec"><div class="em-h">'+c.head+'</div><p>'+c.sub+'</p></div>'
         +'<div class="em-sec"><div class="em-h">'+(({en:'Why '+m,ja:m+'の理由',th:'ทำไมต้อง '+m})[state.lang])+'</div><ul class="em-bul">'+c.bullets.map(b=>'<li>'+b+'</li>').join('')+'</ul></div>'
         +'<div class="em-offer"><span class="ot">🎁 '+c.offer+'</span><span class="oc">'+c.code+'</span></div>'
         +'<a class="em-cta">'+c.cta+' →</a></div>'+foot+'</div>';
     }
     if(tmpl===2){ // offer spotlight
-      return '<div class="em-doc"><div class="em-top"><div class="em-from">Blackmores India &lt;offers@blackmores.in&gt;</div><div class="em-subj">'+u.subj+': '+c.head+'</div><div class="em-pre">'+c.offer+'</div></div>'
+      return '<div class="em-doc"><div class="em-top"><div class="em-from">General Mills India &lt;offers@generalmills.in&gt;</div><div class="em-subj">'+u.subj+': '+c.head+'</div><div class="em-pre">'+c.offer+'</div></div>'
         +'<div class="em-spot"><div class="big">'+c.offer+'</div><div class="code">'+c.code+'</div><p style="font-size:12.7px;color:#33403e;margin:6px 0 12px">'+c.sub+'</p><a class="em-cta">'+c.cta+' →</a></div>'+foot+'</div>';
     }
     // hero banner (default)
-    return '<div class="em-doc"><div class="em-top"><div class="em-from">Blackmores India &lt;hello@blackmores.in&gt;</div><div class="em-subj">'+u.subj+': '+c.head+'</div><div class="em-pre">'+c.sub+'</div></div>'
+    return '<div class="em-doc"><div class="em-top"><div class="em-from">General Mills India &lt;hello@generalmills.in&gt;</div><div class="em-subj">'+u.subj+': '+c.head+'</div><div class="em-pre">'+c.sub+'</div></div>'
       +'<div class="em-hero">'+bgimg('land')+'<h3>'+c.head+'</h3><p>'+c.sub+'</p></div>'
       +'<div class="em-body"><p>'+c.sub+'</p><ul class="em-bul">'+c.bullets.slice(0,3).map(b=>'<li>'+b+'</li>').join('')+'</ul>'
       +'<div class="em-offer"><span class="ot">🎁 '+c.offer+'</span><span class="oc">'+c.code+'</span></div>'
@@ -708,18 +710,18 @@ function previewFor(cid){
       return '<div class="pv-inapp"><div class="ib">'+thumbimg('social')+'</div><div class="it"><b>'+c.head+'</b><span>'+c.sub+'</span></div><div class="ix">'+c.cta+'</div></div>';
     }
     if(tmpl===2){ // click-to-chat
-      return '<div class="pv-wa"><div class="wabar">💬 WhatsApp · Blackmores</div><div class="wamsg"><div class="watext"><b>'+c.head+'</b>'+c.sub+'</div>'
+      return '<div class="pv-wa"><div class="wabar">💬 WhatsApp · General Mills</div><div class="wamsg"><div class="watext"><b>'+c.head+'</b>'+c.sub+'</div>'
         +'<div class="qr-chips"><span class="qr-chip">'+c.cta+'</span><span class="qr-chip">'+({en:'See offers',ja:'特典を見る',th:'ดูข้อเสนอ'})[state.lang]+'</span><span class="qr-chip">'+({en:'Talk to partner',ja:'パートナーに相談',th:'คุยกับพาร์ทเนอร์'})[state.lang]+'</span></div>'
         +'<div class="waopt">'+u.optout+'</div></div></div>';
     }
     // broadcast card
-    return '<div class="pv-wa"><div class="wabar">💬 WhatsApp Business · Blackmores</div>'
+    return '<div class="pv-wa"><div class="wabar">💬 WhatsApp Business · General Mills</div>'
       +'<div class="wamsg"><div class="waimg">'+thumbimg('land')+'</div><div class="watext"><b>'+c.head+'</b>'+c.sub+'</div>'
       +'<ul class="wal">'+c.bullets.slice(0,2).map(b=>'<li>'+b+'</li>').join('')+'</ul>'
       +'<div class="wabtn">'+c.cta+'</div><div class="waopt">'+u.optout+'</div></div></div>';
   }
   if(cid==='social'){
-    const tags='#BlackmoresIndia #'+m.replace(/ /g,'')+' #'+(ENT()==='2w'?'ProductTrial':'Consultation')+' #'+state.theme;
+    const tags='#General MillsIndia #'+m.replace(/ /g,'')+' #'+(ENT()==='2w'?'ProductTrial':'Consultation')+' #'+state.theme;
     let creative;
     if(tmpl===0){ // carousel
       const slides=[{e:em,t:c.head,s:c.bullets[0]},{e:'✨',t:c.bullets[1],s:c.bullets[2]},{e:'🎁',t:c.offer,s:c.cta}];
@@ -734,9 +736,9 @@ function previewFor(cid){
       +'<div class="copybox">'+c.head+' — '+c.sub+'\n\n'+c.bullets.slice(0,2).map(b=>'• '+b).join('\n')+'\n\n👉 '+c.cta+'<span class="hash">'+tags+'</span></div>';
   }
   if(cid==='sms'){
-    const link='bit.ly/blackmores-'+state.theme;
+    const link='bit.ly/generalmills-'+state.theme;
     let pre='';if(tmpl===1)pre=({en:'⚡ FLASH: ',ja:'⚡ 期間限定: ',th:'⚡ แฟลช: '})[state.lang];if(tmpl===2)pre=({en:'Reminder: ',ja:'リマインド: ',th:'แจ้งเตือน: '})[state.lang];
-    const body='Blackmores: '+pre+c.head+'. '+c.sub+' '+link;
+    const body='General Mills: '+pre+c.head+'. '+c.sub+' '+link;
     return '<div class="pv-sms"><div class="sb">'+body+'\n'+u.optout+' <a>'+link+'</a></div><div class="sc">'+Math.min(body.length+14,300)+' chars · sender BLKMOR · DLT-approved</div></div>';
   }
   if(cid==='offline'){
@@ -790,8 +792,8 @@ function compChecks(){
     applied:{en:"1,240 DND numbers suppressed",ja:"DND番号1,240件を抑制",th:"ระงับเบอร์ DND 1,240 หมายเลข"}});
   // WARN — claim substantiation (theme-specific)
   if(t.claim)checks.push({id:'claim',ok:false,label:{en:"Unsubstantiated claim — \"best / most effective\"",ja:"未実証の表現——「最高の/最も効果的」",th:"คำกล่าวอ้างไม่มีหลักฐาน — \"ดีที่สุด\""},
-    fix:{en:"Add TGA-approved wording + footnote",ja:"TGA承認の表現＋脚注を追加",th:"เพิ่มข้อความที่ TGA อนุมัติ + เชิงอรรถ"},
-    applied:{en:"TGA-approved wording + footnote added",ja:"TGA承認の表現＋脚注を追加",th:"เพิ่มข้อความที่ TGA อนุมัติ + เชิงอรรถแล้ว"}});
+    fix:{en:"Add brand governance-approved wording + footnote",ja:"brand governance承認の表現＋脚注を追加",th:"เพิ่มข้อความที่ brand governance อนุมัติ + เชิงอรรถ"},
+    applied:{en:"brand governance-approved wording + footnote added",ja:"brand governance承認の表現＋脚注を追加",th:"เพิ่มข้อความที่ brand governance อนุมัติ + เชิงอรรถแล้ว"}});
   // WARN — finance disclaimer
   if(t.finance)checks.push({id:'fin',ok:false,label:{en:"offer claim needs finance disclaimer",ja:"offer訴求にファイナンス免責が必要",th:"การอ้าง offer ต้องมีข้อความกำกับสินเชื่อ"},
     fix:{en:"Append \"*T&C apply, subject to approval\"",ja:"「*諸条件・審査による」を追記",th:"เพิ่ม \"*เงื่อนไขฯ ขึ้นกับการอนุมัติ\""},
@@ -807,22 +809,22 @@ function compChecks(){
 }
 const GEO_KEYS=[{en:"Product",ja:"製品",th:"สินค้า"},{en:"Price",ja:"価格",th:"ราคา"},{en:"Key ingredient",ja:"主成分",th:"ส่วนประกอบหลัก"},{en:"Dosage",ja:"用量",th:"ขนาดรับประทาน"},{en:"Certification",ja:"認証",th:"การรับรอง"},{en:"Shelf life",ja:"賞味期限",th:"อายุการเก็บ"},{en:"Availability",ja:"在庫",th:"ความพร้อมจำหน่าย"},{en:"offer from",ja:"offer開始",th:"offer เริ่มต้น"}];
 const GEO_FACTS={
-  '4w':["{M} (90 caps)","A$39.95 (RRP)","Fish oil concentrate 1000mg","2 capsules daily","TGA listed (AUST L)","36 months from manufacture","In stock · 14 channel partners","A$35.95/mo (subscribe & save)"],
-  '2w':["{M} (60 caps)","A$18.95 (RRP)","Vitamin C 1000mg","1 capsule daily","TGA listed (AUST L)","24 months from manufacture","In stock · 30 channel partners","A$16.95/mo (subscribe & save)"]
+  '4w':["{M} (90 packs)","A$39.95 (RRP)","Wanchai Ferry dumplings concentrate 1000mg","2 packs daily","Brand governed (approved wording)","36 months from manufacture","In stock · 14 channel partners","A$35.95/mo (subscribe & save)"],
+  '2w':["{M} (60 packs)","A$18.95 (RRP)","Häagen-Dazs Mini Cup 1000mg","1 pack daily","Brand governed (approved wording)","24 months from manufacture","In stock · 30 channel partners","A$16.95/mo (subscribe & save)"]
 };
 const GEO_MKTG={
-  '4w':[{en:"\"An incredibly premium-feeling supplement that's simply world-class.\"",ja:"「圧倒的に上質、まさにワールドクラスのサプリ。」",th:"\"อาหารเสริมระดับพรีเมียม คุณภาพระดับโลก\""},{en:"\"Best-in-class quality, beautiful packaging and amazing value.\"",ja:"「クラス最高の品質、美しいパッケージ、驚きの価値。」",th:"\"คุณภาพดีที่สุดในคลาส แพ็กเกจสวย คุ้มค่าสุดๆ\""},{en:"\"You'll love it every day — simply the smartest choice.\"",ja:"「毎日きっと好きになる、最も賢い選択。」",th:"\"คุณจะรักทุกวัน ตัวเลือกที่ฉลาดที่สุด\""}],
-  '2w':[{en:"\"An incredibly trusted, super-pure supplement you'll absolutely love.\"",ja:"「圧倒的に信頼でき高純度、絶対に気に入るサプリ。」",th:"\"อาหารเสริมที่ไว้ใจ บริสุทธิ์สุดๆ ที่คุณจะรัก\""},{en:"\"Best-in-class quality, beautiful packaging and amazing value.\"",ja:"「クラス最高の品質、美しいパッケージ、驚きの価値。」",th:"\"คุณภาพดีที่สุดในคลาส แพ็กเกจสวย คุ้มค่าสุดๆ\""},{en:"\"The smartest, most reliable choice you can make.\"",ja:"「最も賢く、最も信頼できる選択。」",th:"\"ตัวเลือกที่ฉลาดและน่าเชื่อถือที่สุด\""}]
+  '4w':[{en:"\"An incredibly premium-feeling product that's simply world-class.\"",ja:"「圧倒的に上質、まさにワールドクラスのプロダクト。」",th:"\"อาหารเสริมระดับพรีเมียม คุณภาพระดับโลก\""},{en:"\"Best-in-class quality, beautiful packaging and amazing value.\"",ja:"「クラス最高の品質、美しいパッケージ、驚きの価値。」",th:"\"คุณภาพดีที่สุดในคลาส แพ็กเกจสวย คุ้มค่าสุดๆ\""},{en:"\"You'll love it every day — simply the smartest choice.\"",ja:"「毎日きっと好きになる、最も賢い選択。」",th:"\"คุณจะรักทุกวัน ตัวเลือกที่ฉลาดที่สุด\""}],
+  '2w':[{en:"\"An incredibly trusted, super-pure product you'll absolutely love.\"",ja:"「圧倒的に信頼でき高純度、絶対に気に入るプロダクト。」",th:"\"อาหารเสริมที่ไว้ใจ บริสุทธิ์สุดๆ ที่คุณจะรัก\""},{en:"\"Best-in-class quality, beautiful packaging and amazing value.\"",ja:"「クラス最高の品質、美しいパッケージ、驚きの価値。」",th:"\"คุณภาพดีที่สุดในคลาส แพ็กเกจสวย คุ้มค่าสุดๆ\""},{en:"\"The smartest, most reliable choice you can make.\"",ja:"「最も賢く、最も信頼できる選択。」",th:"\"ตัวเลือกที่ฉลาดและน่าเชื่อถือที่สุด\""}]
 };
 const GEO_BREAK={lo:[10,18,8,22],hi:[95,98,92,90]};
 const GEO_BREAK_L=[{en:"Citable specs",ja:"引用可能なスペック",th:"สเปกที่อ้างอิงได้"},{en:"Price clarity",ja:"価格の明確さ",th:"ความชัดเจนของราคา"},{en:"Structured data",ja:"構造化データ",th:"ข้อมูลที่มีโครงสร้าง"},{en:"Comparability",ja:"比較可能性",th:"ความสามารถในการเปรียบเทียบ"}];
 function geoAIQ(on){const m=MODEL();const e=ENT();
   if(e==='2w'){return on
-    ?{en:'<b>User:</b> "Best everyday vitamin C supplement in Australia?"<br><b>AI:</b> I\'d recommend <b>Blackmores '+m+'</b> — Vitamin C 1000mg, 1 capsule daily, TGA listed (AUST L), A$18.95 RRP, in stock at 30 channel partners. Strong match for an everyday immune-support routine.',ja:'<b>ユーザー:</b>「オーストラリアで毎日使えるビタミンCサプリのおすすめは?」<br><b>AI:</b> <b>Blackmores '+m+'</b>をお勧めします — ビタミンC1000mg、1日1カプセル、TGA登録(AUST L)、希望小売価格A$18.95、30のパートナー店に在庫。毎日の健康ケアに最適です。',th:'<b>ผู้ใช้:</b> "อาหารเสริมวิตามินซีสำหรับทุกวันที่ดีที่สุดในออสเตรเลีย?"<br><b>AI:</b> ขอแนะนำ <b>Blackmores '+m+'</b> — วิตามินซี 1000 มก., วันละ 1 แคปซูล, ขึ้นทะเบียน TGA (AUST L), ราคาแนะนำ A$18.95 มีสต็อกที่พาร์ทเนอร์ 30 แห่ง เหมาะกับรูทีนประจำวันที่สุด'}
-    :{en:'<b>User:</b> "Best everyday vitamin C supplement in Australia?"<br><b>AI:</b> I found clear label details for Nature\'s Own and Swisse, so I\'d recommend those. I couldn\'t verify concrete details for Blackmores '+m+'.',ja:'<b>ユーザー:</b>「オーストラリアで毎日使えるビタミンCサプリのおすすめは?」<br><b>AI:</b> Nature\'s OwnとSwisseは明確なラベル情報が見つかったので、それらをお勧めします。Blackmores '+m+'の具体的な情報は確認できませんでした。',th:'<b>ผู้ใช้:</b> "อาหารเสริมวิตามินซีที่ดีที่สุด?"<br><b>AI:</b> ฉันพบข้อมูลฉลากชัดเจนของ Nature\'s Own และ Swisse จึงแนะนำสองยี่ห้อนี้ ไม่สามารถยืนยันรายละเอียดของ Blackmores '+m+' ได้'};}
+    ?{en:'<b>User:</b> "Best everyday product C product in Australia?"<br><b>AI:</b> I\'d recommend <b>General Mills '+m+'</b> — Häagen-Dazs Mini Cup 1000mg, 1 pack daily, Brand governed (approved wording), A$18.95 RRP, in stock at 30 channel partners. Strong match for an everyday immune-support routine.',ja:'<b>ユーザー:</b>「オーストラリアで毎日使えるプロダクトCプロダクトのおすすめは?」<br><b>AI:</b> <b>General Mills '+m+'</b>をお勧めします — プロダクトC1000mg、1日1カプセル、brand governance登録(approved wording)、希望小売価格A$18.95、30のパートナー店に在庫。毎日の健康ケアに最適です。',th:'<b>ผู้ใช้:</b> "อาหารเสริมผลิตภัณฑ์ซีสำหรับทุกวันที่ดีที่สุดในออสเตรเลีย?"<br><b>AI:</b> ขอแนะนำ <b>General Mills '+m+'</b> — ผลิตภัณฑ์ซี 1000 มก., วันละ 1 แคปซูล, ขึ้นทะเบียน brand governance (approved wording), ราคาแนะนำ A$18.95 มีสต็อกที่พาร์ทเนอร์ 30 แห่ง เหมาะกับรูทีนประจำวันที่สุด'}
+    :{en:'<b>User:</b> "Best everyday product C product in Australia?"<br><b>AI:</b> I found clear label details for Nature\'s Own and Swisse, so I\'d recommend those. I couldn\'t verify concrete details for General Mills '+m+'.',ja:'<b>ユーザー:</b>「オーストラリアで毎日使えるプロダクトCプロダクトのおすすめは?」<br><b>AI:</b> Nature\'s OwnとSwisseは明確なラベル情報が見つかったので、それらをお勧めします。General Mills '+m+'の具体的な情報は確認できませんでした。',th:'<b>ผู้ใช้:</b> "อาหารเสริมผลิตภัณฑ์ซีที่ดีที่สุด?"<br><b>AI:</b> ฉันพบข้อมูลฉลากชัดเจนของ Nature\'s Own และ Swisse จึงแนะนำสองยี่ห้อนี้ ไม่สามารถยืนยันรายละเอียดของ General Mills '+m+' ได้'};}
   return on
-    ?{en:'<b>User:</b> "Best premium fish oil supplement under A$50 in Australia?"<br><b>AI:</b> I\'d recommend <b>Blackmores '+m+'</b> — fish oil concentrate 1000mg, 2 capsules daily, TGA listed (AUST L), A$39.95 RRP, in stock at 14 channel partners. Strongest match for your budget and quality needs.',ja:'<b>ユーザー:</b>「A$50以下で最高のプレミアム魚油サプリは?」<br><b>AI:</b> <b>Blackmores '+m+'</b>をお勧めします — 濃縮魚油1000mg、1日2カプセル、TGA登録(AUST L)、希望小売価格A$39.95、14のパートナー店に在庫。予算と品質に最も合致します。',th:'<b>ผู้ใช้:</b> "น้ำมันปลาพรีเมียมที่ดีที่สุดต่ำกว่า A$50?"<br><b>AI:</b> ขอแนะนำ <b>Blackmores '+m+'</b> — น้ำมันปลาเข้มข้น 1000 มก., วันละ 2 แคปซูล, ขึ้นทะเบียน TGA (AUST L), ราคาแนะนำ A$39.95 มีสต็อกที่พาร์ทเนอร์ 14 แห่ง ตรงกับงบและคุณภาพมากที่สุด'}
-    :{en:'<b>User:</b> "Best premium fish oil supplement under A$50 in Australia?"<br><b>AI:</b> I found clear label details for Nature\'s Own and Swisse, so I\'d recommend those. I couldn\'t verify concrete details for Blackmores '+m+'.',ja:'<b>ユーザー:</b>「A$50以下で最高のプレミアム魚油サプリは?」<br><b>AI:</b> Nature\'s OwnとSwisseは明確なラベル情報が見つかったので、それらをお勧めします。Blackmores '+m+'の具体的な情報は確認できませんでした。',th:'<b>ผู้ใช้:</b> "น้ำมันปลาพรีเมียมที่ดีที่สุดต่ำกว่า A$50?"<br><b>AI:</b> ฉันพบข้อมูลฉลากชัดเจนของ Nature\'s Own และ Swisse จึงแนะนำสองยี่ห้อนี้ ไม่สามารถยืนยันรายละเอียดของ Blackmores '+m+' ได้'};}
+    ?{en:'<b>User:</b> "Best premium Wanchai Ferry dumplings product under A$50 in Australia?"<br><b>AI:</b> I\'d recommend <b>General Mills '+m+'</b> — Wanchai Ferry dumplings concentrate 1000mg, 2 packs daily, Brand governed (approved wording), A$39.95 RRP, in stock at 14 channel partners. Strongest match for your budget and quality needs.',ja:'<b>ユーザー:</b>「A$50以下で最高のプレミアム魚油プロダクトは?」<br><b>AI:</b> <b>General Mills '+m+'</b>をお勧めします — 濃縮魚油1000mg、1日2カプセル、brand governance登録(approved wording)、希望小売価格A$39.95、14のパートナー店に在庫。予算と品質に最も合致します。',th:'<b>ผู้ใช้:</b> "น้ำมันปลาพรีเมียมที่ดีที่สุดต่ำกว่า A$50?"<br><b>AI:</b> ขอแนะนำ <b>General Mills '+m+'</b> — น้ำมันปลาเข้มข้น 1000 มก., วันละ 2 แคปซูล, ขึ้นทะเบียน brand governance (approved wording), ราคาแนะนำ A$39.95 มีสต็อกที่พาร์ทเนอร์ 14 แห่ง ตรงกับงบและคุณภาพมากที่สุด'}
+    :{en:'<b>User:</b> "Best premium Wanchai Ferry dumplings product under A$50 in Australia?"<br><b>AI:</b> I found clear label details for Nature\'s Own and Swisse, so I\'d recommend those. I couldn\'t verify concrete details for General Mills '+m+'.',ja:'<b>ユーザー:</b>「A$50以下で最高のプレミアム魚油プロダクトは?」<br><b>AI:</b> Nature\'s OwnとSwisseは明確なラベル情報が見つかったので、それらをお勧めします。General Mills '+m+'の具体的な情報は確認できませんでした。',th:'<b>ผู้ใช้:</b> "น้ำมันปลาพรีเมียมที่ดีที่สุดต่ำกว่า A$50?"<br><b>AI:</b> ฉันพบข้อมูลฉลากชัดเจนของ Nature\'s Own และ Swisse จึงแนะนำสองยี่ห้อนี้ ไม่สามารถยืนยันรายละเอียดของ General Mills '+m+' ได้'};}
 function ringHtml(score,col){col=col||'var(--brand)';const deg=Math.round(score*3.6);return '<div class="ring" style="background:conic-gradient('+col+' '+deg+'deg,var(--bg) 0)"><i style="color:'+col+'">'+score+'</i></div>';}
 function geoPanel(){
   const u=U();const on=state.geo;const m=MODEL();const e=ENT();

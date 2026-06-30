@@ -58,11 +58,13 @@
   .langs button{border:0;background:0;font:inherit;font-size:12px;font-weight:700;color:#9fb4c8;min-width:30px;padding:5px 8px;border-radius:6px;cursor:pointer;transition:.15s}
   .langs button.on{background:#fff;color:var(--brand-d)}
 </style>
+<link rel="stylesheet" href="gm-demo-theme.css">
+<script defer src="gm-demo-brand.js"></script>
 </head>
 <body>
 
 <div class="topbar">
-  <div class="brand" id="brandName">Blackmores</div>
+  <div class="brand" id="brandName">General Mills</div>
   <div class="sub" id="topSub">Enterprise Foundation</div>
   <div class="sp"></div>
   <div class="langs" id="langs"></div>
@@ -209,7 +211,7 @@ function renderLangs(){
 }
 renderLangs();applyLang();
 
-(function(){var _s="";setInterval(function(){try{if(window.parent&&window.parent!==window){var c="blackmores|"+state.lang;if(c!==_s){_s=c;window.parent.postMessage({t:"es",brand:"blackmores",lang:state.lang},"*");}}}catch(e){}},400);})();
+(function(){var _s="";setInterval(function(){try{if(window.parent&&window.parent!==window){var c="generalmills|"+state.lang;if(c!==_s){_s=c;window.parent.postMessage({t:"es",brand:"generalmills",lang:state.lang},"*");}}}catch(e){}},400);})();
 </script>
 
 <script>/*__studioEmbedControls*/(function(){try{if(window.self!==window.top||new URLSearchParams(location.search).get("embed")==="1"){var s=document.createElement("style");s.textContent=".langs,#langs,.langsw,#langsw,.language-switcher,[data-studio-lang]{display:none!important}";(document.head||document.documentElement).appendChild(s);}}catch(e){}})();</script>

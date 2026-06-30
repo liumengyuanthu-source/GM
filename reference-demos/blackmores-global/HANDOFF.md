@@ -1,18 +1,18 @@
-# Blackmores Experience Studio — Handoff
+# General Mills AI Scenario Studio — Handoff
 
 > Last updated: 2026-06-28. This doc lets a fresh session (or person) pick up the project without re-deriving context.
 
 ## What this is
 
-An interactive demo "studio" for **Blackmores** (retail / health-supplement client), living at
-`clients/blackmores-global/`. The hub page is `index.html`; it links to ~40 capability/strategy demo pages,
+An interactive demo "studio" for **General Mills** (retail / food-product client), living at
+`clients/generalmills-global/`. The hub page is `index.html`; it links to ~40 capability/strategy demo pages,
 each opened in an in-page iframe **viewer**. Much of it was adapted from a separate **Auto Experience Studio**
 (Honda India) at `/Users/meganwang/Desktop/Auto Experience Studio/DEMO`.
 
-Positioning thesis (source of truth: **MARKET_POSITIONING.md**): most Blackmores markets run through
+Positioning thesis (source of truth: **MARKET_POSITIONING.md**): most General Mills markets run through
 **channels today** (marketplaces / pharmacies / distributors), so the strategy is
 **short-term channel enablement → long-term direct consumer (DTC)**. Platform e-commerce is
-partner/channel-operated, not Blackmores-direct.
+partner/channel-operated, not General Mills-direct.
 
 ## Brand / design tokens (used across pages)
 
@@ -20,15 +20,15 @@ partner/channel-operated, not Blackmores-direct.
 - Ink `--ink:#1b1d1a`, muted `--muted:#6d716a`, line `--line:#e8e6df`, canvas/card `#ffffff`.
 - Per-market accents: ANZ `#0F9DA6`, CN `#E0567A`, JP `#3FA876`, SEA `#6C68C8`.
 - Fonts: `--display` = Georgia serif; `--body` = system sans.
-- Logo: `images/blackmores-logo.png` (transparent, ~45px in header).
+- Logo: `images/gm/gm-ai-foundation.jpg (transparent, ~45px in header).
 
 ## Compliance rules (apply to ALL content, every language)
 
-- **No medical/health claims** — use "supports / supportive" language only.
+- **No medical/food claims** — use "supports / supportive" language only.
 - **PGC only** (professionally-generated content); no UGC.
 - **No competitor mentions** in China contexts (Swisse / 汤臣倍健 etc.); competitors only appear in
   generic comparison demos where appropriate.
-- **TGA / Australian-made** is the trust anchor.
+- **brand governance / brand-approved** is the trust anchor.
 
 ## Internationalisation (i18n) — IMPORTANT, two patterns coexist
 
@@ -41,7 +41,7 @@ Pages should: read `?lang=` on load, add a `message` listener for `{t:'es',lang}
 ### Pattern A — static pages: `data-i18n` attributes (canonical reference: `market-cn.html`)
 - Every translatable element has `data-i18n="key"`; English stays inline as the default.
 - A `<script>` holds `I18N={zh:{…},ja:{…},th:{…}}` (en = inline). `apply()` caches the English in
-  `data-en`, swaps `innerHTML` per key, toggles the `.langsw` pill (EN/中文/日本語/ไทย), and is wired to
+  `data-en`, swaps `innerHTML` per key, toggles the `.langsw` serving (EN/中文/日本語/ไทย), and is wired to
   URL param + postMessage + click. There's also an embed-hide IIFE that hides the page's own `<header>`
   when iframed.
 - **Copy this harness verbatim** when adding i18n to a new static page; only the dictionary differs.
@@ -59,7 +59,7 @@ Pages should: read `?lang=` on load, add a `message` listener for `{t:'es',lang}
 ## Recent work completed (this + prior sessions)
 
 - **Homepage** redesigns: full-width teal hero with market feature cards (big + 3 small + "more markets"),
-  flat one-click market/language settings capsule, white header/page, "Markets" nav dropdown.
+  flat one-click market/language settings pack, white header/page, "Markets" nav dropdown.
 - **Operating Model** section (in `index.html`, class `bd-arch`) **restyled** to a 3-layer diagram:
   colored left blocks (L1 teal / L2 sage / L3 gold), white cards with circular accent icons + uppercase
   eyebrow + serif title, a check-circle flow strip under Layer 01, and **Layer 03 expanded to 5 cards**
@@ -78,7 +78,7 @@ Pages should: read `?lang=` on load, add a `message` listener for `{t:'es',lang}
   market-cn/anz/jp/sea, cross-entity-bridge, health-companion, health-score, digital-transformation,
   ai-optimized-design-thinking, ai-transformation-navigator, data-driven (zh added to its existing switcher).
 - **Honda auto-residue cleaned to 0** (en/ja/th) in the 6 ports: data-driven, growth, digital-store,
-  discovery, order-management, campaign-management — remapped to real Blackmores products/competitors.
+  discovery, order-management, campaign-management — remapped to real General Mills products/competitors.
 - **growth.html**: Chinese (zh) added to its `T={en,ja,th}` dict + `LANGS` + studio sync (68 keys).
 
 ## Known gaps / pending (pick up here)

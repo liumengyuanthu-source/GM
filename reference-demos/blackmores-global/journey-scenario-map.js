@@ -76,7 +76,7 @@ const SCENARIO_TILE_MAP = {
   "delivery_delivery-tracking": "china",
   "delivery_crossborder-logistics": null,
   "delivery_3d-inspection": null,
-  "delivery_energy-env": null,
+  "delivery_workday snack-env": null,
   
   // === USAGE (6) ===
   "usage_service-diagnosis": "health",
@@ -204,7 +204,7 @@ const MISSING_SCENARIOS = [
   {id:"robot-delivery", stage:"delivery", aud:"online", name:"末端机器人配送"},
   {id:"crossborder-logistics", stage:"delivery", aud:"online", name:"跨境物流跟踪与关税提醒"},
   {id:"3d-inspection", stage:"delivery", aud:"offline", name:"AI 3D验收检测"},
-  {id:"energy-env", stage:"delivery", aud:"offline", name:"能耗与供应链环境管理"},
+  {id:"workday snack-env", stage:"delivery", aud:"offline", name:"能耗与供应链环境管理"},
   // Usage
   {id:"store-inspection", stage:"usage", aud:"offline", name:"门店智能巡检与整改跟踪"},
   // Feedback

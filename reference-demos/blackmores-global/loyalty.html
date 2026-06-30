@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Loyalty · Blackmores · Experience Studio</title>
+<title>Loyalty · General Mills · Experience Studio</title>
 <style>
   :root{
     --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
@@ -101,10 +101,12 @@
   .fab{position:fixed;right:20px;bottom:20px;width:52px;height:52px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:21px;box-shadow:0 10px 26px rgba(0,0,0,.2);cursor:pointer;z-index:40}
   @media(max-width:640px){.kpi{grid-template-columns:1fr}.ladder{flex-wrap:wrap}.step{min-width:70px}}
 </style>
+<link rel="stylesheet" href="gm-demo-theme.css">
+<script defer src="gm-demo-brand.js"></script>
 </head>
 <body>
 <header><div class="nav">
-  <div class="brand" id="brand">BLACKMORES</div>
+  <div class="brand" id="brand">GENERAL MILLS</div>
   <div class="sub" id="sub">Loyalty</div><div class="sp"></div>
   <div class="seg" id="seg"><button data-v="member" class="on" id="segM">Member</button><button data-v="brand" id="segB">Brand</button></div>
   <div class="langs" id="langs"></div>
@@ -116,7 +118,7 @@
 <div class="fab" id="fab" title="Switch brand">🎨</div>
 
 <script>
-const BRANDS={blackmores:{logo:"BLACKMORES",sup:"®",name:"Blackmores",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+const BRANDS={generalmills:{logo:"GENERAL MILLS",sup:"®",name:"General Mills",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
   lumiere:{logo:"LUMIÈRE",sup:"",name:"Lumière",c:["#a8456b","#7d2f4e","#f6e7ee","#c98a8a"]},
   harvest:{logo:"HARVEST & CO",sup:"",name:"Harvest & Co",c:["#b5611f","#8a4715","#f6ebe0","#3d7a4f"]}};
 const TIERS=[
@@ -126,55 +128,55 @@ const TIERS=[
   {k:"plat",at:2500,e:"💎",n:{en:"Black Gold",zh:"黑金",ja:"ブラックゴールド",th:"แบล็กโกลด์"}}];
 const BENES={
   silver:[{e:"🚚",t:{en:"Free delivery",zh:"免配送费",ja:"配送料無料",th:"ส่งฟรี"}}],
-  gold:[{e:"🎁",t:{en:"Birthday wellness gift box",zh:"生日健康礼盒",ja:"誕生日にウェルネス ギフトボックス",th:"กล่องของขวัญสุขภาพวันเกิด"}},
+  gold:[{e:"🎁",t:{en:"Birthday everyday enjoyment gift box",zh:"生日健康礼盒",ja:"誕生日にウェルネス ギフトボックス",th:"กล่องของขวัญสุขภาพวันเกิด"}},
         {e:"⭐",t:{en:"2× reward points",zh:"积分2倍",ja:"ポイント2倍",th:"พอยต์ 2 เท่า"}}],
   plat:[{e:"💬",t:{en:"Priority health support",zh:"优先健康客服",ja:"優先ヘルスサポート",th:"ซัพพอร์ตสุขภาพด่วน"}},
         {e:"🎟️",t:{en:"New-product early access",zh:"新品尝鲜",ja:"新商品の先行アクセス",th:"เข้าถึงสินค้าใหม่ก่อน"}},
-        {e:"🩺",t:{en:"Naturopath consultations",zh:"自然疗法师咨询",ja:"自然療法士相談",th:"ปรึกษานักธรรมชาติบำบัด"}}]};
-// Redeemable rewards catalog — spans the full Blackmores supplements portfolio
+        {e:"🩺",t:{en:"Naturopath consultations",zh:"食品创新师咨询",ja:"自然療法士相談",th:"ปรึกษานักธรรมชาติบำบัด"}}]};
+// Redeemable rewards catalog — spans the full General Mills products portfolio
 const REWARDS=[
-  {e:"🐟",cost:300,t:{en:"Odourless Fish Oil 200s",zh:"无腥味深海鱼油 200 粒",ja:"無臭フィッシュオイル 200粒",th:"น้ำมันปลาไร้กลิ่น 200 เม็ด"}},
-  {e:"🦴",cost:350,t:{en:"Glucosamine 1500 swap",zh:"维骨力关节灵引换",ja:"グルコサミン1500 引換",th:"แลกกลูโคซามีน 1500"}},
-  {e:"🦠",cost:600,t:{en:"Probiotics subscription pts",zh:"益生菌定期购积分",ja:"プロバイオティクス 定期便ポイント",th:"แต้มสมัครสมาชิกโปรไบโอติก"}},
-  {e:"💊",cost:280,t:{en:"Multivitamin daily pack",zh:"复合维生素每日装",ja:"マルチビタミン デイリーパック",th:"แพ็ครายวันมัลติวิตามิน"}},
-  {e:"🍊",cost:200,t:{en:"Vitamin C 1000 trial coupon",zh:"维生素C 1000 试用券",ja:"ビタミンC1000 お試しクーポン",th:"คูปองทดลองวิตามินซี 1000"}},
-  {e:"🤰",cost:450,t:{en:"Pregnancy Gold bulk-buy bonus",zh:"孕妇黄金营养素囤货奖励",ja:"プレグナンシー ゴールド まとめ買いボーナス",th:"โบนัสซื้อยกแพ็คตั้งครรภ์โกลด์"}},
-  {e:"👁️",cost:250,t:{en:"Lutein Vision voucher",zh:"叶黄素护眼兑换券",ja:"ルテイン アイケア引換券",th:"บัตรแลกลูทีนบำรุงสายตา"}}];
-// Recent purchase history — multi-goal supplement basket
+  {e:"🐟",cost:300,t:{en:"Wanchai Ferry Dumpling Pack 200s",zh:"湾仔码头家庭装水饺 200 份",ja:"無臭フィッシュオイル 200份",th:"น้ำมันปลาไร้กลิ่น 200 เม็ด"}},
+  {e:"🦴",cost:350,t:{en:"Wanchai Ferry Wonton Pack swap",zh:"湾仔码头馄饨装引换",ja:"グルコサミン1500 引換",th:"แลกกลูโคซามีน 1500"}},
+  {e:"🦠",cost:600,t:{en:"Wanchai Ferry Quick Meal subscription pts",zh:"湾仔码头快手餐定期购积分",ja:"プロバイオティクス 定期便ポイント",th:"แต้มสมัครสมาชิกโปรไบโอติก"}},
+  {e:"💊",cost:280,t:{en:"Multiproduct daily pack",zh:"通用磨坊组合包每日装",ja:"マルチプロダクト デイリーパック",th:"แพ็ครายวันมัลติผลิตภัณฑ์"}},
+  {e:"🍊",cost:200,t:{en:"Häagen-Dazs Mini Cup 1000 trial coupon",zh:"哈根达斯迷你杯 1000 试用券",ja:"プロダクトC1000 お試しクーポン",th:"คูปองทดลองผลิตภัณฑ์ซี 1000"}},
+  {e:"🤰",cost:450,t:{en:"Celebration Gold bulk-buy bonus",zh:"哈根达斯庆祝蛋糕囤货奖励",ja:"プレグナンシー ゴールド まとめ買いボーナス",th:"โบนัสซื้อยกแพ็คตั้งครรภ์โกลด์"}},
+  {e:"👁️",cost:250,t:{en:"Häagen-Dazs Gift Selection voucher",zh:"哈根达斯礼赠精选护眼兑换券",ja:"ルテイン アイケア引換券",th:"บัตรแลกลูทีนบำรุงสายตา"}}];
+// Recent purchase history — multi-goal product basket
 const HISTORY=[
-  {e:"🐟",pts:36,t:{en:"Odourless Fish Oil 200s",zh:"无腥味深海鱼油 200 粒",ja:"無臭フィッシュオイル 200粒",th:"น้ำมันปลาไร้กลิ่น 200 เม็ด"},d:{en:"Jun 14",zh:"6月14日",ja:"6月14日",th:"14 มิ.ย."}},
-  {e:"🦴",pts:48,t:{en:"Glucosamine 1500 ×2",zh:"维骨力关节灵 ×2",ja:"グルコサミン1500 ×2",th:"กลูโคซามีน 1500 ×2"},d:{en:"Jun 9",zh:"6月9日",ja:"6月9日",th:"9 มิ.ย."}},
-  {e:"🦠",pts:60,t:{en:"Probiotics Daily Health set",zh:"益生菌每日健康套装",ja:"プロバイオティクス デイリー セット",th:"ชุดโปรไบโอติกเดลี่เฮลธ์"},d:{en:"Jun 3",zh:"6月3日",ja:"6月3日",th:"3 มิ.ย."}},
-  {e:"🍊",pts:24,t:{en:"Vitamin C 1000 ×1",zh:"维生素C 1000 ×1",ja:"ビタミンC1000 ×1",th:"วิตามินซี 1000 ×1"},d:{en:"May 28",zh:"5月28日",ja:"5月28日",th:"28 พ.ค."}},
-  {e:"💊",pts:30,t:{en:"Multivitamin family pack",zh:"复合维生素家庭装",ja:"マルチビタミン ファミリーパック",th:"มัลติวิตามินแพ็คครอบครัว"},d:{en:"May 22",zh:"5月22日",ja:"5月22日",th:"22 พ.ค."}}];
+  {e:"🐟",pts:36,t:{en:"Wanchai Ferry Dumpling Pack 200s",zh:"湾仔码头家庭装水饺 200 份",ja:"無臭フィッシュオイル 200份",th:"น้ำมันปลาไร้กลิ่น 200 เม็ด"},d:{en:"Jun 14",zh:"6月14日",ja:"6月14日",th:"14 มิ.ย."}},
+  {e:"🦴",pts:48,t:{en:"Wanchai Ferry Wonton Pack ×2",zh:"湾仔码头馄饨装 ×2",ja:"グルコサミン1500 ×2",th:"กลูโคซามีน 1500 ×2"},d:{en:"Jun 9",zh:"6月9日",ja:"6月9日",th:"9 มิ.ย."}},
+  {e:"🦠",pts:60,t:{en:"Wanchai Ferry Quick Meal set",zh:"湾仔码头快手餐套装",ja:"プロバイオティクス デイリー セット",th:"ชุดโปรไบโอติกเดลี่เฮลธ์"},d:{en:"Jun 3",zh:"6月3日",ja:"6月3日",th:"3 มิ.ย."}},
+  {e:"🍊",pts:24,t:{en:"Häagen-Dazs Mini Cup 1000 ×1",zh:"哈根达斯迷你杯 1000 ×1",ja:"プロダクトC1000 ×1",th:"ผลิตภัณฑ์ซี 1000 ×1"},d:{en:"May 28",zh:"5月28日",ja:"5月28日",th:"28 พ.ค."}},
+  {e:"💊",pts:30,t:{en:"Multiproduct family pack",zh:"通用磨坊组合包家庭装",ja:"マルチプロダクト ファミリーパック",th:"มัลติผลิตภัณฑ์แพ็คครอบครัว"},d:{en:"May 22",zh:"5月22日",ja:"5月22日",th:"22 พ.ค."}}];
 const UI={
-  en:{sub:"Member Rewards",across:"Your points work across WeChat, WhatsApp, LINE and Web — one Blackmores membership, every supplement.",member:"Member",brand:"Brand",who:"Member since 2023",sim:"🛍 Simulate a purchase",refer:"🎁 Refer a friend",
+  en:{sub:"Member Rewards",across:"Your points work across WeChat, WhatsApp, LINE and Web — one General Mills membership, every product.",member:"Member",brand:"Brand",who:"Member since 2023",sim:"🛍 Simulate a purchase",refer:"🎁 Refer a friend",
     to:t=>`pts to ${t}`,maxed:"Top tier reached",benefits:"Your benefits",up:t=>`You're now ${t}!`,unlocked:"unlocked",
     referT:"Refer a friend",referB:"Share your link — you both get 200 pts.",referBig:"Give 200, Get 200",copied:"Link copied",
     rewardsT:"Redeem with points",redeem:"Redeem",redeemed:"Redeemed",historyT:"Recent purchases",
     kAct:"Active members",kRep:"Repeat rate",kLtv:"Avg LTV",funnelT:"Tier funnel",crossT:"Cross-goal value",
-    crossNote:"High-value Gold/Black Gold members are surfaced for cross-goal recommendations (e.g. Immunity: Vitamin C → Probiotics, Joint: Glucosamine → Fish Oil).",pointsAdded:n=>`+${n} pts`},
-  zh:{sub:"会员中心",across:"积分通用于 微信、WhatsApp、LINE 与 网页——一个 Blackmores 会员体系，覆盖全线营养品。",member:"会员侧",brand:"品牌侧",who:"2023 年起会员",sim:"🛍 模拟一次消费",refer:"🎁 推荐好友",
+    crossNote:"High-value Gold/Black Gold members are surfaced for cross-goal recommendations (e.g. Seasonal occasion: Häagen-Dazs Mini Cup → Wanchai Ferry Quick Meal, Family meal: Wanchai Ferry Wontons → Wanchai Ferry Dumplings).",pointsAdded:n=>`+${n} pts`},
+  zh:{sub:"会员中心",across:"积分通用于 微信、WhatsApp、LINE 与 网页——一个 General Mills 会员体系，覆盖全线营养品。",member:"会员侧",brand:"品牌侧",who:"2023 年起会员",sim:"🛍 模拟一次消费",refer:"🎁 推荐好友",
     to:t=>`积分升至${t}`,maxed:"已达最高等级",benefits:"你的权益",up:t=>`升级为${t}！`,unlocked:"已解锁",
     referT:"推荐好友",referB:"分享链接——双方各得 200 积分。",referBig:"送 200，得 200",copied:"链接已复制",
     rewardsT:"用积分兑换",redeem:"兑换",redeemed:"已兑换",historyT:"近期购买",
-    kAct:"活跃会员",kRep:"复购率",kLtv:"平均 LTV",funnelT:"分层漏斗",crossT:"跨健康目标价值",
-    crossNote:"高价值金卡/黑金会员被识别出来做跨健康目标推荐（如 免疫力：维生素C → 益生菌、关节：维骨力关节灵 → 深海鱼油）。",pointsAdded:n=>`+${n} 积分`},
-  ja:{sub:"会員センター",across:"ポイントは WeChat・WhatsApp・LINE・Web で共通——ひとつの Blackmores 会員で全サプリ対応。",member:"会員側",brand:"ブランド側",who:"2023年から会員",sim:"🛍 購入をシミュレート",refer:"🎁 友達紹介",
+    kAct:"活跃会员",kRep:"复购率",kLtv:"平均 LTV",funnelT:"分层漏斗",crossT:"跨场景需求价值",
+    crossNote:"高价值金卡/黑金会员被识别出来做跨场景需求推荐（如 季节场景：哈根达斯迷你杯 → 湾仔码头快手餐、家庭餐：湾仔码头馄饨装 → 深海湾仔码头水饺）。",pointsAdded:n=>`+${n} 积分`},
+  ja:{sub:"会員センター",across:"ポイントは WeChat・WhatsApp・LINE・Web で共通——ひとつの General Mills 会員で全プロダクト対応。",member:"会員側",brand:"ブランド側",who:"2023年から会員",sim:"🛍 購入をシミュレート",refer:"🎁 友達紹介",
     to:t=>`${t}まで`,maxed:"最上位ティア",benefits:"あなたの特典",up:t=>`${t}になりました！`,unlocked:"解放",
     referT:"友達紹介",referB:"リンクを共有 — 双方200ポイント。",referBig:"200あげて200もらう",copied:"コピーしました",
     rewardsT:"ポイントで引換",redeem:"引換",redeemed:"引換済み",historyT:"最近の購入",
     kAct:"アクティブ会員",kRep:"リピート率",kLtv:"平均LTV",funnelT:"ティアファネル",crossT:"クロスゴール価値",
-    crossNote:"高価値のゴールド/ブラックゴールド会員を健康ゴール横断の提案に活用（例：免疫：ビタミンC → プロバイオティクス、関節：グルコサミン → フィッシュオイル）。",pointsAdded:n=>`+${n}pt`},
-  th:{sub:"Member Rewards",across:"แต้มใช้ได้ข้าม WeChat, WhatsApp, LINE และเว็บ — สมาชิก Blackmores หนึ่งเดียว ครบทุกอาหารเสริม",member:"ฝั่งสมาชิก",brand:"ฝั่งแบรนด์",who:"สมาชิกตั้งแต่ 2023",sim:"🛍 จำลองการซื้อ",refer:"🎁 แนะนำเพื่อน",
+    crossNote:"高価値のゴールド/ブラックゴールド会員を健康ゴール横断の提案に活用（例：季节场景：プロダクトC → プロバイオティクス、ファミリーミール：グルコサミン → フィッシュオイル）。",pointsAdded:n=>`+${n}pt`},
+  th:{sub:"Member Rewards",across:"แต้มใช้ได้ข้าม WeChat, WhatsApp, LINE และเว็บ — สมาชิก General Mills หนึ่งเดียว ครบทุกอาหารเสริม",member:"ฝั่งสมาชิก",brand:"ฝั่งแบรนด์",who:"สมาชิกตั้งแต่ 2023",sim:"🛍 จำลองการซื้อ",refer:"🎁 แนะนำเพื่อน",
     to:t=>`แต้มสู่ ${t}`,maxed:"ระดับสูงสุดแล้ว",benefits:"สิทธิประโยชน์",up:t=>`คุณคือ ${t} แล้ว!`,unlocked:"ปลดล็อก",
     referT:"แนะนำเพื่อน",referB:"แชร์ลิงก์ — ได้ทั้งคู่ 200 แต้ม",referBig:"ให้ 200 รับ 200",copied:"คัดลอกแล้ว",
     rewardsT:"แลกด้วยแต้ม",redeem:"แลก",redeemed:"แลกแล้ว",historyT:"การซื้อล่าสุด",
     kAct:"สมาชิกที่ใช้งาน",kRep:"อัตราซื้อซ้ำ",kLtv:"LTV เฉลี่ย",funnelT:"กรวยระดับ",crossT:"คุณค่าข้ามเป้าหมายสุขภาพ",
-    crossNote:"สมาชิกโกลด์/แบล็กโกลด์มูลค่าสูงถูกดึงมาแนะนำข้ามเป้าหมายสุขภาพ (เช่น ภูมิคุ้มกัน: วิตามินซี → โปรไบโอติก, ข้อต่อ: กลูโคซามีน → น้ำมันปลา)",pointsAdded:n=>`+${n} แต้ม`}};
+    crossNote:"สมาชิกโกลด์/แบล็กโกลด์มูลค่าสูงถูกดึงมาแนะนำข้ามเป้าหมายสุขภาพ (เช่น โอกาสตามฤดูกาล: ผลิตภัณฑ์ซี → โปรไบโอติก, ข้อต่อ: กลูโคซามีน → น้ำมันปลา)",pointsAdded:n=>`+${n} แต้ม`}};
 
 const CURRENCY={ANZ:{sym:'A$',rate:1},CN:{sym:'¥',rate:4.8},SEA:{sym:'฿',rate:23},JP:{sym:'¥',rate:100}};
-let state={lang:"en",view:"member",pts:980,brand:"blackmores",market:"ANZ",redeemed:[]};
+let state={lang:"en",view:"member",pts:980,brand:"generalmills",market:"ANZ",redeemed:[]};
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 const U=()=>UI[state.lang],L=o=>o[state.lang]||o.en;
 function money(aud){const c=CURRENCY[state.market]||CURRENCY.ANZ;return c.sym+Math.round(aud*c.rate).toLocaleString();}
@@ -250,10 +252,10 @@ function renderBrand(){const u=U();const fun=[["Prospect",100],["Member",68],["S
   <div class="panel funnel"><h3>${u.funnelT}</h3>${fun.map(f=>`<div class="fr"><div class="fl">${f[0]}</div>
     <div class="fb" style="width:${f[1]}%">${f[1]}%</div></div>`).join('')}</div>
   <div class="panel"><h3>${u.crossT}</h3>
-    <div class="flow"><span class="node">🍊 Vitamin C</span><span class="arr">→</span>
-      <span class="node">🦠 Probiotics</span><span class="arr">→</span>
-      <span class="node">🐟 Fish Oil</span><span class="arr">→</span>
-      <span class="node">🦴 Glucosamine</span></div>
+    <div class="flow"><span class="node">🍊 Häagen-Dazs Mini Cup</span><span class="arr">→</span>
+      <span class="node">🦠 Wanchai Ferry Quick Meal</span><span class="arr">→</span>
+      <span class="node">🐟 Wanchai Ferry Dumplings</span><span class="arr">→</span>
+      <span class="node">🦴 Wanchai Ferry Wontons</span></div>
     <p style="font-size:13px;color:var(--muted);margin-top:12px">${u.crossNote}</p>
     </div>`;
 }

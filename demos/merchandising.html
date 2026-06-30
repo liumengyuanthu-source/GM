@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Merchandising · Blackmores · Experience Studio</title>
+<title>Merchandising · General Mills · Experience Studio</title>
 <style>
   :root{
     --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
@@ -112,10 +112,12 @@
   .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(50px);background:var(--ink);color:#fff;padding:11px 17px;border-radius:11px;font-size:13.5px;font-weight:600;z-index:80;opacity:0;transition:.3s}
   .toast.show{transform:translateX(-50%);opacity:1}
 </style>
+<link rel="stylesheet" href="gm-demo-theme.css">
+<script defer src="gm-demo-brand.js"></script>
 </head>
 <body>
 <header><div class="nav">
-  <div class="brand" id="brandName">Blackmores</div>
+  <div class="brand" id="brandName">General Mills</div>
   <div class="sub" id="sub">Merchandising</div>
   <div class="sp"></div>
   <div class="langs" id="langs"></div>
@@ -160,17 +162,17 @@
 
 <script>
 const BRANDS={
-  blackmores:{name:"BLACKMORES",sup:"®",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  generalmills:{name:"GENERAL MILLS",sup:"®",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
   lumiere:{name:"Lumière",sup:"",c:["#a8456b","#7d2f4e","#f6e7ee","#c98a8a"]},
   harvest:{name:"Harvest & Co",sup:"",c:["#b5611f","#8a4715","#f6ebe0","#3d7a4f"]}};
 
 const PROD={
-  FSH:{nm:{ja:"フィッシュオイル",en:"Fish Oil",zh:"无腥味深海鱼油",th:"น้ำมันปลา"},img:"images/blackmores/fish-oil.svg",dn:1},
-  GLU:{nm:{ja:"グルコサミン",en:"Glucosamine",zh:"维骨力关节灵",th:"กลูโคซามีน"},img:"images/blackmores/glucosamine.svg",dn:1},
-  PRB:{nm:{ja:"プロバイオティクス",en:"Probiotics",zh:"益生菌每日健康",th:"โพรไบโอติก"},img:"images/blackmores/probiotics.svg",dn:1},
-  VTC:{nm:{ja:"ビタミンC",en:"Vitamin C",zh:"维生素C",th:"วิตามินซี"},img:"images/blackmores/vitamin-c.svg",dn:1},
+  FSH:{nm:{ja:"フィッシュオイル",en:"Wanchai Ferry Dumplings",zh:"湾仔码头家庭装水饺",th:"น้ำมันปลา"},img:"images/gm/wanchai-family-dinner.jpg",dn:1},
+  GLU:{nm:{ja:"グルコサミン",en:"Wanchai Ferry Wontons",zh:"湾仔码头馄饨装",th:"กลูโคซามีน"},img:"images/gm/wanchai-reunion.jpg",dn:1},
+  PRB:{nm:{ja:"プロバイオティクス",en:"Wanchai Ferry Quick Meal",zh:"湾仔码头快手餐",th:"โพรไบโอติก"},img:"images/gm/wanchai-quick-meal.jpg",dn:1},
+  VTC:{nm:{ja:"プロダクトC",en:"Häagen-Dazs Mini Cup",zh:"哈根达斯迷你杯",th:"ผลิตภัณฑ์ซี"},img:"images/gm/haagen-self-treat.jpg",dn:1},
   RIV:{nm:{ja:"他社製品（競合）",en:"Competitor",zh:"竞品",th:"คู่แข่ง"},img:"",dn:0}};
-/* 12-slot vitamins shelf: row1 (eye level) idx 0-5, row2 idx 6-11 */
+/* 12-slot products shelf: row1 (eye level) idx 0-5, row2 idx 6-11 */
 const STD=['FSH','FSH','GLU','PRB','PRB','VTC','FSH','GLU','PRB','VTC','VTC','GLU'];
 /* per-store initial actual states (from store audit) */
 const STORE_ACT={
@@ -178,9 +180,9 @@ const STORE_ACT={
   1:['FSH','FSH','GLU','PRB','PRB','VTC','FSH','GLU','','VTC','VTC','GLU'],
   2:['FSH','','GLU','RIV','PRB','VTC','FSH','','PRB','VTC','RIV','GLU']};
 const STORES=[
- {nm:{ja:"当店 · ケミストウェアハウス CBD店",en:"This store · Chemist Warehouse CBD",zh:"本店 · Chemist Warehouse CBD店",th:"ร้านนี้ · Chemist Warehouse สาขา CBD"},me:1},
+ {nm:{ja:"当店 · ケミストウェアハウス CBD店",en:"This store · retail store Warehouse CBD",zh:"本店 · retail store Warehouse CBD店",th:"ร้านนี้ · retail store Warehouse สาขา CBD"},me:1},
  {nm:{ja:"プライスライン ボンダイ店",en:"Priceline Bondi",zh:"Priceline 邦迪店",th:"Priceline สาขาบอนได"},me:0},
- {nm:{ja:"健康越境ストア 上海店",en:"Cross-border Health Store SH",zh:"跨境健康馆 上海店",th:"ร้านสุขภาพข้ามพรมแดน เซี่ยงไฮ้"},me:0}];
+ {nm:{ja:"健康越境ストア 上海店",en:"Cross-border Health Store SH",zh:"跨境食品馆 上海店",th:"ร้านสุขภาพข้ามพรมแดน เซี่ยงไฮ้"},me:0}];
 /* freshness issue (not from grid) per store: slot index of a near-expiry facing */
 const FRESH={0:2,1:5,2:7};
 
@@ -194,10 +196,10 @@ const T={
     th:"AI เปรียบเทียบผังชั้นวางมาตรฐานกับชั้นวางจริงหน้าร้าน ตรวจจับสินค้าขาดสต๊อก การรุกล้ำของคู่แข่ง หน้าสินค้าไม่ครบ และความสดใหม่ ออกคำสั่งแก้ไขทันทีและแสดงอัตราการปฏิบัติตามมาตรฐาน"},
   ctxTitle:{ja:"巡検 · 棚割遵守率",en:"Audit · planogram compliance",zh:"巡检 · 货架遵守率",th:"ตรวจสอบ · อัตราการทำตามผังชั้นวาง"},
   scoreL:{ja:"遵守率",en:"COMPLY",zh:"遵守率",th:"ทำตาม"},
-  ctxSub:{ja:"サプリ棚 · 健康食品 12フェイス · エリア巡検",en:"Vitamins shelf · supplements · 12 facings · area audit",zh:"保健品货架 · 膳食补充剂 12 排面 · 区域巡检",th:"ชั้นวางวิตามิน · ผลิตภัณฑ์เสริมอาหาร · 12 หน้าสินค้า · ตรวจสอบพื้นที่"},
+  ctxSub:{ja:"プロダクト棚 · 健康食品 12フェイス · エリア巡検",en:"Products shelf · products · 12 facings · area audit",zh:"食品产品货架 · 食品产品 12 排面 · 区域巡检",th:"ชั้นวางผลิตภัณฑ์ · ผลิตภัณฑ์เสริมอาหาร · 12 หน้าสินค้า · ตรวจสอบพื้นที่"},
   allDone:{ja:"✓ 標準棚割を達成",en:"✓ Planogram restored to standard",zh:"✓ 已达标准货架",th:"✓ จัดชั้นวางได้ตามมาตรฐานแล้ว"},
   vStd:{ja:"標準棚割",en:"Standard",zh:"标准货架",th:"ผังมาตรฐาน"},vAct:{ja:"店頭の実態",en:"Actual shelf",zh:"店头实态",th:"ชั้นวางจริง"},
-  shelfTitle:{ja:"サプリ棚 棚割",en:"Vitamins-shelf planogram",zh:"保健品货架图",th:"ผังชั้นวางวิตามิน"},
+  shelfTitle:{ja:"プロダクト棚 棚割",en:"Products-shelf planogram",zh:"食品产品货架图",th:"ผังชั้นวางผลิตภัณฑ์"},
   caseTop:{ja:"上段（ゴールデンゾーン）",en:"Top (eye level)",zh:"上层（黄金位）",th:"ชั้นบน (ระดับสายตา)"},
   caseEye:{ja:"6フェイス × 2段",en:"6 facings × 2 shelves",zh:"6 排面 × 2 层",th:"6 หน้าสินค้า × 2 ชั้น"},
   lgEmpty:{ja:"欠品",en:"Out of stock",zh:"欠品",th:"สินค้าขาดสต๊อก"},lgRival:{ja:"競合の侵入",en:"Competitor",zh:"竞品侵入",th:"คู่แข่งรุกล้ำ"},lgExp:{ja:"鮮度（期限近い）",en:"Near expiry",zh:"临期",th:"ใกล้หมดอายุ"},
@@ -209,7 +211,7 @@ const T={
   tEmpty:{ja:"欠品 — 補充",en:"Out of stock — replenish",zh:"欠品 — 补货",th:"สินค้าขาดสต๊อก — เติมสินค้า"},
   tEmptyL:p=>({ja:`${p} が欠品。バックヤード在庫を確認し、その場で補充。`,en:`${p} is out of stock. Check the backroom and replenish on the spot.`,zh:`${p} 缺货。检查后仓库存并当场补货。`,th:`${p} ขาดสต๊อก ตรวจสอบสินค้าในคลังหลังร้านและเติมทันที`}),
   tRival:{ja:"競合の侵入 — 撤去",en:"Competitor invasion — remove",zh:"竞品侵入 — 撤除",th:"คู่แข่งรุกล้ำ — นำออก"},
-  tRivalL:(r,p)=>({ja:`${r} が Blackmores の定番棚に陳列。撤去し ${p} を戻す。エリアへ報告。`,en:`${r} is sitting in the Blackmores planogram bay. Remove it and restore ${p}. Report to the area lead.`,zh:`${r} 占了 Blackmores 的定番位。撤除并放回 ${p}，并上报区域。`,th:`${r} วางอยู่ในชั้นประจำของ Blackmores นำออกและจัด ${p} กลับเข้าที่ แล้วรายงานหัวหน้าพื้นที่`}),
+  tRivalL:(r,p)=>({ja:`${r} が General Mills の定番棚に陳列。撤去し ${p} を戻す。エリアへ報告。`,en:`${r} is sitting in the General Mills planogram bay. Remove it and restore ${p}. Report to the area lead.`,zh:`${r} 占了 General Mills 的定番位。撤除并放回 ${p}，并上报区域。`,th:`${r} วางอยู่ในชั้นประจำของ General Mills นำออกและจัด ${p} กลับเข้าที่ แล้วรายงานหัวหน้าพื้นที่`}),
   tExp:{ja:"鮮度 — 前出し・先入れ先出し",en:"Expiry — front-face & rotate",zh:"临期 — 前置·先进先出",th:"ใกล้หมดอายุ — จัดหน้าและหมุนเวียนสต๊อก"},
   tExpL:p=>({ja:`${p} の賞味期限が近い。先入れ先出し（FIFO）で前出しし、優先的に販売する。`,en:`${p} is near its best-before date. Rotate stock front (FIFO) and prioritize it for sale.`,zh:`${p} 临近保质期。按先进先出（FIFO）前置，优先售出。`,th:`${p} ใกล้วันหมดอายุ หมุนเวียนสต๊อกออกหน้า (FIFO) และจัดจำหน่ายเป็นลำดับแรก`}),
   locTop:{ja:"上段",en:"Top",zh:"上层",th:"ชั้นบน"},locBot:{ja:"下段",en:"Bottom",zh:"下层",th:"ชั้นล่าง"},
@@ -218,7 +220,7 @@ const T={
   src:{ja:"イラスト用デモ · 棚割は標準モデルケース",en:"Illustrative demo · planogram is a model case",zh:"演示示意 · 货架为标准示例",th:"เดโมเพื่อการสาธิต · ผังชั้นวางเป็นกรณีตัวอย่างมาตรฐาน"},
   toastFix:{ja:"✓ 是正しました",en:"✓ Marked fixed",zh:"✓ 已整改",th:"✓ ทำเครื่องหมายแก้ไขแล้ว"}};
 
-let state={lang:"en",brand:"blackmores",store:0,view:"actual",act:STORE_ACT[0].slice(),freshFixed:false};
+let state={lang:"en",brand:"generalmills",store:0,view:"actual",act:STORE_ACT[0].slice(),freshFixed:false};
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 const L=o=>(typeof o==='function')?o:(o&&typeof o==='object'?(o[state.lang]||o.ja||o.en):o);
 const PN=c=>L(PROD[c].nm);

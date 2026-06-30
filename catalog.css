@@ -97,7 +97,7 @@
 .cc-ntt h4{font-family:'Fraunces',serif;font-weight:400;font-size:18px;line-height:1.28;margin-bottom:10px;color:var(--ink)}
 .nc-sum{font-size:13px;line-height:1.6;color:var(--ink-soft);font-weight:300;margin-bottom:14px;
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.nc-caps{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.nc-packs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
 .nc-cap{font-size:11px;color:var(--ink);background:rgba(122,47,224,.06);
   border:1px solid rgba(122,47,224,.16);border-radius:100px;padding:4px 10px;font-weight:400}
 .nc-foot{display:flex;gap:8px;margin-top:auto;align-items:center}
@@ -166,8 +166,8 @@
 .cd-bl{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;padding-top:5px}
 .cd-bc{display:flex;flex-wrap:wrap;gap:7px}
 .cd-bc-block{display:block;width:100%}
-.cd-pill{font-size:12px;background:rgba(150,130,200,.1);border:1px solid var(--line);border-radius:100px;padding:5px 12px;color:var(--ink);font-weight:400}
-.cd-pill.soft{background:rgba(255,255,255,.6);color:var(--ink-soft)}
+.cd-serving{font-size:12px;background:rgba(150,130,200,.1);border:1px solid var(--line);border-radius:100px;padding:5px 12px;color:var(--ink);font-weight:400}
+.cd-serving.soft{background:rgba(255,255,255,.6);color:var(--ink-soft)}
 .cd-stg{font-size:12px;font-weight:500;background:rgba(50,40,60,.05);border-radius:8px;padding:5px 11px;color:var(--ink-soft)}
 .cd-result{margin:24px 0;padding:20px 22px;border-radius:16px;background:color-mix(in srgb,var(--bc) 7%,transparent);border:1px solid color-mix(in srgb,var(--bc) 24%,transparent)}
 .cd-rl{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin-bottom:9px}
@@ -260,7 +260,7 @@
 .sb-ntt-more:hover{border-color:var(--ink-soft)}
 @media(max-width:880px){.sb-casegrid,.sb-nttgrid{grid-template-columns:1fr}}
 
-/* ===== Supplemented Blackmores v2 catalog layer ===== */
+/* ===== Added General Mills v2 catalog layer ===== */
 .cat-subhead{display:flex;align-items:center;gap:10px;margin:26px 0 14px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
 .cat-subhead:first-of-type{margin-top:4px;padding-top:0;border-top:none}
 .cat-subhead b{font-size:11px;letter-spacing:0;background:rgba(50,40,60,.07);border-radius:999px;padding:2px 8px;color:var(--ink-soft)}

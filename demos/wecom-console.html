@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WeCom Console · Blackmores · Experience Studio</title>
+<title>WeCom Console · General Mills · Experience Studio</title>
 <style>
   :root{
     --brand:#009BA4; --brand-d:#007A82; --soft:#e0f2f3; --accent:#E91E63;
@@ -194,13 +194,15 @@
   .toast.show{transform:translateX(-50%);opacity:1}
   .fab{position:fixed;right:18px;bottom:18px;width:50px;height:50px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:20px;box-shadow:0 8px 22px rgba(0,0,0,.2);z-index:40;border:0}
 </style>
+<link rel="stylesheet" href="gm-demo-theme.css">
+<script defer src="gm-demo-brand.js"></script>
 </head>
 <body>
 <header><div class="nav">
   <div class="wm">💬</div>
-  <div class="brand" id="brand">Blackmores<sup>®</sup></div>
+  <div class="brand" id="brand">General Mills<sup>®</sup></div>
   <div class="sub" id="sub">WeCom Console</div><div class="sp"></div>
-  <div class="who"><span class="av">LW</span><span id="whoTxt">Staff · Chemist Warehouse Sydney</span></div>
+  <div class="who"><span class="av">LW</span><span id="whoTxt">Staff · retail store Warehouse Sydney</span></div>
   <div class="langs" id="langs"></div>
 </div></header>
 
@@ -274,28 +276,28 @@
 
 <script>
 const BRANDS={
-  blackmores:{logo:"Blackmores",sup:"®",name:"Blackmores",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
+  generalmills:{logo:"General Mills",sup:"®",name:"General Mills",c:["#009BA4","#007A82","#e0f2f3","#E91E63"]},
   bioceuticals:{logo:"BioCeuticals",sup:"",name:"BioCeuticals",c:["#1b3a5c","#10243a","#e7edf3","#c9a24a"]},
-  kids:{logo:"Blackmores Kids",sup:"",name:"Blackmores Kids",c:["#d63a2f","#a82a22","#fbe7e5","#1f9d57"]}};
+  family:{logo:"General Mills Family",sup:"",name:"General Mills Family",c:["#d63a2f","#a82a22","#fbe7e5","#1f9d57"]}};
 const L=o=>o[state.lang]||o.en||o.zh;
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
-const IMG="images/blackmores/line/";
+const IMG="images/gm/gm-ai-foundation.jpg";
 
 const T={
  sub:{en:"WeCom Console",zh:"企业微信控制台",ja:"WeCom コンソール",th:"คอนโซล WeCom"},
- who:{en:"Staff · Chemist Warehouse Sydney",zh:"店员 · Chemist Warehouse 悉尼",ja:"スタッフ · Chemist Warehouse シドニー",th:"พนักงาน · Chemist Warehouse Sydney"},
+ who:{en:"Staff · retail store Warehouse Sydney",zh:"店员 · retail store Warehouse 悉尼",ja:"スタッフ · retail store Warehouse シドニー",th:"พนักงาน · retail store Warehouse Sydney"},
  explain:{
-  en:"<span class='ww'>企业微信 / WeCom = WeChat’s enterprise edition.</span> Brand &amp; pharmacy staff use it to manage customers in their <b>private traffic (私域)</b>, push HQ-approved content, and assist orders — all wired to the consumer <b>mini-program</b>.",
-  zh:"<span class='ww'>企业微信 = 微信的企业版。</span>品牌与药房店员用它来管理<b>私域</b>客户、下发总部已审内容、辅助下单 — 全部与消费者<b>小程序</b>打通。",
-  ja:"<span class='ww'>企业微信 / WeCom = WeChat の法人版。</span>ブランド・薬局スタッフが<b>プライベートトラフィック（私域）</b>の顧客を管理し、本部承認済みコンテンツを配信、注文を支援 — すべて消費者<b>ミニプログラム</b>と連携。",
+  en:"<span class='ww'>企业微信 / WeCom = WeChat’s enterprise edition.</span> Brand &amp; retail staff use it to manage customers in their <b>private traffic (私域)</b>, push HQ-approved content, and assist orders — all wired to the consumer <b>mini-program</b>.",
+  zh:"<span class='ww'>企业微信 = 微信的企业版。</span>品牌与门店店员用它来管理<b>私域</b>客户、下发总部已审内容、辅助下单 — 全部与消费者<b>小程序</b>打通。",
+  ja:"<span class='ww'>企业微信 / WeCom = WeChat の法人版。</span>ブランド・小売店スタッフが<b>プライベートトラフィック（私域）</b>の顧客を管理し、本部承認済みコンテンツを配信、注文を支援 — すべて消費者<b>ミニプログラム</b>と連携。",
   th:"<span class='ww'>企业微信 / WeCom = WeChat เวอร์ชันองค์กร</span> พนักงานแบรนด์และร้านขายยาใช้จัดการลูกค้าใน <b>private traffic (私域)</b> ส่งคอนเทนต์ที่ HQ อนุมัติ และช่วยสั่งซื้อ — เชื่อมกับ <b>มินิโปรแกรม</b>"},
  eye:{en:"Private Traffic · Staff & Distributor Backend",zh:"私域 · 店员与经销商后台",ja:"私域 · スタッフ・ディーラー管理画面",th:"Private Traffic · แบ็กเอนด์พนักงาน"},
  title:{en:"The staff backend that pairs with the consumer mini-program — manage private traffic, push approved content, assist orders.",
    zh:"与消费者小程序配对的店员后台 — 管理私域、下发已审内容、辅助下单。",
    ja:"消費者ミニプログラムと対をなすスタッフ後台 — 私域を管理し、承認済みコンテンツを配信、注文を支援。",
    th:"แบ็กเอนด์พนักงานที่จับคู่กับมินิโปรแกรมผู้บริโภค — จัดการ private traffic ส่งคอนเทนต์ที่อนุมัติ ช่วยสั่งซื้อ"},
- lead:{en:"Customers scan an in-store or on-pack mini-program QR → they’re added to a staff member’s private traffic. From there staff see health goals, push compliance-checked content, assist orders, and HQ sees attribution from scan to first order.",
-   zh:"顾客扫描店内或包装上的小程序二维码 → 被加入店员私域。店员据此看到健康目标、下发合规内容、辅助下单，总部则看到从扫码到首单的归因。",
+ lead:{en:"Customers scan an in-store or on-pack mini-program QR → they’re added to a staff member’s private traffic. From there staff see occasion needs, push compliance-checked content, assist orders, and HQ sees attribution from scan to first order.",
+   zh:"顾客扫描店内或包装上的小程序二维码 → 被加入店员私域。店员据此看到场景需求、下发合规内容、辅助下单，总部则看到从扫码到首单的归因。",
    ja:"顧客が店頭またはパッケージのミニプログラム QR をスキャン → スタッフの私域に追加。スタッフは健康目標を把握し、コンプラ済みコンテンツを配信、注文を支援。本部はスキャンから初回注文までの帰属を確認。",
    th:"ลูกค้าสแกน QR มินิโปรแกรมในร้านหรือบนบรรจุภัณฑ์ → ถูกเพิ่มเข้า private traffic ของพนักงาน จากนั้นพนักงานเห็นเป้าหมายสุขภาพ ส่งคอนเทนต์ และช่วยสั่งซื้อ"},
  // tabs
@@ -310,7 +312,7 @@ const T={
  fActive:{en:"Active",zh:"活跃",ja:"アクティブ",th:"แอคทีฟ"},
  fRisk:{en:"At-risk",zh:"流失风险",ja:"離反リスク",th:"เสี่ยงหลุด"},
  stgNew:{en:"New",zh:"新客",ja:"新規",th:"ใหม่"},stgActive:{en:"Active",zh:"活跃",ja:"活発",th:"แอคทีฟ"},stgRisk:{en:"At-risk",zh:"风险",ja:"リスク",th:"เสี่ยง"},
- goalLab:{en:"Health goal",zh:"健康目标",ja:"健康目標",th:"เป้าหมายสุขภาพ"},
+ goalLab:{en:"Health goal",zh:"场景需求",ja:"健康目標",th:"เป้าหมายสุขภาพ"},
  lastOrder:{en:"Last order",zh:"最近下单",ja:"最終注文",th:"สั่งล่าสุด"},
  qrTitle:{en:"Acquired via mini-program QR",zh:"通过小程序二维码获取",ja:"ミニプログラム QR から獲得",th:"ได้มาจาก QR มินิโปรแกรม"},
  orderHist:{en:"Order history",zh:"订单历史",ja:"注文履歴",th:"ประวัติคำสั่งซื้อ"},
@@ -321,7 +323,7 @@ const T={
  offerSent:{en:"Restock offer sent via WeCom ✓",zh:"补货优惠已通过企业微信发送 ✓",ja:"補充オファーを WeCom で送信 ✓",th:"ส่งโปรเติมสต็อกผ่าน WeCom แล้ว ✓"},
  // content
  cAll:{en:"All",zh:"全部",ja:"すべて",th:"ทั้งหมด"},
- cImm:{en:"Immunity",zh:"免疫",ja:"免疫",th:"ภูมิคุ้มกัน"},
+ cImm:{en:"Seasonal occasion",zh:"季节场景",ja:"季节场景",th:"โอกาสตามฤดูกาล"},
  cProd:{en:"Product",zh:"产品",ja:"製品",th:"สินค้า"},
  cCamp:{en:"Campaign",zh:"活动",ja:"キャンペーン",th:"แคมเปญ"},
  cEdu:{en:"Education",zh:"科普",ja:"教育",th:"ความรู้"},
@@ -335,7 +337,7 @@ const T={
  lockedRev:{en:"Awaiting compliance approval",zh:"等待合规审核",ja:"コンプラ承認待ち",th:"รออนุมัติ"},
  // order
  catalogLab:{en:"Catalogue — AI-recommended for this customer’s goal",zh:"商品目录 — 按此客户目标 AI 推荐",ja:"カタログ — 顧客の目標に合わせ AI 推奨",th:"แคตตาล็อก — AI แนะนำตามเป้าหมาย"},
- recline:{en:"Assisting <b>Wei Lin</b> · goal: immunity support — AI recommends Vitamin C + Probiotics.",zh:"正在协助 <b>魏琳</b> · 目标：免疫支持 — AI 推荐维生素C + 益生菌。",ja:"<b>Wei Lin</b> を支援中 · 目標：免疫サポート — AI が ビタミンC + プロバイオティクス を推奨。",th:"กำลังช่วย <b>Wei Lin</b> · เป้าหมาย: เสริมภูมิ — AI แนะนำ Vitamin C + Probiotics"},
+ recline:{en:"Assisting <b>Wei Lin</b> · goal: seasonal occasion support — AI recommends Häagen-Dazs Mini Cup + Wanchai Ferry Quick Meal.",zh:"正在协助 <b>魏琳</b> · 目标：季节场景支持 — AI 推荐哈根达斯迷你杯 + 湾仔码头快手餐。",ja:"<b>Wei Lin</b> を支援中 · 目標：季节场景サポート — AI が プロダクトC + プロバイオティクス を推奨。",th:"กำลังช่วย <b>Wei Lin</b> · เป้าหมาย: เสริมภูมิ — AI แนะนำ Häagen-Dazs Mini Cup + Wanchai Ferry Quick Meal"},
  recBadge:{en:"AI pick",zh:"AI 推荐",ja:"AI 推奨",th:"AI แนะนำ"},
  add:{en:"Add",zh:"加入",ja:"追加",th:"เพิ่ม"},
  cartTitle:{en:"Cart",zh:"购物车",ja:"カート",th:"ตะกร้า"},
@@ -357,7 +359,7 @@ const T={
  mixLab:{en:"Private-traffic mix by lifecycle",zh:"私域生命周期构成",ja:"私域ライフサイクル構成",th:"สัดส่วน lifecycle"},
  fScan:{en:"QR scans",zh:"扫码",ja:"QR スキャン",th:"สแกน QR"},
  fAdd:{en:"Added to private traffic",zh:"加入私域",ja:"私域に追加",th:"เพิ่ม private traffic"},
- fProfile:{en:"Health profile completed",zh:"完成健康档案",ja:"健康プロフィール完了",th:"กรอกโปรไฟล์"},
+ fProfile:{en:"Health profile completed",zh:"完成场景偏好",ja:"健康プロフィール完了",th:"กรอกโปรไฟล์"},
  fOrder:{en:"First order placed",zh:"完成首单",ja:"初回注文完了",th:"ออเดอร์แรก"},
  // community
  broadcast:{en:"Broadcast approved content",zh:"群发已审内容",ja:"承認済を一斉配信",th:"กระจายคอนเทนต์"},
@@ -370,96 +372,96 @@ const T={
 // ---- DATA ----
 const CUSTOMERS=[
  {id:1,nm:{en:"Wei Lin",zh:"魏琳",ja:"魏琳",th:"เว่ยหลิน"},init:"WL",stage:"active",
-  goal:{en:"Immunity support",zh:"免疫支持",ja:"免疫サポート",th:"เสริมภูมิ"},
-  tags:[{en:"immunity",zh:"免疫",ja:"免疫",th:"ภูมิ"},{en:"active",zh:"上班族",ja:"会社員",th:"วัยทำงาน"}],
-  src:{en:"Scanned in-store QR · Chemist Warehouse Sydney",zh:"扫描店内二维码 · Chemist Warehouse 悉尼",ja:"店頭 QR スキャン · Chemist Warehouse シドニー",th:"สแกน QR ในร้าน"},
-  last:"vitamin-c",lastDays:25,
-  orders:[{img:"vitamin-c",nm:{en:"Vitamin C 1000",zh:"维生素C 1000",ja:"ビタミンC 1000",th:"Vitamin C 1000"},d:"25d",p:"¥189"},
-          {img:"probiotics",nm:{en:"Probiotics Daily",zh:"每日益生菌",ja:"プロバイオティクス",th:"Probiotics"},d:"58d",p:"¥258"}],
-  ai:{en:"Vitamin C runs out in <b>5 days</b> — send a restock offer with a 私域-member coupon.",zh:"维生素C 预计 <b>5 天</b>后用完 — 发送带私域会员券的补货优惠。",ja:"ビタミンC は <b>5日</b>で切れます — 私域会員クーポン付き補充オファーを送信。",th:"Vitamin C จะหมดใน <b>5 วัน</b> — ส่งโปรเติมสต็อก"}},
+  goal:{en:"Seasonal occasion support",zh:"季节场景支持",ja:"季节场景サポート",th:"เสริมภูมิ"},
+  tags:[{en:"seasonal occasion",zh:"季节场景",ja:"季节场景",th:"ภูมิ"},{en:"active",zh:"上班族",ja:"会社員",th:"วัยทำงาน"}],
+  src:{en:"Scanned in-store QR · retail store Warehouse Sydney",zh:"扫描店内二维码 · retail store Warehouse 悉尼",ja:"店頭 QR スキャン · retail store Warehouse シドニー",th:"สแกน QR ในร้าน"},
+  last:"product-c",lastDays:25,
+  orders:[{img:"product-c",nm:{en:"Häagen-Dazs Mini Cup 1000",zh:"哈根达斯迷你杯 1000",ja:"プロダクトC 1000",th:"Häagen-Dazs Mini Cup 1000"},d:"25d",p:"¥189"},
+          {img:"quick-meals",nm:{en:"Wanchai Ferry Quick Meal",zh:"每日湾仔码头快手餐",ja:"プロバイオティクス",th:"Wanchai Ferry Quick Meal"},d:"58d",p:"¥258"}],
+  ai:{en:"Häagen-Dazs Mini Cup runs out in <b>5 days</b> — send a restock offer with a 私域-member coupon.",zh:"哈根达斯迷你杯 预计 <b>5 天</b>后用完 — 发送带私域会员券的补货优惠。",ja:"プロダクトC は <b>5日</b>で切れます — 私域会員クーポン付き補充オファーを送信。",th:"Häagen-Dazs Mini Cup จะหมดใน <b>5 วัน</b> — ส่งโปรเติมสต็อก"}},
  {id:2,nm:{en:"Sophie Tan",zh:"陈苏菲",ja:"陳ソフィー",th:"โซฟี"},init:"ST",stage:"new",
-  goal:{en:"Pregnancy nutrition",zh:"孕期营养",ja:"妊娠期栄養",th:"โภชนาการตั้งครรภ์"},
-  tags:[{en:"pregnant",zh:"孕期",ja:"妊娠",th:"ตั้งครรภ์"},{en:"new",zh:"新客",ja:"新規",th:"ใหม่"}],
-  src:{en:"Scanned on-pack QR · Pregnancy Gold box",zh:"扫描包装二维码 · 孕期黄金装",ja:"パッケージ QR · 妊娠ゴールド箱",th:"สแกน QR บนกล่อง"},
-  last:"pregnancy-gold",lastDays:6,
-  orders:[{img:"pregnancy-gold",nm:{en:"Pregnancy Gold",zh:"孕期黄金",ja:"妊娠ゴールド",th:"Pregnancy Gold"},d:"6d",p:"¥328"}],
-  ai:{en:"New 私域 member — send the <b>pregnancy nutrition welcome series</b> (compliance-checked), then offer a fish-oil pairing.",zh:"新私域会员 — 推送 <b>孕期营养欢迎系列</b>（合规已审），再推荐鱼油搭配。",ja:"新規私域会員 — <b>妊娠期栄養ウェルカムシリーズ</b>（審査済）を配信し、フィッシュオイル併用を提案。",th:"สมาชิกใหม่ — ส่งซีรีส์ต้อนรับโภชนาการตั้งครรภ์"}},
+  goal:{en:"Celebration nutrition",zh:"礼赠场景营养",ja:"ギフト期栄養",th:"โภชนาการตั้งครรภ์"},
+  tags:[{en:"pregnant",zh:"礼赠场景",ja:"ギフト",th:"ตั้งครรภ์"},{en:"new",zh:"新客",ja:"新規",th:"ใหม่"}],
+  src:{en:"Scanned on-pack QR · Celebration Gold box",zh:"扫描包装二维码 · 礼赠场景黄金装",ja:"パッケージ QR · ギフトゴールド箱",th:"สแกน QR บนกล่อง"},
+  last:"celebration-gold",lastDays:6,
+  orders:[{img:"celebration-gold",nm:{en:"Celebration Gold",zh:"礼赠场景黄金",ja:"ギフトゴールド",th:"Celebration Gold"},d:"6d",p:"¥328"}],
+  ai:{en:"New 私域 member — send the <b>celebration nutrition welcome series</b> (compliance-checked), then offer a dumplingpack pairing.",zh:"新私域会员 — 推送 <b>礼赠场景营养欢迎系列</b>（合规已审），再推荐湾仔码头水饺搭配。",ja:"新規私域会員 — <b>ギフト期栄養ウェルカムシリーズ</b>（審査済）を配信し、フィッシュオイル併用を提案。",th:"สมาชิกใหม่ — ส่งซีรีส์ต้อนรับโภชนาการตั้งครรภ์"}},
  {id:3,nm:{en:"David Chen",zh:"陈大伟",ja:"陳大偉",th:"เดวิด"},init:"DC",stage:"risk",
-  goal:{en:"Joint mobility",zh:"关节灵活",ja:"関節の動き",th:"ข้อต่อ"},
-  tags:[{en:"joint",zh:"关节",ja:"関節",th:"ข้อต่อ"},{en:"senior",zh:"银发",ja:"シニア",th:"ผู้สูงวัย"}],
+  goal:{en:"Family meal convenience",zh:"家庭餐灵活",ja:"ファミリーミールの動き",th:"ข้อต่อ"},
+  tags:[{en:"family meal",zh:"家庭餐",ja:"ファミリーミール",th:"ข้อต่อ"},{en:"senior",zh:"银发",ja:"シニア",th:"ผู้สูงวัย"}],
   src:{en:"Scanned in-store QR · Priceline Melbourne",zh:"扫描店内二维码 · Priceline 墨尔本",ja:"店頭 QR · Priceline メルボルン",th:"สแกน QR · Priceline"},
-  last:"glucosamine",lastDays:96,
-  orders:[{img:"glucosamine",nm:{en:"Glucosamine",zh:"氨糖",ja:"グルコサミン",th:"Glucosamine"},d:"96d",p:"¥219"}],
-  ai:{en:"No order in <b>96 days</b> — win-back: send a joint-mobility tip + a returning-member glucosamine coupon.",zh:"已 <b>96 天</b>无下单 — 召回：发送关节科普 + 回归会员氨糖券。",ja:"<b>96日</b>注文なし — ウィンバック：関節科普 + 復帰会員クーポン。",th:"ไม่สั่ง <b>96 วัน</b> — ดึงกลับ"}},
+  last:"wontonpack",lastDays:96,
+  orders:[{img:"wontonpack",nm:{en:"Wanchai Ferry Wontons",zh:"氨糖",ja:"グルコサミン",th:"Wanchai Ferry Wontons"},d:"96d",p:"¥219"}],
+  ai:{en:"No order in <b>96 days</b> — win-back: send a family meal-mobility tip + a returning-member wontonpack coupon.",zh:"已 <b>96 天</b>无下单 — 召回：发送家庭餐科普 + 回归会员氨糖券。",ja:"<b>96日</b>注文なし — ウィンバック：ファミリーミール科普 + 復帰会員クーポン。",th:"ไม่สั่ง <b>96 วัน</b> — ดึงกลับ"}},
  {id:4,nm:{en:"Hana Sato",zh:"佐藤花",ja:"佐藤花",th:"ฮานะ"},init:"HS",stage:"active",
   goal:{en:"Sleep & calm",zh:"睡眠与放松",ja:"睡眠・リラックス",th:"การนอน"},
   tags:[{en:"sleep",zh:"睡眠",ja:"睡眠",th:"นอน"},{en:"active",zh:"活跃",ja:"活発",th:"แอคทีฟ"}],
   src:{en:"Scanned QR · cross-border counter Shanghai",zh:"扫码 · 上海跨境专柜",ja:"QR · 上海越境カウンター",th:"สแกน QR · เคาน์เตอร์เซี่ยงไฮ้"},
   last:"sleep",lastDays:18,
-  orders:[{img:"sleep",nm:{en:"Sleep Support",zh:"睡眠支持",ja:"睡眠サポート",th:"Sleep Support"},d:"18d",p:"¥176"},
-          {img:"multivitamin",nm:{en:"Multivitamin",zh:"复合维生素",ja:"マルチビタミン",th:"Multivitamin"},d:"40d",p:"¥142"}],
-  ai:{en:"Steady 私域 member — cross-sell a magnesium-rich multivitamin and invite to the <b>sleep challenge</b> group.",zh:"稳定私域会员 — 交叉推荐富镁复合维生素，并邀入<b>睡眠挑战</b>群。",ja:"安定私域会員 — マグネシウム配合マルチをクロスセルし、<b>睡眠チャレンジ</b>群へ招待。",th:"สมาชิกประจำ — ขายต่อ multivitamin"}},
+  orders:[{img:"sleep",nm:{en:"Häagen-Dazs Evening Dessert",zh:"睡眠支持",ja:"睡眠サポート",th:"Häagen-Dazs Evening Dessert"},d:"18d",p:"¥176"},
+          {img:"multiproduct",nm:{en:"Multiproduct",zh:"通用磨坊组合包",ja:"マルチプロダクト",th:"Multiproduct"},d:"40d",p:"¥142"}],
+  ai:{en:"Steady 私域 member — cross-sell a workday snack-rich multiproduct and invite to the <b>sleep challenge</b> group.",zh:"稳定私域会员 — 交叉推荐富镁通用磨坊组合包，并邀入<b>睡眠挑战</b>群。",ja:"安定私域会員 — マグネシウム配合マルチをクロスセルし、<b>睡眠チャレンジ</b>群へ招待。",th:"สมาชิกประจำ — ขายต่อ multiproduct"}},
  {id:5,nm:{en:"Olivia Wu",zh:"吴欣怡",ja:"呉欣怡",th:"โอลิเวีย"},init:"OW",stage:"new",
   goal:{en:"Eye & screen health",zh:"护眼用眼",ja:"目・スクリーン",th:"สุขภาพตา"},
   tags:[{en:"eye",zh:"护眼",ja:"目",th:"ตา"},{en:"new",zh:"新客",ja:"新規",th:"ใหม่"}],
-  src:{en:"Scanned on-pack QR · Lutein box",zh:"扫描包装二维码 · 叶黄素装",ja:"パッケージ QR · ルテイン箱",th:"สแกน QR บนกล่อง Lutein"},
-  last:"lutein",lastDays:3,
-  orders:[{img:"lutein",nm:{en:"Lutein Vision",zh:"叶黄素护眼",ja:"ルテイン",th:"Lutein"},d:"3d",p:"¥198"}],
-  ai:{en:"Just joined via on-pack QR — send a <b>screen-time eye care</b> explainer and confirm her health goal to unlock tailored offers.",zh:"刚通过包装二维码加入 — 推送<b>屏幕用眼</b>科普，确认健康目标以解锁定制优惠。",ja:"パッケージ QR から加入 — <b>スクリーンアイケア</b>解説を送り、健康目標を確認。",th:"เพิ่งเข้ามา — ส่งความรู้ดูแลตา"}},
+  src:{en:"Scanned on-pack QR · Häagen-Dazs Gift Selection box",zh:"扫描包装二维码 · 哈根达斯礼赠精选装",ja:"パッケージ QR · ルテイン箱",th:"สแกน QR บนกล่อง Häagen-Dazs Gift Selection"},
+  last:"giftselection",lastDays:3,
+  orders:[{img:"giftselection",nm:{en:"Häagen-Dazs Gift Selection",zh:"哈根达斯礼赠精选护眼",ja:"ルテイン",th:"Häagen-Dazs Gift Selection"},d:"3d",p:"¥198"}],
+  ai:{en:"Just joined via on-pack QR — send a <b>screen-time eye care</b> explainer and confirm her occasion need to unlock tailored offers.",zh:"刚通过包装二维码加入 — 推送<b>屏幕用眼</b>科普，确认场景需求以解锁定制优惠。",ja:"パッケージ QR から加入 — <b>スクリーンアイケア</b>解説を送り、健康目標を確認。",th:"เพิ่งเข้ามา — ส่งความรู้ดูแลตา"}},
  {id:6,nm:{en:"Marcus Lee",zh:"李俊",ja:"李俊",th:"มาร์คัส"},init:"ML",stage:"active",
-  goal:{en:"Heart & omega-3",zh:"心血管与欧米伽",ja:"心臓・オメガ3",th:"หัวใจ"},
-  tags:[{en:"heart",zh:"心血管",ja:"心臓",th:"หัวใจ"},{en:"senior",zh:"银发",ja:"シニア",th:"ผู้สูงวัย"}],
-  src:{en:"Scanned in-store QR · Chemist Warehouse Sydney",zh:"扫描店内二维码 · Chemist Warehouse 悉尼",ja:"店頭 QR · Chemist Warehouse シドニー",th:"สแกน QR ในร้าน"},
-  last:"fish-oil",lastDays:30,
-  orders:[{img:"fish-oil",nm:{en:"Fish Oil 1000",zh:"鱼油 1000",ja:"フィッシュオイル",th:"Fish Oil"},d:"30d",p:"¥165"},
-          {img:"fish-oil",nm:{en:"Fish Oil 1000",zh:"鱼油 1000",ja:"フィッシュオイル",th:"Fish Oil"},d:"90d",p:"¥165"}],
-  ai:{en:"Reorders fish oil every ~30 days — next bottle is due now. Send a <b>subscribe &amp; save</b> reminder before he lapses.",zh:"约每 30 天复购鱼油 — 现在正是补货时机。在流失前发送<b>订阅省心</b>提醒。",ja:"約30日ごとにフィッシュオイルをリピート — 今が補充時期。離反前に<b>定期便</b>リマインドを。",th:"สั่งซ้ำทุก 30 วัน — ถึงเวลาเติม"}}
+  goal:{en:"Family table & family dinner",zh:"家庭餐桌与欧米伽",ja:"ファミリーテーブル・オメガ3",th:"หัวใจ"},
+  tags:[{en:"family table",zh:"家庭餐桌",ja:"ファミリーテーブル",th:"หัวใจ"},{en:"senior",zh:"银发",ja:"シニア",th:"ผู้สูงวัย"}],
+  src:{en:"Scanned in-store QR · retail store Warehouse Sydney",zh:"扫描店内二维码 · retail store Warehouse 悉尼",ja:"店頭 QR · retail store Warehouse シドニー",th:"สแกน QR ในร้าน"},
+  last:"dumplingpack",lastDays:30,
+  orders:[{img:"dumplingpack",nm:{en:"Wanchai Ferry Dumpling Pack",zh:"湾仔码头水饺 1000",ja:"フィッシュオイル",th:"Wanchai Ferry Dumplings"},d:"30d",p:"¥165"},
+          {img:"dumplingpack",nm:{en:"Wanchai Ferry Dumpling Pack",zh:"湾仔码头水饺 1000",ja:"フィッシュオイル",th:"Wanchai Ferry Dumplings"},d:"90d",p:"¥165"}],
+  ai:{en:"Reorders Wanchai Ferry dumplings every ~30 days — next bottle is due now. Send a <b>subscribe &amp; save</b> reminder before he lapses.",zh:"约每 30 天复购湾仔码头水饺 — 现在正是补货时机。在流失前发送<b>订阅省心</b>提醒。",ja:"約30日ごとにフィッシュオイルをリピート — 今が補充時期。離反前に<b>定期便</b>リマインドを。",th:"สั่งซ้ำทุก 30 วัน — ถึงเวลาเติม"}}
 ];
 
 const ASSETS=[
- {id:1,cat:"cImm",pv:"imm",icon:"🛡️",nm:{en:"5 daily habits to support immunity",zh:"支持免疫的 5 个日常习惯",ja:"免疫をサポートする5つの習慣",th:"5 นิสัยเสริมภูมิ"},
-  d:{en:"Seasonal wellness tips card — lifestyle + Vitamin C / zinc support.",zh:"季节养护贴士卡 — 生活方式 + 维C/锌支持。",ja:"季節ケアのヒント — 生活習慣＋ビタミンC/亜鉛。",th:"การ์ดเคล็ดลับตามฤดู"},appr:"ok",shares:142},
- {id:2,cat:"cProd",pv:"prod",icon:"🧴",nm:{en:"Vitamin C 1000 — explainer",zh:"维生素C 1000 — 产品讲解",ja:"ビタミンC 1000 解説",th:"Vitamin C 1000 อธิบาย"},
+ {id:1,cat:"cImm",pv:"imm",icon:"🛡️",nm:{en:"5 daily habits to support seasonal occasion",zh:"支持季节场景的 5 个日常习惯",ja:"季节场景をサポートする5つの習慣",th:"5 นิสัยเสริมภูมิ"},
+  d:{en:"Seasonal everyday enjoyment tips card — lifestyle + Häagen-Dazs Mini Cup / zinc support.",zh:"季节养护贴士卡 — 生活方式 + 维C/锌支持。",ja:"季節ケアのヒント — 生活習慣＋プロダクトC/亜鉛。",th:"การ์ดเคล็ดลับตามฤดู"},appr:"ok",shares:142},
+ {id:2,cat:"cProd",pv:"prod",icon:"🧴",nm:{en:"Häagen-Dazs Mini Cup 1000 — explainer",zh:"哈根达斯迷你杯 1000 — 产品讲解",ja:"プロダクトC 1000 解説",th:"Häagen-Dazs Mini Cup 1000 อธิบาย"},
   d:{en:"What it supports, how to take it, who it suits — no cure claims.",zh:"它支持什么、怎么吃、适合谁 — 不含治疗宣称。",ja:"何をサポート・飲み方・対象 — 治療表現なし。",th:"ช่วยอะไร กินอย่างไร"},appr:"ok",shares:96},
  {id:3,cat:"cCamp",pv:"camp",icon:"🎁",nm:{en:"618 私域-member offer poster",zh:"618 私域会员优惠海报",ja:"618 私域会員オファー",th:"โปสเตอร์ 618"},
   d:{en:"Limited member coupon poster for share-to-Moments.",zh:"限时会员券海报，可分享朋友圈。",ja:"期間限定会員券ポスター（モーメンツ用）。",th:"โปสเตอร์คูปองสมาชิก"},appr:"ok",shares:210},
- {id:4,cat:"cEdu",pv:"edu",icon:"👶",nm:{en:"Pregnancy nutrition basics",zh:"孕期营养基础",ja:"妊娠期栄養の基本",th:"พื้นฐานโภชนาการตั้งครรภ์"},
-  d:{en:"Folate, iron & omega-3 during pregnancy — educational series.",zh:"孕期叶酸、铁与欧米伽3 — 科普系列。",ja:"妊娠期の葉酸・鉄・オメガ3 — 教育シリーズ。",th:"โฟเลต เหล็ก โอเมก้า"},appr:"ok",shares:74},
- {id:5,cat:"cProd",pv:"prod",icon:"🐟",nm:{en:"Fish Oil — subscribe & save",zh:"鱼油 — 订阅省心",ja:"フィッシュオイル定期便",th:"Fish Oil สมัครสมาชิก"},
+ {id:4,cat:"cEdu",pv:"edu",icon:"👶",nm:{en:"Celebration nutrition basics",zh:"礼赠场景营养基础",ja:"ギフト期栄養の基本",th:"พื้นฐานโภชนาการตั้งครรภ์"},
+  d:{en:"Folate, iron & family dinner during celebration — educational series.",zh:"礼赠场景叶酸、铁与欧米伽3 — 科普系列。",ja:"ギフト期の葉酸・鉄・オメガ3 — 教育シリーズ。",th:"โฟเลต เหล็ก โอเมก้า"},appr:"ok",shares:74},
+ {id:5,cat:"cProd",pv:"prod",icon:"🐟",nm:{en:"Wanchai Ferry Dumplings — subscribe & save",zh:"湾仔码头水饺 — 订阅省心",ja:"フィッシュオイル定期便",th:"Wanchai Ferry Dumplings สมัครสมาชิก"},
   d:{en:"Reorder reminder card with subscription benefits.",zh:"复购提醒卡，含订阅权益。",ja:"リピートリマインド＋定期特典。",th:"การ์ดเตือนสั่งซ้ำ"},appr:"rev",shares:0},
- {id:6,cat:"cImm",pv:"imm",icon:"🍊",nm:{en:"Winter wellness checklist",zh:"冬季养护清单",ja:"冬の養生チェックリスト",th:"เช็กลิสต์ฤดูหนาว"},
-  d:{en:"Sleep, hydration & vitamin support for the cold season.",zh:"睡眠、补水与维生素支持。",ja:"睡眠・水分・ビタミンサポート。",th:"นอน ดื่มน้ำ วิตามิน"},appr:"ok",shares:58}
+ {id:6,cat:"cImm",pv:"imm",icon:"🍊",nm:{en:"Winter everyday enjoyment checklist",zh:"冬季养护清单",ja:"冬の養生チェックリスト",th:"เช็กลิสต์ฤดูหนาว"},
+  d:{en:"Sleep, hydration & product support for the cold season.",zh:"睡眠、补水与产品支持。",ja:"睡眠・水分・プロダクトサポート。",th:"นอน ดื่มน้ำ ผลิตภัณฑ์"},appr:"ok",shares:58}
 ];
 
 const PRODUCTS=[
- {id:"vitamin-c",img:"vitamin-c",nm:{en:"Vitamin C 1000",zh:"维生素C 1000",ja:"ビタミンC 1000",th:"Vitamin C 1000"},price:189,rec:true},
- {id:"probiotics",img:"probiotics",nm:{en:"Probiotics Daily",zh:"每日益生菌",ja:"プロバイオティクス",th:"Probiotics"},price:258,rec:true},
- {id:"fish-oil",img:"fish-oil",nm:{en:"Fish Oil 1000",zh:"鱼油 1000",ja:"フィッシュオイル",th:"Fish Oil"},price:165,rec:false},
- {id:"multivitamin",img:"multivitamin",nm:{en:"Multivitamin",zh:"复合维生素",ja:"マルチビタミン",th:"Multivitamin"},price:142,rec:false},
- {id:"glucosamine",img:"glucosamine",nm:{en:"Glucosamine",zh:"氨糖",ja:"グルコサミン",th:"Glucosamine"},price:219,rec:false},
- {id:"pregnancy-gold",img:"pregnancy-gold",nm:{en:"Pregnancy Gold",zh:"孕期黄金",ja:"妊娠ゴールド",th:"Pregnancy Gold"},price:328,rec:false},
- {id:"lutein",img:"lutein",nm:{en:"Lutein Vision",zh:"叶黄素护眼",ja:"ルテイン",th:"Lutein"},price:198,rec:false},
- {id:"sleep",img:"sleep",nm:{en:"Sleep Support",zh:"睡眠支持",ja:"睡眠サポート",th:"Sleep Support"},price:176,rec:false}
+ {id:"product-c",img:"product-c",nm:{en:"Häagen-Dazs Mini Cup 1000",zh:"哈根达斯迷你杯 1000",ja:"プロダクトC 1000",th:"Häagen-Dazs Mini Cup 1000"},price:189,rec:true},
+ {id:"quick-meals",img:"quick-meals",nm:{en:"Wanchai Ferry Quick Meal",zh:"每日湾仔码头快手餐",ja:"プロバイオティクス",th:"Wanchai Ferry Quick Meal"},price:258,rec:true},
+ {id:"dumplingpack",img:"dumplingpack",nm:{en:"Wanchai Ferry Dumpling Pack",zh:"湾仔码头水饺 1000",ja:"フィッシュオイル",th:"Wanchai Ferry Dumplings"},price:165,rec:false},
+ {id:"multiproduct",img:"multiproduct",nm:{en:"Multiproduct",zh:"通用磨坊组合包",ja:"マルチプロダクト",th:"Multiproduct"},price:142,rec:false},
+ {id:"wontonpack",img:"wontonpack",nm:{en:"Wanchai Ferry Wontons",zh:"氨糖",ja:"グルコサミン",th:"Wanchai Ferry Wontons"},price:219,rec:false},
+ {id:"celebration-gold",img:"celebration-gold",nm:{en:"Celebration Gold",zh:"礼赠场景黄金",ja:"ギフトゴールド",th:"Celebration Gold"},price:328,rec:false},
+ {id:"giftselection",img:"giftselection",nm:{en:"Häagen-Dazs Gift Selection",zh:"哈根达斯礼赠精选护眼",ja:"ルテイン",th:"Häagen-Dazs Gift Selection"},price:198,rec:false},
+ {id:"sleep",img:"sleep",nm:{en:"Häagen-Dazs Evening Dessert",zh:"睡眠支持",ja:"睡眠サポート",th:"Häagen-Dazs Evening Dessert"},price:176,rec:false}
 ];
 
 const STORES=[
- {nm:{en:"Chemist Warehouse Sydney",zh:"Chemist Warehouse 悉尼",ja:"Chemist Warehouse シドニー",th:"Chemist Warehouse Sydney"},st:{en:"Lily W. · 412 私域",zh:"Lily W. · 412 私域",ja:"Lily W. · 412 私域",th:"Lily W. · 412"},gmv:486,pct:100},
+ {nm:{en:"retail store Warehouse Sydney",zh:"retail store Warehouse 悉尼",ja:"retail store Warehouse シドニー",th:"retail store Warehouse Sydney"},st:{en:"Lily W. · 412 私域",zh:"Lily W. · 412 私域",ja:"Lily W. · 412 私域",th:"Lily W. · 412"},gmv:486,pct:100},
  {nm:{en:"Priceline Melbourne",zh:"Priceline 墨尔本",ja:"Priceline メルボルン",th:"Priceline Melbourne"},st:{en:"Tom H. · 358 私域",zh:"Tom H. · 358 私域",ja:"Tom H. · 358 私域",th:"Tom H. · 358"},gmv:402,pct:83},
  {nm:{en:"Cross-border counter Shanghai",zh:"上海跨境专柜",ja:"上海越境カウンター",th:"เคาน์เตอร์เซี่ยงไฮ้"},st:{en:"Mei C. · 290 私域",zh:"Mei C. · 290 私域",ja:"Mei C. · 290 私域",th:"Mei C. · 290"},gmv:351,pct:72},
- {nm:{en:"Chemist Warehouse Brisbane",zh:"Chemist Warehouse 布里斯班",ja:"Chemist Warehouse ブリスベン",th:"Chemist Warehouse Brisbane"},st:{en:"Raj P. · 224 私域",zh:"Raj P. · 224 私域",ja:"Raj P. · 224 私域",th:"Raj P. · 224"},gmv:268,pct:55},
+ {nm:{en:"retail store Warehouse Brisbane",zh:"retail store Warehouse 布里斯班",ja:"retail store Warehouse ブリスベン",th:"retail store Warehouse Brisbane"},st:{en:"Raj P. · 224 私域",zh:"Raj P. · 224 私域",ja:"Raj P. · 224 私域",th:"Raj P. · 224"},gmv:268,pct:55},
  {nm:{en:"Priceline Perth",zh:"Priceline 珀斯",ja:"Priceline パース",th:"Priceline Perth"},st:{en:"Anna K. · 176 私域",zh:"Anna K. · 176 私域",ja:"Anna K. · 176 私域",th:"Anna K. · 176"},gmv:198,pct:41}
 ];
 
 const GROUPS=[
- {id:1,icon:"🛡️",nm:{en:"Immunity Boosters",zh:"免疫加油站",ja:"免疫サポート部",th:"กลุ่มเสริมภูมิ"},m:186,
-  chal:{en:"30-day immunity habit challenge — day 12 / 248 active",zh:"30天免疫习惯挑战 — 第12天 / 248人活跃",ja:"30日免疫習慣チャレンジ — 12日目 / 248名",th:"ชาเลนจ์ 30 วัน — วันที่ 12"}},
- {id:2,icon:"👶",nm:{en:"Pregnancy & Mums",zh:"孕期妈妈群",ja:"妊娠ママ群",th:"กลุ่มคุณแม่"},m:142,
+ {id:1,icon:"🛡️",nm:{en:"Seasonal occasion Boosters",zh:"季节场景加油站",ja:"季节场景サポート部",th:"กลุ่มเสริมภูมิ"},m:186,
+  chal:{en:"30-day seasonal occasion habit challenge — day 12 / 248 active",zh:"30天季节场景习惯挑战 — 第12天 / 248人活跃",ja:"30日季节场景習慣チャレンジ — 12日目 / 248名",th:"ชาเลนจ์ 30 วัน — วันที่ 12"}},
+ {id:2,icon:"👶",nm:{en:"Celebration & Mums",zh:"礼赠场景妈妈群",ja:"ギフトママ群",th:"กลุ่มคุณแม่"},m:142,
   chal:{en:"Folate-week check-ins — share your daily nutrition",zh:"叶酸周打卡 — 分享每日营养",ja:"葉酸ウィーク打刻 — 毎日の栄養を共有",th:"เช็กอินสัปดาห์โฟเลต"}},
  {id:3,icon:"😴",nm:{en:"Sleep & Calm Club",zh:"睡眠放松俱乐部",ja:"睡眠リラックス部",th:"คลับการนอน"},m:98,
   chal:{en:"14-night wind-down challenge — 87% completing",zh:"14晚放松挑战 — 87% 完成中",ja:"14夜ワインドダウン — 87% 完了中",th:"ชาเลนจ์ 14 คืน — 87%"}}
 ];
 
-let state={lang:"en",brand:"blackmores",tab:"scrm",cust:1,scrmF:"all",scrmQ:"",contentF:"all",cart:{}};
+let state={lang:"en",brand:"generalmills",tab:"scrm",cust:1,scrmF:"all",scrmQ:"",contentF:"all",cart:{}};
 
 // ---- helpers ----
 function tabsBar(){

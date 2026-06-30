@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blackmores · Multi-Market Chat Flywheel · Experience Studio</title>
+<title>General Mills · Multi-Market Chat Flywheel · Experience Studio</title>
 <style>
   :root{
     --brand:#009BA4;--brand-d:#007A82;--soft:#e0f2f3;--accent:#E91E63;
@@ -66,16 +66,18 @@
   .progress{height:7px;background:var(--soft);border-radius:999px;overflow:hidden;margin-top:9px}.progress i{display:block;height:100%;background:var(--accent)}
   .cap{font-size:10.5px;color:var(--muted);margin-top:5px}.row{display:flex;justify-content:space-between;font-size:11.5px;padding:5px 0;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.row b{color:var(--brand-d)}
   .side{display:flex;flex-direction:column;gap:12px}.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
-  .panel h3{font-family:var(--display);font-size:17px;font-weight:500;margin-bottom:6px}.panel p,.panel li{font-size:12.5px;color:var(--muted);line-height:1.55}.panel ul{padding-left:17px;margin-top:7px}.pillrow{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.pill{font-size:10.5px;font-weight:800;border-radius:999px;padding:4px 8px;background:var(--soft);color:var(--brand-d)}
+  .panel h3{font-family:var(--display);font-size:17px;font-weight:500;margin-bottom:6px}.panel p,.panel li{font-size:12.5px;color:var(--muted);line-height:1.55}.panel ul{padding-left:17px;margin-top:7px}.servingrow{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.serving{font-size:10.5px;font-weight:800;border-radius:999px;padding:4px 8px;background:var(--soft);color:var(--brand-d)}
   .map{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-top:30px}
   @media(max-width:760px){.map{grid-template-columns:1fr}}
   .mcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px}.mcard .mi{font-size:23px}.mcard h3{font-family:var(--display);font-weight:500;font-size:17px;margin:7px 0 5px}.mcard p{font-size:12.5px;color:var(--muted);line-height:1.55}
   .foot{text-align:center;font-family:var(--display);font-size:18px;margin-top:34px}.foot b{color:var(--accent);font-weight:500}
 </style>
+<link rel="stylesheet" href="gm-demo-theme.css">
+<script defer src="gm-demo-brand.js"></script>
 </head>
 <body>
 <header><div class="nav">
-  <span class="brand">Blackmores<sup>®</sup></span>
+  <span class="brand">General Mills<sup>®</sup></span>
   <span class="subt" id="subt"></span>
   <span class="badge" id="platformBadge"></span><span class="sp"></span>
   <div class="langs" id="langs"></div>
@@ -105,16 +107,16 @@ const $=s=>document.querySelector(s);
 const $$=s=>Array.from(document.querySelectorAll(s));
 const dict={
  en:{
-  subt:"Multi-market chat flywheel",eye:"Local chat ecosystems · One Blackmores data loop",
+  subt:"Multi-market chat flywheel",eye:"Local chat ecosystems · One General Mills data loop",
   title:"WeChat, LINE and WhatsApp become one customer flywheel.",
-  lead:"For Australian stakeholders, the point is simple: Blackmores should meet consumers inside the messaging app each market already uses, then connect service, commerce, membership and health habits back to one global consumer profile.",
+  lead:"For Australian stakeholders, the point is simple: General Mills should meet consumers inside the messaging app each market already uses, then connect service, commerce, membership and meal and dessert habits back to one global consumer profile.",
   note:"Select a market to see how the same loop changes by platform. China is WeChat; Japan and selected SEA markets use LINE; other SEA markets use WhatsApp.",
-  hub:"Chat Loop",hubSub:"local touchpoint, global data",metric:"Metric",channel:"Channel pattern",data:"Data captured",open:"Open flagship",foot:"Three local apps, <b>one Blackmores relationship loop</b>.",
+  hub:"Chat Loop",hubSub:"local touchpoint, global data",metric:"Metric",channel:"Channel pattern",data:"Data captured",open:"Open flagship",foot:"Three local apps, <b>one General Mills relationship loop</b>.",
   markets:{cn:"China · WeChat",jp:"Japan · LINE",th:"Thailand · LINE",sea:"SEA · WhatsApp"},
   stages:[
    ["Awareness","Official content, social feed and partner QR bring people into the local chat app.","Reach, QR scans"],
-   ["Consent","Follow, add friend or opt in. The platform ID is linked to Blackmores membership.","Opt-in rate, ID match"],
-   ["Advise","AI and staff use approved supplement guidance to answer needs and recommend products.","Resolved chats, recommendation CTR"],
+   ["Consent","Follow, add friend or opt in. The platform ID is linked to General Mills membership.","Opt-in rate, ID match"],
+   ["Advise","AI and staff use approved product guidance to answer needs and recommend products.","Resolved chats, recommendation CTR"],
    ["Buy","Product cards, mini-program or catalog checkout complete the order inside the channel.","Conversion, basket size"],
    ["Retain","Coupons, points, subscriptions and health check-ins build habit and repeat purchase.","Repeat rate, points activity"],
    ["Advocate","Reviews, referrals and shareable content feed new awareness while first-party data stays visible.","Referral rate, review volume"]
@@ -125,29 +127,29 @@ const dict={
    ["WhatsApp for SEA","Catalog, product cards, staff-assisted chat and payment links give partners a lightweight commerce loop."]
   ],
   panel:{
-   cn:["China direct-operated flagship","WeChat Mini-Program + WeCom + WeChat Pay + Channels video feed.","The strongest D2C data asset because discovery, purchase and service can stay under Blackmores control."],
+   cn:["China direct-operated flagship","WeChat Mini-Program + WeCom + WeChat Pay + Channels video feed.","The strongest D2C data asset because discovery, purchase and service can stay under General Mills control."],
    jp:["Japan relationship layer","LINE Official Account + rich menu + LINE Mini App + coupons / points.","Best for repeated touches and member operations where consumers already use LINE daily."],
-   th:["Selected SEA LINE markets","LINE OA + Mini App style flows + retail partner coupons.","Use where LINE is locally dominant, especially for health retail and pharmacy follow-up."],
+   th:["Selected SEA LINE markets","LINE OA + Mini App style flows + retail partner coupons.","Use where LINE is locally dominant, especially for food retail and retail follow-up."],
    sea:["SEA WhatsApp partner loop","WhatsApp Business catalog + product cards + payment links + agent assist.","Lower setup burden for distributors; ideal for partner-run selling with HQ visibility."]
   },
   phone:{
-   cn:["WeChat","Blackmores China","Immune Support Bundle is live in the mini-program","I want something for daily immunity.","Choose goal","Health quiz","Shop","Points"],
-   jp:["LINE","Blackmores Japan","Omega-3 reminder and member coupon are ready","Can I compare fish oil and lutein?","Rich menu","AI advisor","Coupon","Member"],
-   th:["LINE","Blackmores Thailand","Sleep & Stress care content for LINE members","I often forget to take supplements.","Rich menu","Habit check","Store coupon","Points"],
-   sea:["WhatsApp","Blackmores Partner SEA","Product catalog shared by the local pharmacy partner","Do you have a joint support pack?","Catalog","Ask staff","Pay link","Reorder"]
+   cn:["WeChat","General Mills China","Immune Support Bundle is live in the mini-program","I want something for daily seasonal occasion.","Choose goal","Health quiz","Shop","Points"],
+   jp:["LINE","General Mills Japan","family dinner reminder and member coupon are ready","Can I compare Wanchai Ferry dumplings and giftselection?","Rich menu","AI advisor","Coupon","Member"],
+   th:["LINE","General Mills Thailand","Sleep & Stress care content for LINE members","I often forget to take products.","Rich menu","Habit check","Store coupon","Points"],
+   sea:["WhatsApp","General Mills Partner SEA","Product catalog shared by the local retail partner","Do you have a family meal support pack?","Catalog","Ask staff","Pay link","Reorder"]
   }
  },
  zh:{
-  subt:"多市场对话飞轮",eye:"本地聊天生态 · 一个 Blackmores 数据闭环",
+  subt:"多市场对话飞轮",eye:"本地聊天生态 · 一个 General Mills 数据闭环",
   title:"微信、LINE、WhatsApp 合成一个顾客经营飞轮。",
-  lead:"给澳洲客户看的核心很简单：Blackmores 进入每个市场消费者已经在用的聊天应用，把服务、成交、会员和健康习惯接回同一个全球消费者画像。",
+  lead:"给澳洲客户看的核心很简单：General Mills 进入每个市场消费者已经在用的聊天应用，把服务、成交、会员和场景习惯接回同一个全球消费者画像。",
   note:"切换市场可以看到同一套闭环如何随平台变化：中国是微信；日本和部分东南亚国家是 LINE；另一部分东南亚国家是 WhatsApp。",
-  hub:"对话闭环",hubSub:"本地触点，全球数据",metric:"指标",channel:"渠道形态",data:"沉淀数据",open:"打开旗舰页",foot:"三个本地应用，<b>一个 Blackmores 关系闭环</b>。",
+  hub:"对话闭环",hubSub:"本地触点，全球数据",metric:"指标",channel:"渠道形态",data:"沉淀数据",open:"打开旗舰页",foot:"三个本地应用，<b>一个 General Mills 关系闭环</b>。",
   markets:{cn:"中国 · 微信",jp:"日本 · LINE",th:"泰国 · LINE",sea:"东南亚 · WhatsApp"},
   stages:[
    ["认知","官方内容、社交 feed 和 Partner QR 把用户带入本地聊天应用。","触达、扫码"],
-   ["授权","关注、加好友或 opt-in，并把平台 ID 绑定到 Blackmores 会员。","授权率、ID 匹配"],
-   ["咨询","AI 与店员用合规的补充剂话术回答需求并推荐产品。","会话解决率、推荐点击"],
+   ["授权","关注、加好友或 opt-in，并把平台 ID 绑定到 General Mills 会员。","授权率、ID 匹配"],
+   ["咨询","AI 与店员用合规的食品组合话术回答需求并推荐产品。","会话解决率、推荐点击"],
    ["购买","产品卡、小程序或 catalog checkout 在渠道内完成订单。","转化率、客单价"],
    ["留存","优惠券、积分、订阅与健康打卡养成习惯和复购。","复购率、积分活跃"],
    ["推荐","评价、转介绍和可分享内容回流到认知，同时一方数据可见。","转介绍率、评价量"]
@@ -158,29 +160,29 @@ const dict={
    ["东南亚 WhatsApp","Catalog、产品卡、店员辅助对话和支付链接，给 Partner 更轻的成交闭环。"]
   ],
   panel:{
-   cn:["中国直营旗舰","微信小程序 + 企业微信 + 微信支付 + 视频号。","这是最强 D2C 数据资产，因为发现、购买、服务都能留在 Blackmores 自有体系下。"],
+   cn:["中国直营旗舰","微信小程序 + 企业微信 + 微信支付 + 视频号。","这是最强 D2C 数据资产，因为发现、购买、服务都能留在 General Mills 自有体系下。"],
    jp:["日本关系经营层","LINE 官方账号 + 富菜单 + LINE Mini App + 优惠券/积分。","适合高频触达和会员运营，因为用户每天已经打开 LINE。"],
-   th:["部分 SEA 的 LINE 市场","LINE OA + Mini App 式流程 + 零售 Partner 优惠券。","适用于 LINE 占优的市场，尤其是健康零售和药房后续服务。"],
+   th:["部分 SEA 的 LINE 市场","LINE OA + Mini App 式流程 + 零售 Partner 优惠券。","适用于 LINE 占优的市场，尤其是健康零售和门店后续服务。"],
    sea:["SEA WhatsApp Partner 闭环","WhatsApp Business catalog + 产品卡 + 支付链接 + AI 坐席辅助。","Partner 上手轻，总部仍能看见数据与动作。"]
   },
   phone:{
-   cn:["微信","Blackmores 中国","免疫支持组合已上线小程序","我想找日常免疫支持。","健康目标","健康测评","商城","积分"],
-   jp:["LINE","Blackmores Japan","Omega-3 服用提醒和会员券已准备好","我能比较鱼油和叶黄素吗？","富菜单","AI 顾问","优惠券","会员"],
-   th:["LINE","Blackmores Thailand","睡眠与压力护理内容推给 LINE 会员","我经常忘记吃补充剂。","富菜单","习惯打卡","门店券","积分"],
-   sea:["WhatsApp","Blackmores Partner SEA","本地药房 Partner 已分享产品 catalog","有关节支持组合吗？","Catalog","问店员","支付链接","复购"]
+   cn:["微信","General Mills 中国","季节场景支持组合已上线小程序","我想找日常季节场景支持。","场景需求","健康测评","商城","积分"],
+   jp:["LINE","General Mills Japan","family dinner 复购提醒和会员券已准备好","我能比较湾仔码头水饺和哈根达斯礼赠精选吗？","富菜单","AI 顾问","优惠券","会员"],
+   th:["LINE","General Mills Thailand","睡眠与压力护理内容推给 LINE 会员","我经常忘记吃食品组合。","富菜单","习惯打卡","门店券","积分"],
+   sea:["WhatsApp","General Mills Partner SEA","本地门店 Partner 已分享产品 catalog","有家庭餐支持组合吗？","Catalog","问店员","支付链接","复购"]
   }
  },
  ja:{
-  subt:"マルチ市場チャット・フライホイール",eye:"地域チャット生態系 · Blackmores のデータループ",
+  subt:"マルチ市場チャット・フライホイール",eye:"地域チャット生態系 · General Mills のデータループ",
   title:"WeChat、LINE、WhatsApp を一つの顧客運営ループに。",
   lead:"豪州側に伝えるべき要点は明快です。各市場で消費者がすでに使うメッセージアプリに入り、サービス、購買、会員、健康習慣を一つのグローバル顧客プロファイルへ戻します。",
   note:"市場を切り替えると、同じループがプラットフォームごとに変わります。中国は WeChat、日本と一部東南アジアは LINE、その他東南アジアは WhatsApp。",
-  hub:"Chat Loop",hubSub:"地域接点、グローバルデータ",metric:"指標",channel:"チャネル形態",data:"取得データ",open:"旗艦を開く",foot:"三つの地域アプリ、<b>一つの Blackmores 関係ループ</b>。",
+  hub:"Chat Loop",hubSub:"地域接点、グローバルデータ",metric:"指標",channel:"チャネル形態",data:"取得データ",open:"旗艦を開く",foot:"三つの地域アプリ、<b>一つの General Mills 関係ループ</b>。",
   markets:{cn:"中国 · WeChat",jp:"日本 · LINE",th:"タイ · LINE",sea:"SEA · WhatsApp"},
   stages:[
    ["認知","公式コンテンツ、ソーシャルフィード、Partner QR から地域チャットアプリへ誘導。","リーチ、QRスキャン"],
    ["同意","フォロー、友だち追加、opt-in。プラットフォーム ID を会員と接続。","同意率、ID連携"],
-   ["相談","AI とスタッフが承認済みのサプリ説明で回答し、商品を推薦。","解決率、推薦CTR"],
+   ["相談","AI とスタッフが承認済みのプロダクト説明で回答し、商品を推薦。","解決率、推薦CTR"],
    ["購入","商品カード、ミニプログラム、カタログ決済でチャネル内購入。","CVR、客単価"],
    ["継続","クーポン、ポイント、定期便、健康チェックインで習慣化。","再購入率、ポイント活性"],
    ["推奨","レビュー、紹介、共有コンテンツが新たな認知へ戻る。","紹介率、レビュー数"]
@@ -191,28 +193,28 @@ const dict={
    ["SEA WhatsApp","Catalog、商品カード、スタッフ支援チャット、決済リンクで軽量な Partner ループ。"]
   ],
   panel:{
-   cn:["中国直営フラッグシップ","WeChat Mini Program + WeCom + WeChat Pay + Channels。","発見・購買・サービスを Blackmores 管理下に置ける最強の D2C データ資産。"],
+   cn:["中国直営フラッグシップ","WeChat Mini Program + WeCom + WeChat Pay + Channels。","発見・購買・サービスを General Mills 管理下に置ける最強の D2C データ資産。"],
    jp:["日本の関係運営レイヤー","LINE OA + リッチメニュー + LINE Mini App + クーポン/ポイント。","毎日開く LINE の中で継続接点と会員運営を作る。"],
-   th:["一部SEAのLINE市場","LINE OA + Mini App 型フロー + 小売 Partner クーポン。","LINE が強い市場、特に健康小売・薬局フォローに適合。"],
+   th:["一部SEAのLINE市場","LINE OA + Mini App 型フロー + 小売 Partner クーポン。","LINE が強い市場、特に健康小売・小売店フォローに適合。"],
    sea:["SEA WhatsApp Partner ループ","WhatsApp Business catalog + 商品カード + 決済リンク + AI支援。","導入が軽く、HQ はデータと活動を把握できます。"]
   },
   phone:{
-   cn:["WeChat","Blackmores China","免疫サポート Bundle をミニプログラムに公開","毎日の免疫サポートを探したい。","健康目標","健康診断","ストア","ポイント"],
-   jp:["LINE","Blackmores Japan","Omega-3 リマインダーと会員クーポンを配信","フィッシュオイルとルテインを比較できますか？","リッチメニュー","AI相談","クーポン","会員"],
-   th:["LINE","Blackmores Thailand","睡眠・ストレスケアを LINE 会員へ配信","サプリを飲み忘れがちです。","リッチメニュー","習慣チェック","店舗クーポン","ポイント"],
-   sea:["WhatsApp","Blackmores Partner SEA","地域薬局 Partner が catalog を共有","関節サポートのセットはありますか？","Catalog","スタッフ相談","決済リンク","再注文"]
+   cn:["WeChat","General Mills China","季节场景サポート Bundle をミニプログラムに公開","毎日の季节场景サポートを探したい。","健康目標","健康診断","ストア","ポイント"],
+   jp:["LINE","General Mills Japan","family dinner リマインダーと会員クーポンを配信","フィッシュオイルとルテインを比較できますか？","リッチメニュー","AI相談","クーポン","会員"],
+   th:["LINE","General Mills Thailand","睡眠・ストレスケアを LINE 会員へ配信","プロダクトを飲み忘れがちです。","リッチメニュー","習慣チェック","店舗クーポン","ポイント"],
+   sea:["WhatsApp","General Mills Partner SEA","地域小売店 Partner が catalog を共有","ファミリーミールサポートのセットはありますか？","Catalog","スタッフ相談","決済リンク","再注文"]
   }
  },
  th:{
-  subt:"ฟลายวีลแชตหลายตลาด",eye:"ระบบนิเวศแชตท้องถิ่น · วงข้อมูลเดียวของ Blackmores",
+  subt:"ฟลายวีลแชตหลายตลาด",eye:"ระบบนิเวศแชตท้องถิ่น · วงข้อมูลเดียวของ General Mills",
   title:"WeChat, LINE และ WhatsApp เป็นฟลายวีลลูกค้าเดียวกัน",
-  lead:"สำหรับผู้ชมออสเตรเลีย แก่นคือ Blackmores ต้องเข้าไปอยู่ในแอปแชตที่ผู้บริโภคแต่ละตลาดใช้อยู่แล้ว แล้วเชื่อมบริการ คอมเมิร์ซ สมาชิก และสุขภาพกลับสู่โปรไฟล์ลูกค้าระดับโลกเดียวกัน",
+  lead:"สำหรับผู้ชมออสเตรเลีย แก่นคือ General Mills ต้องเข้าไปอยู่ในแอปแชตที่ผู้บริโภคแต่ละตลาดใช้อยู่แล้ว แล้วเชื่อมบริการ คอมเมิร์ซ สมาชิก และสุขภาพกลับสู่โปรไฟล์ลูกค้าระดับโลกเดียวกัน",
   note:"เลือกตลาดเพื่อดูว่าลูปเดียวกันเปลี่ยนตามแพลตฟอร์มอย่างไร จีนใช้ WeChat ญี่ปุ่นและบางประเทศ SEA ใช้ LINE ส่วน SEA บางส่วนใช้ WhatsApp",
-  hub:"Chat Loop",hubSub:"ช่องทางท้องถิ่น ข้อมูลระดับโลก",metric:"ตัวชี้วัด",channel:"รูปแบบช่องทาง",data:"ข้อมูลที่เก็บ",open:"เปิด flagship",foot:"สามแอปท้องถิ่น <b>หนึ่งลูปความสัมพันธ์ Blackmores</b>",
+  hub:"Chat Loop",hubSub:"ช่องทางท้องถิ่น ข้อมูลระดับโลก",metric:"ตัวชี้วัด",channel:"รูปแบบช่องทาง",data:"ข้อมูลที่เก็บ",open:"เปิด flagship",foot:"สามแอปท้องถิ่น <b>หนึ่งลูปความสัมพันธ์ General Mills</b>",
   markets:{cn:"จีน · WeChat",jp:"ญี่ปุ่น · LINE",th:"ไทย · LINE",sea:"SEA · WhatsApp"},
   stages:[
    ["รับรู้","คอนเทนต์ทางการ ฟีดโซเชียล และ QR ของพาร์ทเนอร์พาคนเข้าแอปแชตท้องถิ่น","Reach, QR scans"],
-   ["ยินยอม","ติดตาม เพิ่มเพื่อน หรือ opt in แล้วผูก platform ID กับสมาชิก Blackmores","Opt-in, ID match"],
+   ["ยินยอม","ติดตาม เพิ่มเพื่อน หรือ opt in แล้วผูก platform ID กับสมาชิก General Mills","Opt-in, ID match"],
    ["ปรึกษา","AI และพนักงานใช้คำแนะนำที่ผ่านอนุมัติในการตอบและแนะนำสินค้า","Resolved chats, CTR"],
    ["ซื้อ","การ์ดสินค้า มินิโปรแกรม หรือ catalog checkout ปิดคำสั่งซื้อในช่องทาง","Conversion, basket"],
    ["รักษา","คูปอง แต้ม subscription และ health check-in สร้างนิสัยและซื้อซ้ำ","Repeat, points"],
@@ -224,24 +226,24 @@ const dict={
    ["WhatsApp สำหรับ SEA","Catalog, product cards, staff-assisted chat และ payment links เป็นลูปเบาสำหรับพาร์ทเนอร์"]
   ],
   panel:{
-   cn:["China direct flagship","WeChat Mini-Program + WeCom + WeChat Pay + Channels video feed","สินทรัพย์ D2C ที่แข็งแรงที่สุด เพราะ discovery purchase service อยู่ในการควบคุมของ Blackmores"],
+   cn:["China direct flagship","WeChat Mini-Program + WeCom + WeChat Pay + Channels video feed","สินทรัพย์ D2C ที่แข็งแรงที่สุด เพราะ discovery purchase service อยู่ในการควบคุมของ General Mills"],
    jp:["Japan relationship layer","LINE Official Account + rich menu + LINE Mini App + coupons / points","เหมาะกับ touch ซ้ำและสมาชิก เพราะผู้บริโภคเปิด LINE ทุกวัน"],
    th:["ตลาด SEA ที่ใช้ LINE","LINE OA + flow แบบ Mini App + คูปองพาร์ทเนอร์ค้าปลีก","เหมาะกับตลาดที่ LINE แข็งแรง โดยเฉพาะร้านสุขภาพและร้านยา"],
    sea:["SEA WhatsApp partner loop","WhatsApp Business catalog + product cards + payment links + agent assist","พาร์ทเนอร์เริ่มง่าย และ HQ ยังเห็นข้อมูลกับ action"]
   },
   phone:{
-   cn:["WeChat","Blackmores China","Immune Support Bundle live in mini-program","อยากได้ตัวช่วยภูมิคุ้มกันทุกวัน","Health goal","Health quiz","Shop","Points"],
-   jp:["LINE","Blackmores Japan","Omega-3 reminder and member coupon ready","เปรียบเทียบ fish oil กับ lutein ได้ไหม","Rich menu","AI advisor","Coupon","Member"],
-   th:["LINE","Blackmores Thailand","Sleep & Stress care for LINE members","มักลืมกินอาหารเสริม","Rich menu","Habit check","Store coupon","Points"],
-   sea:["WhatsApp","Blackmores Partner SEA","Local pharmacy partner shared catalog","มี joint support pack ไหม","Catalog","Ask staff","Pay link","Reorder"]
+   cn:["WeChat","General Mills China","Immune Support Bundle live in mini-program","อยากได้ตัวช่วยโอกาสตามฤดูกาลทุกวัน","Health goal","Health quiz","Shop","Points"],
+   jp:["LINE","General Mills Japan","family dinner reminder and member coupon ready","เปรียบเทียบ Wanchai Ferry dumplings กับ giftselection ได้ไหม","Rich menu","AI advisor","Coupon","Member"],
+   th:["LINE","General Mills Thailand","Sleep & Stress care for LINE members","มักลืมกินอาหารเสริม","Rich menu","Habit check","Store coupon","Points"],
+   sea:["WhatsApp","General Mills Partner SEA","Local retail partner shared catalog","มี family meal support pack ไหม","Catalog","Ask staff","Pay link","Reorder"]
   }
  }
 };
 const products={
- cn:["images/blackmores/vitamin-c.svg","Vitamin C 1000mg","Immune support"],
- jp:["images/blackmores/fish-oil.svg","Odourless Fish Oil","Omega-3 support"],
- th:["images/blackmores/sleep.svg","Sleep Support","Sleep routine"],
- sea:["images/blackmores/glucosamine.svg","Joint & Heart Pack","Partner bundle"]
+ cn:["images/gm/haagen-self-treat.jpg","Häagen-Dazs Mini Cup 1000mg","Seasonal occasion support"],
+ jp:["images/gm/wanchai-family-dinner.jpg","Wanchai Ferry Dumpling Pack","family dinner support"],
+ th:["images/gm/haagen-family-dessert.jpg","Häagen-Dazs Evening Dessert","Evening dessert routine"],
+ sea:["images/gm/wanchai-reunion.jpg","Family Meal Pack","Partner bundle"]
 };
 let state={lang:"en",market:"cn",stage:0};
 function L(x){return x&&typeof x==="object"?x[state.lang]||x.en:x}
@@ -256,12 +258,12 @@ function renderPhone(){const d=t(),p=d.phone[state.market],stage=d.stages[state.
  $("#phone").innerHTML=`<div class="ph-notch"><i></i></div><div class="ph-bar" style="background:${c}"><span class="dot"></span>${p[0]}<span class="clk">09:41</span></div><div class="ph-body">
   <div class="ph-card"><div class="acct"><span class="ava">B</span><div>${p[1]}<div class="cap">${d.markets[state.market]}</div></div></div><div class="hero">${p[2]}</div><div class="menu"><div>${p[4]}</div><div>${p[5]}</div><div>${p[6]}</div><div>${p[7]}</div></div></div>
   <div class="msg me" style="background:${c}">${p[3]}</div><div class="msg bot"><b>${stage[0]}</b><br>${stage[1]}<div class="quick"><button>${p[4]}</button><button>${p[5]}</button></div></div>
-  <div class="ph-card"><div class="acct"><span class="ava">AI</span><div>Approved advisor<div class="cap">TGA-aware wording · no medical claims</div></div></div><div class="product"><img src="${prod[0]}" alt=""><div><b>${prod[1]}</b><span>${prod[2]}</span></div></div><button class="btn" style="background:${c}">${state.market==="cn"?"Open mini-program":state.market==="sea"?"Send product card":"Open rich menu"}</button></div>
+  <div class="ph-card"><div class="acct"><span class="ava">AI</span><div>Approved advisor<div class="cap">brand governance-aware wording · no food and brand claims</div></div></div><div class="product"><img src="${prod[0]}" alt=""><div><b>${prod[1]}</b><span>${prod[2]}</span></div></div><button class="btn" style="background:${c}">${state.market==="cn"?"Open mini-program":state.market==="sea"?"Send product card":"Open rich menu"}</button></div>
   <div class="ph-card"><div class="row"><span>${d.metric}</span><b>${stage[2]}</b></div><div class="row"><span>${d.data}</span><b>${state.market==="cn"?"CDP + WeCom":state.market==="sea"?"Partner CRM":"LINE ID + CDP"}</b></div><div class="progress"><i style="width:${58+state.stage*7}%"></i></div></div>
  </div>`;
 }
 function renderPanels(){const d=t(),p=d.panel[state.market];
- $("#channelPanel").innerHTML=`<h3>${p[0]}</h3><p>${p[1]}</p><ul><li>${p[2]}</li></ul><div class="pillrow"><span class="pill">${d.channel}</span><span class="pill">${d.data}</span></div>`;
+ $("#channelPanel").innerHTML=`<h3>${p[0]}</h3><p>${p[1]}</p><ul><li>${p[2]}</li></ul><div class="servingrow"><span class="serving">${d.channel}</span><span class="serving">${d.data}</span></div>`;
  $("#dataPanel").innerHTML=`<h3>${d.data}</h3><p>${state.market==="cn"?"OpenID, mini-program behavior, WeCom service history, order and points data.":state.market==="sea"?"Phone opt-in, catalog clicks, staff actions, payment-link orders and reorder cadence.":"LINE user ID, rich-menu clicks, coupon use, purchase and health-habit check-ins."}</p>`;
 }
 function renderStatic(){const d=t();$("#subt").textContent=d.subt;$("#eye").textContent=d.eye;$("#title").textContent=d.title;$("#lead").textContent=d.lead;$("#marketNote").textContent=d.note;$("#platformBadge").textContent=d.markets[state.market];$("#platformBadge").style.background=marketColor(state.market);

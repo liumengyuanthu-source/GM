@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Health Score + Monthly Wrapped — Blackmores Experience Studio</title>
+<title>Occasion Score + Monthly Wrapped — General Mills AI Scenario Studio</title>
 <style>
   :root{
     --brand:#009BA4;--brand-d:#007A82;--soft:#e0f2f3;--accent:#E91E63;--gold:#b07d12;
@@ -125,12 +125,14 @@
   .foot b{color:var(--ink)}
   @media(max-width:760px){.stage{padding:16px}.phone{width:min(340px,92vw);height:min(710px,186vw)}}
 </style>
+<link rel="stylesheet" href="gm-demo-theme.css">
+<script defer src="gm-demo-brand.js"></script>
 </head>
 <body>
 <header>
   <div class="bar">
     <a class="back" href="index.html" data-i18n="back">← Back to studio</a>
-    <span class="ptitle" data-i18n="ptitle">Health Score · Daily Companion</span>
+    <span class="ptitle" data-i18n="ptitle">Occasion Score · Daily Companion</span>
     <span class="spacer"></span>
     <div class="langsw" id="langsw">
       <button data-lang="en" class="on">EN</button>
@@ -143,8 +145,8 @@
 
 <div class="head">
   <div class="eyebrow" data-i18n="eyebrow">Quick Win · daily habit loop</div>
-  <h1 data-i18n="h1">Health Score + Monthly Wrapped</h1>
-  <div class="sub" data-i18n="sub"><b>A daily reason to open the app</b> — log today's supplements, build a streak, and look back on a shareable monthly recap. Statistics &amp; encouragement only · no health claims.</div>
+  <h1 data-i18n="h1">Occasion Score + Monthly Wrapped</h1>
+  <div class="sub" data-i18n="sub"><b>A daily reason to open the app</b> — log today's products, build a streak, and look back on a shareable monthly recap. Statistics &amp; encouragement only · no food claims.</div>
 </div>
 
 <div class="stage">
@@ -164,14 +166,14 @@
       <div class="screenview active" data-screen="today">
         <div class="pad" style="padding-bottom:0"><div class="h2" data-i18n="greeting">Good morning, Mei</div><div class="muted" style="font-size:13px" data-i18n="greetingSub">Keep your routine going.</div></div>
         <div class="scorecard">
-          <div class="ring" id="ring" style="--p:0"><span><span class="n" id="scoreN">0</span><span class="l" data-i18n="scoreLabel">Health Score</span></span></div>
+          <div class="ring" id="ring" style="--p:0"><span><span class="n" id="scoreN">0</span><span class="l" data-i18n="scoreLabel">Occasion Score</span></span></div>
           <div id="scoreNote" class="muted" style="font-size:12.5px"></div>
         </div>
         <div class="plan" id="plan">
           <div class="muted" style="font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin:2px 0 8px" data-i18n="todaysPlan">Today's plan</div>
-          <div class="planrow" data-item><div class="ck">✓</div><div style="flex:1"><div class="nm">Fish Oil 1000mg</div><div class="gl" data-i18n="gl_fishoil">Heart · 1 capsule</div></div></div>
-          <div class="planrow" data-item><div class="ck">✓</div><div style="flex:1"><div class="nm">Vitamin C 1000mg</div><div class="gl" data-i18n="gl_vitc">Immunity · 1 tablet</div></div></div>
-          <div class="planrow" data-item><div class="ck">✓</div><div style="flex:1"><div class="nm">Probiotics Daily</div><div class="gl" data-i18n="gl_probiotics">Gut · 1 capsule</div></div></div>
+          <div class="planrow" data-item><div class="ck">✓</div><div style="flex:1"><div class="nm">Wanchai Ferry Dumpling Packmg</div><div class="gl" data-i18n="gl_dumplingpack">Family table · 1 pack</div></div></div>
+          <div class="planrow" data-item><div class="ck">✓</div><div style="flex:1"><div class="nm">Häagen-Dazs Mini Cup 1000mg</div><div class="gl" data-i18n="gl_haagenmini">Seasonal occasion · 1 pack</div></div></div>
+          <div class="planrow" data-item><div class="ck">✓</div><div style="flex:1"><div class="nm">Wanchai Ferry Quick Meal</div><div class="gl" data-i18n="gl_quick_meals">Quick meal · 1 pack</div></div></div>
         </div>
         <div class="pad"><button class="btn teal" id="logBtn" onclick="logToday()" data-i18n="logBtn">Log today ✓</button></div>
         <div style="padding:0 20px"><span class="chip teal" id="streakChip"></span></div>
@@ -204,13 +206,13 @@
         </div>
         <div class="sub-rep" data-rep="month">
           <div class="wrapped">
-            <div class="kick" data-i18n="wrappedKick">Your June · Health Wrapped</div>
+            <div class="kick" data-i18n="wrappedKick">Your June · Taste Wrapped</div>
             <div class="hl" data-i18n="wrappedHl">22 days<br>on track</div>
-            <div class="wrow"><span data-i18n="w_topgoal">Top goal</span><b data-i18n="w_immunity">Immunity</b></div>
+            <div class="wrow"><span data-i18n="w_topgoal">Top goal</span><b data-i18n="w_seasonal">Seasonal occasion</b></div>
             <div class="wrow"><span data-i18n="w_beststreak">Best streak</span><b data-i18n="w_9days">9 days</b></div>
             <div class="wrow"><span data-i18n="w_bundles">Bundles tried</span><b>2</b></div>
             <div class="wrow"><span data-i18n="w_vsmay">vs May</span><b>+14%</b></div>
-            <div class="wrapbadges"><span data-i18n="badge_consistent">🏅 Consistent</span><span data-i18n="badge_immunity">🛡️ Immunity focus</span><span data-i18n="badge_streak">🔥 9-day streak</span></div>
+            <div class="wrapbadges"><span data-i18n="badge_consistent">🏅 Consistent</span><span data-i18n="badge_seasonal">🛡️ Seasonal occasion focus</span><span data-i18n="badge_streak">🔥 9-day streak</span></div>
           </div>
           <div class="pad"><button class="btn dark" onclick="shareToast(T('toast_wrapped'))" data-i18n="shareWrapped">Share my Wrapped</button></div>
           <div class="footnote" data-i18n="footnote2">The shareable card is the viral hook into the chat loop (WeChat / LINE / WhatsApp).</div>
@@ -223,7 +225,7 @@
           </div>
           <div style="font-size:12px;font-weight:800;color:var(--muted);padding:14px 20px 4px" data-i18n="milestones">Milestones</div>
           <div class="mileline"><span class="ic">🔥</span><div><div class="t" data-i18n="mile1">First 30-day streak</div><div class="d">Mar 14</div></div></div>
-          <div class="mileline"><span class="ic">🛡️</span><div><div class="t" data-i18n="mile2">Completed Immunity plan</div><div class="d">Apr 2</div></div></div>
+          <div class="mileline"><span class="ic">🛡️</span><div><div class="t" data-i18n="mile2">Completed Seasonal occasion plan</div><div class="d">Apr 2</div></div></div>
           <div class="mileline"><span class="ic">🎯</span><div><div class="t" data-i18n="mile3">100 days logged</div><div class="d">May 9</div></div></div>
         </div>
       </div>
@@ -236,7 +238,7 @@
         </div>
         <div class="yourrow">
           <div class="rk" data-i18n="commTop">Top 12%</div>
-          <div style="flex:1"><div style="font-weight:800;font-size:14px" data-i18n="commYou">You · #842</div><div style="font-size:12px;color:var(--muted)" data-i18n="commMembers">🌏 Immunity goal · 9,610 members</div></div>
+          <div style="flex:1"><div style="font-weight:800;font-size:14px" data-i18n="commYou">You · #842</div><div style="font-size:12px;color:var(--muted)" data-i18n="commMembers">🌏 Seasonal occasion goal · 9,610 members</div></div>
           <div style="font-weight:800;color:var(--brand-d)">86%</div>
         </div>
         <div class="lbrow"><div class="rk">1</div><div class="av">🦋</div><div class="nm">CalmMornings</div><div class="km">99%</div></div>
@@ -261,8 +263,8 @@
     <div class="scard">
       <h3 data-i18n="tryThis">Try this</h3>
       <ul class="try">
-        <li><span class="k">1</span><span data-i18n="try1">Tap each supplement to tick it off → then <b>Log today</b> to lift your Health Score &amp; streak.</span></li>
-        <li><span class="k">2</span><span data-i18n="try2"><b>Reports</b> → Week (streak &amp; adherence), Month (<b>Health Wrapped</b>), Year (milestones).</span></li>
+        <li><span class="k">1</span><span data-i18n="try1">Tap each product to tick it off → then <b>Log today</b> to lift your Occasion Score &amp; streak.</span></li>
+        <li><span class="k">2</span><span data-i18n="try2"><b>Reports</b> → Week (streak &amp; adherence), Month (<b>Taste Wrapped</b>), Year (milestones).</span></li>
         <li><span class="k">3</span><span data-i18n="try3">Share the Wrapped card — the viral hook into the chat loop.</span></li>
         <li><span class="k">4</span><span data-i18n="try4"><b>Community</b> → anonymous ranking by consistency, never by spend.</span></li>
       </ul>
@@ -282,18 +284,18 @@
   </div>
 </div>
 
-<div class="foot" data-i18n="foot"><b>North Star:</b> Weekly Active Health Members — the weekly trigger is a weekly open tied to a health habit, not a purchase.</div>
+<div class="foot" data-i18n="foot"><b>North Star:</b> Weekly Active Occasion Members — the weekly trigger is a weekly open tied to a meal and dessert habit, not a purchase.</div>
 
 <script>
 /* ===== i18n dictionary (single source of truth) ===== */
 var I18N={
   en:{
-    back:"← Back to studio", ptitle:"Health Score · Daily Companion",
-    eyebrow:"Quick Win · daily habit loop", h1:"Health Score + Monthly Wrapped",
-    sub:"<b>A daily reason to open the app</b> — log today's supplements, build a streak, and look back on a shareable monthly recap. Statistics &amp; encouragement only · no health claims.",
+    back:"← Back to studio", ptitle:"Occasion Score · Daily Companion",
+    eyebrow:"Quick Win · daily habit loop", h1:"Occasion Score + Monthly Wrapped",
+    sub:"<b>A daily reason to open the app</b> — log today's products, build a streak, and look back on a shareable monthly recap. Statistics &amp; encouragement only · no food claims.",
     greeting:"Good morning, Mei", greetingSub:"Keep your routine going.",
-    scoreLabel:"Health Score", todaysPlan:"Today's plan",
-    gl_fishoil:"Heart · 1 capsule", gl_vitc:"Immunity · 1 tablet", gl_probiotics:"Gut · 1 capsule",
+    scoreLabel:"Occasion Score", todaysPlan:"Today's plan",
+    gl_dumplingpack:"Family table · 1 pack", gl_haagenmini:"Seasonal occasion · 1 pack", gl_quick_meals:"Quick meal · 1 pack",
     logBtn:"Log today ✓", footnote1:"Supportive tracking only — never a medical claim.",
     /* dynamic */
     scoreNote_log:"Log today to update your score",
@@ -306,40 +308,40 @@ var I18N={
     reportsTitle:"Your reports", seg_week:"Week", seg_month:"Month", seg_year:"Year",
     streakTitle:"5-day streak", streakSub:"Don't break the chain — keep it alive!",
     m_dayslogged:"Days logged", m_adherence:"Adherence", last6weeks:"Last 6 weeks · adherence", bar_now:"now",
-    wrappedKick:"Your June · Health Wrapped", wrappedHl:"22 days<br>on track",
-    w_topgoal:"Top goal", w_immunity:"Immunity", w_beststreak:"Best streak", w_9days:"9 days",
+    wrappedKick:"Your June · Taste Wrapped", wrappedHl:"22 days<br>on track",
+    w_topgoal:"Top goal", w_seasonal:"Seasonal occasion", w_beststreak:"Best streak", w_9days:"9 days",
     w_bundles:"Bundles tried", w_vsmay:"vs May",
-    badge_consistent:"🏅 Consistent", badge_immunity:"🛡️ Immunity focus", badge_streak:"🔥 9-day streak",
+    badge_consistent:"🏅 Consistent", badge_seasonal:"🛡️ Seasonal occasion focus", badge_streak:"🔥 9-day streak",
     shareWrapped:"Share my Wrapped", footnote2:"The shareable card is the viral hook into the chat loop (WeChat / LINE / WhatsApp).",
     y_dayslogged:"days logged in 2026 so far", y_plans:"Plans completed", y_badges:"Badges earned",
-    milestones:"Milestones", mile1:"First 30-day streak", mile2:"Completed Immunity plan", mile3:"100 days logged",
+    milestones:"Milestones", mile1:"First 30-day streak", mile2:"Completed Seasonal occasion plan", mile3:"100 days logged",
     /* community */
     commTitle:"Community ranking", commSub:"Anonymous · this month · by consistency",
-    commTop:"Top 12%", commYou:"You · #842", commMembers:"🌏 Immunity goal · 9,610 members",
+    commTop:"Top 12%", commYou:"You · #842", commMembers:"🌏 Seasonal occasion goal · 9,610 members",
     commPrivacy:"🔒 Anonymous handles only · ranked by consistency, never by what you buy · leave anytime in Settings.",
     /* tabs */
     tab_today:"Today", tab_reports:"Reports", tab_community:"Community",
     /* side */
     tryThis:"Try this",
-    try1:"Tap each supplement to tick it off → then <b>Log today</b> to lift your Health Score &amp; streak.",
-    try2:"<b>Reports</b> → Week (streak &amp; adherence), Month (<b>Health Wrapped</b>), Year (milestones).",
+    try1:"Tap each product to tick it off → then <b>Log today</b> to lift your Occasion Score &amp; streak.",
+    try2:"<b>Reports</b> → Week (streak &amp; adherence), Month (<b>Taste Wrapped</b>), Year (milestones).",
     try3:"Share the Wrapped card — the viral hook into the chat loop.",
     try4:"<b>Community</b> → anonymous ranking by consistency, never by spend.",
     guardrails:"Built-in guardrails",
     g1:"✓ Supportive only · no claims", g2:"✓ PGC content", g3:"✓ Anonymous ranking",
     g4:"✓ Consent &amp; privacy", g5:"✓ Streak + badges", g6:"✓ Chat-native reminders",
     restart:"↺ Restart demo",
-    foot:"<b>North Star:</b> Weekly Active Health Members — the weekly trigger is a weekly open tied to a health habit, not a purchase."
+    foot:"<b>North Star:</b> Weekly Active Occasion Members — the weekly trigger is a weekly open tied to a meal and dessert habit, not a purchase."
   },
   zh:{
-    back:"← 返回工作室", ptitle:"健康分 · 每日陪伴",
-    eyebrow:"快赢方案 · 每日习惯闭环", h1:"健康分 + 月度回顾（Monthly Wrapped）",
+    back:"← 返回工作室", ptitle:"场景分 · 每日陪伴",
+    eyebrow:"快赢方案 · 每日习惯闭环", h1:"场景分 + 月度回顾（Monthly Wrapped）",
     sub:"<b>每天打开 App 的小理由</b>——记录今天的补充剂、累积连续打卡，再回顾一份可分享的月度小结。仅统计与鼓励 · 不作健康声明。",
     greeting:"早上好，美怡", greetingSub:"继续保持你的日常吧。",
-    scoreLabel:"健康分", todaysPlan:"今日计划",
-    gl_fishoil:"心脏 · 1 粒胶囊", gl_vitc:"免疫力 · 1 片", gl_probiotics:"肠道 · 1 粒胶囊",
+    scoreLabel:"场景分", todaysPlan:"今日计划",
+    gl_dumplingpack:"家庭餐桌 · 1 份包装", gl_haagenmini:"季节场景 · 1 份", gl_quick_meals:"快手餐 · 1 份包装",
     logBtn:"记录今天 ✓", footnote1:"仅作支持性记录——绝非医疗声明。",
-    scoreNote_log:"记录今天，更新你的健康分",
+    scoreNote_log:"记录今天，更新你的场景分",
     scoreNote_tick:"全部勾选并记录，锁定今天",
     scoreNote_done:"很棒——今天已锁定。明天见。",
     logBtn_done:"今日已记录 ✓",
@@ -349,18 +351,18 @@ var I18N={
     streakTitle:"连续 5 天", streakSub:"别断了——把这股劲儿延续下去！",
     m_dayslogged:"打卡天数", m_adherence:"坚持率", last6weeks:"近 6 周 · 坚持率", bar_now:"本周",
     wrappedKick:"你的六月 · 健康回顾", wrappedHl:"22 天<br>保持在轨",
-    w_topgoal:"首要目标", w_immunity:"免疫力", w_beststreak:"最佳连续", w_9days:"9 天",
+    w_topgoal:"首要目标", w_seasonal:"季节场景", w_beststreak:"最佳连续", w_9days:"9 天",
     w_bundles:"尝试套餐", w_vsmay:"对比五月",
-    badge_consistent:"🏅 坚持如一", badge_immunity:"🛡️ 专注免疫", badge_streak:"🔥 连续 9 天",
+    badge_consistent:"🏅 坚持如一", badge_seasonal:"🛡️ 专注季节场景", badge_streak:"🔥 连续 9 天",
     shareWrapped:"分享我的回顾", footnote2:"可分享的卡片，是进入聊天闭环的传播钩子（微信 / LINE / WhatsApp）。",
     y_dayslogged:"2026 年至今打卡天数", y_plans:"已完成计划", y_badges:"已获徽章",
-    milestones:"里程碑", mile1:"首个 30 天连续打卡", mile2:"完成免疫力计划", mile3:"累计打卡 100 天",
+    milestones:"里程碑", mile1:"首个 30 天连续打卡", mile2:"完成季节场景计划", mile3:"累计打卡 100 天",
     commTitle:"社区排名", commSub:"匿名 · 本月 · 按坚持度",
-    commTop:"前 12%", commYou:"你 · #842", commMembers:"🌏 免疫力目标 · 9,610 名成员",
+    commTop:"前 12%", commYou:"你 · #842", commMembers:"🌏 季节场景目标 · 9,610 名成员",
     commPrivacy:"🔒 仅匿名昵称 · 按坚持度排名，绝不按你买了什么 · 可随时在设置中退出。",
     tab_today:"今天", tab_reports:"报告", tab_community:"社区",
     tryThis:"试一试",
-    try1:"点按每种补充剂打勾 → 再点<b>记录今天</b>，提升你的健康分与连续打卡。",
+    try1:"点按每种补充剂打勾 → 再点<b>记录今天</b>，提升你的场景分与连续打卡。",
     try2:"<b>报告</b> → 周（连续与坚持率）、月（<b>健康回顾</b>）、年（里程碑）。",
     try3:"分享回顾卡——进入聊天闭环的传播钩子。",
     try4:"<b>社区</b> → 按坚持度匿名排名，绝不按消费金额。",
@@ -368,15 +370,15 @@ var I18N={
     g1:"✓ 仅支持性 · 无声明", g2:"✓ PGC 内容", g3:"✓ 匿名排名",
     g4:"✓ 同意与隐私", g5:"✓ 连续 + 徽章", g6:"✓ 聊天原生提醒",
     restart:"↺ 重新开始演示",
-    foot:"<b>北极星指标：</b>周活跃健康成员——每周触发的是与健康习惯绑定的每周打开，而非一次购买。"
+    foot:"<b>北极星指标：</b>周活跃健康成员——每周触发的是与场景习惯绑定的每周打开，而非一次购买。"
   },
   ja:{
     back:"← スタジオに戻る", ptitle:"ヘルススコア · 毎日のお供",
     eyebrow:"クイックウィン · 毎日の習慣ループ", h1:"ヘルススコア + Monthly Wrapped",
-    sub:"<b>毎日アプリを開く理由</b> — 今日のサプリを記録し、連続記録（streak）を伸ばし、シェアできる月間まとめを振り返る。統計と応援のみ · 健康効果の訴求はしません。",
+    sub:"<b>毎日アプリを開く理由</b> — 今日のプロダクトを記録し、連続記録（streak）を伸ばし、シェアできる月間まとめを振り返る。統計と応援のみ · 健康効果の訴求はしません。",
     greeting:"おはよう、メイ", greetingSub:"今日も習慣を続けましょう。",
     scoreLabel:"ヘルススコア", todaysPlan:"今日のプラン",
-    gl_fishoil:"心臓 · カプセル1粒", gl_vitc:"免疫 · 錠剤1錠", gl_probiotics:"腸内 · カプセル1粒",
+    gl_dumplingpack:"ファミリーテーブル · カプセル1份", gl_haagenmini:"季节场景 · 錠剤1錠", gl_quick_meals:"クイックミール · カプセル1份",
     logBtn:"今日を記録 ✓", footnote1:"応援のための記録です — 医療上の主張ではありません。",
     scoreNote_log:"今日を記録してスコアを更新",
     scoreNote_tick:"すべてチェックして記録し、今日を確定",
@@ -387,20 +389,20 @@ var I18N={
     reportsTitle:"あなたのレポート", seg_week:"週", seg_month:"月", seg_year:"年",
     streakTitle:"5日連続", streakSub:"途切れさせないで — この調子で続けよう！",
     m_dayslogged:"記録した日数", m_adherence:"継続率", last6weeks:"直近6週 · 継続率", bar_now:"今週",
-    wrappedKick:"あなたの6月 · Health Wrapped", wrappedHl:"22日<br>順調",
-    w_topgoal:"トップ目標", w_immunity:"免疫", w_beststreak:"最長連続", w_9days:"9日",
+    wrappedKick:"あなたの6月 · Taste Wrapped", wrappedHl:"22日<br>順調",
+    w_topgoal:"トップ目標", w_seasonal:"季节场景", w_beststreak:"最長連続", w_9days:"9日",
     w_bundles:"試したセット", w_vsmay:"5月比",
-    badge_consistent:"🏅 コツコツ継続", badge_immunity:"🛡️ 免疫フォーカス", badge_streak:"🔥 9日連続",
+    badge_consistent:"🏅 コツコツ継続", badge_seasonal:"🛡️ 季节场景フォーカス", badge_streak:"🔥 9日連続",
     shareWrapped:"私の Wrapped をシェア", footnote2:"シェアできるカードは、チャットループへ入るバイラルのフック（WeChat / LINE / WhatsApp）。",
     y_dayslogged:"2026年これまでの記録日数", y_plans:"完了したプラン", y_badges:"獲得バッジ",
-    milestones:"マイルストーン", mile1:"初の30日連続", mile2:"免疫プランを完了", mile3:"100日記録達成",
+    milestones:"マイルストーン", mile1:"初の30日連続", mile2:"季节场景プランを完了", mile3:"100日記録達成",
     commTitle:"コミュニティ ランキング", commSub:"匿名 · 今月 · 継続度で",
-    commTop:"上位12%", commYou:"あなた · #842", commMembers:"🌏 免疫の目標 · 9,610人のメンバー",
+    commTop:"上位12%", commYou:"あなた · #842", commMembers:"🌏 季节场景の目標 · 9,610人のメンバー",
     commPrivacy:"🔒 匿名ハンドルのみ · 継続度でランキング、購入額では一切なし · 設定からいつでも退出できます。",
     tab_today:"今日", tab_reports:"レポート", tab_community:"コミュニティ",
     tryThis:"試してみる",
-    try1:"各サプリをタップしてチェック → <b>今日を記録</b>でヘルススコアと連続記録をアップ。",
-    try2:"<b>レポート</b> → 週（連続と継続率）、月（<b>Health Wrapped</b>）、年（マイルストーン）。",
+    try1:"各プロダクトをタップしてチェック → <b>今日を記録</b>でヘルススコアと連続記録をアップ。",
+    try2:"<b>レポート</b> → 週（連続と継続率）、月（<b>Taste Wrapped</b>）、年（マイルストーン）。",
     try3:"Wrapped カードをシェア — チャットループへのバイラルのフック。",
     try4:"<b>コミュニティ</b> → 継続度による匿名ランキング、支出額では決して評価しません。",
     guardrails:"組み込みのガードレール",
@@ -410,12 +412,12 @@ var I18N={
     foot:"<b>North Star：</b>週間アクティブ・ヘルスメンバー — 毎週のトリガーは購入ではなく、健康習慣に結びついた毎週のアプリ起動です。"
   },
   th:{
-    back:"← กลับสู่สตูดิโอ", ptitle:"Health Score · เพื่อนประจำวัน",
-    eyebrow:"ชัยชนะเร็ว · ลูปนิสัยรายวัน", h1:"Health Score + Monthly Wrapped",
+    back:"← กลับสู่สตูดิโอ", ptitle:"Occasion Score · เพื่อนประจำวัน",
+    eyebrow:"ชัยชนะเร็ว · ลูปนิสัยรายวัน", h1:"Occasion Score + Monthly Wrapped",
     sub:"<b>เหตุผลให้เปิดแอปทุกวัน</b> — บันทึกอาหารเสริมวันนี้ สะสม streak และย้อนดูสรุปรายเดือนที่แชร์ได้ มีแค่สถิติและกำลังใจ · ไม่อ้างสรรพคุณด้านสุขภาพ",
     greeting:"อรุณสวัสดิ์ เหมย", greetingSub:"รักษากิจวัตรของคุณต่อไปนะ",
-    scoreLabel:"Health Score", todaysPlan:"แผนวันนี้",
-    gl_fishoil:"หัวใจ · 1 แคปซูล", gl_vitc:"ภูมิคุ้มกัน · 1 เม็ด", gl_probiotics:"ลำไส้ · 1 แคปซูล",
+    scoreLabel:"Occasion Score", todaysPlan:"แผนวันนี้",
+    gl_dumplingpack:"หัวใจ · 1 แคปซูล", gl_haagenmini:"โอกาสตามฤดูกาล · 1 เม็ด", gl_quick_meals:"มื้ออาหารเร็ว · 1 แคปซูล",
     logBtn:"บันทึกวันนี้ ✓", footnote1:"เป็นการติดตามเพื่อสนับสนุนเท่านั้น — ไม่ใช่การอ้างทางการแพทย์",
     scoreNote_log:"บันทึกวันนี้เพื่ออัปเดตคะแนนของคุณ",
     scoreNote_tick:"ติ๊กให้ครบแล้วบันทึกเพื่อล็อกวันนี้",
@@ -426,20 +428,20 @@ var I18N={
     reportsTitle:"รายงานของคุณ", seg_week:"สัปดาห์", seg_month:"เดือน", seg_year:"ปี",
     streakTitle:"streak 5 วัน", streakSub:"อย่าให้ขาด — รักษาให้ต่อเนื่องไว้!",
     m_dayslogged:"วันที่บันทึก", m_adherence:"ความสม่ำเสมอ", last6weeks:"6 สัปดาห์ล่าสุด · ความสม่ำเสมอ", bar_now:"ตอนนี้",
-    wrappedKick:"มิถุนายนของคุณ · Health Wrapped", wrappedHl:"22 วัน<br>ตามแผน",
-    w_topgoal:"เป้าหมายหลัก", w_immunity:"ภูมิคุ้มกัน", w_beststreak:"streak ดีที่สุด", w_9days:"9 วัน",
+    wrappedKick:"มิถุนายนของคุณ · Taste Wrapped", wrappedHl:"22 วัน<br>ตามแผน",
+    w_topgoal:"เป้าหมายหลัก", w_seasonal:"โอกาสตามฤดูกาล", w_beststreak:"streak ดีที่สุด", w_9days:"9 วัน",
     w_bundles:"เซตที่ลอง", w_vsmay:"เทียบ พ.ค.",
-    badge_consistent:"🏅 สม่ำเสมอ", badge_immunity:"🛡️ เน้นภูมิคุ้มกัน", badge_streak:"🔥 streak 9 วัน",
+    badge_consistent:"🏅 สม่ำเสมอ", badge_seasonal:"🛡️ เน้นโอกาสตามฤดูกาล", badge_streak:"🔥 streak 9 วัน",
     shareWrapped:"แชร์ Wrapped ของฉัน", footnote2:"การ์ดที่แชร์ได้คือฮุกไวรัลเข้าสู่ลูปแชต (WeChat / LINE / WhatsApp)",
     y_dayslogged:"วันที่บันทึกในปี 2026 จนถึงตอนนี้", y_plans:"แผนที่ทำสำเร็จ", y_badges:"เหรียญที่ได้รับ",
-    milestones:"หมุดหมาย", mile1:"streak 30 วันครั้งแรก", mile2:"ทำแผนภูมิคุ้มกันสำเร็จ", mile3:"บันทึกครบ 100 วัน",
+    milestones:"หมุดหมาย", mile1:"streak 30 วันครั้งแรก", mile2:"ทำแผนโอกาสตามฤดูกาลสำเร็จ", mile3:"บันทึกครบ 100 วัน",
     commTitle:"อันดับชุมชน", commSub:"ไม่ระบุชื่อ · เดือนนี้ · ตามความสม่ำเสมอ",
-    commTop:"Top 12%", commYou:"คุณ · #842", commMembers:"🌏 เป้าหมายภูมิคุ้มกัน · สมาชิก 9,610 คน",
+    commTop:"Top 12%", commYou:"คุณ · #842", commMembers:"🌏 เป้าหมายโอกาสตามฤดูกาล · สมาชิก 9,610 คน",
     commPrivacy:"🔒 ใช้ชื่อนิรนามเท่านั้น · จัดอันดับตามความสม่ำเสมอ ไม่ใช่ตามสิ่งที่คุณซื้อ · ออกได้ทุกเมื่อในการตั้งค่า",
     tab_today:"วันนี้", tab_reports:"รายงาน", tab_community:"ชุมชน",
     tryThis:"ลองทำดู",
-    try1:"แตะอาหารเสริมแต่ละชนิดเพื่อติ๊ก → แล้วกด <b>บันทึกวันนี้</b> เพื่อเพิ่ม Health Score และ streak",
-    try2:"<b>รายงาน</b> → สัปดาห์ (streak และความสม่ำเสมอ), เดือน (<b>Health Wrapped</b>), ปี (หมุดหมาย)",
+    try1:"แตะอาหารเสริมแต่ละชนิดเพื่อติ๊ก → แล้วกด <b>บันทึกวันนี้</b> เพื่อเพิ่ม Occasion Score และ streak",
+    try2:"<b>รายงาน</b> → สัปดาห์ (streak และความสม่ำเสมอ), เดือน (<b>Taste Wrapped</b>), ปี (หมุดหมาย)",
     try3:"แชร์การ์ด Wrapped — ฮุกไวรัลเข้าสู่ลูปแชต",
     try4:"<b>ชุมชน</b> → จัดอันดับนิรนามตามความสม่ำเสมอ ไม่ใช่ตามยอดใช้จ่าย",
     guardrails:"กรอบกำกับในตัว",
